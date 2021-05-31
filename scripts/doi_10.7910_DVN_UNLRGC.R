@@ -23,7 +23,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 	   uri=uri,
 	   publication="doi:10.1007/s10705-015-9717-2",
-	   citation="10.1007_s10705-015-9717-2-citation.ris",
+	   contributer="Camila Bonilla",
 	   experiment_type="fertilizer",
 	   has_weather=FALSE,
 	   has_management=FALSE
@@ -35,8 +35,8 @@ carob_script <- function(path) {
 	ff <- agro::get_data_from_uri(uri, path=rawpath)
 
 	## read the json for license, terms of use and...  
-	js <- Rcarob::get_json(cleanuri, rawpath, major=1, minor=3)
-	dset <- Rcarob::get_terms(js, dset)
+	js <- carobiner::get_json(cleanuri, rawpath, major=1, minor=3)
+	dset <- carobiner::get_terms(js, dset)
 
 	jf <- file.path(rawpath, cleanuri, paste0(cleanuri, ".json"))
 	x <- jsonlite::fromJSON(readLines(jf))
@@ -82,14 +82,13 @@ carob_script <- function(path) {
 	d$country[d$site=="Pampaida"] <- "Nigeria"
 	d$country[d$site=="Sidindi"] <- "Kenya"
 
-
-		
+	
 	d$id <- cleanuri
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 
 
-	#Rcarob::write_files(dset, d, path, cleanuri) #, 1)
+	carobiner::write_files(dset, d, path, cleanuri) #, 1)
 
 
 		
@@ -107,8 +106,7 @@ carob_script <- function(path) {
 	#d$end_month <- NA
 
 	#	d$uri <- uri
-
-	return(TRUE)
+	TRUE
 }
 
 
