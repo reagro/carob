@@ -1,5 +1,5 @@
 
-doi_10.7910_DVN_UNLRGC <- function(path) {
+carob_script <- function(path) {
 
 	description <- "
 		Kihara, J., Huising, J., Nziguheba, G. et al. Maize response to macronutrients and potential for profitability in sub-Saharan Africa. Nutr Cycl Agroecosyst 105, 171–181 (2016).
@@ -12,16 +12,11 @@ doi_10.7910_DVN_UNLRGC <- function(path) {
 		AFSIS has data for five countries, each with one or two sites. Sites have subsites, referred to as 'cluster' . 
 	"
 
-
 	notes <- " 
 		citation could be improved to include the underlying data sources.
 	"
 
-
-
 	## Process 
-
-
 	uri <- "doi:10.7910/DVN/UNLRGC"
 
 	## dataset level data 
@@ -87,28 +82,33 @@ doi_10.7910_DVN_UNLRGC <- function(path) {
 	d$country[d$site=="Pampaida"] <- "Nigeria"
 	d$country[d$site=="Sidindi"] <- "Kenya"
 
+
 		
 	d$id <- cleanuri
-	d$on_farm <- TRUE,
-	d$is_survey <- FALSE,
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
+
 
 	#Rcarob::write_files(dset, d, path, cleanuri) #, 1)
 
 
 		
 	## FAO data 
-	f <- ff[basename(ff) == "Kihara et al.2015_FAO_Data.xlsx"]
-	z <- as.data.frame(readxl::read_excel(f))
-	names(z) <- tolower(names(z)
-	z
+	#f <- ff[basename(ff) == "Kihara et al.2015_FAO_Data.xlsx"]
+	#z <- as.data.frame(readxl::read_excel(f))
+	#names(z) <- tolower(names(z)
+	#z
 
 
 
-	d$start_year <- d$year
-	d$end_year <- NA
-	d$start_month <- NA
-	d$end_month <- NA
+	#d$start_year <- d$year
+	#d$end_year <- NA
+	#d$start_month <- NA
+	#d$end_month <- NA
 
-		d$uri <- uri
+	#	d$uri <- uri
 
+	return(TRUE)
 }
+
+
