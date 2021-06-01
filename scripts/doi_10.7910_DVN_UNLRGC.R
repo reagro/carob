@@ -26,7 +26,6 @@ Notes
 	## Process 
 	uri <- "doi:10.7910/DVN/UNLRGC"
 	cleanuri <- carobiner::clean_uri(uri)
-	rawpath <- file.path(path, "data/raw")
 	dataset_id <- paste0(cleanuri, "-afsis")
 	## dataset level data 
 	dset <- data.frame(
@@ -40,11 +39,11 @@ Notes
 	)
 
 	## treatment level data 
-	ff <- agro::get_data_from_uri(uri, path=rawpath)
+	ff <- agro::get_data_from_uri(uri, file.path(path, "data/raw"))
 
-	## read the json for license, terms of use  
-	js <- carobiner::get_json(cleanuri, rawpath, major=1, minor=3)
-	dset <- carobiner::get_license(js, dset)
+	## read the json for version, license, terms of use  
+	js <- carobiner::get_metadata(cleanuri, path, major=1, minor=3)
+	dset$license <- carobiner::get_license(js)
 
 	## the AFSIS data 
 
@@ -107,6 +106,7 @@ Notes
 	z <- merge(z, crds, by="TrialID")
 	
 	names(z) <- tolower(names(z))
+	z$soiltype  <- carobiner::capitalize_words(z$soiltype)
 	z$zone <- carobiner::capitalize_words(z$zone)
 	z$site <- carobiner::capitalize_words(z$site)
 	z$year[z$year=="87B"] <- "1987"
@@ -162,6 +162,10 @@ Notes
 	zz$dataset_id <- dataset_id
 	zz$on_farm <- NA
 	zz$is_survey <- FALSE
+	zz$crop <- "maize"
+
+	zz$country[zz$country == "Guinea Biassu"] <- "Guinea-Bissau"
+	zz$country[zz$country == "DR Congo"] <- "Democratic Republic of the Congo"
 
 	carobiner::write_files(dset, zz, path, cleanuri, "fao")
 
