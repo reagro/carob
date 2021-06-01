@@ -13,7 +13,7 @@ Please contribute R scripts for additional datasets. More guidelines are forthco
 All data should be downloaded from a URI. Data that does not have a URI should be hosted somewhere. We can  host it on the [carob dataverse](https://dataverse.harvard.edu/dataverse/carob/).
 
 The script file should be `<uri>.R`  where <`uri`> is a normalized URI (see example scripts). 
-You should use standard variable names if available, and express all data in standard units. See `terms.csv` in the `terms` folder. 
+You should use standard variable names if available, and express all data in standard units. See the `.csv` files in the `terms` folder. 
 
 
 ### Get the data
@@ -23,10 +23,9 @@ Versions of the dataset will be made available on the [carob dataverse](https://
 Create your own by cloning the repo and running 
 
 ```
+# install.packages(c("rjson", "readxl")
 # remotes::install_github("reagro/agro")
 # remotes::install_github("reagro/carobiner")
-library(agro)
-library(carobiner)
 carobiner::make_carob(path)
 ```
 
