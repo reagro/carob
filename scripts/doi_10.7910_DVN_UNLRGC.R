@@ -1,20 +1,22 @@
+# R script for "carob"
 
 carob_script <- function(path) {
 
-	description <- "
-		Kihara, J., Huising, J., Nziguheba, G. et al. Maize response to macronutrients and potential for profitability in sub-Saharan Africa. Nutr Cycl Agroecosyst 105, 171–181 (2016).
+"
+Description
+	Kihara, J., Huising, J., Nziguheba, G. et al. Maize response to macronutrients and potential for profitability in sub-Saharan Africa. Nutr Cycl Agroecosyst 105, 171–181 (2016).
 
-		Abstract: The objective of this study was to determine the attainable maize grain response to and potential of profitability of N, P and K application in SSA using boundary line approaches. Data from experiments conducted in SSA under AfSIS project (2009–2012) and from FAO trials database (1969–1996) in 15 countries and constituting over 375 different experimental locations and 6600 data points are used. 
+	Abstract: The objective of this study was to determine the attainable maize grain response to and potential of profitability of N, P and K application in SSA using boundary line approaches. Data from experiments conducted in SSA under AfSIS project (2009–2012) and from FAO trials database (1969–1996) in 15 countries and constituting over 375 different experimental locations and 6600 data points are used. 
 
-		There are two datasets, AFSIS and FAO. 
+	There are two datasets, AFSIS and FAO. 
 
-		AFSIS has more detail than the public AFSIS data so we used these. 
-		AFSIS has data for five countries, each with one or two sites. Sites have subsites, referred to as 'cluster' . 
-	"
+	AFSIS has more detail than the public AFSIS data so we used these. 
+	AFSIS has data for five countries, each with one or two sites. Sites have subsites, referred to as 'cluster' . 
 
-	notes <- " 
-		citation could be improved to include the underlying data sources.
-	"
+Notes 
+	citation could be improved to include the underlying data sources.
+"
+
 
 	## Process 
 	uri <- "doi:10.7910/DVN/UNLRGC"
@@ -29,21 +31,18 @@ carob_script <- function(path) {
 	   has_management=FALSE
 	)
 
-	## treament level data 
-	cleanuri <- Rcarob::clean_uri(uri)
+	## treatment level data 
+	cleanuri <- carobiner::clean_uri(uri)
 	rawpath <- file.path(path, "data/raw")
 	ff <- agro::get_data_from_uri(uri, path=rawpath)
 
-	## read the json for license, terms of use and...  
+	## read the json for license, terms of use  
 	js <- carobiner::get_json(cleanuri, rawpath, major=1, minor=3)
-	dset <- carobiner::get_terms(js, dset)
+	dset <- carobiner::get_license(js, dset)
 
-	jf <- file.path(rawpath, cleanuri, paste0(cleanuri, ".json"))
-	x <- jsonlite::fromJSON(readLines(jf))
-	if (x$data$latestVersion$versionNumber != 1) stop(paste("new major version of", cleanuri))
-	if (x$data$latestVersion$versionMinorNumber != 3) warning(paste("new minor version of", cleanuri))
 
-	## first the AFSIS data 
+	## the AFSIS data 
+
 	f <- ff[basename(ff) == "Kihara et al.2015_AFSIS_Data.xlsx"]
 	d <- as.data.frame(readxl::read_excel(f))
 	#"Site', 'Cluster', 'Season', 'Field', 'FieldID', 'TrtDesc', 'TCrop', 'FLat', 'FLong', 'Plot', 'PlotID', 'Trt', 'Rep', 'HarvestArea', 'TGrainYld_Uncorr"
@@ -82,20 +81,16 @@ carob_script <- function(path) {
 	d$country[d$site=="Pampaida"] <- "Nigeria"
 	d$country[d$site=="Sidindi"] <- "Kenya"
 
-	
 	d$id <- cleanuri
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 
 
-	carobiner::write_files(dset, d, path, cleanuri) #, 1)
 
-
-		
 	## FAO data 
-	#f <- ff[basename(ff) == "Kihara et al.2015_FAO_Data.xlsx"]
-	#z <- as.data.frame(readxl::read_excel(f))
-	#names(z) <- tolower(names(z)
+	f <- ff[basename(ff) == "Kihara et al.2015_FAO_Data.xlsx"]
+	z <- as.data.frame(readxl::read_excel(f))
+	names(z) <- tolower(names(z)
 	#z
 
 
@@ -106,6 +101,9 @@ carob_script <- function(path) {
 	#d$end_month <- NA
 
 	#	d$uri <- uri
+
+	carobiner::write_files(dset, d, path, cleanuri) #, 1)
+
 	TRUE
 }
 
