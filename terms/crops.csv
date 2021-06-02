@@ -1,3 +1,15 @@
 ﻿name,sciname,harvest,fresh_moisture
-maize,Zea mays,grain,12
+maize,Zea mays,seed,12
 potato,Solanum tuberosum,tuber,20
+barley,,seed,
+wheat,,seed,
+faba bean,,seed,
+teff,,seed,
+sorghum,,seed,
+common bean,,seed,
+chickpea,,seed,
+groundnut,,seed,
+rice,,grain,
+rapeseed,,seed,
+gomenzer,Brassica carinata,leaves,
+pea,,seed,

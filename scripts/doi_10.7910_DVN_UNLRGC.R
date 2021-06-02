@@ -89,8 +89,8 @@ Notes
 	d$country[d$site=="Sidindi"] <- "Kenya"
 
 	d$dataset_id <- dataset_id
-	d$on_farm <- TRUE
-	d$is_survey <- FALSE
+	d$on_farm <- "yes"
+	d$is_survey <- "no"
 	d$field <- NULL
 	
 	carobiner::write_files(dset, d, path, cleanuri, "afsis")
@@ -154,7 +154,7 @@ Notes
 
 	zz <- carobiner::change_names(zz, 
 	c("zone", "year", "n", "p", "k", "fym", "lat", "long"), 
-	c("region", "start_date", "N_fertilizer", "P_fertilizer", "K_fertilizer", "FYM", "latitude", "longitude"))
+	c("region", "start_date", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "latitude", "longitude"))
 
 	dataset_id <- paste0(cleanuri, "-fao")
 
