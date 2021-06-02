@@ -153,8 +153,8 @@ Notes
 	zz <- zz[order(zz$trial_id, zz$n, zz$p, zz$k), ]
 
 	zz <- carobiner::change_names(zz, 
-	c("zone", "year", "n", "p", "k", "fym", "lat", "long"), 
-	c("region", "start_date", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "latitude", "longitude"))
+	c("zone", "year", "n", "p", "k", "fym", "lat", "long", "soiltype"), 
+	c("region", "start_date", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "latitude", "longitude", "soil_type"))
 
 	dataset_id <- paste0(cleanuri, "-fao")
 
@@ -168,8 +168,6 @@ Notes
 	zz$country[zz$country == "DR Congo"] <- "Democratic Republic of the Congo"
 
 	carobiner::write_files(dset, zz, path, cleanuri, "fao")
-
-	TRUE
 }
 
 

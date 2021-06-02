@@ -15,6 +15,8 @@ All data should be downloaded from a URI. Data that does not have a URI should b
 The script file should be `<uri>.R`  where <`uri`> is a normalized URI (see example scripts). 
 You should use standard variable names if available, and express all data in standard units. See the `.csv` files in the `terms` folder. 
 
+Style: use base R, and a as few packages as reasonably possible. Avoid the tidyverse dialect. Do not use `%>%`. You can use `|>` but only sparingly, never use more than 2 in one statement.
+
 
 ### Get the data
 
