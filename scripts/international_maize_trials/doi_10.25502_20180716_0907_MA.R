@@ -70,7 +70,8 @@ carob_script <- function(path) {
 	dd <- rbind(din, dun)
 	names(dd) <- gsub("_$", "", names(dd))
 
-	dd <- carobiner::change_names(dd, c("yld", "str_ra1", "str_ra2", "r_l", "s_l"), c("yield", "str_rat1", "str_rat2", "rl", "sl"))
+	dd <- carobiner::change_names(dd, c("trl_titl", "entry", "entryno", "yld", "str_ra1", "str_ra2", "r_l", "s_l"),	c("trial_name", "variety", "variety_code", "yield", "str_rat1", "str_rat2", "rl", "sl"))
+	
 	
 	dd$striga_trial <- "yes"
 	dd$dataset_id <- dataset_id
