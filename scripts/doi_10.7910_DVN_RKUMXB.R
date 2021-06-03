@@ -31,10 +31,9 @@ carob_script <- function(path) {
 	K. Habtegebrial & B. R. Singh (2009) Response of Wheat Cultivars to Nitrogen and Sulfur for Crop Yield, Nitrogen Use Efficiency, and Protein Quality in the Semiarid Region, Journal of Plant Nutrition, 32:10, 1768-1787, DOI: 10.1080/01904160903152616
 "
 
-
 	uri <- "doi:10.7910/DVN/RKUMXB"
-	cleanuri <- carobiner::clean_uri(uri)
-	dataset_id <- cleanuri
+	dataset_id <- agro::get_simple_URI(uri)
+	
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
@@ -206,5 +205,5 @@ carob_script <- function(path) {
 	d <- carobiner::change_names(d, c("response", "N", "P", "K", "Zn", "S"), 
 	c("treatment", "N_fertilizer", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer"))
 
-	carobiner::write_files(dset, d, path, cleanuri)
+	carobiner::write_files(dset, d, path, dataset_id)
 }

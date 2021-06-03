@@ -22,10 +22,10 @@ Notes
 	citation could be improved to include the underlying data sources.
 "
 
-
 	## Process 
 	uri <- "doi:10.7910/DVN/UNLRGC"
-	cleanuri <- carobiner::clean_uri(uri)
+	cleanuri <- agro::get_simple_URI(uri)
+
 	dataset_id <- paste0(cleanuri, "-afsis")
 	## dataset level data 
 	dset <- data.frame(

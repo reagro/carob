@@ -15,7 +15,7 @@ Agricultural Water Management 98: 1364-1372
 "
 
 	uri <- "doi:10.34725/DVN/FUZDMU"
-	dataset_id <- carobiner::clean_uri(uri)
+	dataset_id <- agro::get_simple_URI(uri)
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
@@ -29,7 +29,7 @@ Agricultural Water Management 98: 1364-1372
 
 ## download and read data 
 
-	ff  <- agro::get_data_from_uri(uri, path=file.path(path, "data/raw"))
+	ff  <- carobiner::get_data(uri, path)
 	js <- carobiner::get_metadata(dataset_id, path, major=4, minor=0)
 	dset$license <- carobiner::get_license(js)
 

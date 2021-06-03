@@ -2,7 +2,6 @@ name,unit,required,description,vocabulary,notes
 dataset_id,,yes,id (normalized uri),,
 uri,,yes,the uri of the dataset,,
 license,,yes,,,
-,,,,,
 publication,,,the doi of the publication,,
 contributor,,,name(s) of contributers of the aggregation script,,
 experiment_type,,,,fertilizer;agroforestry;,

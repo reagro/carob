@@ -13,7 +13,7 @@ carob_script <- function(path) {
 "
 
 	uri <- "doi:______"
-	dataset_id <- carobiner::clean_uri(uri)
+	dataset_id <- agro::get_simple_URI(uri)
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
@@ -27,7 +27,7 @@ carob_script <- function(path) {
 
 ## download and read data 
 
-	ff  <- agro::get_data_from_uri(uri, path=file.path(path, "data/raw"))
+	ff  <- carobiner::get_data(uri, path)
 	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
 

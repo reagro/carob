@@ -28,7 +28,7 @@ Create your own by cloning the repo and running
 # install.packages(c("rjson", "readxl")
 # remotes::install_github("reagro/agro")
 # remotes::install_github("reagro/carobiner")
-carobiner::make_carob(path)
+ff <- carobiner::make_carob(path)
 ```
 
 where `path` is the folder of the cloned repo (e.g. `"d:/github/carob"`)

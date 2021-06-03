@@ -17,8 +17,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 "
 
 	uri <- "doi:10.34725/DVN/25746"
-	cleanuri <- carobiner::clean_uri(uri)
-	dataset_id <- cleanuri
+	dataset_id <- agro::get_simple_URI(uri)
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
@@ -33,7 +32,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 ## download and read data 
 
 	ff  <- agro::get_data_from_uri(uri, path=file.path(path, "data/raw"))
-	js <- carobiner::get_metadata(cleanuri, path, major=1, minor=0)
+	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
 
 	f <- ff[basename(ff) == "Sileshi Stab analysis data.xlsx"]
@@ -114,6 +113,6 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	d$dataset_id <- dataset_id
 	d <- carobiner::change_names(d, "location", "site")
 
-	carobiner::write_files(dset, d, path, cleanuri)
+	carobiner::write_files(dset, d, path, dataset_id)
 }
 
