@@ -54,7 +54,7 @@ Notes
 	# not clear what is meant with replicate. See  table(d$Rep) 
 	
 	d <- d[, c('Site', 'Cluster', 'FieldID', 'TrtDesc', 'Rep', 'TCrop', 'FLat', 'FLong', 'TGrainYld_Uncorr')]
-	colnames(d) <- c('site', 'subsite', 'field', 'treatment', 'rep', 'crop', 'latitude', 'longitude', 'yield')
+	colnames(d) <- c('location', 'site', 'field', 'treatment', 'rep', 'crop', 'latitude', 'longitude', 'yield')
 	d[d=="NA"] <- NA
 	d$trial_id <- paste0("AFSIS_", d$field)
 
@@ -82,18 +82,18 @@ Notes
 	#d$fertilizer <- ""
 
 	d$country <- NA
-	d$country[d$site=="Nkhata Bay" | d$site=="Thuchila" | d$site=="Kasungu"] <- "Malawi"
-	d$country[d$site=="Kiberashi"| d$site=="Mbinga"] <- "Tanzania"
-	d$country[d$site=="Finkolo"] <- "Mali"
-	d$country[d$site=="Pampaida"] <- "Nigeria"
-	d$country[d$site=="Sidindi"] <- "Kenya"
+	d$country[d$location=="Nkhata Bay" | d$location=="Thuchila" | d$location=="Kasungu"] <- "Malawi"
+	d$country[d$location=="Kiberashi"| d$location=="Mbinga"] <- "Tanzania"
+	d$country[d$location=="Finkolo"] <- "Mali"
+	d$country[d$location=="Pampaida"] <- "Nigeria"
+	d$country[d$location=="Sidindi"] <- "Kenya"
 
 	d$dataset_id <- dataset_id
 	d$on_farm <- "yes"
 	d$is_survey <- "no"
 	d$field <- NULL
 	
-	carobiner::write_files(dset, d, path, cleanuri, "afsis")
+	carobiner::write_files(dset, d, path, cleanuri, id="afsis")
 
 	## FAO data 
 
@@ -108,7 +108,7 @@ Notes
 	names(z) <- tolower(names(z))
 	z$soiltype  <- carobiner::capitalize_words(z$soiltype)
 	z$zone <- carobiner::capitalize_words(z$zone)
-	z$site <- carobiner::capitalize_words(z$site)
+	z$location <- carobiner::capitalize_words(z$location)
 	z$year[z$year=="87B"] <- "1987"
 	z$year[z$year=="88A"] <- "1988"
 	z$start_date <- z$year
@@ -122,21 +122,21 @@ Notes
 	z$k <- z$k2o * 0.8301
 	sel <- c('country', 'zone', 'site', 'year', 'season', 'nid', 'ycontrol_abs', 'yield', 'pcontrol', 'n control', 'n', 'p', 'k', 'fym', 'lat', 'long', 'soiltype', 'start_date', 'end_date')
 	z <- z[, sel]
-	z <- carobiner::change_names(z, "nid", "trial_id")
+	z <- carobiner::change_names(z, c("nid", "site"), c("trial_id", "location"))
 	
-	fcontrol <- c('country', 'zone', 'site', 'year', 'season', "trial_id", 'ycontrol_abs', 'fym', 'lat', 'long', 'soiltype', 'start_date', 'end_date')
+	fcontrol <- c('country', 'zone', 'location', 'year', 'season', "trial_id", 'ycontrol_abs', 'fym', 'lat', 'long', 'soiltype', 'start_date', 'end_date')
 	ctr <- unique(z[, fcontrol])
 	ctr <- carobiner::change_names(ctr, "ycontrol_abs", "yield")
 	ctr$n <- 0
 	ctr$p <- 0
 	ctr$k <- 0
 
-	pcontrol <- c('country', 'zone', 'site', 'year', 'season', "trial_id", 'pcontrol', 'n', 'k', 'fym', 'lat', 'long', 'soiltype', 'start_date', 'end_date')
+	pcontrol <- c('country', 'zone', 'location', 'year', 'season', "trial_id", 'pcontrol', 'n', 'k', 'fym', 'lat', 'long', 'soiltype', 'start_date', 'end_date')
 	pctr <- unique(z[, pcontrol])
 	pctr <- carobiner::change_names(pctr, "pcontrol", "yield")
 	pctr$p <- 0
 
-	ncontrol <- c('country', 'zone', 'site', 'year', 'season', "trial_id", 'n control', 'p', 'k', 'fym', 'lat', 'long', 'soiltype', 'start_date', 'end_date')
+	ncontrol <- c('country', 'zone', 'location', 'year', 'season', "trial_id", 'n control', 'p', 'k', 'fym', 'lat', 'long', 'soiltype', 'start_date', 'end_date')
 	nctr <- unique(z[, ncontrol])
 	nctr <- carobiner::change_names(nctr, "n control", "yield")
 	nctr <- nctr[!is.na(nctr$yield), ]
@@ -167,7 +167,7 @@ Notes
 	zz$country[zz$country == "Guinea Biassu"] <- "Guinea-Bissau"
 	zz$country[zz$country == "DR Congo"] <- "Democratic Republic of the Congo"
 
-	carobiner::write_files(dset, zz, path, cleanuri, "fao")
+	carobiner::write_files(dset, zz, path, cleanuri, id="fao")
 }
 
 

@@ -5,8 +5,8 @@ region,,,,region,
 adm1,,,,first level administrative subdivision,follow GADM
 adm2,,,,second level administrative subdivision,follow GADM
 adm3,,,,third level administrative subdivision,follow GADM
-site,,,,name of the site of the experiment,
-subsite,,,,name of the sub-site of the experiment,
+location,,,,name of the location of the experiment,
+site,,,,name of the sub-location of the experiment,
 trial_id,,yes,,identifier of a single trial (that may have treatments and replicates); should be unique witin dataset_id,
 reference,,,,reference to source if the data set is a compilation,
 latitude,,,,latitude in decimal notation,

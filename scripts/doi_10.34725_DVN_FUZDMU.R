@@ -59,7 +59,7 @@ Agricultural Water Management 98: 1364-1372
 	d$treatment[i] <- "Leucaena"
 	d$longitude <- 3.54
 	d$latitude <- 7.30
-	d$site <- 'Ibadan'
+	d$location <- 'Ibadan'
 	d$country <- 'Nigeria'
 	d$adm2 <- 'Oyo'
 	d$variety <- 'MM604'
@@ -93,7 +93,7 @@ Agricultural Water Management 98: 1364-1372
 	z$year <- NULL
 	z$longitude <- 32.34
 	z$latitude <- -13.39
-	z$site <- 'Msekera'
+	z$location <- 'Msekera'
 	z$country <- 'Zambia'
 	z$adm2	 <- NA
 	z$soil_type <- 'Ferric luvisol'

@@ -14,6 +14,7 @@ carob_script <- function(path) {
 
 	uri <- "doi:______"
 	dataset_id <- agro::get_simple_URI(uri)
+	group <- ""
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
@@ -27,8 +28,8 @@ carob_script <- function(path) {
 
 ## download and read data 
 
-	ff  <- carobiner::get_data(uri, path)
-	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1)
+	ff  <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
 
 
