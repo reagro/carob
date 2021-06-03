@@ -1,15 +1,16 @@
 #################################################################################
-# Grain yield and other agronomic traits of international maize trials-Camerron 1989-2002
-# Description: This is an international study that contains data on yield and other Agronomic
-# traits of maize including borer and striga attacks on maize in Africa. 
-# The study was carried out by the International Institute of Tropical Agriculture between 1989
-# and 2015 in over thirty African countries. This dataset contains output of the research for Cameroon.
+# Project name: Grain yield and other agronomic traits of international maize trials-Zimbabwe-1989-2008
+# Description: This is an international study that contains data on yield and 
+# other agronomic traits of maize including striga attacks on maize in Africa. 
+# The study was carried out by the International 
+# Institute of Tropical Agriculture in 2016 in eight African countries and one asian country
 
-# see: cs-58-6-2399.pdf
+# Extra material: cs-58-6-2399.pdf
 #################################################################################
 
 carob_script <- function(path) {
-	uri <- "doi:10.25502/20180716/0907/MA"
+
+	uri <- "doi:10.25502/20180730/1608/MA"
 	dataset_id <- agro::get_simple_URI(uri)
 	group <- "international_maize_trials"	
 		
@@ -19,7 +20,7 @@ carob_script <- function(path) {
 	   uri=uri,
 	   publication="",
 	   contributor="Camila Bonilla",
-	   experiment_type="varieties;striga",
+	   experiment_type="varieties",
 	   has_weather=FALSE,
 	   has_management=FALSE
 	)
@@ -31,17 +32,21 @@ carob_script <- function(path) {
 
 	mzfun <- carobiner::get_function("intmztrial", path, group)
 
-	d <- mzfun(ff, "international_maize_trial_cameroon_striga.csv", TRUE)
+	d <- mzfun(ff, "international_maize_trial_zimbabwe_striga.csv", TRUE)
 	d$striga_trial <- "yes"
 	d$dataset_id <- dataset_id
 	
-	e <- mzfun(ff, "international_maize_trial_cameroon_regular.csv")
+	e <- mzfun(ff, "international_maize_trial_zimbabwe_regular.csv")
 	e$striga_trial <- "no"
 	e$dataset_id <- dataset_id
 
 	x <- carobiner::bindr(d, e)
-	x$location[	x$location == "Cameroon"] <- ""
+
+	x$location[x$location=='Harare1'] <- "Harare"
+	x$longitude[x$location=='Harare'] <- 31.05
+	x$latitude[x$location=='Harare'] <- -17.83
 
 # all scripts must end like this
 	carobiner::write_files(dset, x, path, dataset_id, group)
 }
+
