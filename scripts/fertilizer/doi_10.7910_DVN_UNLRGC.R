@@ -25,24 +25,26 @@ Notes
 	## Process 
 	uri <- "doi:10.7910/DVN/UNLRGC"
 	cleanuri <- agro::get_simple_URI(uri)
+	group <- "fertilizer"
 
 	dataset_id <- paste0(cleanuri, "-afsis")
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   uri=uri,
-	   publication="doi:10.1007/s10705-015-9717-2",
-	   contributor="Camila Bonilla",
-	   experiment_type="fertilizer",
-	   has_weather=FALSE,
-	   has_management=FALSE
+		dataset_id = dataset_id,
+		group=group,
+		uri=uri,
+		publication="doi:10.1007/s10705-015-9717-2",
+		contributor="Camila Bonilla",
+		experiment_type="fertilizer",
+		has_weather=FALSE,
+		has_management=FALSE
 	)
 
 	## treatment level data 
-	ff <- agro::get_data_from_uri(uri, file.path(path, "data/raw"))
+	ff  <- carobiner::get_data(uri, path, group)
 
 	## read the json for version, license, terms of use  
-	js <- carobiner::get_metadata(cleanuri, path, major=1, minor=3)
+	js <- carobiner::get_metadata(cleanuri, path, major=1, minor=3, group)
 	dset$license <- carobiner::get_license(js)
 
 	## the AFSIS data 
@@ -93,7 +95,7 @@ Notes
 	d$is_survey <- "no"
 	d$field <- NULL
 	
-	carobiner::write_files(dset, d, path, cleanuri, id="afsis")
+	carobiner::write_files(dset, d, path, cleanuri, group, id="afsis")
 
 	## FAO data 
 
@@ -167,7 +169,7 @@ Notes
 	zz$country[zz$country == "Guinea Biassu"] <- "Guinea-Bissau"
 	zz$country[zz$country == "DR Congo"] <- "Democratic Republic of the Congo"
 
-	carobiner::write_files(dset, zz, path, cleanuri, id="fao")
+	carobiner::write_files(dset, zz, path, cleanuri, group, id="fao")
 }
 
 

@@ -33,10 +33,12 @@ carob_script <- function(path) {
 
 	uri <- "doi:10.7910/DVN/RKUMXB"
 	dataset_id <- agro::get_simple_URI(uri)
+	group <- "fertilizer"
 	
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
+	   group = group,
 	   uri=uri,
 	   publication="",
 	   contributor="Camila Bonilla",
@@ -47,10 +49,10 @@ carob_script <- function(path) {
 
 ## download and read data 
 
-	ff  <- agro::get_data_from_uri(uri, path=file.path(path, "data/raw"))
+	ff  <- carobiner::get_data(uri, path, group)
 	f <- ff[basename(ff) == "02. ET_data_June2017.csv"]
 	## read the json for version, license, terms of use  
-	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
 
 ## Select and fix column names
@@ -205,5 +207,6 @@ carob_script <- function(path) {
 	d <- carobiner::change_names(d, c("response", "N", "P", "K", "Zn", "S"), 
 	c("treatment", "N_fertilizer", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer"))
 
-	carobiner::write_files(dset, d, path, dataset_id)
+	carobiner::write_files(dset, d, path, dataset_id, group)
+	TRUE
 }

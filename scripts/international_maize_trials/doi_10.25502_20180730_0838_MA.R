@@ -15,6 +15,7 @@ carob_script <- function(path) {
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
+		group=group,		
 		uri = uri,
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		contributor = "Camila Bonilla",
@@ -26,7 +27,7 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
 	dset$license <- carobiner::get_license(js)
 
-	mzfun <- carobiner::get_function("intmztrial", path, group)
+	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
 	d <- mzfun(ff, "international_maize_trial_gambia_striga.csv", TRUE)
 	d$striga_trial <- "yes"

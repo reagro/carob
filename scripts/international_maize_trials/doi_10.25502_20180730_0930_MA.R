@@ -6,9 +6,10 @@
 # Institute of Tropical Agriculture in 2016 in eight African countries and one asian country
 #################################################################################
 
+
 carob_script <- function(path) {
 
-	uri <- "doi:10.25502/20180730/1608/MA"
+	uri <- "doi:10.25502/20180730/0930/MA"
 	dataset_id <- agro::get_simple_URI(uri)
 	group <- "international_maize_trials"	
 		
@@ -29,13 +30,16 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
 	dset$license <- carobiner::get_license(js)
 
-	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
+	cat("to be done\n") 
+	return(TRUE)
+	
+	mzfun <- carobiner::get_function("intmztrial_borer", path, group)
 
-	d <- mzfun(ff, "international_maize_trial_zimbabwe_striga.csv", TRUE)
+	d <- mzfun(ff, "international_maize_trial_guinea_borer.csv", borer=TRUE)
 	d$striga_trial <- "yes"
 	d$dataset_id <- dataset_id
 	
-	e <- mzfun(ff, "international_maize_trial_zimbabwe_regular.csv")
+	e <- mzfun(ff, "international_maize_trial_guinea_regular.csv")
 	e$striga_trial <- "no"
 	e$dataset_id <- dataset_id
 

@@ -15,6 +15,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		dataset_id = dataset_id,
 		uri = uri,
+		group=group,
  	    publication="doi:10.2135/cropsci2018.03.0168",
 		contributor = "Camila Bonilla",
 		experiment_type = "varieties",

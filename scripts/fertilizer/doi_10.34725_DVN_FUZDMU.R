@@ -16,21 +16,23 @@ Agricultural Water Management 98: 1364-1372
 
 	uri <- "doi:10.34725/DVN/FUZDMU"
 	dataset_id <- agro::get_simple_URI(uri)
+	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   uri=uri,
-	   publication="doi:10.1016/j.agwat.2011.04.002",
-	   contributor="Camila Bonilla",
-	   experiment_type="fertilizer;agroforestry",
-	   has_weather=FALSE,
-	   has_management=FALSE
+		dataset_id = dataset_id,
+		group = group,
+		uri = uri,
+		publication = "doi:10.1016/j.agwat.2011.04.002",
+		contributor = "Camila Bonilla",
+		experiment_type = "fertilizer;agroforestry",
+		has_weather = FALSE,
+		has_management = FALSE
 	)
 
 ## download and read data 
 
-	ff  <- carobiner::get_data(uri, path)
-	js <- carobiner::get_metadata(dataset_id, path, major=4, minor=0)
+	ff  <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, major=4, minor=0, group)
 	dset$license <- carobiner::get_license(js)
 
 	f <- ff[basename(ff) == "Ibadan data.xls"]
@@ -125,7 +127,7 @@ Agricultural Water Management 98: 1364-1372
 	d$dataset_id <- dataset_id
 	d$trial_id <- paste0(d$treatment, "-", d$site)
 
-	carobiner::write_files(dset, d, path, dataset_id)
+	carobiner::write_files(dset, d, path, dataset_id, group)
 }
 
 

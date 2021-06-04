@@ -1,5 +1,6 @@
 name,unit,required,description,vocabulary,notes
 dataset_id,,yes,id (normalized uri),,
+group,,yes,,,
 uri,,yes,the uri of the dataset,,
 license,,yes,,,
 publication,,,the doi of the publication,,
