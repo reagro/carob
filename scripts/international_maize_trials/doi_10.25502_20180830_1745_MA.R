@@ -1,13 +1,9 @@
 #################################################################################
-# Source: Gardian
 # Project name: Grain yield and other agronomic traits of international maize trials-Benin-2016
-# Link: http://gardian.bigdata.cgiar.org/dataset.php?id=1872#!/
 # Description: This is an international study that contains data on yield and 
 # other agronomic traits of maize including striga attacks on maize in Africa. 
 # The study was carried out by the International 
 # Institute of Tropical Agriculture in 2016 in eight African countries and one asian country
-
-# Extra material: cs-58-6-2399.pdf
 #################################################################################
 
 carob_script <- function(path) {

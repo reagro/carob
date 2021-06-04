@@ -4,8 +4,6 @@
 # traits of maize including borer and striga attacks on maize in Africa. 
 # The study was carried out by the International Institute of Tropical Agriculture between 1989
 # and 2015 in over thirty African countries. This dataset contains output of the research for Cameroon.
-
-# see: cs-58-6-2399.pdf
 #################################################################################
 
 carob_script <- function(path) {
@@ -17,7 +15,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		dataset_id = dataset_id,
 		uri = uri,
- 	    publication="doi:10.2135/cropsci2018.03.0168",
+ 	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		contributor = "Camila Bonilla",
 		experiment_type = "varieties",
 		has_weather = FALSE,
