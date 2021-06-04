@@ -1,15 +1,15 @@
 # Carob
 
-The aim of the *Carob project* is to create reproducible workflows to aggregate agronomic from experiments and surveys. These aggregated data sets can then by used for analysis.
+The aim of the *Carob project* is to create reproducible workflows to aggregate agronomic data from experiments and surveys. These aggregated data sets can then be more easily used for analysis.
 
-Each individual dataset is associated with a single R script. Feel free to improve these scripts, or provide new ones through a pull request. 
+We do this by writing an R script for each individual dataset. Feel free to improve these scripts, or provide new ones through a pull request. 
 
 
 ### Get the data
 
 Versions of the dataset will be made available on the [carob dataverse](https://dataverse.harvard.edu/dataverse/carob/).
 
-Create your own by cloning the repo and running 
+You can also compile your own version by cloning the repo and running 
 
 ```
 # install.packages(c("rjson", "readxl")
@@ -26,5 +26,4 @@ if you use the data, run `carobiner::get_citations(data)` to get references for 
 
 ### Contributions 
 
-Contributions are welcomed via pull-requests. See these [preliminary guidelines](https://github.com/reagro/carob/wiki).
-
+Contributions are welcomed via pull-requests. See these [preliminary guidelines](https://github.com/reagro/carob/wiki/Guidelines).
