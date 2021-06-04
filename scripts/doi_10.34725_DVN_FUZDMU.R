@@ -20,7 +20,7 @@ Agricultural Water Management 98: 1364-1372
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   uri=uri,
-	   publication="10.1016/j.agwat.2011.04.002",
+	   publication="doi:10.1016/j.agwat.2011.04.002",
 	   contributor="Camila Bonilla",
 	   experiment_type="fertilizer;agroforestry",
 	   has_weather=FALSE,

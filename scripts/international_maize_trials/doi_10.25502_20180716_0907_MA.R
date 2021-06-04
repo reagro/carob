@@ -15,13 +15,13 @@ carob_script <- function(path) {
 		
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   uri=uri,
-	   publication="",
-	   contributor="Camila Bonilla",
-	   experiment_type="varieties;striga",
-	   has_weather=FALSE,
-	   has_management=FALSE
+		dataset_id = dataset_id,
+		uri = uri,
+ 	    publication="doi:10.2135/cropsci2018.03.0168",
+		contributor = "Camila Bonilla",
+		experiment_type = "varieties",
+		has_weather = FALSE,
+		has_management = FALSE
 	)
 
 	## download and read data 
