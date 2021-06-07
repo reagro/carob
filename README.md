@@ -1,10 +1,11 @@
 # Carob
 
+<img align="right" width="200" height="200" src="https://github.com/reagro/carob/raw/master/img/carob.png">
+
 The aim of the *Carob project* is to create reproducible workflows to aggregate agronomic data from experiments and surveys. These aggregated data sets can then be more easily used for analysis.
 
 We do this by writing an R script for each individual dataset. Feel free to improve these scripts, or provide new ones through a pull request. 
 
-<img align="right" width="100" height="100" src="https://github.com/reagro/carob/raw/master/img/carob.png">
 
 
 ### Get the data
