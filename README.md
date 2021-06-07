@@ -1,6 +1,6 @@
 # Carob
 
-<img align="right" width="200" height="200" src="https://github.com/reagro/carob/raw/master/img/carob.png">
+<img align="right" width="250" height="250" src="https://github.com/reagro/carob/raw/master/img/carob.png">
 
 The aim of the *Carob project* is to create reproducible workflows to aggregate agronomic data from experiments and surveys. These aggregated data sets can then be more easily used for analysis.
 
