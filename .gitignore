@@ -1,6 +1,6 @@
 data/
 run.R
-
+*.zip
 # R/R-studio files
 .Rhistory
 .Rapp.history
