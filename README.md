@@ -28,5 +28,5 @@ if you use the data, run `carobiner::get_citations(data)` to get references for 
 
 ### Contribute 
 
-Contributions are welcomed via pull-requests. The best place to discover data set is [Gardian](https://gardian.bigdata.cgiar.org/). See these [preliminary guidelines](https://github.com/reagro/carob/wiki/Guidelines).
+Contributions are welcomed via pull-requests. The best place to discover new data sets is the [Gardian](https://gardian.bigdata.cgiar.org/) website. See these [preliminary guidelines](https://github.com/reagro/carob/wiki/Guidelines).
 
