@@ -13,3 +13,4 @@ run.R
 *.utf8.md
 *.knit.md
 .Renviron
+carob.Rproj
