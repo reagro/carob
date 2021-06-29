@@ -9,6 +9,7 @@ carob_script <- function(path) {
 "
 	Description:
 
+    [copy the abstract from the repo]
 
 "
 

@@ -21,8 +21,8 @@ carob_script <- function(path) {
 	   group=group,
 	   uri=uri,
 	   publication="doi:10.21421/D2/FATVHT",
-	   contributor="Your name",
-	   experiment_type="___",
+	   contributor="fava",
+	   experiment_type="fertilizer",
 	   has_weather=FALSE,
 	   has_management=FALSE
 	)
@@ -49,11 +49,17 @@ carob_script <- function(path) {
 	d$end_date <- d$Year
 	d$on_farm <- "no"
 	d$is_survey <- "no"
-	d$treatment <- ifelse(d$Nitrogen == 0 , 1, ifelse(d$Nitrogen == 20 , 2, ifelse(d$Nitrogen == 40 , 3, ifelse(d$Nitrogen == 60 , 4, ifelse(d$Nitrogen == 80 , 5, 6)))))
+	
+## RH	d$treatment <- ifelse(d$Nitrogen == 0 , 1, ifelse(d$Nitrogen == 20 , 2, ifelse(d$Nitrogen == 40 , 3, ifelse(d$Nitrogen == 60 , 4, ifelse(d$Nitrogen == 80 , 5, 6)))))
+	d$treatment <- as.integer(as.factor(d$Nitrogen))
+
 	d$rep <- d$`Replication umber`
 	d$crop <- "sorghum"
 	d$variety <- d$Sorghum
-	d$yield <- d$`Grain yield` + d$`Stalk yield`
+## RH	d$yield <- d$`Grain yield` + d$`Stalk yield`
+	d$yield <- d$`Grain yield`
+## assuming that "Stalk yield" also includes leaves	
+	d$residue_yield <- d$`Stalk yield`
 	d$grain_weight <- d$GW_1000grnM_g
 	d$N_fertilizer <- d$Nitrogen
 	d$P_fertilizer <- 30

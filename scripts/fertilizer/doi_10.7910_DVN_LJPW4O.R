@@ -21,7 +21,7 @@ carob_script <- function(path) {
 	   group=group,
 	   uri=uri,
 	   publication="",
-	   contributor="blabla",
+	   contributor="fava",
 	   experiment_type="fertilizer",
 	   has_weather=FALSE,
 	   has_management=FALSE
@@ -53,13 +53,20 @@ carob_script <- function(path) {
 	
 	# Merge with measured biomass ("2a Dry matter measurements.xlsx")
 	biomass <- as.data.frame(readxl::read_excel(ff[basename(ff) == "2a Dry matter measurements.xlsx"]))
+
+### RH: season "1" and "2" is not informative 
+###  
 	biomass$Season <- ifelse(biomass$`Days after planting (dap)` == 30, 1, 2)
   # biomass <- biomass[order(biomass[,"Site"], biomass[,"Season"], biomass[,"Block"], biomass[,"Treatment"], biomass[,"Plot"]), ]
   biomass <- biomass[order(biomass[,"Site"], biomass[,"Season"], biomass[,"Block"], biomass[,"Treatment"]), ]
   # biomass1 <- aggregate(biomass$`Dry weight with roots (g)`,by=list(biomass$Site,biomass$Season,biomass$Block,biomass$Treatment,biomass$Plot),data=biomass,FUN=mean)
-  biomass1 <- aggregate(biomass$`Dry weight with roots (g)`,by=list(biomass$Site,biomass$Season,biomass$Block,biomass$Treatment),data=biomass,FUN=mean)
-	# colnames(biomass1) <- colnames(biomass)[c(1,8,3,4,5,7)]
-	colnames(biomass1) <- colnames(biomass)[c(1,8,3,4,7)]
+
+## RH instead of
+#  biomass1 <- aggregate(biomass$`Dry weight with roots (g)`,by=list(biomass$Site,biomass$Season,biomass$Block,biomass$Treatment),data=biomass,FUN=mean)
+#	colnames(biomass1) <- colnames(biomass)[c(1,8,3,4,7)]
+## do this: 
+	biomass1 <- aggregate(biomass[, "Dry weight with roots (g)", drop=FALSE], 
+						  biomass[, c("Site", "Season", "Block", "Treatment")], FUN=mean)
 	d1 <- merge(d, biomass1, by = intersect(names(d), names(biomass1)), all.x = TRUE)
 	d1$grain_weight <- d$`Grain yield (kg/plot -5.625m2)`*1000
 	d1$Plot <- biomass$Plot
@@ -91,8 +98,14 @@ carob_script <- function(path) {
 	soil2 <- aggregate(soil1[, c(3,5,6,9,10,11)], list(Site = soil1$Site, Block = soil1$Block, Plot = soil1$Plot), mean, na.rm = TRUE)
 	soil2 <- soil2[order(soil2[,"Site"], soil2[,"Block"], soil2[,"Plot"]), ]
 	d2 <- merge(d1, soil2, by = intersect(names(d1), names(soil2)), all.x = TRUE)
-	d2$yield <- (d2$`Grain yield (kg/plot -5.625m2)` + d2$`Stover yield (kg/plot - 5.625m2)`)* (100/5.625)
+
+## RH: yield is the grain yield (for cereals)
+## 	d2$yield <- (d2$`Grain yield (kg/plot -5.625m2)` + d2$`Stover yield (kg/plot - 5.625m2)`)* (100/5.625)
 	
+## RH
+	d2$yield <- d2$`Grain yield (kg/plot -5.625m2)` * (100/5.625)
+	d2$residue_yield <- d2$`Stover yield (kg/plot - 5.625m2)` * (100/5.625)
+
 	
 	# process file(s)
 	d <- carobiner::change_names(d2,
