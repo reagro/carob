@@ -1,7 +1,6 @@
 # Carob
 
 <img align="right" width="350" height="350" src="https://github.com/reagro/carob/raw/master/img/carob.png">
-<p style="text-align:right;"><fontlogo by Zane Dax</p>
 
 The aim of the *Carob project* is to create reproducible workflows that reshape primary agricultural research data from experiments and surveys into a standard format, and to aggregate individual data sets into larger collections that can be used in further research.
 
