@@ -14,7 +14,7 @@ Versions of the dataset will be made available on the [carob dataverse](https://
 You can also compile your own version by cloning the repo and running 
 
 ```
-# install.packages(c("rjson", "readxl")
+# install.packages(c("rjson", "readxl"))
 # remotes::install_github("reagro/agro")
 # remotes::install_github("reagro/carobiner")
 ff <- carobiner::make_carob(path)
