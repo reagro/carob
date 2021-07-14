@@ -21,7 +21,7 @@ carob_script <- function(path) {
 	   group=group,
 	   uri=uri,
 	   publication="",
-	   contributor="fava",
+	   contributor="Eduardo Garcia Bendito",
 	   experiment_type="fertilizer",
 	   has_weather=FALSE,
 	   has_management=FALSE
