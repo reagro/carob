@@ -22,7 +22,9 @@ carob_script <- function(path) {
 	   group=group,
 	   uri=uri,
 	   publication="publication doi",
-	   contributor="Your name",
+	   data_citation = "",
+	   data_institutions = "",
+	   carob_contributor="Your name",
 	   experiment_type="___",
 	   has_weather=FALSE,
 	   has_management=FALSE
