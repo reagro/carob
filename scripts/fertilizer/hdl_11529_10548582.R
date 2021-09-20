@@ -63,11 +63,11 @@ carob_script <- function(path) {
 	d$N_fertilizer <- as.integer(ifelse(d$FERT == 1 , 0,
 	                         ifelse(d$FERT == 2 , 120,
 	                                ifelse(d$FERT == 3 | d$FERT == 4, 180, 240))))
-	d$N_splits <- ifelse(d$FERT == 1 , "0/0",
-	                     ifelse(d$FERT == 2 , "36/84",
-	                            ifelse(d$FERT == 3, "54/126",
-	                                   ifelse(d$FERT == 4, "180/0",
-	                                          ifelse(d$FERT == 5, "72/168", "240/0")))))
+	d$N_splits <- ifelse(d$FERT == 1 , "0 | 0",
+	                     ifelse(d$FERT == 2 , "36 | 84",
+	                            ifelse(d$FERT == 3, "54 | 126",
+	                                   ifelse(d$FERT == 4, "180 | 0",
+	                                          ifelse(d$FERT == 5, "72 | 168", "240 | 0")))))
 	d$irrigated <- ifelse(d$IRR == 1 , "Dry seeding", "Wet seeding")
 	d$tillage <- ifelse(d$TIL == 1 , "Permanent beds", "Conventionally tilled beds")
 	
