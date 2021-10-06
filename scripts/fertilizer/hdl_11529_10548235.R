@@ -55,8 +55,8 @@ carob_script <- function(path) {
 	d$trial_id <- paste0(d$HHID, "-", d$QID)
 	d$latitude <- d$Latitude
 	d$longitude <- d$Longitude
-	d$start_date <- as.numeric("2016")
-	d$end_date <- as.numeric("2016")
+	d$start_date <- as.Date("01-05-2016", "%d-%m-%Y")
+	d$end_date <- as.Date("01-12-2016", "%d-%m-%Y")
 	d$on_farm <- "yes"
 	d$is_survey <- "yes"
 	d$crop <- "maize"
