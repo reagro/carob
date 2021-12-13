@@ -6,12 +6,11 @@
 #remotes::install_github("reagro/carobiner")
 library(carobiner)
 
-path<-('~/OneDrive - CGIAR/EiA/TRANSFORM/DataStandards/carob')
-#carob_script <- function(path) {
+carob_script <- function(path) {
   
   "Description
 Title:Responses of upland NERICA rice varieties to nitrogen and plant density
-Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been identified for increasing upland rice productivity. However, these factors have not been adequately investigated on interspecific rice, New Rice for Africa (NERICA). Different levels of nitrogen (0, 30, 60 and 120 kg/ha) and plant spacing (dibbling: 30 6 30 cm, 20 6 20 cm, and drilling: 25 6 5 cm) on the growth and yield of three interspecific rice varieties and a check variety were evaluated on Terre de barre soils. Rainfall in both years was unevenly distribution which caused drought in both years. Across both years, rice yield was significantly depressed with 60N and 120N by 5381%, compared with other N levels. NERICA4 with 30N gave the highest panicles density and harvest index, and the best yield (1.2 Mg/ha). Wide spacing of 20 6 20 cm or 30 6 30 cm with four plants/stand was optimum for the NERICA. Drilling rice at 25 6 5 cm with one plant/stand depressed yield. Results showed that in smallholder upland ecosystems prone to unpredictable drought, wide spacing and low N can be recommended for production of NERICA"
+Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been identified for increasing upland rice productivity. However, these factors have not been adequately investigated on interspecific rice, New Rice for Africa (NERICA). Different levels of nitrogen (0, 30, 60 and 120 kg/ha) and plant spacing (dibbling: 30 6 30 cm, 20 6 20 cm, and drilling: 25 6 5 cm) on the growth and yield of three interspecific rice varieties and a check variety were evaluated on Terre de barre soils. Rainfall in both years was unevenly distribution which caused drought in both years. Across both years, rice yield was significantly depressed with 60N and 120N by 53-81%, compared with other N levels. NERICA4 with 30N gave the highest panicles density and harvest index, and the best yield (1.2 Mg/ha). Wide spacing of 20 6 20 cm or 30 6 30 cm with four plants/stand was optimum for the NERICA. Drilling rice at 25 6 5 cm with one plant/stand depressed yield. Results showed that in smallholder upland ecosystems prone to unpredictable drought, wide spacing and low N can be recommended for production of NERICA"
   
   ## Process 
  
@@ -23,8 +22,8 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication="doi:10.7910/DVN/JWUEGN",
-    contributor="Siyabusa",
+    publication="",
+    carob_contributor="Siyabusa",
     experiment_type="fertilizer",
     has_weather=FALSE,
     has_management=FALSE
@@ -39,10 +38,10 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   
   ## the AFSIS data 
   f <- ff[basename(ff) == "Responses of upland NERICA rice varieties to nitrogen and plant density.xlsx"]
-  d <- as.data.frame(readxl::read_excel(f))
+  d <- suppressMessages(as.data.frame(readxl::read_excel(f)))
   
   ##Skip early rows-Descriptive rows)
-  d <- as.data.frame(readxl::read_excel(f)[-c(1:21),])
+  d <- suppressMessages(as.data.frame(readxl::read_excel(f)[-c(1:21),]))
   
   ##Convert First Row to Header
   names(d)<-d[1,]
@@ -81,6 +80,6 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
  e<-e[c("rep","dataset_id","trial_id","country","on_farm","is_survey","start_date","end_date","spacing","crop","N_fertilizer","variety","yield","biomass_leaves")]       
  
  carobiner::write_files(dset, e, path, dataset_id, group)
-#}
+}
 
 

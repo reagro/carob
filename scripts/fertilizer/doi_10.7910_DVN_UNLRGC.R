@@ -34,7 +34,7 @@ Notes
 		group=group,
 		uri=uri,
 		publication="doi:10.1007/s10705-015-9717-2",
-		contributor="Camila Bonilla",
+		carob_contributor="Camila Bonilla",
 		experiment_type="fertilizer",
 		has_weather=FALSE,
 		has_management=FALSE

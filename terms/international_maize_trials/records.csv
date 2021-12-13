@@ -1,73 +1,73 @@
-name,unit,required,vocabulary,description,notes
-trial_name,,,NA,Trial title,NA
-striga_trial,,yes,NA,Is this a Striga trial?,NA
-striga_infected,,yes,NA,Striga infection?,NA
-description,,,NA,Trial description,NA
-yield2,kg/ha,,NA,Yield from second season planting,NA
-anthesis,,,NA,,NA
-asi,,,NA,Anthesis silking interval,NA
-blight,,,NA,Leaf blight,NA
-borer,,,NA,Stem borer damage,NA
-borer_dam_rat,,,NA,Borer damage,NA
-borer1,,,NA,Stem borer damage 1,NA
-borer2,,,NA,Stem borer damage 2,NA
-borer3,,,NA,Stem borer damage 3,NA
-borer4,,,NA,Stem borer damage 4,NA
-cob_dam_co,,,NA,Cob damage,NA
-cob_dam_rt,,,NA,Cob damage,NA
-curv,,,NA,Curvularia leaf spot severity,NA
-dead_heart,,,NA,Death of young plants,NA
-deadheart,,,NA,Death of young plants,NA
-diplodia,,,NA,Stenocarpella ear rot severity,NA
-dm,,,NA,Maize dwarf mosaic virus incidence,NA
-dy_poll,,,NA,Numbers of Days to pollination,NA
-dy_sk,,,NA,Number of Days to silk,NA
-dy_tass,,,NA,Number of Days to tassling,NA
-e_asp,,,NA,Ear Aspect,NA
-e_harv,,,NA,Ear Harvest,NA
-e_ht,,,NA,Ear Height,NA
-e_rot,,,NA,Ear Rot,NA
-ear_dam_co,,,NA,Ear Damage,NA
-ear_dam_rat,,,NA,Ear Damage,NA
-eardam,,,NA,Ear Damage,NA
-easp,,,NA,Ear Aspect,NA
-eht,,,NA,Ear Height,NA
-eldana,,,NA,Eldana saccharina,NA
-erot,,,NA,Ear Rot,NA
-fwt,,,NA,Field weight,NA
-gls,,,NA,Gray leaf spot severity,NA
-gr_maize,,,NA,Glyphosate Resistant Maize,NA
-gtext,,,NA,Grain texture,NA
-gwt,,,NA,Grain Weight,NA
-helm,,,NA,Maydis leaf blight severity,NA
-hm,,,NA,Hm,NA
-husk,,,NA,Ear husk cover,NA
-insect,,,NA,Insect,NA
-inst,,,NA,Trial Instance,NA
-leaf_feed,,,NA,Leaf feed,NA
-moist,,,NA,Grain moisture,NA
-mussidia,,,NA,Mussidia nigrivenella - ear borer,NA
-nitr_rat,,,NA,Grain Nitrogen content,NA
-p_asp,,,NA,Plant Aspect,NA
-p_harv,,,NA,Plant Harvest,NA
-pasp,,,NA,,NA
-pl_ht,,,NA,Plant Height,NA
-pl_st,,,NA,Plant Stand,NA
-polshed,,,NA,Pollen shedding,NA
-rl,,,NA,Root lodging,NA
-rl_rat,,,NA,Root lodging,NA
-rlper,,,NA,Root lodging in percent,NA
-rust,,,NA,Rust diseases,NA
-sb_dam_rat,,,NA,Stem borer damage,NA
-sesamia,,,NA,Stem borer damage,NA
-sl,,,NA,Stalk lodging,NA
-sl_rat,,,NA,Stalk lodging,NA
-slper,,,NA,Stalk lodging in percent,NA
-stalk_rot,,,NA,Stalk rot,NA
-stemtunnel,,,NA,Stem tunneling by stem borers,NA
-str_co1,,,NA,The number of emerged Striga plants per plot at 8 weeks after planting,NA
-str_co2,,,NA,The number of emerged Striga plants per plot at 10 weeks after planting,NA
-str_co3,,,NA,The number of emerged Striga plants per plot at 3 weeks after planting,NA
-str_rat1,,,NA,"Striga damage symptom rating scored on a scale of 1-5 or 1-9, where 1=no Striga damage symptom and 5 or 9=severe Striga damage symptom at 8 weeks after planting",NA
-str_rat2,,,NA,"Striga damage symptom rating scored on a scale of 1-5 or 1-9, where 1=no Striga damage symptom and 5 or 9=severe Striga damage symptom at 10 weeks after planting",NA
-streak,,,NA,Streak virus,NA
+name,unit,required,vocabulary,multiple_allowed,description,notes
+trial_name,,,NA,,Trial title,NA
+striga_trial,,yes,NA,,Is this a Striga trial?,NA
+striga_infected,,yes,NA,,Striga infection?,NA
+description,,,NA,,Trial description,NA
+yield2,kg/ha,,NA,,Yield from second season planting,NA
+anthesis,,,NA,,,NA
+asi,,,NA,,Anthesis silking interval,NA
+blight,,,NA,,Leaf blight,NA
+borer,,,NA,,Stem borer damage,NA
+borer_dam_rat,,,NA,,Borer damage,NA
+borer1,,,NA,,Stem borer damage 1,NA
+borer2,,,NA,,Stem borer damage 2,NA
+borer3,,,NA,,Stem borer damage 3,NA
+borer4,,,NA,,Stem borer damage 4,NA
+cob_dam_co,,,NA,,Cob damage,NA
+cob_dam_rt,,,NA,,Cob damage,NA
+curv,,,NA,,Curvularia leaf spot severity,NA
+dead_heart,,,NA,,Death of young plants,NA
+deadheart,,,NA,,Death of young plants,NA
+diplodia,,,NA,,Stenocarpella ear rot severity,NA
+dm,,,NA,,Maize dwarf mosaic virus incidence,NA
+dy_poll,,,NA,,Numbers of Days to pollination,NA
+dy_sk,,,NA,,Number of Days to silk,NA
+dy_tass,,,NA,,Number of Days to tassling,NA
+e_asp,,,NA,,Ear Aspect,NA
+e_harv,,,NA,,Ear Harvest,NA
+e_ht,,,NA,,Ear Height,NA
+e_rot,,,NA,,Ear Rot,NA
+ear_dam_co,,,NA,,Ear Damage,NA
+ear_dam_rat,,,NA,,Ear Damage,NA
+eardam,,,NA,,Ear Damage,NA
+easp,,,NA,,Ear Aspect,NA
+eht,,,NA,,Ear Height,NA
+eldana,,,NA,,Eldana saccharina,NA
+erot,,,NA,,Ear Rot,NA
+fwt,,,NA,,Field weight,NA
+gls,,,NA,,Gray leaf spot severity,NA
+gr_maize,,,NA,,Glyphosate Resistant Maize,NA
+gtext,,,NA,,Grain texture,NA
+gwt,,,NA,,Grain Weight,NA
+helm,,,NA,,Maydis leaf blight severity,NA
+hm,,,NA,,Hm,NA
+husk,,,NA,,Ear husk cover,NA
+insect,,,NA,,Insect,NA
+inst,,,NA,,Trial Instance,NA
+leaf_feed,,,NA,,Leaf feed,NA
+moist,,,NA,,Grain moisture,NA
+mussidia,,,NA,,Mussidia nigrivenella - ear borer,NA
+nitr_rat,,,NA,,Grain Nitrogen content,NA
+p_asp,,,NA,,Plant Aspect,NA
+p_harv,,,NA,,Plant Harvest,NA
+pasp,,,NA,,,NA
+pl_ht,,,NA,,Plant Height,NA
+pl_st,,,NA,,Plant Stand,NA
+polshed,,,NA,,Pollen shedding,NA
+rl,,,NA,,Root lodging,NA
+rl_rat,,,NA,,Root lodging,NA
+rlper,,,NA,,Root lodging in percent,NA
+rust,,,NA,,Rust diseases,NA
+sb_dam_rat,,,NA,,Stem borer damage,NA
+sesamia,,,NA,,Stem borer damage,NA
+sl,,,NA,,Stalk lodging,NA
+sl_rat,,,NA,,Stalk lodging,NA
+slper,,,NA,,Stalk lodging in percent,NA
+stalk_rot,,,NA,,Stalk rot,NA
+stemtunnel,,,NA,,Stem tunneling by stem borers,NA
+str_co1,,,NA,,The number of emerged Striga plants per plot at 8 weeks after planting,NA
+str_co2,,,NA,,The number of emerged Striga plants per plot at 10 weeks after planting,NA
+str_co3,,,NA,,The number of emerged Striga plants per plot at 3 weeks after planting,NA
+str_rat1,,,NA,,"Striga damage symptom rating scored on a scale of 1-5 or 1-9, where 1=no Striga damage symptom and 5 or 9=severe Striga damage symptom at 8 weeks after planting",NA
+str_rat2,,,NA,,"Striga damage symptom rating scored on a scale of 1-5 or 1-9, where 1=no Striga damage symptom and 5 or 9=severe Striga damage symptom at 10 weeks after planting",NA
+streak,,,NA,,Streak virus,NA

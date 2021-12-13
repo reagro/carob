@@ -21,7 +21,7 @@ carob_script <- function(path) {
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   publication="hdl:11529/10548242",
+	   publication="",
 	   data_citation = 'Craufurd, Peter; Karwani, George; Masuki, Kenneth, 2019, "TAMASA TZ APS 2017 CC MaizeYield v3", https://hdl.handle.net/11529/10548242, CIMMYT Research Data & Software Repository Network, V2, UNF:6:FARtQ7xWh1m0+YYceI+wnw== [fileUNF]',
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
@@ -40,7 +40,7 @@ carob_script <- function(path) {
 
 	f <- ff[basename(ff) == "TAMASA_TZ_APS_2017_CC_MaizeYield.xlsx"]
 
-	d <- as.data.frame(readxl::read_excel(f, sheet = "Raw data", n_max = 1738))
+	d <- suppressMessages(as.data.frame(readxl::read_excel(f, sheet = "Raw data", n_max = 1738)))
 	colnames(d) <- c("Country", "Zone", "Region", "District", "Ward", "Village", "Hamlet", "HHID", "Farmer Name", "drop", "QID",
 	                 "QRcode Cobs", "Latitude", "Longitude", "Altitude", "Area by Farmer_est", "Area by GPS", "drop1",
 	                 "Plant stands", "Total Number of Cobs", "FWt of Cobs_all (kg)", "FWt of Cobs SS (kg)", "Dry Wt of Cobs SS (kg)",

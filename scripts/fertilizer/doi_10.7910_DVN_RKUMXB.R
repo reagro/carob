@@ -41,7 +41,7 @@ carob_script <- function(path) {
 	   group = group,
 	   uri=uri,
 	   publication="",
-	   contributor="Camila Bonilla",
+	   carob_contributor="Camila Bonilla",
 	   experiment_type="fertilizer",
 	   has_weather=FALSE,
 	   has_management=FALSE

@@ -25,7 +25,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 		group = group,
 		uri = uri,
 		publication = "doi:10.2134/agronj2012.0063",
-		contributor = "Camila Bonilla",
+		carob_contributor = "Camila Bonilla",
 		experiment_type = "fertilizer;agroforestry",
 		has_weather = FALSE,
 		has_management = FALSE

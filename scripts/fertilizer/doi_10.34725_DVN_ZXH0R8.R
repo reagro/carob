@@ -6,8 +6,7 @@
 #"   crop contains invalid terms:  Wheat, Sorghum, Tef"
 
 library(carobiner)
-path<-('~/OneDrive - CGIAR/EiA/TRANSFORM/DataStandards/carob')
-#carob_script <- function(path) {
+carob_script <- function(path) {
 
 "
 Description:
@@ -25,8 +24,8 @@ ICRISAT. 2018. Feeding Degraded Soils in Ethiopia to Feed the People and the Env
 		dataset_id = dataset_id,
 		group = group,
 		uri = uri,
-		publication = "doi: 10.1017/S1742170519000504",
-		contributor = "Siyabusa",
+		publication = "doi:10.1017/S1742170519000504",
+		carob_contributor = "Siyabusa",
 		experiment_type = "fertilizer"
 		#has_weather = FALSE,
 		#has_management = FALSE
@@ -40,14 +39,14 @@ ICRISAT. 2018. Feeding Degraded Soils in Ethiopia to Feed the People and the Env
 	
 	#######2014 & 2015 Wheat Yields
 	f <- ff[basename(ff) == "001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx"]
-	d <- as.data.frame(readxl::read_excel(f))
-	d<-d[,-c(2,3,4,9,10,14,15,16,17,24,26,28,29,31,32,33,34,35,37,38,41,42,43,44)]
+	d <- suppressMessages(as.data.frame(readxl::read_excel(f)))
+	d <- d[,-c(2,3,4,9,10,14,15,16,17,24,26,28,29,31,32,33,34,35,37,38,41,42,43,44)]
 
 	#Combine Basal & top Dressing ammounts(Sum of Rows)
-	d$totalN<-rowSums(d[,c(10,15,16)])
+	d$totalN <- rowSums(d[,c(10,15,16)])
 	
 	#remove the extra fertilizer columns
-	d<-d[,-c(10,15,16)]
+	d <- d[,-c(10,15,16)]
 	
 	#Add/format first column
 	d$dataset_id <- "doi_10.7910_DVN_ZXH0R8"
@@ -67,10 +66,9 @@ ICRISAT. 2018. Feeding Degraded Soils in Ethiopia to Feed the People and the Env
 	d<-d[c("dataset_id","trial_id","country","region","adm1","adm2","start_date","end_date","crop","variety","treatment","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","S_fertilizer","Zn_fertilizer","soil_type","yield","biomass_total","residue_yield")]
 
 	
-	
 	#######2016 Wheat Yields
 	g <- ff[basename(ff) == "002_2016_Wheat_ ICRISAT-AR_ETH.xlsx"]
-	e <- as.data.frame(readxl::read_excel(g))
+	e <- suppressMessages(as.data.frame(readxl::read_excel(g)))
 	e<-e[,-c(1,2,3,4,9,10,14,15,16,17,23,25,27,28,30,31,32,33,34,36,37,39,40,41,42,43)]
 	
 	#Combine Basal & top Dressing amounts(Sum of Rows)
@@ -90,24 +88,24 @@ ICRISAT. 2018. Feeding Degraded Soils in Ethiopia to Feed the People and the Env
 	
 	#remove negative values
 	e$stoveryield<-e$`Biomass (kg/ha)`-e$`Yield (kg/ha)`
-	names(e)
-	s<-e[,23]
-	t<-abs(s)
-	e<-cbind(e,t)
-	e<-e[,-23]
+	#names(e)
+	s <- e[,23]
+	t <- abs(s)
+	e <- cbind(e,t)
+	e <- e[,-23]
 	
 	#rename headers
-	e<-e[,c("Country","Region/state","LGA/District","village/Kebele","Year","Crop","Variety","Treatment","P fertilizer amount (kg/ha)","K fertilizer amount (kg/ha)","S fertilizer amount (kg/ha)","Soil type","Yield (kg/ha)","Biomass (kg/ha)","totalN","dataset_id","trial_id","on_farm","is_survey","end_date","N_splits","Zn_fertilizer","t")]     
+	e <- e[,c("Country","Region/state","LGA/District","village/Kebele","Year","Crop","Variety","Treatment","P fertilizer amount (kg/ha)","K fertilizer amount (kg/ha)","S fertilizer amount (kg/ha)","Soil type","Yield (kg/ha)","Biomass (kg/ha)","totalN","dataset_id","trial_id","on_farm","is_survey","end_date","N_splits","Zn_fertilizer","t")]     
 	colnames(e)<-c("country","region","adm1","adm2","start_date","crop","variety","treatment","P_fertilizer","K_fertilizer","S_fertilizer","soil_type","yield","biomass_total","N_fertilizer","dataset_id","trial_id","on_farm","is_survey","end_date","N_splits","Zn_fertilizer","residue_yield")
 	
 	#Re-order
-	e<-e[c("dataset_id","trial_id","country", "region","adm1","adm2","start_date","end_date","crop","variety","treatment","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","S_fertilizer","Zn_fertilizer","soil_type","yield","biomass_total","residue_yield")]  
+	e <- e[c("dataset_id","trial_id","country", "region","adm1","adm2","start_date","end_date","crop","variety","treatment","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","S_fertilizer","Zn_fertilizer","soil_type","yield","biomass_total","residue_yield")]  
 	
 
 	#######2017 Sorghum+Teff Yields
 	h <- ff[basename(ff) == "003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx"]
-	k <- as.data.frame(readxl::read_excel(h))
-	k<-k[,-c(1:4,9:10,14:17,24,26,28:29,31:35,37:38,41:47)]
+	k <- suppressMessages(as.data.frame(readxl::read_excel(h)))
+	k <- k[,-c(1:4,9:10,14:17,24,26,28:29,31:35,37:38,41:47)]
 	
 	#Combine Basal & top Dressing ammounts(Sum of Rows)
 	k$totalN<-rowSums(k[,c(9,14,15)])
@@ -134,13 +132,13 @@ ICRISAT. 2018. Feeding Degraded Soils in Ethiopia to Feed the People and the Env
 	  
 	  #######2019 Sorghum+Teff Yields
 	  m <- ff[basename(ff) == "004_2019_Wheat_ ICRISAT-AR_ETH.xlsx"]
-	  n <- as.data.frame(readxl::read_excel(m))
+	  n <- suppressMessages(as.data.frame(readxl::read_excel(m)))
 	  
 	  #d<-d[,-c("Data set", "Identifier no.","Altitude(m)","Nearest climate station","Planting date","Harvest date","Crop system","Landscape strata","N fertilizer date", "N topdressing date","Weeding","Rainfall","Soil organic content", "Soil mineral N at sowing","Soil moisture at sowing","Rooting Depth","Soil description","37","% moisture yield data","41","Grain nutrient content","Stover nutrient content","Harvest Index")]
-	  n<-n[,-c(1:4,9:10,14:17,24,26,28:29,31:35,37:38,41:60)]
+	  n <- n[,-c(1:4,9:10,14:17,24,26,28:29,31:35,37:38,41:60)]
 	  
 	  #Combine Basal & top Dressing ammounts9Sum of Rows)
-	  n$totalN<-rowSums(n[,c(9,14,15)])
+	  n$totalN <- rowSums(n[,c(9,14,15)])
 	  
 	  #remove the extra fertilizer columns
 	  n<-n[,-c(9,14,15)]
@@ -161,43 +159,16 @@ ICRISAT. 2018. Feeding Degraded Soils in Ethiopia to Feed the People and the Env
 	  n<-n[c("dataset_id","trial_id","country","region","adm1","adm2","start_date","end_date","crop","variety","treatment","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","S_fertilizer","Zn_fertilizer","soil_type","yield","biomass_total","residue_yield")]
 	
 ####Merge Data Sets Across All Seasons
-	 names(d)
-	 names(e)
-	 names(k)
-	 names(n)
+	 #names(d)
+	 #names(e)
+	 #names(k)
+	 #names(n)
 	  
-	 ds<-rbind(d,e,k,n)
+	ds<-rbind(d,e,k,n)
+	ds$crop <- tolower(ds$crop)
+	ds$crop[ds$crop=="tef"] <- "teff"
 	
-	  carobiner::write_files(dset, ds, path, dataset_id, group)
-	  #}	  
-	  
-	  
-	  
-	  
-	  
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	carobiner::write_files(dset, ds, path, dataset_id, group)
+}	  
 	  
 	  

@@ -21,7 +21,7 @@ carob_script <- function(path) {
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   publication="https://doi.org/10.25502/20180814/1135/HJ",
+	   publication="",
 	   data_citation = "",
 	   data_institutions = "",
 	   carob_contributor="Eduardo Garcia Bendito",
@@ -57,7 +57,7 @@ carob_script <- function(path) {
 	d$season <- "rain"
 	d$on_farm <- "yes"
 	d$is_survey <- "no"
-	d$crop <- d$TCrop
+	d$crop <- tolower(d$TCrop)
 	d$variety <- d$TCVariety
 	d$intercrops <- d$CS
 	d$previous_crop <- d$PCrop1

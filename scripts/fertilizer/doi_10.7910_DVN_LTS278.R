@@ -5,8 +5,7 @@
 
 library(carobiner)
 
-path<-('~/OneDrive - CGIAR/EiA/TRANSFORM/DataStandards/carob')
-#carob_script <- function(path) {
+carob_script <- function(path) {
 
 "Description
 Title: Replication Data for: Response of Maize to blended fertilizer  
@@ -21,8 +20,8 @@ dset <- data.frame(
   dataset_id = dataset_id,
   group=group,
   uri=uri,
-  publication="doi:10.7910/DVN/LTS278",
-  contributor="Siyabusa",
+  publication="",
+  carob_contributor="Siyabusa",
   experiment_type="fertilizer",
   has_weather=FALSE,
   has_management=FALSE
@@ -37,10 +36,10 @@ dset$license <- carobiner::get_license(js) #Cant get the license right??
 
 ## the AFSIS data 
 f <- ff[basename(ff) == "AGP II 2017.18 RAW DATA.xlsx"] 
-d <- as.data.frame(readxl::read_excel(f))
+d <- suppressMessages(as.data.frame(readxl::read_excel(f)))
 
 ##Skip early rows(Descriptive rows)
-dd <- as.data.frame(readxl::read_excel(f)[,-c(1:11)])
+dd <- suppressMessages(as.data.frame(readxl::read_excel(f)[,-c(1:11)]))
 
 #transfer columns
 dd$country <- "Ethiopia"
@@ -98,7 +97,7 @@ dv<-dv[c("dataset_id","trial_id","country","region","start_date","end_date","cro
 
 carobiner::write_files(dset, dv, path, dataset_id, group)
 
-#}
+}
 
 
 
