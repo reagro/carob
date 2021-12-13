@@ -21,9 +21,9 @@ carob_script <- function(path) {
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   publication="doi:10.25502/gwqd-zh67",
-	   contributor="Eduardo Garcia Bendito",
-	   experiment_type="pest_diseases",
+	   publication="",
+	   carob_contributor="Eduardo Garcia Bendito",
+	   experiment_type="pests_diseases",
 	   has_weather=FALSE,
 	   has_management=FALSE
 	)
