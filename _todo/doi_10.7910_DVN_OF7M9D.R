@@ -21,8 +21,8 @@ carob_script <- function(path) {
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication="doi:10.7910/DVN/OF7M9D",
-    contributor="Eduardo Garcia Bendito",
+    publication="doi_10.7910_DVN_OF7M9D.ris",
+    carob_contributor="Eduardo Garcia Bendito",
     experiment_type="variety_performance",
     has_weather=FALSE,
     has_management=FALSE
@@ -58,7 +58,7 @@ carob_script <- function(path) {
   d$yield <- d$YIELD*1000
   
   # process file(s)
-  d <- d[,c("country", "adm1", "adm2", "adm3", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "crop", "variety_code", "yield")]
+  d <- d[,c("country", "adm1", "adm2", "adm3", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "season", "on_farm", "is_survey", "crop", "variety_code", "yield")]
   d$dataset_id <- dataset_id
   
   # all scripts must end like this
