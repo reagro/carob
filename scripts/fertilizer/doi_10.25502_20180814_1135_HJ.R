@@ -40,13 +40,11 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "Kiberashi_DT2010_field.csv"]
 	d <- read.csv(f)
 	d <- d[complete.cases(d[ , 6:7]),]
-	tz <- sf::st_as_sf(raster::getData('GADM', country='TZA', level = 3, path = "data/other"), crs = "+proj=longlat +datum=WGS84")
-	a <- sf::st_as_sf(d, coords = c("Flong", "Flat"), crs = "+proj=longlat +datum=WGS84")
-	a <- sf::st_join(a, tz, join = sf::st_intersects)
-	d$country <- a$NAME_0
-	d$adm1 <- a$NAME_1
-	d$adm2 <- a$NAME_2
-	d$adm3 <- a$NAME_3
+	d$country <- "Tanzania"
+	# enrichment with spatial data is better done on the aggregated data
+	#d$adm1 <- a$NAME_1
+	#d$adm2 <- a$NAME_2
+	#d$adm3 <- a$NAME_3
 	d$location <- d$Village
 	d$site <- d$Site
 	d$trial_id <- paste0(dataset_id, "-", d$ID)
@@ -65,7 +63,7 @@ carob_script <- function(path) {
 	# 2nd get agronomic data
 	f1 <- ff[basename(ff) == "Kiberashi_DT2010_plot.csv"]
 	d1 <- read.csv(f1)
-	d1$yield <- d1$TGrainYld
+	d1$yield <- d1$TGrainYld*1000
 	d1$residue_yield <- d1$Adj.TStoverYld*1000
 	d1$treatment <- d1$TrtDesc
 	d1$rep <- d1$Rep
@@ -83,7 +81,7 @@ carob_script <- function(path) {
 	d1$OM_type <- "Manure"
 	d1$OM_applied <- 1000
 	d2 <- merge(d, d1, by = "FieldID", all.x = TRUE)
-	d <- d2[,c("country", "adm1", "adm2", "adm3", "location", "site", "trial_id", "latitude", "longitude",
+	d <- d2[,c("country", "location", "site", "trial_id", "latitude", "longitude",
 	            "start_date", "end_date", "season",
 	            "on_farm", "is_survey",
 	            "treatment", "rep", "crop", "variety", "intercrops", "previous_crop",
