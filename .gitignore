@@ -1,4 +1,5 @@
 .gitignore
+_todo/
 data/
 run.R
 *.zip
