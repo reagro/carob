@@ -48,7 +48,7 @@ carob_script <- function(path) {
 	                 "Total cob dry weight", "Grain dry weight (kg/25m2)", "Grain dry weight (kg/25m2 @12.5%)", "Grain yield (kg/ha@12.5%)",
 	                 "...33", "...34")
 	d <- d[complete.cases(d[ , 13:14]),]
-	tz <- sf::st_as_sf(raster::getData('GADM', country='TZA', level = 3, path = "data/other"), crs = "+proj=longlat +datum=WGS84")
+	tz <- sf::st_as_sf(raster::getData('GADM', country='TZA', level = 3, path = tempdir()), crs = "+proj=longlat +datum=WGS84")
 	a <- sf::st_as_sf(d, coords = c("Longitude", "Latitude"), crs = "+proj=longlat +datum=WGS84")
 	a <- sf::st_join(a, tz, join = sf::st_intersects)
 	
