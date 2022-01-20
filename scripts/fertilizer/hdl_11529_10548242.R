@@ -48,14 +48,8 @@ carob_script <- function(path) {
 	                 "Total cob dry weight", "Grain dry weight (kg/25m2)", "Grain dry weight (kg/25m2 @12.5%)", "Grain yield (kg/ha@12.5%)",
 	                 "...33", "...34")
 	d <- d[complete.cases(d[ , 13:14]),]
-	tz <- sf::st_as_sf(raster::getData('GADM', country='TZA', level = 3, path = "data/other"), crs = "+proj=longlat +datum=WGS84")
-	a <- sf::st_as_sf(d, coords = c("Longitude", "Latitude"), crs = "+proj=longlat +datum=WGS84")
-	a <- sf::st_join(a, tz, join = sf::st_intersects)
 	
-	d$country <- a$NAME_0
-	d$adm1 <- a$NAME_1
-	d$adm2 <- a$NAME_2
-	d$adm3 <- a$NAME_3
+	d$country <- "Tanzania"
 	d$trial_id <- paste0(d$HHID, "-", d$QID)
 	d$latitude <- d$Latitude
 	d$longitude <- d$Longitude
@@ -67,7 +61,7 @@ carob_script <- function(path) {
 	d$yield <- d$`FWt of Cobs_all (kg)`*4 # FWt of Cobs_all (kg) = Fresh Weight of Cobs in Quadrat (25m2)
 	
 	# process file(s)
-	d <- d[,c("country", "adm1", "adm2", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "crop", "yield")]
+	d <- d[,c("country", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "crop", "yield")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
