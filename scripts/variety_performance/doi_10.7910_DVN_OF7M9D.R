@@ -21,7 +21,7 @@ carob_script <- function(path) {
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication="doi_10.7910_DVN_OF7M9D.ris",
+    publication="",
     carob_contributor="Eduardo Garcia Bendito",
     experiment_type="variety_performance",
     has_weather=FALSE,
@@ -39,7 +39,7 @@ carob_script <- function(path) {
   for (f in (ff[tools::file_ext(ff) == "xlsx"])) {
     dd <- data.frame(readxl::read_excel(f))
     dd$dataset_id <- dataset_id
-    dd$country <- dd$Country
+    dd$country <- ifelse(dd$Country == "Cote d'Ivoire", "Côte d'Ivoire", dd$Country)
     dd$site <- dd$Site
     dd$trial_id <- paste0(dataset_id, '-', dd$Country)
     # Coordinates extracted using Geonames.org
