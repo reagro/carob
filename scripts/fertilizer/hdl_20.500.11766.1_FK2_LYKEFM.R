@@ -39,9 +39,9 @@ carob_script <- function(path) {
   # Process both trial/farm sites in a loop, since both have the same structure. Then append them together
   
   dd <- data.frame()
-  for (i in (ff[basename(ff) %in% c("Worku_s_Farm.csv", "Mandie_s_Farm.csv")])) {
+  for (f in (ff[basename(ff) %in% c("Worku_s_Farm.csv", "Mandie_s_Farm.csv")])) {
     d <- read.csv(f, sep=";")
-    farm <- gsub("_s_.*", "", gsub(".csv", "", basename(i))) # Get the name of the farm only
+    farm <- gsub("_s_.*", "", gsub(".csv", "", basename(f))) # Get the name of the farm only
     # process file(s)
     d$dataset_id <- dataset_id
     d$country <- "Ethiopia"
