@@ -37,7 +37,6 @@ carob_script <- function(path) {
   d <- data.frame()
   ## Process all country files in a loop, since all have similar structure. Then append them together
   for (f in (ff[tools::file_ext(ff) == "xlsx"])) {
-    # print(f)
     dd <- data.frame(readxl::read_excel(f))
     dd$dataset_id <- dataset_id
     dd$country <- dd$Country
