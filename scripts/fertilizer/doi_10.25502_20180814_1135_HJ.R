@@ -63,7 +63,7 @@ carob_script <- function(path) {
 	# 2nd get agronomic data
 	f1 <- ff[basename(ff) == "Kiberashi_DT2010_plot.csv"]
 	d1 <- read.csv(f1)
-	d1$yield <- d1$TGrainYld
+	d1$yield <- d1$TGrainYld*1000
 	d1$residue_yield <- d1$Adj.TStoverYld*1000
 	d1$treatment <- d1$TrtDesc
 	d1$rep <- d1$Rep
