@@ -24,8 +24,8 @@ carob_script <- function(path) {
 	   publication="doi: 10.1017/S1742170519000504",
 	   data_citation = "",
 	   data_institutions = "International Crops Research Institute for the Semi-Arid Tropics (ICRISAT); Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ); Amhara Agricultural Research Institute (ARARI); International Livestock Research Institute (ILRI)",
-	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="___",
+	   carob_contributor="Siyabusa Mkhulani & Eduardo Garcia Bendito",
+	   experiment_type="On farm experimental trials",
 	   has_weather=FALSE,
 	   has_management=FALSE
 	)
