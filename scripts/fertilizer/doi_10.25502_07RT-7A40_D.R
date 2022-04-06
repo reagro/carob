@@ -65,8 +65,7 @@ carob_script <- function(path) {
         
  # Subset to columns of interest
     d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "season", "on_farm", "N_fertilizer", "P_fertilizer", "variety", "is_survey", "treatment", "rep", "crop", "grain_weight", "yield")]
-    dd <- rbind(d) 
-  }
+    dd <- rbind(d)
   
   # all scripts must end like this
   carobiner::write_files(dset, dd, path, dataset_id, group)
