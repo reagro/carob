@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
     
 ####
-  uri <- "https://doi.org/10.25502/07RT-7A40/D"
+  uri <- "https://doi.org/10.25502/07rt-7a40/d"
   dataset_id <- agro::get_simple_URI(uri)
   group <- "fertilizer"
   ## dataset level data. Internal annotation for CAROB 
@@ -18,9 +18,7 @@ carob_script <- function(path) {
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication="None",
-    data_citation = "P. Tofa, A., Kamara, A. Y., Babaji, B. A., Ademulegun, T. D., & Aliyu, K. T. (2021). Maize response to N and P [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/07RT-7A40/D",
-    data_institutions = "The International Institute of Tropical Agriculture (IITA)",
+    publication="",
     carob_contributor="Henry Juarez",
     experiment_type="fertilizer",
     has_weather=FALSE,
@@ -65,6 +63,6 @@ carob_script <- function(path) {
     d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "season", "on_farm", "N_fertilizer", "P_fertilizer", "variety", "is_survey", "treatment", "rep", "crop", "grain_weight", "yield")]
 
   # all scripts must end like this
-  carobiner::write_files(dset, d, path, dataset_id, group)
+    carobiner::write_files(dset, d, path, dataset_id, group)
   TRUE
 }  
