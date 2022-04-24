@@ -31,7 +31,9 @@ carob_script <- function(path) {
 
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=5) 
-	dset$license <- carobiner::get_license(js)
+	# No License specified in metadata. Only Terms of use available. It is registered as "CC BY 4.0"
+	# dset$license <- carobiner::get_license(js)
+	dset$license <- "CC BY 4.0"
 
 
 	f <- ff[basename(ff) == "9a Yield data.xlsx"]
