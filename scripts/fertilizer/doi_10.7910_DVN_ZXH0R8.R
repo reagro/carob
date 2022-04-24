@@ -34,7 +34,9 @@ carob_script <- function(path) {
 
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)
+	# No License specified in metadata. Only Terms of use available. It is registered as "CC BY 4.0"
+	# dset$license <- carobiner::get_license(js)
+	dset$license <- "Custom Dataset Terms"
 
 ## process 001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx
 	f <- ff[basename(ff) == "001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx"]
