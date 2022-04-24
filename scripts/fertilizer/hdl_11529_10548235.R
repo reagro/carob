@@ -41,7 +41,6 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "TZ_TAMASA_APS_2017_Yield_MetaData.xlsx"]
 
 	d <- as.data.frame(readxl::read_excel(f, sheet = "Corrected-Raw-Data", n_max = 1835))
-	d <- d[complete.cases(d[ , 13:14]),]
 	
 	d$country <- "Tanzania"
 	d$location <- d$Village
@@ -49,15 +48,16 @@ carob_script <- function(path) {
 	d$trial_id <- paste0(d$HHID, "-", d$QID)
 	d$latitude <- d$Latitude
 	d$longitude <- d$Longitude
-	d$start_date <- as.Date("01-05-2016", "%d-%m-%Y")
-	d$end_date <- as.Date("01-12-2016", "%d-%m-%Y")
+	d$start_date <- "2016-05-01"
+	d$end_date <- "2016-12-01"
 	d$on_farm <- "yes"
 	d$is_survey <- "yes"
 	d$crop <- "maize"
-	d$yield <- d$`FWt of Cobs_all (kg)`*4 # FWt of Cobs_all (kg) = Fresh Weight of Cobs in Quadrat (25m2)
+	# d$yield <- d$`FWt of Cobs_all (kg)`*4 # FWt of Cobs_all (kg) = Fresh Weight of Cobs in Quadrat (25m2)
+	d$yield <- d$`Grain yield (kg/ha@12.5%)` # Grain yield at 12.5% moisture
 	
 	# process file(s)
-	d <- d[,c("country", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "crop", "yield")]
+	d <- d[,c("country", "trial_id", "location", "site","latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "crop", "yield")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
