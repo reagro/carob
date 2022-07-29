@@ -1,4 +1,4 @@
-﻿name,sciname,harvest,fresh_moisture
+name,sciname,harvest,fresh_moisture
 barley,Hordeum vulgare,seed,
 cassava,Manihot esculenta,root,
 cassava leaves,Manihot esculenta,leaves,
@@ -17,3 +17,4 @@ sorghum,Sorghum bicolor,seed,
 sweetpotato,Ipomoea batatas,root,
 teff,Eragrostis tef,seed,
 wheat,Triticum aestivum,seed,
+soy_bean,Glycine max,seed,
