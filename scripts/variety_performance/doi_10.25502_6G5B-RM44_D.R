@@ -11,7 +11,6 @@ uri <- "doi:10.25502/6G5B-RM44/D"
 dataset_id <- agro::get_simple_URI(uri)
 group <- "variety_performance"
 
-
 ## dataset level data
 
 dset <- data.frame(
