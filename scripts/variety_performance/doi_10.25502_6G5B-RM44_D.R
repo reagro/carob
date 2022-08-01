@@ -11,7 +11,6 @@ uri <- "doi:10.25502/6G5B-RM44/D"
 dataset_id <- agro::get_simple_URI(uri)
 group <- "variety_performance"
 
-
 ## dataset level data
 
 dset <- data.frame(
@@ -45,27 +44,25 @@ f <- ff[basename(ff) == "data.csv"]
 d <- data.frame(read.csv2(f, sep = "," ))
 drop <- c("SN","instanceid")
 d = d[,!(names(d) %in% drop)]
-d
+
 
 f1 <- ff[basename(ff) == "soil_properties.csv"]
 d1 <- data.frame(read.csv2(f1, sep = "," ))
 drop <- c("SN","instanceid")
 d1 = d1[,!(names(d1) %in% drop)]
-d1
+
 
 f2 <- ff[basename(ff) == "general.csv"]
 d2 <- data.frame(read.csv2(f2, sep = "," ))
 drop <- c("SN","instanceid")
 d2 = d2[,!(names(d2) %in% drop)]
-d2
+
 
 ## Merging the dataframes to one, I use a full outer join
 
 d3 <- merge(d, d1, by = c("experiment_id","id"), all = TRUE)
-d3
 
 d4 <- merge(d3, d2, by = c("experiment_id","id"), all = TRUE)
-d4
 
 
 ###Combining the treatment columns to one
@@ -114,7 +111,7 @@ d4$crop[is.na(d4$crop)] = "common bean" # assuming all NA values are common bean
 d4$on_farm <- "yes"
 d4$latitude<- -0.02356
 d4$longitude <- 37.90619
-d4
+
 
 ### Joining the data frames to one data frame. The common column names.
 #   experiment_id will be merged. all the other columns that are not
