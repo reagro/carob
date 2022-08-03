@@ -34,16 +34,11 @@ carob_script <- function(path){
     has_management=FALSE
   )
   
-  # Weather is made up of multiple parameters: air temperature, atmospheric (barometric) pressure, humidity, precipitation, solar radiation and wind.
-  
   ## downloading data 
   
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- carobiner::get_license(js)
-  
-  # viewing the downloaded data
-  fs::dir_tree(path = paste0("C:/Users/User/Documents/IITA/carob/data/raw/", group,"/",dataset_id), recurse = TRUE)
   
   # reading the data.csv data
   f <- ff[basename(ff) == "data.csv"]
