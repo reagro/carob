@@ -67,7 +67,10 @@ carob_script <- function(path) {
     lapply(d[, c("above_ground_dry_biomass", "root_dry_weight_roots_no_nodules","nodule_dry_weight")], as.numeric)
   
   d$biomass_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules+d$nodule_dry_weight)
-  x <- d[,c("trial_id","rep","treatment","variety","start_date","end_date","grain_weight","yield","residue_yield","biomass_total")]
+    
+  d$fertilizer_type <- d$sub_treatment_inoc
+
+  x <- d[,c("trial_id","rep","treatment","variety","start_date","end_date","grain_weight","yield","residue_yield","biomass_total", "fertilizer_type")]
   
   # reading the general.csv data
   f <- ff[basename(ff) == "general.csv"]
