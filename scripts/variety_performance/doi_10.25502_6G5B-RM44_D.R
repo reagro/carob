@@ -95,6 +95,7 @@ d4$yield <- d4$grain_yield_ha_calc
 d4$residue_yield <- d4$tot_stover_yield_haulm_husks_calc
 d4$biomass_total <- d4$total_biomass
 d4$biomass_roots <- d4$root_dry_weight_roots_no_nodules
+d4$fertilizer_type <- ifelse()d4$sub_treatment_inoc
 d4$soil_pH <- d4$ph
 d4$soil_K <- d4$k
 d4$soil_sand <- d4$sand
