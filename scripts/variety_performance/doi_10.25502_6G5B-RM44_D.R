@@ -121,7 +121,7 @@ d4$longitude <- 37.90619
 
 
 d4 <- d4[, c("country","trial_id","location", "rep", "treatment", "variety", "start_date",
-             "end_date", "yield", "residue_yield", "biomass_total", "biomass_roots",  "crop",
+             "end_date", "yield", "residue_yield", "biomass_total", "biomass_roots", "fertilizer_type", "crop",
              "soil_pH", "soil_K", "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm",
              "latitude", "longitude")]
 
