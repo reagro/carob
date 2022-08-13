@@ -95,6 +95,7 @@ d4$yield <- d4$grain_yield_ha_calc
 d4$residue_yield <- d4$tot_stover_yield_haulm_husks_calc
 d4$biomass_total <- d4$total_biomass
 d4$biomass_roots <- d4$root_dry_weight_roots_no_nodules
+d4$fertilizer_type <- d4$sub_treatment_inoc
 d4$soil_pH <- d4$ph
 d4$soil_K <- d4$k
 d4$soil_sand <- d4$sand
@@ -120,7 +121,7 @@ d4$longitude <- 37.90619
 
 
 d4 <- d4[, c("country","trial_id","location", "rep", "treatment", "variety", "start_date",
-             "end_date", "yield", "residue_yield", "biomass_total", "biomass_roots",  "crop",
+             "end_date", "yield", "residue_yield", "biomass_total", "biomass_roots", "fertilizer_type", "crop",
              "soil_pH", "soil_K", "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm",
              "latitude", "longitude")]
 
