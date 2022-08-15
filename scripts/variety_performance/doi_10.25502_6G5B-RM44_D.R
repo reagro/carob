@@ -106,7 +106,7 @@ d4$country <- replace(d4$country,1:nrow(d4),"Kenya")
 d4$location <-d4$mandate_area_name
 
 d4$crop <- ifelse(d4$crop == "SOYBEAN "|d4$crop == "SOY BEANS "|d4$crop == "SOY BEANS VARIETY"|
-                    d4$crop == "SOY BEANS ROT"|d4$crop == "SOYBEAN","soy_bean","common bean")
+                    d4$crop == "SOY BEANS ROT"|d4$crop == "SOYBEAN","soybean","common bean")
 
 d4$crop[is.na(d4$crop)] = "common bean" # assuming all NA values are common beans
 d4$on_farm <- "yes"
