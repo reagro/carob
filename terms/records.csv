@@ -2,9 +2,9 @@ name,unit,required,vocabulary,multiple_allowed,description,notes
 dataset_id,,yes,,,id (normalized uri),
 country,,yes,countries,yes,country name,
 region,,,,,grouping of countries by location and culture e.g. Middle East or Sub-Saharan Africa,
-adm1,,,,,first level administrative subdivision e.g. states in the USA or counties in Kenya,follow GADM,
-adm2,,,,,second level administrative subdivision within the first level subdivision e.g. counties in the USA or sub-counties in Kenya,follow GADM,
-adm3,,,,,third level administrative subdivision within the second level subdivision e.g. townships in the USA or wards in Kenya,follow GADM,
+adm1,,,,,first level administrative subdivision e.g. states in the USA or counties in Kenya,follow GADM
+adm2,,,,,second level administrative subdivision within the first level subdivision e.g. counties in the USA or sub-counties in Kenya,follow GADM
+adm3,,,,,third level administrative subdivision within the second level subdivision e.g. townships in the USA or wards in Kenya,follow GADM
 location,,,,,name of the location of the experiment,
 site,,,,,name of the sub-location of the experiment,
 trial_id,,yes,,,identifier of a single trial (that may have treatments and replicates); should be unique witin dataset_id,
