@@ -43,8 +43,18 @@ carob_script <- function(path){
   # reading the data.csv data
   f <- ff[basename(ff) == "data.csv"]
   d <- read.csv(f)
-  d
-  colnames(d)
+
+  # Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
+  # and Urea split (50-50) applied at a rate of 60 kg N/ha in Kenya and Rwanda trials
+  
+  d$fertilizer_type <- d$sub_treatment_fert
+  d$N_fertilizer[d$fertilizer_type == "TSP/KCL/Urea"] <- 60
+  
+  d$P_fertilizer[d$fertilizer_type == "TSP/KCL"|d$fertilizer_type == "DAP"|d$fertilizer_type == "TSP/KCL/Urea"
+                 |d$fertilizer_type == "TSP"] <- 30
+  
+  d$K_fertilizer[d$fertilizer_type == "TSP/KCL"|d$fertilizer_type == "TSP/KCL/Urea"] <- 30
+  
   d$trial_id <- d$experiment_id
   d$rep <- d$replication_no
   d$treatments <- paste0("main treatment: ",d$main_treatment," |","subtreatment inoculation : ",d$sub_treatment_inoc, 
@@ -55,7 +65,7 @@ carob_script <- function(path){
   d$start_date <- d$planting_date
   d$harvest_date <- as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd,sep = "-"))
   d$end_date <- d$harvest_date
-  d
+  
   d[, c("above_ground_dry_biomass", "root_dry_weight_roots_no_nodules","nodule_dry_weight")] <- 
     lapply(d[, c("above_ground_dry_biomass", "root_dry_weight_roots_no_nodules","nodule_dry_weight")], as.numeric)
   
@@ -63,13 +73,13 @@ carob_script <- function(path){
   d$yield <- d$grain_yield_ha_calc
   d$residue_yield <- d$tot_stover_yield_haulm_husks_calc
   d$grain_weight <- as.numeric(d$dry_weight_100_seeds)*10
-  x <- d[,c("trial_id","rep","treatment","variety","start_date","end_date","biomass_total","yield","residue_yield","grain_weight")]
+  x <- d[,c("trial_id","rep","treatment","variety","start_date","end_date","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","biomass_total","yield","residue_yield","grain_weight")]
   
   # reading the rust_score.csv data
   
   f <- ff[basename(ff) == "rust_score.csv"]
   d1 <- read.csv(f)
-  d1
+  
   d1$trial_id <- d1$experiment_id
   d1$rep <- d1$replication_no
   d1$sub_treatment_inoc <- replace(d1$sub_treatment_inoc,1:nrow(d1),"Inoculated")
@@ -79,13 +89,16 @@ carob_script <- function(path){
   d1$on_farm <- "yes"
   d1$latitude <-	-0.02356
   d1$longitude <-	37.90619
-  x1 <- d1[,c("trial_id","rep","on_farm","variety","latitude","longitude","treatment")]
-  x1
+  d1$fertilizer_type <- d1$sub_treatment_fertiliser
+  d1$N_fertilizer[d1$fertilizer_type == "TSP/KCL/Urea"] <- 60
+  d1$P_fertilizer[d1$fertilizer_type == "TSP/KCL/Urea"] <- 30
+  d1$K_fertilizer[d1$fertilizer_type == "TSP/KCL/Urea"] <- 30
+  x1 <- d1[,c("trial_id","rep","on_farm","variety","latitude","longitude","treatment",
+              "fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer")]
   
   # reading the soil_properties.csv data
   f <- ff[basename(ff) == "soil_properties.csv"]
   d2 <- read.csv(f)
-  d2
   d2$trial_id <- d2$experiment_id
   d2$adm1 <- d2$mandate_area_name
   d2$dates <- as.Date(paste(d2$date_checked_yyyy,d2$date_checked_mm,d2$date_checked_dd,sep = "-")) #date in "yyyy-mm-dd"
@@ -96,11 +109,10 @@ carob_script <- function(path){
   # assumption is that there are only two bean types,soybeans and common beans
   d2$crop <- ifelse(d2$crop == "SOY BEANS INPUT"|d2$crop == "SOY BEAN-RUST EVALUATION"|d2$crop == "SOY BEANS ROT"|d2$crop == "RUST EVALUATION -MUMIAS","soybean","common bean")
   x2 <- d2[,c("trial_id", "country","location","adm1","observation_date","crop")]
-  x2
   
-  # combining into 1 dataset
-  
-  y <- merge(x,x1,by = c("trial_id","rep","treatment", "variety"),all = TRUE)
+  # combining into 1 final dataset
+  y <- merge(x,x1,by = c("trial_id","rep","treatment", "variety",
+                         "fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer"),all = TRUE)
   z <- merge(y,x2,by = c("trial_id"),all = TRUE)
   z$dataset_id <- dataset_id
   z$on_farm <- replace(z$on_farm,1:nrow(z),"yes")
