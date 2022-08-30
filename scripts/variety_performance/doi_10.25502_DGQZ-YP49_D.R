@@ -101,6 +101,15 @@ carob_script <- function(path){
   d$end_date <- paste(d$date_harvest_yyyy, d$date_harvest_mm, d$date_harvest_dd, sep = "-")
   d$treatment <- paste(d$main_treatment,d$sub_treatment_inoc,d$sub_treatment_fert, sep = "-")
   
+  #adding fertilizer information
+   d$f1<- d$main_treatment
+   d$f2<- d$sub_treatment_inoc
+   d$f3<- d$sub_treatment_fert
+   d$K_fertilizer[d$f1 == "TSP/KCL/Urea"|d$f2 == "TSP/KCL/UREA" |d$f2 =="TSP/KCL"|d$f2 == "TSP/KCL/Urea"| d$f3 == "TSP/KCL"|d$f3 == "TSP/KCL/Urea"]<- 30
+   d$P_fertilizer[d$f1 == "TSP/KCL/Urea"|d$f2 == "TSP/KCL/UREA" |d$f2 =="TSP/KCL"|d$f2 == "TSP/KCL/Urea"|d$f3 == "TSP/KCL"|d$f3 == "TSP/KCL/Urea"]<- 30
+   d$N_fertilizer[d$f1 == "TSP/KCL/Urea"|d$f2 == "TSP/KCL/UREA"|d$f3 == "TSP/KCL/Urea"]<- 60
+   d$N_splits[d$f1 =="TSP/KCL/Urea"|d$f2 == "TSP/KCL/Urea"|d$f2 == "TSP/KCL/UREA"|d$f3 == "TSP/KCL/Urea" ]<-2
+  
   #changing the character variables to numeric using lapply
   
   d[, c("above_ground_dry_biomass", "root_dry_weight_roots_no_nodules",
