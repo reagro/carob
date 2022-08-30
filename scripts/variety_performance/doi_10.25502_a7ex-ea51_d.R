@@ -6,6 +6,7 @@
 #################################################################################
 
 carob_script <- function(path){
+path <- "c:/Users/User/IITA/carob/"
 uri <- "doi.org/10.25502/a7ex-ea51/d"
 dataset_id <- agro::get_simple_URI(uri)
 group <- "variety_performance"
@@ -41,7 +42,7 @@ dset <- data.frame(
 # read the data
  f <- ff[basename(ff) == "data.csv"]
  d <- data.frame(read.csv2(f, sep = ","))
- d
+ 
  f1 <- ff[basename(ff) == "general.csv"]
  d1 <- data.frame(read.csv2(f1, sep = ","))
  
@@ -49,7 +50,7 @@ dset <- data.frame(
  d2 <- data.frame(read.csv2(f2, sep = ","))
  
 #create a "variable 'crop' and fill it using the varieties, data set had no crop variable
- d[ , 'crop'] <- 
+ d$crop  <-
  d$crop[d$variety == "Peka 6"] <- "soybean"
  d$crop[d$variety == "RWA 1668"] <- "common bean"
  d$crop[d$variety == "Peka6"] <- "soybean"
@@ -70,16 +71,25 @@ dset <- data.frame(
  d$treatment <- paste(d$main_treatment,d$sub_treatment_inoc,d$sub_treatment_fert, sep = "-")
  d$biomass_roots <- d$root_dry_weight_roots_no_nodules
  d$biomass_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules + d$nodule_dry_weight)
+
+ # adding the fertilizer information
+ d$fertilizer_combination <- d$sub_treatment_inoc
+ d$P_fertilizer[d$fertilizer_combination == "DAP "| d$fertilizer_combination == "DAP"|
+                  d$fertilizer_combination == "TSP" | d$fertilizer_combination == "TSP/KCL"] <- 30
  
+ d$K_fertilizer[d$fertilizer_combination == "TSP/KCL"]<- 30
+
  #subset the processed variables
- d <- d[, c("trial_id", "rep", "on_farm","start_date","end_date", "treatment", "biomass_roots","biomass_total", "crop")]
+ d <- d[, c("trial_id", "rep", "on_farm","start_date","end_date", "treatment", "biomass_roots","biomass_total", "crop","P_fertilizer","K_fertilizer")]
  
  d1$trial_id <- d1$experiment_id
  d1$country <-"Rwanda"
+ d1$adm2 <- d1$mandate_area_name
  d1$site <- d1$action_site
  
+
 #subset the processed variables
- d1 <- d1 [, c("trial_id", "country", "site")] 
+ d1 <- d1 [, c("trial_id", "country", "site","adm2")]
  
  d2$trial_id <- d2$experiment_id
  d2$soil_pH <- d2$ph
