@@ -6,7 +6,6 @@
 #################################################################################
 
 carob_script <- function(path){
-path <- "c:/Users/User/IITA/carob/"
 uri <- "doi.org/10.25502/a7ex-ea51/d"
 dataset_id <- agro::get_simple_URI(uri)
 group <- "variety_performance"
@@ -17,7 +16,7 @@ dset <- data.frame(
   dataset_id = dataset_id,
   group = group,
   uri = uri,
-  publication = "",
+  publication = "doi.org/10.1016/j.agee.2017.08.015",
   data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, 
   E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, 
   P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, 
