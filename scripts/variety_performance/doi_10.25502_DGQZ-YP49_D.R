@@ -124,7 +124,7 @@ carob_script <- function(path){
   
   #subset the processed variables
   
-  d <- d[,c("trial_id","rep","on_farm","start_date","end_date","treatment","biomass_roots","biomass_total", "crop")]
+  d <- d[,c("trial_id","rep","on_farm","start_date","end_date","treatment","biomass_roots","biomass_total", "crop", "K_fertilizer","P_fertilizer","N_fertilizer","N_splits")]
   
   
   d1$trial_id <- d1$experiment_id
