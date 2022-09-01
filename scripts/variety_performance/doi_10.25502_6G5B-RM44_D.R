@@ -58,27 +58,15 @@ drop <- c("SN","instanceid")
 d2 = d2[,!(names(d2) %in% drop)]
 
 
-## Merging the dataframes to one
+## Merging the dataframes to one, I use a full outer join
 
 d3 <- merge(d, d1, by = c("experiment_id","id"), all = TRUE)
 
 d4 <- merge(d3, d2, by = c("experiment_id","id"), all = TRUE)
 
+
 ###Combining the treatment columns to one
-
 d4$treatments <- paste0("main treatment: ",d4$main_treatment," | ","inoculant treatment: " ,d4$sub_treatment_inoc," | ","fertilizer treatment: " ,d4$sub_treatment_fert)
-    
-# Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
-#and Urea split (50-50) applied at a rate of 60 kg N/ha."
-
-d4$fertilizer_type <- d4$sub_treatment_fert
-d4$N_fertilizer[d4$fertilizer_type == "TSP/KCL/UREA"] <- 60
-d4$P_fertilizer[d4$fertilizer_type == "TSP/KCL"|d4$fertilizer_type == "TSP/KCl"|
-                  d4$fertilizer_type == "TSP/KCL/UREA"|d4$fertilizer_type == "TSP"|
-                  d4$fertilizer_type == "DAP"] <- 30
-d4$K_fertilizer[d4$fertilizer_type == "TSP/KCL"|
-                            d4$fertilizer_type == "TSP/KCl"|d4$fertilizer_type == "TSP/KCL/UREA"|
-                            d4$fertilizer_type == "KCl"|d4$fertilizer_type == "KCL"] <- 30
 
 ###combining the planting dates columns into one
 d4$plant_dates <- paste( d4$planting_date_yyyy, d4$planting_date_mm,
@@ -87,6 +75,7 @@ d4$plant_dates <- paste( d4$planting_date_yyyy, d4$planting_date_mm,
 ###combining the harvest dates
 d4$harvest_dates <- paste(d4$date_harvest_yyyy, d4$date_harvest_mm,
                           d4$date_harvest_dd, sep = "-")
+# d4$harvest_dates <- as.Date(d4$harvest_dates)
 
 ## Getting the total biomass
 
@@ -106,6 +95,7 @@ d4$yield <- d4$grain_yield_ha_calc
 d4$residue_yield <- d4$tot_stover_yield_haulm_husks_calc
 d4$biomass_total <- d4$total_biomass
 d4$biomass_roots <- d4$root_dry_weight_roots_no_nodules
+d4$fertilizer_type <- d4$sub_treatment_inoc
 d4$soil_pH <- d4$ph
 d4$soil_K <- d4$k
 d4$soil_sand <- d4$sand
@@ -123,10 +113,17 @@ d4$on_farm <- "yes"
 d4$latitude<- -0.02356
 d4$longitude <- 37.90619
 
+
+### Joining the data frames to one data frame. The common column names.
+#   experiment_id will be merged. all the other columns that are not
+# will stay as is This is an Inner Join.
+
+
+
 d4 <- d4[, c("country","trial_id","location", "rep", "treatment", "variety", "start_date",
-             "end_date", "yield", "residue_yield", "biomass_total", "biomass_roots", "fertilizer_type",
-             "N_fertilizer","K_fertilizer","P_fertilizer","crop","soil_pH", "soil_K", "soil_sand", 
-             "soil_clay", "soil_SOC", "soil_N", "on_farm","latitude", "longitude")]
+             "end_date", "yield", "residue_yield", "biomass_total", "biomass_roots", "fertilizer_type", "crop",
+             "soil_pH", "soil_K", "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm",
+             "latitude", "longitude")]
 
 
 d4$dataset_id <- dataset_id
