@@ -49,13 +49,13 @@ carob_script <- function(path) {
   d$trial_id <- d$experiment_id
   d$rep <- d$replication_no
   
+  # Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
+  # and Urea split (50-50) applied at a rate of 60 kg N/ha
+  
   d$treatments <- paste("main treatment: ",d$main_treatment," |","subtreatment inoculation : ",d$sub_treatment_inoc)
   d$treatment <- d$treatments
   d$planting_date <- as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-"))
   d$start_date <- d$planting_date
-  
-  # Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
-  # and Urea split (50-50) applied at a rate of 60 kg N/ha
   
   d$fertilizer_type <- d$sub_treatment_inoc
   d$P_fertilizer <- ifelse(d$fertilizer_type == "DAP"|d$fertilizer_type == "TSP"|d$fertilizer_type == "TSP/KCL"|
@@ -71,6 +71,8 @@ carob_script <- function(path) {
   d$N_fertilizer <- ifelse(d$fertilizer_type == "PK6+Urea"|d$fertilizer_type == "PK6 +Urea"|d$fertilizer_type == "TSP/KCL+UREA"|
                              d$fertilizer_type == "TSP/KCL +UREA"|d$fertilizer_type == "TSP/KCl+UREA"|d$fertilizer_type == "TSP/KCL/UREA"|
                              d$fertilizer_type == "TSP/KCl/Urea"|d$fertilizer_type == "TSP/KCl+urea",60,NA)
+  
+  
   
   d$harvest_date <- as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-"))
   d$end_date <-d$harvest_date
