@@ -1,5 +1,4 @@
 
-
 "
 Title: N2Africa agronomy trials - Rwanda, 2010
   
@@ -47,15 +46,33 @@ carob_script <- function(path) {
   f <- ff[basename(ff) == "data.csv"]
   d <- read.csv(f)
   
-  # sub_treatment_fert has no values so it shall be ignored
   d$trial_id <- d$experiment_id
   d$rep <- d$replication_no
   
+  # Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
+  # and Urea split (50-50) applied at a rate of 60 kg N/ha
+  
   d$treatments <- paste("main treatment: ",d$main_treatment," |","subtreatment inoculation : ",d$sub_treatment_inoc)
   d$treatment <- d$treatments
-  
   d$planting_date <- as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-"))
   d$start_date <- d$planting_date
+  
+  d$fertilizer_type <- d$sub_treatment_inoc
+  d$P_fertilizer <- ifelse(d$fertilizer_type == "DAP"|d$fertilizer_type == "TSP"|d$fertilizer_type == "TSP/KCL"|
+                             d$fertilizer_type == "TSP/KCL+UREA"|d$fertilizer_type == "TSP/KCL +UREA"|d$fertilizer_type == "TSP/KCl"|
+                             d$fertilizer_type == "TSP/KCl+UREA"|d$fertilizer_type == "TSP/KCL/UREA"|
+                             d$fertilizer_type == "TSP/KCl/Urea"|d$fertilizer_type == "TSP/KCl+urea",30,NA)
+  
+  d$K_fertilizer <- ifelse(d$fertilizer_type == "TSP/KCL"|d$fertilizer_type == "TSP/KCL+UREA"|
+                             d$fertilizer_type == "TSP/KCL +UREA"|d$fertilizer_type == "TSP/KCl"|
+                             d$fertilizer_type == "TSP/KCl+UREA"|d$fertilizer_type == "TSP/KCL/UREA"|
+                             d$fertilizer_type == "TSP/KCl/Urea"|d$fertilizer_type == "TSP/KCl+urea",30,NA)
+  
+  d$N_fertilizer <- ifelse(d$fertilizer_type == "PK6+Urea"|d$fertilizer_type == "PK6 +Urea"|d$fertilizer_type == "TSP/KCL+UREA"|
+                             d$fertilizer_type == "TSP/KCL +UREA"|d$fertilizer_type == "TSP/KCl+UREA"|d$fertilizer_type == "TSP/KCL/UREA"|
+                             d$fertilizer_type == "TSP/KCl/Urea"|d$fertilizer_type == "TSP/KCl+urea",60,NA)
+  
+  
   
   d$harvest_date <- as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-"))
   d$end_date <-d$harvest_date
@@ -67,10 +84,9 @@ carob_script <- function(path) {
     lapply(d[, c("above_ground_dry_biomass", "root_dry_weight_roots_no_nodules","nodule_dry_weight")], as.numeric)
   
   d$biomass_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules+d$nodule_dry_weight)
-    
-  d$fertilizer_type <- d$sub_treatment_inoc
 
-  x <- d[,c("trial_id","rep","treatment","variety","start_date","end_date","grain_weight","yield","residue_yield","biomass_total", "fertilizer_type")]
+  x <- d[,c("trial_id","rep","treatment","variety","start_date","end_date","grain_weight","yield","residue_yield",
+            "biomass_total", "fertilizer_type","N_fertilizer","K_fertilizer","P_fertilizer")]
   
   # reading the general.csv data
   f <- ff[basename(ff) == "general.csv"]
@@ -79,8 +95,6 @@ carob_script <- function(path) {
   d1$location <- d1$action_site
   d1$adm1 <- d1$mandate_area_name
   x1 <- d1[,c("trial_id","location","adm1","country","crop")]
-  
-  # rust_score.csv data contains no data
   
   # reading the soil_properties.csv data
   f <- ff[basename(ff) == "soil_properties.csv"]
@@ -95,21 +109,18 @@ carob_script <- function(path) {
   
   
   # combining into 1 data set
-  w <- carobiner::bindr(x,x1,x2)
-  w$crop <- tolower(w$crop)
-  w$crop <- ifelse(w$crop == "bush beans"|w$crop == "bush bean"|w$crop == "bush beans "
-                   |w$crop == "climbing beans "|w$crop == "climbing beans"|w$crop == "climbing bean","common bean",
-                   ifelse(w$crop == "soybeans"|w$crop == "soy beans input"|w$crop == "soybean "
-                          |w$crop == "soybean","soybean","common bean"))
-  w$crop <- replace(w$crop,1:1440,"common bean") # filled all NA values with common bean crop
-  w$crop <- replace(w$crop,1489:1536,"common bean") # filled all NA values with common bean crop
-  w$country <- replace(w$country,1:nrow(w),"Rwanda")
+  y <- merge(x,x1,by = "trial_id",all = TRUE)
+  w <- merge(y,x2,by = "trial_id",all = TRUE)
+  
+  w$dataset_id <- dataset_id
   w$on_farm <- "yes"
   w$latitude <- -1.94028
   w$longitude <- 29.87389
-  w$dataset_id <- dataset_id
-  
+  w$crop <- ifelse(w$crop %in% c("Bush Beans","Climbing Beans","Bush bean","Bush BEAN","Bush BEANS ","Bush BEANS",
+                                  "Climbing BEANS ","Climbing bean"),"common bean",
+                    ifelse(w$crop %in% c("Soybeans","SOY BEANS INPUT","SOYBEAN","Climbing bean","SOYBEAN "),"soybean","common bean")) # filled all NA values with common bean crop
   # all scripts must end like this
   carobiner::write_files(dset, w, path, dataset_id, group)
   TRUE
 }
+
