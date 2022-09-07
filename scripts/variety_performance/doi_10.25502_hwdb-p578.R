@@ -1,0 +1,120 @@
+#################################################################################
+#N2Africa was aimed at increasing biological nitrogen fixation and productivity
+#of grain legumes through effective production technologies including inoculants
+#and fertilizers adapted to local settings which was aimed at increasing soil
+#fertility.The trails were conducted in 11 african countries
+#################################################################################
+
+carob_script <- function(path){
+  uri  <- "doi.org/10.25502/hwdb-p578"
+  dataset_id <- agro::get_simple_URI(uri)
+  group <- "variety_performance"
+  
+  #dataset level data
+  
+  dset <- data.frame(
+    dataset_id = dataset_id,
+    group = group,
+    uri = uri,
+    publication = "",
+    data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., 
+    Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, 
+    F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa farm 
+    monitoring - Mozambique, 2012 - 2013 [Data set]. International Institute of 
+    Tropical Agriculture (IITA). https://doi.org/10.25502/HWDB-P578",
+    carob_contributor = "Effie Ochieng",
+    experiment_type = "variety_performance",
+    has_weather =  TRUE,
+    has_management = FALSE
+  )
+  
+  #Registering the dataset
+  ff <- carobiner::get_data(uri,path,group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
+  dset$license <- carobiner::get_license(js) 
+  
+  # read the data
+  f <- ff[basename(ff) == "a_general.csv"]
+  d <- data.frame(read.csv2(f, sep = ","))
+  f1 <- ff[basename(ff)== "c_use_of_package_1.csv"]
+  d1 <- data.frame(read.csv2(f1, sep = ","))
+  f2 <- ff[basename(ff) == "d_cropping_calendar.csv"]
+  d2 <- data.frame(read.csv2(f2, sep = ","))
+  f3 <- ff[basename(ff) == "c_use_of_package_3.csv"]
+  d3<- data.frame(read.csv2(f3, sep = ",")) 
+  f4 <- ff[basename(ff) == "e_harvest.csv"]
+  d4 <- data.frame(read.csv2(f4, sep = ","))
+  f5 <- ff[basename(ff) == "b_info_site_2.csv"]
+  d5<- data.frame(read.csv2(f5, sep = ","))
+  
+  #start processing the 1st data
+  d$trial_id <- d$farm_id
+  d$adm1 <- d$action_site
+  d$adm2 <- d$sector_ward
+  d$adm3 <- d$vilage
+  
+  d<- d[,c("trial_id","adm1","adm2","adm3")]
+  
+  
+  #process the 2nd data set
+  d1$trial_id <- d1$farm_id
+  #cleaning d1$min_fertilizer_type 
+  d1$min_fertilizer_type[d1$min_fertilizer_type ==  "SSP/Urea" |d1$min_fertilizer_type ==  "SSP+Ureia"|d1$min_fertilizer_type == "Urea+SSP"]<- "SSP+Urea"  
+  d1$min_fertilizer_type[d1$min_fertilizer_type == "Ureia"]<- "Urea"  
+  d1$min_fertilizer_type[d1$min_fertilizer_type == "ssp" |d1$min_fertilizer_type =="Phosphor(SSP)"]<- "SSP"
+  #adding the fertilizer inputs 
+  #d1$min_fertilizer_type ==  "Y" to be determined what yes mean? which fertilizer is this?
+  d1$P_fertilizer[d1$min_fertilizer_type ==  "SSP"|d1$min_fertilizer_type == "SSP+Urea"|d1$min_fertilizer_type == "SSP+Inoc"]<-30 #found by calculating elemental P in SSP applied to the plot size and converted to kg/ha
+  d1$N_fertilizer[d1$min_fertilizer_type == "SSP+Urea"|d1$min_fertilizer_type == "Urea"]<- 3 #found by calculating elemental N in Urea applied in the plot size and converted to kg/ha
+  
+  d1 <- d1[, c("trial_id","crop","variety","P_fertilizer","N_fertilizer")]
+  
+  #process the 3rd data set
+  d2$trial_id <- d2$farm_id
+  d2$start_date <- paste(d2$date_planting_yyyy,d2$date_planting_mm,d2$date_planting_dd, sep = "-")
+  
+  d2 <- d2[, c("start_date","trial_id")]
+  
+  #process the 4th dataset
+  d3$trial_id <- d3$farm_id
+  d3$spacing <- 50 * 10 |50 * 15| 15 * 50 #spacing is row to row by plant to plant in cm
+  
+  d3 <- d3[, c("trial_id","spacing")]
+  
+  #process the 5th dataset
+  d4$trial_id <- d4$farm_id
+  #d$grain_weight <- d4$weight_grain * is this in g/1000 seeds? * convert to numeric first
+  # to get the yield lets change (d4$weight_kg) to numeric
+  d4$weight_kg <- as.numeric(d4$weight_kg)
+  d4$yield <-(10000/d4$area_harvested_m2)*d4$weight_kg #to convert the yield per ha, multiply by 10000
+  
+  d4 <- d4[, c("trial_id","yield")]
+  
+  #process the 6th dataset
+  d5$trial_id <- d5$farm_id
+  d5$previous_crop <- d5$main_crop_last_season
+  
+  d5 <- d5[, c("previous_crop","trial_id")]
+  
+  #merge the datasets
+  q <- carobiner::bindr(d,d1,d2,d3,d4,d5)
+  
+  q$country <- "Mozambique"
+  q$latitude <- -18.66569
+  q$longitude <- 35.52956
+  
+  #cleaning up the crop variable
+  q$crop <- ifelse(q$crop %in% c("Groudnuit", "Groundnuit"), "groundnut",
+                   ifelse(q$crop %in% c("Soybean","Soybean PD1","Soybean PD2","Soybean (Farmer variety)","Soyben","100"),"soybean","groundnut")) 
+  # NA and 100 were randomly filled with groundnut and soybean respectively 
+  
+  
+  q <- q[, c("trial_id","country","adm1","adm2","adm3","crop","variety","P_fertilizer","N_fertilizer","start_date",
+             "spacing","yield","previous_crop", "latitude","longitude")]
+  
+  q$dataset_id <- dataset_id
+  
+  # all scripts should end like this
+  carobiner::write_files(dset, q, path, dataset_id, group)
+  TRUE
+}
