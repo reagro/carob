@@ -56,8 +56,14 @@ d$start_date <-paste(d$planting_date_yyyy, d$planting_date_mm, d$planting_date_d
 d$end_date <- paste(d$date_harvest_yyyy, d$date_harvest_mm, d$date_harvest_dd, sep = "-")
 d$yield <- d$grain_yield_ha_calc
 
+#adding fertilizer information
+d$P_fertilizer[d$sub_treatment_inoc == "TSP"|d$sub_treatment_inoc == "TSP/KCL+UREA"|d$sub_treatment_inoc =="TSP/KCL"|d$sub_treatment_inoc =="TSP/KCL +UREA"]<- 30
+d$K_fertilizer[d$sub_treatment_inoc == "TSP/KCL+UREA"|d$sub_treatment_inoc =="TSP/KCL"|d$sub_treatment_inoc == "TSP/KCL +UREA"]<- 30
+d$N_fertilizer[d$sub_treatment_inoc =="TSP/KCL+UREA"|d$sub_treatment_inoc == "TSP/KCL +UREA"|d$sub_treatment_inoc =="PK6+Urea"|d$sub_treatment_inoc =="SB24+Urea"]<-60
+d$N_splits <- 2
+
 # subsetting the processed variables
-d <- d [, c("trial_id","rep","on_farm","start_date","end_date","yield")]
+d <- d [, c("trial_id","rep","on_farm","start_date","end_date","yield","P_fertilizer","K_fertilizer","N_fertilizer","N_splits")]
 
 d1$trial_id <- d1$experiment_id
 d1$country <- "Rwanda"
