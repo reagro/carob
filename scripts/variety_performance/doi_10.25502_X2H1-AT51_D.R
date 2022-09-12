@@ -25,8 +25,8 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication= "https://www.tandfonline.com/doi/pdf/10.1080/23311932.2020.1722353",
-    data_citation = "vanlauwe, bernard, Samuel, A.-N., Endalkachew, W., Peter, E., Freddy, B., Jean-Marie, S., Paul, W., Regis, C., Lloyd, P., Nkeki, K., Theresa, A.-B., Esther, R., Fred, K., Ken, G., Edward, B., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Ehtiopia, 2013 [Data set].
+    publication= "https://doi.org/10.1080/23311932.2020.1722353",
+    data_citation = "Vanlauwe, Bernard, Samuel, A.-N., Endalkachew, W., Peter, E., Freddy, B., Jean-Marie, S., Paul, W., Regis, C., Lloyd, P., Nkeki, K., Theresa, A.-B., Esther, R., Fred, K., Ken, G., Edward, B., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Ehtiopia, 2013 [Data set].
     International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/X2H1-AT51/D",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
@@ -94,7 +94,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   
   # processing soil_data.csv
   f7 <- ff[basename(ff) == "soil_data.csv"]
-  d7<- data.frame(read.csv2(f7, sep = "," ))
+  d7<- data.frame(read.csv2(f7, sep = "," )) 
   d7$trial_id <- d7$farm_id
   d7$soil_pH <- d7$ph
   d7$soil_SOC <- d7$tc_perc
@@ -123,3 +123,4 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   carobiner::write_files(dset, f, path, dataset_id, group)
   TRUE
 }
+
