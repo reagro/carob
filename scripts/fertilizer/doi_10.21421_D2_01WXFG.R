@@ -1,11 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-#Not showing license, showing question mark
-
-#remotes::install_github("reagro/carobiner")
-library(carobiner)
-path<-"/Users/siyabusa/OneDrive - CGIAR/EiA/Scripts/carob"
 carob_script <- function(path) {
   
   "Description
