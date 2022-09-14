@@ -46,12 +46,16 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
   e$is_survey<-FALSE
   
   #Replace values in a data frame
-  e["location"][e["location"]=="BUK"]<-"Bayero"
+  e$location <- ifelse(d$Location == "BUK", "Bayero", d$Location)
+  e$longitude <- ifelse(e$location == "Minjibir", 8.637, 8.429)
+  e$latitude <- ifelse(e$location == "Minjibir", 12.192, 11.975)
+  e$start_date <- "2014-06-01" # Assuming this start date...
+  e$end_date <- as.character(as.Date(e$start_date, "%Y-%m-%d") + d$Mat_c_day)
+
   
-  e$adm1[e$location=='Minjibir']<-'Kano'
-  e$adm1[e$location=='Bayero']<-'Kano'
+  e$adm1 <-'Kano'
   
-  e<-e[c("dataset_id","country", "adm1",'location',"trial_id", "season","on_farm", "is_survey", "rep", "crop", "variety_type","residue_yield", "yield", "grain_weight", "P_fertilizer")]
+  e<-e[c("dataset_id", "country", "adm1",'location',"trial_id", "longitude", "latitude", "start_date", "end_date", "season", "on_farm", "is_survey", "rep", "crop", "variety_type", "biomass_stems", "yield", "grain_weight", "P_fertilizer")]
    
  carobiner::write_files(dset, e, path, dataset_id, group)
 }
