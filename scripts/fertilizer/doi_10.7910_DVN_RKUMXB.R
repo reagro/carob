@@ -52,7 +52,7 @@ carob_script <- function(path) {
 	ff  <- carobiner::get_data(uri, path, group)
 	f <- ff[basename(ff) == "02. ET_data_June2017.csv"]
 	## read the json for version, license, terms of use  
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
 	# No License specified in metadata. Only Terms of use available. It is registered as "CC BY 4.0"
 	# dset$license <- carobiner::get_license(js)
 	dset$license <- "CC BY 4.0"
