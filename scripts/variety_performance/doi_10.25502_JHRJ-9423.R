@@ -72,7 +72,7 @@ e3 <- d3[, c(3,6,7)]
 colnames(e3) <- c("trial_id","row_spacing","plant_spacing")
 
 d4$trial_id <- d4$farm_id
-d4$start_date <- as.Date(paste(d4$date_planting_yyyy, d4$date_planting_mm, d4$date_planting_dd, sep = "-"))
+d4$start_date <- as.Date(paste(d4$date_planting_yyyy, d4$date_planting_mm, d4$date_planting_dd, sep = "-") )
 d4$end_date <- as.Date(paste(d4$date_harvest_yyyy,d4$date_harvest_mm,d4$date_harvest_dd, sep = "-"))
 
 e4 <- d4[, c("trial_id","start_date","end_date")]

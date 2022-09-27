@@ -111,8 +111,8 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   f$longitude <- 40.48967
   f$on_farm <- "yes"
   f$crop[is.na(f$crop)] <- "common bean" 
-  f$spacing <- "yes, 40 * 10" # row spacing by plant spacing in cm
- 
+  f$row_spacing <- 40 
+  f$plant_spacing <-10
   # Fertilizer rates: DAP will be applied using a rate of 25 kg DAP per hectare; DAP has 18:46:0 composition
   # calculating amount of P in DAP applied assuming that any P input refers to DAP appication; 
   

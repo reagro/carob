@@ -66,9 +66,9 @@ carob_script <- function(path) {
     d$N_splits <- ifelse(d$Treatment %in% c(1:3), 2, # This refers to the splits indicated in "Treatment.csv"
                          ifelse(d$Treatment %in% c(4,9,14), 1,
                                 ifelse(d$Treatment %in% c(5,10,15), 3, 0)))
-    d$spacing <- "20 cm" # Look at "Experimental_Layout.png"
+    d$plant_spacing <- "20 cm" # Look at "Experimental_Layout.png"
     # Subset to columns of interest
-    d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep", "crop", "yield", "N_fertilizer", "N_splits", "spacing")]
+    d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep", "crop", "yield", "N_fertilizer", "N_splits", "plant_spacing")]
     dd <- rbind(dd,d) 
   }
   
