@@ -47,6 +47,7 @@ carob_script <- function(path) {
   dd$adm3 <- d$LGA.District
   dd$location <- d$village.Kebele
   dd$trial_id <- paste0('001_2014-2015_Wheat_ICRISAT-AR_ETH', '.', d$village.Kebele)
+  
   dd$start_date <- format(as.Date(d$Planting.date, "%Y-%m-d"))
   dd$end_date <- format(as.Date(d$Harvest.date, "%Y-%m-d"))
   # dd$longitude <- # Removed due to PII

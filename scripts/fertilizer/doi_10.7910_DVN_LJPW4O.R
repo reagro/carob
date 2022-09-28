@@ -112,15 +112,16 @@ carob_script <- function(path) {
 	d2$yield <- d2$`Grain yield (kg/plot -5.625m2)` * (100/5.625)
 	d2$residue_yield <- d2$`Stover yield (kg/plot - 5.625m2)` * (100/5.625)
 	d2$irrigated <- "supplemental"
-	d2$spacing <- "0.75 m x 0.25 m"
+	d2$row_spacing <- 75
+	d2$plant_spacing <- 25
 	
 
 	
 	# process file(s)
 	d <- carobiner::change_names(d2,
-	                             c("country", "adm1", "adm2", "adm3", "latitude", "longitude", "Site", "start_date", "end_date", "season", "on_farm", "is_survey", "crop", "variety", "variety_code", "treatment", "biomass_total", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "OM_used", "OM_type", "OM_applied", "OM_N", "OM_P", "OM_K", "pH", "N (%)", "K (ppm)", "P (ppm)", "Sand (%)", "Clay (%)", "irrigated", "spacing"),
-	                             c("country", "adm1", "adm2", "adm3", "latitude", "longitude", "site", "start_date", "end_date", "season", "on_farm", "is_survey", "crop", "variety", "variety_code", "treatment", "biomass_total", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "OM_used", "OM_type", "OM_applied", "OM_N", "OM_P", "OM_K", "soil_pH", "soil_N", "soil_K", "soil_P_total", "soil_sand", "soil_clay",  "irrigated", "spacing"))
-	d <- d[,c("country", "adm1", "adm2", "adm3", "latitude", "longitude", "site", "start_date", "end_date", "season", "on_farm", "is_survey", "crop", "variety", "variety_code", "treatment", "biomass_total", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "OM_used", "OM_type", "OM_applied", "OM_N", "OM_P", "OM_K", "soil_pH", "soil_N", "soil_K", "soil_P_total", "soil_sand", "soil_clay", "irrigated", "spacing")]
+	                             c("country", "adm1", "adm2", "adm3", "latitude", "longitude", "Site", "start_date", "end_date", "season", "on_farm", "is_survey", "crop", "variety", "variety_code", "treatment", "biomass_total", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "OM_used", "OM_type", "OM_applied", "OM_N", "OM_P", "OM_K", "pH", "N (%)", "K (ppm)", "P (ppm)", "Sand (%)", "Clay (%)", "irrigated","row_spacing","plant_spacing"),
+	                             c("country", "adm1", "adm2", "adm3", "latitude", "longitude", "site", "start_date", "end_date", "season", "on_farm", "is_survey", "crop", "variety", "variety_code", "treatment", "biomass_total", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "OM_used", "OM_type", "OM_applied", "OM_N", "OM_P", "OM_K", "soil_pH", "soil_N", "soil_K", "soil_P_total", "soil_sand", "soil_clay",  "irrigated","row_spacing", "plant_spacing"))
+	d <- d[,c("country", "adm1", "adm2", "adm3", "latitude", "longitude", "site", "start_date", "end_date", "season", "on_farm", "is_survey", "crop", "variety", "variety_code", "treatment", "biomass_total", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "OM_used", "OM_type", "OM_applied", "OM_N", "OM_P", "OM_K", "soil_pH", "soil_N", "soil_K", "soil_P_total", "soil_sand", "soil_clay", "irrigated", "row_spacing","plant_spacing")]
 	d$trial_id <- paste0(d$trial_id, "-", ifelse(d$site == "Kawanda", seq(1,length(which(d$site == "Kawanda"))), seq(1,length(which(d$site == "Namulonge")))))
 	d$dataset_id <- dataset_id
 
