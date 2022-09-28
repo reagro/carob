@@ -49,7 +49,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   d1 <- data.frame(read.csv2(f1, sep = "," ))
   d1$rep <- d1$replication_no
   d1$treatment <- d1$main_treatment # sub_treatment and sub_sub_treatment have null values hence will be ignored
-  d1$start_date <- as.Date(d1$date_planting, "%m/%d/%Y")
+  d1$start_date <- as.Date(d1$date_planting,"%m/%d/%Y")
   d1$end_date <- as.Date(d1$date_harvest, "%m/%d/%Y")
   d1$yield <- d1$grain_yield_kgperha
   d1$residue_yield<- d1$total_yield_stover_kg_per_ha
@@ -111,15 +111,22 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   f$longitude <- 40.48967
   f$on_farm <- "yes"
   f$crop[is.na(f$crop)] <- "common bean" 
+  f$row_spacing <- 40 
+  f$plant_spacing <-10
+  # Fertilizer rates: DAP will be applied using a rate of 25 kg DAP per hectare; DAP has 18:46:0 composition
+  # calculating amount of P in DAP applied assuming that any P input refers to DAP appication; 
   
-  # Fertilizer rates: DAP will be applied using a rate of 25 kg DAP per hectare.
-  f$fertilizer_type[f$treatment %in% c("25kgDAP","25kgDAP&Inoculant")] <- "DAP"
-  f$P_fertilizer[f$fertilizer_type %in% c("25kgDAP","25kgDAP&Inoculant")] <- 25 # ignored the -P and +P treatments as there's no explanation as to what they actually mean
+  P2O5 <- 25 * 0.46
+  P <- P2O5*((2*31)/(2*31+5*16))  # to acquire the amount of P in P2O5, P has atomic weight 31 while O has atomic weight 16.
+  N <- 25 * 0.18
   
-  f <- f[,c("dataset_id","adm1","adm2","location","trial_id","country","crop","variety","on_farm","start_date",
-            "end_date","rep","treatment","rain","soil_pH","soil_SOC","soil_N","soil_sand","soil_clay","grain_weight",
-            "fertilizer_type","P_fertilizer","biomass_total","yield","residue_yield","latitude","longitude")]
-  
+  f$fertilizer_type <- f$treatment
+  f$P_fertilizer[f$treatment %in% c("+P+ +R","+P+ -R"," -I +P"," +I +P"," +I  + +P "," -I  +  +P "," +p and +I",
+                                       " +p and -I"," -I,+P","With P, I","P","w/out I, P"," +P,+I","variety + +I & +P","I, P"," I, P",
+                                       "25kgDAP","25kgDAP&Inoculant")] <- P #P or +P shows presence of phosphorus
+  f$N_fertilizer[f$treatment %in% c("+P+ +R","+P+ -R"," -I +P"," +I +P"," +I  + +P "," -I  +  +P "," +p and +I",
+                                     " +p and -I"," -I,+P","With P, I","P","w/out I, P"," +P,+I","variety + +I & +P","I, P"," I, P",
+                                     "25kgDAP","25kgDAP&Inoculant")] <- N
   carobiner::write_files(dset, f, path, dataset_id, group)
   TRUE
 }

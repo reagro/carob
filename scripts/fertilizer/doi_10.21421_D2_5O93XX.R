@@ -69,11 +69,11 @@ carob_script <- function(path) {
 	d$residue_yield <- d$FdWtKgHa
 	d$grain_weight <- d$Seed.weight
 	d$P_fertilizer <- ifelse(d$Fertilizer == "F1", 0, 20)
-	d$spacing <- d$Spacing
+	d$plant_spacing <- d$Spacing
 	
 	
 	# process file(s)
-	d <- d[,c("country", "adm1", "adm2", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep", "crop", "variety", "yield", "residue_yield", "grain_weight", "P_fertilizer", "spacing")]
+	d <- d[,c("country", "adm1", "adm2", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep", "crop", "variety", "yield", "residue_yield", "grain_weight", "P_fertilizer", "plant_spacing")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this

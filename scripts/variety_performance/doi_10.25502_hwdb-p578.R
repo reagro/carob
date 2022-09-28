@@ -77,9 +77,10 @@ carob_script <- function(path){
   
   #process the 4th dataset
   d3$trial_id <- d3$farm_id
-  d3$spacing <- 50 * 10 |50 * 15| 15 * 50 #spacing is row to row by plant to plant in cm
-  
-  d3 <- d3[, c("trial_id","spacing")]
+  d3$row_spacing <-d3$crop_1_spacing_row_to_row
+  d3$plant_spacing <- d3$crop_1_spacing_plant_to_plant
+
+  d3 <- d3[, c("trial_id","row_spacing","plant_spacing")]
   
   #process the 5th dataset
   d4$trial_id <- d4$farm_id
@@ -110,7 +111,7 @@ carob_script <- function(path){
   
   
   q <- q[, c("trial_id","country","adm1","adm2","adm3","crop","variety","P_fertilizer","N_fertilizer","start_date",
-             "spacing","yield","previous_crop", "latitude","longitude")]
+             "row_spacing","plant_spacing","yield","previous_crop", "latitude","longitude")]
   
   q$dataset_id <- dataset_id
   
