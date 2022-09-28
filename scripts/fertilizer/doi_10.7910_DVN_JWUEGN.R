@@ -48,7 +48,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   e<-d[-1,]
 
   e <- e[,c("Rep","N","D","V","Straw dry weight kg/ha","Adjusted 14% grains dry weight kg/ha")]
-  colnames(e)<-c('rep','N_fertilizer','plant_spacing','variety','biomass_leaves','yield')
+  colnames(e)<-c('rep','N_fertilizer','spacing','variety','biomass_leaves','yield')
 
   e[e=="NA"] <- NA
 
@@ -67,9 +67,14 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
  e["N_fertilizer"][e["N_fertilizer"]=="2"]<-"60"
  e["N_fertilizer"][e["N_fertilizer"]=="3"]<-"120" 
  
- e["plant_spacing"][e["plant_spacing"]=="1"]<-"30cm*30cm"
- e["plant_spacing"][e["plant_spacing"]=="2"]<-"20cm*20cm"
- e["plant_spacing"][e["plant_spacing"]=="3"]<-"25cm*25cm"
+ e$plant_spacing[e$spacing == "1"]<-"30"
+ e$plant_spacing[e$spacing == "1"]<-"30"
+ e$row_spacing[e$spacing == "1"]<-"30"
+ e$plant_spacing[e$spacing == "2"]<-"20"
+ e$row_spacing[e$spacing == "2"]<-"20"
+ e$plant_spacing[e$spacing == "3"]<-"25"
+ e$row_spacing[e$spacing == "3"]<-"25"
+
  
  e["variety"][e["variety"]=="1"]<-"WAB 450-I-B-P-38-HB (NERICA 1)"
  e["variety"][e["variety"]=="2"]<-"WAB 450-I-B-P-20-HB (NERICA 2)"
@@ -77,7 +82,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
  e["variety"][e["variety"]=="4"]<-"v4 - WAB 56-50"
 
  ##re-order
- e<-e[c("rep","dataset_id","trial_id","country","on_farm","is_survey","start_date","end_date","plant_spacing","crop","N_fertilizer","variety","yield","biomass_leaves")]       
+ e<-e[, c("rep","dataset_id","trial_id","country","on_farm","is_survey","start_date","end_date","crop","N_fertilizer","variety","yield","biomass_leaves","plant_spacing","row_spacing")]       
  
  carobiner::write_files(dset, e, path, dataset_id, group)
 }
