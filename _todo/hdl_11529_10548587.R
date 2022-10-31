@@ -72,8 +72,31 @@ carob_script <- function(path) {
 	d$yield <- d[d$Trait.name == "GRAIN_YIELD", "Value"]
 	d$grain_weight <- d[d$Trait.name == "1000_GRAIN_WEIGHT", "Value"]
 	# d$fertilizer_type <- "?"
-	d$N_fertilizer <- as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "SOWING_DATE", select = "Value.y")))
-
+	# Fertilizer amounts
+	fert1 <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_KG/HA_1", select = "Value.y"))))
+	fert2 <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_KG/HA_2", select = "Value.y"))))
+	# Nitrogen levels
+	n1l <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_%N_1", select = "Value.y"))))
+	n2l <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_%N_2", select = "Value.y"))))
+	d$N_fertilizer <- ifelse(d$Rep == 1,
+	                         (n1l/100) * fert1,
+	                         (n2l/100) * fert2)
+  # P levels
+	p1l <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_%P2O5_1", select = "Value.y"))))
+	p2l <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_%P2O5_2", select = "Value.y"))))
+	d$P_fertilizer <- ifelse(d$Rep == 1,
+	                         (p1l/100) * fert1,
+	                         (p2l/100) * fert2)
+	# K levels
+	k1l <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_%K2O_1", select = "Value.y"))))
+	k2l <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_%K2O_2", select = "Value.y"))))
+	d$K_fertilizer <- ifelse(d$Rep == 1,
+	                         (k1l/100) * fert1,
+	                         (k2l/100) * fert2)
+	d$irrigated <- "no"
+	d$row_spacing <- as.integer(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "SPACE_BTN_ROWS_SOWN", select = "Value.y"))))
+	
+  	
 	# process file(s)
 	d <- carobiner::change_names(d, from, to)
 	d$dataset_id <- dataset_id
