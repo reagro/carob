@@ -15,14 +15,14 @@ carob_script <- function(path) {
 
 	uri <- "hdl:11529/10548587"
 	dataset_id <- agro::get_simple_URI(uri)
-	group <- "variety_performance"
+	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   publication="",
-	   data_citation = "",
+	   publication="doi.org/10.1016/j.fcr.2020.107742",
+	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2021, '28th High Rainfall Wheat Yield Trial', https://hdl.handle.net/11529/10548587, CIMMYT Research Data & Software Repository Network, V1",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   experiment_type="variety",
@@ -40,13 +40,12 @@ carob_script <- function(path) {
 	raw.data <- ff[basename(ff) == "28TH HRWYT_RawData.xls"]
 	loc.data <- ff[basename(ff) == "28TH HRWYT_Loc_data.xls"]
 	env.data <- ff[basename(ff) == "28TH HRWYT_EnvData.xls"]
-	c <- read.csv("/home/jovyan/CAROB/egb-carob/data/raw/variety_performance/hdl_11529_10548587/28TH HRWYT_Genotypes_Data.xls", sep = "\t")
 
 	d <- read.csv(raw.data, sep = "\t")
 	loc <- read.csv(loc.data, sep = "\t")
 	env <- read.csv(env.data, sep = "\t")
 
-	d$country <- d$Country
+	d$country <- tools::toTitleCase(tolower(as.character(d$Country)))
 	d$location <- gsub("\\ -.*","",d$Loc_desc)
 	d$site <- merge(d,loc, by = c("Loc_no"))[,"Institute.Name"]
 	d$trial_id <- d$Trial.name
@@ -66,9 +65,6 @@ carob_script <- function(path) {
 	d$treatment <- ""
 	d$rep <- d$Rep
 	d$crop <- "wheat"
-	d$variety <- "?"
-	d$variety_code <- "?"
-	d$variety_type <- "?"
 	d$yield <- d[d$Trait.name == "GRAIN_YIELD", "Value"]
 	d$grain_weight <- d[d$Trait.name == "1000_GRAIN_WEIGHT", "Value"]
 	d$fertilizer_type <- "?"
@@ -98,7 +94,7 @@ carob_script <- function(path) {
 	
 	# Subset for relevant columns
 	d <- d[, c("trial_id", "country", "location", "site", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep",
-	           "crop", "variety", "variety_code", "variety_type", "yield", "grain_weight", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer",
+	           "crop", "yield", "grain_weight", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer",
 	           "irrigated", "row_spacing")]
 	d$dataset_id <- dataset_id
 
