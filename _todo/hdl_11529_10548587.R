@@ -49,7 +49,7 @@ carob_script <- function(path) {
 	d$country <- d$Country
 	d$location <- gsub("\\ -.*","",d$Loc_desc)
 	d$site <- merge(d,loc, by = c("Loc_no"))[,"Institute.Name"]
-	# d$trial_id <- 
+	d$trial_id <- d$Trial.name
 	d$latitude <- ifelse(merge(d,loc, by = c("Loc_no"))[,"Latitud"] == "N",
 	                     merge(d,loc, by = c("Loc_no"))[,"Lat_degress"],
 	                     merge(d,loc, by = c("Loc_no"))[,"Lat_degress"] * -1) +
@@ -66,12 +66,12 @@ carob_script <- function(path) {
 	d$treatment <- ""
 	d$rep <- d$Rep
 	d$crop <- "wheat"
-	# d$variety <- "?"
-	# d$variety_code <- "?"
-	# d$variety_type <- "?"
+	d$variety <- "?"
+	d$variety_code <- "?"
+	d$variety_type <- "?"
 	d$yield <- d[d$Trait.name == "GRAIN_YIELD", "Value"]
 	d$grain_weight <- d[d$Trait.name == "1000_GRAIN_WEIGHT", "Value"]
-	# d$fertilizer_type <- "?"
+	d$fertilizer_type <- "?"
 	# Fertilizer amounts
 	fert1 <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_KG/HA_1", select = "Value.y"))))
 	fert2 <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_KG/HA_2", select = "Value.y"))))
@@ -96,9 +96,10 @@ carob_script <- function(path) {
 	d$irrigated <- "no"
 	d$row_spacing <- as.integer(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "SPACE_BTN_ROWS_SOWN", select = "Value.y"))))
 	
-  	
-	# process file(s)
-	d <- carobiner::change_names(d, from, to)
+	# Subset for relevant columns
+	d <- d[, c("trial_id", "country", "location", "site", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep",
+	           "crop", "variety", "variety_code", "variety_type", "yield", "grain_weight", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer",
+	           "irrigated", "row_spacing")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
