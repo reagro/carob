@@ -34,12 +34,14 @@ carob_script <- function(path) {
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   dset$license <- carobiner::get_license(js)[1]
   
-  d <- data.frame()
+  xf <- ff[tools::file_ext(ff) == "xlsx"]
+  d <- vector("list", length(xf))
+  
   ## Process all country files in a loop, since all have similar structure. Then append them together
-  for (f in (ff[tools::file_ext(ff) == "xlsx"])) {
-    dd <- data.frame(readxl::read_excel(f))
+  for (i in 1:length(xf)) {
+    dd <- data.frame(readxl::read_excel(xf[i]))
     dd$dataset_id <- dataset_id
-    dd$Country <- ifelse(dd$Country == "Cote d'Ivoire", "Côte d'Ivoire", dd$Country)
+    dd$country <- ifelse(dd$Country == "Cote d'Ivoire", "Côte d'Ivoire", dd$Country)
     dd$site <- dd$Site
     dd$trial_id <- paste0(dataset_id, '-', dd$Country)
     # Coordinates extracted using Geonames.org
@@ -64,8 +66,9 @@ carob_script <- function(path) {
     dd$grain_weight <- ifelse(dd$Country %in% c("Burkina Faso", "Mali"), "", dd$GW1000) # Only Burkina Faso and Mali miss the grain weight data
     dd$irrigated <- "no" # Rainfed Upland (RU) farming systems
     dd <- dd[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "season", "on_farm", "is_survey", "crop", "variety_code", "yield", "grain_weight", "irrigated")]
-    d <- rbind(d,dd)
+    d[[i]] <- dd
   }
+  d <- do.call(rbind, d)
   
   # all scripts must end like this
   carobiner::write_files(dset, d, path, dataset_id, group)
