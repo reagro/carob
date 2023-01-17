@@ -104,7 +104,7 @@ carob_script <- function(path) {
 
  	# suppress variable renaming warning
 	suppressMessages(d <- readxl::read_excel(f))
-  d <- data.frame(
+  d <- data.frame(d)
   ddd <- data.frame(country = d$Country) # Create parallel dataframe
   ddd$country <- d$Country
   ddd$adm1 <- d$Region.state
