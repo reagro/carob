@@ -40,7 +40,11 @@ carob_script <- function(path) {
 
 ## process 001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx
 	f <- ff[basename(ff) == "001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx"]
-  d <- data.frame(readxl::read_excel(f))
+ 
+ 	# suppress variable renaming warning
+	suppressMessages(d <- readxl::read_excel(f))
+  
+  d <- data.frame(d)
   dd <- data.frame(country = d$Country) # Create parallel dataframe
   dd$country <- d$Country
   dd$adm1 <- d$Region.state
@@ -97,7 +101,10 @@ carob_script <- function(path) {
 	  
 ## process 002_2016_Wheat_ ICRISAT-AR_ETH.xlsx
   f <- ff[basename(ff) == "002_2016_Wheat_ ICRISAT-AR_ETH.xlsx"]
-  d <- data.frame(readxl::read_excel(f))
+
+ 	# suppress variable renaming warning
+	suppressMessages(d <- readxl::read_excel(f))
+  d <- data.frame(
   ddd <- data.frame(country = d$Country) # Create parallel dataframe
   ddd$country <- d$Country
   ddd$adm1 <- d$Region.state

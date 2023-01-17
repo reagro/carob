@@ -39,7 +39,12 @@ carob_script <- function(path) {
 
 	f <- ff[basename(ff) == "TAMASA_ET_CC_2015_BakoF.xlsx"]
 
-	d <- as.data.frame(readxl::read_excel(f, sheet = "Raw_Data", trim_ws = TRUE, n_max = 100))
+	# suppress variable renaming message
+	suppressMessages(
+		d <- readxl::read_excel(f, sheet = "Raw_Data", trim_ws = TRUE, n_max = 100)
+	)
+	
+	d <- as.data.frame(d)
 	
 	d$country <- "Ethiopia"
 	d$site <- d$`Name of the Village`

@@ -9,8 +9,7 @@ carob_script <- function(path) {
 
 "Description
 Title: Replication Data for: Response of Maize to blended fertilizer  
-Abstract: Maize grain and bio-mass yield were increased by application of different rates of blended fertilizers (2020-12-02)
-  url: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/8EEDAP"
+Abstract: Maize grain and bio-mass yield were increased by application of different rates of blended fertilizers (2020-12-02)"
 
 ## Process 
 uri <- "doi:10.7910/DVN/LTS278"
@@ -98,15 +97,4 @@ dv<-dv[c("dataset_id","trial_id","country","region","start_date","end_date","cro
 carobiner::write_files(dset, dv, path, dataset_id, group)
 
 }
-
-
-
-
-
-
-
-
-
-
-
 
