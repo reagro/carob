@@ -41,7 +41,7 @@ carob_script <- function(path) {
 	loc.data <- ff[basename(ff) == "28TH HRWYT_Loc_data.xls"]
 	env.data <- ff[basename(ff) == "28TH HRWYT_EnvData.xls"]
 
-	d <- read.csv(raw.data, sep = "\t")
+	d <- read.table(raw.data, sep = "\t")
 	loc <- read.csv(loc.data, sep = "\t")
 	env <- read.csv(env.data, sep = "\t")
 
@@ -69,36 +69,49 @@ carob_script <- function(path) {
 	d$grain_weight <- d[d$Trait.name == "1000_GRAIN_WEIGHT", "Value"]
 	d$fertilizer_type <- "?"
 	# Fertilizer amounts
-	fert1 <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_KG/HA_1", select = "Value.y"))))
-	fert2 <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_KG/HA_2", select = "Value.y"))))
+	
+	m <- merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")]
+
+	fert1 <- as.numeric(m[m[,1] == "FERTILIZER_KG/HA_1", 2])
+	fert2 <- as.numeric(m[m[,1] == "FERTILIZER_KG/HA_2", 2])
+
 	# Nitrogen levels
-	n1l <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_%N_1", select = "Value.y"))))
-	n2l <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_%N_2", select = "Value.y"))))
+	n1l <- as.numeric(m[m[,1] == "FERTILIZER_%N_1", 2])
+	n2l <- as.numeric(m[m[,1] == "FERTILIZER_%N_2", 2])
+
 	d$N_fertilizer <- ifelse(d$Rep == 1,
 	                         (n1l/100) * fert1,
 	                         (n2l/100) * fert2)
   # P levels
-	p1l <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_%P2O5_1", select = "Value.y"))))
-	p2l <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_%P2O5_2", select = "Value.y"))))
+	p1l <- as.numeric(m[m[,1] == "FERTILIZER_%P2O5_1", 2])
+	p2l <- as.numeric(m[m[,1] == "FERTILIZER_%P2O5_2", 2])
+
+
+## warnings here are not OK 
+
 	d$P_fertilizer <- ifelse(d$Rep == 1,
 	                         (p1l/100) * fert1,
 	                         (p2l/100) * fert2)
 	# K levels
-	k1l <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_%K2O_1", select = "Value.y"))))
-	k2l <- as.numeric(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "FERTILIZER_%K2O_2", select = "Value.y"))))
+	k1l <- as.numeric(m[m[,1] == "FERTILIZER_%K2O_1", 2])
+	k2l <- as.numeric(m[m[,1] == "FERTILIZER_%K2O_2", 2])
+
+## warnings here are not OK 
+
 	d$K_fertilizer <- ifelse(d$Rep == 1,
 	                         (k1l/100) * fert1,
 	                         (k2l/100) * fert2)
 	d$irrigated <- "no"
-	d$row_spacing <- as.integer(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "SPACE_BTN_ROWS_SOWN", select = "Value.y"))))
+
+	d$row_spacing <- as.integer(m[m[,1] == "SPACE_BTN_ROWS_SOWN", "Value.y"])
 	
 	# Subset for relevant columns
 	d <- d[, c("trial_id", "country", "location", "site", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep",
-	           "crop", "yield", "grain_weight", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer",
-	           "irrigated", "row_spacing")]
+	           "crop", "yield", "grain_weight", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer",  "irrigated", "row_spacing")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path, dataset_id, group)
 	TRUE
 }
+

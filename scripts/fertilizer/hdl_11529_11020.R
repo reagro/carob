@@ -68,8 +68,12 @@ carob_script <- function(path) {
 	d$OM_used <- d$`Apply Organic Fertilizer ?`
 	d$OM_type <- d$`Type of Organic Fertilizer applied`
 	# Assuming 50kg Manure Bags
-	d$OM_applied <- ifelse(d$`Unit for Organic Fertilizer` == "Bags", as.numeric(d$`Amount of  Organic Fertilizer applied`) * 50 * as.numeric(d$`Unit for Organic Fertilizer`),
-	                       as.numeric(d$`Amount of  Organic Fertilizer applied`))
+	d$OM_applied <- 0
+	bags <- which(d$`Unit for Organic Fertilizer` == "Bags")
+	kgs <- which(d$`Unit for Organic Fertilizer` == "Kg")
+	d$OM_applied[bags] <- as.numeric(d$`Amount of  Organic Fertilizer applied`[bags] * 50)
+	d$OM_applied[kgs] <- as.numeric(d$`Amount of  Organic Fertilizer applied`[kgs])
+			
 	d$soil_type <- d$`Soil type`
 	d$soil_pH <- d$pH
 	d$soil_SOC <- d$`Carbon (%)`

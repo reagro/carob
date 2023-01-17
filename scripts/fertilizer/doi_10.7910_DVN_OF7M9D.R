@@ -32,14 +32,14 @@ carob_script <- function(path) {
   
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-  dset$license <- carobiner::get_license(js)
+  dset$license <- carobiner::get_license(js)[1]
   
   d <- data.frame()
   ## Process all country files in a loop, since all have similar structure. Then append them together
   for (f in (ff[tools::file_ext(ff) == "xlsx"])) {
     dd <- data.frame(readxl::read_excel(f))
     dd$dataset_id <- dataset_id
-    dd$country <- ifelse(dd$Country == "Cote d'Ivoire", "Côte d'Ivoire", dd$Country)
+    dd$Country <- ifelse(dd$Country == "Cote d'Ivoire", "Côte d'Ivoire", dd$Country)
     dd$site <- dd$Site
     dd$trial_id <- paste0(dataset_id, '-', dd$Country)
     # Coordinates extracted using Geonames.org
