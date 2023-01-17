@@ -21,11 +21,11 @@ carob_script <- function(path) {
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   publication="",
-	   data_citation = "",
-	   data_institutions = "",
+	   publication=NA,
+	   data_citation = NA,
+	   data_institutions = NA,
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="___",
+	   experiment_type=NA,
 	   has_weather=FALSE,
 	   has_management=FALSE
 	)

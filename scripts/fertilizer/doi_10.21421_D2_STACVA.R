@@ -17,7 +17,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication="",
+    publication=NA,
     carob_contributor="Siyabusa Mkuhlani",
     experiment_type="fertilizer",
     has_weather=FALSE,

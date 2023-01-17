@@ -22,7 +22,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication="",
+    publication=NA,
     carob_contributor="Siyabusa",
     experiment_type="fertilizer",
     has_weather=FALSE,

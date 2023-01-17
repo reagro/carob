@@ -15,14 +15,14 @@ carob_script <- function(path) {
 
 	uri <- "doi:10.7910/DVN/ZXH0R8"
 	dataset_id <- agro::get_simple_URI(uri)
-	group <- ""
+	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
 	   publication="doi:10.1017/S1742170519000504",
-	   data_citation = "",
+	   data_citation = NA,
 	   data_institutions = "International Crops Research Institute for the Semi-Arid Tropics (ICRISAT); Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ); Amhara Agricultural Research Institute (ARARI); International Livestock Research Institute (ILRI)",
 	   carob_contributor="Siyabusa Mkhulani & Eduardo Garcia Bendito",
 	   experiment_type="On farm experimental trials",

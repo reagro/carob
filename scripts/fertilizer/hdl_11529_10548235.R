@@ -21,7 +21,7 @@ carob_script <- function(path) {
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   publication="",
+	   publication=NA,
 	   data_citation = 'Masuki, Kenneth, 2019, "TZ TAMASA APS 2016 Yield MetaData", https://hdl.handle.net/11529/10548235, CIMMYT Research Data & Software Repository Network, V2, UNF:6:dF6+/EEer8HsSlxKsQJIVA== [fileUNF]',
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",

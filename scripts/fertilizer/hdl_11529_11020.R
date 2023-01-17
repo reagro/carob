@@ -21,11 +21,11 @@ carob_script <- function(path) {
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   publication="",
+	   publication=NA,
 	   data_citation = "Balemi T. and Kebede M., Tufa T., and Gurumu G.. 2017. TAMASA Ethiopia.  Yield, soil and agronomy data from 70 farmers’ maize fields  in Bako, Ethiopia, 2015 season. International Maize and Wheat Improvement Centre (CIMMYT), Ethiopia.",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="",
+	   experiment_type= "on-farm observations",
 	   has_weather=FALSE,
 	   has_management=FALSE
 	)
