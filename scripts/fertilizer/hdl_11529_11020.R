@@ -52,7 +52,7 @@ carob_script <- function(path) {
 	d$start_date <- format(d$`Planting Date`, "%Y-%m-%d")
 	d$on_farm <- "yes"
 	d$is_survey <- "no"
-	d$treatment <- ""
+	d$treatment <- "none"
 	d$rep <- ifelse(gsub("^[^.]*.","",as.character(d$`plot ID`)) == "", "1", gsub("^[^.]*.","",as.character(d$`plot ID`)))
 	d$crop <- "maize"
 	d$variety_code <- d$`Type of Variety`

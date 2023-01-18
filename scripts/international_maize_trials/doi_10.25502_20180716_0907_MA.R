@@ -39,7 +39,7 @@ carob_script <- function(path) {
 	e$dataset_id <- dataset_id
 
 	x <- carobiner::bindr(d, e)
-	x$location[	x$location == "Cameroon"] <- ""
+	x$location[	x$location == "Cameroon"] <- NA
 
 # all scripts must end like this
 	carobiner::write_files(dset, x, path, dataset_id, group)

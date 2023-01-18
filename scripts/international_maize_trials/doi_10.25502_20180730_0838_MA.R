@@ -39,6 +39,9 @@ carob_script <- function(path) {
 
 	x <- carobiner::bindr(d, e)
 
+	suppressWarnings(x$sl <- as.numeric(x$sl))
+	suppressWarnings(x$dl <- as.numeric(x$dl))
+
 # all scripts must end like this
 	carobiner::write_files(dset, x, path, dataset_id, group)
 }
