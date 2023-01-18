@@ -45,9 +45,10 @@ carob_script <- function(path) {
   f <- ff[basename(ff) == "a_general.csv"]
   d <- data.frame(read.csv(f))
   d$trial_id <- d$farm_id
-  d$adm1 <- d$district
-  d$adm2 <- d$sector_ward
-  d$adm3 <- d$vilage
+  d$adm1 <- fix_adm(d$district)
+  d$adm2 <- fix_adm(d$sector_ward)
+  d$adm3 <- fix_adm(d$vilage)
+
   d <- d[,c("trial_id","season","country","adm1","adm2","adm3")]
   
   f1 <- ff[basename(ff) == "c_use_of_package_2.csv"]

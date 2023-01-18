@@ -58,13 +58,15 @@ carob_script <- function(path) {
     dd$start_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredStart[[4]]
     dd$end_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredEnd[[4]]
     dd$season <- dd$Season
-    dd$on_farm <- "yes"
-    dd$is_survey <- "no"
+    dd$on_farm <- TRUE
+    dd$is_survey <- FALSE
     dd$crop <- "rice"
     dd$variety_code <- dd$Genotype
     dd$yield <- dd$YIELD*1000
-    dd$grain_weight <- ifelse(dd$Country %in% c("Burkina Faso", "Mali"), "", dd$GW1000) # Only Burkina Faso and Mali miss the grain weight data
-    dd$irrigated <- "no" # Rainfed Upland (RU) farming systems
+	# Burkina Faso and Mali miss the grain weight data
+    dd$grain_weight <- ifelse(dd$Country %in% c("Burkina Faso", "Mali"), NA, dd$GW1000) 
+    # Rainfed Upland (RU) farming systems
+	dd$irrigated <- FALSE 
     dd <- dd[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "season", "on_farm", "is_survey", "crop", "variety_code", "yield", "grain_weight", "irrigated")]
     d[[i]] <- dd
   }

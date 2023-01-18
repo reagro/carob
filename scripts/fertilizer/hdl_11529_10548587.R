@@ -41,33 +41,34 @@ carob_script <- function(path) {
 	loc.data <- ff[basename(ff) == "28TH HRWYT_Loc_data.xls"]
 	env.data <- ff[basename(ff) == "28TH HRWYT_EnvData.xls"]
 
-	d <- read.table(raw.data, sep = "\t")
-	loc <- read.csv(loc.data, sep = "\t")
+
+	d <- read.table(raw.data, comment.char="", sep="\t", header=TRUE)
+	loc <- read.table(loc.data, sep = "\t", header=TRUE)
+	loc$latitude <- loc$Lat_degress + loc$Lat_minutes / 60 
+	loc$longitude <- loc$Long_degress + loc$Long_minutes / 60 
+	loc$longitude <- ifelse(loc$Longitud == "W", -loc$longitude, loc$longitude)
+	
 	env <- read.csv(env.data, sep = "\t")
 
 	d$country <- tools::toTitleCase(tolower(as.character(d$Country)))
 	d$location <- gsub("\\ -.*","",d$Loc_desc)
 	d$site <- merge(d,loc, by = c("Loc_no"))[,"Institute.Name"]
 	d$trial_id <- d$Trial.name
-	d$latitude <- ifelse(merge(d,loc, by = c("Loc_no"))[,"Latitud"] == "N",
-	                     merge(d,loc, by = c("Loc_no"))[,"Lat_degress"],
-	                     merge(d,loc, by = c("Loc_no"))[,"Lat_degress"] * -1) +
-	  ((merge(d,loc, by = c("Loc_no"))[,"Lat_minutes"])/60)
-	d$longitude <- ifelse(merge(d,loc, by = c("Loc_no"))[,"Longitude"] == "E",
-	                      merge(d,loc, by = c("Loc_no"))[,"Long_degress"],
-	                      merge(d,loc, by = c("Loc_no"))[,"Long_degress"] * -1) +
-	  ((merge(d,loc, by = c("Loc_no"))[,"Long_minutes"])/60)
+	d <- merge(d, loc[, c("Loc_no", "longitude", "latitude")], by ="Loc_no")
 	
-	d$start_date <- as.Date(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "SOWING_DATE", select = "Value.y"))), "%b %d %Y", tz = "GMT")
-	d$end_date <- as.Date(as.vector(unlist(subset(merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")], Trait.name.y == "HARVEST_FINISHING_DATE", select = "Value.y"))), "%b %d %Y", tz = "GMT")
-	d$on_farm <- "no"
-	d$is_survey <- "no"
-	d$treatment <- ""
+	m <- merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")]
+	s <- m[m$Trait.name.y == "SOWING_DATE", "Value.y"]
+	d$start_date <- as.Date(s, "%b %d %Y")
+	s <- m[m$Trait.name.y == "HARVEST_FINISHING_DATE", "Value.y"]
+	d$end_date <- as.Date(s, "%b %d %Y")
+	d$on_farm <- FALSE
+	d$is_survey <- FALSE
+	d$treatment <- NA
 	d$rep <- d$Rep
 	d$crop <- "wheat"
 	d$yield <- d[d$Trait.name == "GRAIN_YIELD", "Value"]
 	d$grain_weight <- d[d$Trait.name == "1000_GRAIN_WEIGHT", "Value"]
-	d$fertilizer_type <- "?"
+	d$fertilizer_type <- NA
 	# Fertilizer amounts
 	
 	m <- merge(d,env, by = c("Loc_no"), all = TRUE)[,c("Trait.name.y","Value.y")]
@@ -88,6 +89,7 @@ carob_script <- function(path) {
 
 
 ## warnings here are not OK 
+## this needs to be fixed 
 
 	d$P_fertilizer <- ifelse(d$Rep == 1,
 	                         (p1l/100) * fert1,

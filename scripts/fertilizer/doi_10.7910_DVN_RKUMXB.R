@@ -63,13 +63,12 @@ carob_script <- function(path) {
 
 	ft <- matrix(ft, ncol=2, byrow=TRUE)
 
-	d <- read.csv(f) 
+	d <- read.csv(f, encoding="latin1") 
 	d <- carobiner::change_names(d, ft[,1], ft[,2])
 	d <- d[, colnames(d) != "drop"]
 
 	d <- data.frame(lapply(d, function(i) if (is.character(i)) trimws(i) else i))
 	
-
 # remove trailing empty rows
 	d <- d[!is.na(d$yield), ]
 
