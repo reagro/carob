@@ -21,7 +21,7 @@ carob_script <- function(path) {
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication="",
+    publication=NA,
     carob_contributor="Eduardo Garcia Bendito",
     experiment_type="variety_performance",
     has_weather=FALSE,
@@ -32,7 +32,7 @@ carob_script <- function(path) {
   
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-  dset$license <- carobiner::get_license(js)
+  dset$license <- carobiner::get_license(js)[[1]]
   
   d <- data.frame()
   ## Process all country files in a loop, since all have similar structure. Then append them together

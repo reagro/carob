@@ -21,11 +21,11 @@ carob_script <- function(path) {
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   publication="",
+	   publication=NA,
 	   data_citation = "Balemi T. and Kebede M., Tufa T., and Gurumu G.. 2017. TAMASA Ethiopia.  Yield, soil and agronomy data from 70 farmers’ maize fields  in Bako, Ethiopia, 2015 season. International Maize and Wheat Improvement Centre (CIMMYT), Ethiopia.",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="",
+	   experiment_type= "on-farm observations",
 	   has_weather=FALSE,
 	   has_management=FALSE
 	)
@@ -39,7 +39,12 @@ carob_script <- function(path) {
 
 	f <- ff[basename(ff) == "TAMASA_ET_CC_2015_BakoF.xlsx"]
 
-	d <- as.data.frame(readxl::read_excel(f, sheet = "Raw_Data", trim_ws = TRUE, n_max = 100))
+	# suppress variable renaming message
+	suppressMessages(
+		d <- readxl::read_excel(f, sheet = "Raw_Data", trim_ws = TRUE, n_max = 100)
+	)
+	
+	d <- as.data.frame(d)
 	
 	d$country <- "Ethiopia"
 	d$site <- d$`Name of the Village`
@@ -47,7 +52,7 @@ carob_script <- function(path) {
 	d$start_date <- format(d$`Planting Date`, "%Y-%m-%d")
 	d$on_farm <- "yes"
 	d$is_survey <- "no"
-	d$treatment <- ""
+	d$treatment <- "none"
 	d$rep <- ifelse(gsub("^[^.]*.","",as.character(d$`plot ID`)) == "", "1", gsub("^[^.]*.","",as.character(d$`plot ID`)))
 	d$crop <- "maize"
 	d$variety_code <- d$`Type of Variety`
@@ -63,8 +68,12 @@ carob_script <- function(path) {
 	d$OM_used <- d$`Apply Organic Fertilizer ?`
 	d$OM_type <- d$`Type of Organic Fertilizer applied`
 	# Assuming 50kg Manure Bags
-	d$OM_applied <- ifelse(d$`Unit for Organic Fertilizer` == "Bags", as.numeric(d$`Amount of  Organic Fertilizer applied`) * 50 * as.numeric(d$`Unit for Organic Fertilizer`),
-	                       as.numeric(d$`Amount of  Organic Fertilizer applied`))
+	d$OM_applied <- 0
+	bags <- which(d$`Unit for Organic Fertilizer` == "Bags")
+	kgs <- which(d$`Unit for Organic Fertilizer` == "Kg")
+	d$OM_applied[bags] <- as.numeric(d$`Amount of  Organic Fertilizer applied`[bags] * 50)
+	d$OM_applied[kgs] <- as.numeric(d$`Amount of  Organic Fertilizer applied`[kgs])
+			
 	d$soil_type <- d$`Soil type`
 	d$soil_pH <- d$pH
 	d$soil_SOC <- d$`Carbon (%)`

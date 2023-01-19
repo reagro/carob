@@ -3,10 +3,15 @@
 ## ISSUES
 #Not showing license, showing question mark
 
-#remotes::install_github("reagro/carobiner")
-library(carobiner)
+# this dataset was de-accessioned. There is a new one 
+# doi:10.7910/DVN/QWACIK
+# but that one is locked!! 
+
 
 carob_script <- function(path) {
+
+cat("  dataset was de-accessioned!\n")
+
   
   "Description
 Title:Responses of upland NERICA rice varieties to nitrogen and plant density
@@ -22,8 +27,8 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication="",
-    carob_contributor="Siyabusa",
+    publication=NA,
+    carob_contributor="Siyabusa Mkuhlani",
     experiment_type="fertilizer",
     has_weather=FALSE,
     has_management=FALSE

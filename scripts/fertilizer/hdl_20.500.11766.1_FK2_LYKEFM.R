@@ -21,7 +21,7 @@ carob_script <- function(path) {
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication="",
+    publication=NA,
     data_citation = "Ayalew, Baye, 2020, Determination of rate and timing of N application on bread wheat, https://hdl.handle.net/20.500.11766.1/FK2/LYKEFM, MELDATA, V1",
     data_institutions = "International Center for Agricultural Research in the Dry Areas (ICARDA)",
     carob_contributor="Eduardo Garcia Bendito",

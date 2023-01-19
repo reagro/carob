@@ -21,7 +21,7 @@ carob_script <- function(path) {
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   publication="",
+	   publication=NA,
 	   data_citation = 'Craufurd, Peter; Karwani, George; Masuki, Kenneth, 2019, "TAMASA TZ APS 2017 CC MaizeYield v3", https://hdl.handle.net/11529/10548242, CIMMYT Research Data & Software Repository Network, V2, UNF:6:FARtQ7xWh1m0+YYceI+wnw== [fileUNF]',
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",

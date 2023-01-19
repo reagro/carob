@@ -1,7 +1,7 @@
 # R script for "carob"
 
 ## ISSUES
-# ....
+# need to at lon/lat 
 
 
 carob_script <- function(path) {
@@ -15,14 +15,14 @@ carob_script <- function(path) {
 
 	uri <- "doi:10.7910/DVN/ZXH0R8"
 	dataset_id <- agro::get_simple_URI(uri)
-	group <- ""
+	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
 	   publication="doi:10.1017/S1742170519000504",
-	   data_citation = "",
+	   data_citation = NA,
 	   data_institutions = "International Crops Research Institute for the Semi-Arid Tropics (ICRISAT); Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ); Amhara Agricultural Research Institute (ARARI); International Livestock Research Institute (ILRI)",
 	   carob_contributor="Siyabusa Mkhulani & Eduardo Garcia Bendito",
 	   experiment_type="On farm experimental trials",
@@ -40,7 +40,11 @@ carob_script <- function(path) {
 
 ## process 001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx
 	f <- ff[basename(ff) == "001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx"]
-  d <- data.frame(readxl::read_excel(f))
+ 
+ 	# suppress variable renaming warning
+	suppressMessages(d <- readxl::read_excel(f))
+  
+  d <- data.frame(d)
   dd <- data.frame(country = d$Country) # Create parallel dataframe
   dd$country <- d$Country
   dd$adm1 <- d$Region.state
@@ -48,8 +52,8 @@ carob_script <- function(path) {
   dd$location <- d$village.Kebele
   dd$trial_id <- paste0('001_2014-2015_Wheat_ICRISAT-AR_ETH', '.', d$village.Kebele)
   
-  dd$start_date <- format(as.Date(d$Planting.date, "%Y-%m-d"))
-  dd$end_date <- format(as.Date(d$Harvest.date, "%Y-%m-d"))
+  dd$start_date <- as.Date(d$Planting.date)
+  dd$end_date <- as.Date(d$Harvest.date)
   # dd$longitude <- # Removed due to PII
   # dd$latitude <- # Removed due to PII
   dd$on_farm <- "yes"
@@ -97,17 +101,20 @@ carob_script <- function(path) {
 	  
 ## process 002_2016_Wheat_ ICRISAT-AR_ETH.xlsx
   f <- ff[basename(ff) == "002_2016_Wheat_ ICRISAT-AR_ETH.xlsx"]
-  d <- data.frame(readxl::read_excel(f))
+
+ 	# suppress variable renaming warning
+	suppressMessages(d <- readxl::read_excel(f))
+  d <- data.frame(d)
   ddd <- data.frame(country = d$Country) # Create parallel dataframe
   ddd$country <- d$Country
   ddd$adm1 <- d$Region.state
   ddd$adm3 <- d$LGA.District
   ddd$location <- d$village.Kebele
   ddd$trial_id <- paste0("002_2016_Wheat_ ICRISAT-AR_ETH", '.', d$village.Kebele)
-  ddd$start_date <- format(as.Date(d$Planting.date, "%Y-%m-d"))
-  ddd$end_date <- format(as.Date(d$Harvest.date, "%Y-%m-d"))
-  # ddd$longitude <- # Removed due to PII
-  # ddd$latitude <- # Removed due to PII
+  ddd$start_date <- as.Date(d$Planting.date)
+  ddd$end_date <-  as.Date(d$Harvest.date)
+  # ddd$longitude <- # was removed from data
+  # ddd$latitude <- # was removed from data
   ddd$on_farm <- "yes"
   ddd$is_survey <- "no"
   ddd$treatment <- d$Treatment
@@ -153,17 +160,19 @@ carob_script <- function(path) {
   
 ## process 003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx
   f <- ff[basename(ff) == "003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx"]
-  d <- data.frame(readxl::read_excel(f))
+  
+  suppressMessages(d <- readxl::read_excel(f))
+  d <- data.frame(d)
   dddd <- data.frame(country = d$Country) # Create parallel dataframe
   dddd$country <- d$Country
   dddd$adm1 <- d$Region.state
   dddd$adm3 <- d$LGA.District
   dddd$location <- d$village.Kebele
   dddd$trial_id <- paste0("003_2017_Sorghum+Tef_ ICRISAT-AR_ETH", '.', d$village.Kebele)
-  dddd$start_date <- ifelse(is.na(d$Planting.date), format(as.Date(as.character(d$Year), "%Y"), "%Y"), format(as.Date(d$Planting.date, "%Y-%m-d")))
-  dddd$end_date <- ifelse(is.na(d$Harvest.date), format(as.Date(as.character(d$Year), "%Y"), "%Y"), format(as.Date(d$Harvest.date, "%Y-%m-d")))
-  # dddd$longitude <- # Removed due to PII
-  # dddd$latitude <- # Removed due to PII
+  dddd$start_date <- as.Date(d$Planting.date)
+  dddd$end_date <- as.Date(d$Harvest.date)
+  # dddd$longitude <- # Removed by PI?
+  # dddd$latitude <- # Removed by PI?
   dddd$on_farm <- "yes"
   dddd$is_survey <- "no"
   dddd$treatment <- d$Treatment
@@ -209,17 +218,19 @@ carob_script <- function(path) {
   
 ## process 004_2019_Wheat_ ICRISAT-AR_ETH.xlsx
   f <- ff[basename(ff) == "004_2019_Wheat_ ICRISAT-AR_ETH.xlsx"]
-  d <- data.frame(readxl::read_excel(f))
+  
+  d <- suppressMessages(readxl::read_excel(f))
+  d <- data.frame(d)
   ddddd <- data.frame(country = d$Country) # Create parallel dataframe
   ddddd$country <- d$Country
   ddddd$adm1 <- d$Region.state
   ddddd$adm3 <- d$LGA.District
   ddddd$location <- d$village
   ddddd$trial_id <- paste0("004_2019_Wheat_ ICRISAT-AR_ETH", '.', d$village)
-  ddddd$start_date <- ifelse(is.na(d$Planting.date), format(as.Date(as.character(d$Year), "%Y"), "%Y"), format(as.Date(d$Planting.date, "%Y-%m-d")))
-  ddddd$end_date <- ifelse(is.na(d$Harvest.date), format(as.Date(as.character(d$Year), "%Y"), "%Y"), format(as.Date(d$Harvest.date, "%Y-%m-d")))
-  # ddddd$longitude <- # Removed due to PII
-  # ddddd$latitude <- # Removed due to PII
+  ddddd$start_date <- as.Date(d$Planting.date)
+  ddddd$end_date <- as.Date(d$Harvest.date)
+  # ddddd$longitude <- # Removed by PI?
+  # ddddd$latitude <- # Removed by PI?
   ddddd$on_farm <- "yes"
   ddddd$is_survey <- "no"
   ddddd$treatment <- d$Treatment

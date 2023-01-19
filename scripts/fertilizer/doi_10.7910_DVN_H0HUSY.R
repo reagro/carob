@@ -19,7 +19,7 @@ Description: This dataset contains information of experiments carried out upland
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication= "",
+    publication= NA,
     data_citation = "Siles, Pablo; Tellez, Orlando; Peng, Yuan-Ching; Zeledón, Yasser, 2020, Impact of NPK fertilization on upland rice yield, Nicaragua, https://doi.org/10.7910/DVN/H0HUSY",
     data_institutions = "CIAT",
     carob_contributor="Jean-Martial Johnson",

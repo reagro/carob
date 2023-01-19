@@ -21,7 +21,7 @@ carob_script <- function(path) {
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication="",
+    publication=NA,
     carob_contributor="Eduardo Garcia Bendito",
     experiment_type="variety_performance",
     has_weather=FALSE,
@@ -32,12 +32,14 @@ carob_script <- function(path) {
   
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-  dset$license <- carobiner::get_license(js)
+  dset$license <- carobiner::get_license(js)[1]
   
-  d <- data.frame()
+  xf <- ff[tools::file_ext(ff) == "xlsx"]
+  d <- vector("list", length(xf))
+  
   ## Process all country files in a loop, since all have similar structure. Then append them together
-  for (f in (ff[tools::file_ext(ff) == "xlsx"])) {
-    dd <- data.frame(readxl::read_excel(f))
+  for (i in 1:length(xf)) {
+    dd <- data.frame(readxl::read_excel(xf[i]))
     dd$dataset_id <- dataset_id
     dd$country <- ifelse(dd$Country == "Cote d'Ivoire", "Côte d'Ivoire", dd$Country)
     dd$site <- dd$Site
@@ -56,16 +58,19 @@ carob_script <- function(path) {
     dd$start_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredStart[[4]]
     dd$end_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredEnd[[4]]
     dd$season <- dd$Season
-    dd$on_farm <- "yes"
-    dd$is_survey <- "no"
+    dd$on_farm <- TRUE
+    dd$is_survey <- FALSE
     dd$crop <- "rice"
     dd$variety_code <- dd$Genotype
     dd$yield <- dd$YIELD*1000
-    dd$grain_weight <- ifelse(dd$Country %in% c("Burkina Faso", "Mali"), "", dd$GW1000) # Only Burkina Faso and Mali miss the grain weight data
-    dd$irrigated <- "no" # Rainfed Upland (RU) farming systems
+	# Burkina Faso and Mali miss the grain weight data
+    dd$grain_weight <- ifelse(dd$Country %in% c("Burkina Faso", "Mali"), NA, dd$GW1000) 
+    # Rainfed Upland (RU) farming systems
+	dd$irrigated <- FALSE 
     dd <- dd[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "season", "on_farm", "is_survey", "crop", "variety_code", "yield", "grain_weight", "irrigated")]
-    d <- rbind(d,dd)
+    d[[i]] <- dd
   }
+  d <- do.call(rbind, d)
   
   # all scripts must end like this
   carobiner::write_files(dset, d, path, dataset_id, group)
