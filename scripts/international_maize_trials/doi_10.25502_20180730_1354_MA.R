@@ -39,6 +39,8 @@ carob_script <- function(path) {
 
 	#x <- carobiner::bindr(d, e)
 	x <- e
+	x$description[x$description == ""] <- NA
+	x$yield <- suppressWarnings(as.numeric(x$yield))
 	
 	x$striga_trial <- "no"
 	x$striga_infected <- NA

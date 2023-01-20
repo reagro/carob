@@ -13,8 +13,9 @@ intmztrial_borer <- function(ff, f, striga=FALSE) {
 
 
 intmztrial_striga <- function(ff, f, striga=FALSE) {
-	f <- ff[tolower(basename(ff))==f]
-	d <- read.csv(f)
+
+	sf <- ff[tolower(basename(ff))==tolower(f)]
+	d <- read.csv(sf)
 	names(d) <- tolower(names(d))
 	names(d)[1] <- "id"
 	d$id <- NULL
@@ -75,6 +76,10 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 		dun$eld <- NA
 		d <- rbind(din, dun)
 		names(d) <- gsub("_$", "", names(d))
+		d$striga_trial <- TRUE
+	} else {
+		d$striga_trial <- FALSE
+		d$striga_infected <- FALSE
 	}
 
 	d <- carobiner::change_names(d, 

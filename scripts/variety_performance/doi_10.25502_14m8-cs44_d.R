@@ -45,9 +45,9 @@ carob_script <- function(path) {
   f <- ff[basename(ff) == "a_general.csv"]
   d <- data.frame(read.csv(f))
   d$trial_id <- d$farm_id
-  d$adm1 <- fix_adm(d$district)
-  d$adm2 <- fix_adm(d$sector_ward)
-  d$adm3 <- fix_adm(d$vilage)
+  d$adm1 <- carobiner::fix_name(d$district, "title")
+  d$adm2 <- carobiner::fix_name(d$sector_ward, "title")
+  d$adm3 <- carobiner::fix_name(d$vilage, "title")
 
   d <- d[,c("trial_id","season","country","adm1","adm2","adm3")]
   
