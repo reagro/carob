@@ -1,3 +1,9 @@
+
+# RH: "groundnut" is "randomly assinged as the crop! 
+# RH: you have got to be kidding. We do not do any random assingments?
+# RH: It seems the the crop info is perhaps available (as variables) in "d"
+
+
 #################################################################################
 #N2Africa was aimed at increasing biological nitrogen fixation and productivity
 #of grain legumes through effective production technologies including inoculants
@@ -51,6 +57,7 @@ d5 <- data.frame(read.csv2(f5, sep = ","))
 #processing data set by data set
 names(d)
 e <- d[, c(3,5,6,8)]
+
 colnames(e) <- c("season","adm2","adm3","trial_id")
 
 e1 <- d1[, c(3,4)]
@@ -91,6 +98,7 @@ z$latitude <- -18.66569
 z$longitude <- 35.52956
 z$on_farm <- "no"
 z$is_survey <- "yes"
+
 z$crop <- ifelse(z$crop %in% c("Groundnut",NA),"groundnut")# NA randomly assigned groundnuts
 z$dataset_id <- dataset_id
 

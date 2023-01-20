@@ -1,12 +1,12 @@
 # R script for "carob"
 
 ## ISSUES
-#Not showing license, showing question mark
 
+# RH
 # this dataset was de-accessioned. There is a new one 
 # doi:10.7910/DVN/QWACIK
 # but that one is locked!! 
-
+# we have the old data and should put it on-line so that we can use it again
 
 carob_script <- function(path) {
 

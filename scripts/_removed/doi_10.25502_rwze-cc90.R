@@ -1,5 +1,10 @@
 
 "
+RH: 2023-01-19
+RH: note that no yield data are provided. So these data are not in scope for us.
+
+
+
 Title: N2Africa farm monitoring - Mozambique, 2011 - 2012, II
 
 Description: N2Africa is to contribute to increasing biological nitrogen fixation and productivity
@@ -12,7 +17,8 @@ N2-fixation research and development will be the legacy of the project.The proje
 five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo,
 Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 "
-carob_script <- function(path) {
+
+no_carob_script <- function(path) {
   
   uri <- "https://doi.org/10.25502/rwze-cc90"
   dataset_id <- agro::get_simple_URI(uri)
@@ -45,9 +51,9 @@ carob_script <- function(path) {
   f <- ff[basename(ff) == "a_general.csv"]
   d <- data.frame(read.csv(f))
   d$trial_id <- d$farm_id
-  d$adm1 <- d$district
-  d$adm2 <- d$sector_ward
-  d$adm3 <- d$vilage
+  d$adm1 <- carobiner::fix_name(d$district, "title")
+  d$adm2 <- carobiner::fix_name(d$sector_ward, "title")
+  d$adm3 <- carobiner::fix_name(d$vilage, "title")
   d <- d[,c("trial_id","season","country","adm1","adm2","adm3")]
   
   f1 <- ff[basename(ff) == "c_use_of_package_1.csv"]
@@ -96,7 +102,14 @@ carob_script <- function(path) {
   f6 <- ff[basename(ff) == "g_farmer_assessment.csv"]  
   d6 <- data.frame(read.csv(f6))
   d6$trial_id <- d6$farm_id
-  d6 <- d6[,c("trial_id","yield")] # yield's units are unknown 
+  
+  # yield units are unknown 
+  ## RH: that is not correct! 
+  ## there are no numbers. What is provided is a relative performance: "better"
+  ## that is interesting, but out of scope for us 
+  
+  
+  d6 <- d6[,c("trial_id","yield")] 
   
   # combining into one dataset
   z <- carobiner::bindr(d,d1,d2,d3,d4,d5,d6)
@@ -107,6 +120,7 @@ carob_script <- function(path) {
   z$dataset_id <- dataset_id
   z$country <- "Mozambique"
   z$crop <- ifelse(z$trial_id %in% d2$trial_id,d2$crop,NA)
+ 
  
   z <- z[,c("dataset_id","trial_id","season","country","adm1","adm2","adm3","crop","variety",
             "start_date","end_date","inoculated","fertilizer_type","N_fertilizer","P_fertilizer",

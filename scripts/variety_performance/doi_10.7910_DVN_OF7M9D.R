@@ -65,6 +65,8 @@ carob_script <- function(path) {
     dd$irrigated <- "no" # Rainfed Upland (RU) farming systems
     dd <- dd[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "season", "on_farm", "is_survey", "crop", "variety_code", "yield", "grain_weight", "irrigated")]
     d <- rbind(d,dd)
+	d$grain_weight <- suppressWarnings(as.numeric(d$grain_weight))
+
   }
   
   # all scripts must end like this
