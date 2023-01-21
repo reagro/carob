@@ -72,16 +72,34 @@ dv  <- rbind(dh,dg,df,de)
 colnames(dv) <- c("rep","treatment","yield","biomass_total","country","adm3","start_date")
 
 #####Change Treatment
+dv$N_fertilizer <- 0
+dv$P_fertilizer <- 0
+dv$K_fertilizer <- 0
+dv$Zn_fertilizer <- 0
+dv$S_fertilizer <- 0
+
+i <- dv$treatment=='C'
+dv$treatment[i] <- '92 kg/ha N & 30 kg/ha P'
+dv$N_fertilizer[i] <- 92
+dv$P_fertilizer[i] <- 30
+
+## RH: N_fertilizer, P_fertilizer and K_fertilizer need to be 
+## RH: updated based on this (if this includes any fertilizer) 
+## RH: see what I have done above for treatment "C"
+## RH: also, avoid non-standard abbreviations
+
+message("    NPK treatments incomplete. SM please fix\n")
 dv$treatment[dv$treatment=='A'] <- 'Ctrl/FP'
 dv$treatment[dv$treatment=='B'] <- 'Cal. P & rec. N'
-dv$treatment[dv$treatment=='C'] <- '92kg/ha N & 30kg/ha P'
+
 
 ##Correct date
-dv$start_date[dv$start_date=='2016/17'] <- '2016'
-dv$start_date[dv$start_date=='2017/18'] <- '2017'
-dv$end_date <- NA
-dv$end_date <- replace(dv$end_date,1:18,"2017")
-dv$end_date <- replace(dv$end_date,19:36,"2018")
+i <- dv$start_date=='2016/17'
+dv$start_date[i] <- '2016'
+dv$end_date[i] <- '2017'
+i <- dv$start_date=='2017/18'
+dv$start_date[i] <- '2017'
+dv$end_date[i] <- '2018'
 
 #Format data set
 dv$dataset_id <- "doi_10.7910_DVN_LTS278"
@@ -90,9 +108,8 @@ dv$on_farm <- TRUE
 dv$is_survey <- FALSE
 dv$trial_id <- 'Blendedfert'
 
-##Re-Order
-dv <- dv[,-1]
-dv <- dv[c("dataset_id","trial_id","country","adm3","start_date","end_date","crop","treatment","yield","biomass_total","on_farm","is_survey")]
+dv$yield <- as.numeric(dv$yield)
+dv$biomass_total <- as.numeric(dv$biomass_total)
 
 carobiner::write_files(dset, dv, path, dataset_id, group)
 

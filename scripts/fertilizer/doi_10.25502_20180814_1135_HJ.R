@@ -52,12 +52,13 @@ carob_script <- function(path) {
 	d$longitude <- d$Flong
 	d$start_date <- format(as.Date(js$result$coverage_start_date), "%Y-%m-%d")
 	d$end_date <- format(as.Date(js$result$coverage_end_date), "%Y-%m-%d")
-	d$season <- "rain"
-	d$on_farm <- "yes"
-	d$is_survey <- "no"
+	d$season <- "rainy"
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
 	d$crop <- tolower(d$TCrop)
 	d$variety <- d$TCVariety
-	d$intercrops <- d$CS
+	## should be crop names
+	##d$intercrops <- d$CS
 	d$previous_crop <- d$PCrop1
 	
 	# 2nd get agronomic data
@@ -67,26 +68,32 @@ carob_script <- function(path) {
 	d1$residue_yield <- d1$Adj.TStoverYld*1000
 	d1$treatment <- d1$TrtDesc
 	d1$rep <- d1$Rep
-	d1$fertilizer_type <- d1$TrtDesc
+## RH: this is the treatment, not the _type_ of fertilizer 
+##	d1$fertilizer_type <- d1$TrtDesc
 	d1$N_fertilizer <- ifelse(d1$TrtDesc == "Control", 0,
-	                             ifelse(d1$TrtDesc == "PK", 0, 100))
+	                   ifelse(d1$TrtDesc == "PK", 0, 100))
 	d1$N_splits <- paste(d1$N_fertilizer*0.25,d1$N_fertilizer*0.375,d1$N_fertilizer*0.375, sep = " | ")
 	d1$P_fertilizer <- ifelse(d1$TrtDesc == "Control", 0,
-	                          ifelse(d1$TrtDesc == "NK", 0, 30))
+	                   ifelse(d1$TrtDesc == "NK", 0, 30))
 	d1$K_fertilizer <- ifelse(d1$TrtDesc == "Control", 0,
-	                          ifelse(d1$TrtDesc == "NP", 0, 60))
+	                   ifelse(d1$TrtDesc == "NP", 0, 60))
 	d1$Zn_fertilizer <- ifelse(d1$TrtDesc == "NPK+MN", 3, 0)
 	d1$S_fertilizer <- ifelse(d1$TrtDesc == "NPK+MN", 5, 0)
-	d1$OM_used <- "yes"
+	d1$OM_used <- TRUE
 	d1$OM_type <- "Manure"
 	d1$OM_applied <- 1000
 	d2 <- merge(d, d1, by = "FieldID", all.x = TRUE)
+
+	p <- carobiner::fix_name(gsub("/", "; ", d2$previous_crop), "lower")
+	p <- gsub("mangoes", "mango", p)
+	p <- gsub("beans", "common bean", p)
+	d2$previous_crop <- p
+
 	d <- d2[,c("country", "location", "site", "trial_id", "latitude", "longitude",
-	            "start_date", "end_date", "season",
-	            "on_farm", "is_survey",
-	            "treatment", "rep", "crop", "variety", "intercrops", "previous_crop",
+	            "start_date", "end_date", "season", "on_farm", "is_survey",
+	            "treatment", "rep", "crop", "variety", "previous_crop",
 	            "yield", "residue_yield",
-	            "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer",
+	            "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer",
 	            "OM_used", "OM_type", "OM_applied")]
 	d$dataset_id <- dataset_id
 
