@@ -165,6 +165,7 @@ unique(d[,c("fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer")] 
   	v <- gsub("^RWA", "RWA ", v)
 	v <- gsub("^RWR", "RWR ", v)
 	v <- gsub("  ", " ", v)
+	w$variety <- v
 
 	sort(unique(v))
 	message("   'variety' contains innoculant names and fertilizers.\n   Perhaps an error in the original data. This must be fixed?\n")	
