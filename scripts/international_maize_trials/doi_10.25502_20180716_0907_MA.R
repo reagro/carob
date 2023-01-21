@@ -36,7 +36,7 @@ carob_script <- function(path) {
 	d$dataset_id <- dataset_id
 	
 	e <- mzfun(ff, "international_maize_trial_cameroon_regular.csv")
-	e$striga_trial <- "no"
+	e$striga_trial <- FALSE
 	e$dataset_id <- dataset_id
 
 	x <- carobiner::bindr(d, e)
