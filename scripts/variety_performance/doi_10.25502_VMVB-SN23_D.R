@@ -149,7 +149,9 @@ carob_script <- function(path){
  
 	z$fertilizer_type <- carobiner::fix_name(z$fertilizer_type)
 	#unique(z$fertilizer_type)
-	message("   'fertilizer_type' contains variety names and numbers\n. Perhaps an error in the orginal data that can be fixed?")	
+	
+	
+	message("   'fertilizer_type' contains variety names and numbers.\n   Perhaps an error in the original data? Needs to be fixed\n")	
  
     # all scripts must end like this
 	carobiner::write_files(dset, z, path, dataset_id, group)
