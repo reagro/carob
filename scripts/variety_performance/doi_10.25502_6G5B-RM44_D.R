@@ -121,6 +121,18 @@ d4 <- d4[, c("dataset_id","country","trial_id","location","rep", "treatment", "v
              "soil_pH", "soil_K", "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm",
              "latitude", "longitude")]
 
-carobiner::write_files(dset, d4, path, dataset_id, group)
-TRUE
+	v <- carobiner::fix_name(d4$variety)
+	i <- grepl("Kenya", v, ignore.case=TRUE)
+	v[i] <- fix_name(v[i], "title")
+	v <- carobiner::replace_values(v, 
+		c("KAT B 9", "KAT X 56", "SB19",  "SB25",  "SB3", "SB97",  "Kenay Mavuno"),
+		c("KAT B9", "KAT X56",  "SB 19", "SB 25", "SB 3", "SB 97", "Kenya Mavuno"))
+	v <- carobiner::replace_values(v, 
+		c("GASIRIDA", "UMUBANO", "NEW ROSCOCO", "TGX1740-2F",  "RWV1129"),
+		c("Gasirida", "Umubano", "New Roscoco", "TGX 1740-2F", "RWV 1129"))
+
+	d4$variety <- v 
+	 
+	carobiner::write_files(dset, d4, path, dataset_id, group)
+
 }
