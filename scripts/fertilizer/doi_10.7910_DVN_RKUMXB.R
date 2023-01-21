@@ -209,6 +209,6 @@ carob_script <- function(path) {
 	c("treatment", "N_fertilizer", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer"))
 
 	carobiner::write_files(dset, d, path, dataset_id, group)
-	TRUE
+
 }
 
