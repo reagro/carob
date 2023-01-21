@@ -95,7 +95,7 @@ The experiment was established in 1986 and continued until 2018 at the ICRISAT S
 #Grain weight – Units: Kg/ha
 #Stover yield – Units: Kg/ha
 
-	d$fertilizer_type <- "calcium ammonium nitrate"
+	d$fertilizer_type <- "CAN"
 	
 ## RH: how do you know that 1 is 15kg/ha?? 
 ## I would have guessed that 1 = 0, and 2 = 15kg/ha	#
@@ -108,7 +108,7 @@ The experiment was established in 1986 and continued until 2018 at the ICRISAT S
 	d$soil_sand <- 95
 	d$soil_SOC <- 0.4
 	
-## RH I generally do not subsetting by column number. It is a bit risky. 
+## RH I generally do not like subsetting by column number. It is a bit risky. 
 ## I prefer to do as I suggest on line 92 (set unused variables to NULL)
 ## and/or select by names  
 	
