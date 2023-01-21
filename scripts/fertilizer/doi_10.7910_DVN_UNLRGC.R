@@ -158,7 +158,7 @@ Notes
 
 	zz <- carobiner::change_names(zz, 
 	c("zone", "year", "n", "p", "k", "fym", "lat", "long", "soiltype"), 
-	c("region", "start_date", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "latitude", "longitude", "soil_type"))
+	c("adm1", "start_date", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "latitude", "longitude", "soil_type"))
 
 	dataset_id <- paste0(cleanuri, "-fao")
 

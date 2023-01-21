@@ -44,9 +44,9 @@ dd <- suppressMessages(as.data.frame(readxl::read_excel(f)[,-c(1:11)]))
 dd$country <- "Ethiopia"
 
 #Transfer locations & year
-dd$region <- NA
-dd$region <- replace(dd$region,1:11,"Limmu Sekka")
-dd$region <- replace(dd$region,12:27,"Omo Nada")
+dd$adm3 <- NA
+dd$adm3 <- replace(dd$adm3,1:11, "Limmu Sekka")
+dd$adm3 <- replace(dd$adm3,12:27, "Omo Nada")
 dd$year <- NA
 dd$year <- replace(dd$year,1:11,"2016/17")
 dd$year <- replace(dd$year,12:27,"2017/18")
@@ -56,20 +56,20 @@ de <- dd[c(1:10),c(1:4,9:11)] #limmu sekka 2017/18
 de$year[de$year=='2016/17'] <- '2017/18'
 de <- de[-1,]
 #names(de)
-colnames(de) <- c("Rep","Trt","GY kg/ha","BM kg/ha","country","region","year")
+colnames(de) <- c("Rep","Trt","GY kg/ha","BM kg/ha","country", "adm3", "year")
 
 df <- dd[c(14:22),c(1:4,9:11)] #Omo Nada 2017/18
-colnames(df) <- c("Rep","Trt","GY kg/ha","BM kg/ha","country","region","year")
+colnames(df) <- c("Rep","Trt","GY kg/ha","BM kg/ha","country","adm3","year")
 dg <- dd[c(2:10),c(5:11)] #Limmu Sekka 2016/17
-colnames(dg) <- c("Rep","Trt","GY kg/ha","BM kg/ha","country","region","year")
+colnames(dg) <- c("Rep","Trt","GY kg/ha","BM kg/ha","country","adm3","year")
 
 dh <- dd[c(14:22),c(5:11)] #Omo Nada 2016/17
 dh$year[de$year=='2017/18'] <- '2016/17'
-colnames(dh) <- c("Rep","Trt","GY kg/ha","BM kg/ha","country","region","year")
+colnames(dh) <- c("Rep","Trt","GY kg/ha","BM kg/ha","country","adm3","year")
 
 ##BindRows
 dv  <- rbind(dh,dg,df,de)
-colnames(dv) <- c("rep","treatment","yield","biomass_total","country","region","start_date")
+colnames(dv) <- c("rep","treatment","yield","biomass_total","country","adm3","start_date")
 
 #####Change Treatment
 dv$treatment[dv$treatment=='A'] <- 'Ctrl/FP'
@@ -92,7 +92,7 @@ dv$trial_id <- 'Blendedfert'
 
 ##Re-Order
 dv <- dv[,-1]
-dv <- dv[c("dataset_id","trial_id","country","region","start_date","end_date","crop","treatment","yield","biomass_total","on_farm","is_survey")]
+dv <- dv[c("dataset_id","trial_id","country","adm3","start_date","end_date","crop","treatment","yield","biomass_total","on_farm","is_survey")]
 
 carobiner::write_files(dset, dv, path, dataset_id, group)
 
