@@ -14,7 +14,7 @@ carob_script <- function(path) {
 "
   
   uri <- "doi:10.7910/DVN/OF7M9D"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "variety_performance"
   ## dataset level data 
   dset <- data.frame(

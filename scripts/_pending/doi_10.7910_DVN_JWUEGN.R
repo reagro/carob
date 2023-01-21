@@ -20,7 +20,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   ## Process 
  
   uri <- "doi:10.7910/DVN/JWUEGN"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
   dset <- data.frame(

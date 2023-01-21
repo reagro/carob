@@ -10,7 +10,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   ## Process 
  
   uri <- "doi:10.21421/D2/EYFR2F"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
   dset <- data.frame(

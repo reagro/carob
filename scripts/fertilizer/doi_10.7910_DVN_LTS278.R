@@ -13,7 +13,7 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 
 ## Process 
 uri <- "doi:10.7910/DVN/LTS278"
-dataset_id <- agro::get_simple_URI(uri)
+dataset_id <- carobiner::simple_uri(uri)
 group <- "fertilizer"
 dset <- data.frame(
   dataset_id = dataset_id,

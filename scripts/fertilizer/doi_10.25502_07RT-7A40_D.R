@@ -11,7 +11,7 @@ carob_script <- function(path) {
     
 ####
   uri <- "https://doi.org/10.25502/07rt-7a40/d"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ## dataset level data. Internal annotation for CAROB 
   dset <- data.frame(

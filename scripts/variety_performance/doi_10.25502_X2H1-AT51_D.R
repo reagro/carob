@@ -16,7 +16,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 
 " 
   uri <- "doi:10.25502/X2H1-AT51/D"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "variety_performance"
   
   ## dataset level data 

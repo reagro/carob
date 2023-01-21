@@ -24,7 +24,7 @@ Notes
 
 	## Process 
 	uri <- "doi:10.7910/DVN/UNLRGC"
-	cleanuri <- agro::get_simple_URI(uri)
+	cleanuri <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 
 	dataset_id <- paste0(cleanuri, "-afsis")
@@ -110,9 +110,9 @@ Notes
 	z <- merge(z, crds, by="TrialID")
 	
 	names(z) <- tolower(names(z))
-	z$soiltype  <- carobiner::capitalize_words(z$soiltype)
-	z$zone <- carobiner::capitalize_words(z$zone)
-	z$location <- carobiner::capitalize_words(z$location)
+	z$soiltype  <- carobiner::fix_name(z$soiltype, "title")
+	z$zone <- carobiner::fix_name(z$zone, "title")
+	z$location <- carobiner::fix_name(z$location, "title")
 	z$year[z$year=="87B"] <- "1987"
 	z$year[z$year=="88A"] <- "1988"
 	z$start_date <- z$year

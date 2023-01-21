@@ -10,7 +10,7 @@ Description: This dataset contains information of experiments carried out upland
 
 " 
   uri <- "https://doi.org/10.7910/DVN/H0HUSY"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
   ## dataset level data 

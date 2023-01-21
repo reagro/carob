@@ -52,10 +52,10 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 	d$start_date[d$year==24] <- 2004
 	d$start_date[d$year==25] <- 2005
 	
-	d$country <- carobiner::capitalize_words(d$country)
-	d$location <- carobiner::capitalize_words(d$location)
+	d$country <- carobiner::fix_name(d$country, "title")
+	d$location <- carobiner::fix_name(d$location, "title")
 
-	d$crop <- 'maize'
+	d$crop <- "maize"
 
 	d$on_farm <- FALSE
 	d$year <- NULL

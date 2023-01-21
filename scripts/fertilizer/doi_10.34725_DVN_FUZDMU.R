@@ -15,7 +15,7 @@ Agricultural Water Management 98: 1364-1372
 "
 
 	uri <- "doi:10.34725/DVN/FUZDMU"
-	dataset_id <- agro::get_simple_URI(uri)
+	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(

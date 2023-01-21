@@ -7,8 +7,9 @@
 #################################################################################
 
 carob_script <- function(path) {
+
 	uri <- "doi:10.25502/20180716/0907/MA"
-	dataset_id <- agro::get_simple_URI(uri)
+	dataset_id <- carobiner::simple_uri(uri)
 	group <- "international_maize_trials"	
 		
 	## dataset level data 

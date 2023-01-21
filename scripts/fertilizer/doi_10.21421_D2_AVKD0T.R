@@ -18,7 +18,7 @@ The experiment was established in 1986 and continued until 2018 at the ICRISAT S
 "
 
 	uri <- "doi:10.21421/D2/AVKD0T"
-	dataset_id <- agro::get_simple_URI(uri)
+	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(

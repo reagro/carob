@@ -17,7 +17,7 @@ carob_script <- function(path){
   
   # registering the dataset
   uri <- "doi:10.25502/VMVB-SN23/D"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "variety_performance"
   
   # The metadata at the dataset level

@@ -10,7 +10,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
   ## Process 
  
   uri <- "doi:10.21421/D2/YDFJOB"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
   dset <- data.frame(
