@@ -33,7 +33,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
   
   ## the AFSIS data 
   f <- ff[basename(ff) == "Data file of Sorghum productivity and water use under phosphorous fertilization.xlsx"]
-  d <- suppressMessages(as.data.frame(readxl::read_excel(f)))
+  d <- carobiner::read.excel(f)
 
   ##Convert First Row to Header
   e<-d[,c(1,2,4,5,6,14,15,16)]

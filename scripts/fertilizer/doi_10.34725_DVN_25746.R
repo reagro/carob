@@ -40,7 +40,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	f <- ff[basename(ff) == "Sileshi Stab analysis data.xlsx"]
 	# process file(s)
 
-	suppressMessages(	  d <- readxl::read_excel(f)   )
+	d <- carobiner::read.excel(f)
 	
 	d <- as.data.frame(d)
 	colnames(d) <- gsub("treat$", "treatment", tolower(d[1,]))

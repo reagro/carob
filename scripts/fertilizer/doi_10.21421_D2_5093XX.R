@@ -33,7 +33,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   
   ## the AFSIS data 
   f <- ff[basename(ff) == "Data file of Groundnut to plant density and phosphorous application in Wudil 2012-13.xlsx"]
-  d <- suppressMessages(as.data.frame(readxl::read_excel(f)))
+  d <- carobiner::read.excel(f)
   
   names(d)
   e<-d[,c(1,2,4,5,6,7,14,15)]

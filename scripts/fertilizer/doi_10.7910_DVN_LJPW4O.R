@@ -38,7 +38,7 @@ carob_script <- function(path) {
 
 	f <- ff[basename(ff) == "9a Yield data.xlsx"]
 
-	d <- suppressMessages(as.data.frame(readxl::read_excel(f)))
+	d <- carobiner::read.excel(f)
 	d$country <- "Uganda"
 	d$adm1 <- "Wakiso"
 	d$adm2 <- "Jinja"
@@ -56,7 +56,7 @@ carob_script <- function(path) {
 	d$treatment <- "Multi-level application of mineral fertilizers (macro & micro nutrients) + manure & pesticide"
 	
 	# Merge with measured biomass ("2a Dry matter measurements.xlsx")
-	biomass <- suppressMessages(as.data.frame(readxl::read_excel(ff[basename(ff) == "2a Dry matter measurements.xlsx"])))
+	biomass <- carobiner::read.excel(ff[basename(ff) == "2a Dry matter measurements.xlsx"])
 	biomass$Season <- ifelse(biomass$`Days after planting (dap)` == 30, 1, 2)
 	biomass$season <- "rainy"
 	biomass$observation_date <- as.Date("2013-08-10", format='%Y-%m-%d')+biomass$`Days after planting (dap)`
@@ -84,7 +84,7 @@ carob_script <- function(path) {
 	# Have sent an email to Job Kihara to find out about the manure applied (2021/09/17)
 	###########
 	# Merge with Manure applied ("1a Cattle manure lab analysis.xlsx")
-	OM <- suppressMessages(as.data.frame(readxl::read_excel(ff[basename(ff) == "1a Cattle manure lab analysis.xlsx"], skip = 5)))
+	OM <- carobiner::read.excel(ff[basename(ff) == "1a Cattle manure lab analysis.xlsx"], skip = 5)
 	d1$OM_used <- ifelse(d1$Treatment == 8, "yes", "no")
 	d1$OM_type <- ifelse(d1$Treatment == 8, "manure", NA)
 	d1$OM_applied <- ifelse(d1$Treatment == 8, 5000, NA)
@@ -93,7 +93,7 @@ carob_script <- function(path) {
 	d1$OM_K <- d1$OM_applied*(0.1796/100)*(66.9072/1e+06) # OM$K (ppm)
 
 	# Merge with Soil data ("8a Soil lab data.xlsx")
-	soil <- suppressMessages(as.data.frame(readxl::read_excel(ff[basename(ff) == "8a Soil lab data.xlsx"], skip = 12)))
+	soil <- carobiner::read.excel(ff[basename(ff) == "8a Soil lab data.xlsx"], skip = 12)
 	soil$Block <- sub("^\\D*(\\d+).*$", "\\1",  soil$`Client's ref`)
 	soil$Plot <- sub('.*(?=.{2}$)', '', soil$`Client's ref`, perl=T)
 	soil1 <- soil[,c(1,4:17)]

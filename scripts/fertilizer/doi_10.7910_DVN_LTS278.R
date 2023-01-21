@@ -31,14 +31,14 @@ ff  <- carobiner::get_data(uri, path, group)
 
 ## read the json for version, license, terms of use  
 js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
-dset$license <- carobiner::get_license(js)[1]
+dset$license <- carobiner::get_license(js)[[1]]
 
 ## the AFSIS data 
 f <- ff[basename(ff) == "AGP II 2017.18 RAW DATA.xlsx"] 
-d <- suppressMessages(as.data.frame(readxl::read_excel(f)))
+d <- carobiner::read.excel(f)
 
 ##Skip early rows(Descriptive rows)
-dd <- suppressMessages(as.data.frame(readxl::read_excel(f)[,-c(1:11)]))
+dd <- carobiner::read.excel(f)[,-c(1:11)]
 
 #transfer columns
 dd$country <- "Ethiopia"

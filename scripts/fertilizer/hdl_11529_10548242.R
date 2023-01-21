@@ -40,7 +40,7 @@ carob_script <- function(path) {
 
 	f <- ff[basename(ff) == "TAMASA_TZ_APS_2017_CC_MaizeYield.xlsx"]
 
-	d <- suppressMessages(as.data.frame(readxl::read_excel(f, sheet = "Raw data", n_max = 1738)))
+	d <- carobiner::read.excel(f, sheet = "Raw data", n_max = 1738)
 	colnames(d) <- c("Country", "Zone", "Region", "District", "Ward", "Village", "Hamlet", "HHID", "Farmer Name", "drop", "QID",
 	                 "QRcode Cobs", "Latitude", "Longitude", "Altitude", "Area by Farmer_est", "Area by GPS", "drop1",
 	                 "Plant stands", "Total Number of Cobs", "FWt of Cobs_all (kg)", "FWt of Cobs SS (kg)", "Dry Wt of Cobs SS (kg)",

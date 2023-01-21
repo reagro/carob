@@ -36,7 +36,7 @@ Agricultural Water Management 98: 1364-1372
 	dset$license <- carobiner::get_license(js)
 
 	f <- ff[basename(ff) == "Ibadan data.xls"]
-	d <- as.data.frame(suppressMessages(readxl::read_excel(f)))
+	d <- carobiner::read.excel(f)
 	d1 <- d[1:12, 1:16]
 	d2 <- d[16:27, ]
 	colnames(d2) <- d[15,]

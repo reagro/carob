@@ -43,10 +43,10 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   
   ## the AFSIS data 
   f <- ff[basename(ff) == "Responses of upland NERICA rice varieties to nitrogen and plant density.xlsx"]
-  d <- suppressMessages(as.data.frame(readxl::read_excel(f)))
+  d <- carobiner::read.excel(f)
   
   ##Skip early rows-Descriptive rows)
-  d <- suppressMessages(as.data.frame(readxl::read_excel(f)[-c(1:21),]))
+  d <- carobiner::read.excel(f)[-c(1:21),]
   
   ##Convert First Row to Header
   names(d)<-d[1,]

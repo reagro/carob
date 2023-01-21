@@ -41,10 +41,10 @@ carob_script <- function(path) {
 ## process 001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx
 	f <- ff[basename(ff) == "001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx"]
  
- 	# suppress variable renaming warning
-	suppressMessages(d <- readxl::read_excel(f))
+ 	d <- carobiner::read.excel(f)
   
   d <- data.frame(d)
+  
   dd <- data.frame(country = d$Country) # Create parallel dataframe
   dd$country <- d$Country
   dd$adm1 <- d$Region.state
@@ -84,12 +84,18 @@ carob_script <- function(path) {
                                       ifelse(d$Treatment == "NPKS", "Urea + DAP + potassium sulfate", "Urea + DAP + potassium sulfate + zinc sulfate")))
   dd$N_fertilizer <- d$N.fertilizer.amount...19
   dd$N_splits <- 2 # There were two N_splits: Basal (50%) and top dressing (50%)
-  dd$observation_date <- d$N.topdressing.date # Date of the application of the 2nd split
-  dd$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount), 0, d$P.fertilizer.amount) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
-  dd$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..K2O.kg.ha..), 0, d$K.fertilizer.amount..K2O.kg.ha..) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
-  dd$Zn_fertilizer <- ifelse(is.na(d$Zn.fertilizer.amount..Zn.kg.ha..), 0, d$Zn.fertilizer.amount..Zn.kg.ha..) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
-  dd$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..S.kg.ha..), 0, d$S.fertilizer.amount..S.kg.ha..) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
+  
+  # Date of the application of the 2nd split
+  ### RH: this is not an observation! 
+  ### dd$observation_date <- as.character(as.Date(d$N.topdressing.date))
+  
+  # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
+  dd$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount), 0, d$P.fertilizer.amount) 
+  dd$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..K2O.kg.ha..), 0, d$K.fertilizer.amount..K2O.kg.ha..)
+  dd$Zn_fertilizer <- ifelse(is.na(d$Zn.fertilizer.amount..Zn.kg.ha..), 0, d$Zn.fertilizer.amount..Zn.kg.ha..)
+  dd$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..S.kg.ha..), 0, d$S.fertilizer.amount..S.kg.ha..)
   dd$soil_type <- d$Soil.type
+  
   # dd$soil_pH <- # To be requested from the author
   # dd$soil_SOC <- # To be requested from the author
   # dd$soil_sand <- # To be requested from the author
@@ -102,8 +108,7 @@ carob_script <- function(path) {
 ## process 002_2016_Wheat_ ICRISAT-AR_ETH.xlsx
   f <- ff[basename(ff) == "002_2016_Wheat_ ICRISAT-AR_ETH.xlsx"]
 
- 	# suppress variable renaming warning
-	suppressMessages(d <- readxl::read_excel(f))
+	d <- carobiner::read.excel(f)
   d <- data.frame(d)
   ddd <- data.frame(country = d$Country) # Create parallel dataframe
   ddd$country <- d$Country
@@ -111,8 +116,8 @@ carob_script <- function(path) {
   ddd$adm3 <- d$LGA.District
   ddd$location <- d$village.Kebele
   ddd$trial_id <- paste0("002_2016_Wheat_ ICRISAT-AR_ETH", '.', d$village.Kebele)
-  ddd$start_date <- as.Date(d$Planting.date)
-  ddd$end_date <-  as.Date(d$Harvest.date)
+  ddd$start_date <- as.character(as.Date(d$Planting.date))
+  ddd$end_date <-  as.character(as.Date(d$Harvest.date))
   # ddd$longitude <- # was removed from data
   # ddd$latitude <- # was removed from data
   ddd$on_farm <- "yes"
@@ -143,11 +148,11 @@ carob_script <- function(path) {
                                       ifelse(d$Treatment == "NPKS", "Urea + DAP + potassium sulfate", "Urea + DAP + potassium sulfate + zinc sulfate")))
   ddd$N_fertilizer <- d$N.fertilizer.amount..kg.ha.
   ddd$N_splits <- 2 # There were two N_splits: Basal (50%) and top dressing (50%)
-  ddd$observation_date <- d$N.topdressing.date # Date of the application of the 2nd split
-  ddd$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount..kg.ha.), 0, d$P.fertilizer.amount..kg.ha.) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
-  ddd$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..kg.ha.), 0, d$K.fertilizer.amount..kg.ha.) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
-  ddd$Zn_fertilizer <- "" # Not present in the dataframe
-  ddd$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..kg.ha.), 0, d$S.fertilizer.amount..kg.ha.) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
+  ### not obs ddd$observation_date <- d$N.topdressing.date # Date of the application of the 2nd split
+  ddd$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount..kg.ha.), 0, d$P.fertilizer.amount..kg.ha.) 
+  ddd$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..kg.ha.), 0, d$K.fertilizer.amount..kg.ha.) 
+  ddd$Zn_fertilizer <- NA # Not present in the dataframe
+  ddd$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..kg.ha.), 0, d$S.fertilizer.amount..kg.ha.) 
   ddd$soil_type <- d$Soil.type
   # ddd$soil_pH <- # To be requested from the author
   # ddd$soil_SOC <- # To be requested from the author
@@ -161,7 +166,7 @@ carob_script <- function(path) {
 ## process 003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx
   f <- ff[basename(ff) == "003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx"]
   
-  suppressMessages(d <- readxl::read_excel(f))
+  d <- carobiner::read.excel(f)
   d <- data.frame(d)
   dddd <- data.frame(country = d$Country) # Create parallel dataframe
   dddd$country <- d$Country
@@ -169,8 +174,8 @@ carob_script <- function(path) {
   dddd$adm3 <- d$LGA.District
   dddd$location <- d$village.Kebele
   dddd$trial_id <- paste0("003_2017_Sorghum+Tef_ ICRISAT-AR_ETH", '.', d$village.Kebele)
-  dddd$start_date <- as.Date(d$Planting.date)
-  dddd$end_date <- as.Date(d$Harvest.date)
+  dddd$start_date <- as.character(as.Date(d$Planting.date))
+  dddd$end_date <- as.character(as.Date(d$Harvest.date))
   # dddd$longitude <- # Removed by PI?
   # dddd$latitude <- # Removed by PI?
   dddd$on_farm <- "yes"
@@ -200,13 +205,15 @@ carob_script <- function(path) {
                                 ifelse(d$Treatment == "NPK", "Urea + DAP + potassium nitrate",
                                        ifelse(d$Treatment == "NPKS", "Urea + DAP + potassium sulfate", "Urea + DAP + potassium sulfate + zinc sulfate")))
   dddd$N_fertilizer <- d$N.fertilizer.amount..kg.ha.
-  dddd$N_splits <- 2 # There were two N_splits: Basal (50%) and top dressing (50%)
-  dddd$observation_date <- d$N.topdressing.date # Date of the application of the 2nd split
-  dddd$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount..kg.ha.), 0, d$P.fertilizer.amount..kg.ha.) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
-  dddd$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..kg.ha.), 0, d$K.fertilizer.amount..kg.ha.) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
-  dddd$Zn_fertilizer <- ifelse(is.na(d$Zn.fertilizer.amount..kg.ha.), 0, d$Zn.fertilizer.amount..kg.ha.) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
-  dddd$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..kg.ha.), 0, d$S.fertilizer.amount..kg.ha.) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
+  dddd$N_splits <- 2 
+	# There were two N_splits: Basal (50%) and top dressing (50%)
+
+  dddd$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount..kg.ha.), 0, d$P.fertilizer.amount..kg.ha.) 
+  dddd$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..kg.ha.), 0, d$K.fertilizer.amount..kg.ha.)
+  dddd$Zn_fertilizer <- ifelse(is.na(d$Zn.fertilizer.amount..kg.ha.), 0, d$Zn.fertilizer.amount..kg.ha.) 
+  dddd$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..kg.ha.), 0, d$S.fertilizer.amount..kg.ha.) 
   dddd$soil_type <- d$Soil.type
+
   # dddd$soil_pH <- # To be requested from the author
   # dddd$soil_SOC <- # To be requested from the author
   # dddd$soil_sand <- # To be requested from the author
@@ -219,21 +226,23 @@ carob_script <- function(path) {
 ## process 004_2019_Wheat_ ICRISAT-AR_ETH.xlsx
   f <- ff[basename(ff) == "004_2019_Wheat_ ICRISAT-AR_ETH.xlsx"]
   
-  d <- suppressMessages(readxl::read_excel(f))
+  d <- carobiner::read.excel(f)
   d <- data.frame(d)
+  
   ddddd <- data.frame(country = d$Country) # Create parallel dataframe
   ddddd$country <- d$Country
   ddddd$adm1 <- d$Region.state
   ddddd$adm3 <- d$LGA.District
   ddddd$location <- d$village
   ddddd$trial_id <- paste0("004_2019_Wheat_ ICRISAT-AR_ETH", '.', d$village)
-  ddddd$start_date <- as.Date(d$Planting.date)
-  ddddd$end_date <- as.Date(d$Harvest.date)
+  ddddd$start_date <- as.character(as.Date(d$Planting.date))
+  ddddd$end_date <- as.character(as.Date(d$Harvest.date))
   # ddddd$longitude <- # Removed by PI?
   # ddddd$latitude <- # Removed by PI?
   ddddd$on_farm <- "yes"
   ddddd$is_survey <- "no"
   ddddd$treatment <- d$Treatment
+
   # Generate replicate column
   for (r in 1:nrow(d)) { # For each row in dd
     if(r == 1){ # If it is the first row...
@@ -259,11 +268,11 @@ carob_script <- function(path) {
                                         ifelse(d$Treatment == "NPKS", "Urea + DAP + potassium sulfate", "Urea + DAP + potassium sulfate + zinc sulfate")))
   ddddd$N_fertilizer <- d$N.fertilizer.amount..kg.ha.
   ddddd$N_splits <- 2 # There were two N_splits: Basal (50%) and top dressing (50%)
-  ddddd$observation_date <- d$N.topdressing.date # Date of the application of the 2nd split
-  ddddd$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount..kg.ha.), 0, d$P.fertilizer.amount..kg.ha.) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
-  ddddd$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..kg.ha.), 0, d$K.fertilizer.amount..kg.ha.) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
-  ddddd$Zn_fertilizer <- ifelse(is.na(d$Zn.fertilizer.amount..kg.ha.), 0, d$Zn.fertilizer.amount..kg.ha.) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
-  ddddd$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..kg.ha.), 0, d$S.fertilizer.amount..kg.ha.) # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
+  ###ddddd$observation_date <- d$N.topdressing.date # Date of the application of the 2nd split
+  ddddd$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount..kg.ha.), 0, d$P.fertilizer.amount..kg.ha.)
+  ddddd$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..kg.ha.), 0, d$K.fertilizer.amount..kg.ha.) 
+  ddddd$Zn_fertilizer <- ifelse(is.na(d$Zn.fertilizer.amount..kg.ha.), 0, d$Zn.fertilizer.amount..kg.ha.) 
+  ddddd$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..kg.ha.), 0, d$S.fertilizer.amount..kg.ha.) 
   ddddd$soil_type <- d$Soil.type
   # ddddd$soil_pH <- # To be requested from the author
   # ddddd$soil_SOC <- # To be requested from the author
@@ -276,8 +285,9 @@ carob_script <- function(path) {
   
 ## Append the tables together
   d <- rbind(dd,ddd,dddd,ddddd)
+  
 ## Filter only relevant variables
-  d <- dd[,c("country", "adm1", "adm3", "location", "trial_id", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety", "crop_rotation", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "observation_date", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer","soil_type")]
+  d <- dd[,c("country", "adm1", "adm3", "location", "trial_id", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety", "crop_rotation", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer","soil_type")]
 ## Add dataset ID
   d$dataset_id <- dataset_id
 

@@ -41,6 +41,7 @@ carob_script <- function(path) {
 
 	x <- carobiner::bindr(d, e)
 	x$location[	x$location == "Cameroon"] <- NA
+	x$description <- as.character(x$description)
 
 # all scripts must end like this
 	carobiner::write_files(dset, x, path, dataset_id, group)

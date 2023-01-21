@@ -78,5 +78,5 @@ carob_script <- function(path) {
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path, dataset_id, group)
-	TRUE
+
 }

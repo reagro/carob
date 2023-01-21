@@ -33,7 +33,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   
   ## the AFSIS data 
   f <- ff[basename(ff) == "Data file of Sorghum Phosphorus trial Kano Nigeria.xlsx"]
-  d <- suppressMessages(as.data.frame(readxl::read_excel(f)))
+  d <- carobiner::read.excel(f)
   
   names(d)
   e<-d[,c(1,2,4,5,6,14,15,16)]
