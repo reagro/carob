@@ -130,12 +130,24 @@ carob_script <- function(path) {
 	d$irrigated <- d$irrigated == "irrigated"
 
 	## year to start year / end year
-	d[, c('start_date','end_date')] <- stringr::str_split_fixed(d$year, "-",2)
-	i <- grep("2008/09", d$start_date)
-	d$start_date[i] <- "2008"
-	d$end_date[i] <- "2009"
-	d$start_date <- as.numeric(d$start_date)
-	d$end_date <- as.numeric(d$end_date)
+	d$start_date <- NA
+	d$end_date <- NA
+	i <- nchar(d$year) == 4
+	d$start_date[i] <- d$year[i]
+	d$end_date[i] <- d$year[i]
+
+	i <- nchar(d$year) == 9
+	d$start_date[i] <- substr(d$year[i], 1, 4)
+	d$end_date[i] <- substr(d$year[i], 6, 9)
+
+	i <- d$year == "2007-8"
+	d$start_date[i] <- 2007
+	d$end_date[i] <- 2008
+
+	i <- d$year == "2008-09"
+	d$start_date[i] <- 2008
+	d$end_date[i] <- 2009
+	
 	d$year <- NULL
 
 	## Georeferencing --- more to be done
@@ -156,6 +168,8 @@ carob_script <- function(path) {
 	f1 <- gsub("Ethiopian rock phosphate \\(ERP)", "ERP", f1)
 	f1 <- gsub("Gafsa rock Phosphate \\(GRP)", "GRP", f1)
 	f1 <- gsub("GRP mixture \\(1:4)", "GRP", f1)
+	f1 <- gsub("Basic slag", "basic slag", f1)
+	f1 <- gsub("Bone meal", "bone meal", f1)
 	
 	f2 <- carobiner::fix_name(d$fertilizer_type_2)
 	f2 <- gsub("Ammonium sulphate and Potassium sulphate", "DAS; SOP", f2)	
@@ -174,12 +188,12 @@ carob_script <- function(path) {
 	p <- fix_name(d$previous_crop, "lower")
 	p <- gsub("/", "; ", p)
 	p <- gsub("tef$", "teff", p)
-	p <- gsub("tef;$", "teff", p)
+	p <- gsub("tef;", "teff;", p)
 	p <- gsub("soybean\\(scs-1)", "soybean", p)
 	p <- gsub("oats-vetch mixture", "oats; vetch", p)
 	p <- gsub("dolichos", "lablab", p)
 	p <- gsub("barely", "barley", p)
-
+	p <- gsub("none", "no crop", p)
 	
 	d$previous_crop <- p
 
@@ -240,7 +254,20 @@ carob_script <- function(path) {
 
 	d$uncertainty[d$uncertainty=="NS"] <- NA
 	d$uncertainty <- as.numeric(d$uncertainty)
+	
+	ps <- d$plant_spacing
+	d$plant_spacing <- NULL
+	i <- ps == "Inter-row spacing (55cm)"
+	d$row_spacing[i] <- 55
+	i <- ps == "Inter-row spacing (65cm)"
+	d$row_spacing[i] <- 65
+	i <- ps == "Inter-row spacing (75cm)"
+	d$row_spacing[i] <- 75
 
+	i <- grep("Plant density \\(n perha)", ps)
+	d$plant_density <- NA
+	d$plant_density[i] <- as.numeric(gsub("Plant density \\(n perha)", "", ps[i]))
+	
 	carobiner::write_files(dset, d, path, dataset_id, group)
 
 }

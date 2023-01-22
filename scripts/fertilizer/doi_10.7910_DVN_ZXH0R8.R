@@ -45,183 +45,183 @@ carob_script <- function(path) {
   
   d <- data.frame(d)
   
-  dd <- data.frame(country = d$Country) # Create parallel dataframe
-  dd$country <- d$Country
-  dd$adm1 <- d$Region.state
-  dd$adm3 <- d$LGA.District
-  dd$location <- d$village.Kebele
-  dd$trial_id <- paste0('001_2014-2015_Wheat_ICRISAT-AR_ETH', '.', d$village.Kebele)
+  d2 <- data.frame(country = d$Country) # Create parallel dataframe
+  d2$country <- d$Country
+  d2$adm1 <- d$Region.state
+  d2$adm3 <- d$LGA.District
+  d2$location <- d$village.Kebele
+  d2$trial_id <- paste0('001_2014-2015_Wheat_ICRISAT-AR_ETH', '.', d$village.Kebele)
   
-  dd$start_date <- as.Date(d$Planting.date)
-  dd$end_date <- as.Date(d$Harvest.date)
-  # dd$longitude <- # Removed due to PII
-  # dd$latitude <- # Removed due to PII
-  dd$on_farm <- "yes"
-  dd$is_survey <- "no"
-  dd$treatment <- d$Treatment
+  d2$start_date <- as.character(as.Date(d$Planting.date))
+  d2$end_date <- as.character(as.Date(d$Harvest.date))
+  # d2$longitude <- # Removed due to PII
+  # d2$latitude <- # Removed due to PII
+  d2$on_farm <- "yes"
+  d2$is_survey <- "no"
+  d2$treatment <- d$Treatment
   # Generate replicate column
-  for (r in 1:nrow(d)) { # For each row in dd
+  for (r in 1:nrow(d)) { # For each row in d2
     if(r == 1){ # If it is the first row...
-      dd$rep[r] <- 1 # Assign 1st replicate...
+      d2$rep[r] <- 1 # Assign 1st replicate...
       t <- 1 # And start a counter.
     } else if(d$Treatment[r] == d$Treatment[r-1]){ # If the treatment is the same name, it is a replicate...
-      dd$rep[r] <- t+1 # Therefore add the next replicate...
+      d2$rep[r] <- t+1 # Therefore add the next replicate...
       t <- t+1 # And add to the counter.
     } else {
-      dd$rep[r] <- 1 # Else, it is a new treatment, therefore assign the 1st replicate...
+      d2$rep[r] <- 1 # Else, it is a new treatment, therefore assign the 1st replicate...
       t <- 1 # And start a new counter.
     }
   }
-  dd$crop <- tolower(d$Crop)
-  dd$variety <- d$Variety
-  dd$crop_rotation <- tolower(d$Crop.system)
-  # dd$biomass <- d$Biomass..kg.ha. # Biomass is collected as fresh biomass
-  dd$yield <- d$Yield..kg.ha. + (d$Yield..kg.ha.*0.13) # Yield data is measured as dry weight 
-  dd$residue_yield <- d$Stover.yield..kg.ha # Residue data is measured as dry weight
+  d2$crop <- tolower(d$Crop)
+  d2$variety <- d$Variety
+  d2$previous_crop <- tolower(d$Crop.system)
+  # d2$biomass <- d$Biomass..kg.ha. # Biomass is collected as fresh biomass
+  d2$yield <- d$Yield..kg.ha. + (d$Yield..kg.ha.*0.13) # Yield data is measured as dry weight 
+  d2$residue_yield <- d$Stover.yield..kg.ha # Residue data is measured as dry weight
   # Type of fertilizer applied is not clear when several are applied
-  dd$fertilizer_type <- ifelse(d$Treatment == "0.33NP/farmer practice" | d$Treatment == "NP", "Urea + DAP",
+  d2$fertilizer_type <- ifelse(d$Treatment == "0.33NP/farmer practice" | d$Treatment == "NP", "Urea + DAP",
                                ifelse(d$Treatment == "NPK", "Urea + DAP + potassium nitrate",
                                       ifelse(d$Treatment == "NPKS", "Urea + DAP + potassium sulfate", "Urea + DAP + potassium sulfate + zinc sulfate")))
-  dd$N_fertilizer <- d$N.fertilizer.amount...19
-  dd$N_splits <- 2 # There were two N_splits: Basal (50%) and top dressing (50%)
+  d2$N_fertilizer <- d$N.fertilizer.amount...19
+  d2$N_splits <- 2 # There were two N_splits: Basal (50%) and top dressing (50%)
   
   # Date of the application of the 2nd split
   ### RH: this is not an observation! 
-  ### dd$observation_date <- as.character(as.Date(d$N.topdressing.date))
+  ### d2$observation_date <- as.character(as.Date(d$N.topdressing.date))
   
   # I think is more correct to indicate 0 than NA, since the treatment does not contain the element
-  dd$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount), 0, d$P.fertilizer.amount) 
-  dd$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..K2O.kg.ha..), 0, d$K.fertilizer.amount..K2O.kg.ha..)
-  dd$Zn_fertilizer <- ifelse(is.na(d$Zn.fertilizer.amount..Zn.kg.ha..), 0, d$Zn.fertilizer.amount..Zn.kg.ha..)
-  dd$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..S.kg.ha..), 0, d$S.fertilizer.amount..S.kg.ha..)
-  dd$soil_type <- d$Soil.type
+  d2$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount), 0, d$P.fertilizer.amount) 
+  d2$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..K2O.kg.ha..), 0, d$K.fertilizer.amount..K2O.kg.ha..)
+  d2$Zn_fertilizer <- ifelse(is.na(d$Zn.fertilizer.amount..Zn.kg.ha..), 0, d$Zn.fertilizer.amount..Zn.kg.ha..)
+  d2$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..S.kg.ha..), 0, d$S.fertilizer.amount..S.kg.ha..)
+  d2$soil_type <- d$Soil.type
   
-  # dd$soil_pH <- # To be requested from the author
-  # dd$soil_SOC <- # To be requested from the author
-  # dd$soil_sand <- # To be requested from the author
-  # dd$soil_clay <- # To be requested from the author
-  # dd$soil_N <- # To be requested from the author
-  # dd$soil_K <- # To be requested from the author
-  # dd$soil_P_total <- # To be requested from the author
-  # dd$soil_P_available <- # To be requested from the author
+  # d2$soil_pH <- # To be requested from the author
+  # d2$soil_SOC <- # To be requested from the author
+  # d2$soil_sand <- # To be requested from the author
+  # d2$soil_clay <- # To be requested from the author
+  # d2$soil_N <- # To be requested from the author
+  # d2$soil_K <- # To be requested from the author
+  # d2$soil_P_total <- # To be requested from the author
+  # d2$soil_P_available <- # To be requested from the author
 	  
 ## process 002_2016_Wheat_ ICRISAT-AR_ETH.xlsx
   f <- ff[basename(ff) == "002_2016_Wheat_ ICRISAT-AR_ETH.xlsx"]
 
 	d <- carobiner::read.excel(f)
   d <- data.frame(d)
-  ddd <- data.frame(country = d$Country) # Create parallel dataframe
-  ddd$country <- d$Country
-  ddd$adm1 <- d$Region.state
-  ddd$adm3 <- d$LGA.District
-  ddd$location <- d$village.Kebele
-  ddd$trial_id <- paste0("002_2016_Wheat_ ICRISAT-AR_ETH", '.', d$village.Kebele)
-  ddd$start_date <- as.character(as.Date(d$Planting.date))
-  ddd$end_date <-  as.character(as.Date(d$Harvest.date))
-  # ddd$longitude <- # was removed from data
-  # ddd$latitude <- # was removed from data
-  ddd$on_farm <- "yes"
-  ddd$is_survey <- "no"
-  ddd$treatment <- d$Treatment
+  d3 <- data.frame(country = d$Country) # Create parallel dataframe
+  d3$country <- d$Country
+  d3$adm1 <- d$Region.state
+  d3$adm3 <- d$LGA.District
+  d3$location <- d$village.Kebele
+  d3$trial_id <- paste0("002_2016_Wheat_ ICRISAT-AR_ETH", '.', d$village.Kebele)
+  d3$start_date <- as.character(as.Date(d$Planting.date))
+  d3$end_date <-  as.character(as.Date(d$Harvest.date))
+  # d3$longitude <- # was removed from data
+  # d3$latitude <- # was removed from data
+  d3$on_farm <- "yes"
+  d3$is_survey <- "no"
+  d3$treatment <- d$Treatment
   # Generate replicate column
-  for (r in 1:nrow(d)) { # For each row in dd
+  for (r in 1:nrow(d)) { # For each row in d2
     if(r == 1){ # If it is the first row...
-      ddd$rep[r] <- 1 # Assign 1st replicate...
+      d3$rep[r] <- 1 # Assign 1st replicate...
       t <- 1 # And start a counter.
     } else if(d$Treatment[r] == d$Treatment[r-1]){ # If the treatment is the same name, it is a replicate...
-      ddd$rep[r] <- t+1 # Therefore add the next replicate...
+      d3$rep[r] <- t+1 # Therefore add the next replicate...
       t <- t+1 # And add to the counter.
     } else {
-      ddd$rep[r] <- 1 # Else, it is a new treatment, therefore assign the 1st replicate...
+      d3$rep[r] <- 1 # Else, it is a new treatment, therefore assign the 1st replicate...
       t <- 1 # And start a new counter.
     }
   }
-  ddd$crop <- tolower(d$Crop)
-  ddd$variety <- d$Variety
-  ddd$crop_rotation <- tolower(d$Crop.system)
-  # ddd$biomass <- d$Biomass..kg.ha. # Biomass is collected as fresh biomass
-  ddd$yield <- d$Yield..kg.ha. + (d$Yield..kg.ha.*0.13) # Yield data is measured as dry weight 
-  ddd$residue_yield <- d$Stover.yield..kg.ha # Residue data is measured as dry weight
+  d3$crop <- tolower(d$Crop)
+  d3$variety <- d$Variety
+  d3$previous_crop <- tolower(d$Crop.system)
+  # d3$biomass <- d$Biomass..kg.ha. # Biomass is collected as fresh biomass
+  d3$yield <- d$Yield..kg.ha. + (d$Yield..kg.ha.*0.13) # Yield data is measured as dry weight 
+  d3$residue_yield <- d$Stover.yield..kg.ha # Residue data is measured as dry weight
   # Type of fertilizer applied is not clear when several are applied
-  ddd$fertilizer_type <- ifelse(d$Treatment == "0.33NP/farmer practice" | d$Treatment == "NP", "Urea + DAP",
+  d3$fertilizer_type <- ifelse(d$Treatment == "0.33NP/farmer practice" | d$Treatment == "NP", "Urea + DAP",
                                ifelse(d$Treatment == "NPK", "Urea + DAP + potassium nitrate",
                                       ifelse(d$Treatment == "NPKS", "Urea + DAP + potassium sulfate", "Urea + DAP + potassium sulfate + zinc sulfate")))
-  ddd$N_fertilizer <- d$N.fertilizer.amount..kg.ha.
-  ddd$N_splits <- 2 # There were two N_splits: Basal (50%) and top dressing (50%)
-  ### not obs ddd$observation_date <- d$N.topdressing.date # Date of the application of the 2nd split
-  ddd$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount..kg.ha.), 0, d$P.fertilizer.amount..kg.ha.) 
-  ddd$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..kg.ha.), 0, d$K.fertilizer.amount..kg.ha.) 
-  ddd$Zn_fertilizer <- NA # Not present in the dataframe
-  ddd$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..kg.ha.), 0, d$S.fertilizer.amount..kg.ha.) 
-  ddd$soil_type <- d$Soil.type
-  # ddd$soil_pH <- # To be requested from the author
-  # ddd$soil_SOC <- # To be requested from the author
-  # ddd$soil_sand <- # To be requested from the author
-  # ddd$soil_clay <- # To be requested from the author
-  # ddd$soil_N <- # To be requested from the author
-  # ddd$soil_K <- # To be requested from the author
-  # ddd$soil_P_total <- # To be requested from the author
-  # ddd$soil_P_available <- # To be requested from the author
+  d3$N_fertilizer <- d$N.fertilizer.amount..kg.ha.
+  d3$N_splits <- 2 # There were two N_splits: Basal (50%) and top dressing (50%)
+  ### not obs d3$observation_date <- d$N.topdressing.date # Date of the application of the 2nd split
+  d3$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount..kg.ha.), 0, d$P.fertilizer.amount..kg.ha.) 
+  d3$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..kg.ha.), 0, d$K.fertilizer.amount..kg.ha.) 
+  d3$Zn_fertilizer <- NA # Not present in the dataframe
+  d3$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..kg.ha.), 0, d$S.fertilizer.amount..kg.ha.) 
+  d3$soil_type <- d$Soil.type
+  # d3$soil_pH <- # To be requested from the author
+  # d3$soil_SOC <- # To be requested from the author
+  # d3$soil_sand <- # To be requested from the author
+  # d3$soil_clay <- # To be requested from the author
+  # d3$soil_N <- # To be requested from the author
+  # d3$soil_K <- # To be requested from the author
+  # d3$soil_P_total <- # To be requested from the author
+  # d3$soil_P_available <- # To be requested from the author
   
 ## process 003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx
   f <- ff[basename(ff) == "003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx"]
   
   d <- carobiner::read.excel(f)
   d <- data.frame(d)
-  dddd <- data.frame(country = d$Country) # Create parallel dataframe
-  dddd$country <- d$Country
-  dddd$adm1 <- d$Region.state
-  dddd$adm3 <- d$LGA.District
-  dddd$location <- d$village.Kebele
-  dddd$trial_id <- paste0("003_2017_Sorghum+Tef_ ICRISAT-AR_ETH", '.', d$village.Kebele)
-  dddd$start_date <- as.character(as.Date(d$Planting.date))
-  dddd$end_date <- as.character(as.Date(d$Harvest.date))
-  # dddd$longitude <- # Removed by PI?
-  # dddd$latitude <- # Removed by PI?
-  dddd$on_farm <- "yes"
-  dddd$is_survey <- "no"
-  dddd$treatment <- d$Treatment
+  d4 <- data.frame(country = d$Country) # Create parallel dataframe
+  d4$country <- d$Country
+  d4$adm1 <- d$Region.state
+  d4$adm3 <- d$LGA.District
+  d4$location <- d$village.Kebele
+  d4$trial_id <- paste0("003_2017_Sorghum+Tef_ ICRISAT-AR_ETH", '.', d$village.Kebele)
+  d4$start_date <- as.character(as.Date(d$Planting.date))
+  d4$end_date <- as.character(as.Date(d$Harvest.date))
+  # d4$longitude <- # Removed by PI?
+  # d4$latitude <- # Removed by PI?
+  d4$on_farm <- "yes"
+  d4$is_survey <- "no"
+  d4$treatment <- d$Treatment
   # Generate replicate column
-  for (r in 1:nrow(d)) { # For each row in dd
+  for (r in 1:nrow(d)) { # For each row in d2
     if(r == 1){ # If it is the first row...
-      dddd$rep[r] <- 1 # Assign 1st replicate...
+      d4$rep[r] <- 1 # Assign 1st replicate...
       t <- 1 # And start a counter.
     } else if(d$Treatment[r] == d$Treatment[r-1]){ # If the treatment is the same name, it is a replicate...
-      dddd$rep[r] <- t+1 # Therefore add the next replicate...
+      d4$rep[r] <- t+1 # Therefore add the next replicate...
       t <- t+1 # And add to the counter.
     } else {
-      dddd$rep[r] <- 1 # Else, it is a new treatment, therefore assign the 1st replicate...
+      d4$rep[r] <- 1 # Else, it is a new treatment, therefore assign the 1st replicate...
       t <- 1 # And start a new counter.
     }
   }
-  dddd$crop <- tolower(d$Crop)
-  dddd$variety <- d$Variety
-  dddd$crop_rotation <- tolower(d$Crop.system)
-  # dddd$biomass <- d$Biomass..kg.ha. # Biomass is collected as fresh biomass
-  dddd$yield <- d$Yield..kg.ha. + (d$Yield..kg.ha.*0.13) # Yield data is measured as dry weight 
-  dddd$residue_yield <- d$Stover.yield..kg.ha # Residue data is measured as dry weight
+  d4$crop <- tolower(d$Crop)
+  d4$variety <- d$Variety
+  d4$previous_crop <- tolower(d$Crop.system)
+  # d4$biomass <- d$Biomass..kg.ha. # Biomass is collected as fresh biomass
+  d4$yield <- d$Yield..kg.ha. + (d$Yield..kg.ha.*0.13) # Yield data is measured as dry weight 
+  d4$residue_yield <- d$Stover.yield..kg.ha # Residue data is measured as dry weight
   # Type of fertilizer applied is not clear when several are applied
-  dddd$fertilizer_type <- ifelse(d$Treatment == "0.33NP/farmer practice" | d$Treatment == "NP", "Urea + DAP",
+  d4$fertilizer_type <- ifelse(d$Treatment == "0.33NP/farmer practice" | d$Treatment == "NP", "Urea + DAP",
                                 ifelse(d$Treatment == "NPK", "Urea + DAP + potassium nitrate",
                                        ifelse(d$Treatment == "NPKS", "Urea + DAP + potassium sulfate", "Urea + DAP + potassium sulfate + zinc sulfate")))
-  dddd$N_fertilizer <- d$N.fertilizer.amount..kg.ha.
-  dddd$N_splits <- 2 
+  d4$N_fertilizer <- d$N.fertilizer.amount..kg.ha.
+  d4$N_splits <- 2 
 	# There were two N_splits: Basal (50%) and top dressing (50%)
 
-  dddd$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount..kg.ha.), 0, d$P.fertilizer.amount..kg.ha.) 
-  dddd$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..kg.ha.), 0, d$K.fertilizer.amount..kg.ha.)
-  dddd$Zn_fertilizer <- ifelse(is.na(d$Zn.fertilizer.amount..kg.ha.), 0, d$Zn.fertilizer.amount..kg.ha.) 
-  dddd$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..kg.ha.), 0, d$S.fertilizer.amount..kg.ha.) 
-  dddd$soil_type <- d$Soil.type
+  d4$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount..kg.ha.), 0, d$P.fertilizer.amount..kg.ha.) 
+  d4$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..kg.ha.), 0, d$K.fertilizer.amount..kg.ha.)
+  d4$Zn_fertilizer <- ifelse(is.na(d$Zn.fertilizer.amount..kg.ha.), 0, d$Zn.fertilizer.amount..kg.ha.) 
+  d4$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..kg.ha.), 0, d$S.fertilizer.amount..kg.ha.) 
+  d4$soil_type <- d$Soil.type
 
-  # dddd$soil_pH <- # To be requested from the author
-  # dddd$soil_SOC <- # To be requested from the author
-  # dddd$soil_sand <- # To be requested from the author
-  # dddd$soil_clay <- # To be requested from the author
-  # dddd$soil_N <- # To be requested from the author
-  # dddd$soil_K <- # To be requested from the author
-  # dddd$soil_P_total <- # To be requested from the author
-  # dddd$soil_P_available <- # To be requested from the author
+  # d4$soil_pH <- # To be requested from the author
+  # d4$soil_SOC <- # To be requested from the author
+  # d4$soil_sand <- # To be requested from the author
+  # d4$soil_clay <- # To be requested from the author
+  # d4$soil_N <- # To be requested from the author
+  # d4$soil_K <- # To be requested from the author
+  # d4$soil_P_total <- # To be requested from the author
+  # d4$soil_P_available <- # To be requested from the author
   
 ## process 004_2019_Wheat_ ICRISAT-AR_ETH.xlsx
   f <- ff[basename(ff) == "004_2019_Wheat_ ICRISAT-AR_ETH.xlsx"]
@@ -229,67 +229,77 @@ carob_script <- function(path) {
   d <- carobiner::read.excel(f)
   d <- data.frame(d)
   
-  ddddd <- data.frame(country = d$Country) # Create parallel dataframe
-  ddddd$country <- d$Country
-  ddddd$adm1 <- d$Region.state
-  ddddd$adm3 <- d$LGA.District
-  ddddd$location <- d$village
-  ddddd$trial_id <- paste0("004_2019_Wheat_ ICRISAT-AR_ETH", '.', d$village)
-  ddddd$start_date <- as.character(as.Date(d$Planting.date))
-  ddddd$end_date <- as.character(as.Date(d$Harvest.date))
-  # ddddd$longitude <- # Removed by PI?
-  # ddddd$latitude <- # Removed by PI?
-  ddddd$on_farm <- "yes"
-  ddddd$is_survey <- "no"
-  ddddd$treatment <- d$Treatment
+  d5 <- data.frame(country = d$Country) # Create parallel dataframe
+  d5$country <- d$Country
+  d5$adm1 <- d$Region.state
+  d5$adm3 <- d$LGA.District
+  d5$location <- d$village
+  d5$trial_id <- paste0("004_2019_Wheat_ ICRISAT-AR_ETH", '.', d$village)
+  d5$start_date <- as.character(as.Date(d$Planting.date))
+  d5$end_date <- as.character(as.Date(d$Harvest.date))
+  # d5$longitude <- # Removed by PI?
+  # d5$latitude <- # Removed by PI?
+  d5$on_farm <- "yes"
+  d5$is_survey <- "no"
+  d5$treatment <- d$Treatment
 
   # Generate replicate column
-  for (r in 1:nrow(d)) { # For each row in dd
+  for (r in 1:nrow(d)) { # For each row in d2
     if(r == 1){ # If it is the first row...
-      ddddd$rep[r] <- 1 # Assign 1st replicate...
+      d5$rep[r] <- 1 # Assign 1st replicate...
       t <- 1 # And start a counter.
     } else if(d$Treatment[r] == d$Treatment[r-1]){ # If the treatment is the same name, it is a replicate...
-      ddddd$rep[r] <- t+1 # Therefore add the next replicate...
+      d5$rep[r] <- t+1 # Therefore add the next replicate...
       t <- t+1 # And add to the counter.
     } else {
-      ddddd$rep[r] <- 1 # Else, it is a new treatment, therefore assign the 1st replicate...
+      d5$rep[r] <- 1 # Else, it is a new treatment, therefore assign the 1st replicate...
       t <- 1 # And start a new counter.
     }
   }
-  ddddd$crop <- tolower(d$Crop)
-  ddddd$variety <- d$Variety
-  ddddd$crop_rotation <- tolower(d$Crop.system)
-  # ddddd$biomass <- d$Biomass..kg.ha. # Biomass is collected as fresh biomass
-  ddddd$yield <- d$Yield..kg.ha. + (d$Yield..kg.ha.*0.13) # Yield data is measured as dry weight 
-  ddddd$residue_yield <- d$Stover.yield..kg.ha # Residue data is measured as dry weight
+  d5$crop <- tolower(d$Crop)
+  d5$variety <- d$Variety
+  d5$previous_crop <- tolower(d$Crop.system)
+  # d5$biomass <- d$Biomass..kg.ha. # Biomass is collected as fresh biomass
+  d5$yield <- d$Yield..kg.ha. + (d$Yield..kg.ha.*0.13) # Yield data is measured as dry weight 
+  d5$residue_yield <- d$Stover.yield..kg.ha # Residue data is measured as dry weight
   # Type of fertilizer applied is not clear when several are applied
-  ddddd$fertilizer_type <- ifelse(d$Treatment == "0.33NP/farmer practice" | d$Treatment == "NP", "Urea + DAP",
+  d5$fertilizer_type <- ifelse(d$Treatment == "0.33NP/farmer practice" | d$Treatment == "NP", "Urea + DAP",
                                  ifelse(d$Treatment == "NPK", "Urea + DAP + potassium nitrate",
                                         ifelse(d$Treatment == "NPKS", "Urea + DAP + potassium sulfate", "Urea + DAP + potassium sulfate + zinc sulfate")))
-  ddddd$N_fertilizer <- d$N.fertilizer.amount..kg.ha.
-  ddddd$N_splits <- 2 # There were two N_splits: Basal (50%) and top dressing (50%)
-  ###ddddd$observation_date <- d$N.topdressing.date # Date of the application of the 2nd split
-  ddddd$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount..kg.ha.), 0, d$P.fertilizer.amount..kg.ha.)
-  ddddd$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..kg.ha.), 0, d$K.fertilizer.amount..kg.ha.) 
-  ddddd$Zn_fertilizer <- ifelse(is.na(d$Zn.fertilizer.amount..kg.ha.), 0, d$Zn.fertilizer.amount..kg.ha.) 
-  ddddd$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..kg.ha.), 0, d$S.fertilizer.amount..kg.ha.) 
-  ddddd$soil_type <- d$Soil.type
-  # ddddd$soil_pH <- # To be requested from the author
-  # ddddd$soil_SOC <- # To be requested from the author
-  # ddddd$soil_sand <- # To be requested from the author
-  # ddddd$soil_clay <- # To be requested from the author
-  # ddddd$soil_N <- # To be requested from the author
-  # ddddd$soil_K <- # To be requested from the author
-  # ddddd$soil_P_total <- # To be requested from the author
-  # ddddd$soil_P_available <- # To be requested from the author
+  d5$N_fertilizer <- d$N.fertilizer.amount..kg.ha.
+  d5$N_splits <- 2 # There were two N_splits: Basal (50%) and top dressing (50%)
+  ###d5$observation_date <- d$N.topdressing.date # Date of the application of the 2nd split
+  d5$P_fertilizer <- ifelse(is.na(d$P.fertilizer.amount..kg.ha.), 0, d$P.fertilizer.amount..kg.ha.)
+  d5$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..kg.ha.), 0, d$K.fertilizer.amount..kg.ha.) 
+  d5$Zn_fertilizer <- ifelse(is.na(d$Zn.fertilizer.amount..kg.ha.), 0, d$Zn.fertilizer.amount..kg.ha.) 
+  d5$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..kg.ha.), 0, d$S.fertilizer.amount..kg.ha.) 
+  d5$soil_type <- d$Soil.type
+  # d5$soil_pH <- # To be requested from the author
+  # d5$soil_SOC <- # To be requested from the author
+  # d5$soil_sand <- # To be requested from the author
+  # d5$soil_clay <- # To be requested from the author
+  # d5$soil_N <- # To be requested from the author
+  # d5$soil_K <- # To be requested from the author
+  # d5$soil_P_total <- # To be requested from the author
+  # d5$soil_P_available <- # To be requested from the author
   
 ## Append the tables together
-  d <- rbind(dd,ddd,dddd,ddddd)
+  d <- rbind(d2, d3, d4, d5)
   
 ## Filter only relevant variables
-  d <- dd[,c("country", "adm1", "adm3", "location", "trial_id", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety", "crop_rotation", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer","soil_type")]
+  d <- d2[,c("country", "adm1", "adm3", "location", "trial_id", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety", "previous_crop", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer","soil_type")]
 ## Add dataset ID
   d$dataset_id <- dataset_id
+
+	d$previous_crop <- gsub("tef", "teff", d$previous_crop)
+	d$previous_crop <- gsub("fababean", "faba bean", d$previous_crop)
+
+	ff <- gsub(" \\+ ", "; ", d$fertilizer_type)
+	ff <- gsub("Urea", "urea", ff)
+	ff <- gsub("potassium sulfate", "SOP", ff)
+	ff <- gsub("potassium nitrate", "KNO", ff)
+	ff <- gsub("zinc sulfate", "ZSO", ff)
+	d$fertilizer_type <- ff
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path, dataset_id, group)
