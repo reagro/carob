@@ -54,8 +54,8 @@ carob_script <- function(path) {
     # There is no year 2 in the original dataset
     d$start_date <- ifelse(d$Year == 1, "2013-06-03", "2014-06-08")
     d$end_date <- ifelse(d$Year == 1, "2013-10-25", "2014-10-27")
-    d$on_farm <- "yes"
-    d$is_survey <- "no"
+    d$on_farm <- TRUE
+    d$is_survey <- FALSE
     d$treatment <- "Multi-level application of N fertilizers at different times."
     d$rep <- d$Replicate
     d$crop <- "wheat"

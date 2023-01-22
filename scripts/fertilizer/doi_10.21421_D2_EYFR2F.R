@@ -42,8 +42,8 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   e$crop<-"sorghum"
   e$dataset_id <- dataset_id
   e$trial_id <- paste0('P_fert_', e$location)
-  e$on_farm<-FALSE
-  e$is_survey<-FALSE
+  e$on_farm <- FALSE
+  e$is_survey <- FALSE
   
   #Replace values in a data frame
   e["location"][e["location"]=="BUK"]<-"Bayero"

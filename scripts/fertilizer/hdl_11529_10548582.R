@@ -55,8 +55,8 @@ carob_script <- function(path) {
 	d$longitude <- as.numeric(-109.930833)
 	d$start_date <- as.numeric("2009") # Correct date format (to date)
 	d$end_date <- as.numeric("2018")  # Correct date format (to date)
-	d$on_farm <- "no"
-	d$is_survey <- "no"
+	d$on_farm <- FALSE
+	d$is_survey <- FALSE
 	d$rep <- as.integer(as.factor(d$REP))
 	d$crop <- "wheat"
 	d$variety <- "Triticum durum L."

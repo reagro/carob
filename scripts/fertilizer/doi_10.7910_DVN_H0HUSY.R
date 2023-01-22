@@ -94,8 +94,8 @@ Description: This dataset contains information of experiments carried out upland
   # compiling into a single final dataset
   f <- carobiner::bindr(d4,d5)
   f$dataset_id <- dataset_id
-  f$on_farm <- "yes"
-  f$is_survey <- "no"
+  f$on_farm <- TRUE
+  f$is_survey <- FALSE
   
 
   carobiner::write_files(dset, f, path, dataset_id, group)

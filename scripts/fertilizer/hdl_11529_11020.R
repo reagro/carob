@@ -46,8 +46,8 @@ carob_script <- function(path) {
 	d$site <- d$`Name of the Village`
 	d$trial_id <- "TAMASA-Bako-2015"
 	d$start_date <- format(d$`Planting Date`, "%Y-%m-%d")
-	d$on_farm <- "yes"
-	d$is_survey <- "no"
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
 	d$treatment <- "none"
 	d$rep <- ifelse(gsub("^[^.]*.","",as.character(d$`plot ID`)) == "", "1", gsub("^[^.]*.","",as.character(d$`plot ID`)))
 	d$crop <- "maize"

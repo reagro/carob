@@ -47,8 +47,8 @@ carob_script <- function(path) {
 	d$longitude <- ifelse(d$Location == "BUK", 12.0034, 12.1733)
 	d$start_date <- d$Year
 	d$end_date <- d$Year
-	d$on_farm <- "no"
-	d$is_survey <- "no"
+	d$on_farm <- FALSE
+	d$is_survey <- FALSE
 	
 ## RH	d$treatment <- ifelse(d$Nitrogen == 0 , 1, ifelse(d$Nitrogen == 20 , 2, ifelse(d$Nitrogen == 40 , 3, ifelse(d$Nitrogen == 60 , 4, ifelse(d$Nitrogen == 80 , 5, 6)))))
 	d$treatment <- as.integer(as.factor(d$Nitrogen))

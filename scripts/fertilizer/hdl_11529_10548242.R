@@ -54,8 +54,8 @@ carob_script <- function(path) {
 	d$longitude <- d$Longitude
 	d$start_date <- "2016-05-01"
 	d$end_date <- "2016-12-01"
-	d$on_farm <- "yes"
-	d$is_survey <- "yes"
+	d$on_farm <- TRUE
+	d$is_survey <- TRUE
 	d$crop <- "maize"
 	# d$yield <- d$`FWt of Cobs_all (kg)`*4 # FWt of Cobs_all (kg) = Fresh Weight of Cobs in Quadrat (25m2)
 	d$yield <- d$`Grain yield (kg/ha@12.5%)` # Grain yield at 12.5% moisture

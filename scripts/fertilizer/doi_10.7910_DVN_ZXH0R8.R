@@ -56,8 +56,8 @@ carob_script <- function(path) {
   d2$end_date <- as.character(as.Date(d$Harvest.date))
   # d2$longitude <- # Removed due to PII
   # d2$latitude <- # Removed due to PII
-  d2$on_farm <- "yes"
-  d2$is_survey <- "no"
+  d2$on_farm <- TRUE
+  d2$is_survey <- FALSE
   d2$treatment <- d$Treatment
   # Generate replicate column
   for (r in 1:nrow(d)) { # For each row in d2
@@ -120,8 +120,8 @@ carob_script <- function(path) {
   d3$end_date <-  as.character(as.Date(d$Harvest.date))
   # d3$longitude <- # was removed from data
   # d3$latitude <- # was removed from data
-  d3$on_farm <- "yes"
-  d3$is_survey <- "no"
+  d3$on_farm <- TRUE
+  d3$is_survey <- FALSE
   d3$treatment <- d$Treatment
   # Generate replicate column
   for (r in 1:nrow(d)) { # For each row in d2
@@ -178,8 +178,8 @@ carob_script <- function(path) {
   d4$end_date <- as.character(as.Date(d$Harvest.date))
   # d4$longitude <- # Removed by PI?
   # d4$latitude <- # Removed by PI?
-  d4$on_farm <- "yes"
-  d4$is_survey <- "no"
+  d4$on_farm <- TRUE
+  d4$is_survey <- FALSE
   d4$treatment <- d$Treatment
   # Generate replicate column
   for (r in 1:nrow(d)) { # For each row in d2
@@ -239,8 +239,8 @@ carob_script <- function(path) {
   d5$end_date <- as.character(as.Date(d$Harvest.date))
   # d5$longitude <- # Removed by PI?
   # d5$latitude <- # Removed by PI?
-  d5$on_farm <- "yes"
-  d5$is_survey <- "no"
+  d5$on_farm <- TRUE
+  d5$is_survey <- FALSE
   d5$treatment <- d$Treatment
 
   # Generate replicate column

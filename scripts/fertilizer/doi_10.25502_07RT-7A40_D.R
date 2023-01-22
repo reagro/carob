@@ -47,11 +47,11 @@ carob_script <- function(path) {
     d$longitude <- 7.78896
  
     d$season <- d$year
-    d$on_farm <- "yes"
+    d$on_farm <- TRUE
     d$N_fertilizer <- d$nrate
     d$P_fertilizer <- d$prate
     d$variety <- d$variety
-    d$is_survey <- "no"
+    d$is_survey <- FALSE
     d$treatment <- "Maize response to nitrogen and phosporus fertilizers"
     d$rep <- d$rep
     d$crop <- "maize"
