@@ -45,15 +45,14 @@ carob_script <- function(path) {
 	d$trial_id <- paste0(dataset_id, '-', d$Location)
 	d$latitude <- ifelse(d$Location == "BUK", 8.5922, 8.5978)
 	d$longitude <- ifelse(d$Location == "BUK", 12.0034, 12.1733)
-	d$start_date <- d$Year
-	d$end_date <- d$Year
+	d$start_date <- as.character(d$Year)
+	d$end_date <- as.character(d$Year)
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	
-## RH	d$treatment <- ifelse(d$Nitrogen == 0 , 1, ifelse(d$Nitrogen == 20 , 2, ifelse(d$Nitrogen == 40 , 3, ifelse(d$Nitrogen == 60 , 4, ifelse(d$Nitrogen == 80 , 5, 6)))))
-	d$treatment <- as.integer(as.factor(d$Nitrogen))
+	d$treatment <- paste0("N", d$Nitrogen)
 
-	d$rep <- d$`Replication umber`
+	d$rep <- as.integer(d$`Replication umber`)
 	d$crop <- "sorghum"
 	d$variety <- d$Sorghum
 ## RH	d$yield <- d$`Grain yield` + d$`Stalk yield`

@@ -37,12 +37,10 @@ carob_script <- function(path) {
 ## download and read data 
 
 	ff  <- carobiner::get_data(uri, path, group)
-	
-	## this fails because of the character set
-	#js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
+
 	#dset$license <- carobiner::get_license(js)
 	dset$license <- "CIMMYT license"
-
 
 	f <- ff[basename(ff) == "DAT-PUB-214DrySow.xlsx"]
 
@@ -50,16 +48,15 @@ carob_script <- function(path) {
 	d$country <- "Mexico"
 	d$adm1 <- "Sonora"
 	d$adm2 <- "Cajeme"
-	d$trial_id <- paste0(dataset_id)
-	d$latitude <- as.numeric(27.369444)
-	d$longitude <- as.numeric(-109.930833)
-	d$start_date <- as.numeric("2009") # Correct date format (to date)
-	d$end_date <- as.numeric("2018")  # Correct date format (to date)
+	d$trial_id <- dataset_id
+	d$latitude <- 27.369444
+	d$longitude <- -109.930833
+	d$start_date <- "2009"
+	d$end_date <- "2018"
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
-	d$rep <- as.integer(as.factor(d$REP))
+	d$rep <- as.integer(d$REP)
 	d$crop <- "wheat"
-	d$variety <- "Triticum durum L."
 	d$BIOMASS[d$BIOMASS == "."] <- NA 
 	d$biomass_total <- as.numeric(d$BIOMASS)
 	d$`YIELD 12%`[d$`YIELD 12%` == "."] <- NA
@@ -72,18 +69,24 @@ carob_script <- function(path) {
 	d$N_fertilizer <- as.integer(ifelse(d$FERT == 1 , 0,
 	                         ifelse(d$FERT == 2 , 120,
 	                                ifelse(d$FERT == 3 | d$FERT == 4, 180, 240))))
-	d$N_splits <- ifelse(d$FERT == 1 , "0 | 0",
-	                     ifelse(d$FERT == 2 , "36 | 84",
-	                            ifelse(d$FERT == 3, "54 | 126",
-	                                   ifelse(d$FERT == 4, "180 | 0",
-	                                          ifelse(d$FERT == 5, "72 | 168", "240 | 0")))))
-	d$irrigated <- ifelse(d$IRR == 1 , "Dry seeding", "Wet seeding")
+#	d$N_splits <- ifelse(d$FERT == 1 , "0 | 0",
+#	                     ifelse(d$FERT == 2 , "36 | 84",
+#	                            ifelse(d$FERT == 3, "54 | 126",
+#	                                   ifelse(d$FERT == 4, "180 | 0",
+#	                                          ifelse(d$FERT == 5, "72 | 168", "240 | 0")))))
+
+	d$N_splits <- NA
+	d$N_splits[d$FERT %in% c(2, 3, 5)] <- 2
+	d$N_splits[d$FERT %in% c(4, 6)] <- 1
+
+	## RH: this is the seeding method
+	## d$irrigated <- ifelse(d$IRR == 1 , "Dry seeding", "Wet seeding")
+	d$irrigated <- TRUE
 	d$tillage <- ifelse(d$TIL == 1 , "Permanent beds", "Conventionally tilled beds")
 	
-	
-	
 	# process file(s)
-	d <- d[,c("country", "adm1", "adm2", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep", "crop", "variety", "biomass_total", "yield", "residue_yield", "grain_weight")]
+	d <- d[,c("country", "adm1", "adm2", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep", "crop", "biomass_total", "yield", "residue_yield", "grain_weight")]
+
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this

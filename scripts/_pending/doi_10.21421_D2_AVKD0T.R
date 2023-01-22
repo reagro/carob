@@ -63,13 +63,14 @@ The experiment was established in 1986 and continued until 2018 at the ICRISAT S
 	d$trial_id <- paste0(dataset_id, '-', d$site, '-', d$Years)
 	d$latitude <- 13.234295
 	d$longitude <- 2.283155
-	d$start_date <- d$Years
-	d$end_date <- d$Years
-	d$season <- "rainy season"
+	d$start_date <- as.character(d$Years)
+	d$end_date <- as.character(d$Years)
+	d$season <- "rainy"
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	
-### RH this needs to be fixed. Need to know what is what.
+### RH: this needs to be fixed. Need to know what is what.
+### 
 ##	d$treatment <- "Treatments replicated four times, involving various combinations of hand cultivation (HC), ridging with animal traction and planting on ridges (AT), limited P fertilizer application and rotation with sole cowpea (C)"
 	d$treatment <- d$Treatment
 	d$rep <- d$`Replication number`
@@ -102,9 +103,9 @@ The experiment was established in 1986 and continued until 2018 at the ICRISAT S
 	d$N_fertilizer <- ifelse(d$`N Application` == 1, 15, 0)
 ## 	$`N Application` <- NULL
 
-	d$OM_used <- "no"
+	d$OM_used <- FALSE
 	d$soil_type <- "Aeolian sands"
-	d$soil_pH <- "4.5-5.0"
+	d$soil_pH <- 4.75
 	d$soil_sand <- 95
 	d$soil_SOC <- 0.4
 	

@@ -64,6 +64,7 @@ Notes
 
 	lat <- as.numeric(d$latitude)
 	lon <- as.numeric(d$longitude)
+	
 	i <- which(abs(lat) > 90)
 	lat[i] <- as.numeric(paste0(substr(d$latitude[i], 1, 2), ".", substr(d$latitude[i], 3, 6)))
 	lon[i] <- -1 * as.numeric(paste0(substr(d$longitude[i], 1, 1), ".", substr(d$longitude[i], 2, 6)))
@@ -91,10 +92,14 @@ Notes
 	d$country[d$location=="Sidindi"] <- "Kenya"
 
 	d$dataset_id <- dataset_id
-	d$on_farm <- "yes"
-	d$is_survey <- "no"
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
 	d$field <- NULL
-	
+	d$site <- as.character(d$site)
+
+	# not clear what these mean
+	d$rep <- NULL
+		
 	carobiner::write_files(dset, d, path, cleanuri, group, id="afsis")
 
 	## FAO data 
@@ -168,6 +173,8 @@ Notes
 	zz$crop <- "maize"
 	zz$country[zz$country == "Guinea Biassu"] <- "Guinea-Bissau"
 	zz$country[zz$country == "DR Congo"] <- "Democratic Republic of the Congo"
+
+	zz$longitude <- as.numeric(gsub(",", ".", zz$longitude))
 
 	carobiner::write_files(dset, zz, path, cleanuri, group, id="fao")
 }

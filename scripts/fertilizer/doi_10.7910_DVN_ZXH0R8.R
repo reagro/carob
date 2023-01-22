@@ -64,7 +64,7 @@ carob_script <- function(path) {
     if(r == 1){ # If it is the first row...
       d2$rep[r] <- 1 # Assign 1st replicate...
       t <- 1 # And start a counter.
-    } else if(d$Treatment[r] == d$Treatment[r-1]){ # If the treatment is the same name, it is a replicate...
+    } else if(d$Treatment[r] == d$Treatment[r-1]) { # If the treatment is the same name, it is a replicate...
       d2$rep[r] <- t+1 # Therefore add the next replicate...
       t <- t+1 # And add to the counter.
     } else {
@@ -72,6 +72,7 @@ carob_script <- function(path) {
       t <- 1 # And start a new counter.
     }
   }
+  d2$rep <- as.integer(d2$rep)
   d2$crop <- tolower(d$Crop)
   d2$variety <- d$Variety
   d2$previous_crop <- tolower(d$Crop.system)

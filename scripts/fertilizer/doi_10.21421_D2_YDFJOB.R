@@ -37,7 +37,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 
   ##Convert First Row to Header
   e<-d[,c(1,2,4,5,6,14,15,16)]
-  colnames(e)<-c('season','adm1','rep','P_fertilizer','variety_type','yield','biomass_stems','grain_weight')
+  colnames(e)<-c('year', 'adm1','rep','P_fertilizer','variety_type','yield','biomass_stems','grain_weight')
   e$country<- "Nigeria"
   e$crop<-"sorghum"
   e$dataset_id <- dataset_id
@@ -49,15 +49,21 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
   e$location <- ifelse(d$Location == "BUK", "Bayero", d$Location)
   e$longitude <- ifelse(e$location == "Minjibir", 8.637, 8.429)
   e$latitude <- ifelse(e$location == "Minjibir", 12.192, 11.975)
-  e$start_date <- "2014-06-01" # Assuming this start date...
-  e$end_date <- as.character(as.Date(e$start_date, "%Y-%m-%d") + d$Mat_c_day)
 
+##RH
+## wrong
+##   e$start_date <- "2014-06-01" # Assuming this start date...
+
+	e$start_date <- paste0(e$year, "-06-01")
+	e$end_date <- as.character(as.Date(e$start_date) + d$Mat_c_day)
+
+	e$adm1 <-'Kano'
   
-  e$adm1 <-'Kano'
-  
-  e<-e[c("dataset_id", "country", "adm1",'location',"trial_id", "longitude", "latitude", "start_date", "end_date", "season", "on_farm", "is_survey", "rep", "crop", "variety_type", "biomass_stems", "yield", "grain_weight", "P_fertilizer")]
-   
- carobiner::write_files(dset, e, path, dataset_id, group)
+	e <- e[c("dataset_id", "country", "adm1",'location',"trial_id", "longitude", "latitude", "start_date", "end_date", "on_farm", "is_survey", "rep", "crop", "variety_type", "biomass_stems", "yield", "grain_weight", "P_fertilizer")]
+
+	e$rep <- as.integer(e$rep)
+	carobiner::write_files(dset, e, path, dataset_id, group)
+
 }
 
 

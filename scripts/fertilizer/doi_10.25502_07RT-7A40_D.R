@@ -46,23 +46,22 @@ carob_script <- function(path) {
     d$latitude <- 10.26858
     d$longitude <- 7.78896
  
-    d$season <- d$year
+    d$start_date <- as.character(d$year)
     d$on_farm <- TRUE
-    d$N_fertilizer <- d$nrate
-    d$P_fertilizer <- d$prate
+    d$N_fertilizer <- as.numeric(d$nrate)
+    d$P_fertilizer <- as.numeric(d$prate)
     d$variety <- d$variety
     d$is_survey <- FALSE
     d$treatment <- "Maize response to nitrogen and phosporus fertilizers"
-    d$rep <- d$rep
     d$crop <- "maize"
     d$grain_weight <- (d$swt500)*2 ### [swt500	Weight of 500 seeds		g, the original value was multiplied by 2]
     d$biomass_total <- d$tdmm2*10 # Add total biomass (dry matter) in kg/ha )
     d$yield <- d$yield
         
  # Subset to columns of interest
-    d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "season", "on_farm", "N_fertilizer", "P_fertilizer", "variety", "is_survey", "treatment", "rep", "crop", "grain_weight", "yield")]
+    d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "on_farm", "N_fertilizer", "P_fertilizer", "variety", "is_survey", "treatment", "rep", "crop", "grain_weight", "yield")]
 
   # all scripts must end like this
     carobiner::write_files(dset, d, path, dataset_id, group)
-  TRUE
+
 }  

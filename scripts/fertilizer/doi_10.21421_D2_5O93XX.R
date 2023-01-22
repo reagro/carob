@@ -19,7 +19,7 @@ carob_script <- function(path) {
     Samnut-24 produced pod yields that were significantly higher than Samnut-22 across treatments.
     Pod yields at density of 133,333 hills ha-1 was 31% higher than at 66667 and 40% than at 44,444 hills ha-1.
     Application of fertilizer increased profit by 22% and 49% in Minjibir and Wudil respectively.
-    Planting at density of 133,333 hill ha-1 increased profit by 19% and 27% over 66,667 and 444444 hill ha-1 respectively in Minjibir, while it increase profit by 9% in Wudil.
+    Planting at density of 133,333 hill ha-1 increased profit by 19% and 27% over 66,667 and 444444 hill ha-1 respectively in Minjibir, while it increase profit by 9% in Wudil.`
     Cultivation of Samnut-24 at high density with phosphorus application will make groundnut production a more profitable venture in Sudan Savanna zone of Wudil, Nigeria.
 
 
@@ -63,7 +63,7 @@ carob_script <- function(path) {
 	d$end_date <- as.character(2013)
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
-	d$rep <- d$Replication.number
+	d$rep <- as.integer(d$Replication.number)
 	d$crop <- "groundnut"
 	d$variety <- d$Variety
 	d$yield <- d$PodKgHa

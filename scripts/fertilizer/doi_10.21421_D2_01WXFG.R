@@ -54,9 +54,9 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   e$P_fertilizer[e$treatment=='F1'] <- 0
   e$P_fertilizer[e$treatment=='F2'] <- 20
   
-  names(e) 
+  #names(e) 
   e$spacing <- NULL
-
+	e$rep <- as.integer(e$rep)
 
  #Still need to decode the treatment. Which is a level of fertilizer
 	carobiner::write_files(dset, e, path, dataset_id, group)

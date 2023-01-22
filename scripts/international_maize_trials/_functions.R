@@ -51,6 +51,7 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 	d$start_date[d$year==22] <- 2002
 	d$start_date[d$year==24] <- 2004
 	d$start_date[d$year==25] <- 2005
+	d$start_date <- as.character(d$start_date)
 	
 	d$country <- carobiner::fix_name(d$country, "title")
 	d$location <- carobiner::fix_name(d$location, "title")
@@ -70,8 +71,8 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 		dun <- d[, c(nm, unf)]
 		names(din) <- gsub("in$", "", names(din))	
 		names(dun) <- gsub("un$", "", names(dun))
-		din$striga_infected <- "yes"
-		dun$striga_infected <- "no"
+		din$striga_infected <- TRUE
+		dun$striga_infected <- FALSE
 		# eldun does not exist
 		dun$eld <- NA
 		d <- rbind(din, dun)
@@ -87,6 +88,15 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 	 c("str_rat1", "str_rat2", "yield", "rl", "sl", "pl_st", "eldana")
 	 , must_have=FALSE)
 
+	if (!is.null(d$variety_code)) {
+		d$variety_code <- as.character(d$variety_code)
+	}
+	if (is.null(d$yield2)) {
+		d$yield2 <- as.numeric(NA)
+	} 
+	if (is.null(d$grain_weight)) {
+		d$grain_weight <- as.numeric(NA)
+	} 
 	d
 }
 

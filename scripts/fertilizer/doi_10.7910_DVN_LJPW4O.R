@@ -72,10 +72,13 @@ carob_script <- function(path) {
 	d1$fertilizer_type <- "urea"
 	d1$N_fertilizer <- ifelse(d$Treatment %in% c(8,7,6,5,4), 200,
 	                          ifelse(d$Treatment %in% c(3), 60, 0))
-	d1$N_splits <- paste(d1$N_fertilizer*0.3,d1$N_fertilizer*0.3,d1$N_fertilizer*0.4, sep = " | ")
+#	d1$N_splits <- paste(d1$N_fertilizer*0.3,d1$N_fertilizer*0.3,d1$N_fertilizer*0.4, sep = " | ")
+	d1$N_splits <- NA
+	d1$N_splits[d1$N_fertilizer > 0] <- 3
+
 	d1$P_fertilizer <- ifelse(d$Treatment %in% c(8,7,3,2), 90,
-	                          ifelse(d$Treatment %in% c(6), 50,
-	                                 ifelse(d$Treatment %in% c(5), 20, 0)))
+						 ifelse(d$Treatment %in% c(6), 50,
+						   ifelse(d$Treatment %in% c(5), 20, 0)))
 	d1$K_fertilizer <- ifelse(d$Treatment == 1, 0, 75)
 	d1$Zn_fertilizer <- ifelse(d$Treatment == 1, 0, 75)
 	
@@ -85,9 +88,9 @@ carob_script <- function(path) {
 	###########
 	# Merge with Manure applied ("1a Cattle manure lab analysis.xlsx")
 	OM <- carobiner::read.excel(ff[basename(ff) == "1a Cattle manure lab analysis.xlsx"], skip = 5)
-	d1$OM_used <- ifelse(d1$Treatment == 8, "yes", "no")
+	d1$OM_used <- d1$Treatment == 8
 	d1$OM_type <- ifelse(d1$Treatment == 8, "manure", NA)
-	d1$OM_applied <- ifelse(d1$Treatment == 8, 5000, NA)
+	d1$OM_applied <- ifelse(d1$Treatment == 8, 5000, 0)
 	d1$OM_N <- d1$OM_applied*(0.1796/100)*(0.755/100) # OM$K (%)
 	d1$OM_P <- d1$OM_applied*(0.1796/100)*(200.67532467532467/1e+06) # OM$P (ppm)
 	d1$OM_K <- d1$OM_applied*(0.1796/100)*(66.9072/1e+06) # OM$K (ppm)
@@ -111,7 +114,7 @@ carob_script <- function(path) {
 	d2 <- merge(d1, soil2, by = intersect(names(d1), names(soil2)), all.x = TRUE)
 	d2$yield <- d2$`Grain yield (kg/plot -5.625m2)` * (100/5.625)
 	d2$residue_yield <- d2$`Stover yield (kg/plot - 5.625m2)` * (100/5.625)
-	d2$irrigated <- "supplemental"
+	d2$irrigated <- TRUE
 	d2$row_spacing <- 75
 	d2$plant_spacing <- 25
 	

@@ -32,11 +32,11 @@ carob_script <- function(path) {
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
 	d <- mzfun(ff, "international_maize_trial_zimbabwe_striga.csv", TRUE)
-	d$striga_trial <- "yes"
+	d$striga_trial <- TRUE
 	d$dataset_id <- dataset_id
 	
 	e <- mzfun(ff, "international_maize_trial_zimbabwe_regular.csv")
-	e$striga_trial <- "no"
+	e$striga_trial <- FALSE
 	e$dataset_id <- dataset_id
 
 	x <- carobiner::bindr(d, e)

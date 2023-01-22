@@ -72,7 +72,13 @@ carob_script <- function(path) {
 ##	d1$fertilizer_type <- d1$TrtDesc
 	d1$N_fertilizer <- ifelse(d1$TrtDesc == "Control", 0,
 	                   ifelse(d1$TrtDesc == "PK", 0, 100))
-	d1$N_splits <- paste(d1$N_fertilizer*0.25,d1$N_fertilizer*0.375,d1$N_fertilizer*0.375, sep = " | ")
+
+## RH: this is nice, but the field only stores how many splits there were
+##	d1$N_splits <- paste(d1$N_fertilizer*0.25,d1$N_fertilizer*0.375,d1$N_fertilizer*0.375, sep = " | ")
+
+	d1$N_splits <- NA
+	d1$N_splits[d1$N_fertilizer > 0] <- 3
+	
 	d1$P_fertilizer <- ifelse(d1$TrtDesc == "Control", 0,
 	                   ifelse(d1$TrtDesc == "NK", 0, 30))
 	d1$K_fertilizer <- ifelse(d1$TrtDesc == "Control", 0,
