@@ -14,7 +14,7 @@ carob_script <- function(path) {
 "
   
   uri <- "doi:10.7910/DVN/OF7M9D"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "variety_performance"
   ## dataset level data 
   dset <- data.frame(
@@ -32,7 +32,7 @@ carob_script <- function(path) {
   
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-  dset$license <- carobiner::get_license(js)[1]
+  dset$license <- carobiner::get_license(js)[[1]]
   
   xf <- ff[tools::file_ext(ff) == "xlsx"]
   d <- vector("list", length(xf))
@@ -74,5 +74,4 @@ carob_script <- function(path) {
   
   # all scripts must end like this
   carobiner::write_files(dset, d, path, dataset_id, group)
-  TRUE
 }

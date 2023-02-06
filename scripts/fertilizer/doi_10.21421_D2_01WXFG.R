@@ -1,5 +1,8 @@
 # R script for "carob"
 
+#RH: todo: extract row_spacing and plant_spacing from "Spacing"
+
+
 carob_script <- function(path) {
   
   "Description
@@ -10,7 +13,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   ## Process 
  
   uri <- "doi:10.21421/D2/01WXFG"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
   dset <- data.frame(
@@ -33,26 +36,31 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   
   ## the AFSIS data 
   f <- ff[basename(ff) == "Data file of Groundnut to plant density and phosphorous application in Minjibir 2012-13.xlsx"]
-  d <- suppressMessages(as.data.frame(readxl::read_excel(f)))
+  d <- carobiner::read.excel(f)
   
-  names(d)
-  e<-d[,c(1,2,4,5,6,7,14,15)]
-  names(e)
-  colnames(e)<-c('season','location','rep','variety_type','treatment','spacing','yield','residue_yield')
+#  names(d)
+  e <- d[,c(1,2,4,5,6,7,14,15)]
+#  names(e)
+  colnames(e)<-c('start_date','location','rep','variety_type','treatment','spacing','yield','residue_yield')
   
-  e$country<- "Nigeria"
-  e$crop<-"groundnut"
+  e$start_date <- as.character(e$start_date)
+  e$country <- "Nigeria"
+  e$crop <-"groundnut"
   e$dataset_id <- dataset_id
   e$trial_id <- paste0("gnut_dens_phosph_", e$location)
-  e$adm1<-'Kano'
-  e$on_farm<-FALSE
-  e$is_survey<-FALSE
-  e$P_fertilizer[e$treatment=='F1']<-'0'
-  e$P_fertilizer[e$treatment=='F2']<-'20'
-  names(e)
-  e<-e[c("dataset_id","country", "adm1", 'location', "trial_id", "season","on_farm", "is_survey", "rep", "crop", "variety_type","yield", "residue_yield")]  
+  e$adm1 <- 'Kano'
+  e$on_farm <- FALSE
+  e$is_survey <- FALSE	
+  e$P_fertilizer[e$treatment=='F1'] <- 0
+  e$P_fertilizer[e$treatment=='F2'] <- 20
+  
+  #names(e) 
+  e$spacing <- NULL
+	e$rep <- as.integer(e$rep)
+
  #Still need to decode the treatment. Which is a level of fertilizer
- carobiner::write_files(dset, e, path, dataset_id, group)
+	carobiner::write_files(dset, e, path, dataset_id, group)
+
 }
 
 

@@ -17,7 +17,7 @@ carob_script <- function(path){
   
   # registering the dataset
   uri <- "doi:10.25502/VMVB-SN23/D"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "variety_performance"
   
   # The metadata at the dataset level
@@ -119,8 +119,41 @@ carob_script <- function(path){
   z$latitude <- replace(z$latitude,1:nrow(z),"-0.02356")
   z$longitude <- replace(z$longitude,1:nrow(z),"37.90619")
   
-  # all scripts must end like this
-  carobiner::write_files(dset, z, path, dataset_id, group)
-  TRUE
+ 
+	#sort(unique(z$variety))
+	v <- carobiner::fix_name(z$variety)
+	i <- grepl("Kenya", v, ignore.case=TRUE)
+	v[i] <- fix_name(v[i], "title")
+	i <- grepl("qui", v, ignore.case=TRUE)
+	v[i] <- "Sequel"
+
+	v <- carobiner::replace_values(v, 
+		c("GASIRIDA", "UMUBANO", "NEWROSCOCO",  "OKWODHO", "MAMESA", "EAI3600", "SB19" ),
+		c("Gasirida", "Umubano", "New Roscoco", "Okwodho", "Mamesa", "EAI 3600","SB 19"))
+	v <- carobiner::replace_values(v, 
+		c("MAC 44", "Mac 49", "Mac 9", "Mac44",  "saga", "TGX 1740-2F", "TGx-1987-62 F", "Variety"),
+		c("MAC 44", "MAC 49", "MAC 9", "MAC 44", "Saga", "TGx1740-2F",  "TGx1987-62-F",  NA))
+
+	v <- gsub("^TGx", "TGx ", v)
+	v <- gsub("^KK", "KK ", v)
+	v <- gsub("^RWV", "RWV ", v)
+	v <- gsub("  ", " ", v)
+
+	# this is a bit speculative 
+	v <- carobiner::replace_values(v, 
+		c("SC Saga", "SC Sequel"),
+		c("Saga", "Sequel"))
+		
+	#sort(unique(v))
+	z$variety <- v 
+ 
+	z$fertilizer_type <- carobiner::fix_name(z$fertilizer_type)
+	#unique(z$fertilizer_type)
+	
+	
+	message("   'fertilizer_type' contains variety names and numbers.\n   Perhaps an error in the original data? Needs to be fixed\n")	
+ 
+    # all scripts must end like this
+	carobiner::write_files(dset, z, path, dataset_id, group)
 }
 

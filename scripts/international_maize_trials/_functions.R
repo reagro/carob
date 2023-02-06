@@ -13,8 +13,9 @@ intmztrial_borer <- function(ff, f, striga=FALSE) {
 
 
 intmztrial_striga <- function(ff, f, striga=FALSE) {
-	f <- ff[tolower(basename(ff))==f]
-	d <- read.csv(f)
+
+	sf <- ff[tolower(basename(ff))==tolower(f)]
+	d <- read.csv(sf)
 	names(d) <- tolower(names(d))
 	names(d)[1] <- "id"
 	d$id <- NULL
@@ -50,11 +51,12 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 	d$start_date[d$year==22] <- 2002
 	d$start_date[d$year==24] <- 2004
 	d$start_date[d$year==25] <- 2005
+	d$start_date <- as.character(d$start_date)
 	
-	d$country <- carobiner::capitalize_words(d$country)
-	d$location <- carobiner::capitalize_words(d$location)
+	d$country <- carobiner::fix_name(d$country, "title")
+	d$location <- carobiner::fix_name(d$location, "title")
 
-	d$crop <- 'maize'
+	d$crop <- "maize"
 
 	d$on_farm <- FALSE
 	d$year <- NULL
@@ -69,12 +71,16 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 		dun <- d[, c(nm, unf)]
 		names(din) <- gsub("in$", "", names(din))	
 		names(dun) <- gsub("un$", "", names(dun))
-		din$striga_infected <- "yes"
-		dun$striga_infected <- "no"
+		din$striga_infected <- TRUE
+		dun$striga_infected <- FALSE
 		# eldun does not exist
 		dun$eld <- NA
 		d <- rbind(din, dun)
 		names(d) <- gsub("_$", "", names(d))
+		d$striga_trial <- TRUE
+	} else {
+		d$striga_trial <- FALSE
+		d$striga_infected <- FALSE
 	}
 
 	d <- carobiner::change_names(d, 
@@ -82,6 +88,15 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 	 c("str_rat1", "str_rat2", "yield", "rl", "sl", "pl_st", "eldana")
 	 , must_have=FALSE)
 
+	if (!is.null(d$variety_code)) {
+		d$variety_code <- as.character(d$variety_code)
+	}
+	if (is.null(d$yield2)) {
+		d$yield2 <- as.numeric(NA)
+	} 
+	if (is.null(d$grain_weight)) {
+		d$grain_weight <- as.numeric(NA)
+	} 
 	d
 }
 

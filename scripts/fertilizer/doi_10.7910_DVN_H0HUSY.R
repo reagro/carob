@@ -10,7 +10,7 @@ Description: This dataset contains information of experiments carried out upland
 
 " 
   uri <- "https://doi.org/10.7910/DVN/H0HUSY"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
   ## dataset level data 
@@ -29,13 +29,13 @@ Description: This dataset contains information of experiments carried out upland
   
   ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-  dset$license <- "CC BY" # I assigned a licence to the license carobiner::get_license(js) #CC BY-NC-ND: Restrictive use. CC BY: Free use
+  dset$license <- carobiner::get_license(js) 
   
   # processing Rice Data - Caribbean.tab
   f1 <- ff[basename(ff) == "03. Rice Data - Caribbean.xlsx"]
   d1 <- data.frame(readxl::read_xlsx(f1))
   d1$country <- 'Uruguay'#
-  d1$region <- 'Latin America'#
+#  d1$region <- 'Latin America'#
   d1$adm1 <- d1$Departamento #
   d1$adm1[grep("Region Autonoma de la Costa Caribe Sur",d1$Departamento)] <- 'RAAN'
   d1$adm2 <- d1$Municipio #
@@ -48,26 +48,26 @@ Description: This dataset contains information of experiments carried out upland
   d1$yield <- as.numeric(d1$rto_grano_kgha)
   d1$biomass_total <- as.numeric(d1$rto_biom_kgha)
   d1$trial_id <- "Caribbean"
-  d1 <- d1[,c("trial_id","country", "region", "adm1","adm2","adm3","crop", "rep","treatment","N_fertilizer", "P_fertilizer", "K_fertilizer","yield","biomass_total")]
+  d1 <- d1[,c("trial_id","country", "adm1","adm2","adm3","crop", "rep","treatment","N_fertilizer", "P_fertilizer", "K_fertilizer","yield","biomass_total")]
   
   # processing 04. Rice Data - Pacific.tab
   f2 <- ff[basename(ff) == "04. Rice Data - Pacific.xlsx"]
   d2 <- data.frame(readxl::read_xlsx(f2))
-  d2$country <- 'Uruguay'#
-  d2$region <- 'Latin America'#
-  d2$adm1 <- d2$Departamento #
-  d2$adm2 <- d2$Municipio #
-  d2$adm3 <- d2$Comunidad #
-  d2$location <- d2$Localidad #
-  d2$treatment <- d2$ttos #
-  d2$crop <- 'rice' #
-  d2$N_fertilizer <- d1$N #
-  d2$P_fertilizer <- d1$P #
-  d2$K_fertilizer <- d1$K #
+  d2$country <- 'Uruguay'
+#  d2$region <- 'Latin America'
+  d2$adm1 <- d2$Departamento 
+  d2$adm2 <- d2$Municipio 
+  d2$adm3 <- d2$Comunidad 
+  d2$location <- d2$Localidad
+  d2$treatment <- as.character(d2$ttos)
+  d2$crop <- 'rice'
+  d2$N_fertilizer <- d1$N
+  d2$P_fertilizer <- d1$P
+  d2$K_fertilizer <- d1$K
   d2$yield <- as.numeric(d2$rto_grano_kgha)
   d2$biomass_total <- as.numeric(d2$rto_biom_kgha)
   d2$trial_id <- "Pacific"
-  d2 <- d2[,c("trial_id","country", "region", "adm1","adm2","adm3","crop", "rep","treatment","N_fertilizer", "P_fertilizer", "K_fertilizer","yield","biomass_total")]
+  d2 <- d2[,c("trial_id","country", "adm1","adm2","adm3","crop", "rep","treatment","N_fertilizer", "P_fertilizer", "K_fertilizer","yield","biomass_total")]
   
   # processing 02. Soils Data.xlsx
   f3 <- ff[basename(ff) == "02. Soils Data.xlsx"]
@@ -90,15 +90,13 @@ Description: This dataset contains information of experiments carried out upland
   
   d5 <-merge(x = d2, y = d3, by = c("adm1", "adm2", "adm3"),all.x = TRUE)
   
-
   # compiling into a single final dataset
   f <- carobiner::bindr(d4,d5)
   f$dataset_id <- dataset_id
-  f$on_farm <- "yes"
-  f$is_survey <- "no"
-  
+  f$on_farm <- TRUE
+  f$is_survey <- FALSE
 
-  carobiner::write_files(dset, f, path, dataset_id, group)
-  TRUE
+	f$rep <- as.integer(f$rep)
+	carobiner::write_files(dset, f, path, dataset_id, group)
 }
 

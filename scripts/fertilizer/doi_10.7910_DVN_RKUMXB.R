@@ -32,7 +32,7 @@ carob_script <- function(path) {
 "
 
 	uri <- "doi:10.7910/DVN/RKUMXB"
-	dataset_id <- agro::get_simple_URI(uri)
+	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	
 	## dataset level data 
@@ -75,15 +75,19 @@ carob_script <- function(path) {
 ## add some columns
 	d$country <- "Ethiopia"
 	d$dataset_id <- dataset_id
-	d$on_farm <- "maybe"
+	
+	d$on_farm <- FALSE	
 	i <- d$trial_type == "Farmer managed"
-	d$on_farm[i] <- "no"
-	d$is_survey <- "no"
+	d$on_farm[i] <- TRUE
+	
+	d$is_survey <- FALSE
 
 	## NA to zero for some values
 	d$N[is.na(d$N)] <- 0
-	d$P[is.na(d$P)] <- 0
-	d$K[is.na(d$K)] <- 0
+	d$P[is.na(d$P)] <- 0	
+	d$K[is.na(d$K)] <- "0"
+	d$K <- suppressWarnings(as.numeric(d$K))
+
 	d$Other_Nutrient[is.na(d$Other_Nutrient)] <- 0
 
 	## Add Zn and S columns and extract from "Other_Nutrient"
@@ -126,12 +130,24 @@ carob_script <- function(path) {
 	d$irrigated <- d$irrigated == "irrigated"
 
 	## year to start year / end year
-	d[, c('start_date','end_date')] <- stringr::str_split_fixed(d$year, "-",2)
-	i <- grep("2008/09", d$start_date)
-	d$start_date[i] <- "2008"
-	d$end_date[i] <- "2009"
-	d$start_date <- as.numeric(d$start_date)
-	d$end_date <- as.numeric(d$end_date)
+	d$start_date <- NA
+	d$end_date <- NA
+	i <- nchar(d$year) == 4
+	d$start_date[i] <- d$year[i]
+	d$end_date[i] <- d$year[i]
+
+	i <- nchar(d$year) == 9
+	d$start_date[i] <- substr(d$year[i], 1, 4)
+	d$end_date[i] <- substr(d$year[i], 6, 9)
+
+	i <- d$year == "2007-8"
+	d$start_date[i] <- 2007
+	d$end_date[i] <- 2008
+
+	i <- d$year == "2008-09"
+	d$start_date[i] <- 2008
+	d$end_date[i] <- 2009
+	
 	d$year <- NULL
 
 	## Georeferencing --- more to be done
@@ -145,20 +161,42 @@ carob_script <- function(path) {
 	d$crop[d$crop == "haricot bean"] <- "common bean"
 	d$crop[d$crop == "field pea"] <- "pea"
 
-	d$fertilizer_type <- d$fertilizer_type_1
-	i = !is.na(d$fertilizer_type_2)
-	d$fertilizer_type[i] <- paste0(d$fertilizer_type[i], "; ", d$fertilizer_type_2[i])
+	f1 <- carobiner::fix_name(d$fertilizer_type_1)
+	f1 <- gsub(" \\+ ", "; ", f1)
+	f1 <- gsub(" & ", "; ", f1)
+	f1 <- gsub(" and ", "; ", f1)
+	f1 <- gsub("Ethiopian rock phosphate \\(ERP)", "ERP", f1)
+	f1 <- gsub("Gafsa rock Phosphate \\(GRP)", "GRP", f1)
+	f1 <- gsub("GRP mixture \\(1:4)", "GRP", f1)
+	f1 <- gsub("Basic slag", "basic slag", f1)
+	f1 <- gsub("Bone meal", "bone meal", f1)
+	
+	f2 <- carobiner::fix_name(d$fertilizer_type_2)
+	f2 <- gsub("Ammonium sulphate and Potassium sulphate", "DAS; SOP", f2)	
+	f2 <- gsub("Ammonium sulphate", "DAS", f2)
+	f2 <- gsub("Potassium Sulphate", "SOP", f2)
 
+	i = !is.na(f2)
+	f1[i] <- paste0(f1[i], "; ", f2[i])
+	
+	d$fertilizer_type <- f1
 	d$fertilizer_type_2 <- NULL
 	d$fertilizer_type_1 <- NULL
+
 	d$trial_type <- NULL
 
-	d$previous_crop <- tolower(d$previous_crop)
-	d$previous_crop[d$previous_crop=="oats-vetch mixture"] <- "oats-vetch"
-	d$previous_crop <- gsub("/", ";", d$previous_crop)
-	d$previous_crop[d$previous_crop=="soybean(scs-1)"] <- "soybean"
+	p <- fix_name(d$previous_crop, "lower")
+	p <- gsub("/", "; ", p)
+	p <- gsub("tef$", "teff", p)
+	p <- gsub("tef;", "teff;", p)
+	p <- gsub("soybean\\(scs-1)", "soybean", p)
+	p <- gsub("oats-vetch mixture", "oats; vetch", p)
+	p <- gsub("dolichos", "lablab", p)
+	p <- gsub("barely", "barley", p)
+	p <- gsub("none", "no crop", p)
 	
-	
+	d$previous_crop <- p
+
 	i <- grep("loam", d$comments)
 	d$soil_type[i] <- d$comments[i]
 	d$comments[i] <- ""
@@ -208,7 +246,31 @@ carob_script <- function(path) {
 	d <- carobiner::change_names(d, c("response", "N", "P", "K", "Zn", "S"), 
 	c("treatment", "N_fertilizer", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer"))
 
+	d$OM_used <- d$OM_used == "Yes"
+	d$inoculated <- d$inoculated == "Yes"
+
+	vv = c("adm1", "trial_id", "variety", "variety_type", "soil_type", "OM_type", "season", "tillage", "uncertainty_type", "uncertainty")
+	for (v in vv) d[[v]] <- fix_name(d[[v]])
+
+	d$uncertainty[d$uncertainty=="NS"] <- NA
+	d$uncertainty <- as.numeric(d$uncertainty)
+	
+	ps <- d$plant_spacing
+	d$plant_spacing <- NULL
+	i <- ps == "Inter-row spacing (55cm)"
+	d$row_spacing[i] <- 55
+	i <- ps == "Inter-row spacing (65cm)"
+	d$row_spacing[i] <- 65
+	i <- ps == "Inter-row spacing (75cm)"
+	d$row_spacing[i] <- 75
+
+	i <- grep("Plant density \\(n perha)", ps)
+	d$plant_density <- NA
+	d$plant_density[i] <- as.numeric(gsub("Plant density \\(n perha)", "", ps[i]))
+	
+	d$N_splits <- as.numeric(d$N_splits)
+	
 	carobiner::write_files(dset, d, path, dataset_id, group)
-	TRUE
+
 }
 

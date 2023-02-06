@@ -1,12 +1,12 @@
 # R script for "carob"
 
 ## ISSUES
-#Not showing license, showing question mark
 
+# RH
 # this dataset was de-accessioned. There is a new one 
 # doi:10.7910/DVN/QWACIK
 # but that one is locked!! 
-
+# we have the old data and should put it on-line so that we can use it again
 
 carob_script <- function(path) {
 
@@ -20,7 +20,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   ## Process 
  
   uri <- "doi:10.7910/DVN/JWUEGN"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
   dset <- data.frame(
@@ -43,10 +43,10 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   
   ## the AFSIS data 
   f <- ff[basename(ff) == "Responses of upland NERICA rice varieties to nitrogen and plant density.xlsx"]
-  d <- suppressMessages(as.data.frame(readxl::read_excel(f)))
+  d <- carobiner::read.excel(f)
   
   ##Skip early rows-Descriptive rows)
-  d <- suppressMessages(as.data.frame(readxl::read_excel(f)[-c(1:21),]))
+  d <- carobiner::read.excel(f)[-c(1:21),]
   
   ##Convert First Row to Header
   names(d)<-d[1,]

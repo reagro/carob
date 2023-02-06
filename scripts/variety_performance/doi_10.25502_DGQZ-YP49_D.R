@@ -8,7 +8,7 @@
 
 carob_script <- function(path){
   uri <- "doi.org/10.25502/DGQZ-YP49/D"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "variety_performance"
   
   #dataset level data
@@ -155,6 +155,5 @@ carob_script <- function(path){
   q$dataset_id <- dataset_id
   # all scripts should end like this
   carobiner::write_files(dset, q, path, dataset_id, group)
-  TRUE
 }  
   

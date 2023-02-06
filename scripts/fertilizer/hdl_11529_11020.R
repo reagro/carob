@@ -14,7 +14,7 @@ carob_script <- function(path) {
 "
 
 	uri <- "hdl:11529/11020"
-	dataset_id <- agro::get_simple_URI(uri)
+	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
@@ -40,31 +40,58 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "TAMASA_ET_CC_2015_BakoF.xlsx"]
 
 	# suppress variable renaming message
-	suppressMessages(
-		d <- readxl::read_excel(f, sheet = "Raw_Data", trim_ws = TRUE, n_max = 100)
-	)
-	
-	d <- as.data.frame(d)
+	d <- carobiner::read.excel(f, sheet = "Raw_Data", trim_ws = TRUE, n_max = 100)
 	
 	d$country <- "Ethiopia"
 	d$site <- d$`Name of the Village`
 	d$trial_id <- "TAMASA-Bako-2015"
 	d$start_date <- format(d$`Planting Date`, "%Y-%m-%d")
-	d$on_farm <- "yes"
-	d$is_survey <- "no"
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
 	d$treatment <- "none"
 	d$rep <- ifelse(gsub("^[^.]*.","",as.character(d$`plot ID`)) == "", "1", gsub("^[^.]*.","",as.character(d$`plot ID`)))
 	d$crop <- "maize"
 	d$variety_code <- d$`Type of Variety`
 	d$variety_type <- d$`Seed type (Local vs Improved)`
-	d$previous_crop <- d$`Previous/precursor crop`
-	d$crop_rotation <- d$`If crop rotation is practiced`
+	d$previous_crop <- tolower(d$`Previous/precursor crop`)
+	d$previous_crop[d$previous_crop  == "beans"] <- "common bean" 
+	d$previous_crop[d$previous_crop  == "other"] <- NA
+
+#	d$crop_rotation <- d$`If crop rotation is practiced`
 	d$yield <- d$`Average yield kg/ha or (Q1+Q2)/2`
-	d$fertilizer_type <- toupper(gsub("\n", "", gsub("\r", "", d$`Type of Inorganic Fertilizer`)))
-	d$N_fertilizer <- ifelse(grepl( "UREA", d$fertilizer_type, fixed = TRUE), d$`Amount of Inorganic Fertilizer (kg)` * 0.46,
-	                         ifelse(grepl( "DAP", d$fertilizer_type, fixed = TRUE), d$`Amount of Inorganic Fertilizer (kg)` * 0.18,
-	                                d$`Amount of Inorganic Fertilizer (kg)` * 0.19))
-	d$P_fertilizer <- ifelse(grepl( "DAP", d$fertilizer_type, fixed = TRUE), d$`Amount of Inorganic Fertilizer (kg)` * 0.2, d$`Amount of Inorganic Fertilizer (kg)` * 0.1659)
+	fr <- toupper(gsub("\n", "", gsub("\r", "", d$`Type of Inorganic Fertilizer`)))
+	fr <- gsub(" ", "", fr)
+	fr <- gsub("\\.,", "; ", fr)
+	fr <- gsub(",", "; ", fr)
+	fr <- gsub("AND", "; ", fr)
+	fr <- gsub("&", "; ", fr)
+	fr <- gsub("-", "; ", fr)
+	fr <- gsub("UREA", "urea", fr)
+	fr <- gsub("URE", "urea", fr)
+	
+# RH: Eduardo: please confirm that my assumption is correct that 
+# RH: they are applying normal superphosphate 	
+	fr <- gsub("SPS", "NSP", fr)
+	fr <- gsub("NPS", "NSP", fr)
+	d$fertilizer_type <- fr
+
+	d$N_fertilizer <- 0
+	i <- grep("urea", d$fertilizer_type)
+	d$N_fertilizer[i] <- d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.46
+
+	i <- grep("DAP", d$fertilizer_type)
+	# summing because you can have DAP _and_ urea
+	d$N_fertilizer[i] <- d$N_fertilizer[i] + d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.18
+	
+	message("   N fert rate seemed off. EGB please check")
+	##this did not seem to make sense (compare with original)
+	##RH : else??  d$`Amount of Inorganic Fertilizer (kg)` * 0.19))
+	
+	d$P_fertilizer <- 0
+	d$P_fertilizer[i] <- d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.2
+	i <- grep("NSP", d$fertilizer_type)
+	d$P_fertilizer[i] <- d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.1659
+
 	d$OM_used <- d$`Apply Organic Fertilizer ?`
 	d$OM_type <- d$`Type of Organic Fertilizer applied`
 	# Assuming 50kg Manure Bags
@@ -82,12 +109,13 @@ carob_script <- function(path) {
 	d$soil_P_total <- d$`P (mg kg-1)`
 	
 	d <- d[,c("country", "site", "trial_id", "start_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety_code", "variety_type", "previous_crop",
-	          "crop_rotation", "yield", "fertilizer_type", "N_fertilizer", "P_fertilizer", "OM_used", "OM_type", "OM_applied", "soil_type", "soil_pH", "soil_SOC",
+	          "yield", "fertilizer_type", "N_fertilizer", "P_fertilizer", "OM_used", "OM_type", "OM_applied", "soil_type", "soil_pH", "soil_SOC",
 	          "soil_N", "soil_K", "soil_P_total")]
 	
 	d$dataset_id <- dataset_id
-
+	
+	
 # all scripts must end like this
 	carobiner::write_files(dset, d, path, dataset_id, group)
-	TRUE
+
 }

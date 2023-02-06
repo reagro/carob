@@ -10,7 +10,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   ## Process 
  
   uri <- "doi:10.21421/D2/EYFR2F"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
   dset <- data.frame(
@@ -33,27 +33,31 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   
   ## the AFSIS data 
   f <- ff[basename(ff) == "Data file of Sorghum Phosphorus trial Kano Nigeria.xlsx"]
-  d <- suppressMessages(as.data.frame(readxl::read_excel(f)))
+  d <- carobiner::read.excel(f)
   
-  names(d)
-  e<-d[,c(1,2,4,5,6,14,15,16)]
-  colnames(e)<-c('season','location','rep','P_fertilizer','variety_type','yield','residue_yield','grain_weight')
-  e$country<- "Nigeria"
-  e$crop<-"sorghum"
+  #names(d)
+  e <- d[,c(1,2,4,5,6,14,15,16)]
+  colnames(e) <- c('start_date','location','rep','P_fertilizer','variety_type','yield','residue_yield','grain_weight')
+  e$country <- "Nigeria"
+  e$crop <- "sorghum"
   e$dataset_id <- dataset_id
   e$trial_id <- paste0('P_fert_', e$location)
-  e$on_farm<-FALSE
-  e$is_survey<-FALSE
+  e$on_farm <- FALSE
+  e$is_survey <- FALSE
   
   #Replace values in a data frame
-  e["location"][e["location"]=="BUK"]<-"Bayero"
+  e["location"][e["location"]=="BUK"] <- "Bayero"
   
-  e$adm1[e$location=='Minjibir']<-'Kano'
-  e$adm1[e$location=='Bayero']<-'Kano'
+  e$adm1[e$location=='Minjibir'] <- 'Kano'
+  e$adm1[e$location=='Bayero'] <- 'Kano'
   
-  e<-e[c("dataset_id","country", "adm1",'location',"trial_id", "season","on_farm", "is_survey", "rep", "crop", "variety_type","residue_yield", "yield", "grain_weight", "P_fertilizer")]  
+  e <- e[c("dataset_id","country", "adm1",'location',"trial_id", "start_date","on_farm", "is_survey", "rep", "crop", "variety_type","residue_yield", "yield", "grain_weight", "P_fertilizer")]  
+
+	e$rep <- as.integer(e$rep)
   
- carobiner::write_files(dset, e, path, dataset_id, group)
+	e$start_date <- as.character(e$start_date)
+	carobiner::write_files(dset, e, path, dataset_id, group)
+
 }
 
 

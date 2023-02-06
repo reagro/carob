@@ -16,7 +16,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 carob_script <- function(path) {
   
   uri <- "doi:10.25502/E4HB-9P62/D"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "variety_performance"
   
   ## data set level data 
@@ -56,22 +56,58 @@ carob_script <- function(path) {
   d$treatment <- d$treatments
   d$planting_date <- as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-"))
   d$start_date <- d$planting_date
+   
+## RH: first fix the names; that saves a lot of effort later on
+## RH:  d$fertilizer_type <- d$sub_treatment_inoc   
+
+	f <- carobiner::fix_name(d$sub_treatment_inoc, "upper")
+	f <- gsub(" ", "", f)
+	f <- gsub("\\+", "/", f)
+## RH: inspect
+#	sort(unique(f))
+	d$fertilizer_type = f
+	
+	
+## RH: use %in% or "grep" instead of endless "OR OR OR"	
+## RH: ifelse is also a bit difficult to read with long clauses
+## RH: no P fertilizer means that it is zero, not NA!
+	d$P_fertilizer <- 0 
+	i <- d$fertilizer_type %in% c("DAP", "TSP", "TSP/KCL", "TSP/KCL/UREA", "TSP/KCl")
+    d$P_fertilizer[i] <- 30 
+
+ 	d$K_fertilizer <- 0 
+	i <- grep("KCL", d$fertilizer_type) 
+    d$K_fertilizer[i] <- 30 
+ 
+	d$N_fertilizer <- 0 
+	i <- grep("UREA", d$fertilizer_type) 
+	d$N_fertilizer[i] <- 60 
+#RH: check if the DAP application is indeed 60 kg/ha. 
+#RH: it was not included but it is a N fertilizer
+	d$N_fertilizer[d$fertilizer_type == "DAP"] <- 60 	
+
+#RH: what is PK6? Does that have N? The original code suggests it does.
+#RH: then what about P? Or is it an innoculant?
+
+#RH innoculants need to go to a separate column. They are not fertilizers. 
+
+##RH: always check like this 
+unique(d[,c("fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer")]  )
+
+##RH : original code  
+##RH  d$P_fertilizer <- ifelse(d$fertilizer_type == "DAP"|d$fertilizer_type == "TSP"|d$fertilizer_type == "TSP/KCL"|
+##RH                             d$fertilizer_type == "TSP/KCL+UREA"|d$fertilizer_type == "TSP/KCL +UREA"|d$fertilizer_type == "TSP/KCl"|
+##RH                             d$fertilizer_type == "TSP/KCl+UREA"|d$fertilizer_type == "TSP/KCL/UREA"|
+##RH                             d$fertilizer_type == "TSP/KCl/Urea"|d$fertilizer_type == "TSP/KCl+urea",30,NA)
   
-  d$fertilizer_type <- d$sub_treatment_inoc
-  d$P_fertilizer <- ifelse(d$fertilizer_type == "DAP"|d$fertilizer_type == "TSP"|d$fertilizer_type == "TSP/KCL"|
-                             d$fertilizer_type == "TSP/KCL+UREA"|d$fertilizer_type == "TSP/KCL +UREA"|d$fertilizer_type == "TSP/KCl"|
-                             d$fertilizer_type == "TSP/KCl+UREA"|d$fertilizer_type == "TSP/KCL/UREA"|
-                             d$fertilizer_type == "TSP/KCl/Urea"|d$fertilizer_type == "TSP/KCl+urea",30,NA)
+##RH  d$K_fertilizer <- ifelse(d$fertilizer_type == "TSP/KCL"|d$fertilizer_type == "TSP/KCL+UREA"|
+##RH                             d$fertilizer_type == "TSP/KCL +UREA"|d$fertilizer_type == "TSP/KCl"|
+##RH                             d$fertilizer_type == "TSP/KCl+UREA"|d$fertilizer_type == "TSP/KCL/UREA"|
+##RH                             d$fertilizer_type == "TSP/KCl/Urea"|d$fertilizer_type == "TSP/KCl+urea",30,NA)
   
-  d$K_fertilizer <- ifelse(d$fertilizer_type == "TSP/KCL"|d$fertilizer_type == "TSP/KCL+UREA"|
-                             d$fertilizer_type == "TSP/KCL +UREA"|d$fertilizer_type == "TSP/KCl"|
-                             d$fertilizer_type == "TSP/KCl+UREA"|d$fertilizer_type == "TSP/KCL/UREA"|
-                             d$fertilizer_type == "TSP/KCl/Urea"|d$fertilizer_type == "TSP/KCl+urea",30,NA)
-  
-  d$N_fertilizer <- ifelse(d$fertilizer_type == "PK6+Urea"|d$fertilizer_type == "PK6 +Urea"|d$fertilizer_type == "TSP/KCL+UREA"|
-                             d$fertilizer_type == "TSP/KCL +UREA"|d$fertilizer_type == "TSP/KCl+UREA"|d$fertilizer_type == "TSP/KCL/UREA"|
-                             d$fertilizer_type == "TSP/KCl/Urea"|d$fertilizer_type == "TSP/KCl+urea",60,NA)
-  
+##RH  d$N_fertilizer <- ifelse(d$fertilizer_type == "PK6+Urea"|d$fertilizer_type == "PK6 +Urea"|d$fertilizer_type == "TSP/KCL+UREA"|
+##RH                             d$fertilizer_type == "TSP/KCL +UREA"|d$fertilizer_type == "TSP/KCl+UREA"|d$fertilizer_type == "TSP/KCL/UREA"|
+##RH                             d$fertilizer_type == "TSP/KCl/Urea"|d$fertilizer_type == "TSP/KCl+urea",60,NA)
   
   
   d$harvest_date <- as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-"))
@@ -119,8 +155,22 @@ carob_script <- function(path) {
   w$crop <- ifelse(w$crop %in% c("Bush Beans","Climbing Beans","Bush bean","Bush BEAN","Bush BEANS ","Bush BEANS",
                                   "Climbing BEANS ","Climbing bean"),"common bean",
                     ifelse(w$crop %in% c("Soybeans","SOY BEANS INPUT","SOYBEAN","Climbing bean","SOYBEAN "),"soybean","common bean")) # filled all NA values with common bean crop
-  # all scripts must end like this
-  carobiner::write_files(dset, w, path, dataset_id, group)
-  TRUE
+  
+  
+	v <- carobiner::fix_name(w$variety)
+	v <- carobiner::replace_values(v, 
+		c("GASILIDA", "GASIRIDA", "MAMASA", "MAMESA", "SOPROSOY", "YEZUMUTIMA"),
+		c("Gasirida", "Gasirida", "Mamesa", "Mamesa", "Soprosoy", "Yezumitima"))
+  
+  	v <- gsub("^RWA", "RWA ", v)
+	v <- gsub("^RWR", "RWR ", v)
+	v <- gsub("  ", " ", v)
+	w$variety <- v
+
+	sort(unique(v))
+	message("   'variety' contains innoculant names and fertilizers.\n   Perhaps an error in the original data. This must be fixed?\n")	
+ 
+	# all scripts must end like this
+	carobiner::write_files(dset, w, path, dataset_id, group)
 }
 

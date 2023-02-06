@@ -14,7 +14,7 @@ carob_script <- function(path) {
 "
   
   uri <- "doi:20.500.11766.1/FK2/LYKEFM"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ## dataset level data 
   dset <- data.frame(
@@ -54,8 +54,8 @@ carob_script <- function(path) {
     # There is no year 2 in the original dataset
     d$start_date <- ifelse(d$Year == 1, "2013-06-03", "2014-06-08")
     d$end_date <- ifelse(d$Year == 1, "2013-10-25", "2014-10-27")
-    d$on_farm <- "yes"
-    d$is_survey <- "no"
+    d$on_farm <- TRUE
+    d$is_survey <- FALSE
     d$treatment <- "Multi-level application of N fertilizers at different times."
     d$rep <- d$Replicate
     d$crop <- "wheat"
@@ -66,13 +66,19 @@ carob_script <- function(path) {
     d$N_splits <- ifelse(d$Treatment %in% c(1:3), 2, # This refers to the splits indicated in "Treatment.csv"
                          ifelse(d$Treatment %in% c(4,9,14), 1,
                                 ifelse(d$Treatment %in% c(5,10,15), 3, 0)))
-    d$plant_spacing <- "20 cm" # Look at "Experimental_Layout.png"
+
+##RH: what is the line_spacing? 
+	# see "Experimental_Layout.png"
+    d$plant_spacing <- 20 
+
     # Subset to columns of interest
     d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep", "crop", "yield", "N_fertilizer", "N_splits", "plant_spacing")]
     dd <- rbind(dd,d) 
   }
   
+   message("   line_spacing missing? EGB")
+
   # all scripts must end like this
   carobiner::write_files(dset, dd, path, dataset_id, group)
-  TRUE
 }
+

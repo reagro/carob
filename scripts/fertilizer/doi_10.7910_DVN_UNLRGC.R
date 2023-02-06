@@ -24,7 +24,7 @@ Notes
 
 	## Process 
 	uri <- "doi:10.7910/DVN/UNLRGC"
-	cleanuri <- agro::get_simple_URI(uri)
+	cleanuri <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 
 	dataset_id <- paste0(cleanuri, "-afsis")
@@ -64,6 +64,7 @@ Notes
 
 	lat <- as.numeric(d$latitude)
 	lon <- as.numeric(d$longitude)
+	
 	i <- which(abs(lat) > 90)
 	lat[i] <- as.numeric(paste0(substr(d$latitude[i], 1, 2), ".", substr(d$latitude[i], 3, 6)))
 	lon[i] <- -1 * as.numeric(paste0(substr(d$longitude[i], 1, 1), ".", substr(d$longitude[i], 2, 6)))
@@ -72,10 +73,8 @@ Notes
 	d$crop <- tolower(d$crop)
 
 	d$start_date <- substr(d$field, 5, 8)	
-	i <- d$start_date == '10LR' | d$start_date == '10SR'
+	d$start_date[d$start_date %in% c('10LR', '10SR')] <- "2010"
 	# months can be estimated from LR and SR 
-	d$start_date[i] <- "2010"
-	d$start_date <- as.numeric(d$start_date)
 
 	d$yield <- round(d$yield*1000)
 		
@@ -93,10 +92,14 @@ Notes
 	d$country[d$location=="Sidindi"] <- "Kenya"
 
 	d$dataset_id <- dataset_id
-	d$on_farm <- "yes"
-	d$is_survey <- "no"
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
 	d$field <- NULL
-	
+	d$site <- as.character(d$site)
+
+	# not clear what these mean
+	d$rep <- NULL
+		
 	carobiner::write_files(dset, d, path, cleanuri, group, id="afsis")
 
 	## FAO data 
@@ -110,16 +113,16 @@ Notes
 	z <- merge(z, crds, by="TrialID")
 	
 	names(z) <- tolower(names(z))
-	z$soiltype  <- carobiner::capitalize_words(z$soiltype)
-	z$zone <- carobiner::capitalize_words(z$zone)
-	z$location <- carobiner::capitalize_words(z$location)
+	z$soiltype  <- carobiner::fix_name(z$soiltype, "title")
+	z$zone <- carobiner::fix_name(z$zone, "title")
+	z$location <- carobiner::fix_name(z$location, "title")
 	z$year[z$year=="87B"] <- "1987"
 	z$year[z$year=="88A"] <- "1988"
-	z$start_date <- z$year
-	i <- grep("-", z$year)
-	z$start_date[i] <- substr(z$year[i], 1, 4)
-	z$end_date <- NA
-	z$end_date[i] <- paste0("19", substr(z$year[i], 6, 8))
+
+	z$start_date <- substr(z$year, 1, 4)
+
+	z$end_date <- paste0("19", substr(z$year, 6, 8))
+	z$end_date[z$end_date==19] <- NA
 	
 # 'trialid', 'country', 'zone', 'site', 'year', 'season', 'trial', 'nid', 'ycontrol_abs', 'yield', 'pcontrol', 'n control', 'n', 'p2o5', 'p', 'nae', 'pae', 'k2o', 'design', 'fym', 'classes', 'lat', 'long', 'soiltype', 'start_date', 'end_date'
 
@@ -155,10 +158,11 @@ Notes
 
 	zz <- unique(rbind(z, zctr))
 	zz <- zz[order(zz$trial_id, zz$n, zz$p, zz$k), ]
+	zz$year <- NULL
 
 	zz <- carobiner::change_names(zz, 
-	c("zone", "year", "n", "p", "k", "fym", "lat", "long", "soiltype"), 
-	c("region", "start_date", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "latitude", "longitude", "soil_type"))
+	c("zone", "n", "p", "k", "fym", "lat", "long", "soiltype"), 
+	c("adm1", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "latitude", "longitude", "soil_type"))
 
 	dataset_id <- paste0(cleanuri, "-fao")
 
@@ -167,9 +171,10 @@ Notes
 	zz$on_farm <- NA
 	zz$is_survey <- FALSE
 	zz$crop <- "maize"
-
 	zz$country[zz$country == "Guinea Biassu"] <- "Guinea-Bissau"
 	zz$country[zz$country == "DR Congo"] <- "Democratic Republic of the Congo"
+
+	zz$longitude <- as.numeric(gsub(",", ".", zz$longitude))
 
 	carobiner::write_files(dset, zz, path, cleanuri, group, id="fao")
 }

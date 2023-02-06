@@ -14,7 +14,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 carob_script <- function(path) {
 
   uri <- "https://doi.org/10.25502/NY1Z-W564/D"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "variety_performance"
 
   ## data set level data
@@ -44,16 +44,16 @@ carob_script <- function(path) {
    f <- ff[basename(ff) == "a_general.csv"]
    d <- data.frame(read.csv(f))
    d$trial_id <- d$farm_id
-   d$adm1 <- d$district
-   d$adm2 <- d$sector_ward
-   d$adm3 <- d$vilage
+   d$adm1 <- carobiner::fix_name(d$district, "title")
+   d$adm2 <- carobiner::fix_name(d$sector_ward, "title")
+   d$adm3 <- carobiner::fix_name(d$vilage, "title")
    d$location <- d$action_site
    d <- d[,c("trial_id","season","country","adm1","adm2","adm3","location")]
 
    f1 <- ff[basename(ff) == "a_technician.csv"]
    d1 <- data.frame(read.csv(f1))
    d1$trial_id <- d1$farm_id
-   d1$observation_date <- as.Date(d1$date,"%m/%d/%Y")
+   d1$observation_date <- as.character(as.Date(d1$date,"%m/%d/%Y"))
    d1 <- d1[,c("trial_id","observation_date")]
    
    f2 <- ff[basename(ff) == "c_use_of_package_1.csv"]
@@ -71,6 +71,10 @@ carob_script <- function(path) {
 
    d2$OM_applied <- suppressWarnings(as.numeric(gsub("kg","",d2$org_fertilizer_amount_kg))*(10000/as.numeric(d2$plot_size))) #amount of org fert in kg/ha
    d2$fertilizer_type <- d2$min_fertilizer_type
+   
+   d2$fertilizer_type[grep("sympa", d2$fertilizer_type, ignore.case = TRUE)] <- "Sympal"
+   d2$fertilizer_type[d2$fertilizer_type %in% c("N/A", "")] <- NA
+   
    d2$min_fertiliser_amount_kg <- suppressWarnings(as.numeric(gsub("kg","",d2$min_fertiliser_amount_kg))*(10000/as.numeric(d2$plot_size))) #amount of fertilizer used in kg/ha
 
    # assumption is that NPK and compound fertilizer 23:21:0+4S have similar mineral composition
@@ -84,7 +88,7 @@ carob_script <- function(path) {
 
    d2$P_fertilizer <- ifelse(d2$fertilizer_type == "TSP",
                              d2$min_fertiliser_amount_kg * 0.46*((2*31)/(2*31+5*16)),
-                             ifelse(d2$fertilizer_type %in% c("Sympal","sympal","Sympa","sympal "),
+                             ifelse(d2$fertilizer_type == "Sympal",
                                     d2$min_fertiliser_amount_kg * 0.23*((2*31)/(2*31+5*16)),
                                     ifelse(d2$fertilizer_type %in% c("NPK, UREA","NPK","23:21:0+4s"),
                                            d2$min_fertiliser_amount_kg * 0.21*((2*31)/(2*31+5*16)),
@@ -154,5 +158,4 @@ carob_script <- function(path) {
    
    # all scripts must end like this
    carobiner::write_files(dset, z, path, dataset_id, group)
-   TRUE
- }
+  }

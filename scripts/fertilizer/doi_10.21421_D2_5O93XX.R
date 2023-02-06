@@ -19,13 +19,14 @@ carob_script <- function(path) {
     Samnut-24 produced pod yields that were significantly higher than Samnut-22 across treatments.
     Pod yields at density of 133,333 hills ha-1 was 31% higher than at 66667 and 40% than at 44,444 hills ha-1.
     Application of fertilizer increased profit by 22% and 49% in Minjibir and Wudil respectively.
-    Planting at density of 133,333 hill ha-1 increased profit by 19% and 27% over 66,667 and 444444 hill ha-1 respectively in Minjibir, while it increase profit by 9% in Wudil.
+    Planting at density of 133,333 hill ha-1 increased profit by 19% and 27% over 66,667 and 444444 hill ha-1 respectively in Minjibir, while it increase profit by 9% in Wudil.`
     Cultivation of Samnut-24 at high density with phosphorus application will make groundnut production a more profitable venture in Sudan Savanna zone of Wudil, Nigeria.
+
 
 "
 
 	uri <- "doi:10.21421/D2/5O93XX"
-	dataset_id <- agro::get_simple_URI(uri)
+	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
@@ -37,6 +38,7 @@ carob_script <- function(path) {
 	   experiment_type="fertilizer",
 	   has_weather=FALSE,
 	   has_management=FALSE
+
 	)
 
 ## download and read data 
@@ -57,12 +59,11 @@ carob_script <- function(path) {
 	d$trial_id <- paste0(dataset_id, '-', d$Location)
 	d$latitude <- 11.793702
 	d$longitude <- 8.838846
-	d$start_date <- 2012
-	d$end_date <- 2013
-	d$on_farm <- "no"
-	d$is_survey <- "no"
-	d$treatment <- "The groundnut were planted at density of 44444, 66667, and 133333 hills ha-1 with average of two plants per hill. Phosphorus was applied at rate of 0 or 20 kg P ha-1 ."
-	d$rep <- d$Replication.number
+	d$start_date <- as.character(2012)
+	d$end_date <- as.character(2013)
+	d$on_farm <- FALSE
+	d$is_survey <- FALSE
+	d$rep <- as.integer(d$Replication.number)
 	d$crop <- "groundnut"
 	d$variety <- d$Variety
 	d$yield <- d$PodKgHa
@@ -78,5 +79,5 @@ carob_script <- function(path) {
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path, dataset_id, group)
-	TRUE
+
 }

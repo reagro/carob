@@ -17,7 +17,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 "
 
 	uri <- "doi:10.34725/DVN/25746"
-	dataset_id <- agro::get_simple_URI(uri)
+	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
@@ -40,7 +40,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	f <- ff[basename(ff) == "Sileshi Stab analysis data.xlsx"]
 	# process file(s)
 
-	suppressMessages(	  d <- readxl::read_excel(f)   )
+	d <- carobiner::read.excel(f)
 	
 	d <- as.data.frame(d)
 	colnames(d) <- gsub("treat$", "treatment", tolower(d[1,]))
@@ -95,15 +95,17 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 
 	d <- rbind(m, e)
 
-	d$fertilizer_type <- "TPS; CA-NH4NO3"
+	d$fertilizer_type <- "TSP; CAN"
 
 	d$yield <- round(as.numeric(d$yield) * 1000)
 	d$crop <- "maize"
 	d$variety_type <- "hybrid"
 
-	d$start_date <- paste0(d$year, "-", 11)
+	d$start_date <- paste0(d$year, "-11")
 	year <- as.numeric(d$year) + 1
-	d$end_date <- paste0(year, "-", 04)
+	d$end_date <- paste0(year, "-04")
+	d$start_date[is.na(d$year)] <- NA
+	d$end_date[is.na(d$year)] <- NA
 	d$year <- NULL
 	
 	gli <- grep("Gliricidia", d$treatment)
@@ -115,7 +117,8 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 
 
 	d$dataset_id <- dataset_id
-
+	d$rep <- as.integer(d$rep)
+	
 	carobiner::write_files(dset, d, path, dataset_id, group)
 }
 

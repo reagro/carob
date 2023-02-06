@@ -8,7 +8,7 @@
 carob_script <- function(path){
 
 	uri <- "doi.org/10.25502/dn04-c035"
-	dataset_id <- agro::get_simple_URI(uri)
+	dataset_id <- carobiner::simple_uri(uri)
 	group <- "variety_performance"
 
 	dset <- data.frame(
@@ -47,8 +47,8 @@ d4 <- data.frame(read.csv2(f4, sep = ","))
  
 #processing the first dataset
 d$trial_id <- d$farm_id
-d$adm2 <- fix_adm(d$district)
-d$adm3 <- fix_adm(d$sector_ward)
+d$adm2 <- carobiner::fix_name(d$district, "title")
+d$adm3 <- carobiner::fix_name(d$sector_ward, "title")
 
 d <- d[, c("trial_id", "adm2","adm3")]
 
