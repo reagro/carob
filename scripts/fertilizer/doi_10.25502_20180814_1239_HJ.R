@@ -17,7 +17,7 @@ carob_script <- function(path) {
   
   uri <- "doi:10.25502/20180814/1239/HJ"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "soil_information"
+  group <- "fertilizer"
   ## dataset level data 
   dset <- data.frame(
     dataset_id = dataset_id,
@@ -27,7 +27,7 @@ carob_script <- function(path) {
     data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Mbinga [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1239/HJ",
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
-    experiment_type="soil_information",
+    experiment_type="fertilizer",
     has_weather=FALSE,
     has_management=TRUE
   )
@@ -104,10 +104,10 @@ carob_script <- function(path) {
   p <- carobiner::fix_name(gsub("/", "; ", d$previous_crop), "lower")
   p <- gsub("beans.", "common bean", p)
   p <- gsub("beans", "common bean", p)
-  p <- gsub("beans and cassava", "beans & cassava", p)
-  p <- gsub("fallowed", NA, p)
+  p <- gsub("beans and cassava", "common bean; cassava", p)
+  p <- gsub("fallowed", "none", p)
   p <- gsub("-", NA, p)
-  p <- gsub("common beanand cassava", NA, p)
+  p <- gsub("common beanand cassava", "common bean; cassava", p)
   d$previous_crop <- p
   
   #data type
@@ -126,6 +126,6 @@ carob_script <- function(path) {
   # all scripts must end like this
   
   carobiner::write_files(dset, d, path, dataset_id, group)
-  #TRUE
+  
 }
 

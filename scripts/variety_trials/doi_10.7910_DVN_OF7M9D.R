@@ -15,7 +15,7 @@ carob_script <- function(path) {
   
   uri <- "doi:10.7910/DVN/OF7M9D"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "variety_performance"
+  group <- "variety_trials"
   ## dataset level data 
   dset <- data.frame(
     dataset_id = dataset_id,
@@ -23,7 +23,7 @@ carob_script <- function(path) {
     uri=uri,
     publication=NA,
     carob_contributor="Eduardo Garcia Bendito",
-    experiment_type="variety_performance",
+    experiment_type="variety trial",
     has_weather=FALSE,
     has_management=FALSE
   )

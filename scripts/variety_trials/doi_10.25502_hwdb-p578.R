@@ -9,7 +9,7 @@ carob_script <- function(path){
  
   uri  <- "doi.org/10.25502/hwdb-p578"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "variety_performance"
+  group <- "variety_trials"
   
   #dataset level data
   
@@ -25,7 +25,7 @@ carob_script <- function(path){
     Tropical Agriculture (IITA). https://doi.org/10.25502/HWDB-P578",
 
     carob_contributor = "Effie Ochieng",
-    experiment_type = "variety_performance",
+    experiment_type = "variety_trials",
     has_weather =  TRUE,
     has_management = FALSE
   )

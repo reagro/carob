@@ -18,7 +18,7 @@ carob_script <- function(path){
   # registering the dataset
   uri <- "doi:10.25502/VMVB-SN23/D"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "variety_performance"
+  group <- "variety_trials"
   
   # The metadata at the dataset level
   dset <- data.frame(

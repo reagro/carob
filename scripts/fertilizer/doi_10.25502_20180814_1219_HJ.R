@@ -10,14 +10,14 @@ carob_script <- function(path) {
 	Description:
    The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel 
    sites across sub-Saharan Africa using the Land Degradation
-   Surveilllance framework and inlcuded also multi-location diagnostic
-   trials in selected sentiale sites to determine nutrient limitations
+   Surveillance framework and included also multi-location diagnostic
+   trials in selected sentinel sites to determine nutrient limitations
    and response to improved soil management practices (soil amendments)
 "
   
   uri <- "doi:10.25502/20180814/1219/HJ"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "soil_information"
+  group <- "fertilizer"
   ## dataset level data 
   dset <- data.frame(
     dataset_id = dataset_id,
@@ -27,7 +27,7 @@ carob_script <- function(path) {
     data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kontela [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1219/HJ",
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
-    experiment_type="soil_information",
+    experiment_type="fertilizer",
     has_weather=FALSE,
     has_management=TRUE
   )
@@ -110,6 +110,5 @@ carob_script <- function(path) {
  d$start_date<-format(as.Date(d$start_date, format = "%m/%d/%Y"), "%Y-%m-%d")
   # all scripts must end like this
   carobiner::write_files(dset, d, path, dataset_id, group)
-  TRUE
 }
 

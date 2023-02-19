@@ -15,7 +15,7 @@ carob_script <- function(path) {
 
   uri <- "https://doi.org/10.25502/NY1Z-W564/D"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "variety_performance"
+  group <- "variety_trials"
 
   ## data set level data
   dset <- data.frame(
@@ -29,7 +29,7 @@ carob_script <- function(path) {
     2012 - 2013 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/NY1Z-W564/D",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
-    experiment_type="variety_performance",
+    experiment_type="variety trial",
     has_weather=TRUE,
     has_management=TRUE
   )

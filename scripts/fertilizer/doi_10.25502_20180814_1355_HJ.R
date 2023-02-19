@@ -8,19 +8,20 @@
    and response to improved soil management practices (soil amendments)
 "
 
-uri <- "doi:10.25502/20180814/1504/HJ"
+uri <- "doi:10.25502/20180814/1355/HJ"
 dataset_id <- carobiner::simple_uri(uri)
-group <- "soil_information"
+group <- "fertilizer"
 ## dataset level data 
 dset <- data.frame(
   dataset_id = dataset_id,
   group=group,
   uri=uri,
   publication=NA,
-  data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Sidindi SR [Data set]. International Institute of Tropical Agriculture 
-  (IITA). https://doi.org/10.25502/20180814/1504/HJ",
+  data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Nkhata Bay S2 [Data set].
+  International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1355/HJ",
+  data_institutions = "IITA",
   carob_contributor="Cedric Ngakou",
-  experiment_type="soil_information",
+  experiment_type="fertilizer",
   has_weather=FALSE,
   has_management=TRUE
 )
@@ -32,9 +33,9 @@ js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 dset$license <- carobiner::get_license(js)
 
 
-f1 <- ff[basename(ff) == "Sidindi_SR2010_Field.csv"] # get Field dataset
-f2 <- ff[basename(ff) == "Sidindi_SR2010_Plant.csv"] # get Plant dataset
-f3 <- ff[basename(ff) == "Sidindi_SR2010_Plot.csv"]# get plot dataset
+f1 <- ff[basename(ff) == "Nkhata Bay_S2_Field.csv"] # get Field dataset
+f2 <- ff[basename(ff) == "Nkhata Bay_S2_Plant.csv"] # get Plant dataset
+f3 <- ff[basename(ff) == "Nkhata Bay_S2_plot.csv"]# get plot dataset
 
 # read dataset
 d1 <- read.csv(f1)
@@ -51,19 +52,20 @@ d1$dataset_id <- dataset_id
 d1$trial_id<- c(paste0(d1$dataset_id,"-",d1$ID))
 d1$latitude<-d1$Flat
 d1$longitude<-d1$Flong
-#d1$location<-d1$Village
+d1$location<-d1$Village
+d1$soil_type<-d1$Soil.texture.class
 d1$OM_type<- d1$MType1
 d1$previous_crop<-d1$PCrop1
 
 # add column
 
-d1$country<- "Kenya"
+d1$country<- "Malawi"
 d1$crop<-"maize"
 d1$OM_used=ifelse(d1$OM_type== "None","FALSE",
                   ifelse(d1$OM_type=="NA", "FALSE ", "TRUE" ))
 
-d1<- d1[,c("dataset_id","trial_id","country",
-           "latitude","longitude","crop","previous_crop",
+d1<- d1[,c("dataset_id","trial_id","location","country",
+           "latitude","longitude","crop","soil_type","previous_crop",
            "OM_type","OM_used")]
 
 
@@ -72,9 +74,9 @@ d3$rep<-d3$Rep
 
 d3$treatment<-d3$TrtDesc
 
-d3$yield<-(d3$Grn_yld_adj)*1000
-d3$grain_weight<-d3$X100GrainFW
-#d3$residue_yield<-(d3$AdjTStoverYld)*1000
+d3$yield<-(d3$TGrainYld_adj)*1000
+
+d3$residue_yield<-(d3$AdjTStoverYld)*1000
 d3$season<-d3$Season
 d3$site<-d3$Site
 
@@ -93,7 +95,7 @@ d3$S_fertilizer<-ifelse(d3$TrtDesc=="NPK+MN",5,0)
 
 d3=transform(d3,N_splits=ifelse(d3$N_fertilizer>0,3,0))
 
-d3<-d3[,c("dataset_id","site","rep","treatment","season","yield","grain_weight","N_fertilizer",
+d3<-d3[,c("dataset_id","site","rep","treatment","season","yield","residue_yield","N_fertilizer",
           "K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
 
 #merge all the data
@@ -104,18 +106,24 @@ d$OM_type<-as.character(d$OM_type)
 d$OM_used<-as.logical(d$OM_used)
 # crop terms normalization
 p <- carobiner::fix_name(gsub("/", "; ", d$previous_crop), "lower")
-p <-gsub("sweet potato","sweetpotato",p)
-p <-gsub("beans","common bean",p)
-p <-gsub("none","no crop",p)
-p <-gsub("maize-beans","maize",p)
-p <-gsub("maize-common bean","common bean",p)
-p <-gsub("sugarcane",NA,p)
+p <- gsub("maize & s", "sweetpotato", p)
+p <- gsub("potatoes", "potato", p)
+p <- gsub("cowpeas", "cowpea", p)
+p <- gsub("maize & cassava", "maize; cassava", p)
+p <- gsub(" potato&cassava", "potato; cassava", p)
+p <- gsub("nuts&cassava", "cassava; nuts", p)
+p <- gsub(" maize&s", "maize" , p)
+p <- gsub(" nuts", "nuts", p)
+p <- gsub("s",NA , p)
+p <- gsub("fallow", "none", p)
+
+
 d$previous_crop <- p
 # change date format
 
-# fill whitespace 
+# fill whitespace in soil_type 
 d<- replace(d,d=='',NA)
-# all scripts must end like this   
+# all scripts must end like this
 
 carobiner::write_files(dset, d, path, dataset_id, group)
 
