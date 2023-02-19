@@ -97,5 +97,5 @@ q$dataset_id <- dataset_id
 
 # all scripts should end like this
 carobiner::write_files(dset, q, path, dataset_id, group)
-TRUE
+
 }
