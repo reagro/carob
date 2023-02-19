@@ -21,13 +21,10 @@ carob_script <- function(path) {
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   ## if there is a paper, include the paper's doi here that points to the 
-	   ## bibtex file in references (that you need to add)
-	   ## if there is not a paper, use the data doi, and add a bibtex file for that
-	   ## this field cannot be blank
-	   reference= ,
+	   ## if there is a paper, include the paper's doi here
+	   ## also add a RIS file in references folder (with matching doi)
+	   publication= "",
 	   data_institutions = "",
-
 	   carob_contributor="Your name",
 	   
 	   ## something like randomized control...
