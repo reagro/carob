@@ -105,7 +105,7 @@ carob_script <- function(path) {
   p <- gsub("beans.", "common bean", p)
   p <- gsub("beans", "common bean", p)
   p <- gsub("beans and cassava", "common bean; cassava", p)
-  p <- gsub("fallowed", "none", p)
+  p <- gsub("fallowed", "no crop", p)
   p <- gsub("-", NA, p)
   p <- gsub("common beanand cassava", "common bean; cassava", p)
   d$previous_crop <- p

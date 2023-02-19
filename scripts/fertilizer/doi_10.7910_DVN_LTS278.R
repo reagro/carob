@@ -3,8 +3,6 @@
 ## ISSUES
 ###reference file missing: doi_10.7910_DVN_LTS278
 
-library(carobiner)
-
 carob_script <- function(path) {
 
 "Description

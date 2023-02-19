@@ -51,8 +51,6 @@ carob_script <- function(path) {
   
   # process file(s)
   #d <- carobiner::change_names(d, from, to)
-  d3$dataset_id <- dataset_id
-  d1$dataset_id <- dataset_id
   
  # process field data 
   d1$latitude<- d1$Flat
@@ -65,7 +63,7 @@ carob_script <- function(path) {
   d1$variety_type<- d1$TCVariety
   d1$season<- d1$Season
   
-  d1<-d1[,c("dataset_id","site","longitude","latitude","location","variety_type",
+  d1<-d1[,c("site","longitude","latitude","location","variety_type",
             "start_date","end_date","season")]
   
   # process plot data 
@@ -88,27 +86,29 @@ carob_script <- function(path) {
   
   d3$S_fertilizer<-ifelse(d3$TrtDesc=="NPK+MN",5,0)
   
-  d3=transform(d3,N_splits=ifelse(d3$N_fertilizer>0,3,0)) 
+  d3$N_splits <- ifelse(d3$N_fertilizer > 0,3,0)
  
  # merge all the dataset
- d_n<-list(d1,d3)
- d<-Reduce(function(x,y) merge(x,y, all=TRUE),d_n)
+ d <- merge(d1, d3, all=TRUE)
  
+ d$country <- "Mali"
+ d$crop <- "sorghum"
  
- # add column
- d$country<- "Mali"
- d$crop<- "sorghum"
- 
- d<-d[,c("dataset_id","site","season","country","location","rep","trial_id","treatment","longitude","latitude","start_date","end_date","variety_type",
+ d <-d[,c("site","season","country","location","rep","trial_id","treatment","longitude","latitude","start_date","end_date","variety_type",
          "crop","residue_yield","yield","N_fertilizer","K_fertilizer","P_fertilizer","Zn_fertilizer",
          "S_fertilizer","N_splits")]
  
 #type of data
- d$season<-as.character(d$season) 
+## RH season "1" is not very meaningful. 
+## needs to be replaced 
+  d$season <- as.character(d$season) 
   # date format
- d$end_date<-format(as.Date(d$end_date, format = "%m/%d/%Y"), "%Y-%m-%d")
- d$start_date<-format(as.Date(d$start_date, format = "%m/%d/%Y"), "%Y-%m-%d")
+ d$end_date <- format(as.Date(d$end_date, format = "%m/%d/%Y"), "%Y-%m-%d")
+ d$start_date <- format(as.Date(d$start_date, format = "%m/%d/%Y"), "%Y-%m-%d")
   # all scripts must end like this
+
+  d$dataset_id <- dataset_id
+ 
   carobiner::write_files(dset, d, path, dataset_id, group)
 }
 

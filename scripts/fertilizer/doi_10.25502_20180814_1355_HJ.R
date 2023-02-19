@@ -8,6 +8,8 @@
    and response to improved soil management practices (soil amendments)
 "
 
+carob_script <- function(path) {
+
 uri <- "doi:10.25502/20180814/1355/HJ"
 dataset_id <- carobiner::simple_uri(uri)
 group <- "fertilizer"
@@ -115,7 +117,7 @@ p <- gsub("nuts&cassava", "cassava; nuts", p)
 p <- gsub(" maize&s", "maize" , p)
 p <- gsub(" nuts", "nuts", p)
 p <- gsub("s",NA , p)
-p <- gsub("fallow", "none", p)
+p <- gsub("fallow", "no crop", p)
 
 
 d$previous_crop <- p
@@ -127,3 +129,5 @@ d<- replace(d,d=='',NA)
 
 carobiner::write_files(dset, d, path, dataset_id, group)
 
+
+}

@@ -8,6 +8,8 @@
    and response to improved soil management practices (soil amendments)
 "
 
+carob_script <- function(path) {
+
 uri <- "doi:10.25502/20180814/1504/HJ"
 dataset_id <- carobiner::simple_uri(uri)
 group <- "fertilizer"
@@ -48,74 +50,73 @@ d3$dataset_id <- dataset_id
 d1$dataset_id <- dataset_id
 
 # process field data
-d1$trial_id<- c(paste0(d1$dataset_id,"-",d1$ID))
-d1$latitude<-d1$Flat
-d1$longitude<-d1$Flong
-#d1$location<-d1$Village
-d1$OM_type<- d1$MType1
-d1$previous_crop<-d1$PCrop1
+d1$trial_id <-  c(paste0(d1$dataset_id,"-",d1$ID))
+d1$latitude <- d1$Flat
+d1$longitude <- d1$Flong
+#d1$location <- d1$Village
+d1$OM_type <-  d1$MType1
+d1$previous_crop <- d1$PCrop1
 
 # add column
 
-d1$country<- "Kenya"
-d1$crop<-"maize"
+d1$country <-  "Kenya"
+d1$crop <- "maize"
 d1$OM_used=ifelse(d1$OM_type== "None","FALSE",
                   ifelse(d1$OM_type=="NA", "FALSE ", "TRUE" ))
 
-d1<- d1[,c("dataset_id","trial_id","country",
+d1 <-  d1[,c("dataset_id","trial_id","country",
            "latitude","longitude","crop","previous_crop",
            "OM_type","OM_used")]
 
 
 # process plot dataset
-d3$rep<-d3$Rep
+d3$rep <- d3$Rep
 
-d3$treatment<-d3$TrtDesc
+d3$treatment <- d3$TrtDesc
 
-d3$yield<-(d3$Grn_yld_adj)*1000
-d3$grain_weight<-d3$X100GrainFW
-#d3$residue_yield<-(d3$AdjTStoverYld)*1000
-d3$season<-d3$Season
-d3$site<-d3$Site
+d3$yield <- (d3$Grn_yld_adj)*1000
+d3$grain_weight <- d3$X100GrainFW
+#d3$residue_yield <- (d3$AdjTStoverYld)*1000
+d3$season <- d3$Season
+d3$site <- d3$Site
 
-d3$N_fertilizer<-ifelse(d3$TrtDesc=="Control",0,
+d3$N_fertilizer <- ifelse(d3$TrtDesc=="Control",0,
                         ifelse(d3$TrtDesc=="PK",0,100))
 
-d3$K_fertilizer<-ifelse(d3$TrtDesc=="Control",0,
+d3$K_fertilizer <- ifelse(d3$TrtDesc=="Control",0,
                         ifelse(d3$TrtDesc=="NP",0,60))
 
-d3$P_fertilizer<-ifelse(d3$TrtDesc=="Control",0,
+d3$P_fertilizer <- ifelse(d3$TrtDesc=="Control",0,
                         ifelse(d3$TrtDesc=="NK",0,30))
 
-d3$Zn_fertilizer<-ifelse(d3$TrtDesc=="NPK+MN",3,0)
+d3$Zn_fertilizer <- ifelse(d3$TrtDesc=="NPK+MN",3,0)
 
-d3$S_fertilizer<-ifelse(d3$TrtDesc=="NPK+MN",5,0)
+d3$S_fertilizer <- ifelse(d3$TrtDesc=="NPK+MN",5,0)
 
 d3=transform(d3,N_splits=ifelse(d3$N_fertilizer>0,3,0))
 
-d3<-d3[,c("dataset_id","site","rep","treatment","season","yield","grain_weight","N_fertilizer",
+d3 <- d3[,c("dataset_id","site","rep","treatment","season","yield","grain_weight","N_fertilizer",
           "K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
 
 #merge all the data
-d<-merge(d1,d3,by="dataset_id", all.x = TRUE)
+d <- merge(d1,d3,by="dataset_id", all.x = TRUE)
 # data type
-d$season<-as.character(d$season)
-d$OM_type<-as.character(d$OM_type)
-d$OM_used<-as.logical(d$OM_used)
+d$season  <- as.character(d$season)
+d$OM_type <- as.character(d$OM_type)
+d$OM_used <- as.logical(d$OM_used)
 # crop terms normalization
 p <- carobiner::fix_name(gsub("/", "; ", d$previous_crop), "lower")
 p <- gsub("sweet potato","sweetpotato",p)
 p <- gsub("beans","common bean",p)
 p <- gsub("none","no crop",p)
-p <- gsub("maize-beans","maize;common bean",p)
-p <- gsub("maize-common bean","maize, common bean",p)
-p <- gsub("sugarcane",NA,p)
+p <- gsub("maize-beans","maize; common bean",p)
+p <- gsub("maize-common bean","maize; common bean",p)
 d$previous_crop <- p
-# change date format
 
 # fill whitespace 
-d<- replace(d,d=='',NA)
+d <- replace(d, d=='', NA)
 # all scripts must end like this   
 
 carobiner::write_files(dset, d, path, dataset_id, group)
 
+}
