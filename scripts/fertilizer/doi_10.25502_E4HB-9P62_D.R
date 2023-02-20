@@ -17,7 +17,7 @@ carob_script <- function(path) {
   
   uri <- "doi:10.25502/E4HB-9P62/D"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "variety_trials"
+  group <- "fertilizer"
   
   ## data set level data 
   dset <- data.frame(
