@@ -31,6 +31,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
   dset$license <- carobiner::get_license(js) 
   
+  ## the AFSIS data 
   f <- ff[basename(ff) == "Data file of Groundnut fertilizer plant density of combine Minjibir.xlsx"]
   d <- carobiner::read.excel(f)
   

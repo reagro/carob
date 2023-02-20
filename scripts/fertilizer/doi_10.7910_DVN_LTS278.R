@@ -31,6 +31,7 @@ ff  <- carobiner::get_data(uri, path, group)
 js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
 dset$license <- carobiner::get_license(js)[[1]]
 
+## the AFSIS data 
 f <- ff[basename(ff) == "AGP II 2017.18 RAW DATA.xlsx"] 
 d <- carobiner::read.excel(f)
 

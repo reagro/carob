@@ -17,7 +17,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 " 
   uri <- "doi:10.25502/X2H1-AT51/D"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "fertilizer"
+  group <- "variety_trials"
   
   ## dataset level data 
   
@@ -40,13 +40,13 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 
   # processing activities.csv
   f <- ff[basename(ff) == "activities.csv"]
-  d <- read.csv(f)
+  d <- data.frame(read.csv2(f, sep = "," ))
   d$start_date <- as.Date(d$planting,"%m/%d/%Y")
   d<- d[,c("trial_id","start_date")]
   
   # processing crop_observations.csv
   f1 <- ff[basename(ff) == "crop_observations.csv"]
-  d1 <- read.csv(f1)
+  d1 <- data.frame(read.csv2(f1, sep = "," ))
   d1$rep <- d1$replication_no
   d1$treatment <- d1$main_treatment # sub_treatment and sub_sub_treatment have null values hence will be ignored
   d1$start_date <- as.Date(d1$date_planting,"%m/%d/%Y")
@@ -117,42 +117,16 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   # calculating amount of P in DAP applied assuming that any P input refers to DAP appication; 
   
   P2O5 <- 25 * 0.46
-  # to acquire the amount of P in P2O5, P has atomic weight 31 while O has atomic weight 16.
-  P <- P2O5*((2*31)/(2*31+5*16))  
+  P <- P2O5*((2*31)/(2*31+5*16))  # to acquire the amount of P in P2O5, P has atomic weight 31 while O has atomic weight 16.
   N <- 25 * 0.18
   
-  f$fertilizer_type <- "none"
-
-  #P or +P shows presence of phosphorus
-  
-  f$treatment <- trimws(f$treatment)
-  f$P_fertilizer[f$treatment %in% c("+P+ +R","+P+ -R", "-I +P", "+I +P", "+I  + +P", "-I  +  +P",
-	"+p and +I", "+p and -I", "-I,+P", "With P, I", "P", "w/out I, P", "+P,+I", "variety + +I & +P", "I, P",
-	"I, P", "25kgDAP", "25kgDAP&Inoculant")] <- P
-  f$N_fertilizer[f$treatment %in% c("+P+ +R", "+P+ -R", "-I +P", "+I +P", "+I  + +P", "-I  +  +P",
-		"+p and +I", "+p and -I", "-I,+P", "With P, I", "P", "w/out I, P", "+P,+I", "variety + +I & +P", "I, P", "I, P", "25kgDAP", "25kgDAP&Inoculant")] <- N
-
-  f$inoculated <- grepl("\\+R", f$treatment) | grepl("\\+I", f$treatment) | grepl("With P, I", f$treatment) | grepl("^I", f$treatment) 
-  
-  ## RH see: 
-  ## unique(trimws(f$treatment))
-  ## what about "SARI" "Hawassa Dume" "Awash 1" "ECAB0081" "GLP2", etc??
-  ## are those inoculants?
-  ## if so, set inoculated to TRUE, and set inoculant to these names
-  
- 
-  f$fertilizer_type[f$N_fertilizer > 0] <- "DAP"
-
-
-	f$start_date <- as.character(f$start_date)
-	f$end_date <- as.character(f$end_date)
-
-## RH variety names can be normalized more.
-	f$variety[f$variety == ""] <- NA
-
-## RH many records have no yield. These are not useful. Is that an error in the data processing?
-## If so, please fix. If not, we should remove these rows.
-
+  f$fertilizer_type <- f$treatment
+  f$P_fertilizer[f$treatment %in% c("+P+ +R","+P+ -R"," -I +P"," +I +P"," +I  + +P "," -I  +  +P "," +p and +I",
+                                       " +p and -I"," -I,+P","With P, I","P","w/out I, P"," +P,+I","variety + +I & +P","I, P"," I, P",
+                                       "25kgDAP","25kgDAP&Inoculant")] <- P #P or +P shows presence of phosphorus
+  f$N_fertilizer[f$treatment %in% c("+P+ +R","+P+ -R"," -I +P"," +I +P"," +I  + +P "," -I  +  +P "," +p and +I",
+                                     " +p and -I"," -I,+P","With P, I","P","w/out I, P"," +P,+I","variety + +I & +P","I, P"," I, P",
+                                     "25kgDAP","25kgDAP&Inoculant")] <- N
   carobiner::write_files(dset, f, path, dataset_id, group)
 }
 

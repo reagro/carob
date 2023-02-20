@@ -16,7 +16,7 @@ carob_script <- function(path) {
   
   uri <- "https://doi.org/10.25502/14m8-cs44/d"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "fertilizer"
+  group <- "variety_trials"
   
   ## data set level data
   dset <- data.frame(
@@ -30,7 +30,7 @@ carob_script <- function(path) {
     International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/14M8-CS44/D",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
-    experiment_type = "fertilizer",
+    experiment_type="variety trial",
     has_weather=TRUE,
     has_management=TRUE
   )
@@ -58,24 +58,22 @@ carob_script <- function(path) {
   d1$crop[d1$crop =="bush bean"] <- "common bean"
   d1$crop[d1$crop == "sweet potato"] <- "sweetpotato"
   d1$variety <- d1$variety_1
-  d1$inoculated <- ifelse(d1$inoculant_used == "Y", TRUE,
-                          ifelse(d1$inoculant_used == "N", FALSE, NA))
-  d1$OM_used <- ifelse(d1$organic_fert_type %in% 
-		c("Animal dung","Animal manure","Compost","Compost manure",
-          "Farmyard","Farm yard","Compost, animal manure"), TRUE,
-                       ifelse(d1$organic_fert_amount > 0, TRUE, FALSE))
-  d1$OM_type <- ifelse(d1$organic_fert_type %in% 
-			c("Animal dung","Animal manure","Compost","Compost manure",
-              "Farmyard","Farm yard","Compost, animal manure"), d1$organic_fert_type,
-             ifelse(d1$organic_fert_amount > 0, d1$organic_fert_type, "none"))
+  d1$inoculated <- ifelse(d1$inoculant_used == "Y","yes",
+                          ifelse(d1$inoculant_used == "N","no",NA))
+  d1$OM_used <- ifelse(d1$organic_fert_type %in% c("Animal dung","Animal manure","Compost","Compost manure",
+                                                     "Farmyard","Farm yard","Compost, animal manure"),"yes",
+                       ifelse(d1$organic_fert_amount > 0,"yes","no"))
+  d1$OM_type <- ifelse(d1$organic_fert_type %in% c("Animal dung","Animal manure","Compost","Compost manure",
+                                                   "Farmyard","Farm yard","Compost, animal manure"),d1$organic_fert_type,
+                       ifelse(d1$organic_fert_amount > 0,d1$organic_fert_type,NA))
   d1$OM_applied <- as.numeric(d1$organic_fert_amount)*1000 # converting into g
   d1$fertilizer_type <- d1$mineral_fert_type
   d1$N_fertilizer <- ifelse(d1$fertilizer_type %in% c("NPK,UREA","UREA"),d1$mineral_fert_amount * 0.46,  # assumption is that mineral fert amount is in kg
-          ifelse(d1$fertilizer_type == "23:21:0+4S",d1$mineral_fert_amount * 0.23,
-          ifelse(d1$fertilizer_type %in% c("D-Compound","D Compound","D Compmound","S-Compound"),
-                d1$mineral_fert_amount * 0.08,
-          ifelse(d1$fertilizer_type %in% c("Super D","Super d"),
-                d1$mineral_fert_amount * 0.01,NA))))
+                            ifelse(d1$fertilizer_type == "23:21:0+4S",d1$mineral_fert_amount * 0.23,
+                                   ifelse(d1$fertilizer_type %in% c("D-Compound","D Compound","D Compmound","S-Compound"),
+                                          d1$mineral_fert_amount * 0.08,
+                                          ifelse(d1$fertilizer_type %in% c("Super D","Super d"),
+                                                 d1$mineral_fert_amount * 0.01,NA))))
   
   d1$P_fertilizer <- ifelse(d1$fertilizer_type == "TSP",
                             d1$mineral_fert_amount * 0.46*((2*31)/(2*31+5*16)),
@@ -109,7 +107,7 @@ carob_script <- function(path) {
   f3 <- ff[basename(ff) == "d_cropping_calendar.csv"]
   d3 <- data.frame(read.csv(f3))
   d3$trial_id <- d3$farm_id
-  d3$start_date <- as.character(as.Date(paste(d3$date_planting_mm,d3$date_planting_dd,d3$date_planting_yyyy,sep = "/"),"%m/%d/%Y"))
+  d3$start_date <- as.Date(paste(d3$date_planting_mm,d3$date_planting_dd,d3$date_planting_yyyy,sep = "/"),"%m/%d/%Y")
   d3 <- d3[,c("trial_id","start_date")]
   
   
@@ -127,26 +125,11 @@ carob_script <- function(path) {
   d5 <- d5[,c("trial_id","yield")] 
   
   # combining into one dataset
-  ## RH not with rbind!!
-  ### z <- carobiner::bindr(d,d1,d2,d3,d4,d5)
-  ### please check if this is correct
-  z <- Reduce(function(...) merge(..., all=T), list(d,d1,d2,d3,d4,d5))
-  
-### RH
- ## z$is_survey <- "yes"
- ## z$on_farm <- "no"
- z$is_survey <- TRUE
- ## it is a survey, so per definition on-farm. 
- z$on_farm <- TRUE
-
-### RH how can the lon/lat be the same for all locations?? Please fix
-  ##z$longitude <- 34.30153
-  ##z$latitude <- -13.25431
-  z$longitude <- as.numeric(NA)
-  z$latitude <-  as.numeric(NA)
-
-
-
+  z <- carobiner::bindr(d,d1,d2,d3,d4,d5)
+  z$is_survey <- "yes"
+  z$on_farm <- "no"
+  z$longitude <- 34.30153
+  z$latitude <- -13.25431
   z$dataset_id <- dataset_id
   z$country <- "Malawi"
   z$crop[is.na(z$crop)] <- "common bean" # filled NAs in crops with common bean
