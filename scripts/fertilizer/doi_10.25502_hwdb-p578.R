@@ -9,7 +9,7 @@ carob_script <- function(path){
  
   uri  <- "doi.org/10.25502/hwdb-p578"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "variety_trials"
+  group <- "fertilize"
   
   #dataset level data
   
