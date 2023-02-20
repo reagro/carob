@@ -2,10 +2,9 @@
 
 carob_script <- function(path) {
   
-  "Description
+"Description
 Title: Sorghum productivity and water use under phosphorus fertilization in the sudan savanna of Nigeria  
-Abstract: Assess the effects of P-fertilization on sorghum growth and productivity, crop evapotranspiration (ETc), water use efficiency (WUE) and agronomic phosphorus use efficiency (APUE) and also establish relationships among crop 
-  yield, WUE and ET and determine optimum P-fertilizer rates in the Sudan savanna zone of Nigeria."
+Abstract: Assess the effects of P-fertilization on sorghum growth and productivity, crop evapotranspiration (ETc), water use efficiency (WUE) and agronomic phosphorus use efficiency (APUE) and also establish relationships among crop yield, WUE and ET and determine optimum P-fertilizer rates in the Sudan savanna zone of Nigeria."
   
   ## Process 
  
@@ -31,7 +30,6 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
   dset$license <- carobiner::get_license(js) 
   
-  ## the AFSIS data 
   f <- ff[basename(ff) == "Data file of Sorghum Phosphorus trial Kano Nigeria.xlsx"]
   d <- carobiner::read.excel(f)
   

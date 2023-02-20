@@ -15,7 +15,7 @@ carob_script <- function(path) {
 
 	uri <- "hdl:11529/10548587"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "fertilizer"
+	group <- "Wheat_Yield"
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
@@ -25,7 +25,7 @@ carob_script <- function(path) {
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2021, '28th High Rainfall Wheat Yield Trial', https://hdl.handle.net/11529/10548587, CIMMYT Research Data & Software Repository Network, V1",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="Station experimnt",
+	   experiment_type="Station experiment",
 	   has_weather=FALSE,
 	   has_management=FALSE
 	)
@@ -71,8 +71,8 @@ carob_script <- function(path) {
 	ddd <- merge(d,dd, by = c("Loc_no", "Rep", "Sub_block", "Plot"), all.x = TRUE)
 	
 	# Start processing the dataset into carob
-	ddd$start_date <- as.Date(dd$SOWING_DATE, "%b %d %Y")
-	ddd$end_date <- as.Date(dd$HARVEST_FINISHING_DATE, "%b %d %Y")
+	ddd$start_date <- as.character(as.Date(dd$SOWING_DATE, "%b %d %Y"))
+	ddd$end_date <- as.character(as.Date(dd$HARVEST_FINISHING_DATE, "%b %d %Y"))
 	ddd$on_farm <- FALSE
 	ddd$is_survey <- FALSE
 	# dd$treatment <- 
@@ -80,7 +80,7 @@ carob_script <- function(path) {
 	ddd$crop <- "wheat"
 	ddd$previous_crop <- ifelse(ddd$USE_OF_FIELD_SPECIFY_CROP == "MAIZ", "maize", NA)
 	ddd$yield <- as.numeric(ddd$GRAIN_YIELD)*1000 # Yield in ton/ha
-	ddd$grain_weight <- ddd$`1000_GRAIN_WEIGHT`
+	ddd$grain_weight <- as.numeric(ddd$`1000_GRAIN_WEIGHT`)
 	
 	# Nitrogen levels
 	zz <- c("FERTILIZER_%N_2", "FERTILIZER_%P2O5_1", "FERTILIZER_%N_1", "FERTILIZER_KG/HA_1", "FERTILIZER_KG/HA_2", "FERTILIZER_%N_3", "FERTILIZER_%P2O5_3", "FERTILIZER_%K2O_1", "FERTILIZER_%K2O_2", "FERTILIZER_%K2O_3", "FERTILIZER_%P2O5_2", "FERTILIZER_KG/HA_3")
@@ -118,6 +118,6 @@ carob_script <- function(path) {
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path, dataset_id, group)
-	TRUE
+	
 }
 
