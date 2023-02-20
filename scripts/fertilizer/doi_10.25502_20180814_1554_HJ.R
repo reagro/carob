@@ -77,14 +77,14 @@ carob_script <- function(path) {
   d1$crop<- "maize"
   d1$OM_used=ifelse(d1$OM_type== "None","FALSE",
                    ifelse(d1$OM_type=="NA", "FALSE ", "TRUE" ))
-  
-  
+  d1$previous_crop[d1$previous_crop==""]<- "no crop"
+  d1$previous_crop[d1$previous_crop=="Maize+pigion peas"]<- "Maize/pigion peas"
   p <- carobiner::fix_name(gsub("/", "; ", d1$previous_crop), "lower")
-  p <- gsub("maize+pigion peas", "maize & pea", p)
-  p <- gsub("maize+peas", "maize & pea", p)
+  #p <- gsub("maize;pigion peas", "maize", p)
   p <- gsub("pigion pea", "pea", p)
+  p <- gsub("peas", "pea", p)
   d1$previous_crop <- p
-  d1<- replace(d1,d1=='maize+peas',NA)
+
   d1<- d1[,c("dataset_id","trial_id","location","site","country",
              "latitude","longitude","crop","variety_type","previous_crop",
              "OM_type","OM_used")]
@@ -133,3 +133,4 @@ carob_script <- function(path) {
   carobiner::write_files(dset, d, path, dataset_id, group)
   #TRUE
 }
+

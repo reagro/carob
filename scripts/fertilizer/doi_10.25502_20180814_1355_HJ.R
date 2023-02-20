@@ -1,5 +1,13 @@
+# R script for "carob"
 
-"
+## ISSUES
+# ....
+
+
+carob_script <- function(path) {
+  
+  
+  "
 	Description:
    The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel 
    sites across sub-Saharan Africa using the Land Degradation
@@ -7,8 +15,6 @@
    trials in selected sentiale sites to determine nutrient limitations
    and response to improved soil management practices (soil amendments)
 "
-
-carob_script <- function(path) {
 
 uri <- "doi:10.25502/20180814/1355/HJ"
 dataset_id <- carobiner::simple_uri(uri)
@@ -70,6 +76,26 @@ d1<- d1[,c("dataset_id","trial_id","location","country",
            "latitude","longitude","crop","soil_type","previous_crop",
            "OM_type","OM_used")]
 
+# crop terms normalization
+d1$previous_crop[d1$previous_crop=="Maize & s/potatoes"]<- "maize/sweetpotato"
+d1$previous_crop[d1$previous_crop=="S/potatoes"]<- "sweetpotato"
+d1$previous_crop[d1$previous_crop=="Maize&s/potato"]<- "maize/sweetpotato"
+d1$previous_crop[d1$previous_crop=="Maize,s/potato&Cassava"]<- "maize/sweetpotato/cassava"
+d1$previous_crop[d1$previous_crop=="G/nuts"]<- "groundnut"
+d1$previous_crop[d1$previous_crop=="Maize,G/nuts&Cassava"]<- "maize/groundnut/cassava"
+
+p <- carobiner::fix_name(gsub("/",";", d1$previous_crop), "lower")
+p<-gsub("maize;sweetpotato","maize",p)
+p<-gsub("cowpeas","cowpea",p)
+p<-gsub("maize & cassava","maize",p)
+p<-gsub("maize;sweetpotato;cassava","maize",p)
+p<-gsub("maize;groundnut;cassava","maize",p)
+p<-gsub("sweetpotato;cassava","sweetpotato",p)
+p<-gsub("maize;cassava","maize",p)
+p<-gsub("fallow","no crop",p)
+
+
+d1$previous_crop <- p
 
 # process plot dataset
 d3$rep<-d3$Rep
@@ -106,21 +132,7 @@ d<-merge(d1,d3,by="dataset_id", all.x = TRUE)
 d$season<-as.character(d$season)
 d$OM_type<-as.character(d$OM_type)
 d$OM_used<-as.logical(d$OM_used)
-# crop terms normalization
-p <- carobiner::fix_name(gsub("/", "; ", d$previous_crop), "lower")
-p <- gsub("maize & s", "sweetpotato", p)
-p <- gsub("potatoes", "potato", p)
-p <- gsub("cowpeas", "cowpea", p)
-p <- gsub("maize & cassava", "maize; cassava", p)
-p <- gsub(" potato&cassava", "potato; cassava", p)
-p <- gsub("nuts&cassava", "cassava; nuts", p)
-p <- gsub(" maize&s", "maize" , p)
-p <- gsub(" nuts", "nuts", p)
-p <- gsub("s",NA , p)
-p <- gsub("fallow", "no crop", p)
 
-
-d$previous_crop <- p
 # change date format
 
 # fill whitespace in soil_type 
@@ -129,5 +141,5 @@ d<- replace(d,d=='',NA)
 
 carobiner::write_files(dset, d, path, dataset_id, group)
 
-
 }
+

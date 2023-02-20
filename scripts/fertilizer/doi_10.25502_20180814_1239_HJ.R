@@ -101,15 +101,16 @@ carob_script <- function(path) {
   
   #d<- transform(d,OM_used=ifelse(d$OM_type=="None", "FALSE","TRUE"))
   
+  # we can only have one crop in previous_crop cell
+  
   p <- carobiner::fix_name(gsub("/", "; ", d$previous_crop), "lower")
   p <- gsub("beans.", "common bean", p)
   p <- gsub("beans", "common bean", p)
-  p <- gsub("beans and cassava", "common bean; cassava", p)
+  p <- gsub("beans and cassava", "common bean", p) # we chose common bean because it's a main previous crop
   p <- gsub("fallowed", "no crop", p)
-  p <- gsub("-", NA, p)
-  p <- gsub("common beanand cassava", "common bean; cassava", p)
-  d$previous_crop <- p
-  
+  p <- gsub("-", "no crop", p)
+  p <- gsub("common beanand cassava", "common bean", p)# # we chose common bean because it's a main previous crop
+  d$previous_crop<-p
   #data type
   d$season<-as.character(d$season)
   d$grain_weight<- as.numeric(d$grain_weight)

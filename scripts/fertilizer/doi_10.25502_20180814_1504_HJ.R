@@ -109,8 +109,8 @@ p <- carobiner::fix_name(gsub("/", "; ", d$previous_crop), "lower")
 p <- gsub("sweet potato","sweetpotato",p)
 p <- gsub("beans","common bean",p)
 p <- gsub("none","no crop",p)
-p <- gsub("maize-beans","maize; common bean",p)
-p <- gsub("maize-common bean","maize; common bean",p)
+p <- gsub("maize-beans","maize",p)
+p <- gsub("maize-common bean","maize",p)
 d$previous_crop <- p
 
 # fill whitespace 
@@ -120,3 +120,4 @@ d <- replace(d, d=='', NA)
 carobiner::write_files(dset, d, path, dataset_id, group)
 
 }
+
