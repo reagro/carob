@@ -38,7 +38,9 @@ carob_script <- function(path) {
 	d$country <- "Benin"
 
 	d$x_1000gwt <- NULL
-	
+	d$description <- as.character(d$description)
+	d$yield2 <- as.numeric(d$yield2)
+
 #	e <- mzfun(ff, "international_maize_trial_tanzania_regular.csv")
 #	e$striga_trial <- "no"
 #	e$dataset_id <- dataset_id

@@ -43,6 +43,7 @@ carob_script <- function(path) {
 	suppressWarnings(x$sl <- as.numeric(x$sl))
 	suppressWarnings(x$rl <- as.numeric(x$rl))
 
+	x$description <- as.character(x$description)
 # all scripts must end like this
 	carobiner::write_files(dset, x, path, dataset_id, group)
 }

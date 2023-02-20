@@ -125,9 +125,11 @@ carob_script <- function(path) {
    
    f5 <- ff[basename(ff) == "e_harvest.csv"]
    d5 <- data.frame(read.csv(f5))
-   d5 <- d5[d5$crop_1_grain_unshelled == "Y",] # getting grain weights for only unshelled grains
+   # getting grain weights for only unshelled grains
+   d5 <- d5[d5$crop_1_grain_unshelled == "Y",] 
    d5$trial_id <- d5$farm_id
-   d5$grain_weight <- (as.numeric(d5$area_harvested_m2)*d5$weight_kg*1000)/100 # standardizing to grain weight measured in g/100m2
+   # standardizing to grain weight measured in g/100m2
+   d5$grain_weight <- (as.numeric(d5$area_harvested_m2)*d5$weight_kg*1000)/100 
    d5 <- d5[,c("trial_id","grain_weight")]
    
    f6 <- ff[basename(ff) == "f_farmer_assessment.csv"]  
