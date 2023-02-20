@@ -6,6 +6,9 @@
 ### ISSUES
 # ....
 
+carob_script <- function(path) {
+TRUE
+}
 
 # carob_script <- function(path) {
   

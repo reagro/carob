@@ -132,8 +132,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   f$N_fertilizer[f$treatment %in% c("+P+ +R", "+P+ -R", "-I +P", "+I +P", "+I  + +P", "-I  +  +P",
 		"+p and +I", "+p and -I", "-I,+P", "With P, I", "P", "w/out I, P", "+P,+I", "variety + +I & +P", "I, P", "I, P", "25kgDAP", "25kgDAP&Inoculant")] <- N
 
-  f$inoculated <- grepl("\\+R", f$treatment) | grepl("\\+I", f$treatment) 
-		| grepl("With P, I", f$treatment) | grepl("^I", f$treatment) 
+  f$inoculated <- grepl("\\+R", f$treatment) | grepl("\\+I", f$treatment) | grepl("With P, I", f$treatment) | grepl("^I", f$treatment) 
   
   ## RH see: 
   ## unique(trimws(f$treatment))
@@ -141,10 +140,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   ## are those inoculants?
   ## if so, set inoculated to TRUE, and set inoculant to these names
   
-  
-  [f$treatment %in% c("+P+ +R","+P+ -R"," -I +P"," +I +P"," +I  + +P "," -I  +  +P ",
-		" +p and +I", " +p and -I"," -I,+P","With P, I","P","w/out I, P"," +P,+I","variety + +I & +P","I, P"," I, P","25kgDAP","25kgDAP&Inoculant")]
-
+ 
   f$fertilizer_type[f$N_fertilizer > 0] <- "DAP"
 
 

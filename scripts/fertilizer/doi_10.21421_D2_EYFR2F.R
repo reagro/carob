@@ -16,7 +16,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication=,
+    publication=NA,
     carob_contributor="Siyabusa Mkuhlani",
     experiment_type="fertilizer",
     has_weather=FALSE,

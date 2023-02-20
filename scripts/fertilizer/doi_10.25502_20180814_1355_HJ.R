@@ -9,6 +9,10 @@
    # and response to improved soil management practices (soil amendments)
 # "
 
+carob_script <- function(path) {
+	TRUE
+}
+
 # carob_script <- function(path) {
 
 # uri <- "doi:10.25502/20180814/1355/HJ"

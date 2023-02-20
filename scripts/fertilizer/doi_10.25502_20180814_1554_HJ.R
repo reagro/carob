@@ -1,10 +1,13 @@
-this is already included in doi_10.7910_DVN_UNLRGC
-
+# this is already included in doi_10.7910_DVN_UNLRGC
 
 # R script for "carob"
 
 ### ISSUES
 # ....
+
+carob_script <- function(path) {
+	TRUE
+}
 
 
 # carob_script <- function(path) {
