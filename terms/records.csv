@@ -10,6 +10,7 @@ trial_id,character,,yes,,,,,identifier of a single trial (that may have treatmen
 reference,character,,,,,,,reference to source if the data set is a compilation,
 latitude,numeric,degrees,,,,,,latitude in decimal notation,
 longitude,numeric,degrees,,,,,,longitude in decimal notation,
+elevation,numeric,meter,,,,,,elevation above sea level,
 start_date,character,,,,,,,"experiment start (planting) date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",
 end_date,character,,,,,,,"experiment end (harvest) date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",
 season,character,,,,,,,season name,
