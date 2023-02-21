@@ -37,7 +37,7 @@ carob_script <- function(path) {
 ## download and read data 
 
 	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 
 	#dset$license <- carobiner::get_license(js)
 	dset$license <- "CIMMYT license"
@@ -51,8 +51,20 @@ carob_script <- function(path) {
 	d$trial_id <- dataset_id
 	d$latitude <- 27.369444
 	d$longitude <- -109.930833
-	d$start_date <- "2009"
-	d$end_date <- "2018"
+  # EGB: Adding start_date
+	d$start_date <- NA
+	d$start_date[d$Year == 2009] <- as.character("2008-12-03")
+	d$start_date[d$Year == 2010] <- as.character("2009-12-01")
+	d$start_date[d$Year == 2011] <- as.character("2010-12-08")
+	d$start_date[d$Year == 2012] <- as.character("2011-12-15")
+	d$start_date[d$Year == 2013] <- as.character("2012-12-10")
+	d$start_date[d$Year == 2014] <- as.character("2013-12-11")
+	d$start_date[d$Year == 2015] <- as.character("2014-11-26")
+	d$start_date[d$Year == 2016] <- as.character("2015-11-23")
+	d$start_date[d$Year == 2017] <- as.character("2016-11-28")
+	d$start_date[d$Year == 2018] <- as.character("2017-11-27")
+	d$end_date <- as.character(d$Year)
+
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$rep <- as.integer(d$REP)
