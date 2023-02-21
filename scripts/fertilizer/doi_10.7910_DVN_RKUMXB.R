@@ -170,6 +170,8 @@ carob_script <- function(path) {
 	f1 <- gsub("GRP mixture \\(1:4)", "GRP", f1)
 	f1 <- gsub("Basic slag", "basic slag", f1)
 	f1 <- gsub("Bone meal", "bone meal", f1)
+	f1 <- gsub("Bone meal", "bone meal", f1)
+	f1 <- gsub("Organic P", "bone meal", f1) # assigning "Organic P" as "bone meal"
 	
 	f2 <- carobiner::fix_name(d$fertilizer_type_2)
 	f2 <- gsub("Ammonium sulphate and Potassium sulphate", "DAS; SOP", f2)	
