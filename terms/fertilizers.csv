@@ -1,19 +1,19 @@
-name,description,formula
-basic slag,,
-bone meal,,
-CAN,calcium ammonium nitrate,CA-NH4NO3
-DAP,,
-DAS,ammonium sulfate,
-ERP,Ethiopian rock phosphate,
-GRP,Gafsa rock Phosphate,
-KCl,,
-KNO,potassium nitrate,KNO3
-lime,,
-SOP,potassium sulfate,K2SO4
-TSP,triple superphosphate,
-TSP,,
-urea,,
-ZSO,zinc sulfate,ZnSO?
-NSP,Normal superphosphate (= single superphosphate SSP),
-none,,
-gypsum,,
+name,description,formula,N,P,K,S
+basic slag,,,,,,
+bone meal,,,,,,
+CAN,calcium ammonium nitrate,CA-NH4NO3,,,,
+DAP,,,,,,
+DAS,ammonium sulfate,,,,,
+ERP,Ethiopian rock phosphate,,,,,
+GRP,Gafsa rock Phosphate,,,,,
+KCl,,,,,,
+KNO,potassium nitrate,KNO3,,,,
+lime,,,,,,
+SOP,potassium sulfate,K2SO4,,,,
+SSP,single superphosphate,,,,,
+TSP,triple superphosphate,,,,,
+urea,,,,,,
+ZSO,zinc sulfate,ZnSO?,,,,
+NSP,Normal superphosphate (= single superphosphate SSP),,,,,
+none,,,,,,
+gypsum,,,,,,
