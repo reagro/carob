@@ -44,6 +44,7 @@ carob_script <- function(path) {
 	x$location[x$location=='Harare1'] <- "Harare"
 	x$longitude[x$location=='Harare'] <- 31.05
 	x$latitude[x$location=='Harare'] <- -17.83
+	x$description <- as.character(x$description)
 
 # all scripts must end like this
 	carobiner::write_files(dset, x, path, dataset_id, group)

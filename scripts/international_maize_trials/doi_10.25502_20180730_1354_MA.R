@@ -45,6 +45,9 @@ carob_script <- function(path) {
 	x$striga_trial <- FALSE
 	x$striga_infected <- NA
 	x$dataset_id <- dataset_id
+	x$yield2 <- as.numeric(x$yield2)
+	x$grain_weight <- as.numeric(x$grain_weight)
+
 
 # all scripts must end like this
 	carobiner::write_files(dset, x, path, dataset_id, group)

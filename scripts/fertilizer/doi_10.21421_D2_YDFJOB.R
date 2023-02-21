@@ -31,7 +31,6 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
   js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
   dset$license <- carobiner::get_license(js) #Cant get the license right??
   
-  ## the AFSIS data 
   f <- ff[basename(ff) == "Data file of Sorghum productivity and water use under phosphorous fertilization.xlsx"]
   d <- carobiner::read.excel(f)
 
