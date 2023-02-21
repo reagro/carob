@@ -64,14 +64,17 @@ carob_script <- function(path){
    f <- paste(d$main_treatment, d$sub_treatment_inoc, d$sub_treatment_fert, collapse=" ")
    f <- toupper(f)
    d$K_fertilizer <- d$P_fertilizer <- d$N_fertilizer <- 0
+# this could be further simplified as the fertilizer combination is always the same.
    d$K_fertilizer[grepl("KCL", f)] <- 30
    d$P_fertilizer[grepl("TSP", f)] <- 30
    d$N_fertilizer[grepl("UREA", f)] <- 60
    d$N_splits <- 0
    d$N_splits[d$N_fertilizer > 0] <- 2
-   d$inoculated <- 	d$sub_treatment_inoc == "Inoculated"
+   d$inoculated <- d$sub_treatment_inoc == "Inoculated"
    d$inoculated[d$sub_treatment_inoc == "Sub-treatment (Inocu"] <- TRUE
-   d$fertilizer_type <- c("TSP; KCl; urea")
+   
+   d$fertilizer_type <- ""
+   d$fertilizer_type[d$N_fertilizer > 0] <- c("TSP; KCl; urea")
   
 	d$yield <- d$grain_yield_ha_calc
   
