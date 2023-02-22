@@ -64,12 +64,13 @@ dset <- data.frame(
  #process data sets separately identifying the variables of interest
  d$trial_id <- d$experiment_id
  d$rep <- d$replication_no
- d$on_farm <-"yes"
- d$start_date <-paste(d$planting_date_yyyy, d$planting_date_mm, d$planting_date_dd, sep = "-")
- d$end_date <- paste(d$date_harvest_yyyy, d$date_harvest_mm, d$date_harvest_dd, sep = "-")
+ d$on_farm <-TRUE
+ d$start_date <-ifelse(d$planting_date_yyyy == 0, NA, paste(d$planting_date_yyyy, sprintf("%02d", d$planting_date_mm), sprintf("%02d", d$planting_date_dd), sep = "-"))
+ d$end_date <- ifelse(d$date_harvest_yyyy == 0, NA, paste(d$date_harvest_yyyy, sprintf("%02d", d$date_harvest_mm), sprintf("%02d", d$date_harvest_dd), sep = "-"))
  d$treatment <- paste(d$main_treatment,d$sub_treatment_inoc,d$sub_treatment_fert, sep = "-")
- d$biomass_roots <- d$root_dry_weight_roots_no_nodules
- d$biomass_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules + d$nodule_dry_weight)
+ d$biomass_roots <- as.numeric(d$root_dry_weight_roots_no_nodules)
+ d$biomass_total <- as.numeric((d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules + d$nodule_dry_weight))
+ d$yield <- as.numeric(d$grain_yield_ha_calc)
 
  # adding the fertilizer information
  d$fertilizer_combination <- d$sub_treatment_inoc
@@ -79,7 +80,7 @@ dset <- data.frame(
  d$K_fertilizer[d$fertilizer_combination == "TSP/KCL"]<- 30
 
  #subset the processed variables
- d <- d[, c("trial_id", "rep", "on_farm","start_date","end_date", "treatment", "biomass_roots","biomass_total", "crop","P_fertilizer","K_fertilizer")]
+ d <- d[, c("trial_id", "rep", "on_farm","start_date","end_date", "treatment", "biomass_roots","biomass_total", "yield", "crop","P_fertilizer","K_fertilizer")]
  
  d1$trial_id <- d1$experiment_id
  d1$country <-"Rwanda"
@@ -91,15 +92,17 @@ dset <- data.frame(
  d1 <- d1 [, c("trial_id", "country", "site","adm2")]
  
  d2$trial_id <- d2$experiment_id
- d2$soil_pH <- d2$ph
- d2$soil_K <- d2$k
- d2$soil_sand <- d2$sand
- d2$soil_clay <- d2$clay
- d2$soil_SOC <- d2$tot_carbon
- d2$soil_N <- d2$tot_nitrogen
+ # EGB: pH is NULL
+ # d2$soil_pH <- as.numeric(d2$ph)
+ d2$soil_K <- as.numeric(d2$k)
+ d2$soil_sand <- as.numeric(d2$sand)
+ d2$soil_clay <- as.numeric(d2$clay)
+ d2$soil_SOC <- as.numeric(d2$tot_carbon)
+ d2$soil_N <- as.numeric(d2$tot_nitrogen)
  
  #subset the processed variables
- d2 <- d2[, c("trial_id", "soil_pH", "soil_K", "soil_sand","soil_clay","soil_SOC","soil_N")]
+ # d2 <- d2[, c("trial_id", "soil_pH", "soil_K", "soil_sand","soil_clay","soil_SOC","soil_N")]
+ d2 <- d2[, c("trial_id", "soil_K", "soil_sand","soil_clay","soil_SOC","soil_N")]
 
  # combining the processed data sets to one
  s <- merge(d, d1, by = "trial_id")
