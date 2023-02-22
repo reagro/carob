@@ -57,52 +57,63 @@ carob_script <- function(path) {
   d1$crop <- tolower(d1$crop_1)
   d1$crop[d1$crop =="bush bean"] <- "common bean"
   d1$crop[d1$crop == "sweet potato"] <- "sweetpotato"
-  d1$variety <- d1$variety_1
+  d1$variety <- ifelse(d1$variety_1 == "", NA, d1$variety_1)
   d1$inoculated <- ifelse(d1$inoculant_used == "Y", TRUE,
                           ifelse(d1$inoculant_used == "N", FALSE, NA))
   d1$OM_used <- ifelse(d1$organic_fert_type %in% 
 		c("Animal dung","Animal manure","Compost","Compost manure",
           "Farmyard","Farm yard","Compost, animal manure"), TRUE,
                        ifelse(d1$organic_fert_amount > 0, TRUE, FALSE))
-  d1$OM_type <- ifelse(d1$organic_fert_type %in% 
-			c("Animal dung","Animal manure","Compost","Compost manure",
-              "Farmyard","Farm yard","Compost, animal manure"), d1$organic_fert_type,
-             ifelse(d1$organic_fert_amount > 0, d1$organic_fert_type, "none"))
-  d1$OM_applied <- as.numeric(d1$organic_fert_amount)*1000 # converting into g
-  d1$fertilizer_type <- d1$mineral_fert_type
-  d1$N_fertilizer <- ifelse(d1$fertilizer_type %in% c("NPK,UREA","UREA"),d1$mineral_fert_amount * 0.46,  # assumption is that mineral fert amount is in kg
-          ifelse(d1$fertilizer_type == "23:21:0+4S",d1$mineral_fert_amount * 0.23,
-          ifelse(d1$fertilizer_type %in% c("D-Compound","D Compound","D Compmound","S-Compound"),
-                d1$mineral_fert_amount * 0.08,
-          ifelse(d1$fertilizer_type %in% c("Super D","Super d"),
-                d1$mineral_fert_amount * 0.01,NA))))
+  # EGB: Fixing OM_type to make it NA where 0 OM applied
+  d1$OM_type <- ifelse(d1$organic_fert_amount <= 0, NA,
+                       ifelse(d1$organic_fert_type %in% 
+                                c("Animal dung","Animal manure","Compost","Compost manure",
+                                  "Farmyard","Farm yard","Compost, animal manure"), d1$organic_fert_type,NA))
+#   d1$OM_type <- ifelse(d1$organic_fert_type %in% 
+# 			c("Animal dung","Animal manure","Compost","Compost manure",
+#               "Farmyard","Farm yard","Compost, animal manure"), d1$organic_fert_type,
+#              ifelse(d1$organic_fert_amount > 0, d1$organic_fert_type, "none"))
+  # EGB: Leave it as kilograms
+  d1$OM_applied <- as.numeric(d1$organic_fert_amount)
+  # d1$OM_applied <- as.numeric(d1$organic_fert_amount)*1000 # converting into g
+  d1$fertilizer_type <- NA
+                               
+  d1$fertilizer_type[grepl("TSP", d1$mineral_fert_type)] <- "TSP"
+  d1$fertilizer_type[grepl("phosphate", d1$mineral_fert_type)] <- "SSP"
+  d1$fertilizer_type[grepl("D", d1$mineral_fert_type)] <- "D compound"
+  d1$fertilizer_type[grepl("Super d", d1$mineral_fert_type)] <- "D compound" # Super D and D Compound seem to be the same blend (https://agra.org/wp-content/uploads/2020/08/Malawi-Report_Assessment-of-Fertilizer-Distribution-Systems-and-Opportunities-for-Developing-Fertilizer-Blends.pdf)
+  d1$fertilizer_type[grepl("S-", d1$mineral_fert_type)] <- "S compound"
+  d1$fertilizer_type[grepl("UREA", d1$mineral_fert_type)] <- "urea" # Assigning all fertilizations with UREA to urea, since NPK is not a fertilizer...
+  d1$fertilizer_type[grepl("ympal", d1$mineral_fert_type, ignore.case = TRUE)] <- "sympal" # This is a fertilizer specific to Kenya. For more info read here: https://www.researchgate.net/profile/Charlotte-Schilt/publication/283304707_N2Africa_Final_Report_of_the_first_Phase_-_2009_-_2013/links/5d77729c4585151ee4ab2639/N2Africa-Final-Report-of-the-first-Phase-2009-2013.pdf
+  d1$fertilizer_type[d1$mineral_fert_amount > 0 & is.na(d1$fertilizer_type)] <- "unknown"
   
-  d1$P_fertilizer <- ifelse(d1$fertilizer_type == "TSP",
-                            d1$mineral_fert_amount * 0.46*((2*31)/(2*31+5*16)),
-                            ifelse(d1$fertilizer_type %in% c("Sympal","sympal","SYMPAL"),
-                                   d1$mineral_fert_amount * 0.23*((2*31)/(2*31+5*16)),
-                                   ifelse(d1$fertilizer_type %in% c("NPK,UREA","23:21:0+4s","S-Compound"),
-                                          d1$mineral_fert_amount * 0.21*((2*31)/(2*31+5*16)),
-                                          ifelse(d1$fertilizer_type %in% c("D-Compound","D Compound","D Compmound"),
-                                                 d1$mineral_fert_amount * 0.18*((2*31)/(2*31+5*16)),
-                                                 ifelse(d1$fertilizer_type %in% c("Super D","Super d"),
-                                                        d1$mineral_fert_amount * 0.24*((2*31)/(2*31+5*16)),
-                                                        ifelse(d1$fertilizer_type %in% c("Single super phosphate",
-                                                                                         "Single super phosphate "," Single Super phosphate","Super phosphate"),
-                                                               d1$mineral_fert_amount * 0.145,NA)))))) # takes into account atomic weight of both P and O
+  # Adjusting NPK amounts
+  d1$N_fertilizer <- ifelse(d1$fertilizer_type %in% c("urea"), d1$mineral_fert_amount * 0.46,  # assumption is that mineral fert amount is in kg
+                            ifelse(d1$fertilizer_type == "23:21:0+4S", d1$mineral_fert_amount * 0.23,
+                                   ifelse(d1$fertilizer_type %in% c("D compound", "S compound"), d1$mineral_fert_amount * 0.08, NA)))
+                                          # ifelse(d1$fertilizer_type %in% c("Super D","Super d"),
+                                                 # d1$mineral_fert_amount * 0.01,NA))))
   
-  d1$K_fertilizer <- ifelse(d1$fertilizer_type %in% c("Sympal","sympal","SYMPAL","D-Compound","D Compound","D Compmound"),
-                            d1$mineral_fert_amount * 0.15,
-                            ifelse(d1$mineral_fert_type == "S-Compound",d1$mineral_fert_amount * 0.07,
-                                   ifelse(d1$fertilizer_type %in% c("Super D","Super d"),d1$mineral_fert_amount * 0.20,NA)))
+  d1$P_fertilizer <- ifelse(d1$fertilizer_type == "TSP", d1$mineral_fert_amount * 0.46*((2*31)/(2*31+5*16)),
+                            ifelse(d1$fertilizer_type == "sympal", d1$mineral_fert_amount * 0.23*((2*31)/(2*31+5*16)),
+                                   ifelse(d1$fertilizer_type %in% c("urea","unknown","S compound"), d1$mineral_fert_amount * 0.21*((2*31)/(2*31+5*16)),
+                                          ifelse(d1$fertilizer_type == "D compound", d1$mineral_fert_amount * 0.18*((2*31)/(2*31+5*16)),
+                                                 ifelse(d1$fertilizer_type == "SSP", d1$mineral_fert_amount * 0.145, NA)))))
+                                                 # ifelse(d1$fertilizer_type %in% c("Super D","Super d"), d1$mineral_fert_amount * 0.24*((2*31)/(2*31+5*16)),
+                                                        # ifelse(d1$fertilizer_type %in% c("Single super phosphate", "Single super phosphate "," Single Super phosphate","Super phosphate"), d1$mineral_fert_amount * 0.145,NA)))))) # takes into account atomic weight of both P and O
+  
+  d1$K_fertilizer <- ifelse(d1$fertilizer_type == "sympal", d1$mineral_fert_amount * 0.15,
+                            ifelse(d1$mineral_fert_type == "S compound", d1$mineral_fert_amount * 0.07,
+                                   ifelse(d1$fertilizer_type == "D compound", d1$mineral_fert_amount * 0.20, NA)))
+  
   d1 <- d1[,c("trial_id","crop","variety","inoculated","OM_used","OM_applied","OM_type","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer")]
   
   
   f2 <- ff[basename(ff) == "c_use_of_package_4.csv"]
   d2 <- data.frame(read.csv(f2))
   d2$trial_id <- d2$farm_id
-  d2$row_spacing <- d2$crop_1_spacing_row_to_row
-  d2$plant_spacing <- d2$crop_1_spacing_plant_to_plant
+  d2$row_spacing <- as.numeric(d2$crop_1_spacing_row_to_row)
+  d2$plant_spacing <- as.numeric(d2$crop_1_spacing_plant_to_plant)
   d2 <- d2[,c("trial_id","row_spacing","plant_spacing")] # assumption is spacing is in cm
   
 
@@ -112,13 +123,14 @@ carob_script <- function(path) {
   d3$start_date <- as.character(as.Date(paste(d3$date_planting_mm,d3$date_planting_dd,d3$date_planting_yyyy,sep = "/"),"%m/%d/%Y"))
   d3 <- d3[,c("trial_id","start_date")]
   
-  
-  f4 <- ff[basename(ff) == "e_harvest.csv"]
-  d4 <- data.frame(read.csv(f4))
-  d4 <- d4[d4$crop_1_grain_unshelled == "Y",] # getting grain weights for only unshelled grains
-  d4$trial_id <- d4$farm_id
-  d4$grain_weight <- (as.numeric(d4$crop_1_area_harvested)*d4$crop_1_weight_grain *1000)/100 # standardizing to grain weight measured in g/100m2
-  d4 <- d4[,c("trial_id","grain_weight")]
+  ##  EGB: Removing grain_weight variable, since it is not the 1000 grain weight.
+  # f4 <- ff[basename(ff) == "e_harvest.csv"]
+  # d4 <- data.frame(read.csv(f4))
+  # d4 <- d4[d4$crop_1_grain_unshelled == "Y",] # getting grain weights for only unshelled grains
+  # d4$trial_id <- d4$farm_id
+  # # EGB: This is not the 1000 grain weight
+  # # d4$grain_weight <- (as.numeric(d4$crop_1_area_harvested)*d4$crop_1_weight_grain *1000)/100 # standardizing to grain weight measured in g/100m2
+  # d4 <- d4[,c("trial_id","grain_weight")]
   
   f5 <- ff[basename(ff) == "g_farmer_assessment.csv"]  
   d5 <- data.frame(read.csv(f5))
@@ -153,9 +165,10 @@ carob_script <- function(path) {
   
   z <- z[,c("dataset_id","trial_id","season","country","adm1","adm2","adm3","crop","variety",
             "start_date","inoculated","OM_used","OM_type","OM_applied","fertilizer_type",
-            "N_fertilizer","P_fertilizer","K_fertilizer","grain_weight","yield","row_spacing","plant_spacing",
+            "N_fertilizer","P_fertilizer","K_fertilizer","yield","row_spacing","plant_spacing",
             "on_farm","is_survey","longitude","latitude")]
   
   # all scripts must end like this
   carobiner::write_files(dset, z, path, dataset_id, group)
+  TRUE
 }
