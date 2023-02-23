@@ -1,9 +1,11 @@
-name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,Naok,description,notes
+name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes
 dataset_id,character,,yes,,,,,,id (normalized URI),
 country,character,,yes,countries,yes,,,,country name,
 adm1,character,,,,,,,,first level administrative subdivision e.g.  counties in Kenya,follow GADM
 adm2,character,,,,,,,,second level administrative subdivision within the first level subdivision e.g. sub-counties in Kenya,follow GADM
 adm3,character,,,,,,,,third level administrative subdivision within the second level subdivision e.g. wards in Kenya,follow GADM
+adm4,character,,,,,,,,fourth level administrative subdivision within the second level subdivision e.g. wards in Kenya,follow GADM
+adm5,character,,,,,,,,fifth level administrative subdivision within the second level subdivision e.g. wards in Kenya,follow GADM
 location,character,,,,,,,,name of the location of the experiment,
 site,character,,,,,,,,name of the sub-location of the experiment,
 trial_id,character,,yes,,,,,,identifier of a single trial (that may have treatments and replicates); should be unique witin dataset_id,
