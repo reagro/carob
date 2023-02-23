@@ -43,11 +43,18 @@ carob_script <- function(path) {
 	d <- as.data.frame(readxl::read_excel(f, sheet = "Corrected-Raw-Data", n_max = 1835))
 	
 	d$country <- "Tanzania"
+	d$adm1 <- d$Zone
+	d$adm2 <- d$Region 
+	d$adm3 <- d$District
+	d$adm4 <- d$Ward 
+	
 	d$location <- d$Village
 	d$site <- d$Hamlet
 	d$trial_id <- paste0(d$HHID, "-", d$QID)
 	d$latitude <- d$Latitude
 	d$longitude <- d$Longitude
+	d$elevation <- d$Altitude
+	
 	d$start_date <- "2016-05-01"
 	d$end_date <- "2016-12-01"
 	d$on_farm <- TRUE
@@ -57,7 +64,7 @@ carob_script <- function(path) {
 	d$yield <- d$`Grain yield (kg/ha@12.5%)` # Grain yield at 12.5% moisture
 	
 	# process file(s)
-	d <- d[,c("country", "trial_id", "location", "site","latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "crop", "yield")]
+	d <- d[,c("country", "trial_id", "location", "site","latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "crop", "yield", "adm1", "adm2", "adm3", "adm4")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
