@@ -20,6 +20,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
+	   project=NA,
 	   uri=uri,
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)

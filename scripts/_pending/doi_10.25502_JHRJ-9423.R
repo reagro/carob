@@ -19,6 +19,7 @@ carob_script <- function(path){
     dataset_id = dataset_id,
     group = group,
     uri = uri,
+    project="N2Africa",
     publication = NA,
     data_citation =" Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat,
   P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira,

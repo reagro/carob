@@ -15,6 +15,7 @@ group <- "fertilizer"
 dset <- data.frame(
   dataset_id = dataset_id,
   group = group,
+  project="N2Africa",
   uri = uri,
   publication = "doi.org/10.1016/j.agee.2017.08.015",
   data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, 

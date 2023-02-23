@@ -17,6 +17,7 @@ carob_script <- function(path){
   dset <- data.frame(
   dataset_id = dataset_id,
   group = group,
+  project="N2Africa",
   uri = uri,
   publication = NA,
   data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, 
