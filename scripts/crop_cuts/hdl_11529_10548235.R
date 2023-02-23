@@ -15,7 +15,7 @@ carob_script <- function(path) {
 
 	uri <- "hdl:11529/10548235"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "fertilizer"
+	group <- "crop_cuts"
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
@@ -25,7 +25,7 @@ carob_script <- function(path) {
 	   data_citation = 'Masuki, Kenneth, 2019, "TZ TAMASA APS 2016 Yield MetaData", https://hdl.handle.net/11529/10548235, CIMMYT Research Data & Software Repository Network, V2, UNF:6:dF6+/EEer8HsSlxKsQJIVA== [fileUNF]',
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="fertilizer",
+	   experiment_type=NA,
 	   has_weather=FALSE,
 	   has_management=FALSE,
 	   has_soil=FALSE
