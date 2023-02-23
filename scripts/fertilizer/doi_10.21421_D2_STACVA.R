@@ -37,22 +37,30 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   #names(d)
   e <- d[,c(1,2,4,5,6,7,14,15)]
   #names(e)
-  colnames(e)<-c('start_date','location','rep','variety_type','treatment','spacing','yield','residue_yield')
+  colnames(e) <- c('start_date','location','rep','variety_type','treatment','plant_density','yield','residue_yield')
+  e$rep <- as.integer(e$rep)
   
   e$start_date <- as.character(e$start_date)
-  e$country<- "Nigeria"
-  e$crop<-"groundnut"
+  e$country <-  "Nigeria"
+  e$crop <- "groundnut"
   e$dataset_id <- dataset_id
   e$trial_id <- paste0("gnut_fert_phosph_", e$location)
-  e$adm1<-'Kano'
-  e$on_farm<-FALSE
-  e$is_survey<-FALSE
-  e$P_fertilizer[e$treatment=='F1']<-'0'
-  e$P_fertilizer[e$treatment=='F2']<-'20'
+  e$adm1 <- 'Kano'
+  e$site <- "Wudil"
+#  e$longitude <- 
+#  e$latitude <- 
+  e$on_farm <- FALSE
+  e$is_survey <- FALSE
+  e$P_fertilizer[e$treatment=='F1'] <- 0
+  e$P_fertilizer[e$treatment=='F2'] <- 20
   #names(e)
-  e <- e[c("dataset_id","country", "adm1", 'location', "trial_id", "start_date","on_farm", "is_survey", "rep", "crop", "variety_type","yield", "residue_yield")]  
+  ##e <- e[c("dataset_id","country", "adm1", 'location', "trial_id", "start_date","on_farm", "is_survey", "rep", "crop", "variety_type","yield", "residue_yield")]  
   
-  e$rep <- as.integer(e$rep)
+ #RH: SM please check 
+  e$plant_density <- 2 * c(44444, 66667, 133333)[e$plant_density/10]
+#  e$N_fertilizer <- 0
+#  e$K_fertilizer <- 20
+ 
   
  carobiner::write_files(dset, e, path, dataset_id, group)
 
