@@ -142,7 +142,7 @@ carob_script <- function(path) {
   ## RH not with rbind!!
   ### z <- carobiner::bindr(d,d1,d2,d3,d4,d5)
   ### please check if this is correct
-  z <- Reduce(function(...) merge(..., all=T), list(d,d1,d2,d3,d4,d5))
+  z <- Reduce(function(...) merge(..., all=T), list(d,d1,d2,d3,d5))
   
 ### RH
  ## z$is_survey <- "yes"
@@ -154,10 +154,6 @@ carob_script <- function(path) {
 ### RH how can the lon/lat be the same for all locations?? Please fix
   ##z$longitude <- 34.30153
   ##z$latitude <- -13.25431
-  z$longitude <- as.numeric(NA)
-  z$latitude <-  as.numeric(NA)
-
-
 
   z$dataset_id <- dataset_id
   z$country <- "Malawi"
@@ -166,9 +162,8 @@ carob_script <- function(path) {
   z <- z[,c("dataset_id","trial_id","season","country","adm1","adm2","adm3","crop","variety",
             "start_date","inoculated","OM_used","OM_type","OM_applied","fertilizer_type",
             "N_fertilizer","P_fertilizer","K_fertilizer","yield","row_spacing","plant_spacing",
-            "on_farm","is_survey","longitude","latitude")]
+            "on_farm","is_survey")]
   
   # all scripts must end like this
   carobiner::write_files(dset, z, path, dataset_id, group)
-  TRUE
 }
