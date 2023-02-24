@@ -35,33 +35,37 @@ carob_script <- function(path) {
     
     f <- ff[basename(ff) == "N and P maize trial_2015_16.csv"]
     d <- read.csv(f)
-    
+    e <- d[,c(2,4)]
+	colnames(e) <- c("site", "variety")
+	
     # process file(s)
-    d$dataset_id <- dataset_id
-    d$country <- "Nigeria"
-    # enrichment with spatial data is better done on the aggregated data for Adm1, Adm2 & Adm3
-    d$site <- d$loc
-    d$trial_id <- paste0(dataset_id, "-", d$ID) ###
+    e$dataset_id <- dataset_id
+    e$country <- "Nigeria"
+    e$trial_id <- "1" #paste0(dataset_id, "-", d$ID) ###
        
-    d$latitude <- 10.26858
-    d$longitude <- 7.78896
+    e$latitude <- 10.26858
+    e$longitude <- 7.78896
  
-    d$start_date <- as.character(d$year)
-    d$on_farm <- TRUE
-    d$N_fertilizer <- as.numeric(d$nrate)
-    d$P_fertilizer <- as.numeric(d$prate)
-    d$variety <- d$variety
-    d$is_survey <- FALSE
-    d$treatment <- "Maize response to nitrogen and phosporus fertilizers"
-    d$crop <- "maize"
-    d$grain_weight <- (d$swt500)*2 ### [swt500	Weight of 500 seeds		g, the original value was multiplied by 2]
-    d$biomass_total <- d$tdmm2*10 # Add total biomass (dry matter) in kg/ha )
-    d$yield <- d$yield
-        
- # Subset to columns of interest
-    d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "on_farm", "N_fertilizer", "P_fertilizer", "variety", "is_survey", "treatment", "rep", "crop", "grain_weight", "yield")]
+    e$start_date <- as.character(d$year)
+    e$on_farm <- TRUE
+    e$N_fertilizer <- as.numeric(d$nrate)
+    e$P_fertilizer <- as.numeric(d$prate)
+    ##  RH presumably:
+	## e$K_fertilizer <- 0
 
+    e$treatment <- paste0("N", e$N, "P", e$P)
+
+    e$variety <- d$variety
+    e$is_survey <- FALSE
+    e$crop <- "maize"
+    e$grain_weight <- (d$swt500)*2 ### [swt500	Weight of 500 seeds		g, the original value was multiplied by 2]
+    e$biomass_total <- d$tdmm2*10 # Add total biomass (dry matter) in kg/ha )
+    e$yield <- d$yield
+        
+	e$flowering <- as.numeric(d$flw50)
+	e$silking  <- d$slk50
+		
   # all scripts must end like this
-    carobiner::write_files(dset, d, path, dataset_id, group)
+    carobiner::write_files(dset, e, path, dataset_id, group)
 
 }  
