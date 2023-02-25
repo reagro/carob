@@ -1,7 +1,4 @@
 
-# RH: "groundnut" is "randomly assinged as the crop! 
-# RH: you have got to be kidding. We do not do any random assingments?
-# RH: It seems the the crop info is perhaps available (as variables) in "d"
 
 
 #################################################################################
@@ -13,97 +10,141 @@
 
 carob_script <- function(path){
 
-uri <- "doi.org/10.25502/JHRJ-9423"
-dataset_id <- carobiner::simple_uri(uri)
-group <- "variety_performance"
-
-
-dset <- data.frame (
-  dataset_id = dataset_id,
-  group = group,
-  uri = uri,
-  publication = NA,
-  data_citation =" Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat,
+  uri <- "doi.org/10.25502/JHRJ-9423"
+  dataset_id <- carobiner::simple_uri(uri)
+  group <- "variety_performance"
+  
+  
+  dset <- data.frame (
+    dataset_id = dataset_id,
+    group = group,
+    uri = uri,
+    project="N2Africa",
+    publication = NA,
+    data_citation =" Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat,
   P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira,
   L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, 
   K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa farm 
   monitoring - Mozambique, 2011 - 2012 [Data set]. International 
   Institute of Tropical Agriculture (IITA). 
   https://doi.org/10.25502/JHRJ-9423",
-  carob_contributor = "Effie Ochieng",
-  experiment_type = "variety_performance",
-  has_weather = FALSE,
-  has_management = FALSE)
+    carob_contributor = "Effie Ochieng",
+    experiment_type = "variety_performance",
+    has_weather = FALSE,
+    has_management = FALSE)
+  
+  #extract the data
+  ff <- carobiner::get_data(uri,path,group)
+  js <- carobiner::get_metadata(dataset_id, path, group)
+  dset$license <- carobiner::get_license(js)
+  
+  #read the data
+  f <- ff[basename(ff) == "a_general.csv"]
+  d <- read.csv(f)
+  f1 <- ff[basename(ff)== "b_info_site_2.csv"]
+  d1 <- read.csv(f1)
+  f2 <- ff[basename(ff) =="c_use_of_package_2.csv" ]
+  d2 <- read.csv(f2)
+  f3 <- ff[basename(ff) =="c_use_of_package_4.csv" ]
+  d3 <- read.csv(f3)
+  f4 <- ff[basename(ff) == "d_cropping_calendar.csv"]
+  d4<- read.csv(f4) 
+  f5 <- ff[basename(ff) == "e_harvest.csv"]
+  d5 <- read.csv(f5)
+  
 
-#extract the data
-ff <- carobiner::get_data(uri,path,group)
-js <- carobiner::get_metadata(dataset_id, path, group)
-dset$license <- carobiner::get_license(js)
+  d <- merge(d, d1, by="farm_id")
+  d <- merge(d, d4, by="farm_id")
 
-#read the data
-f <- ff[basename(ff) == "a_general.csv"]
-d <- data.frame(read.csv2(f, sep = ","))
-f1 <- ff[basename(ff)== "b_info_site_2.csv"]
-d1 <- data.frame(read.csv2(f1, sep = ","))
-f2 <- ff[basename(ff) =="c_use_of_package_2.csv" ]
-d2 <- data.frame(read.csv2(f2, sep = ","))
-f3 <- ff[basename(ff) =="c_use_of_package_4.csv" ]
-d3 <- data.frame(read.csv2(f3, sep = ","))
-f4 <- ff[basename(ff) == "d_cropping_calendar.csv"]
-d4<- data.frame(read.csv2(f4, sep = ",")) 
-f5 <- ff[basename(ff) == "e_harvest.csv"]
-d5 <- data.frame(read.csv2(f5, sep = ","))
+## RH: I think it in this case it is better to start a new data.frame
+## and add what you need to avoid forgetting to include variables in the end
+## when you would subset the data.frame 
 
-#processing data set by data set
-names(d)
-e <- d[, c(3,5,6,8)]
+  x <- data.frame(trial_id=d$farm_id)
+  x$season <- as.character(d$season)
+  x$country <- carobiner::fix_name(d$country, "title")
+  x$adm2 <- carobiner::fix_name(d$district, "title")
+  x$adm2[x$adm2 == "Mogovolas/nametil"] <- "Mogovolas"
+  x$adm3 <- carobiner::fix_name(d$sector_ward, "title")
+  x$site <- carobiner::fix_name(d$vilage, "title")
+  x$longitude <- d$gps_longitude
+  x$latitude <- d$gps_latitude
+  x$elevation <- as.numeric(d$gps_altitude)
 
-colnames(e) <- c("season","adm2","adm3","trial_id")
+# from d1 
+  x$previous_crop <- tolower(d$main_crop_last_season)
+  x$previous_crop[x$previous_crop == ""] <- NA 
 
-e1 <- d1[, c(3,4)]
-colnames(e1) <- c("trial_id","previous_crop")
+# from d4  
+  x$start_date <- as.character(as.Date(paste(d$date_planting_yyyy, d$date_planting_mm, d$date_planting_dd, sep = "-")))
+  x$end_date <- as.character(as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-")))
+ 
+#   d <- d[, c("trial_id","season","country","adm2", "adm3", "site", "longitude", "latitude", "elevation", "previous_crop", "start_date", "end_date")]
+  
 
-e2 <- d2[, c(3,5,6)]
+## d3 has four more records than d2 and d5, but there is no point keeping 
+## this records without the values in d2 and d5
+  dd <- merge(d2, d3, by=c("farm_id", "plot_no"), all=FALSE)
+  dd <- merge(dd, d5, by=c("farm_id", "plot_no"))
+ 
+ # from d2
+## RH: it is better to start a new data.frame and add what you need
+## to avoid forgetting variables in the end
+  y <- data.frame(trial_id = dd$farm_id)
+  
+  #cleaning fertilizer types
+  ft <- tolower(dd$mineral_fert_type)
+  ft[grepl("^ure", ft)] <- "urea"
+  ft[grepl("^no", ft)] <- "none"
+  ft[ft=="ssp"] <- "SSP"
+  ft[ft=="cal"] <- "lime"
+  ft[ft==""] <- NA
+  #unique(ft)
+  y$fertilizer_type <- 	ft
+  #table(dd$inoculant_used)
+  y$inoculated <- FALSE 
+  
+## RH: this is the start, but based on the fertilizer type (and amount) used, 
+## these numbers need to be changed  
+  y$N_fertilizer <- 0
+  y$P_fertilizer <- 0
+  y$K_fertilizer <- 0
+  
+  y$crop <- tolower(dd$crop_1)
+  y$variety <- carobiner::fix_name(dd$variety_1, "title", lowothers=FALSE) 
 
-#cleaning fetilizer types
-d2$mineral_fert_type[d2$mineral_fert_type == "UREA"|d2$mineral_fert_type == "Ureia"|d2$mineral_fert_type == "ureia"]<- "Urea" 
-d2$mineral_fert_type[d2$mineral_fert_type == "Ssp" |d2$mineral_fert_type == "SSp"]<- "SSP" 
-e2$N_fertilizer[d2$mineral_fert_type == "Urea"]<- 40 #found by calculating elemental N in Urea applied to the plot size and converted to kg/ha
-e2$P_fertilizer[d2$mineral_fert_type == "SSP" ]<- 40 #found by calculating elemental P in SSP applied to the plot size and converted to kg/ha
-# e2$lime[d2$mineral_fert_type == "lime"] <- 100 will lime be added?
+## RH: these are proper names and should be capitalized
+#  d2$variety[d2$variety == "Mamane"| d2$variety == "Mamane "]<- "mamane"
+#  d2$variety[d2$variety == "Chitala"]<-"chitala"
+#  d2$variety[d2$variety == "Nametil"]<-"nametil"
+ 
+  # from d3
+  y$row_spacing <- as.numeric(dd$crop_1_spacing_row_to_row)
+  y$plant_spacing <- as.numeric(dd$crop_1_spacing_plant_to_plant)
 
-colnames(e2) <- c("trial_id","crop","variety","N_fertilizer","P_fertilizer")
+  # from d5
+  ## RH: these are treatments, not reps!
+  ##  dd$rep <- d5$plot_no
+  y$treatment <- as.character(dd$plot_no)
+  y$yield <- dd$crop_1_weight_grain * 100 #calculating kg/ha
 
-e3 <- d3[, c(3,6,7)]
+  z <- merge(x, y, by="trial_id")
 
-colnames(e3) <- c("trial_id","row_spacing","plant_spacing")
+##RH ???
+##  z$on_farm <- FALSE
+##  z$is_survey <- TRUE
+  z$on_farm <- TRUE
+  z$is_survey <- FALSE
 
-d4$trial_id <- d4$farm_id
-d4$start_date <- as.Date(paste(d4$date_planting_yyyy, d4$date_planting_mm, d4$date_planting_dd, sep = "-") )
-d4$end_date <- as.Date(paste(d4$date_harvest_yyyy,d4$date_harvest_mm,d4$date_harvest_dd, sep = "-"))
+  z$dataset_id <- dataset_id
 
-e4 <- d4[, c("trial_id","start_date","end_date")]
-
-d5$trial_id <- d5$farm_id
-d5$crop_1_weight_grain <- as.integer(d5$crop_1_weight_grain)
-d5$yield <- 10000/d5$crop_1_area_harvested * d5$crop_1_weight_grain
-
-e5 <- d5[, c("trial_id","yield")]
-
-#merging the processed data sets
-z <- carobiner::bindr(e,e1,e2,e3,e4,e5)
-
-z$country <- "Mozambique"
-z$latitude <- -18.66569
-z$longitude <- 35.52956
-z$on_farm <- "no"
-z$is_survey <- "yes"
-
-z$crop <- ifelse(z$crop %in% c("Groundnut",NA),"groundnut")# NA randomly assigned groundnuts
-z$dataset_id <- dataset_id
-
-# all scripts should end like this
-carobiner::write_files(dset, z, path, dataset_id, group)
-TRUE
-
+## RH ???? 
+## you are overwriting the lon/lat data
+## and this could never be good, since we have multiple locations.
+##  z$latitude <- -18.66569
+##  z$longitude <- 35.52956
+  
+ # all scripts should end like this
+  carobiner::write_files(dset, z, path, dataset_id, group)
+ 
 }

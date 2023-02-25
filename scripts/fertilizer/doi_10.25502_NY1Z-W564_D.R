@@ -15,7 +15,7 @@ carob_script <- function(path) {
 
   uri <- "https://doi.org/10.25502/NY1Z-W564/D"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "variety_performance"
+  group <- "fertilizer"
 
   ## data set level data
   dset <- data.frame(
@@ -23,13 +23,14 @@ carob_script <- function(path) {
     group=group,
     uri=uri,
     publication=NA,
+    project="N2Africa",
     data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F.,
     Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E.,
     Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa farm monitoring - Malawi,
     2012 - 2013 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/NY1Z-W564/D",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
-    experiment_type="variety_performance",
+    experiment_type="variety trial",
     has_weather=TRUE,
     has_management=TRUE
   )
@@ -125,9 +126,11 @@ carob_script <- function(path) {
    
    f5 <- ff[basename(ff) == "e_harvest.csv"]
    d5 <- data.frame(read.csv(f5))
-   d5 <- d5[d5$crop_1_grain_unshelled == "Y",] # getting grain weights for only unshelled grains
+   # getting grain weights for only unshelled grains
+   d5 <- d5[d5$crop_1_grain_unshelled == "Y",] 
    d5$trial_id <- d5$farm_id
-   d5$grain_weight <- (as.numeric(d5$area_harvested_m2)*d5$weight_kg*1000)/100 # standardizing to grain weight measured in g/100m2
+   # standardizing to grain weight measured in g/100m2
+   d5$grain_weight <- (as.numeric(d5$area_harvested_m2)*d5$weight_kg*1000)/100 
    d5 <- d5[,c("trial_id","grain_weight")]
    
    f6 <- ff[basename(ff) == "f_farmer_assessment.csv"]  

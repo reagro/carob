@@ -15,7 +15,7 @@ carob_script <- function(path) {
 
 	uri <- "hdl:11529/10548587"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "fertilizer"
+	group <- "wheat_yield"
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
@@ -25,7 +25,7 @@ carob_script <- function(path) {
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2021, '28th High Rainfall Wheat Yield Trial', https://hdl.handle.net/11529/10548587, CIMMYT Research Data & Software Repository Network, V1",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="Station experimnt",
+	   experiment_type="Station experiment",
 	   has_weather=FALSE,
 	   has_management=FALSE
 	)
@@ -35,16 +35,20 @@ carob_script <- function(path) {
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
-
-
+	#
+	R.utils::gunzip(ff[basename(ff) == "28TH HRWYT.xls.gz"], remove = FALSE, overwrite = TRUE)
+	
 	raw.data <- ff[basename(ff) == "28TH HRWYT_RawData.xls"]
 	loc.data <- ff[basename(ff) == "28TH HRWYT_Loc_data.xls"]
 	env.data <- ff[basename(ff) == "28TH HRWYT_EnvData.xls"]
-
+	gen.data <- gsub(".gz", "", ff[basename(ff) == "28TH HRWYT.xls.gz"])
+	
 
 	d <- read.table(raw.data, comment.char="", sep="\t", header=TRUE)
 	loc <- read.table(loc.data, sep = "\t", header=TRUE)
 	env <- read.csv(env.data, sep = "\t")
+	gen <- suppressMessages(data.frame(readxl::read_xls(gen.data, sheet = "AGRSCR", skip = 11))[,1:6])
+	colnames(gen) <- c()
 	loc$latitude <- loc$Lat_degress + loc$Lat_minutes / 60 
 	loc$longitude <- loc$Long_degress + loc$Long_minutes / 60 
 	loc$longitude <- ifelse(loc$Longitud == "W", -loc$longitude, loc$longitude)
@@ -55,32 +59,34 @@ carob_script <- function(path) {
 	d$trial_id <- d$Trial.name
 	
 	# Sub-setting relevant columns and reformatting dataset to "wide" for easier handling
- 	d <- d[,c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Trait.name", "Value")]
-	d <- reshape(d, idvar = c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot"), timevar = "Trait.name", direction = "wide")
+ 	d <- d[,c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name", "Value")]
+	d <- reshape(d, idvar = c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
 	colnames(d)[9:19] <- gsub(".*Value.", "", colnames(d)[9:19])
 	
 	# Join latitude and longitude data
 	d <- merge(d, loc[, c("Loc_no", "longitude", "latitude")], by ="Loc_no", all.x = T)
 	
 	# Join with additional variables of interest, Sub-set only those new variables and format df to "wide" 
-	m <- merge(d,env, by = c("Loc_no"), all.x = TRUE)[,c("Loc_no", "Rep", "Sub_block", "Plot", "Trait.name","Value")]
-	dd <- reshape(m, idvar = c("Loc_no", "Rep", "Sub_block", "Plot"), timevar = "Trait.name", direction = "wide")
+	m <- merge(d,env, by = c("Loc_no"), all.x = TRUE)[,c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name","Value")]
+	dd <- reshape(m, idvar = c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
 	colnames(dd)[5:62] <- gsub(".*Value.", "", colnames(dd)[5:62])
 	
 	# Re-join d <-> dd
-	ddd <- merge(d,dd, by = c("Loc_no", "Rep", "Sub_block", "Plot"), all.x = TRUE)
+	ddd <- merge(d,dd, by = c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), all.x = TRUE)
 	
 	# Start processing the dataset into carob
-	ddd$start_date <- as.Date(dd$SOWING_DATE, "%b %d %Y")
-	ddd$end_date <- as.Date(dd$HARVEST_FINISHING_DATE, "%b %d %Y")
+	ddd$start_date <- as.character(as.Date(dd$SOWING_DATE, "%b %d %Y"))
+	ddd$end_date <- as.character(as.Date(dd$HARVEST_FINISHING_DATE, "%b %d %Y"))
 	ddd$on_farm <- FALSE
 	ddd$is_survey <- FALSE
 	# dd$treatment <- 
 	ddd$rep <- ddd$Rep
 	ddd$crop <- "wheat"
+	ddd$variety_code <- ddd$Gen_name
+	ddd$variety_type <- "high-yield"
 	ddd$previous_crop <- ifelse(ddd$USE_OF_FIELD_SPECIFY_CROP == "MAIZ", "maize", NA)
 	ddd$yield <- as.numeric(ddd$GRAIN_YIELD)*1000 # Yield in ton/ha
-	ddd$grain_weight <- ddd$`1000_GRAIN_WEIGHT`
+	ddd$grain_weight <- as.numeric(ddd$`1000_GRAIN_WEIGHT`)
 	
 	# Nitrogen levels
 	zz <- c("FERTILIZER_%N_2", "FERTILIZER_%P2O5_1", "FERTILIZER_%N_1", "FERTILIZER_KG/HA_1", "FERTILIZER_KG/HA_2", "FERTILIZER_%N_3", "FERTILIZER_%P2O5_3", "FERTILIZER_%K2O_1", "FERTILIZER_%K2O_2", "FERTILIZER_%K2O_3", "FERTILIZER_%P2O5_2", "FERTILIZER_KG/HA_3")
@@ -118,6 +124,6 @@ carob_script <- function(path) {
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path, dataset_id, group)
-	TRUE
+	
 }
 

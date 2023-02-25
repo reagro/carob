@@ -17,12 +17,13 @@ carob_script <- function(path) {
   
   uri <- "doi:10.25502/E4HB-9P62/D"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "variety_performance"
+  group <- "fertilizer"
   
   ## data set level data 
   dset <- data.frame(
     dataset_id = dataset_id,
     group=group,
+    project="N2Africa",
     uri=uri,
     publication=NA,
     data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M.,
@@ -31,7 +32,7 @@ carob_script <- function(path) {
     International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/E4HB-9P62/D",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
-    experiment_type="variety_performance",
+    experiment_type="variety trial",
     has_weather=FALSE,
     has_management=FALSE
   )

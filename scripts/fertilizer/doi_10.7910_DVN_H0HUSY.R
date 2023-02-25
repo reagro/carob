@@ -86,9 +86,9 @@ Description: This dataset contains information of experiments carried out upland
   d3 <- d3[,c("adm1","adm2","adm3","soil_pH","soil_SOC","soil_sand","soil_clay","soil_N","soil_P_available","soil_K")]
   
   
-  d4 <-merge(x = d1, y = d3, by = c("adm1", "adm2", "adm3"),all.x = TRUE)
+  d4 <- merge(x = d1, y = d3, by = c("adm1", "adm2", "adm3"),all.x = TRUE)
   
-  d5 <-merge(x = d2, y = d3, by = c("adm1", "adm2", "adm3"),all.x = TRUE)
+  d5 <- merge(x = d2, y = d3, by = c("adm1", "adm2", "adm3"),all.x = TRUE)
   
   # compiling into a single final dataset
   f <- carobiner::bindr(d4,d5)

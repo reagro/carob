@@ -9,7 +9,7 @@ carob_script <- function(path){
 
 	uri <- "doi.org/10.25502/dn04-c035"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "variety_performance"
+	group <- "fertilizer"
 
 	dset <- data.frame(
 		dataset_id = dataset_id,
@@ -24,7 +24,7 @@ carob_script <- function(path){
 		International Institute of Tropical Agriculture (IITA). 
 		https://doi.org/10.25502/DN04-C035",
 		carob_contributor = "Effie Ochieng",
-		experiment_type = "variety_performance",
+		experiment_type = "variety_trials",
 		has_weather =  FALSE,
 		has_management = FALSE
 	)
@@ -56,8 +56,10 @@ d <- d[, c("trial_id", "adm2","adm3")]
 d1$trial_id <- d1$farm_id
 d1$crop_rotation <- trimws(tolower(d1$main_crop_last_season))
 
+d1$crop_rotation[d1$crop_rotation == "maize, soybean"] <- "maize"
 d1$crop_rotation[d1$crop_rotation %in% c("soya", "soja", "soya bean", "soybean")] <- "soybean"
-d1$crop_rotation[d1$crop_rotation %in% c("ground nut", "ground nuts")] <- "groundnut"
+d1$crop_rotation[d1$crop_rotation %in% c("ground nut", "ground nuts", "groundnuts")] <- "groundnut"
+d1$crop_rotation[d1$crop_rotation == "beans"] <- "common bean"
 d1$crop_rotation[d1$crop_rotation %in% c("", "no")] <- NA
 
 d1 <- d1[, c("trial_id","crop_rotation")]
@@ -86,8 +88,8 @@ d2 <- d2[, c("trial_id","crop","variety","inoculated","K_fertilizer","N_fertiliz
 
 #processing the 4th dataset
 d3$trial_id <- d3$farm_id
-d3$start_date <-paste(d3$date_planting_yyyy, d3$date_planting_mm, d3$date_planting_dd, sep = "-")
-d3$end_date <- paste(d3$date_harvest_yyyy, d3$date_harvest_mm, d3$date_harvest_dd, sep = "-")
+d3$start_date <- ifelse(d3$date_planting_yyyy == 0, NA, paste(d3$date_planting_yyyy, sprintf("%02d", d3$date_planting_mm), sprintf("%02d", d3$date_planting_dd), sep = "-"))
+d3$end_date <- ifelse(d3$date_harvest_yyyy == 0, NA, paste(d3$date_harvest_yyyy, sprintf("%02d", d3$date_harvest_mm), sprintf("%02d", d3$date_harvest_dd), sep = "-"))
 
 d3 <- d3[,c("trial_id","start_date","end_date")]
 
@@ -101,7 +103,13 @@ d4$yield <- (10000/d4$crop_1_area_harvested)*d4$crop_1_weight_grain
 
 d4 <- d4[, c("trial_id","yield")]
 
-q <- carobiner::bindr(d,d1,d2,d3,d4)
+# EGB: This is the wrong use of carobiner::bindr!!
+# # You don't want to append but rather join using the common IDs. For example:
+q <- merge(d, d1, "trial_id")
+q <- merge(q, d2, "trial_id")
+q <- merge(q, d3, "trial_id")
+q <- merge(q, d4, "trial_id")
+# q <- carobiner::bindr(d,d1,d2,d3,d4)
 q$country <- "Mozambique"
 q$latitude <- -18.66569
 q$longitude <- 	35.52956
@@ -118,12 +126,14 @@ q$longitude <- 	35.52956
 #q$crop <- ifelse(q$crop %in% c("Soybean", "Soybean ","Soybean (SSP)","Soybean (INOC)", "Soybean (PD1)","Soybean (No-SSP)",
 #                               "Soybean (No-INOC)","Soybean (PD2)"),"soybean","groundnut")
 
-q$crop <- fix_name(q$crop, "lower")
+q$crop <- carobiner::fix_name(q$crop, "lower")
 q$crop[grepl("soybean", q$crop)] <- "soybean"
+# # EGB: Many rows with NA across. Removing them
+# q <- q[complete.cases(q$crop),]
 
 
 # this being a varietal trial, we should try to standardize these names
-q$variety <- fix_name(q$variety, "first")
+q$variety <- carobiner::fix_name(q$variety, "first")
 #unique(q$variety) |> sort()
 q$variety <- gsub("Santa -", "Santa ", q$variety)
 q$variety <- gsub("Tgx", "TGX ", q$variety, ignore.case = TRUE)

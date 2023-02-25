@@ -45,11 +45,13 @@ carob_script <- function(path) {
 	d$country <- "Ethiopia"
 	d$site <- d$`Name of the Village`
 	d$trial_id <- "TAMASA-Bako-2015"
-	d$start_date <- format(d$`Planting Date`, "%Y-%m-%d")
+	d$start_date <- as.character(as.Date(d$`Planting Date`))
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$treatment <- "none"
-	d$rep <- ifelse(gsub("^[^.]*.","",as.character(d$`plot ID`)) == "", "1", gsub("^[^.]*.","",as.character(d$`plot ID`)))
+	d$rep <- ifelse(gsub("^[^.]*.", "", as.character(d$`plot ID`)) == "", "1", 
+					gsub("^[^.]*.", "", as.character(d$`plot ID`)))
+	d$rep <- as.integer(d$rep)			
 	d$crop <- "maize"
 	d$variety_code <- d$`Type of Variety`
 	d$variety_type <- d$`Seed type (Local vs Improved)`
@@ -83,7 +85,7 @@ carob_script <- function(path) {
 	# summing because you can have DAP _and_ urea
 	d$N_fertilizer[i] <- d$N_fertilizer[i] + d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.18
 	
-	message("   N fert rate seemed off. EGB please check")
+	message("   N fert rate seemed off. EGB please check\n")
 	##this did not seem to make sense (compare with original)
 	##RH : else??  d$`Amount of Inorganic Fertilizer (kg)` * 0.19))
 	
@@ -92,7 +94,7 @@ carob_script <- function(path) {
 	i <- grep("NSP", d$fertilizer_type)
 	d$P_fertilizer[i] <- d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.1659
 
-	d$OM_used <- d$`Apply Organic Fertilizer ?`
+	d$OM_used <- d$`Apply Organic Fertilizer ?` == "Yes"
 	d$OM_type <- d$`Type of Organic Fertilizer applied`
 	# Assuming 50kg Manure Bags
 	d$OM_applied <- 0
