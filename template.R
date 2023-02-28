@@ -72,6 +72,7 @@ carob_script <- function(path) {
 	d$site <- 
 	d$adm1 <- 
 	d$adm2 <- 
+	d$adm3 <- 
 	d$elevation <- NA
 ## each site must have corresponding longitude and latitude
 	d$longitude <- 
@@ -101,6 +102,10 @@ carob_script <- function(path) {
    d$fertlizer_type <- 
    d$inoculated <- 
    
+
+##### in general, add comments to your script if computations are
+##### based in information gleaned from metadata, publication, 
+##### or not immediately obvious for other reasons
 
 ##### Yield #####
 
