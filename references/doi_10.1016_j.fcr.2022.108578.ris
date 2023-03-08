@@ -1,0 +1,26 @@
+TY  - JOUR
+T1  - Estimating maize harvest index and nitrogen concentrations in grain and residue using globally available data
+AU  - Ludemann, Cameron I.
+AU  - Hijbeek, Renske
+AU  - van Loon, Marloes P.
+AU  - Murrell, T. Scott
+AU  - Dobermann, Achim
+AU  - van Ittersum, Martin K.
+JO  - Field Crops Research
+VL  - 284
+SP  - 108578
+PY  - 2022
+DA  - 2022/08/01/
+SN  - 0378-4290
+DO  - https://doi.org/10.1016/j.fcr.2022.108578
+UR  - https://www.sciencedirect.com/science/article/pii/S0378429022001496
+KW  - Nutrient
+KW  - Budget
+KW  - Nutrient removal
+KW  - Nutrient use efficiency
+KW  - Maize
+KW  - Harvest index
+KW  - Random forest
+KW  - Mixed-effect model
+AB  - Reliable estimates of crop nitrogen (N) uptake and offtake are critical in estimating N balances, N use efficiencies and potential losses to the environment. Calculation of crop N uptake and offtake requires estimates of yield of crop product (e.g. grain or beans) and crop residues (e.g. straw or stover) and the N concentration of both components. Yields of crop products are often reasonably well known, but those of crop residues are not. While the harvest index (HI) can be used to interpolate the quantity of crop residue from available data on crop product yields, harvest indices are known to vary across locations, as do N concentrations of residues and crop products. The increasing availability of crop data and advanced statistical and machine learning methods present us with an opportunity to move towards more locally relevant estimates of crop harvest index and N concentrations using more readily available data. The aim of this study was to investigate whether improved estimates of maize crop HI and N concentrations of crop products and crop residues can be based on crop data available at the global scale, such as crop yield, fertilizer application rates and estimates of yield potential. Experiments from 1487 different locations conducted across 31 countries were used to test various prediction models. Predictions from mixed-effects models and random forest machine learning models provided reasonable levels of prediction accuracy (R2 of between 0.33 and 0.68), with the random forest method having greater accuracy. Although the mixed-effects prediction models had lower prediction accuracy than random forest, they did provide better interpretability. Selection of which method to use will depend on the objective of the user. Here, the random forest and mixed-effects methods were applied to N in maize, but could equally be applied to other crops and other nutrients, if data becomes available. This will enable obtaining more locally relevant estimates of crop nutrient offtake to improve estimates of nutrient balances and nutrient use efficiency at national, regional or global levels, as part of strategies towards more sustainable nutrient management.
+ER  - 
