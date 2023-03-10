@@ -89,7 +89,7 @@ carob_script <- function(path) {
   d$yield <- d$CPY
   
   d$dataset_id <- dataset_id
-  d <- d[,c(23:length(d))]
+  d <- d[,c(27:length(d))]
   
   # all scripts must end like this
   carobiner::write_files(dset, d, path, dataset_id, group)
