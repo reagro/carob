@@ -42,9 +42,12 @@ carob_script <- function(path) {
   dset$license <- "CC0"
   
   f <- ff[basename(ff) == "MAIZE_DATA_HI_CPN_CRN_FIELD_CROPS_RESEARCH_2022.csv"][1]
+  e <- ff[basename(ff) == "DATA_ID_MAIZE_DATA_HI_CPN_CRN_FIELD_CROPS_RESEARCH_2022.csv"][1]
   
   d <- read.csv(f)
+  dd <- read.csv(e)
   
+  d <- merge(d,dd,by = "Data_id")
   ## process file(s)
   
   #### about the data #####
@@ -54,13 +57,13 @@ carob_script <- function(path) {
   d$is_survey <- FALSE
   d$irrigated <- ifelse(d$Water_regime == "Irrigated", TRUE, FALSE)
   ## the treatment code	
-  d$treatment <- NA
+  d$trial_id <- d$Publication
   
   
   ##### Location #####
   ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
   ## you can use carobiner::fix_name()
-  d$country <- ifelse(r$Country == "C\xf4te d\x92Ivoire", "Côte d'Ivoire", r$Country)
+  d$country <- ifelse(d$Country == "C\xf4te d\x92Ivoire", "Côte d'Ivoire", d$Country)
   d$site <- d$Site
   d$adm1 <- d$Region_province
   ## each site must have corresponding longitude and latitude
