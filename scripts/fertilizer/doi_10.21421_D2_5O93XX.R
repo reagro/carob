@@ -33,7 +33,7 @@ carob_script <- function(path) {
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   publication="doi:10.21421/D2/5O93XX",
+	   publication="http://dx.doi.org/10.12692/ijb/9.1.291-302",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   experiment_type="fertilizer",
 	   has_weather=FALSE,
@@ -69,12 +69,16 @@ carob_script <- function(path) {
 	d$yield <- d$PodKgHa
 	d$residue_yield <- d$FdWtKgHa
 	d$grain_weight <- d$Seed.weight
+	d$fertilizer_type <- "SSP" # As indicated in the publication associated
+	d$N_fertilizer <- 0
 	d$P_fertilizer <- ifelse(d$Fertilizer == "F1", 0, 20)
+	d$K_fertilizer <- 0
+	d$flowering <- d$flw50
 	d$plant_spacing <- d$Spacing
 	
 	
 	# process file(s)
-	d <- d[,c("country", "adm1", "adm2", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep", "crop", "variety", "yield", "residue_yield", "grain_weight", "P_fertilizer", "plant_spacing")]
+	d <- d[,c("country", "adm1", "adm2", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep", "crop", "variety", "yield", "residue_yield", "grain_weight", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "flowering", "plant_spacing")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
