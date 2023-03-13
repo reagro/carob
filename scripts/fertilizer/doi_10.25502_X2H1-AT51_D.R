@@ -39,83 +39,123 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   dset$license <- carobiner::get_license(js)
 
-  # processing activities.csv
-  f <- ff[basename(ff) == "activities.csv"]
-  d <- read.csv(f)
-  d$start_date <- as.Date(d$planting,"%m/%d/%Y")
-  d<- d[,c("trial_id","start_date")]
-  
+  # The activities.csv, nutr_deficiency_pest_disease.csv,pesticide_biocide_use.csv datasets don't 
+  # contain additional info as it's important information is already represented in d1 below.
   # processing crop_observations.csv
-  f1 <- ff[basename(ff) == "crop_observations.csv"]
-  d1 <- read.csv(f1)
-  d1$rep <- d1$replication_no
-  d1$treatment <- d1$main_treatment # sub_treatment and sub_sub_treatment have null values hence will be ignored
-  d1$start_date <- as.Date(d1$date_planting,"%m/%d/%Y")
-  d1$end_date <- as.Date(d1$date_harvest, "%m/%d/%Y")
-  d1$yield <- d1$grain_yield_kgperha
-  d1$residue_yield<- d1$total_yield_stover_kg_per_ha
-  d1$biomass_total <- d1$calc_weight_a_ground_biomass_kg
-  d1$grain_weight <- d1$dry_weight_100_seed_g * 10
-  d1 <- d1[,c("trial_id","rep","treatment","variety","start_date","end_date","yield","residue_yield","biomass_total","grain_weight")]
+  f <- ff[basename(ff) == "crop_observations.csv"]
+  d <- read.csv(f)
+  d$rep <- d$replication_no
+  d$variety <- tolower(carobiner::fix_name(d$variety))
+  d$variety <- ifelse(d$variety == "nassir","nasir",
+                       ifelse(d$variety %in% c("awasa dume","awash dume"),"hawassa dume",
+                              ifelse(d$variety == "argen","argene",
+                                     ifelse(d$variety == "local","loko",
+                                            ifelse(d$variety %in% c("dinknesh","dinkenesh"),"dinkinesh",
+                                                   ifelse(d$variety == "dimitu","dimtu",
+                                                          ifelse(d$variety == "awasa-04","hawasa04",
+                                                                 ifelse(d$variety %in% c("didesa (v1)","didessa"),"didesa",
+                                                                        ifelse(d$variety == "ethio-ugozilavia(v2)","ethio-ugozilavia",
+                                                                               ifelse(d$variety %in% c("awash-1","awash1"),"awash 1",
+                                                                                      ifelse(d$variety == "habiru","habru",
+                                                                                             ifelse(d$variety == "tumssa","tumsa",d$variety))))))))))))
+  # sub_treatment and sub_sub_treatment have null values hence will be ignored
+  
+  d$treatment <- tolower(carobiner::fix_name(d$main_treatment))
+  d$treatment[d$treatment == "#name?"] <- NA
+  
+  #p or +p shows presence of phosphorus, while +r or i shows presence of inoculants
+  
+  d$treatment <- ifelse(d$treatment %in% c("+p+ +r","25kgdap&inoculant","+i +p","+i + +p",
+                                           "+p and +i","with p, i","+p,+i","i, p"),"+p,+i",
+                        ifelse(d$treatment %in% c("-p+ -r","-i -p","-i + -p","-p and -i",
+                                                  "w/out i, p","withoutinputs"),"-p,-i",
+                               ifelse(d$treatment %in% c("-p+ +r","+i -p","+i + -p","-p and +i"),
+                                      "-p,+i",
+                                      ifelse(d$treatment %in% c("+p+ -r","-i +p","-i + +p","+p and -i","-i,+p"),
+                                             "+p,-i",
+                                             ifelse(d$treatment %in% c("25kgdap","p"),"+p",
+                                                    ifelse(d$treatment == "variety + +i & +p",(tolower(paste(d$variety,"+i,+p",sep = ","))),
+                                                           ifelse(d$treatment %in% c("inoculant","i"),"+i",
+                                                                  ifelse(d$treatment == "variety",tolower(d$variety),
+                                                                         ifelse(d$treatment == "dinkenesh","dinkinesh",
+                                                                                ifelse(d$treatment == "awash1","awash 1",d$treatment))))))))))
+  d$treatment[d$treatment == "local"] <- "loko"
+  d$start_date <- as.character(as.Date(d$date_planting,"%m/%d/%Y"))
+  d$end_date <- as.character(as.Date(d$date_harvest, "%m/%d/%Y"))
+  d$plant_density <- d$no_plants/(d$area_harvest_plot_m2/10000) # based on harvested plants from harvested area/ha
+  d$plant_density[d$plant_density == "NaN"] <- NA
+  d$yield <- as.numeric(d$grain_yield_kgperha)
+  d <- d[d$yield > 0,]
+  d$residue_yield<- as.numeric(d$total_yield_stover_kg_per_ha)
+  d$biomass_total <- as.numeric(d$calc_weight_a_ground_biomass_kg)
+  d$grain_weight <- d$dry_weight_100_seed_g * 10
+  d <- d[,c("trial_id","rep","treatment","variety","start_date","end_date","plant_density","yield",
+              "residue_yield","biomass_total","grain_weight")]
 
   # processing field_history.csv
-  f2 <- ff[basename(ff) == "field_history.csv"]
-  d2 <- data.frame(read.csv(f2))
-  d2 <- d2[3]
+  f1 <- ff[basename(ff) == "field_history.csv"]
+  d1 <- data.frame(read.csv(f1))
+  d1$previous_crop <- tolower(d1$crop_n2a_plot_p_season)
+  d1$previous_crop <- ifelse(d1$previous_crop == "bread wheat","wheat",
+                             ifelse(d1$previous_crop == "tef","teff",
+                                    ifelse(d1$previous_crop == "noug (guziota scarba)","noug",d1$previous_crop)))
+  d1$previous_crop[d1$previous_crop == ""] <- NA
+  d1 <- d1[,c("trial_id","previous_crop")]
   
   # processing general.csv
-  f3 <- ff[basename(ff) == "general.csv"]
-  d3 <- data.frame(read.csv2(f3, sep = "," ))
-  d3$adm1 <- d3$district_county
-  d3$adm2 <- d3$village
-  d3$location <- d3$site
-  d3$crop <- d3$type_of_experiment
-  d3$crop <- ifelse(d3$crop == "commonbean_babytrial"|d3$crop == "common bean_input"|d3$crop == "commonbean_input"|d3$crop == "Commonbean_input"
-                    |d3$crop == "common bean_var"|d3$crop == "Commonbean_variety"|d3$crop == "commonbean_variety","common bean",
-                    ifelse(d3$crop == "Chickpea_input"|d3$crop == "Chickpea_variety","chickpea",
-                           ifelse(d3$crop == "Fababean_input"|d3$crop == "Fababean_variety","faba bean","soybean")))
-  d3 <- d3[,c("trial_id","country","adm1","adm2","location","crop")]
-  
-  # processing nutr_deficiency_pest_disease.csv
-  f4 <- ff[basename(ff) == "nutr_deficiency_pest_disease.csv"]
-  d4 <- data.frame(read.csv2(f4, sep = "," ))
-  d4$rep <- d4$replication_no
-  d4 <- d4[,c("trial_id","rep")]
-  
-  # processing pesticide_biocide_use.csv
-  f5 <- ff[basename(ff) == "pesticide_biocide_use.csv"]
-  d5 <- data.frame(read.csv2(f5, sep = "," ))
-  d5<- d5[3]
+  f2 <- ff[basename(ff) == "general.csv"]
+  d2 <- data.frame(read.csv(f2))
+  d2$adm3 <- tolower(d2$district_county)
+  d2$adm3 <- ifelse(d2$adm3 == "bichena","enemay",
+                    ifelse(d2$adm3 == "jama","jamma",
+                           ifelse(d2$adm3 == "gobu sayo","gobu seyo",d2$adm3))) # bichena is a town in enemay district(woreda)
+
+  # most village inputs seem to be small towns in Ethiopia according to http://www.blogabond.com/LocationBrowse.aspx?CountryCode=ET&l=Ethiopia&showAll=1
+  # so they'll be allotted locations.
+  d2$location <- tolower(d2$village)
+  d2$site <- tolower(d2$site)
+  d2$site[d2$site == ""] <- NA
+  d2$elevation <- as.numeric(d2$gps_altitude)
+  d2$crop <- tolower(d2$type_of_experiment)
+  d2$crop <- ifelse(d2$crop %in% c("commonbean_babytrial","common bean_input","commonbean_input","Commonbean_input",
+                                   "common bean_var","commonbean_variety"),"common bean",
+                                   ifelse(d2$crop %in% c("chickpea_input","chickpea_variety"),"chickpea",
+                                          ifelse(d2$crop %in% c("fababean_input","fababean_variety"),"faba bean","soybean")))
+  d2 <- d2[,c("trial_id","country","adm3","location","site","elevation","crop")]
+  d3 <- merge(d2,d1,by = "trial_id")
   
   # processing rainfall.csv
-  f6 <- ff[basename(ff) == "rainfall.csv"]
-  d6 <- data.frame(read.csv2(f6, sep = "," ))
-  d6$rain <- d6$rain_mm
-  d6 <- d6[,c("trial_id","rain")]
+  f4 <- ff[basename(ff) == "rainfall.csv"]
+  d4 <- data.frame(read.csv(f4))
+  d4 <- d4[d4$rain_mm > 0,]
   
+  # averaging rain amount because we cannot specifically 
+  # point individual rain inputs to specific reps under specific trial_ids
+  b1 <- tapply(d4$rain_mm, d4$trial_id, mean)
+  d4 <- data.frame(trial_id = names(b1),rain = b1)
+  rownames(d4) <- NULL
+
   # processing soil_data.csv
-  f7 <- ff[basename(ff) == "soil_data.csv"]
-  d7<- data.frame(read.csv2(f7, sep = "," )) 
-  d7$trial_id <- d7$farm_id
-  d7$soil_pH <- d7$ph
-  d7$soil_SOC <- d7$tc_perc
-  d7$soil_N <- d7$n_perc
-  d7$soil_sand <- d7$sand_perc
-  d7$soil_clay <- d7$clay_perc
-  d7 <- d7[,c("trial_id","soil_pH","soil_SOC","soil_N","soil_sand","soil_clay")]
+  f5 <- ff[basename(ff) == "soil_data.csv"]
+  d5<- data.frame(read.csv(f5)) 
+  d5$trial_id <- toupper(d5$farm_id)
+  d5$soil_pH <- d5$ph
+  d5$soil_SOC <- d5$tc_perc
+  d5$soil_N <- d5$n_perc
+  d5$soil_sand <- as.numeric(d5$sand_perc)
+  d5$soil_clay <- as.numeric(d5$clay_perc)
+  d5 <- d5[,c("trial_id","soil_pH","soil_SOC","soil_N","soil_sand","soil_clay")]
 
   # compiling into a single final dataset
-  f <- carobiner::bindr(d,d1,d2,d3,d4,d5,d6,d7)
+  
+  d6 <- merge(d3,d5,by = "trial_id",all.x = TRUE)
+  d7 <- merge(d6,d4,by = "trial_id",all.x = TRUE)
+  f <- merge(d,d7,by = "trial_id",all.x = TRUE)
+  
   f$dataset_id <- dataset_id
-  f$country <- replace(f$country,1:nrow(f),"Ethiopia")
-  f$latitude <- 9.14500
-  f$longitude <- 40.48967
-  f$on_farm <- "yes"
-  f$crop[is.na(f$crop)] <- "common bean" 
-  f$row_spacing <- 40 
-  f$plant_spacing <-10
+ 
   # Fertilizer rates: DAP will be applied using a rate of 25 kg DAP per hectare; DAP has 18:46:0 composition
-  # calculating amount of P in DAP applied assuming that any P input refers to DAP appication; 
+  # calculating amount of P in DAP applied assuming that any +P input refers to DAP application; 
   
   P2O5 <- 25 * 0.46
   # to acquire the amount of P in P2O5, P has atomic weight 31 while O has atomic weight 16.
@@ -123,36 +163,18 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   N <- 25 * 0.18
   
   f$fertilizer_type <- "none"
-
-  #P or +P shows presence of phosphorus
-  
-  f$treatment <- trimws(f$treatment)
-  f$P_fertilizer[f$treatment %in% c("+P+ +R","+P+ -R", "-I +P", "+I +P", "+I  + +P", "-I  +  +P",
-	"+p and +I", "+p and -I", "-I,+P", "With P, I", "P", "w/out I, P", "+P,+I", "variety + +I & +P", "I, P",
-	"I, P", "25kgDAP", "25kgDAP&Inoculant")] <- P
-  f$N_fertilizer[f$treatment %in% c("+P+ +R", "+P+ -R", "-I +P", "+I +P", "+I  + +P", "-I  +  +P",
-		"+p and +I", "+p and -I", "-I,+P", "With P, I", "P", "w/out I, P", "+P,+I", "variety + +I & +P", "I, P", "I, P", "25kgDAP", "25kgDAP&Inoculant")] <- N
-
-  f$inoculated <- grepl("\\+R", f$treatment) | grepl("\\+I", f$treatment) | grepl("With P, I", f$treatment) | grepl("^I", f$treatment) 
-  
-  ## RH see: 
-  ## unique(trimws(f$treatment))
-  ## what about "SARI" "Hawassa Dume" "Awash 1" "ECAB0081" "GLP2", etc??
-  ## are those inoculants?
-  ## if so, set inoculated to TRUE, and set inoculant to these names
-  
- 
+  f$P_fertilizer <- ifelse(f$treatment %in% c("+p,+i","+p,-i","+p","hachalu,+i,+p","wayu,+i,+p","wolki,+i,+p","dagim,+i,+p","lalo,+i,+p","local,+i,+p"),P,0)
+  f$N_fertilizer <- ifelse(f$treatment %in% c("+p,+i","+p,-i","+p","hachalu,+i,+p","wayu,+i,+p","wolki,+i,+p","dagim,+i,+p","lalo,+i,+p","local,+i,+p"),N,0)
+  f$K_fertilizer <- 0
+  f$inoculated <- grepl("\\+i", f$treatment)
   f$fertilizer_type[f$N_fertilizer > 0] <- "DAP"
-
-
-	f$start_date <- as.character(f$start_date)
-	f$end_date <- as.character(f$end_date)
-
-## RH variety names can be normalized more.
-	f$variety[f$variety == ""] <- NA
-
-## RH many records have no yield. These are not useful. Is that an error in the data processing?
-## If so, please fix. If not, we should remove these rows.
+  f$fertilizer_type[f$P_fertilizer > 0] <- "DAP"
+  f$country <- "Ethiopia"
+  f$row_spacing <- 40 
+  f$plant_spacing <-10
+  f$latitude <- 9.14500
+  f$longitude <- 40.48967
+  f$on_farm <- as.logical("TRUE")
 
   carobiner::write_files(dset, f, path, dataset_id, group)
 }
