@@ -48,118 +48,139 @@ dset$license <- carobiner::get_license(js)
 ###download and read data
 
 f <- ff[basename(ff) == "data.csv"]
-d <- read.csv(f)
-drop <- c("SN","instanceid")
-d <- d[,!(names(d) %in% drop)]
+d <- data.frame(read.csv(f))
+d$rep <- d$replication_no
+d$start_date <- as.character(as.Date(paste(d$planting_date_mm,d$planting_date_dd,d$planting_date_yyyy,sep = "/"),"%m/%d/%Y"))
+d$end_date <- as.character(as.Date(paste(d$date_harvest_mm,d$date_harvest_dd,d$date_harvest_yyyy,sep = "/"),"%m/%d/%Y"))
+
+d$main_treatment <- tolower(carobiner::fix_name(d$main_treatment))
+d$main_treatment <- carobiner::replace_values(
+  d$main_treatment,c("inocualted","not noculated","not inoculted"),c("inoculated","not inoculated","not inoculated"))
+
+dd <- carobiner::fix_name(d$sub_treatment_fert)
+dd <- gsub("KCL","KCl",dd)
+dd <- gsub("UREA","urea",dd)
+i <- grepl("Kenya", dd, ignore.case=TRUE)
+dd[i] <- carobiner::fix_name(dd[i], "title")
+
+# MRP fertilizer is an unknown fertilizer so it will be replaced with "unknown" fertilizer name in all occurrences of MRP
+dd <- carobiner::replace_values(
+  dd,c("MRP","None","UMUBANO","GASIRIDA","RWV1129"),c("unknown","none","Umubano","Gasirida","RWV 1129"))
+d$sub_treatment_fert <- dd
+
+de <- toupper(carobiner::fix_name(d$sub_treatment_inoc))
+de <- gsub("KCL","KCl",de)
+de <- gsub("UREA","urea",de)
+i <- grepl("Kenya", de, ignore.case=TRUE)
+de[i] <- carobiner::fix_name(de[i], "title")
+de <- carobiner::replace_values(de,
+                                c("MRP","TSP/KCl urea","TGX1835-10F","KENAY MAVUNO","KAT B 9","KAT X 56","NEW ROSCOCO","NONE","UMUBANO","GASIRIDA","RWV1129"),
+                                c("unknown","TSP/KCl/urea","TGX 1835-10F","Kenya Mavuno","KAT B9","KAT X56","New Roscoco","none","Umubano","Gasirida","RWV 1129"))
+d$sub_treatment_inoc <- de
+d$treatment <- paste("main treatment: ",d$main_treatment," | ",
+                     "inoculant treatment: " ,d$sub_treatment_inoc," | ",
+                     "fertilizer treatment: " ,d$sub_treatment_fert)
+
+ft <- ifelse(d$sub_treatment_inoc %in% c("unknown","DAP","TSP/KCl","TSP/KCl/urea","TSP"),
+             d$sub_treatment_inoc,ifelse(
+               d$sub_treatment_fert %in% c("unknown","TSP/KCl","TSP/KCl/urea","DAP","TSP","KCl"),
+               d$sub_treatment_fert,NA))
+d$fertilizer_type <- gsub("/", "; ", ft)
+
+v <- carobiner::fix_name(d$variety)
+i <- grepl("Kenya", v, ignore.case=TRUE)
+v[i] <- carobiner::fix_name(v[i], "title")
+v <- carobiner::replace_values(v,c("RWV1129","UMUBANO","GASIRIDA","TGX1740-2F","SB19","SB97","SB3","SB25","NEW ROSCOCO","Kenay Mavuno","KAT B 9","KAT X 56"),
+                                c("RWV 1129","Umubano","Gasirida","TGX 1740-2F","SB 19","SB 97","SB 3","SB 25","New Roscoco","Kenya Mavuno","KAT B9","KAT X56"))
+d$variety <- v
+
+d$biomass_roots <- d$root_dry_weight_roots_no_nodules
+d$biomass_total <- d$above_ground_dry_biomass+d$biomass_roots+d$nodule_dry_weight
+d$residue_yield <- d$tot_stover_yield_haulm_husks_calc
+d$yield <- d$grain_yield_ha_calc
+d$inoculated <- ifelse(d$main_treatment == "inoculated",TRUE,FALSE)
+d$plant_density <- round((10000*d$no_plants_harvest_plot)/d$plot_area_harvest)
+d$grain_weight <- d$dry_weight_100_seeds*10 # converting to g per 1000 seeds
+d <- d[d$yield > 0,]
+
+d <- d[,c("experiment_id","rep","variety","start_date","end_date","treatment","fertilizer_type","inoculated","plant_density","grain_weight","biomass_roots","biomass_total","residue_yield","yield")]
+
 
 f1 <- ff[basename(ff) == "soil_properties.csv"]
 d1 <- read.csv(f1)
-d1 <- d1[,!(names(d1) %in% drop)]
+d1$soil_pH <- d1$ph
+d1$soil_K <- d1$k
+d1$soil_sand <- d1$sand
+d1$soil_clay <- d1$clay
+d1$soil_SOC <- d1$tot_carbon
+d1$soil_N <- d1$tot_nitrogen
+
+d1 <- d1[,c("experiment_id","soil_pH","soil_K","soil_sand","soil_clay","soil_SOC","soil_N")]
 
 f2 <- ff[basename(ff) == "general.csv"]
 d2 <- read.csv(f2)
-d2 <- d2[,!(names(d2) %in% drop)]
-
-
-## Merging the dataframes to one, I use a full outer join
-d3 <- merge(d, d1, by = c("experiment_id","id"), all = TRUE)
-d4 <- merge(d3, d2, by = c("experiment_id","id"), all = TRUE)
-
-## Getting the total biomass
-
-d4[, c("above_ground_dry_biomass", "root_dry_weight_roots_no_nodules",
-       "nodule_dry_weight")] <- lapply(d4[, c("above_ground_dry_biomass", "root_dry_weight_roots_no_nodules",
-                                              "nodule_dry_weight")], as.numeric)
-d4$total_biomass <- d4$above_ground_dry_biomass+d4$root_dry_weight_roots_no_nodules+d4$nodule_dry_weight
-d4$dataset_id <- dataset_id
-d4$trial_id <- d4$experiment_id
-d4$rep <- d4$replication_no
-d4$treatment <- paste("main treatment: ",d4$main_treatment," | ","inoculant treatment: " ,d4$sub_treatment_inoc," | ","fertilizer treatment: " ,d4$sub_treatment_fert)
-d4$inoculated <- ifelse(d4$main_treatment %in% c("Inoculated","inoculated","Inocualted"), TRUE,
-                        ifelse(d4$main_treatment %in% c("Not noculated","Not Inoculated","Not inoculated","Not inoculted"), FALSE, NA))
-d4$start_date <- as.character(as.Date(paste(d4$planting_date_mm,d4$planting_date_dd,d4$planting_date_yyyy,sep = "/"),"%m/%d/%Y"))
-d4$end_date <- as.character(as.Date(paste(d4$date_harvest_mm,d4$date_harvest_dd,d4$date_harvest_yyyy,sep = "/"),"%m/%d/%Y"))
-d4$yield <- d4$grain_yield_ha_calc
-d4$residue_yield <- d4$tot_stover_yield_haulm_husks_calc
-d4$biomass_total <- d4$total_biomass
-d4$biomass_roots <- d4$root_dry_weight_roots_no_nodules
-  
-ft <- ifelse(d4$sub_treatment_inoc %in% c("DAP","MRP","TSP/KCL/urea","TSP/KCL UREA","TSP/kCL/urea","TSP/KCL/Urea","TSP","TSP/KCL","TSP/KCL/UREA"), d4$sub_treatment_inoc,
-           ifelse(d4$sub_treatment_fert %in% c("TSP/KCL","TSP/KCL/UREA","DAP","MRP","TSP","KCl","TSP/KCl","KCL"),d4$sub_treatment_fert,NA))
-	   
-ft <- toupper(ft)
-ft <- gsub("KCL", "KCl", ft)
-ft <- gsub("UREA", "urea", ft)
-ft <- gsub(" ", "; ", ft)
-d4$fertilizer_type <- gsub("/", "; ", ft)
-
-d4$soil_pH <- d4$ph
-d4$soil_K <- d4$k
-d4$soil_sand <- d4$sand
-d4$soil_clay <- d4$clay
-d4$soil_SOC <- d4$tot_carbon
-d4$soil_N <- d4$tot_nitrogen
-d4$country <- "Kenya"
-
-as <- carobiner::fix_name(sapply(strsplit(d4$action_site, "-"), \(i) i[1]), "title")
+d2$country <- "Kenya"
+as <- carobiner::fix_name(sapply(strsplit(d2$action_site, "-"), \(i) i[1]), "title")
 as <- sapply(strsplit(as, "\\("), \(i) i[1])
 as <- sapply(strsplit(as, "_"), \(i) i[1])
-ma <- carobiner::fix_name(d4$mandate_area_name, "title")
-d4$location <- paste0(as, " (", ma, ")")
+as <- carobiner::fix_name(as)
+ma <- carobiner::fix_name(d2$mandate_area_name, "title")
+d2$location <- paste0(as, " (", ma, ")")
+d2$latitude <- d2$gps_latitude_dec
+d2$longitude <- d2$gps_longitude_dec
+d2$elevation <- as.numeric(d2$gps_altitude_dec)
+d2$crop <- ""
+d2$crop[ grep("_CB", d2$experiment_id) ] <- "common bean" # climbing
+d2$crop[ grep("_BB", d2$experiment_id) ] <- "common bean" # bush
+d2$crop[ grep("_SB", d2$experiment_id) ] <- "soybean"
 
-#d4$crop <- ifelse(grepl("SOY", toupper(d4$crop)), "soybean", "common bean")
+d2 <- d2[,c("experiment_id","country","location","crop","latitude","longitude","elevation")]
 
-### DO NOT MAKE WILD GUESSES")
-###d4$crop[is.na(d4$crop)] = "common bean" # assuming all NA values are common beans
-### it turned out that these were soybean
-d4$crop <- ""
-d4$crop[ grep("_CB", d4$experiment_id) ] <- "common bean" # climbing
-d4$crop[ grep("_BB", d4$experiment_id) ] <- "common bean" # bush
-d4$crop[ grep("_SB", d4$experiment_id) ] <- "soybean"
+## Merging the data frames to one; 
 
+d3 <- merge(d2, d1, by = "experiment_id", all.x = TRUE)
+d4 <- merge(d3, d, by = "experiment_id", all.x = TRUE)
+names(d4)[1] <- "trial_id"
 d4$on_farm <- TRUE
-
-#add the gps information
-#RH there are several sites. They should not have the same coordinates!! 
-## and coordinates are available !!!
-#message("    EO: fix bad coordinates")
-#d4$latitude<- -0.02356
-#d4$longitude <- 37.90619
-d4$latitude<- d4$gps_latitude_dec
-d4$longitude <- d4$gps_longitude_dec
-d4$elevation <- as.numeric(d4$gps_altitude_dec)
+d4$dataset_id <- dataset_id
+d4 <- d4[complete.cases(d4$yield), ]
 
 # Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
 # and Urea split (50-50) applied at a rate of 60 kg N/ha in Kenya and Rwanda trials
 
-## RH how much N in DAP? And how much of anything in MRP (what is that)??
-message("    RM: fix fertilizer")             
+# calculating amount of N and P in DAP; DAP has 18:46:0 composition (NH4)2HPO4
+N_dap <- 30 * 0.18
+# to acquire the amount of P in P2O5, P has atomic weight 31 while O has atomic weight 16.
+P2O5_dap <- 30 * 0.46
+P_dap <- P2O5_dap*((2*31)/(2*31+5*16))
 
-d4$N_fertilizer <- ifelse(grepl("urea", d4$fertilizer_type), 60, 0)
-##d4$N_fertilizer[d4$fertilizer_type=="DAP"] <- ???
+# calculating amount P in TSP; TSP contains 46% P2O5 where P has atomic weight 31, O has atomic weight 16
+P2O5_tsp <- 30 * 0.46
+P_tsp <- P2O5_tsp*((2*31)/(2*31+5*16))
 
-d4$P_fertilizer <- ifelse(grepl("TSP", d4$fertilizer_type), 30, 0)
-d4$P_fertilizer[d4$fertilizer_type=="DAP"] <- 30
+# Calculating amount of N in urea (CH₄N₂O)
+# C has atomic weight 12, H has atomic weight 1, N has atomic weight 14 and O has atomic weight 16 ;
+total_urea_weight <- 12+(1*4)+(14*2)+16
+perc_N <- (14*2)/total_urea_weight
+# the percentage of nitrogen present in urea is 46.6
+N_urea <- 60*perc_N
 
-d4$K_fertilizer <- ifelse(grepl("KCl", d4$fertilizer_type), 30, 0)
+# calculating amount K in KCl; Potassium atomic weight is 39 
+# while chloride's is 35
+total_kcl_weight <- 35+39
+perc_K <- 39/total_kcl_weight
+K_kcl <- 30 * perc_K
 
+d4$N_fertilizer <- ifelse(d4$fertilizer_type == "TSP; KCl; urea", N_urea,
+                          ifelse(d4$fertilizer_type == "DAP", N_dap, 0))
+d4$P_fertilizer <- ifelse(d4$fertilizer_type == "DAP", P_dap,
+                          ifelse(d4$fertilizer_type %in% c("TSP; KCl","TSP","TSP; KCl; urea"), P_tsp, 0))
+d4$K_fertilizer <- ifelse(d4$fertilizer_type %in% c("TSP; KCl","TSP; KCl; urea","KCl"),K_kcl, 0)
 
-d4 <- d4[, c("dataset_id","country","trial_id","location","rep", "treatment", "variety", "start_date",
-             "end_date", "yield", "residue_yield", "biomass_total", "biomass_roots", "fertilizer_type", "N_fertilizer","P_fertilizer","K_fertilizer","crop",
-             "soil_pH", "soil_K", "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm",
-             "latitude", "longitude", "elevation")]
+d4 <- d4[, c("dataset_id","trial_id","country","location","rep", "treatment","crop", "variety",
+             "start_date","end_date","inoculated","plant_density","grain_weight","biomass_roots","biomass_total",
+            "residue_yield","yield","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","soil_pH", "soil_K", 
+             "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm","latitude", "longitude", "elevation")]
 
-	v <- carobiner::fix_name(d4$variety)
-	i <- grepl("Kenya", v, ignore.case=TRUE)
-	v[i] <- carobiner::fix_name(v[i], "title")
-	v <- carobiner::replace_values(v, 
-		c("KAT B 9", "KAT X 56", "SB19",  "SB25",  "SB3", "SB97",  "Kenay Mavuno"),
-		c("KAT B9", "KAT X56",  "SB 19", "SB 25", "SB 3", "SB 97", "Kenya Mavuno"))
-	v <- carobiner::replace_values(v, 
-		c("GASIRIDA", "UMUBANO", "NEW ROSCOCO", "TGX1740-2F",  "RWV1129"),
-		c("Gasirida", "Umubano", "New Roscoco", "TGX 1740-2F", "RWV 1129"))
-
-	d4$variety <- v 
-	 
-	carobiner::write_files(dset, d4, path, dataset_id, group)
+carobiner::write_files(dset, d4, path, dataset_id, group)
 }
