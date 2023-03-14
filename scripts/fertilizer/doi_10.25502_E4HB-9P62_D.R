@@ -143,7 +143,7 @@ unique(d[,c("fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer")] 
   d2$soil_N <- d2$tot_nitrogen
   d2$soil_K <- d2$k
   x2 <- d2[,c("trial_id","soil_pH","soil_sand","soil_clay","soil_N","soil_K")]
-  
+   
   
   # combining into 1 data set
   y <- merge(x,x1,by = "trial_id",all = TRUE)
@@ -151,9 +151,47 @@ unique(d[,c("fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer")] 
   
   w$dataset_id <- dataset_id
   w$on_farm <- "yes"
-  w$latitude <- -1.94028
-  w$longitude <- 29.87389
-  w$crop <- ifelse(w$crop %in% c("Bush Beans","Climbing Beans","Bush bean","Bush BEAN","Bush BEANS ","Bush BEANS",
+  #w$latitude <- -1.94028
+  #w$longitude <- 29.87389
+  ## Long  and Lat base on Location using GPS Coordinate
+  w$longitude[w$location=="Nyamiyaga"] <-30.1349783
+  w$latitude[w$location=="Nyamiyaga"] <- -1.6873919
+  w$longitude[w$location=="Musenyi"] <-30.0208922
+  w$latitude[w$location=="Musenyi"] <- -2.1788972
+  w$longitude[w$location=="Mareba"] <-29.7324604
+  w$latitude[w$location=="Mareba"] <- -1.6709261
+  w$longitude[w$location=="Kinoni"] <-29.7396606
+  w$latitude[w$location=="Kinoni"] <- -1.4680746
+  w$longitude[w$location=="Nemba"] <- 29.7869531
+  w$latitude[w$location=="Nemba"] <- -1.6422655
+  w$longitude[w$location=="Kawangire"] <- 30.4493534
+  w$latitude[w$location=="Kawangire"] <- -1.8199256
+  w$longitude[w$location=="Nyamirama"] <- 30.33748
+  w$latitude[w$location=="Nyamirama"] <- -1.6353
+  w$longitude[w$location=="Nyarubaka"] <- 29.8437483
+  w$latitude[w$location=="Nyarubaka"] <- -2.0856999
+  w$longitude[w$location=="Nyamata"] <- 30.1208728
+  w$latitude[w$location=="Nyamata"] <- -2.1508074
+  w$longitude[w$location=="Rwaza"] <- 29.6752674
+  w$latitude[w$location=="Rwaza"] <- -1.5507172
+  w$longitude[w$location=="Kivuruga"] <- 29.7555888
+  w$latitude[w$location=="Kivuruga"] <- -1.5959515
+  w$longitude[w$location=="Musambira"] <- 29.8455035
+  w$latitude[w$location=="Musambira"] <- -2.0458359
+  w$longitude[w$location=="Rukara"] <- 30.504675
+  w$latitude[w$location=="Rukara"] <- -1.7956844
+  w$longitude[w$location=="Rwinkwavu"] <- 30.6150693
+  w$latitude[w$location=="Rwinkwavu"] <- -1.9674691
+  w$longitude[w$location=="Cyabingo"] <- 29.6987288
+  w$latitude[w$location=="Cyabingo"] <- -1.5866286
+  w$longitude[w$location=="NYARUBAKA"] <- 29.8437493
+  w$latitude[w$location=="NYARUBAKA"] <- -2.0856999
+  w$longitude[w$location=="Mbonwa"] <- 30.0574684
+  w$latitude[w$location=="Mbonwa"] <- -2.2146658
+  w$longitude[w$location=="Nemba- Rubona"] <- 29.77145 
+  w$latitude[w$location=="Nemba- Rubona"] <- -2.4828572
+  
+   w$crop <- ifelse(w$crop %in% c("Bush Beans","Climbing Beans","Bush bean","Bush BEAN","Bush BEANS ","Bush BEANS",
                                   "Climbing BEANS ","Climbing bean"),"common bean",
                     ifelse(w$crop %in% c("Soybeans","SOY BEANS INPUT","SOYBEAN","Climbing bean","SOYBEAN "),"soybean","common bean")) # filled all NA values with common bean crop
   
@@ -167,10 +205,16 @@ unique(d[,c("fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer")] 
 	v <- gsub("^RWR", "RWR ", v)
 	v <- gsub("  ", " ", v)
 	w$variety <- v
-
+	# data type fixed
+	w$end_date<-as.character(w$end_date)
+	w$start_date<-as.character(w$start_date)
+	w$residue_yield<-as.numeric(w$residue_yield)
+	w$on_farm<-as.logical(w$on_farm)
+	
 	sort(unique(v))
 	message("   'variety' contains innoculant names and fertilizers.\n   Perhaps an error in the original data. This must be fixed?\n")	
  
+	
 	# all scripts must end like this
 	carobiner::write_files(dset, w, path, dataset_id, group)
 }
