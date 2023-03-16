@@ -86,7 +86,7 @@ carob_script <- function(path) {
   
   ##### Yield #####
   
-  d$yield <- d$CPY
+  d$yield <- d$CPY * 1000 # Megagram to kilogram
   
   d$dataset_id <- dataset_id
   d <- d[,c(27:length(d))]
