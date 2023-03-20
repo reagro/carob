@@ -112,8 +112,8 @@ carob_script <- function(path) {
 	soil2 <- aggregate(soil1[, c(3,5,6,9,10,11)], list(Site = soil1$Site, Block = soil1$Block, Plot = soil1$Plot), mean, na.rm = TRUE)
 	soil2 <- soil2[order(soil2[,"Site"], soil2[,"Block"], soil2[,"Plot"]), ]
 	d2 <- merge(d1, soil2, by = intersect(names(d1), names(soil2)), all.x = TRUE)
-	d2$yield <- d2$`Grain yield (kg/plot -5.625m2)` * (100/5.625)
-	d2$residue_yield <- d2$`Stover yield (kg/plot - 5.625m2)` * (100/5.625)
+	d2$yield <- d2$`Grain yield (kg/plot -5.625m2)` * (10000/5.625)
+	d2$residue_yield <- d2$`Stover yield (kg/plot - 5.625m2)` * (10000/5.625)
 	d2$irrigated <- TRUE
 	d2$row_spacing <- 75
 	d2$plant_spacing <- 25

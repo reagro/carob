@@ -80,13 +80,13 @@ carob_script <- function(path) {
   ## note that we use P and K, not P2O5 and K2O
   ## P <- P2O5 / 2.29
   ## K <- K2O / 1.2051
-  d$P_fertilizer <- d$FP*100 # Converting from kg/m2 -> kg/ha
-  d$K_fertilizer <- d$FK*100 # Converting from kg/m2 -> kg/ha
-  d$N_fertilizer <- d$FN*100 # Converting from kg/m2 -> kg/ha
+  d$P_fertilizer <- d$FP*10000 # Converting from kg/m2 -> kg/ha
+  d$K_fertilizer <- d$FK*10000 # Converting from kg/m2 -> kg/ha
+  d$N_fertilizer <- d$FN*10000 # Converting from kg/m2 -> kg/ha
   
   ##### Yield #####
   
-  d$yield <- d$CPY
+  d$yield <- d$CPY * 1000 # Megagram to kilogram
   
   d$dataset_id <- dataset_id
   d <- d[,c(27:length(d))]
