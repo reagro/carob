@@ -56,6 +56,7 @@ carob_script <- function(path) {
 	d$country <- "Nigeria"
 	d$adm1 <- "Kano"
 	d$adm2 <- "Wudil"
+	d$adm3 <- "Wudil" #as per the reference
 	d$trial_id <- paste0(dataset_id, '-', d$Location)
 	d$latitude <- 11.793702
 	d$longitude <- 8.838846
@@ -75,10 +76,13 @@ carob_script <- function(path) {
 	d$K_fertilizer <- 0
 	d$flowering <- d$flw50
 	d$plant_spacing <- d$Spacing
+	d$row_spacing <- 75 # from the reference
+	d$plant_density <- d$plant_density <- ifelse(d$plant_spacing == 30, 44444,
+	                                             ifelse(d$plant_spacing == 20, 66667, 133333))# from the reference
 	
 	
 	# process file(s)
-	d <- d[,c("country", "adm1", "adm2", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep", "crop", "variety", "yield", "residue_yield", "grain_weight", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "flowering", "plant_spacing")]
+	d <- d[,c("country", "adm1", "adm2", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep", "crop", "variety", "yield", "residue_yield", "grain_weight", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "flowering", "plant_spacing","row_spacing","plant_density")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this

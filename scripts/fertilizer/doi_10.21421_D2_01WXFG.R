@@ -1,6 +1,6 @@
 # R script for "carob"
 
-#RH: todo: extract row_spacing and plant_spacing from "Spacing"
+
 
 
 carob_script <- function(path) {
@@ -19,10 +19,10 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication=NA,
+    publication= "http://dx.doi.org/10.12692/ijb/9.1.291-302",
     carob_contributor="Siyabusa Mkuhlani",
     experiment_type="fertilizer",
-    has_weather=FALSE,
+    has_weather=TRUE,
     has_management=TRUE
   )
   
@@ -36,28 +36,41 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   f <- ff[basename(ff) == "Data file of Groundnut to plant density and phosphorous application in Minjibir 2012-13.xlsx"]
   d <- carobiner::read.excel(f)
   
-#  names(d)
-  e <- d[,c(1,2,4,5,6,7,14,15)]
-#  names(e)
-  colnames(e)<-c('start_date','location','rep','variety_type','treatment','spacing','yield','residue_yield')
-  
-  e$start_date <- as.character(e$start_date)
-  e$country <- "Nigeria"
-  e$crop <-"groundnut"
-  e$dataset_id <- dataset_id
-  e$trial_id <- paste0("gnut_dens_phosph_", e$location)
-  e$adm1 <- 'Kano'
-  e$on_farm <- FALSE
-  e$is_survey <- FALSE	
-  e$P_fertilizer[e$treatment=='F1'] <- 0
-  e$P_fertilizer[e$treatment=='F2'] <- 20
-  
-  #names(e) 
-  e$spacing <- NULL
-	e$rep <- as.integer(e$rep)
+ d$country <- "Nigeria"
+ d$adm1 <- "Kano"
+ d$adm2 <- d$Location
+ d$adm3 <- "Wasai" #from the reference
+ d$latitude <- 8.67
+ d$longitude <- 12.15
+ d$start_date <- as.character(2012)
+ d$end_date <- as.character(2013)
+ d$rep <- as.integer(d$`Replication number`)
+ d$variety <- e$Variety
+ d$P_fertilizer <- ifelse(d$Fertilizer == "F1",0,20)
+ d$N_fertilizer <- 0
+ d$K_fertilizer <- 0 
+ d$yield <- e$PodKgHa
+ d$residue_yield <- d$FdWtKgHa
+ d$grain_weight <- d$seedgm
+ d$crop <-"groundnut"
+ d$dataset_id <- dataset_id
+ d$trial_id <- paste0(dataset_id, d$adm2, sep = "_")
+ d$on_farm <- TRUE
+ d$is_survey <- FALSE	
+ d$row_spacing <- 75
+ d$flowering <- d$Flw50
+ d$plant_spacing <- d$Spacing
+ d$rep <- as.integer(d$rep)
+ d$plant_density <- ifelse(d$plant_spacing == 30, 44444,
+	                      ifelse(d$plant_spacing == 20, 66667, 133333)) #as per the reference
+ d$fertilizer_type <- "SSP" #from the reference
 
- #Still need to decode the treatment. Which is a level of fertilizer
-	carobiner::write_files(dset, e, path, dataset_id, group)
+
+ d <- d[,c("trial_id","country","adm1","adm2","adm3","latitude","longitude","start_date","end_date","crop","variety","row_spacing","plant_spacing","flowering","plant_density","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight","on_farm","is_survey")]
+ d$dataset_id <- dataset_id
+ 
+ # all scripts must end like this
+ carobiner::write_files(dset, d, path, dataset_id, group)
 
 }
 
