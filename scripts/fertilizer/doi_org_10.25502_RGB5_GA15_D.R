@@ -52,72 +52,72 @@ carob_script <- function(path) {
   
 	d1 <- d1[, c("Section_B.repeat.trt_name", "X_parent_index", "yld.plot.kg.ha")] 
 	colnames(d1) <- c("treatment", "rep", "yield")
+	d1$location<-"katsina-kaduna" # Areas serviced by Team3
 	d2 <- d2[, c("trt_name", "parent_index", "plot.yld..kg.ha.")] 
 	colnames(d2) <- c("treatment", "rep", "yield")
+	d2$location<-"kaduna-kano" # Areas serviced by Team2
 	d3 <- d3[, c("trt_name", "parent_index", "yld.plot")] 
 	colnames(d3) <- c("treatment", "rep", "yield")
+	d3$location<-"Bauchi" # Areas serviced by Team3
 	d <- rbind(d1, d2, d3)
+	d$plant_spacing<- 25 # get from VT protocol OCP Project Document 
+	d$row_spacing<- 75   # get from VT protocol OCP Project Document
+	 
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
+	d$irrigated <- FALSE
 	
-				
-## RH: that is *not* the right number for yield
-#  d1$yield <- d1$yld.plot.full.pd
-# RH: I think it should be
-#  d1$yield <- d1$yld.plot.kg.ha 
- 
-  #d1$plant_density<-d1$
-
-
-
 ## RH: I see:  
 
 #table(d$treatment)
 #Control     NPK   OCPF1   OCPF2 
 #    250     250     250     250 
 
-## the suggests that the below is not correct. Or at least it should be commented on
-## What are the contents of OCPF1 and OCPF2?
-## is it true that both contain 100 kg/ha of N and 60 kg/ha of K, but zero P??
-## None of that makes sense given that the NPK appears to be 15-15-15
-## on the face of it, that makes no sense
-## same applies to d2 and d3
-
-  d$N_fertilizer <- ifelse(d$treatment == "Control", 0, 100)
-  d$K_fertilizer <- ifelse(d$treatment == "Control", 0, 60)
-  d$P_fertilizer <- ifelse(d$treatment == "OCPF1", 0,
-                        ifelse(d$treatment == "OCPF2", 20, 0))
+# NPK Apply  15-15-15 means 15% N, 15% P2O5, 15% K2O
+#OCPF1  (N) : 11% (P2O5): 21% (k2O): 22%  S: 5%  Zn: 1% 
+#OCPF2 (N) : 14% (P205): 31% (k2O): 0%   S: 9%  Zn: 0.9%
+	
+	  d$N_fertilizer <- ifelse(d$treatment == "Control", 0, 
+                           ifelse(d$treatment == "OCPF1", 11,
+                                  ifelse(d$treatment=="OCPF2",14,15)))
   
-# RH where does this come from? Would be good to comment on.
-  d$N_splits <- ifelse(d$N_fertilizer > 0, 3, 0)
+  d$K_fertilizer <- ifelse(d$treatment == "Control", 0, 
+                           ifelse(d$treatment == "OCPF1", 22/1.2051,
+                                  ifelse(d$treatment=="OCPF2",0,15/1.2051)))
   
+  d$P_fertilizer <- ifelse(d$treatment == "Control", 0, 
+                           ifelse(d$treatment == "OCPF1", 21/2.29,
+                                  ifelse(d$treatment=="OCPF2",31/2.29,15/2.29)))
   
-## RH: wow, why would you do that???
-## merge by what? (always specify the variables used to join the data ? 
-## These are three different datasets that need to be rbind-ed, I think.
-#merge all the data
-#  list <- list(d1, d2, d3)
-#  d <- Reduce(function(x, y) merge(x, y, all=TRUE), list)
- 
+  d$Zn_fertilizer <- ifelse(d$treatment == "Control", 0, 
+                           ifelse(d$treatment == "OCPF1", 1,
+                                  ifelse(d$treatment=="OCPF2",0.9,0)))
+  
+  d$S_fertilizer <- ifelse(d$treatment == "Control", 0, 
+                            ifelse(d$treatment == "OCPF1", 5,
+                                   ifelse(d$treatment=="OCPF2",9,0)))
+  # add Columns 
   d$dataset_id <- dataset_id
   d$country <- "Nigeria"
   d$crop <- "maize"
-
-#RH how do you know this? are these all in one location??
-  d$latitude <- 12.000000
-  d$longitude <- 8.516667
-
-  d$start_date <- "2018"
-  d$end_date <- "2019"
-  d$location <- "Bayero"
-  d$adm1 <- "Kano"
- 
+  d$variety<- "Sammaz 15"    # get from VT protocol OCP Project Document
+#Longitude and latitude fixed base on location
+  d$latitude[d$location=="Bauchi"] <- 10.6228284
+  d$longitude[d$location=="Bauchi"] <- 10.0287754
+  d$latitude[d$location=="katsina-kaduna"] <- 12.5630825 # since the experience in both areas was under the same condition, the coordinate is for one area 
+  d$longitude[d$location=="katsina-kaduna"] <- 7.6207063
+  d$latitude[d$location=="kaduna-kano"] <- 10.5182899
+  d$longitude[d$location=="kaduna-kano"] <- 7.4359863
+# planting date is June 2017  get from VT protocol
+  d$start_date <- "2017-06-01"
+  d$end_date <- "2017-11-01"
+  d$season<- "2017"
+  
   d$trial_id <- paste0(dataset_id, '-', d$Location)
-
-  # data type
-  # fill whitespace in observation 
-  ## do not blindly do things like this
-  # d <- replace(d, d=="",NA)
-
+#data type
+  d$yield<- as.numeric(d$yield)
   # all scripts must end like this
  carobiner::write_files(dset, d, path, dataset_id, group)
+ 
 }
 
