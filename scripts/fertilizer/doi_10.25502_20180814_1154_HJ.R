@@ -68,7 +68,7 @@ carob_script <- function(path) {
   d1$variety_type<-d1$TCVariety
   
   d1$previous_crop<-d1$PCrop1
-  d1$start_date<-d1$PlntDa_mac
+  d1$start_date<-d1$PlntDa
   d1$end_date<-d1$HarvDa
   #d1$fertilizer_type<-d1$FType1
   # add column
