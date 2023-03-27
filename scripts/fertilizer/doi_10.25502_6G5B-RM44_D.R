@@ -148,34 +148,14 @@ d4 <- d4[complete.cases(d4$yield), ]
 # Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
 # and Urea split (50-50) applied at a rate of 60 kg N/ha in Kenya and Rwanda trials
 
-# calculating amount of N and P in DAP; DAP has 18:46:0 composition (NH4)2HPO4
-N_dap <- 30 * 0.18
-# to acquire the amount of P in P2O5, P has atomic weight 31 while O has atomic weight 16.
-P2O5_dap <- 30 * 0.46
-P_dap <- P2O5_dap*((2*31)/(2*31+5*16))
+d4$N_fertilizer <- ifelse(grepl("urea", d4$fertilizer_type), 60, 0)
+# Since DAP was applied at a rate of 30 kg P per hectare, we only know the amount of phosphorus applied, 
+# not the amount of nitrogen. This is because the rate of application is given in terms of P (phosphorus) and not N (nitrogen).
 
-# calculating amount P in TSP; TSP contains 46% P2O5 where P has atomic weight 31, O has atomic weight 16
-P2O5_tsp <- 30 * 0.46
-P_tsp <- P2O5_tsp*((2*31)/(2*31+5*16))
+d4$P_fertilizer <- ifelse(grepl("TSP", d4$fertilizer_type), 30, 0)
+d4$P_fertilizer[d4$fertilizer_type=="DAP"] <- 30
 
-# Calculating amount of N in urea (CH₄N₂O)
-# C has atomic weight 12, H has atomic weight 1, N has atomic weight 14 and O has atomic weight 16 ;
-total_urea_weight <- 12+(1*4)+(14*2)+16
-perc_N <- (14*2)/total_urea_weight
-# the percentage of nitrogen present in urea is 46.6
-N_urea <- 60*perc_N
-
-# calculating amount K in KCl; Potassium atomic weight is 39 
-# while chloride's is 35
-total_kcl_weight <- 35+39
-perc_K <- 39/total_kcl_weight
-K_kcl <- 30 * perc_K
-
-d4$N_fertilizer <- ifelse(d4$fertilizer_type == "TSP; KCl; urea", N_urea,
-                          ifelse(d4$fertilizer_type == "DAP", N_dap, 0))
-d4$P_fertilizer <- ifelse(d4$fertilizer_type == "DAP", P_dap,
-                          ifelse(d4$fertilizer_type %in% c("TSP; KCl","TSP","TSP; KCl; urea"), P_tsp, 0))
-d4$K_fertilizer <- ifelse(d4$fertilizer_type %in% c("TSP; KCl","TSP; KCl; urea","KCl"),K_kcl, 0)
+d4$K_fertilizer <- ifelse(grepl("KCl", d4$fertilizer_type), 30, 0)
 
 d4 <- d4[, c("dataset_id","trial_id","country","location","rep", "treatment","crop", "variety",
              "start_date","end_date","inoculated","plant_density","grain_weight","biomass_roots","biomass_total",

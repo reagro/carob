@@ -268,10 +268,14 @@ carob_script <- function(path) {
   z$latitude <- as.numeric(z$latitude)
   z$longitude <- as.numeric(z$longitude)
   z$rep <- as.integer(z$rep)
+  z$end_date <- ifelse(grepl("-", z$end_date),
+                       as.character(as.Date(z$end_date, format = c("%Y-%m-%d"))),
+                       NA)
+  z$soil_K <- z$soil_K/1000 #to g/kg
+  z$soil_P_total <- z$soil_P_total/1000 #to g/kg
+  
   
   # all scripts must end like this
   carobiner::write_files(dset, z, path, dataset_id, group)
 }
-
-
 

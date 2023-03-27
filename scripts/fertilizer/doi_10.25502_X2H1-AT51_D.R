@@ -1,4 +1,3 @@
-
 carob_script <- function(path){
   
   "
@@ -40,46 +39,41 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   dset$license <- carobiner::get_license(js)
 
   # The activities.csv, nutr_deficiency_pest_disease.csv,pesticide_biocide_use.csv datasets don't 
-  # contain additional info as it's important information is already represented in d1 below.
+  # contain additional info as their important information is already represented in datasets below.
+  
   # processing crop_observations.csv
   f <- ff[basename(ff) == "crop_observations.csv"]
   d <- read.csv(f)
   d$rep <- d$replication_no
   d$variety <- tolower(carobiner::fix_name(d$variety))
-  d$variety <- ifelse(d$variety == "nassir","nasir",
-                       ifelse(d$variety %in% c("awasa dume","awash dume"),"hawassa dume",
-                              ifelse(d$variety == "argen","argene",
-                                     ifelse(d$variety == "local","loko",
-                                            ifelse(d$variety %in% c("dinknesh","dinkenesh"),"dinkinesh",
-                                                   ifelse(d$variety == "dimitu","dimtu",
-                                                          ifelse(d$variety == "awasa-04","hawasa04",
-                                                                 ifelse(d$variety %in% c("didesa (v1)","didessa"),"didesa",
-                                                                        ifelse(d$variety == "ethio-ugozilavia(v2)","ethio-ugozilavia",
-                                                                               ifelse(d$variety %in% c("awash-1","awash1"),"awash 1",
-                                                                                      ifelse(d$variety == "habiru","habru",
-                                                                                             ifelse(d$variety == "tumssa","tumsa",d$variety))))))))))))
-  # sub_treatment and sub_sub_treatment have null values hence will be ignored
+  d$variety <- carobiner::replace_values(
+    d$variety,c("nassir","awasa dume","awash dume","argen","dimitu","awasa-04"),
+    c("nasir","hawassa dume","hawassa dume","argene","dimtu","hawasa04"))
+  d$variety <- carobiner::replace_values(
+    d$variety,c("dinknesh","dinkenesh","didesa (v1)","didessa","ethio-ugozilavia(v2)","tumssa","habiru","awash-1","awash1"),
+    c("dinkinesh","dinkinesh","didesa","didesa","ethio-ugozilavia","tumsa","habru","awash 1","awash 1"))
+  d$variety <- carobiner::fix_name(d$variety,"title")
   
   d$treatment <- tolower(carobiner::fix_name(d$main_treatment))
+  d$treatment <- carobiner::fix_name(d$treatment,"title")
   d$treatment[d$treatment == "#name?"] <- NA
+  d$treatment <- carobiner::replace_values(
+    d$treatment,c("Argen","Awash1","Dinkenesh","Dimitu"),
+    c("Argene","Awash 1","Dinkinesh","Dimtu"))
   
-  #p or +p shows presence of phosphorus, while +r or i shows presence of inoculants
-  
+  #p or +p shows presence of phosphorus, while +r or or i shows presence of inoculants
   d$treatment <- ifelse(d$treatment %in% c("+p+ +r","25kgdap&inoculant","+i +p","+i + +p",
-                                           "+p and +i","with p, i","+p,+i","i, p"),"+p,+i",
-                        ifelse(d$treatment %in% c("-p+ -r","-i -p","-i + -p","-p and -i",
-                                                  "w/out i, p","withoutinputs"),"-p,-i",
-                               ifelse(d$treatment %in% c("-p+ +r","+i -p","+i + -p","-p and +i"),
-                                      "-p,+i",
-                                      ifelse(d$treatment %in% c("+p+ -r","-i +p","-i + +p","+p and -i","-i,+p"),
-                                             "+p,-i",
-                                             ifelse(d$treatment %in% c("25kgdap","p"),"+p",
-                                                    ifelse(d$treatment == "variety + +i & +p",(tolower(paste(d$variety,"+i,+p",sep = ","))),
-                                                           ifelse(d$treatment %in% c("inoculant","i"),"+i",
-                                                                  ifelse(d$treatment == "variety",tolower(d$variety),
-                                                                         ifelse(d$treatment == "dinkenesh","dinkinesh",
-                                                                                ifelse(d$treatment == "awash1","awash 1",d$treatment))))))))))
-  d$treatment[d$treatment == "local"] <- "loko"
+                                           "+p and +i","With P, I","+p,+i","I, P"),"+P,+I",
+                        ifelse(d$treatment %in% c("-P+ -R","-I -P","-I + -P","-P and -I",
+                                                  "W/out I, P","Withoutinputs"),"-P,-I",
+                               ifelse(d$treatment %in% c("-P+ +r","+i -P","+i + -P","-P and +i"),
+                                      "-P,+I",
+                                      ifelse(d$treatment %in% c("+p+ -R","-I +p","-I + +p","+p and -I","-I,+p"),
+                                             "+P,-I",
+                                             ifelse(d$treatment %in% c("25kgdap","P"),"+P",
+                                                    ifelse(d$treatment == "Variety + +i & +p",paste(d$variety,"+I,+P",sep = ","),
+                                                           ifelse(d$treatment %in% c("Inoculant","I"),"+I",
+                                                                  ifelse(d$treatment == "Variety",d$variety,d$treatment))))))))
   d$start_date <- as.character(as.Date(d$date_planting,"%m/%d/%Y"))
   d$end_date <- as.character(as.Date(d$date_harvest, "%m/%d/%Y"))
   d$plant_density <- d$no_plants/(d$area_harvest_plot_m2/10000) # based on harvested plants from harvested area/ha
@@ -105,10 +99,9 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   # processing general.csv
   f2 <- ff[basename(ff) == "general.csv"]
   d2 <- data.frame(read.csv(f2))
-  d2$adm3 <- tolower(d2$district_county)
-  d2$adm3 <- ifelse(d2$adm3 == "bichena","enemay",
-                    ifelse(d2$adm3 == "jama","jamma",
-                           ifelse(d2$adm3 == "gobu sayo","gobu seyo",d2$adm3))) # bichena is a town in enemay district(woreda)
+  d2$adm3 <- d2$district_county
+  d2$adm3 <- carobiner::replace_values(
+    d2$adm3,c("Bichena","Gobu Sayo","Jamma"),c("Enemay","Gobu Seyo","Jama")) # bechena is a town in enemay district(woreda),
 
   # most village inputs seem to be small towns in Ethiopia according to http://www.blogabond.com/LocationBrowse.aspx?CountryCode=ET&l=Ethiopia&showAll=1
   # so they'll be allotted locations.
@@ -116,12 +109,22 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   d2$site <- tolower(d2$site)
   d2$site[d2$site == ""] <- NA
   d2$elevation <- as.numeric(d2$gps_altitude)
+  d2$latitude <- d2$gps_latitude
+  d2$longitude <- d2$gps_longitude
+  d2$latitude[d2$adm3 == "Yilmana Densa"] <- 11.6838594
+  d2$longitude[d2$adm3 == "Yilmana Densa"] <- 38.6728606
+  d2$latitude[d2$adm3 == "Enemay"] <- 10.45
+  d2$longitude[d2$adm3 == "Enemay"] <- 38.2
+  d2$latitude[d2$location == "t/sangota"] <- 9.1
+  d2$longitude[d2$location == "t/sangota"] <- 37.2
+  d2$latitude[d2$adm3 == "Shalla"] <- 7.282938
+  d2$longitude[d2$adm3 == "Shalla"] <- 38.324853
   d2$crop <- tolower(d2$type_of_experiment)
   d2$crop <- ifelse(d2$crop %in% c("commonbean_babytrial","common bean_input","commonbean_input","Commonbean_input",
                                    "common bean_var","commonbean_variety"),"common bean",
                                    ifelse(d2$crop %in% c("chickpea_input","chickpea_variety"),"chickpea",
                                           ifelse(d2$crop %in% c("fababean_input","fababean_variety"),"faba bean","soybean")))
-  d2 <- d2[,c("trial_id","country","adm3","location","site","elevation","crop")]
+  d2 <- d2[,c("trial_id","country","adm3","location","site","elevation","latitude","longitude","crop")]
   d3 <- merge(d2,d1,by = "trial_id")
   
   # processing rainfall.csv
@@ -163,8 +166,10 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   N <- 25 * 0.18
   
   f$fertilizer_type <- "none"
-  f$P_fertilizer <- ifelse(f$treatment %in% c("+p,+i","+p,-i","+p","hachalu,+i,+p","wayu,+i,+p","wolki,+i,+p","dagim,+i,+p","lalo,+i,+p","local,+i,+p"),P,0)
-  f$N_fertilizer <- ifelse(f$treatment %in% c("+p,+i","+p,-i","+p","hachalu,+i,+p","wayu,+i,+p","wolki,+i,+p","dagim,+i,+p","lalo,+i,+p","local,+i,+p"),N,0)
+  f$P_fertilizer <- ifelse(
+    f$treatment %in% c("+p,+i","+p,-i","+p","hachalu,+i,+p","wayu,+i,+p","wolki,+i,+p","dagim,+i,+p","lalo,+i,+p","local,+i,+p"),P,0)
+  f$N_fertilizer <- ifelse(
+    f$treatment %in% c("+p,+i","+p,-i","+p","hachalu,+i,+p","wayu,+i,+p","wolki,+i,+p","dagim,+i,+p","lalo,+i,+p","local,+i,+p"),N,0)
   f$K_fertilizer <- 0
   f$inoculated <- grepl("\\+i", f$treatment)
   f$fertilizer_type[f$N_fertilizer > 0] <- "DAP"
@@ -172,10 +177,15 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   f$country <- "Ethiopia"
   f$row_spacing <- 40 
   f$plant_spacing <-10
-  f$latitude <- 9.14500
-  f$longitude <- 40.48967
   f$on_farm <- as.logical("TRUE")
-
+  
+  f <- f[,c("dataset_id","trial_id","country","adm3","location","site","start_date","end_date",
+            "rep","treatment","crop","variety","previous_crop","yield","residue_yield","biomass_total",
+            "grain_weight","plant_density","soil_pH","soil_SOC","soil_N","soil_sand","soil_clay","rain",
+            "fertilizer_type","P_fertilizer","N_fertilizer","K_fertilizer","inoculated","row_spacing",
+            "plant_spacing","on_farm","elevation","latitude","longitude")]
+  
   carobiner::write_files(dset, f, path, dataset_id, group)
+  
 }
 
