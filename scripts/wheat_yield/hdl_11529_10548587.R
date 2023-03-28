@@ -119,7 +119,7 @@ carob_script <- function(path) {
 	
 	# Subset for relevant columns
 	d <- ddd[, c("country", "location", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep",
-	           "crop", "previous_crop", "yield", "grain_weight", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer",  "irrigated", "row_spacing")]
+	           "crop", "variety_code", "variety_type", "previous_crop", "yield", "grain_weight", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer",  "irrigated", "row_spacing")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
