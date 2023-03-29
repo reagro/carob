@@ -15,20 +15,25 @@ carob_script <- function(path) {
 	to response to applied nutrients but historical yield appears to be weakly predictive of N response. The determined country-level 
 	P and K response functions can be widely applied, except for Kenya, in consideration of other available information. 
 	The response to Mg–S–Zn–B in Rwanda needs further investigation.
+	
+Wortmann, C., C. Senkoro, A.R. Cyamweshi, C. Kibunja, D. Nkonde, M. Munthali, P. Nalivata, L.N. Nabahungu, K. Kaizzi. 2018. Maize-nutrient response functions for Eastern and Southern Africa. Agron. J. 110:2070-2079. doi:10.2134/agronj2018.04.0268
+
+Also see: doi.org/10.21955/gatesopenres.1115299.1
+
 "
   
   uri <- "doi.org/10.5061/dryad.fg15tg2"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ## dataset level data 
   dset <- data.frame(
     dataset_id = dataset_id,
     group=group,
-    project=" Optimization of Fertilizer Recommendations in Africa Project",
+    project = "Optimization of Fertilizer Recommendations in Africa",
     uri=uri,
-    publication= "doi.org/10.21955/gatesopenres.1115299.1",
-    data_institutions = "Dryad",
-    carob_contributor="Effie and Rachel",
+    publication= "doi_10.5061_dryad.fg15tg2",
+    data_institutions = "University of Nebraska-Lincoln",
+    carob_contributor="Effie Ochieng and Rachel Mukami",
     experiment_type="fertilizer",
     has_weather= TRUE,
     has_soil=TRUE,
@@ -42,10 +47,10 @@ carob_script <- function(path) {
   
   f <-  ff[basename(ff) == "ESA Maize Fertilizer Response Data.xlsx"][1]
   d <- readxl::read_xlsx(f, sheet = 2)
-  d1<- readxl::read_xlsx(f, sheet = 3)
-  d2<- readxl::read_xlsx(f, sheet = 4)
-  d3<- readxl::read_xlsx(f, sheet = 5)
-  d4<- readxl::read_xlsx(f, sheet = 6)
+  d1 <- readxl::read_xlsx(f, sheet = 3)
+  d2 <- readxl::read_xlsx(f, sheet = 4)
+  d3 <- readxl::read_xlsx(f, sheet = 5)
+  d4 <- readxl::read_xlsx(f, sheet = 6)
   
   
   d$country <- "Kenya"
