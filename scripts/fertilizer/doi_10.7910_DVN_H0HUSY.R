@@ -28,18 +28,24 @@ Description: This dataset contains information of experiments carried out upland
     has_management=TRUE)
   
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
   dset$license <- carobiner::get_license(js) 
   
   # processing Rice Data - Caribbean.tab
   f1 <- ff[basename(ff) == "03. Rice Data - Caribbean.xlsx"]
   d1 <- data.frame(readxl::read_xlsx(f1))
-  d1$country <- 'Uruguay'#
+  d1$country <- 'Nicaragua'#
 #  d1$region <- 'Latin America'#
   d1$adm1 <- d1$Departamento #
   d1$adm1[grep("Region Autonoma de la Costa Caribe Sur",d1$Departamento)] <- 'RAAN'
   d1$adm2 <- d1$Municipio #
   d1$adm3 <- d1$Comunidad #
+  d1$longitude <- ifelse(d1$Comunidad == "Montivideo", -84.609,
+                         ifelse(d1$Comunidad == "El Panchon", -83.863,
+                                ifelse(d1$Comunidad == "La Tortuga", -84.469, -84.312)))
+  d1$latitude <- ifelse(d1$Comunidad == "Montivideo", 11.808,
+                        ifelse(d1$Comunidad == "El Panchon", 12.323,
+                               ifelse(d1$Comunidad == "La Tortuga", 11.999, 12.170)))
   d1$crop <- 'rice' #
   d1$treatment <- d1$ttos #
   d1$N_fertilizer <- d1$N #
@@ -48,17 +54,23 @@ Description: This dataset contains information of experiments carried out upland
   d1$yield <- as.numeric(d1$rto_grano_kgha)
   d1$biomass_total <- as.numeric(d1$rto_biom_kgha)
   d1$trial_id <- "Caribbean"
-  d1 <- d1[,c("trial_id","country", "adm1","adm2","adm3","crop", "rep","treatment","N_fertilizer", "P_fertilizer", "K_fertilizer","yield","biomass_total")]
+  d1 <- d1[,c("trial_id","country", "adm1","adm2","adm3","longitude","latitude","crop", "rep","treatment","N_fertilizer", "P_fertilizer", "K_fertilizer","yield","biomass_total")]
   
   # processing 04. Rice Data - Pacific.tab
   f2 <- ff[basename(ff) == "04. Rice Data - Pacific.xlsx"]
   d2 <- data.frame(readxl::read_xlsx(f2))
-  d2$country <- 'Uruguay'
+  d2$country <- 'Nicaragua'
 #  d2$region <- 'Latin America'
   d2$adm1 <- d2$Departamento 
   d2$adm2 <- d2$Municipio 
   d2$adm3 <- d2$Comunidad 
   d2$location <- d2$Localidad
+  d2$longitude <- ifelse(d2$Comunidad == "Rio chiquito", -86.909579,
+                         ifelse(d2$Comunidad == "El Ensayo", -87.170,
+                                ifelse(d2$Comunidad == "El Tololar", -86.832, -85.764)))
+  d2$latitude <- ifelse(d2$Comunidad == "Rio chiquito", 12.318,
+                        ifelse(d2$Comunidad == "El Ensayo", 12.587,
+                               ifelse(d2$Comunidad == "El Tololar", 12.486, 13.080)))
   d2$treatment <- as.character(d2$ttos)
   d2$crop <- 'rice'
   d2$N_fertilizer <- d1$N
@@ -67,7 +79,7 @@ Description: This dataset contains information of experiments carried out upland
   d2$yield <- as.numeric(d2$rto_grano_kgha)
   d2$biomass_total <- as.numeric(d2$rto_biom_kgha)
   d2$trial_id <- "Pacific"
-  d2 <- d2[,c("trial_id","country", "adm1","adm2","adm3","crop", "rep","treatment","N_fertilizer", "P_fertilizer", "K_fertilizer","yield","biomass_total")]
+  d2 <- d2[,c("trial_id","country", "adm1","adm2","adm3","longitude","latitude","crop", "rep","treatment","N_fertilizer", "P_fertilizer", "K_fertilizer","yield","biomass_total")]
   
   # processing 02. Soils Data.xlsx
   f3 <- ff[basename(ff) == "02. Soils Data.xlsx"]

@@ -44,7 +44,15 @@ carob_script <- function(path) {
 	
 	d$country <- "Ethiopia"
 	d$site <- d$`Name of the Village`
-	d$trial_id <- "TAMASA-Bako-2015"
+	d$trial_id <- paste0("TAMASABako2015_", gsub("\\.", "-", d$`plot ID`))
+	xmin <- as.numeric(js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]$westLongitude[4][[1]])
+	xmax <- as.numeric(js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]$eastLongitude[4][[1]])
+	ymin <- as.numeric(js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]$southLongitude[4][[1]])
+	ymax <- as.numeric(js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]$northLongitude[4][[1]])
+	d$longitude <- xmin + ((xmin - xmax)/2)
+	d$latitude <- ymax + ((ymin - ymax)/2)
+	# d$longitude <- 37.115
+	# d$latitude <- 9.085
 	d$start_date <- as.character(as.Date(d$`Planting Date`))
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
@@ -79,20 +87,25 @@ carob_script <- function(path) {
 
 	d$N_fertilizer <- 0
 	i <- grep("urea", d$fertilizer_type)
-	d$N_fertilizer[i] <- d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.46
+	d$N_fertilizer[i] <- (d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.46)
 
 	i <- grep("DAP", d$fertilizer_type)
 	# summing because you can have DAP _and_ urea
-	d$N_fertilizer[i] <- d$N_fertilizer[i] + d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.18
+	d$N_fertilizer[i] <- (d$N_fertilizer[i] + d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.18)
+	d$N_fertilizer <- d$N_fertilizer/d$`Farm size (ha)`
 	
-	message("   N fert rate seemed off. EGB please check\n")
+	# message("   N fert rate seemed off. EGB please check\n")
 	##this did not seem to make sense (compare with original)
 	##RH : else??  d$`Amount of Inorganic Fertilizer (kg)` * 0.19))
+	## EGB: Fixed. There is no other fertilizer application not containing either DAP or Urea...
+	
 	
 	d$P_fertilizer <- 0
-	d$P_fertilizer[i] <- d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.2
+	d$P_fertilizer[i] <- (d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.2)
 	i <- grep("NSP", d$fertilizer_type)
-	d$P_fertilizer[i] <- d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.1659
+	d$P_fertilizer[i] <- (d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.1659)
+	d$P_fertilizer <- d$P_fertilizer/d$`Farm size (ha)`
+	d$K_fertilizer <- 0
 
 	d$OM_used <- d$`Apply Organic Fertilizer ?` == "Yes"
 	d$OM_type <- d$`Type of Organic Fertilizer applied`
@@ -105,13 +118,13 @@ carob_script <- function(path) {
 			
 	d$soil_type <- d$`Soil type`
 	d$soil_pH <- d$pH
-	d$soil_SOC <- d$`Carbon (%)`
-	d$soil_N <- d$`Nitrogen (%)`
-	d$soil_K <- d$`K (mg kg-1)`
+	d$soil_SOC <- d$`Carbon (%)`*10 # convert to g/kg
+	d$soil_N <- d$`Nitrogen (%)`*10 # convert to g/kg
+	d$soil_K <- d$`K (mg kg-1)`/1000 # convert to g/kg
 	d$soil_P_total <- d$`P (mg kg-1)`
 	
-	d <- d[,c("country", "site", "trial_id", "start_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety_code", "variety_type", "previous_crop",
-	          "yield", "fertilizer_type", "N_fertilizer", "P_fertilizer", "OM_used", "OM_type", "OM_applied", "soil_type", "soil_pH", "soil_SOC",
+	d <- d[,c("country", "site", "trial_id", "longitude", "latitude", "start_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety_code", "variety_type", "previous_crop",
+	          "yield", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "OM_type", "OM_applied", "soil_type", "soil_pH", "soil_SOC",
 	          "soil_N", "soil_K", "soil_P_total")]
 	
 	d$dataset_id <- dataset_id
