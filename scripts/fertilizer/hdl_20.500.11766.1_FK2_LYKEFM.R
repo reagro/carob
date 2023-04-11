@@ -21,7 +21,7 @@ carob_script <- function(path) {
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication=NA,
+    publication="hdl:20.500.11766/5084",
     data_citation = "Ayalew, Baye, 2020, Determination of rate and timing of N application on bread wheat, https://hdl.handle.net/20.500.11766.1/FK2/LYKEFM, MELDATA, V1",
     data_institutions = "International Center for Agricultural Research in the Dry Areas (ICARDA)",
     carob_contributor="Eduardo Garcia Bendito",
@@ -66,18 +66,16 @@ carob_script <- function(path) {
     d$N_splits <- ifelse(d$Treatment %in% c(1:3), 2, # This refers to the splits indicated in "Treatment.csv"
                          ifelse(d$Treatment %in% c(4,9,14), 1,
                                 ifelse(d$Treatment %in% c(5,10,15), 3, 0)))
-
-##RH: what is the line_spacing? 
+    d$P_fertilizer <- 46/2.29 # as per reference https://hdl.handle.net/20.500.11766/5084
+    d$K_fertilizer <- 0
 	# see "Experimental_Layout.png"
     d$plant_spacing <- 20 
 
     # Subset to columns of interest
-    d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep", "crop", "yield", "N_fertilizer", "N_splits", "plant_spacing")]
+    d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep", "crop", "yield", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "plant_spacing")]
     dd <- rbind(dd,d) 
   }
   
-   message("   line_spacing missing? EGB")
-
   # all scripts must end like this
   carobiner::write_files(dset, dd, path, dataset_id, group)
 }
