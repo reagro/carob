@@ -35,19 +35,17 @@ carob_script <- function(path) {
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
-	#
-	R.utils::gunzip(ff[basename(ff) == "28TH HRWYT.xls.gz"], remove = FALSE, overwrite = TRUE)
-	
+
 	raw.data <- ff[basename(ff) == "28TH HRWYT_RawData.xls"]
 	loc.data <- ff[basename(ff) == "28TH HRWYT_Loc_data.xls"]
 	env.data <- ff[basename(ff) == "28TH HRWYT_EnvData.xls"]
-	gen.data <- gsub(".gz", "", ff[basename(ff) == "28TH HRWYT.xls.gz"])
+	gen.data <- ff[basename(ff) == "28TH HRWYT_Genotypes_Data.xls"]
 	
 
 	d <- read.table(raw.data, comment.char="", sep="\t", header=TRUE)
 	loc <- read.table(loc.data, sep = "\t", header=TRUE)
 	env <- read.csv(env.data, sep = "\t")
-	gen <- suppressMessages(data.frame(readxl::read_xls(gen.data, sheet = "AGRSCR", skip = 11))[,1:6])
+	gen <- read.csv(gen.data, sep = "\t")
 	colnames(gen) <- c()
 	loc$latitude <- loc$Lat_degress + loc$Lat_minutes / 60 
 	loc$longitude <- loc$Long_degress + loc$Long_minutes / 60 
