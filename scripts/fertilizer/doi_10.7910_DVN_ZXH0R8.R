@@ -54,8 +54,14 @@ carob_script <- function(path) {
   
   d2$start_date <- as.character(as.Date(d$Planting.date))
   d2$end_date <- as.character(as.Date(d$Harvest.date))
-  # d2$longitude <- # Removed due to PII
-  # d2$latitude <- # Removed due to PII
+  d2$longitude <- ifelse(d$village.Kebele == "Goshe Bado", 39.446,
+                         ifelse(d$village.Kebele == "Tsibet", 39.482,
+                                ifelse(d$village.Kebele == "Lemo", 37.851,
+                                       ifelse(d$village.Kebele == "Selka", 40.289, 39.682))))
+  d2$latitude <- ifelse(d$village.Kebele == "Goshe Bado", 9.740,
+                        ifelse(d$village.Kebele == "Tsibet", 12.860,
+                               ifelse(d$village.Kebele == "Lemo", 5.436,
+                                      ifelse(d$village.Kebele == "Selka", 6.857, 9.799))))
   d2$on_farm <- TRUE
   d2$is_survey <- FALSE
   d2$treatment <- d$Treatment
@@ -119,8 +125,10 @@ carob_script <- function(path) {
   d3$trial_id <- paste0("002_2016_Wheat_ ICRISAT-AR_ETH", '.', d$village.Kebele)
   d3$start_date <- as.character(as.Date(d$Planting.date))
   d3$end_date <-  as.character(as.Date(d$Harvest.date))
-  # d3$longitude <- # was removed from data
-  # d3$latitude <- # was removed from data
+  d3$longitude <- ifelse(d3$location == "Lemo", 37.851,
+                         ifelse(d3$location == "Tsibet", 39.482, 39.460))
+  d3$latitude <- ifelse(d3$location == "Lemo", 5.436,
+                        ifelse(d3$location == "Tsibet", 12.860, 10.826))
   d3$on_farm <- TRUE
   d3$is_survey <- FALSE
   d3$treatment <- d$Treatment
@@ -177,8 +185,8 @@ carob_script <- function(path) {
   d4$trial_id <- paste0("003_2017_Sorghum+Tef_ ICRISAT-AR_ETH", '.', d$village.Kebele)
   d4$start_date <- as.character(as.Date(d$Planting.date))
   d4$end_date <- as.character(as.Date(d$Harvest.date))
-  # d4$longitude <- # Removed by PI?
-  # d4$latitude <- # Removed by PI?
+  d4$longitude <- ifelse(d4$location == "Sirinka", 39.607, 39.684)
+  d4$latitude <- ifelse(d4$location == "Sirinka", 11.748, 11.316)
   d4$on_farm <- TRUE
   d4$is_survey <- FALSE
   d4$treatment <- d$Treatment
@@ -238,8 +246,10 @@ carob_script <- function(path) {
   d5$trial_id <- paste0("004_2019_Wheat_ ICRISAT-AR_ETH", '.', d$village)
   d5$start_date <- as.character(as.Date(d$Planting.date))
   d5$end_date <- as.character(as.Date(d$Harvest.date))
-  # d5$longitude <- # Removed by PI?
-  # d5$latitude <- # Removed by PI?
+  d5$longitude <- ifelse(d5$location == "Goshebado", 39.446,
+                         ifelse(d5$location == "Lemo", 37.851, 40.215))
+  d5$latitude <- ifelse(d5$location == "Goshebado", 9.740,
+                        ifelse(d5$location == "Lemo", 5.436, 7.068))
   d5$on_farm <- TRUE
   d5$is_survey <- FALSE
   d5$treatment <- d$Treatment
@@ -288,7 +298,7 @@ carob_script <- function(path) {
   d <- rbind(d2, d3, d4, d5)
   
 ## Filter only relevant variables
-  d <- d2[,c("country", "adm1", "adm3", "location", "trial_id", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety", "previous_crop", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer","soil_type")]
+  d <- d2[,c("country", "adm1", "adm3", "location", "trial_id", "longitude", "latitude", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety", "previous_crop", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer","soil_type")]
 ## Add dataset ID
   d$dataset_id <- dataset_id
 
