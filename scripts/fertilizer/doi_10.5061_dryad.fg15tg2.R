@@ -31,7 +31,7 @@ Also see: doi.org/10.21955/gatesopenres.1115299.1
     group=group,
     project = "Optimization of Fertilizer Recommendations in Africa",
     uri=uri,
-    publication= "doi_10.5061_dryad.fg15tg2",
+    publication= "https://doi.org/10.2134/agronj2018.04.0268",
     data_institutions = "University of Nebraska-Lincoln",
     carob_contributor="Effie Ochieng and Rachel Mukami",
     experiment_type="fertilizer",
@@ -43,8 +43,8 @@ Also see: doi.org/10.21955/gatesopenres.1115299.1
   ## download and read data 
   ff  <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  dset$license <- carobiner::get_license(js)
-  
+  dset$license <- js$license
+
   f <-  ff[basename(ff) == "ESA Maize Fertilizer Response Data.xlsx"][1]
   d <- readxl::read_xlsx(f, sheet = 2)
   d1 <- readxl::read_xlsx(f, sheet = 3)
