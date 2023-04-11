@@ -22,7 +22,6 @@ carob_script <- function(path) {
     Planting at density of 133,333 hill ha-1 increased profit by 19% and 27% over 66,667 and 444444 hill ha-1 respectively in Minjibir, while it increase profit by 9% in Wudil.`
     Cultivation of Samnut-24 at high density with phosphorus application will make groundnut production a more profitable venture in Sudan Savanna zone of Wudil, Nigeria.
 
-
 "
 
 	uri <- "doi:10.21421/D2/5O93XX"
@@ -56,11 +55,13 @@ carob_script <- function(path) {
 	d$country <- "Nigeria"
 	d$adm1 <- "Kano"
 	d$adm2 <- "Wudil"
+	d$adm3 <- "Wudil" #as per the reference
 	d$trial_id <- paste0(dataset_id, '-', d$Location)
 	d$latitude <- 11.793702
 	d$longitude <- 8.838846
-	d$start_date <- as.character(2012)
-	d$end_date <- as.character(2013)
+	# sown during the growing seasons of 2012 and 2013 no actual dates mentioned
+	d$start_date <- ifelse(d$Year == "2012", "2012","2013") 
+	d$end_date <- ifelse(d$Year == "2012", "2012","2013") 
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$rep <- as.integer(d$Replication.number)
@@ -75,10 +76,26 @@ carob_script <- function(path) {
 	d$K_fertilizer <- 0
 	d$flowering <- d$flw50
 	d$plant_spacing <- d$Spacing
+	d$row_spacing <- 75 # from the reference
+	d$plant_density <- d$plant_density <- ifelse(d$plant_spacing == 30, 44444,
+	                                             ifelse(d$plant_spacing == 20, 66667, 133333))# from the reference
+	#soil properties from reference
+	d$s1 <- paste(d$Year,d$adm2, sep = "_")
+	ss <- data.frame(s1 = c( "2012_Wudil", "2013_Wudil"),
+	                  soil_SOC = c(0.162 ,0.156 ),
+	                 soil_sand = c(88.9 ,92.8),
+	                 soil_clay = c(6.5 ,2.5),
+	                 soil_silt = c(4.6 ,4.6),
+	          soil_P_available = c(2.6 ,2.9),
+	                  soil_pH  = c(5.10, 5.0),
+	                  rain     = c(945.8, 907.4))
+	
+	d <- merge(d,ss, by ="s1", all.x = TRUE)
 	
 	
 	# process file(s)
-	d <- d[,c("country", "adm1", "adm2", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep", "crop", "variety", "yield", "residue_yield", "grain_weight", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "flowering", "plant_spacing")]
+	d <- d[,c("trial_id","country","adm1","adm2","adm3","latitude","longitude","start_date","end_date","crop","variety","row_spacing","plant_spacing","flowering","plant_density","on_farm","is_survey","soil_pH","soil_SOC","soil_sand","soil_clay","soil_silt","soil_P_available","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight")]
+	
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
