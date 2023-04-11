@@ -24,7 +24,7 @@ carob_script <- function(path) {
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication=NA,
+    publication="https://doi.org/10.1016/j.fcr.2021.108310",
     data_citation = 'Verhulst, Nele; Grahmann, Kathrin; Honsdorf, Nora; Govaerts, Bram, 2021, "Durum wheat performance (10 years of data) and grain quality (three years of data) with two tillage and two sowing irrigation practices under five nitrogen fertilizer treatments in northwestern Mexico", https://hdl.handle.net/11529/10548582, CIMMYT Research Data & Software Repository Network, V1',
     data_institutions = "CIMMYT",
     carob_contributor="Eduardo Garcia Bendito",
@@ -77,7 +77,7 @@ carob_script <- function(path) {
   d$residue_yield <- as.numeric(d$STRAW)
   d$TKW[d$TKW == "."] <- NA
   d$grain_weight <- as.numeric(d$TKW)
-  d$fertilizer_type <- ifelse(d$FERT == 1 , "", "urea")
+  d$fertilizer_type <- ifelse(d$FERT == 1 , "none", "urea")
   d$N_fertilizer <- as.integer(ifelse(d$FERT == 1 , 0,
                                       ifelse(d$FERT == 2 , 120,
                                              ifelse(d$FERT == 3 | d$FERT == 4, 180, 240))))
@@ -90,14 +90,23 @@ carob_script <- function(path) {
   d$N_splits <- NA
   d$N_splits[d$FERT %in% c(2, 3, 5)] <- 2
   d$N_splits[d$FERT %in% c(4, 6)] <- 1
+  d$P_fertilizer <- 46/2.29 # convert P2O5 to P
+  d$K_fertilizer <- 0
+  
   
   ## RH: this is the seeding method
   ## d$irrigated <- ifelse(d$IRR == 1 , "Dry seeding", "Wet seeding")
   d$irrigated <- TRUE
   d$tillage <- ifelse(d$TIL == 1 , "Permanent beds", "Conventionally tilled beds")
+  d$plant_density <- d$`PLANTS/m² Emerg`*10000 # Conversion m2 to ha
   
   # process file(s)
-  d <- d[,c("country", "adm1", "adm2", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep", "crop", "biomass_total", "yield", "residue_yield", "grain_weight")]
+  d <- d[,c("country", "adm1", "adm2", "trial_id",
+            "latitude", "longitude", "start_date", "end_date",
+            "on_farm", "is_survey", "rep", "crop",
+            "biomass_total", "yield",
+            "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer",
+            "residue_yield", "grain_weight", "irrigated", "tillage", "plant_density")]
   
   d$dataset_id <- dataset_id
   
