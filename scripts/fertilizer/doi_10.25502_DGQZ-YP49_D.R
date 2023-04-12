@@ -104,9 +104,12 @@ carob_script <- function(path){
 	as <- gsub(": Alice Obiero", "", as)
 	ma <- carobiner::fix_name(d1$mandate_area_name, "title")
 	d1$site <- paste0(as, " (", ma, ")")
+	d1$longitude <- d1$gps_longitude_dec
+	d1$latitude <- d1$gps_latitude_dec
+	d1$elevation <- d1$gps_altitude_dec
   
   #subset the processed variables
-  d1 <- d1 [, c("trial_id", "country", "site")]
+  d1 <- d1 [, c("trial_id", "country", "site", "longitude", "latitude", "elevation")]
   
   d2$trial_id <- d2$experiment_id
   d2$soil_pH <- d2$ph
@@ -122,12 +125,6 @@ carob_script <- function(path){
   # combining the processed data sets to one
   s <- merge(d, d1, by = "trial_id")
   q <- merge(s, d2, by = "trial_id")
-
-  #add the gps information
- #RH there are several sites. They should not have the same coordinates!! 
-message("    EO: fix bad coordinates")
-  q$latitude <- -0.02356
-  q$longitude <- 37.90619
   
   q$dataset_id <- dataset_id
   # all scripts should end like this
