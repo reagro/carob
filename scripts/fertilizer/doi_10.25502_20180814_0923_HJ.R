@@ -91,15 +91,15 @@ carob_script <- function(path) {
   d$previous_crop <- p
   
   # fix fertilizer_type name
-  d$fertilizer_type<-ifelse(d$fertilizer_type=="NPK+Urea","NPK; urea",
-                     ifelse(d$fertilizer_type=="CAN-DAP+NPK","CAN; DAP; NPK",
-                     ifelse(d$fertilizer_type=="NPK+CAN+Urea","NPK; CAN; urea",
-                     ifelse(d$fertilizer_type=="D.Comp;NPK;Urea;CAN","D compound; NPK; urea; CAN",
+  d$fertilizer_type<-ifelse(d$fertilizer_type=="NPK+Urea","urea",
+                     ifelse(d$fertilizer_type=="CAN-DAP+NPK","CAN; DAP",
+                     ifelse(d$fertilizer_type=="NPK+CAN+Urea","CAN; urea",
+                     ifelse(d$fertilizer_type=="D.Comp;NPK;Urea;CAN","D compound; urea; CAN",
                      ifelse(d$fertilizer_type=="Urea+CAN","urea; CAN",
-                     ifelse(d$fertilizer_type=="CAN+NPK","CAN; NPK",
-                     ifelse(d$fertilizer_type=="NPK+Urea+CAN","NPK; urea; CAN",
-                     ifelse(d$fertilizer_type=="NPK++CAN","NPK; CAN",
-                     ifelse(d$fertilizer_type=="NPK;D Compound;Urea&CAN","NPK; D compound; urea; CAN","unknown")))))))))
+                     ifelse(d$fertilizer_type=="CAN+NPK","CAN",
+                     ifelse(d$fertilizer_type=="NPK+Urea+CAN","urea; CAN",
+                     ifelse(d$fertilizer_type=="NPK++CAN","CAN",
+                     ifelse(d$fertilizer_type=="NPK;D Compound;Urea&CAN","D compound; urea; CAN","unknown")))))))))
   #### about the data #####
   ## (TRUE/FALSE)
   
