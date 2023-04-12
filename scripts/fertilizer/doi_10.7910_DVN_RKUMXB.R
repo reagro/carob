@@ -58,7 +58,9 @@ carob_script <- function(path) {
 	dset$license <- "CC BY 4.0"
 
 ## Select and fix column names
-	ft <- c("DATASOURCE", "reference", "SITE", "location", "ADMIN_REGION", "adm1", "CODE", "trial_id", "CodeSE", "drop", "X", "longitude", "Y", "latitude", "CoordType", "drop", "CROPTYPE", "crop", "VARIETY", "variety", "VARIETYTYPE", "variety_type", "TRIALTYPE", "trial_type", "SOILTYPE", "soil_type", "Sand", "soil_sand", "Clay", "soil_clay", "SOC", "soil_SOC", "pH", "soil_pH", "Avail_P", "soil_P_available", "CroppingSystem", "crop_system", "Organicresource", "OM_used", "Inoculation", "inoculated", "OrgR_type", "OM_type", "OrgR_Amount", "OM_applied", "OrganicN", "OM_N", "OrganicK", "OM_K", "OrganicP", "OM_P", "Prev_crop", "previous_crop", "YEAR", "year", "Season", "season", "Response", "response", "N", "N", "N_Timing", "drop", "N_splits", "N_splits", "P", "P", "P_Appl", "drop", "P_Source", "fertilizer_type_1", "K", "K", "Other_Nutrient", "Other_Nutrient", "NutrientSource", "fertilizer_type_2", "Nutrientamount", "Nutrientamount", "AvailableSoilNutrient_OtherthanNPK", "drop", "TrtDesc", "drop", "Treatment_yld", "yield", "Control_Yld", "Control_Yld", "Absolute_Ctrl_Yld", "Absolute_Ctrl_Yld", "Error", "uncertainty", "ErrorType", "uncertainty_type", "Replications", "drop", "Treatments", "drop", "SDEV", "drop", "Application_ForOtherNutrients", "drop", "Rainfall", "drop", "WateringRegime", "irrigated", "Tillage", "tillage", "COMMENTS", "comments", "RR", "drop")
+	# ft <- c("DATASOURCE", "reference", "SITE", "location", "ADMIN_REGION", "adm1", "CODE", "trial_id", "CodeSE", "drop", "X", "longitude", "Y", "latitude", "CoordType", "drop", "CROPTYPE", "crop", "VARIETY", "variety", "VARIETYTYPE", "variety_type", "TRIALTYPE", "trial_type", "SOILTYPE", "soil_type", "Sand", "soil_sand", "Clay", "soil_clay", "SOC", "soil_SOC", "pH", "soil_pH", "Avail_P", "soil_P_available", "CroppingSystem", "crop_system", "Organicresource", "OM_used", "Inoculation", "inoculated", "OrgR_type", "OM_type", "OrgR_Amount", "OM_applied", "OrganicN", "OM_N", "OrganicK", "OM_K", "OrganicP", "OM_P", "Prev_crop", "previous_crop", "YEAR", "year", "Season", "season", "Response", "response", "N", "N", "N_Timing", "drop", "N_splits", "N_splits", "P", "P", "P_Appl", "drop", "P_Source", "fertilizer_type_1", "K", "K", "Other_Nutrient", "Other_Nutrient", "NutrientSource", "fertilizer_type_2", "Nutrientamount", "Nutrientamount", "AvailableSoilNutrient_OtherthanNPK", "drop", "TrtDesc", "drop", "Treatment_yld", "yield", "Control_Yld", "Control_Yld", "Absolute_Ctrl_Yld", "Absolute_Ctrl_Yld", "Error", "uncertainty", "ErrorType", "uncertainty_type", "Replications", "drop", "Treatments", "drop", "SDEV", "drop", "Application_ForOtherNutrients", "drop", "Rainfall", "drop", "WateringRegime", "irrigated", "Tillage", "tillage", "COMMENTS", "comments", "RR", "drop")
+	## EGB: There is an error with the XY coordinates. They are flipped...
+	ft <- c("DATASOURCE", "reference", "SITE", "location", "ADMIN_REGION", "adm1", "CODE", "trial_id", "CodeSE", "drop", "Y", "longitude", "X", "latitude", "CoordType", "drop", "CROPTYPE", "crop", "VARIETY", "variety", "VARIETYTYPE", "variety_type", "TRIALTYPE", "trial_type", "SOILTYPE", "soil_type", "Sand", "soil_sand", "Clay", "soil_clay", "SOC", "soil_SOC", "pH", "soil_pH", "Avail_P", "soil_P_available", "CroppingSystem", "crop_system", "Organicresource", "OM_used", "Inoculation", "inoculated", "OrgR_type", "OM_type", "OrgR_Amount", "OM_applied", "OrganicN", "OM_N", "OrganicK", "OM_K", "OrganicP", "OM_P", "Prev_crop", "previous_crop", "YEAR", "year", "Season", "season", "Response", "response", "N", "N", "N_Timing", "drop", "N_splits", "N_splits", "P", "P", "P_Appl", "drop", "P_Source", "fertilizer_type_1", "K", "K", "Other_Nutrient", "Other_Nutrient", "NutrientSource", "fertilizer_type_2", "Nutrientamount", "Nutrientamount", "AvailableSoilNutrient_OtherthanNPK", "drop", "TrtDesc", "drop", "Treatment_yld", "yield", "Control_Yld", "Control_Yld", "Absolute_Ctrl_Yld", "Absolute_Ctrl_Yld", "Error", "uncertainty", "ErrorType", "uncertainty_type", "Replications", "drop", "Treatments", "drop", "SDEV", "drop", "Application_ForOtherNutrients", "drop", "Rainfall", "drop", "WateringRegime", "irrigated", "Tillage", "tillage", "COMMENTS", "comments", "RR", "drop")
 
 
 	ft <- matrix(ft, ncol=2, byrow=TRUE)
@@ -187,7 +189,7 @@ carob_script <- function(path) {
 
 	d$trial_type <- NULL
 
-	p <- fix_name(d$previous_crop, "lower")
+	p <- carobiner::fix_name(d$previous_crop, "lower")
 	p <- gsub("/", "; ", p)
 	p <- gsub("tef$", "teff", p)
 	p <- gsub("tef;", "teff;", p)
@@ -252,7 +254,7 @@ carob_script <- function(path) {
 	d$inoculated <- d$inoculated == "Yes"
 
 	vv = c("adm1", "trial_id", "variety", "variety_type", "soil_type", "OM_type", "season", "tillage", "uncertainty_type", "uncertainty")
-	for (v in vv) d[[v]] <- fix_name(d[[v]])
+	for (v in vv) d[[v]] <- carobiner::fix_name(d[[v]])
 
 	d$uncertainty[d$uncertainty=="NS"] <- NA
 	d$uncertainty <- as.numeric(d$uncertainty)
