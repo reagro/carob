@@ -7,13 +7,13 @@
 
 carob_script <- function(path){
 
-uri <- "doi.org/10.25502/a7ex-ea51/d"
-dataset_id <- carobiner::simple_uri(uri)
-group <- "fertilizer"
+ uri <- "doi.org/10.25502/a7ex-ea51/d"
+ dataset_id <- carobiner::simple_uri(uri)
+ group <- "fertilizer"
 
 #dataset level data
 
-dset <- data.frame(
+ dset <- data.frame(
   dataset_id = dataset_id,
   group = group,
   project="N2Africa",
@@ -46,34 +46,49 @@ dset <- data.frame(
  
  f1 <- ff[basename(ff) == "general.csv"]
  d1 <- data.frame(read.csv2(f1, sep = ","))
- 
-# f2 <- ff[basename(ff) == "soil_properties.csv"]
-# d2 <- data.frame(read.csv2(f2, sep = ","))
 
  d1$trial_id <- d1$experiment_id
  d1$country <-"Rwanda"
- d1$adm2 <- d1$mandate_area_name
- d1$site <- d1$action_site
- d1 <- d1 [, c("trial_id", "country", "site","adm2")]
+ d1$first_name <- sapply(strsplit(as.character(d1$action_site), "/"), `[`, 1)
+ d1$last_name <- sapply(strsplit(as.character(d1$action_site), "/"), `[`, 2)
 
-## Fix 
-#  d1$latitude <- 
-#  d1$longitude <- 
+
+ d1$adm2 <- ifelse(d1$first_name %in% c("Bugesera","Kamonyi","Kayonza","Burera","Musenyi"), d1$first_name,
+                   ifelse(d1$last_name %in% "Musanze",d1$last_name,NA))
+ 
+ d1$adm3 <- ifelse(d1$first_name %in% c("Rwaza", "Cyabingo","Cyuve","Nyamata", "Mareba", "Musenyi","Nyamirama","Muko","cyuve", "Musambira"), d1$first_name,
+                   ifelse(d1$last_name %in% c(" Musenyi"," Mareba", " Musambira"," Nyarubaka","Nyarubaka"," Nyamiyaga"," Nyamirama", " Rukara", " Rukara ", " Kinoni "),d1$last_name,NA))
+ 
+ d1$adm3 <- carobiner::fix_name(d1$adm3, "title")
+
+ d1$latitude <- ifelse(d1$adm3 == "Musenyi",-2.18864,
+                       ifelse(d1$adm3 == "Mareba",-2.25791,
+                              ifelse(d1$adm3 == "Musambira",-2.02396,
+                                     ifelse(d1$adm3 == "Nyarubaka",-2.08663,
+                                           ifelse(d1$adm3 == "Nyamiyaga",-2.43333,
+                                                  ifelse(d1$adm3 == "Nyamirama",-1.95002,
+                                                         ifelse(d1$adm3 == "Rukara",-1.8005,
+                                                                ifelse(d1$adm3 == "Rwaza",-1.55886,
+                                                                       ifelse(d1$adm3 ==  "Kinoni",-1.46114,
+                                                                              ifelse(d1$adm3 == "Cyabingo",-1.58553,
+                                                                                     ifelse(d1$adm3 == "Nyamata",-2.14395,
+                                                                                            ifelse(d1$adm3m == "Muko",-2.05674,-1.47401))))))))))))
+ 
+ d1$longitude <- ifelse(d1$adm3 =="Musenyi", 30.0297,
+                        ifelse(d1$adm3 =="Mareba",30.06256,
+                               ifelse(d1$adm3 == "Musambira",29.8395,
+                                      ifelse(d1$adm3 == "Nyarubaka",29.83537,
+                                             ifelse(d1$adm3 == "Nyamiyaga", 29.76667,
+                                                    ifelse(d1$adm3 == "Nyamirama",30.52925,
+                                                           ifelse(d1$adm3 == "Rukara", 30.4725,
+                                                                 ifelse(d1$adm3 ==  "Rwaza",29.66713,
+                                                                        ifelse(d1$adm3 ==  "Kinoni",29.73912,
+                                                                               ifelse(d1$adm3 == "Cyabingo",29.69453,
+                                                                                      ifelse(d$adm3 ==  "Nyamata",30.09802,
+                                                                                             ifelse(d1$adm3 == "Muko",30.60027,29.65572))))))))))))
  
  
- ##d2$trial_id <- d2$experiment_id
- # EGB: pH is NULL
- # d2$soil_pH <- as.numeric(d2$ph)
- ## RH these are also all zero!
- ##d2$soil_K <- as.numeric(d2$k)
- ##d2$soil_sand <- as.numeric(d2$sand)
- ##d2$soil_clay <- as.numeric(d2$clay)
- ##d2$soil_SOC <- as.numeric(d2$tot_carbon)
- ##d2$soil_N <- as.numeric(d2$tot_nitrogen)
- 
- #subset the processed variables
- ##d2 <- d2[, c("trial_id", "soil_K", "soil_sand","soil_clay","soil_SOC","soil_N")]
- 
+ d1 <- d1 [, c("trial_id", "country","adm2","adm3", "latitude","longitude")]
  
 #create a "variable 'crop' and fill it using the varieties, data set had no crop variable
  e <- data.frame(variety = trimws(d$variety))
@@ -81,9 +96,10 @@ dset <- data.frame(
 
 ## RH: there are many records for which the crop is not know (and neither is the variety)
 ## That needs to be resolved
- e$crop <- NA
+ e$crop <- "no crop"
  e$crop[d$variety %in% c("Peka 6", "Peka6", "Sc. Saga", "Sc. Square", "Sc. Squille", "SB8", "SB24")] <- "soybean"
  e$crop[d$variety %in% c("RWA 1668", "Gasirida", "RWR 1668")] <- "common bean"
+ # e$crop[d$variety %in% NA] <- "no crop"
  
  #process data sets separately identifying the variables of interest
  e$trial_id <- d$experiment_id

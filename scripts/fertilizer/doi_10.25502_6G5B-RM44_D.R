@@ -138,8 +138,7 @@ d2 <- d2[,c("experiment_id","country","location","crop","latitude","longitude","
 
 ## Merging the data frames to one; 
 
-d3 <- merge(d2, d1, by = "experiment_id", all.x = TRUE)
-d4 <- merge(d3, d, by = "experiment_id", all.x = TRUE)
+d4 <- Reduce(function(...) merge(..., all=T), list(d,d1,d2))
 names(d4)[1] <- "trial_id"
 d4$on_farm <- TRUE
 d4$dataset_id <- dataset_id

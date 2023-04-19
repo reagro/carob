@@ -49,8 +49,11 @@ carob_script <- function(path) {
   d$adm1 <- carobiner::fix_name(d$district, "title")
   d$adm2 <- carobiner::fix_name(d$sector_ward, "title")
   d$adm3 <- carobiner::fix_name(d$vilage, "title")
+  d$latitude <- d$gps_latitude
+  d$longitude <- d$gps_longitude
+  d$elevation <- as.numeric(d$gps_altitude)
 
-  d <- d[,c("trial_id","season","country","adm1","adm2","adm3")]
+  d <- d[,c("trial_id","season","country","adm1","adm2","adm3","latitude","longitude","elevation")]
   
   f1 <- ff[basename(ff) == "c_use_of_package_2.csv"]
   d1 <- data.frame(read.csv(f1))
@@ -160,7 +163,7 @@ carob_script <- function(path) {
   z$country <- "Malawi"
   z$crop[is.na(z$crop)] <- "common bean" # filled NAs in crops with common bean
   
-  z <- z[,c("dataset_id","trial_id","season","country","adm1","adm2","adm3","crop","variety",
+  z <- z[,c("dataset_id","trial_id","season","country","adm1","adm2","adm3","latitude","longitude","elevation","crop","variety",
             "start_date","inoculated","OM_used","OM_type","OM_applied","fertilizer_type",
             "N_fertilizer","P_fertilizer","K_fertilizer","yield","row_spacing","plant_spacing",
             "on_farm","is_survey")]
