@@ -2,7 +2,7 @@
 
 ## ISSUES
 # ....
-# Ensure path parameter is initially set
+# specify path parameter
 
 carob_script <- function(path) {
 
