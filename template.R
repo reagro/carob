@@ -14,19 +14,24 @@ carob_script <- function(path) {
 "
 
 	uri <- "doi:______"
-	dataset_id <- agro::get_simple_URI(uri)
+	dataset_id <- carobiner::simple_uri(uri)
 	group <- ""
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
+	   project=NA,
 	   uri=uri,
-	   publication="publication doi",
-	   data_citation = "",
+	   ## if there is a paper, include the paper's doi here
+	   ## also add a RIS file in references folder (with matching doi)
+	   publication= "",
 	   data_institutions = "",
 	   carob_contributor="Your name",
+	   
+	   ## something like randomized control...
 	   experiment_type="___",
 	   has_weather=FALSE,
+	   has_soil=FALSE,
 	   has_management=FALSE
 	)
 
@@ -39,14 +44,79 @@ carob_script <- function(path) {
 
 	f <- ff[basename(ff) == "_____________"]
 
-	d <- read.csv(f)
-	d <- readxl::read_excel(f) |> as.data.frame()
-	
-	# process file(s)
-	d <- carobiner::change_names(d, from, to)
-	d$dataset_id <- dataset_id
+	r <- read.csv(f)
+	r <- readxl::read_excel(f) |> as.data.frame()
 
+	
+## process file(s)
+
+## use a subset
+	d <- carobiner::change_names(r, from, to)
+
+	
+#### about the data #####
+## (TRUE/FALSE)
+
+	d$dataset_id <- dataset_id
+	d$on_farm <- 
+	d$is_survey <- 
+	d$irrigated <- 
+## the treatment code	
+	d$treatment <- 
+
+
+##### Location #####
+## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
+## you can use carobiner::fix_name()
+	d$country <- 
+	d$site <- 
+	d$adm1 <- 
+	d$adm2 <- 
+	d$adm3 <- 
+	d$elevation <- NA
+## each site must have corresponding longitude and latitude
+	d$longitude <- 
+	d$latitude <- 
+
+
+
+##### Crop #####
+## normalize variety names
+	d$crop <- 
+	d$variety <- 
+
+##### Time #####
+## time can be year (four characters), year-month (7 characters) or date (10 characters).
+## use 	as.character(as.Date()) for dates to assure the correct format.
+	d$start_date <- as.character(as.Date(   ))
+	d$end_date  <- as.character(as.Date(    ))
+
+##### Fertilizers #####
+## note that we use P and K, not P2O5 and K2O
+## P <- P2O5 / 2.29
+## K <- K2O / 1.2051
+   d$P_fertilizer <- 
+   d$K_fertilizer <-
+   d$N_fertilizer <- 
+## normalize names 
+   d$fertlizer_type <- 
+   d$inoculated <- 
+   
+
+##### in general, add comments to your script if computations are
+##### based in information gleaned from metadata, publication, 
+##### or not immediately obvious for other reasons
+
+##### Yield #####
+
+	d$yield <- 
+	d$biomass_total <- 
+	
 # all scripts must end like this
 	carobiner::write_files(dset, d, path, dataset_id, group)
-	TRUE
 }
+
+## now test your function in a clean environment 
+# path <- _____
+# carob_script(path)
+

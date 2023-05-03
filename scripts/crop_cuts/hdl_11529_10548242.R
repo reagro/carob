@@ -14,18 +14,19 @@ carob_script <- function(path) {
 "
 
 	uri <- "hdl:11529/10548242"
-	dataset_id <- agro::get_simple_URI(uri)
-	group <- "fertilizer"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "crop_cuts"
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
+	   project="TAMASA",
 	   uri=uri,
-	   publication="",
+	   publication=NA,
 	   data_citation = 'Craufurd, Peter; Karwani, George; Masuki, Kenneth, 2019, "TAMASA TZ APS 2017 CC MaizeYield v3", https://hdl.handle.net/11529/10548242, CIMMYT Research Data & Software Repository Network, V2, UNF:6:FARtQ7xWh1m0+YYceI+wnw== [fileUNF]',
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="fertilizer",
+	   experiment_type=NA,
 	   has_weather=FALSE,
 	   has_management=FALSE,
 	   has_soil=FALSE
@@ -40,37 +41,31 @@ carob_script <- function(path) {
 
 	f <- ff[basename(ff) == "TAMASA_TZ_APS_2017_CC_MaizeYield.xlsx"]
 
-	d <- suppressMessages(as.data.frame(readxl::read_excel(f, sheet = "Raw data", n_max = 1738)))
+	d <- carobiner::read.excel(f, sheet = "Raw data", n_max = 1738)
 	colnames(d) <- c("Country", "Zone", "Region", "District", "Ward", "Village", "Hamlet", "HHID", "Farmer Name", "drop", "QID",
 	                 "QRcode Cobs", "Latitude", "Longitude", "Altitude", "Area by Farmer_est", "Area by GPS", "drop1",
 	                 "Plant stands", "Total Number of Cobs", "FWt of Cobs_all (kg)", "FWt of Cobs SS (kg)", "Dry Wt of Cobs SS (kg)",
 	                 "drop2", "Grain Wt SS (kg)", "Moisture_WB (%)", "Sheliing Factor", "Total Cob wt",
 	                 "Total cob dry weight", "Grain dry weight (kg/25m2)", "Grain dry weight (kg/25m2 @12.5%)", "Grain yield (kg/ha@12.5%)",
 	                 "...33", "...34")
-	d <- d[complete.cases(d[ , 13:14]),]
-	tz <- sf::st_as_sf(raster::getData('GADM', country='TZA', level = 3, path = "data/other"), crs = "+proj=longlat +datum=WGS84")
-	a <- sf::st_as_sf(d, coords = c("Longitude", "Latitude"), crs = "+proj=longlat +datum=WGS84")
-	a <- sf::st_join(a, tz, join = sf::st_intersects)
 	
-	d$country <- a$NAME_0
-	d$adm1 <- a$NAME_1
-	d$adm2 <- a$NAME_2
-	d$adm3 <- a$NAME_3
+	d$country <- "Tanzania"
 	d$trial_id <- paste0(d$HHID, "-", d$QID)
 	d$latitude <- d$Latitude
 	d$longitude <- d$Longitude
-	d$start_date <- as.Date("01-05-2016", "%d-%m-%Y")
-	d$end_date <- as.Date("01-12-2016", "%d-%m-%Y")
-	d$on_farm <- "yes"
-	d$is_survey <- "yes"
+	d$start_date <- "2016-05-01"
+	d$end_date <- "2016-12-01"
+	d$on_farm <- TRUE
+	d$is_survey <- TRUE
 	d$crop <- "maize"
-	d$yield <- d$`FWt of Cobs_all (kg)`*4 # FWt of Cobs_all (kg) = Fresh Weight of Cobs in Quadrat (25m2)
+	# d$yield <- d$`FWt of Cobs_all (kg)`*4 # FWt of Cobs_all (kg) = Fresh Weight of Cobs in Quadrat (25m2)
+	d$yield <- d$`Grain yield (kg/ha@12.5%)` # Grain yield at 12.5% moisture
 	
 	# process file(s)
-	d <- d[,c("country", "adm1", "adm2", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "crop", "yield")]
+	d <- d[,c("country", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "crop", "yield")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path, dataset_id, group)
-	TRUE
+
 }

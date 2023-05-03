@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
 
 	uri <- "doi:10.25502/20180730/1354/MA"
-	dataset_id <- agro::get_simple_URI(uri)
+	dataset_id <- carobiner::simple_uri(uri)
 	group <- "international_maize_trials"	
 		
 	## dataset level data 
@@ -39,10 +39,15 @@ carob_script <- function(path) {
 
 	#x <- carobiner::bindr(d, e)
 	x <- e
+	x$description[x$description == ""] <- NA
+	x$yield <- suppressWarnings(as.numeric(x$yield))
 	
-	x$striga_trial <- "no"
+	x$striga_trial <- FALSE
 	x$striga_infected <- NA
 	x$dataset_id <- dataset_id
+	x$yield2 <- as.numeric(x$yield2)
+	x$grain_weight <- as.numeric(x$grain_weight)
+
 
 # all scripts must end like this
 	carobiner::write_files(dset, x, path, dataset_id, group)

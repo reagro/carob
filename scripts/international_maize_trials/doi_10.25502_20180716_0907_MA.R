@@ -7,8 +7,9 @@
 #################################################################################
 
 carob_script <- function(path) {
+
 	uri <- "doi:10.25502/20180716/0907/MA"
-	dataset_id <- agro::get_simple_URI(uri)
+	dataset_id <- carobiner::simple_uri(uri)
 	group <- "international_maize_trials"	
 		
 	## dataset level data 
@@ -31,15 +32,16 @@ carob_script <- function(path) {
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
 	d <- mzfun(ff, "international_maize_trial_cameroon_striga.csv", TRUE)
-	d$striga_trial <- "yes"
+	d$striga_trial <- TRUE
 	d$dataset_id <- dataset_id
 	
 	e <- mzfun(ff, "international_maize_trial_cameroon_regular.csv")
-	e$striga_trial <- "no"
+	e$striga_trial <- FALSE
 	e$dataset_id <- dataset_id
 
 	x <- carobiner::bindr(d, e)
-	x$location[	x$location == "Cameroon"] <- ""
+	x$location[	x$location == "Cameroon"] <- NA
+	x$description <- as.character(x$description)
 
 # all scripts must end like this
 	carobiner::write_files(dset, x, path, dataset_id, group)

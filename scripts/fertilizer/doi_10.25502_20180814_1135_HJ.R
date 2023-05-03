@@ -14,18 +14,18 @@ carob_script <- function(path) {
 "
 
 	uri <- "doi:10.25502/20180814/1135/HJ"
-	dataset_id <- agro::get_simple_URI(uri)
+	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   publication="",
-	   data_citation = "",
-	   data_institutions = "",
+	   publication=NA,
+	   data_citation = NA,
+	   data_institutions = NA,
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="___",
+	   experiment_type=NA,
 	   has_weather=FALSE,
 	   has_management=FALSE
 	)
@@ -40,13 +40,11 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "Kiberashi_DT2010_field.csv"]
 	d <- read.csv(f)
 	d <- d[complete.cases(d[ , 6:7]),]
-	tz <- sf::st_as_sf(raster::getData('GADM', country='TZA', level = 3, path = "data/other"), crs = "+proj=longlat +datum=WGS84")
-	a <- sf::st_as_sf(d, coords = c("Flong", "Flat"), crs = "+proj=longlat +datum=WGS84")
-	a <- sf::st_join(a, tz, join = sf::st_intersects)
-	d$country <- a$NAME_0
-	d$adm1 <- a$NAME_1
-	d$adm2 <- a$NAME_2
-	d$adm3 <- a$NAME_3
+	d$country <- "Tanzania"
+	# enrichment with spatial data is better done on the aggregated data
+	#d$adm1 <- a$NAME_1
+	#d$adm2 <- a$NAME_2
+	#d$adm3 <- a$NAME_3
 	d$location <- d$Village
 	d$site <- d$Site
 	d$trial_id <- paste0(dataset_id, "-", d$ID)
@@ -54,45 +52,58 @@ carob_script <- function(path) {
 	d$longitude <- d$Flong
 	d$start_date <- format(as.Date(js$result$coverage_start_date), "%Y-%m-%d")
 	d$end_date <- format(as.Date(js$result$coverage_end_date), "%Y-%m-%d")
-	d$season <- "rain"
-	d$on_farm <- "yes"
-	d$is_survey <- "no"
+	d$season <- "rainy"
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
 	d$crop <- tolower(d$TCrop)
 	d$variety <- d$TCVariety
-	d$intercrops <- d$CS
+	## should be crop names
+	##d$intercrops <- d$CS
 	d$previous_crop <- d$PCrop1
 	
 	# 2nd get agronomic data
 	f1 <- ff[basename(ff) == "Kiberashi_DT2010_plot.csv"]
 	d1 <- read.csv(f1)
-	d1$yield <- d1$TGrainYld
+	d1$yield <- d1$TGrainYld*1000
 	d1$residue_yield <- d1$Adj.TStoverYld*1000
 	d1$treatment <- d1$TrtDesc
 	d1$rep <- d1$Rep
-	d1$fertilizer_type <- d1$TrtDesc
+## RH: this is the treatment, not the _type_ of fertilizer 
+##	d1$fertilizer_type <- d1$TrtDesc
 	d1$N_fertilizer <- ifelse(d1$TrtDesc == "Control", 0,
-	                             ifelse(d1$TrtDesc == "PK", 0, 100))
-	d1$N_splits <- paste(d1$N_fertilizer*0.25,d1$N_fertilizer*0.375,d1$N_fertilizer*0.375, sep = " | ")
+	                   ifelse(d1$TrtDesc == "PK", 0, 100))
+
+## RH: this is nice, but the field only stores how many splits there were
+##	d1$N_splits <- paste(d1$N_fertilizer*0.25,d1$N_fertilizer*0.375,d1$N_fertilizer*0.375, sep = " | ")
+
+	d1$N_splits <- NA
+	d1$N_splits[d1$N_fertilizer > 0] <- 3
+	
 	d1$P_fertilizer <- ifelse(d1$TrtDesc == "Control", 0,
-	                          ifelse(d1$TrtDesc == "NK", 0, 30))
+	                   ifelse(d1$TrtDesc == "NK", 0, 30))
 	d1$K_fertilizer <- ifelse(d1$TrtDesc == "Control", 0,
-	                          ifelse(d1$TrtDesc == "NP", 0, 60))
+	                   ifelse(d1$TrtDesc == "NP", 0, 60))
 	d1$Zn_fertilizer <- ifelse(d1$TrtDesc == "NPK+MN", 3, 0)
 	d1$S_fertilizer <- ifelse(d1$TrtDesc == "NPK+MN", 5, 0)
-	d1$OM_used <- "yes"
+	d1$OM_used <- TRUE
 	d1$OM_type <- "Manure"
 	d1$OM_applied <- 1000
 	d2 <- merge(d, d1, by = "FieldID", all.x = TRUE)
-	d <- d2[,c("country", "adm1", "adm2", "adm3", "location", "site", "trial_id", "latitude", "longitude",
-	            "start_date", "end_date", "season",
-	            "on_farm", "is_survey",
-	            "treatment", "rep", "crop", "variety", "intercrops", "previous_crop",
+
+	p <- carobiner::fix_name(gsub("/", "; ", d2$previous_crop), "lower")
+	p <- gsub("mangoes", "mango", p)
+	p <- gsub("beans", "common bean", p)
+	d2$previous_crop <- p
+
+	d <- d2[,c("country", "location", "site", "trial_id", "latitude", "longitude",
+	            "start_date", "end_date", "season", "on_farm", "is_survey",
+	            "treatment", "rep", "crop", "variety", "previous_crop",
 	            "yield", "residue_yield",
-	            "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer",
+	            "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer",
 	            "OM_used", "OM_type", "OM_applied")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path, dataset_id, group)
-	TRUE
+
 }

@@ -1,12 +1,17 @@
 # R script for "carob"
 
 ## ISSUES
-#Not showing license, showing question mark
 
-#remotes::install_github("reagro/carobiner")
-library(carobiner)
+# RH
+# this dataset was de-accessioned. There is a new one 
+# doi:10.7910/DVN/QWACIK
+# but that one is locked!! 
+# we have the old data and should put it on-line so that we can use it again
 
 carob_script <- function(path) {
+
+cat("  dataset was de-accessioned!\n")
+
   
   "Description
 Title:Responses of upland NERICA rice varieties to nitrogen and plant density
@@ -15,15 +20,15 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   ## Process 
  
   uri <- "doi:10.7910/DVN/JWUEGN"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
   dset <- data.frame(
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication="",
-    carob_contributor="Siyabusa",
+    publication=NA,
+    carob_contributor="Siyabusa Mkuhlani",
     experiment_type="fertilizer",
     has_weather=FALSE,
     has_management=FALSE
@@ -34,14 +39,14 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   
   ## read the json for version, license, terms of use  
   js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
-  dset$license <- carobiner::get_license(js) #Cant get the license right??
+  dset$license <- "CC0 1.0 Universal"
   
   ## the AFSIS data 
   f <- ff[basename(ff) == "Responses of upland NERICA rice varieties to nitrogen and plant density.xlsx"]
-  d <- suppressMessages(as.data.frame(readxl::read_excel(f)))
+  d <- carobiner::read.excel(f)
   
   ##Skip early rows-Descriptive rows)
-  d <- suppressMessages(as.data.frame(readxl::read_excel(f)[-c(1:21),]))
+  d <- carobiner::read.excel(f)[-c(1:21),]
   
   ##Convert First Row to Header
   names(d)<-d[1,]
@@ -67,9 +72,14 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
  e["N_fertilizer"][e["N_fertilizer"]=="2"]<-"60"
  e["N_fertilizer"][e["N_fertilizer"]=="3"]<-"120" 
  
- e["spacing"][e["spacing"]=="1"]<-"30cm*30cm"
- e["spacing"][e["spacing"]=="2"]<-"20cm*20cm"
- e["spacing"][e["spacing"]=="3"]<-"25cm*25cm"
+ e$plant_spacing[e$spacing == "1"]<-"30"
+ e$plant_spacing[e$spacing == "1"]<-"30"
+ e$row_spacing[e$spacing == "1"]<-"30"
+ e$plant_spacing[e$spacing == "2"]<-"20"
+ e$row_spacing[e$spacing == "2"]<-"20"
+ e$plant_spacing[e$spacing == "3"]<-"25"
+ e$row_spacing[e$spacing == "3"]<-"25"
+
  
  e["variety"][e["variety"]=="1"]<-"WAB 450-I-B-P-38-HB (NERICA 1)"
  e["variety"][e["variety"]=="2"]<-"WAB 450-I-B-P-20-HB (NERICA 2)"
@@ -77,7 +87,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
  e["variety"][e["variety"]=="4"]<-"v4 - WAB 56-50"
 
  ##re-order
- e<-e[c("rep","dataset_id","trial_id","country","on_farm","is_survey","start_date","end_date","spacing","crop","N_fertilizer","variety","yield","biomass_leaves")]       
+ e<-e[, c("rep","dataset_id","trial_id","country","on_farm","is_survey","start_date","end_date","crop","N_fertilizer","variety","yield","biomass_leaves","plant_spacing","row_spacing")]       
  
  carobiner::write_files(dset, e, path, dataset_id, group)
 }
