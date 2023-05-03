@@ -2,8 +2,7 @@
 
 ## ISSUES
 # ....
-path = "~/Alliance/EiA/carob"
-
+# Ensure path parameter is initially set
 
 carob_script <- function(path) {
 
