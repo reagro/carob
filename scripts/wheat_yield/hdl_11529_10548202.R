@@ -201,5 +201,3 @@ renv$country <- ifelse(renv$country == "Null", "Unknown", renv$country)
 # all scripts must end like this
 	carobiner::write_files(dset,tocarob, path, dataset_id, group)
 }
-
-carob_script(path)
