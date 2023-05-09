@@ -199,5 +199,3 @@ renv$country <- ifelse(renv$country == "United states", "United States", renv$co
 # all scripts must end like this
 	carobiner::write_files(dset,tocarob, path, dataset_id, group)
 }
-
-carob_script(path)
