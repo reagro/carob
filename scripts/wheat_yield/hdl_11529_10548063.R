@@ -190,5 +190,3 @@ carob_script <- function(path) {
 # all scripts must end like this
 	carobiner::write_files(dset,tocarob, path, dataset_id, group)
 }
-
-carob_script(path)
