@@ -204,5 +204,3 @@ renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "TRIG
 # all scripts must end like this
 	carobiner::write_files(dset,tocarob, path, dataset_id, group)
 }
-
-carob_script(path)
