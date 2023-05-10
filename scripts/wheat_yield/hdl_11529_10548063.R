@@ -8,13 +8,9 @@ carob_script <- function(path) {
 
 "
 	Description:
-
-    CIMMYT annually distributes improved germplasm developed by its researchers and partners in international nurseries trials and experiments. The High Rainfall Wheat Yield Trial (HRWYT) contains very top-yielding advance lines of spring bread wheat (Triticum aestivum) germplasm adapted to high rainfall, Wheat Mega-environment 2 (ME2HR). (2020)
-
-
+	CIMMYT annually distributes improved germplasm developed by its researchers and partners in international nurseries trials and experiments. The High Temperature Wheat Yield Trial (HTWYT) is a replicated yield trial that contains spring bread wheat (Triticum aestivum) germplasm adapted to Mega-environment 1 (ME1) which represents high temperature areas. (2016)
 "
-
-	uri <- "hdl:11529/10548587"
+	uri <- "hdl:11529/10548063"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_yield"
 	## dataset level data 
@@ -26,7 +22,7 @@ carob_script <- function(path) {
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)
 	   publication = NA,
-	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2021, '28th High Rainfall Wheat Yield Trial', https://hdl.handle.net/11529/10548587, CIMMYT Research Data & Software Repository Network, V1",
+	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '15th High Temperature Wheat Yield Trial', https://hdl.handle.net/11529/10548063, CIMMYT Research Data & Software Repository Network, V3, UNF:6:8YdQ7RxCYkOZnfwm/eVM2Q== [fileUNF]",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Andrew Sila",
 	   
@@ -34,21 +30,21 @@ carob_script <- function(path) {
 	   experiment_type="On-station experiment",
 	   has_weather=FALSE,
 	   has_soil=FALSE,
-	   has_management=FALSE
+	   has_management=TRUE
 	)
 
 ## download and read data 
 
 	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
 	dset$license <- carobiner::get_license(js)
 
 
-	env <- ff[basename(ff) == "28TH HRWYT_EnvData.xls"]
-	geno <- ff[basename(ff) == "28TH HRWYT_Genotypes_Data.xls"]
-	grn <- ff[basename(ff) == "28TH HRWYT_GrnYld.xls"]
-	loc <- ff[basename(ff) == "28TH HRWYT_Loc_data.xls"]
-	raw <- ff[basename(ff) == "28TH HRWYT_RawData.xls"]
+	env <- ff[basename(ff) == "15TH THWYT_EnvData.xls"]
+	geno <- ff[basename(ff) == "15TH THWYT_Genotypes_Data.xls"]
+	grn <- ff[basename(ff) == "15TH THWYT_GrnYld.xls"]
+	loc <- ff[basename(ff) == "15TH THWYT_Loc_data.xls"]
+	raw <- ff[basename(ff) == "15TH THWYT_RawData.xls"]
 
 ## Read data referenced by the above pathnames
 
@@ -62,15 +58,24 @@ carob_script <- function(path) {
 	proper <- function(x){paste0(toupper(substr(x, 1,1)), tolower(substr(x,2, nchar(x))))}
 
 	raw$country <- proper(raw$Country)
-	raw$location <- gsub("-","_",raw$Loc_desc)
-	raw$location <- gsub("_ ","_",raw$location)
+	raw$location <- gsub(" - ","_",raw$Loc_desc)
+	raw$location <- gsub("_-","_",raw$location)
 	raw$location <- gsub(" ","_",raw$location)
 	raw$location <- gsub("\\.","",raw$location)
-	raw$site <- merge(raw,loc, by = c("Loc_no"))[,"Loc..Description"]
-	raw$site <- gsub("-","_",raw$site)
-	raw$site <- gsub(" ","",raw$site)
-	raw$trial_id <- raw$Trial.name
+	raw$location <- gsub("_-","_",raw$location)
+	raw$location <- gsub("-","_",raw$location)
 
+	
+	#d <- which(duplicated(loc$Loc_no)==TRUE)
+	
+	#d <- which(loc$Loc_no %in% loc$Loc_no[d])
+	#loc[d,]
+	
+	
+	#raw$site <- merge(raw,loc, by = "Loc_no", all.x = TRUE)[,"Loc..Description"]
+	
+	raw$site <- raw$location
+	raw$trial_id <- raw$Trial.name
 
 # Select variables and reshape raw table
  	raw <- raw[,c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name", "Value")]
@@ -102,21 +107,35 @@ carob_script <- function(path) {
 	renv$is_survey <- FALSE
 	renv$irrigated <- ifelse(renv$IRRIGATED == "NO", FALSE, TRUE)
 	renv$row_spacing <- as.numeric(renv$SPACE_BTN_ROWS_SOWN)
-
-	
 	renv$rep <- renv$Rep
 	renv$crop <- "wheat"
 	renv$variety_code <- renv$Gen_name
 	renv$variety_type <- "high-yield"
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "MAIZ", "maize", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "BEANS", "common bean", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CORN", "maize", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "OIL SEED", "rapeseed", renv$USE_OF_FIELD_SPECIFY_CROP)
-	
+	# previous crop details
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "ZEA MAYS", "maize", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "BAJRA", "pearl millet", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "GLYCIN MAX", "soybean", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "OILSEED", "rapeseed", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "OLISEED", "rapeseed", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "LAGUME CROP(SOYABEAN)", "soybean", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "GREEM  MANURE", "green manure", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "MUNG-PULSES", "mung bean", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "PULSES", "common bean", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "ORYZA SATIVA L.", "rice", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "ORYZA SATIVA", "rice", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "PADDY", "rice", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CEREALS", "CEREAL", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "COE PEA", "cowpea", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SUNHIMP", "sunhemp", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SESBANIA SP.", "sesbania", renv$USE_OF_FIELD_SPECIFY_CROP)
+
 	# Is corn and maize crop same?
 	renv$previous_crop <-  tolower(renv$USE_OF_FIELD_SPECIFY_CROP)
 	
-	# Yield in ton/ha
+	# Replace previous_crop with NA entry by no crop
+	renv$previous_crop <- ifelse(is.na(renv$previous_crop) == TRUE,'no crop', renv$previous_crop )
+	
+	# Convert yield in ton/ha to kg/ha
 	renv$yield <- as.numeric(renv$GRAIN_YIELD)*1000 
 	renv$grain_weight <- as.numeric(renv$`1000_GRAIN_WEIGHT`)
 	
