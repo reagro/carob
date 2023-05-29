@@ -278,6 +278,7 @@ Also see: doi.org/10.21955/gatesopenres.1115299.1
                        NA)
   z$soil_K <- z$soil_K/1000 #to g/kg
   z$soil_P_total <- z$soil_P_total/1000 #to g/kg
+  z$fertilizer_type <- "unknown" # Not specified
   
   
   # all scripts must end like this

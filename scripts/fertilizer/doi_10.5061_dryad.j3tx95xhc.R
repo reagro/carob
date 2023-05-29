@@ -81,6 +81,7 @@ carob_script <- function(path) {
   d$P_fertilizer <- d$FP*10000 # Converting from kg/m2 -> kg/ha
   d$K_fertilizer <- d$FK*10000 # Converting from kg/m2 -> kg/ha
   d$N_fertilizer <- d$FN*10000 # Converting from kg/m2 -> kg/ha
+  d$fertilizer_type <- "unknown" # Fertilizer type not specified
   
   ##### Yield #####
   

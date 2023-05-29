@@ -79,6 +79,7 @@ i <- dv$treatment=='C'
 dv$treatment[i] <- '92 kg/ha N & 30 kg/ha P'
 dv$N_fertilizer[i] <- 92
 dv$P_fertilizer[i] <- 30
+dv$fertilizer_type <- "unknown" # Unknown fertilizer
 
 ## RH: N_fertilizer, P_fertilizer and K_fertilizer need to be 
 ## RH: updated based on this (if this includes any fertilizer) 
