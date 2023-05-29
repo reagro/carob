@@ -1,4 +1,4 @@
-# R script for "carob"
+0# R script for "carob"
 
 ## ISSUES
 # ....
@@ -50,28 +50,28 @@ carob_script <- function(path) {
   
   #read the data
   
-  r <- readxl::read_excel(f,sheet = 1) |> as.data.frame()
-  r1 <- readxl::read_excel(f,sheet = 2) |> as.data.frame()
+  r <- carobiner::read.excel(f,sheet = 1) |> as.data.frame()
+  r1 <- carobiner::read.excel(f,sheet = 2) |> as.data.frame()
   
   
   ## process file(s)
   
-  d1<-r[,c(2,3,4,18,19,21,22,20)]
+  d1 <- r[,c(2,3,4,18,19,21,22,20)]
   # name columns with standard names 
-  colnames(d1)<-c("season","adm1","site","treatment","crop","residue_yield","yield","plant_density")
-  d1$crop<-"maize"
-  d2<-r1[,c(2,3,4,13,14,16,17,15)]
-  colnames(d2)<-c("season","adm1","site","treatment","crop","residue_yield","yield","plant_density")
+  colnames(d1) <- c("season","adm1","site","treatment","crop","residue_yield","yield","plant_density")
+  d1$crop <- "maize"
+  d2 <- r1[,c(2,3,4,13,14,16,17,15)]
+  colnames(d2) <- c("season","adm1","site","treatment","crop","residue_yield","yield","plant_density")
   
   # combine d1 and d2
-  d<-rbind(d1,d2)
+  d <- rbind(d1,d2)
   
   # add columns
   d$country <- "Zambia"
   d$dataset_id <- dataset_id
-  d$trial_id<-paste0(d$dataset_id,"-",d$adm1)
-  d$start_date <-"2006"
-  d$end_date <-"2015"
+  d$trial_id <- paste0(d$dataset_id,"-",d$adm1)
+  d$start_date  <- "2006"
+  d$end_date  <- "2015"
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$irrigated <- FALSE
@@ -79,50 +79,50 @@ carob_script <- function(path) {
   # fix name treatment name
   
   p <- carobiner::fix_name(d$treatment)
-  p<-gsub("Direct seeder","DS",p)
-  p<-gsub("direct seeder","DS",p)
-  p<-gsub("Direct","DS",p)
-  p<-gsub("Control plot","control",p)
-  #p<-gsub("DS, soybean-maize rotation","DS, maize-soybean rotation",p)
-  #p<-gsub("DS, cowpea-maize rotation","DS, maize-cowpea rotation",p)
+  p <- gsub("Direct seeder","DS",p)
+  p <- gsub("direct seeder","DS",p)
+  p <- gsub("Direct","DS",p)
+  p <- gsub("Control plot","control",p)
+  #p <- gsub("DS, soybean-maize rotation","DS, maize-soybean rotation",p)
+  #p <- gsub("DS, cowpea-maize rotation","DS, maize-cowpea rotation",p)
   
-  d$treatment<- p 
+  d$treatment <-  p 
   
   # fix crop name
   e <- carobiner::fix_name(d$crop,"lower")
-  d$crop<- e 
-  d$crop[d$crop=="cowpeas"]<- "cowpea"
+  d$crop <- e 
+  d$crop[d$crop=="cowpeas"] <-  "cowpea"
   #add inter crop crop rotation column 
  
-  d$intercrops<-ifelse(d$treatment=="DS, maize/cowpea int" ,"cowpea",
-                          ifelse(d$treatment=="DS, maize-cowpea rotation","soybean ",
-                                 ifelse(d$treatment=="Ripper, maize-soybean rotation","cowpea",
-                                        ifelse(d$treatment=="DS, maize-soybean rotation","soybean",
-                                               ifelse(d$treatment=="DS, cowpea-maize rotation","soybean",
-                                                      ifelse(d$treatment=="Ripper, soybean-maize rotation","cowpea",
-                                                             ifelse(d$treatment=="DS, soybean-maize rotation","cowpea","no crop")))))))
-  d$crop_rotation<- ifelse(d$intercrops=="cowpea","soybean",
-                           ifelse(d$intercrops=="no crop","no crop","cowpea"))
+  d$intercrops  <- ifelse(d$treatment=="DS, maize/cowpea int" ,"cowpea",
+                ifelse(d$treatment=="DS, maize-cowpea rotation","soybean",
+                ifelse(d$treatment=="Ripper, maize-soybean rotation","cowpea",
+                ifelse(d$treatment=="DS, maize-soybean rotation","soybean",
+                ifelse(d$treatment=="DS, cowpea-maize rotation","soybean",
+                ifelse(d$treatment=="Ripper, soybean-maize rotation","cowpea",
+                ifelse(d$treatment=="DS, soybean-maize rotation","cowpea","no crop")))))))
+  d$crop_rotation <- ifelse(d$intercrops=="cowpea","soybean",
+                ifelse(d$intercrops=="no crop","no crop","cowpea"))
                                    
   
                                                              
   # add longitude and  latitude
-  d$latitude[d$adm1=="Monze"] <--16.2759563
-  d$longitude[d$adm1=="Monze"] <-27.4763925
-  d$latitude[d$adm1=="Kabwe"] <--14.4571147
-  d$longitude[d$adm1=="Kabwe"] <-28.3992336
-  d$latitude[d$adm1=="Chipata"] <--13.7478246
-  d$longitude[d$adm1=="Chipata"] <-32.6324569
-  d$latitude[d$adm1=="Chibombo"] <--14.8569383
-  d$longitude[d$adm1=="Chibombo"] <-27.6530228
-  d$latitude[d$adm1=="Lundazi"] <--12.4137188
-  d$longitude[d$adm1=="Lundazi"] <-33.3487457
-  d$latitude[d$adm1=="Katete"] <--14.060241
-  d$longitude[d$adm1=="Katete"] <-32.04272
+  d$latitude[d$adm1=="Monze"]  <- -16.2759563
+  d$longitude[d$adm1=="Monze"]  <- 27.4763925
+  d$latitude[d$adm1=="Kabwe"]  <- -14.4571147
+  d$longitude[d$adm1=="Kabwe"]  <- 28.3992336
+  d$latitude[d$adm1=="Chipata"]  <- -13.7478246
+  d$longitude[d$adm1=="Chipata"]  <- 32.6324569
+  d$latitude[d$adm1=="Chibombo"]  <- -14.8569383
+  d$longitude[d$adm1=="Chibombo"]  <- 27.6530228
+  d$latitude[d$adm1=="Lundazi"]  <- -12.4137188
+  d$longitude[d$adm1=="Lundazi"]  <- 33.3487457
+  d$latitude[d$adm1=="Katete"]  <- -14.060241
+  d$longitude[d$adm1=="Katete"]  <- 32.04272
   
     # data type 
-    d$season<-as.character(d$season)
-    d$yield<-(as.double(d$yield))
+    d$season <- as.character(d$season)
+    d$yield <- (as.double(d$yield))
     # all scripts must end like this
     carobiner::write_files(dset, d, path, dataset_id, group)
 }
