@@ -42,8 +42,8 @@ relative to yields of only NP/K application. (2020-02-25)
   
   # reading the data.csv data
   f <- ff[basename(ff) == "Non responsiveness of crop to fertiliser dat V2.xlsx"]
-  d <- readxl::read_excel(f)
-  d <- as.data.frame(d)
+  d <- carobiner::read.excel(f)
+  #d <- as.data.frame(d)
   d$variety <- carobiner::fix_name(d$Var_Type,"title")
   d$site <- carobiner::fix_name(d$Site,"title")
   d$`Site ID` <- carobiner::fix_name(d$`Site ID`,"title")
