@@ -51,7 +51,8 @@ carob_script <- function(path) {
     e$N_fertilizer <- as.numeric(d$nrate)
     e$P_fertilizer <- as.numeric(d$prate)
     ##  RH presumably:
-	## e$K_fertilizer <- 0
+    e$K_fertilizer <- 0
+    e$fertilizer_type <- "urea; DAP; NPK; SSP" # One of these
 
     e$treatment <- paste0("N", e$N, "P", e$P)
 

@@ -58,8 +58,9 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   
  #RH: SM please check 
   e$plant_density <- 2 * c(44444, 66667, 133333)[e$plant_density/10]
-#  e$N_fertilizer <- 0
-#  e$K_fertilizer <- 20
+  e$N_fertilizer <- 0
+  e$K_fertilizer <- 20
+  e$fertilizer_type <- "unknown"
  
   
  carobiner::write_files(dset, e, path, dataset_id, group)

@@ -48,8 +48,9 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
   e$P_fertilizer <- e$P_fertilizer / 2.29
   
   ## RH check in paper if N or K were applied
-  #e$N_fertilizer <- 0
-  #e$K_fertilizer <- 0
+  e$N_fertilizer <- 0
+  e$K_fertilizer <- 0
+  e$fertilizer_type <- "unknown"
   
   #Replace values in a data frame
   e$location <- ifelse(d$Location == "BUK", "Bayero", d$Location)
