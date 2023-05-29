@@ -1,4 +1,3 @@
-
 "
 Title: N2Africa agronomy trials - Rwanda, 2010
   
@@ -49,70 +48,26 @@ carob_script <- function(path) {
   
   d$trial_id <- d$experiment_id
   d$rep <- d$replication_no
-  
-  # Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
-  # and Urea split (50-50) applied at a rate of 60 kg N/ha
-  
-  d$treatments <- paste("main treatment: ",d$main_treatment," |","subtreatment inoculation : ",d$sub_treatment_inoc)
-  d$treatment <- d$treatments
-  d$planting_date <- as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-"))
-  d$start_date <- d$planting_date
-   
-## RH: first fix the names; that saves a lot of effort later on
-## RH:  d$fertilizer_type <- d$sub_treatment_inoc   
-
-	f <- carobiner::fix_name(d$sub_treatment_inoc, "upper")
-	f <- gsub(" ", "", f)
-	f <- gsub("\\+", "/", f)
-## RH: inspect
-#	sort(unique(f))
-	d$fertilizer_type = f
-	
-	
-## RH: use %in% or "grep" instead of endless "OR OR OR"	
-## RH: ifelse is also a bit difficult to read with long clauses
-## RH: no P fertilizer means that it is zero, not NA!
-	d$P_fertilizer <- 0 
-	i <- d$fertilizer_type %in% c("DAP", "TSP", "TSP/KCL", "TSP/KCL/UREA", "TSP/KCl")
-    d$P_fertilizer[i] <- 30 
-
- 	d$K_fertilizer <- 0 
-	i <- grep("KCL", d$fertilizer_type) 
-    d$K_fertilizer[i] <- 30 
- 
-	d$N_fertilizer <- 0 
-	i <- grep("UREA", d$fertilizer_type) 
-	d$N_fertilizer[i] <- 60 
-#RH: check if the DAP application is indeed 60 kg/ha. 
-#RH: it was not included but it is a N fertilizer
-	d$N_fertilizer[d$fertilizer_type == "DAP"] <- 60 	
-
-#RH: what is PK6? Does that have N? The original code suggests it does.
-#RH: then what about P? Or is it an innoculant?
-
-#RH innoculants need to go to a separate column. They are not fertilizers. 
-
-##RH: always check like this 
-unique(d[,c("fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer")]  )
-
-##RH : original code  
-##RH  d$P_fertilizer <- ifelse(d$fertilizer_type == "DAP"|d$fertilizer_type == "TSP"|d$fertilizer_type == "TSP/KCL"|
-##RH                             d$fertilizer_type == "TSP/KCL+UREA"|d$fertilizer_type == "TSP/KCL +UREA"|d$fertilizer_type == "TSP/KCl"|
-##RH                             d$fertilizer_type == "TSP/KCl+UREA"|d$fertilizer_type == "TSP/KCL/UREA"|
-##RH                             d$fertilizer_type == "TSP/KCl/Urea"|d$fertilizer_type == "TSP/KCl+urea",30,NA)
-  
-##RH  d$K_fertilizer <- ifelse(d$fertilizer_type == "TSP/KCL"|d$fertilizer_type == "TSP/KCL+UREA"|
-##RH                             d$fertilizer_type == "TSP/KCL +UREA"|d$fertilizer_type == "TSP/KCl"|
-##RH                             d$fertilizer_type == "TSP/KCl+UREA"|d$fertilizer_type == "TSP/KCL/UREA"|
-##RH                             d$fertilizer_type == "TSP/KCl/Urea"|d$fertilizer_type == "TSP/KCl+urea",30,NA)
-  
-##RH  d$N_fertilizer <- ifelse(d$fertilizer_type == "PK6+Urea"|d$fertilizer_type == "PK6 +Urea"|d$fertilizer_type == "TSP/KCL+UREA"|
-##RH                             d$fertilizer_type == "TSP/KCL +UREA"|d$fertilizer_type == "TSP/KCl+UREA"|d$fertilizer_type == "TSP/KCL/UREA"|
-##RH                             d$fertilizer_type == "TSP/KCl/Urea"|d$fertilizer_type == "TSP/KCl+urea",60,NA)
-  
-  
-  d$harvest_date <- as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-"))
-  d$end_date <-d$harvest_date
+  d$main_treatment <- carobiner::fix_name(d$main_treatment,"lower")
+  d$main_treatment <- carobiner::replace_values(d$main_treatment,
+                                                c("-r","+r"),
+                                                c("not inoculated","inoculated"))
+  d$inoculated <- ifelse(d$main_treatment == "inoculated",TRUE,FALSE)
+  v <- carobiner::fix_name(d$sub_treatment_inoc)
+  v <- gsub("\\+", "/", v)
+  v <- gsub(" ","",v)
+  v <- gsub("KCL","KCl",v)
+  v <- gsub("Urea","urea",v)
+  v <- gsub("UREA","urea",v)
+  v <- gsub("PK6","PK 6",v)
+  v <- carobiner::replace_values(v,
+                                 c("NONE","YEZUMUTIMA","SOPROSOY","SB24","SB19"),
+                                 c("none","Yezumutima","Soprosoy","SB 24", "SB 19"))
+  d$sub_treatment_inoc <- v
+  d$treatment <- paste("main treatment: ",d$main_treatment," |","inoculant treatment : ",d$sub_treatment_inoc) # ignoring sub treatment fert as it has no input
+  d$date_harvest_yyyy[d$trial_id == "RW030_VAR_CB_SR_2010"] <- 2011
+  d$start_date <- as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-"))
+  d$end_date <- as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-"))
   d$grain_weight <- as.numeric(d$dry_weight_100_seeds)*10
   d$yield <- d$grain_yield_ha_calc
   d$residue_yield <- d$tot_stover_yield_haulm_husks_calc
@@ -121,17 +76,56 @@ unique(d[,c("fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer")] 
     lapply(d[, c("above_ground_dry_biomass", "root_dry_weight_roots_no_nodules","nodule_dry_weight")], as.numeric)
   
   d$biomass_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules+d$nodule_dry_weight)
-
-  x <- d[,c("trial_id","rep","treatment","variety","start_date","end_date","grain_weight","yield","residue_yield",
-            "biomass_total", "fertilizer_type","N_fertilizer","K_fertilizer","P_fertilizer")]
   
+  d$fertilizer_type <- ifelse(d$sub_treatment_inoc %in% c("DAP", "TSP", "TSP/KCl","none", "TSP/KCl/urea", "PK 6/urea"),
+                              d$sub_treatment_inoc,NA)
+  d$fertilizer_type[d$fertilizer_type == "PK 6/urea"] <- "urea"
+  
+  vv <- carobiner::fix_name(d$variety)
+  vv <- gsub(" ","",vv)
+  vv <- gsub("SB","SB ",vv)
+  vv <- gsub("\\+","/",vv)
+  vv <- gsub("PK","PK ",vv)
+  vv <- gsub("RWR","RWR ",vv)
+  vv <- gsub("RWAV","RWV",vv)
+  vv <- gsub("RWV","RWV ",vv)
+  vv <- carobiner::replace_values(vv,
+                                  c("YEZUMUTIMA","SOPROSOY","PK 6nonino","GASIRIDA","MAMESA","CAB2","GASILIDA","MAMASA"),
+                                  c("Yezumutima","Soprosoy","PK 6","Gasilida","Mamesa","CAB 2","Gasilida","Mamesa"))
+  d$variety <- vv
+  d$variety[d$sub_treatment_inoc == "PK 6/urea"] <- "PK 6"
+  # Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
+  # and Urea split (50-50) applied at a rate of 60 kg N/ha
+  
+  d$P_fertilizer <- 0 
+  i <- d$fertilizer_type %in% c("DAP", "TSP", "TSP/KCl", "TSP/KCl/urea")
+  d$P_fertilizer[i] <- 30 
+  
+  d$K_fertilizer <- 0 
+  i <- grep("KCl", d$fertilizer_type) 
+  d$K_fertilizer[i] <- 30 
+  
+  d$N_fertilizer <- 0 
+  i <- grep("urea", d$fertilizer_type) 
+  d$N_fertilizer[i] <- 60 
+  
+  # Since DAP was applied at a rate of 30 kg P per hectare, we only know the amount of phosphorus applied, 
+  # hence we calculate total amount of DAP whose composition in 18:46:0
+  tot_DAP <- 30/0.46
+  d$N_fertilizer <- ifelse(d$fertilizer_type == "DAP",tot_DAP*0.18,d$N_fertilizer)
+  d$N_splits <- 2
+  
+  x <- d[,c("trial_id","rep","treatment","variety","start_date","end_date","grain_weight","yield","residue_yield",
+            "biomass_total", "fertilizer_type","N_fertilizer","N_splits","K_fertilizer","P_fertilizer","inoculated")]
+  x <- unique(x) #removing duplicates
+
   # reading the general.csv data
   f <- ff[basename(ff) == "general.csv"]
   d1 <- read.csv(f)
   d1$trial_id <- d1$experiment_id
   d1$location <- d1$action_site
-  d1$adm1 <- d1$mandate_area_name
-  x1 <- d1[,c("trial_id","location","adm1","country","crop")]
+  d1$adm2 <- d1$mandate_area_name
+  x1 <- d1[,c("trial_id","location","adm2","country","crop")]
   
   # reading the soil_properties.csv data
   f <- ff[basename(ff) == "soil_properties.csv"]
@@ -140,20 +134,19 @@ unique(d[,c("fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer")] 
   d2$soil_pH <- d2$ph
   d2$soil_sand <- d2$sand
   d2$soil_clay <- d2$clay
+  d2$soil_silt <- d2$silt
   d2$soil_N <- d2$tot_nitrogen
   d2$soil_K <- d2$k
-  x2 <- d2[,c("trial_id","soil_pH","soil_sand","soil_clay","soil_N","soil_K")]
+  d2$soil_SOC <- d2$tot_carbon
+  x2 <- d2[,c("trial_id","soil_pH","soil_sand","soil_clay","soil_silt","soil_N","soil_K","soil_SOC")]
    
   
   # combining into 1 data set
-  y <- merge(x,x1,by = "trial_id",all = TRUE)
-  w <- merge(y,x2,by = "trial_id",all = TRUE)
-  
+  w <- Reduce(function(...) merge(..., all=T), list(x,x1,x2))
   w$dataset_id <- dataset_id
-  w$on_farm <- "yes"
-  #w$latitude <- -1.94028
-  #w$longitude <- 29.87389
-  ## Long  and Lat base on Location using GPS Coordinate
+  w$on_farm <- TRUE
+
+  ## Long  and Lat based on Location using GPS Coordinates
   w$longitude[w$location=="Nyamiyaga"] <-30.1349783
   w$latitude[w$location=="Nyamiyaga"] <- -1.6873919
   w$longitude[w$location=="Musenyi"] <-30.0208922
@@ -191,31 +184,25 @@ unique(d[,c("fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer")] 
   w$longitude[w$location=="Nemba- Rubona"] <- 29.77145 
   w$latitude[w$location=="Nemba- Rubona"] <- -2.4828572
   
-   w$crop <- ifelse(w$crop %in% c("Bush Beans","Climbing Beans","Bush bean","Bush BEAN","Bush BEANS ","Bush BEANS",
-                                  "Climbing BEANS ","Climbing bean"),"common bean",
-                    ifelse(w$crop %in% c("Soybeans","SOY BEANS INPUT","SOYBEAN","Climbing bean","SOYBEAN "),"soybean","common bean")) # filled all NA values with common bean crop
-  
-  
-	v <- carobiner::fix_name(w$variety)
-	v <- carobiner::replace_values(v, 
-		c("GASILIDA", "GASIRIDA", "MAMASA", "MAMESA", "SOPROSOY", "YEZUMUTIMA"),
-		c("Gasirida", "Gasirida", "Mamesa", "Mamesa", "Soprosoy", "Yezumitima"))
-  
-  	v <- gsub("^RWA", "RWA ", v)
-	v <- gsub("^RWR", "RWR ", v)
-	v <- gsub("  ", " ", v)
-	w$variety <- v
-	# data type fixed
-	w$end_date<-as.character(w$end_date)
-	w$start_date<-as.character(w$start_date)
-	w$residue_yield<-as.numeric(w$residue_yield)
-	w$on_farm<-as.logical(w$on_farm)
+  v <- carobiner::fix_name(w$crop)
+  v <- ifelse(grepl("bush",ignore.case = T,v),"common bean",v)
+  v <- ifelse(grepl("soy",ignore.case = T,v),"soybean",v)
+  v <- ifelse(grepl("climbing",ignore.case = T,v),"common bean",v)
+  w$crop <- v
+  w$crop[grepl("BB",w$trial_id)] <- "common bean"
+  w$fertilizer_type <- gsub("/","; ",w$fertilizer_type)
 	
-	sort(unique(v))
-	message("   'variety' contains innoculant names and fertilizers.\n   Perhaps an error in the original data. This must be fixed?\n")	
+  # data type fixed
+  w$end_date<-as.character(w$end_date)
+  w$start_date<-as.character(w$start_date)
+  w$residue_yield<-as.numeric(w$residue_yield)
  
+  w <- w[,c("dataset_id","trial_id","country","adm2","location","latitude", "longitude","rep", "treatment","crop", "variety",
+            "start_date","end_date","inoculated","grain_weight","biomass_total","residue_yield","yield","fertilizer_type",
+            "N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH","soil_sand","soil_clay","soil_silt","soil_N",
+            "soil_K","soil_SOC", "on_farm")]
 	
-	# all scripts must end like this
+  # all scripts must end like this
 	carobiner::write_files(dset, w, path, dataset_id, group)
 }
 

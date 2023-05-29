@@ -1,3 +1,4 @@
+
 carob_script <- function(path){
 
   "
@@ -50,6 +51,8 @@ dset$license <- carobiner::get_license(js)
 f <- ff[basename(ff) == "data.csv"]
 d <- data.frame(read.csv(f))
 d$rep <- d$replication_no
+d$date_harvest_yyyy[d$experiment_id %in% c("AT_KE011_SR_2010_INPUT_SB","AT_KE012_SR_2010_INPUT_SB")] <- 2011
+d$planting_date_yyyy[d$experiment_id == "AT_KE017_SR_2010_SB_ROT"] <- 2010
 d$start_date <- as.character(as.Date(paste(d$planting_date_mm,d$planting_date_dd,d$planting_date_yyyy,sep = "/"),"%m/%d/%Y"))
 d$end_date <- as.character(as.Date(paste(d$date_harvest_mm,d$date_harvest_dd,d$date_harvest_yyyy,sep = "/"),"%m/%d/%Y"))
 
@@ -65,7 +68,7 @@ dd[i] <- carobiner::fix_name(dd[i], "title")
 
 # MRP fertilizer is an unknown fertilizer so it will be replaced with "unknown" fertilizer name in all occurrences of MRP
 dd <- carobiner::replace_values(
-  dd,c("MRP","None","UMUBANO","GASIRIDA","RWV1129"),c("unknown","none","Umubano","Gasirida","RWV 1129"))
+  dd,c("MRP","None","UMUBANO","GASIRIDA","RWV1129"),c("unknown","none","Umubano","Gasilida","RWV 1129"))
 d$sub_treatment_fert <- dd
 
 de <- toupper(carobiner::fix_name(d$sub_treatment_inoc))
@@ -74,16 +77,16 @@ de <- gsub("UREA","urea",de)
 i <- grepl("Kenya", de, ignore.case=TRUE)
 de[i] <- carobiner::fix_name(de[i], "title")
 de <- carobiner::replace_values(de,
-                                c("MRP","TSP/KCl urea","TGX1835-10F","KENAY MAVUNO","KAT B 9","KAT X 56","NEW ROSCOCO","NONE","UMUBANO","GASIRIDA","RWV1129"),
-                                c("unknown","TSP/KCl/urea","TGX 1835-10F","Kenya Mavuno","KAT B9","KAT X56","New Roscoco","none","Umubano","Gasirida","RWV 1129"))
+                                c("MRP","TSP/KCl urea","TGX1835-10F","KENAY MAVUNO","KAT B 9","KAT X 56","NEW ROSCOCO","NONE","UMUBANO","GASIRIDA","RWV1129","NAMSOY 4M"),
+                                c("unknown","TSP/KCl/urea","TGX 1835-10F","Kenya Mavuno","KAT B9","KAT X56","New Roscoco","none","Umubano","Gasilida","RWV 1129","NAMSOY"))
 d$sub_treatment_inoc <- de
 d$treatment <- paste("main treatment: ",d$main_treatment," | ",
                      "inoculant treatment: " ,d$sub_treatment_inoc," | ",
                      "fertilizer treatment: " ,d$sub_treatment_fert)
 
-ft <- ifelse(d$sub_treatment_inoc %in% c("unknown","DAP","TSP/KCl","TSP/KCl/urea","TSP"),
+ft <- ifelse(d$sub_treatment_inoc %in% c("unknown","DAP","TSP/KCl","TSP/KCl/urea","TSP","none"),
              d$sub_treatment_inoc,ifelse(
-               d$sub_treatment_fert %in% c("unknown","TSP/KCl","TSP/KCl/urea","DAP","TSP","KCl"),
+               d$sub_treatment_fert %in% c("unknown","TSP/KCl","TSP/KCl/urea","DAP","TSP","KCl","none"),
                d$sub_treatment_fert,NA))
 d$fertilizer_type <- gsub("/", "; ", ft)
 
@@ -91,7 +94,7 @@ v <- carobiner::fix_name(d$variety)
 i <- grepl("Kenya", v, ignore.case=TRUE)
 v[i] <- carobiner::fix_name(v[i], "title")
 v <- carobiner::replace_values(v,c("RWV1129","UMUBANO","GASIRIDA","TGX1740-2F","SB19","SB97","SB3","SB25","NEW ROSCOCO","Kenay Mavuno","KAT B 9","KAT X 56"),
-                                c("RWV 1129","Umubano","Gasirida","TGX 1740-2F","SB 19","SB 97","SB 3","SB 25","New Roscoco","Kenya Mavuno","KAT B9","KAT X56"))
+                                c("RWV 1129","Umubano","Gasilida","TGX 1740-2F","SB 19","SB 97","SB 3","SB 25","New Roscoco","Kenya Mavuno","KAT B9","KAT X56"))
 d$variety <- v
 
 d$biomass_roots <- d$root_dry_weight_roots_no_nodules
@@ -149,17 +152,19 @@ d4 <- d4[complete.cases(d4$yield), ]
 
 d4$N_fertilizer <- ifelse(grepl("urea", d4$fertilizer_type), 60, 0)
 # Since DAP was applied at a rate of 30 kg P per hectare, we only know the amount of phosphorus applied, 
-# not the amount of nitrogen. This is because the rate of application is given in terms of P (phosphorus) and not N (nitrogen).
-
+# hence we calculate total amount of DAP whose composition in 18:46:0
+tot_DAP <- 30/0.46
+d4$N_fertilizer <- ifelse(d4$fertilizer_type == "DAP",tot_DAP*0.18,d4$N_fertilizer)
 d4$P_fertilizer <- ifelse(grepl("TSP", d4$fertilizer_type), 30, 0)
 d4$P_fertilizer[d4$fertilizer_type=="DAP"] <- 30
 
 d4$K_fertilizer <- ifelse(grepl("KCl", d4$fertilizer_type), 30, 0)
-
-d4 <- d4[, c("dataset_id","trial_id","country","location","rep", "treatment","crop", "variety",
+d4$N_splits <- ifelse(grepl("urea",d4$fertilizer_type),2,0)
+d4 <- d4[, c("dataset_id","trial_id","country","location","latitude", "longitude", "elevation","rep", "treatment","crop", "variety",
              "start_date","end_date","inoculated","plant_density","grain_weight","biomass_roots","biomass_total",
-            "residue_yield","yield","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","soil_pH", "soil_K", 
-             "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm","latitude", "longitude", "elevation")]
+            "residue_yield","yield","fertilizer_type","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH", "soil_K", 
+             "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm")]
 
 carobiner::write_files(dset, d4, path, dataset_id, group)
 }
+
