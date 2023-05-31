@@ -52,110 +52,70 @@ carob_script <- function(path) {
   d$on_farm <- FALSE
   
   #subsetting each treatment with their respective observations into data different datasets then appending the rows later
-  d1 <- d[,c("trial_id","treatment1","row_spacing_crop_1_plot_1.cm","plant_spacing_crop_1_plot_1.cm","no_plants_hole_crop_1_plot_1.nr","width_of_harvested_plot_crop_1_plot_1.m","number_of_rows_crop_1_plot_1.nr","grain_weight_crop_1_plot_1.kg","pod_weight_groundnut_crop_1_plot_1.kg","above_ground_biomass_weight_crop_1_plot_1.kg")]
-  d2 <- d[,c("trial_id","treatment2","row_spacing_crop_1_plot_2.cm","plant_spacing_crop_1_plot_2.cm","no_plants_hole_crop_1_plot_2.nr","width_of_harvested_plot_crop_1_plot_2.m","number_of_rows_crop_1_plot_2.nr","grain_weight_crop_1_plot_2.kg","pod_weight_groundnut_crop_1_plot_2.kg","above_ground_biomass_weight_crop_1_plot_2.kg")]
-  d3 <- d[,c("trial_id","treatment3","row_spacing_crop_1_plot_3.cm","plant_spacing_crop_1_plot_3.cm","no_plants_hole_crop_1_plot_3.nr","width_of_harvested_plot_crop_1_plot_3.m","number_of_rows_crop_1_plot_.nr","grain_weight_crop_1_plot_3.kg","pod_weight_groundnut_crop_1_plot_3.kg","above_ground_biomass_weight_crop_1_plot_3.kg")]
-  d4 <- d[,c("trial_id","treatment4","row_spacing_crop_1_plot_4.cm","plant_spacing_crop_1_plot_4.cm","no_plants_hole_crop_1_plot_4.nr","width_of_harvested_plot_crop_1_plot_4.m","number_of_rows_crop_1_plot_4.nr","grain_weight_crop_1_plot_4.kg","pod_weight_groundnut_crop_1_plot_4.kg","above_ground_biomass_weight_crop_1_plot_4.kg")]
-  d5 <- d[,c("trial_id","treatment5","row_spacing_crop_1_plot_5.cm","plant_spacing_crop_1_plot_5.cm","no_plants_hole_crop_1_plot_5.nr","width_of_harvested_plot_crop_1_plot_5.m","number_of_rows_crop_1_plot_5.nr","grain_weight_crop_1_plot_5.kg","pod_weight_groundnut_crop_1_plot_5.kg","above_ground_biomass_weight_crop_1_plot_5.kg")]
-  d6 <- d[,c("trial_id","treatment6","row_spacing_crop_1_plot_6.cm","plant_spacing_crop_1_plot_6.cm","no_plants_hole_crop_1_plot_6.nr","width_of_harvested_plot_crop_1_plot_6.m","number_of_rows_crop_1_plot_6.nr","grain_weight_crop_1_plot_6.kg","pod_weight_groundnut_crop_1_plot_6.kg","above_ground_biomass_weight_crop_1_plot_6.kg")]
-  d7 <- d[,c("trial_id","treatment7","row_spacing_crop_1_plot_7.cm","plant_spacing_crop_1_plot_7.cm","no_plants_hole_crop_1_plot_7.nr","width_of_harvested_plot_crop_1_plot_7.m","number_of_rows_crop_1_plot_7.nr","grain_weight_crop_1_plot_7.kg","pod_weight_groundnut_crop_1_plot_7.kg","above_ground_biomass_weight_crop_1_plot_7.kg")]
-  d8 <- d[,c("trial_id","treatment8","row_spacing_crop_1_plot_8.cm","plant_spacing_crop_1_plot_8.cm","no_plants_hole_crop_1_plot_8.nr","width_of_harvested_plot_crop_1_plot_8.m","number_of_rows_crop_1_plot_8.nr","grain_weight_crop_1_plot_8.kg","pod_weight_groundnut_crop_1_plot_8.kg","above_ground_biomass_weight_crop_1_plot_8.kg")]
-  d9 <- d[,c("trial_id","treatment9","row_spacing_crop_1_plot_9.cm","plant_spacing_crop_1_plot_9.cm","no_plants_hole_crop_1_plot_9.nr","width_of_harvested_plot_crop_1_plot_9.m","number_of_rows_crop_1_plot_9.nr","grain_weight_crop_1_plot_9.kg","pod_weight_groundnut_crop_1_plot_9.kg","above_ground_biomass_weight_crop_1_plot_9.kg")]
-  d10 <- d[,c("trial_id","treatment10","row_spacing_crop_1_plot_10.cm","plant_spacing_crop_1_plot_10.cm","no_plants_hole_crop_1_plot_10.nr","width_of_harvested_plot_crop_1_plot_10.m","number_of_rows_crop_1_plot_10.nr","grain_weight_crop_1_plot_10.kg","pod_weight_groundnut_crop_1_plot_10.kg","above_ground_biomass_weight_crop_1_plot_10.kg")]
-  d11 <- d[,c("trial_id","treatment11","row_spacing_crop_1_plot_11.cm","plant_spacing_crop_1_plot_11.cm","no_plants_hole_crop_1_plot_11.nr","width_of_harvested_plot_crop_1_plot_11.m","number_of_rows_crop_1_plot_11.nr","grain_weight_crop_1_plot_11.kg","pod_weight_groundnut_crop_1_plot_11.kg","above_ground_biomass_weight_crop_1_plot_11.kg")]
-  d12 <- d[,c("trial_id","treatment12","row_spacing_crop_1_plot_12.cm","plant_spacing_crop_1_plot_12.cm","no_plants_hole_crop_1_plot_12.nr","width_of_harvested_plot_crop_1_plot_12.m","number_of_rows_crop_1_plot_12.nr","grain_weight_crop_1_plot_12.kg","pod_weight_groundnut_crop_1_plot_12.kg","above_ground_biomass_weight_crop_1_plot_12.kg")]
-  
-  # removing the rows with no entries
-  d7 <- d7[!is.na(d7$treatment7),]
-  d8 <- d8[!is.na(d8$treatment8),]
-  d9 <- d9[!is.na(d9$treatment9),]
-  d10<- d10[!is.na(d10$treatment10),]
-  d11<- d11[!is.na(d11$treatment11),]
-  d12<- d12[!is.na(d12$treatment12),]
-
+  old_nms <- c("trial_id","treatmentX", "row_spacing_crop_1_plot_X.cm", "plant_spacing_crop_1_plot_X.cm","no_plants_hole_crop_1_plot_X.nr", "width_of_harvested_plot_crop_1_plot_X.m","number_of_rows_crop_1_plot_X.nr", "grain_weight_crop_1_plot_X.kg", "pod_weight_groundnut_crop_1_plot_X.kg","above_ground_biomass_weight_crop_1_plot_X.kg")
   new_names <- c("trial_id","treatment","row_spacing","plant_spacing","plants_hole","width_harvest","no_rows","grain_weight","pod_weight","residue_yield")
-  
-  # changing the column names 
-  colnames(d1) <- new_names
-  colnames(d2) <- new_names
-  colnames(d3) <- new_names
-  colnames(d4) <- new_names
-  colnames(d5) <- new_names
-  colnames(d6) <- new_names
-  colnames(d7) <- new_names
-  colnames(d8) <- new_names
-  colnames(d9) <- new_names
-  colnames(d10) <- new_names
-  colnames(d11) <- new_names
-  colnames(d12) <- new_names
-  
-  #stacking the rows
-  dd1 <- rbind(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12)
-  
-  dd1$row_spacing <- as.numeric(dd1$row_spacing)
-  dd1$plant_spacing <- as.numeric(dd1$plant_spacing)
+
+	old_nms3 = gsub("number_of_rows_crop_1_plot_X.nr", "number_of_rows_crop_1_plot_.nr", old_nms)
+
+	lst <- lapply(1:12, function(i) {
+			if (i == 3) {
+				di <- d[, gsub("X", i, old_nms3)]
+			} else {
+				di <- d[, gsub("X", i, old_nms)]
+			}
+			colnames(di) <- new_names
+			di
+		})
+	dd1 <- data.frame(do.call(rbind, lst))
+	dd1 <- dd1[!is.na(dd1$treatment), ]
+	
+	dd1$row_spacing <- as.numeric(dd1$row_spacing)
+	dd1$plant_spacing <- as.numeric(dd1$plant_spacing)
   
   #subsetting for the other variables of interest
-  dd2 <- d[,c("trial_id","submissiondate","start","irrigated","on_farm","is_survey","end","country","lga_district_woreda","sector_ward","legume_planted_in_the_n2africa_trial","crop_1_previous_season","inoculation_n2africa_field")]
+	dd2 <- d[,c("trial_id","submissiondate","start","irrigated","on_farm","is_survey","end","country","lga_district_woreda","sector_ward","legume_planted_in_the_n2africa_trial","crop_1_previous_season","inoculation_n2africa_field")]
 
-  dd3 <- merge(dd2,dd1, by = "trial_id", all = TRUE) 
+	dd3 <- merge(dd2, dd1, by = "trial_id", all = TRUE) 
   
   
  # bringing in the groundnut yield entries with the rest of the yield entries 
-  for (i in 1:length(dd3$grain_weight)){
-    if(is.na(dd3$grain_weight[i]) & !is.na(dd3$pod_weight[i])){
-     k<-dd3$pod_weight[i]
-     dd3$grain_weight[i]<- k
-    }
-  }
+	i <- is.na(dd3$grain_weight) & !is.na(dd3$pod_weight)
+	dd3$grain_weight[i] <- dd3$pod_weight[i]
     
-  dd3$inoculated <- ifelse(dd3$inoculation_n2africa_field == "y", TRUE, FALSE)
-  v <- carobiner::replace_values(dd3$legume_planted_in_the_n2africa_trial,c("soya_bean", "climbing_bean", "bush_bean"),
-                                 c("soybean","common bean","common bean"))
-  dd3$crop <- v
-  dd3$start_date <- dd3$start
-  dd3$end_date <- dd3$end
-  v <- carobiner::fix_name(dd3$country, case = "title")
-  dd3$country <- v
-  v <- carobiner::fix_name(dd3$lga_district_woreda, case = "title")
-  dd3$adm1 <- v
-  v <- carobiner::fix_name(dd3$sector_ward, case = "title")
-  dd3$site <- v
-  dd3$dataset_id <- dataset_id
-  
+	dd3$inoculated <- ifelse(dd3$inoculation_n2africa_field == "y", TRUE, FALSE)
+	dd3$crop <- carobiner::replace_values(dd3$legume_planted_in_the_n2africa_trial, c("soya_bean", "climbing_bean", "bush_bean"), c("soybean","common bean","common bean"))
+	dd3$start_date <- dd3$start
+	dd3$end_date <- dd3$end
+	dd3$country <- carobiner::fix_name(dd3$country, case = "title")
+	dd3$adm1 <- carobiner::fix_name(dd3$lga_district_woreda, case = "title")
+	dd3$site <- carobiner::fix_name(dd3$sector_ward, case = "title")
+
  #to get the varieties and the fertilizer inputs
-  ft <- strsplit(dd3$treatment , "[,+]+")
+	ft <- strsplit(dd3$treatment , "[,+]+")
   
-  for (i in 1:max_splits) {
-    split_list[[i]] <- sapply(ft, function(x) ifelse(length(x) >= i, x[i], NA))
-  }
-  dd4<- cbind(dd3, as.data.frame(split_list))
+	max_splits <- max(sapply(ft, length))
+	split_list <- list()
+	for (i in 1:max_splits) {
+		split_list[[i]] <- sapply(ft, function(x) ifelse(length(x) >= i, x[i], NA))
+	}
+	dd4 <- cbind(dd3, as.data.frame(split_list))
   
   #to get the latitude 
   lat_long <- d[, c("trial_id","gps_latitude_field.decimal_degrees","gps_field_device_latitude.decimal_degrees","gps_field_device_longitude.decimal_degrees","gps_longitude_field.decimal_degrees")]
   
-  for (i in 1:length(lat_long$gps_latitude_field.decimal_degrees)){
-   if(is.na(lat_long$gps_latitude_field.decimal_degrees[i]) & !is.na(lat_long$gps_field_device_latitude.decimal_degrees[i])){
-     k<-lat_long$gps_field_device_latitude.decimal_degrees[i]
-     lat_long$gps_latitude_field.decimal_degrees[i]<- k
-    }
-  }
+	i <- is.na(lat_long$gps_latitude_field.decimal_degrees) & (!is.na(lat_long$gps_field_device_latitude.decimal_degrees))
+	lat_long$gps_latitude_field.decimal_degrees[i] <- lat_long$gps_field_device_latitude.decimal_degrees[i]
   
   # to get the longitude
-  for (i in 1:length(lat_long$gps_longitude_field.decimal_degrees)){
-   if(is.na(lat_long$gps_longitude_field.decimal_degrees[i]) & !is.na(lat_long$gps_field_device_longitude.decimal_degrees[i])){
-     k<-lat_long$gps_field_device_longitude.decimal_degrees[i]
-     lat_long$gps_longitude_field.decimal_degrees[i]<- k
-    }
-  }
+	i <- is.na(lat_long$gps_longitude_field.decimal_degrees) & (!is.na(lat_long$gps_field_device_longitude.decimal_degrees))
+    lat_long$gps_longitude_field.decimal_degrees[i] <- lat_long$gps_field_device_longitude.decimal_degrees[i]
   
-  lat_long <- lat_long[, c("trial_id","gps_latitude_field.decimal_degrees","gps_longitude_field.decimal_degrees")]  
+	lat_long <- lat_long[, c("trial_id", "gps_latitude_field.decimal_degrees","gps_longitude_field.decimal_degrees")]  
 
-   
- 
+    
   # The NAs in the lat and lon comes to 109 entries, find a way of doing this efficiently
-  n1 <- which(is.na(lat_long$gps_latitude_field.decimal_degrees & lat_long$gps_longitude_field.decimal_degrees))
-  n2 <- lat_long[n1, ]
+ # n1 <- which(is.na(lat_long$gps_latitude_field.decimal_degrees & lat_long$gps_longitude_field.decimal_degrees))
+ # n2 <- lat_long[n1, ]
   
   lat_long$latitude <- lat_long$gps_latitude_field.decimal_degrees
   lat_long$longitude <- lat_long$gps_longitude_field.decimal_degrees
@@ -182,7 +142,7 @@ carob_script <- function(path) {
   ft <- ft[1:num_rows]
   dd5$mix <- ft
   
-  dd5$N_fertilizer <-0
+  dd5$N_fertilizer <- 0
   dd5$P_fertilizer <- 0
   dd5$K_fertilizer <- 0
   dd5$Zn_fertilizer <-0
