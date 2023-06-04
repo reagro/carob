@@ -51,9 +51,9 @@ inoculants and fertilizers adapted to local settings.
 	colnames(d) <- c("country", "trial_id", "location", "site", "latitude1", "latitude2", "longitude1", "longitude2", "start_date", "end_date", "crop", "previous_crop", "inoculated")
   
  # Fix long and lat columns 
-	i <- is.na(d$latitude1[i])
+	i <- is.na(d$latitude1)
     d$latitude1[i] <- d$latitude2[i]
-    i <- is.na(d$longitude1[i])
+    i <- is.na(d$longitude1)
     d$longitude1[i] <- d$longitude2[i]
  
 # keep the relevant column of long and lat
