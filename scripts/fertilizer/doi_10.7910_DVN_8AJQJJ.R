@@ -58,16 +58,16 @@ carob_script <- function(path) {
 #### about the data #####
 ## (TRUE/FALSE)
 
-	d <- data.frame("irrigated" = as.logical(ifelse(rr$`Watering Regime` == 'Irrigated', TRUE, FALSE)))
+#	d <- data.frame("irrigated" = as.logical(ifelse(rr$`Watering Regime` == 'Irrigated', TRUE, FALSE)))
+	d <- data.frame("irrigated" = rr$`Watering Regime` == 'Irrigated')
 	d$dataset_id <- dataset_id
 	# d$on_farm <- 
 	d$is_survey <- FALSE
-	d$irrigated <- as.logical(ifelse(rr$`Watering Regime` == 'Irrigated', TRUE, FALSE))
 ## the treatment code	
-	d$treatment <- paste0(ifelse(is.na(as.integer(rr$N)), "", "N"), ifelse(is.na(as.integer(rr$N)), "", as.integer(rr$N)),
-	                      ifelse(is.na(as.integer(rr$P)), "", "P"), ifelse(is.na(as.integer(rr$P)), "", as.integer(rr$P)),
-	                      ifelse(is.na(as.integer(rr$K)), "", "K"), ifelse(is.na(as.integer(rr$K)), "", as.integer(rr$K)),
-	                      ifelse(is.na(as.integer(rr$`MicroN amount`)), "", rr$Micronutrient), ifelse(is.na(as.integer(rr$`MicroN amount`)), "", as.integer(rr$`MicroN amount`)))
+	d$treatment <- paste0(ifelse(is.na(rr$N), "N0", paste0("N", as.integer(rr$N))),
+	               ifelse(is.na(rr$P), "P0", paste0("P", as.integer(rr$P))),
+	               ifelse(is.na(rr$K), "K0", paste0("K", as.integer(rr$K))),
+	               ifelse(is.na(rr$`MicroN amount`), "mic0", paste0("mic", as.integer(rr$`MicroN amount`))))
 	d$rep <- rr$observation # Review this
 	d$trial_id <- paste(rr$`DATA SOURCE`, rr$treatment_type, sep = " - ")
 	
@@ -79,25 +79,25 @@ carob_script <- function(path) {
 	d$country <- as.character(ifelse(rr$COUNTRY %in% c("Cote dIvoire", "Cote d'Ivoire"), "Côte d'Ivoire", rr$COUNTRY))
 	d$site <- as.character(rr$SITE)
 ## each site must have corresponding longitude and latitude
+	rr$X[rr$X == "NA"] <- NA
+	rr$Y[rr$Y == "NA"] <- NA
+	rr$Y[grep(" and ", rr$Y)] <- NA
 	d$longitude <- as.numeric(rr$X)
 	d$latitude <- as.numeric(rr$Y)
-	d[is.na(d$longitude) & d$site == "Sidindi", "longitude"] <- as.numeric(34.38)
-	d[is.na(d$latitude) & d$site == "Sidindi", "latitude"] <- as.numeric(0.15)
-	d[is.na(d$longitude) & d$site == "Thuchila", "longitude"] <- as.numeric(35.57)
-	d[is.na(d$latitude) & d$site == "Thuchila", "latitude"] <- as.numeric(-15.86)
-	d[is.na(d$longitude) & d$site == "Calabar", "longitude"] <- as.numeric(8.33)
-	d[is.na(d$latitude) & d$site == "Calabar", "latitude"] <- as.numeric(4.97)
-	d[is.na(d$longitude) & d$site == "Manjawira", "longitude"] <- as.numeric(34.85)
-	d[is.na(d$latitude) & d$site == "Manjawira", "latitude"] <- as.numeric(-14.99)
-	d[is.na(d$longitude) & d$site == "Amoutchou", "longitude"] <- as.numeric(1.08)
-	d[is.na(d$latitude) & d$site == "Amoutchou", "latitude"] <- as.numeric(7.46)
-	d[is.na(d$longitude) & d$site == "Sarakawa", "longitude"] <- as.numeric(1.01)
-	d[is.na(d$latitude) & d$site == "Sarakawa", "latitude"] <- as.numeric(9.63)
+	xy <- c("longitude", "latitude")
+	i <- apply(is.na(d[, xy]), 1, any)
+	d[i & d$site == "Sidindi", xy] <- c(34.38, 0.15)
+	d[i & d$site == "Thuchila", xy] <- c(35.57, -15.86)
+	d[i & d$site == "Calabar", xy] <- c(8.33, 4.97)
+	d[i & d$site == "Manjawira", xy] <- c(34.85, -14.99)
+	d[i & d$site == "Amoutchou", xy] <-  c(1.08, 7.46)
+	d[i & d$site == "Sarakawa", xy] <- c(1.01, 9.63)
 
 ##### Crop #####
 ## normalize variety names
-	d$crop <- tolower(as.character(rr$CROPTYPE))
-	d$variety_type <- tolower(as.character(rr$VARIETY))
+	d$crop <- tolower(rr$CROPTYPE)
+	d$variety_type <- tolower(rr$VARIETY)
+	d$variety_type[d$variety_type == "indigenous"] <- "landrace"
 
 ##### Time #####
 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
@@ -145,7 +145,8 @@ carob_script <- function(path) {
 	# d$soil_P_available <- rr$`Avail P` 
 	
 	#### OTHER ######
-	d$uncertainty <- as.numeric(rr$Error) # coerced NAs due to character types. Could be suppressed.
+	 # coerced NAs due to character types. Could be suppressed.
+	d$uncertainty <- suppressWarnings(as.numeric(rr$Error))
 	d$uncertainty_type <- as.character(rr$`Error Type`)
 	d$rain <- as.integer(rr$Rainfall)
 	

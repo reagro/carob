@@ -51,15 +51,15 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
                   "water_mangement","variety","observation_date","season","tillage","treatment","N_splits","N_fertilizer",
                   "P_fertilizer","K_fertilizer","Zn_fertilizer","rep","yield")
   
-  d[c('start_date', 'end_date')] <- str_split_fixed(d$observation_date, "-", 2)
+  d[c('start_date', 'end_date')] <- stringr::str_split_fixed(d$observation_date, "-", 2)
   
   
-  d[c('latitude1', 'Latitude2')] <- str_split_fixed(d$latitude, "\u0096", 2)
-  d[c('longitude1', 'Longitude2')] <- str_split_fixed(d$longitude, "\u0096", 2)
+  d[c('latitude1', 'Latitude2')] <- stringr::str_split_fixed(d$latitude, "\u0096", 2)
+  d[c('longitude1', 'Longitude2')] <- stringr::str_split_fixed(d$longitude, "\u0096", 2)
   
-  d[c('soil_pH', 'soil_pH1')] <- str_split_fixed(d$soil_pH, "-", 2)
+  d[c('soil_pH', 'soil_pH1')] <- stringr::str_split_fixed(d$soil_pH, "-", 2)
   
-  d[c('soil_SOC', 'soil_SOC1')] <- str_split_fixed(d$soil_SOC, "-", 2)
+  d[c('soil_SOC', 'soil_SOC1')] <- stringr::str_split_fixed(d$soil_SOC, "-", 2)
  
   d$k<-d$end_date
   d$end_date<-ifelse((d$start_date=="2006 and 2007")& is.na(d$end_date),"2007",
