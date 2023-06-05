@@ -12,7 +12,7 @@ carob_script <- function(path) {
 "
   
   uri <- "https://doi.org/10.5061/dryad.j3tx95xhc"
-  dataset_id <- agro::get_simple_URI(uri)
+  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ## dataset level data 
   dset <- data.frame(
@@ -56,20 +56,45 @@ carob_script <- function(path) {
   d$irrigated <- ifelse(d$Water_regime == "Irrigated", TRUE, FALSE)
   ## the treatment code	
   d$trial_id <- d$Publication
-  
+  d$trial_id[d$trial_id=="Horv\xe1th et al 2021"] <- "Horváth et al 2021"
+  d$trial_id[d$trial_id=="Martin\xednezCuesta et al 2020"] <- "MartinínezCuesta et al 2020"
+  d$trial_id[d$trial_id=="Sz\xe9les et al 2019"] <- "Széles et al 2019"
   
   ##### Location #####
   ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
   ## you can use carobiner::fix_name()
-  d$country <- ifelse(d$Country == "C\xf4te d\x92Ivoire", "Côte d'Ivoire", d$Country)
-  d$site <- d$Site
+  d$country <- d$Country
+  d$country[d$country == "C\xf4te d\x92Ivoire"] <- "Côte d'Ivoire"
+  
+  d$Site[d$Site == "Ca\xf1ada de Gomez"] <- "Cañada de Gómez"
+  d$Site[d$Site == "Ca\xf1ada Rica"] <- "Cañada Rica"
+  d$Site[d$Site == "Cai\xf1ogan Alto"] <- "Cañogan Alto"
+  d$Site[d$Site == "Sto. Ni\xf1o"] <- "Sto. Niño"
+  d$Site[d$Site == "Sztgyv\xf6lgy"] <- "Sztgyvölgy"
+  d$Site[d$Site == "Bics\xe9rd"] <- "Bicsérd"
+  d$Site[d$Site == "Isma\xeflia"] <- "Ismaïlia"
+  d$Site[d$Site == "Rol\xe2ndia"] <- "Rolândia"
+  d$Site[d$Site == "Brgy. Cape\xf1ahan"] <- "Brgy. Capeñahan"
+  d$Site[d$Site == "Chill\xe1n"] <- "Chillán"
+  d$Site[d$Site == "L\xe9vis"] <- "Lévis"
+  d$Site[d$Site == "La Concepci\xf3n"] <- "La Concepción"
+  d$site <- carobiner::fix_name(d$Site, "title")
+  
+  
   d$adm1 <- d$Region_province
+  d$adm1[d$adm1 == "Gouvernement Isma\xeflia"] <- "Gouvernement Ismaïlia"
+  d$adm1[d$adm1 == "Hajd\xfa-Bihar"] <- "Hajdú-Bihar"
+  d$adm1[d$adm1 == "Paran\xe1"] <- "Paraná"
+  d$adm1[d$adm1 == "Diguill\xedn"] <- "Diguillín"
+  d$adm1[d$adm1 == "Goi\xe1s"] <- "Goiás"
+  d$adm1[d$adm1 == "Quer\xe9taro"] <- "Querétaro"
+ 
+  d$adm1 <- carobiner::fix_name(d$adm1, "title")
+
   ## each site must have corresponding longitude and latitude
   d$longitude <- d$GPS_long_DD
   d$latitude <- d$GPS_lat_DD
-  
-  
-  
+
   ##### Crop #####
   ## normalize variety names
   d$crop <- tolower(d$Crop)

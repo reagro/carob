@@ -50,7 +50,7 @@ carob_script <- function(path){
   d$rep <- d$replication_no
   d$start_date <- as.character(as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-")))
   d$end_date <-as.character(as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-")))
-  d <-replace(d,d=="0000-08-04","2011-08-04")# correcting the dates
+  d$end_date[d$end_date=="0-08-04"] <- "2011-08-04"
   
   d$yield <- d$grain_yield_ha_calc
   d$residue_yield <- d$tot_stover_yield_haulm_husks_calc
@@ -67,8 +67,9 @@ carob_script <- function(path){
   y[c] <- carobiner::fix_name(y[c],"title")
   j <- grepl("sprayed", ignore.case = TRUE, y)
   y[j] <- carobiner::fix_name(y[j],"title")
-  y <- carobiner::replace_values(y,c("GASIRIDA","KK071","KK072","KK15","KK8","MAMESA","NEWROSCOCO","OKWODHO","RWV2070","UMUBANO")
-                                 ,c("Gasilida","KK 071","KK 072","KK 15","KK 8","Mamesa","Newrosecoco","Okwodho","RWV 2070","Umubano"))
+  y <- carobiner::replace_values(y,
+     c("GASIRIDA","KK071","KK072","KK15","KK8","MAMESA","NEWROSCOCO","OKWODHO","RWV2070","UMUBANO"),
+	 c("Gasilida","KK 071","KK 072","KK 15","KK 8","Mamesa","Newrosecoco","Okwodho","RWV 2070","Umubano"))
   y[y %in% c("Minus Lime","Withou Lime")] <- "Without Lime"
   d$main_treatment <- y
   i <- grepl("inoc",d$sub_treatment_inoc,ignore.case = TRUE)
