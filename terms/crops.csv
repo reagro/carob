@@ -1,55 +1,55 @@
-name,sciname,harvest,fresh_moisture
-banana,Musa acuminata,fruit,
-bambara groundnut,Vigna subterranea,seed,
-barley,Hordeum vulgare,seed,
-cassava,Manihot esculenta,root,
-cassava leaves,Manihot esculenta,leaves,
-chickpea,Cicer arientinum,seed,
+name,sciname,harvest,fresh_moisture,yield
+banana,Musa acuminata,fruit,, 173000 
+bambara groundnut,Vigna subterranea,seed,,
+barley,Hordeum vulgare,seed,,20000
+cassava,Manihot esculenta,root,,90000
+cassava leaves,Manihot esculenta,leaves,,25000
+chickpea,Cicer arientinum,seed,,3500
 clover,Trifolium sp.,green manure,
-common bean,Phaseolus vulgaris,seed,
-cotton,Gossypium hirsutum,fruit,
-cowpea,Vigna unguiculata,seed,
-crotalaria,Crotalaria spp,depends,
-faba bean,Vica faba,seed,
-fenugreek,Trigonella foenum-graecum,seed,
-finger millet,Eleusine coracana,seed,
+common bean,Phaseolus vulgaris,seed,,8000
+cotton,Gossypium hirsutum,fruit,,5000
+cowpea,Vigna unguiculata,seed,,5000
+crotalaria,Crotalaria spp,depends,,2500
+faba bean,Vica faba,seed,,6500
+fenugreek,Trigonella foenum-graecum,seed,,5500
+finger millet,Eleusine coracana,seed,,6000
 forage legume,spp,forage,
-gomenzer,Brassica carinata,leaves,
-grass pea,Lathyrus sativus,seed,
-groundnut,Arachis hypogaea,seed,
+gomenzer,Brassica carinata,leaves,,2300
+grass pea,Lathyrus sativus,seed,,2500
+groundnut,Arachis hypogaea,seed,,4700
 guar,Cyamopsis tetragonoloba,,
-jackfruit,Artocarpus heterophyllus,fruit,
-kola,Cola sp.,seed,
-lablab,Lablab purpureus,seed,
-lentil,Lens culinaris,seed,
+jackfruit,Artocarpus heterophyllus,fruit,,80000
+kola,Cola sp.,seed,,10000
+lablab,Lablab purpureus,seed,,5000
+lentil,Lens culinaris,seed,,7000
 lucerne,Medicago sativa,feed,
-maize,Zea mays,seed,12
-mango,Mangifera indica,fruit,
+maize,Zea mays,seed,12,41500
+mango,Mangifera indica,fruit,,100000
 mung bean,Vigna radiata,,
 no crop,,,
-noug,Guizotia abyssinica,,
-oats,Avena sativa,seed,
-okra,Abelmoschus esculentus,fruit,
-orange,Citrus sinensis,fruit,
-pea,Pisum sativum,seed,
-pearl millet,Pennisetum glaucum,seed,
-pepper,Capsicum spp,fruit,
-pigeon pea,Cajanus cajan,seed,
-potato,Solanum tuberosum,tuber,80
-rapeseed,Brassica napus,seed,
-rice,Oryza sativa,grain,
-sesbania,Sesbania spp,none,
-sorghum,Sorghum bicolor,seed,
-soybean,Glycine max,seed,
-sugarcane,Saccharum officinarum,stems,
+noug,Guizotia abyssinica,,,5000
+oats,Avena sativa,seed,,13450
+okra,Abelmoschus esculentus,fruit,,
+orange,Citrus sinensis,fruit,,100000
+pea,Pisum sativum,seed,,10000
+pearl millet,Pennisetum glaucum,seed,,15000
+pepper,Capsicum spp,fruit,,100000
+pigeon pea,Cajanus cajan,seed,,7000
+potato,Solanum tuberosum,tuber,80,175000
+rapeseed,Brassica napus,seed,,5000
+rice,Oryza sativa,grain,,22500
+sesbania,Sesbania spp,none,,125000
+sorghum,Sorghum bicolor,seed,,18000
+soybean,Glycine max,seed,,15000
+sugarcane,Saccharum officinarum,stems,,381000
 sunflower,Helianthus annuus,anuum,
 sunhemp,Crotalaria juncea,green manure,
-sweetpotato,Ipomoea batatas,root,
-teff,Eragrostis tef,seed,
-tobacco,Nicotiana tabacum,leaves,
-tomato,Solanum lycopersicum,fruit,
+sweetpotato,Ipomoea batatas,root,,100000
+teff,Eragrostis tef,seed,,10000
+tobacco,Nicotiana tabacum,leaves,,10000
+tomato,Solanum lycopersicum,fruit,,100000
 vegetables,spp,leaves,
 velvet bean,Mucuna pruriens,green manure,
 vetch,Vicia spp,forage,
-wheat,Triticum aestivum,seed,
-yam,Dioscorea cayenensis,tuber,
+wheat,Triticum aestivum,seed,,18000
+yam,Dioscorea cayenensis,tuber,,60000
