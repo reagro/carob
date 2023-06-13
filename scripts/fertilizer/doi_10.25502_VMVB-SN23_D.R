@@ -49,6 +49,7 @@ carob_script <- function(path){
   d$trial_id <- d$experiment_id
   d$rep <- d$replication_no
   d$start_date <- as.character(as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-")))
+  d$date_harvest_yyyy[d$trial_id == "AT_KE003_LR_2011_INPUT_SB_BUTULA"] <- 2011
   d$end_date <-as.character(as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-")))
   d$end_date[d$end_date=="0-08-04"] <- "2011-08-04"
   
