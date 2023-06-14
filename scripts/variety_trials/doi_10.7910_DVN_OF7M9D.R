@@ -34,42 +34,43 @@ carob_script <- function(path) {
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   dset$license <- carobiner::get_license(js)[[1]]
   
-  d <- data.frame()
+  d <- list()
   ## Process all country files in a loop, since all have similar structure. Then append them together
-  for (f in (ff[tools::file_ext(ff) == "xlsx"])) {
-    dd <- data.frame(readxl::read_excel(f))
-    dd$dataset_id <- dataset_id
+  xlfiles <- grep("\\.xlsx$", ff, value=TRUE)
+  for (i in 1:length(xlfiles)) {
+    dd <- data.frame(readxl::read_excel(ff[i]))
     dd$country <- ifelse(dd$Country == "Cote d'Ivoire", "Côte d'Ivoire", dd$Country)
     dd$site <- dd$Site
-    dd$trial_id <- paste0(dataset_id, '-', dd$Country)
-    # Coordinates extracted using Geonames.org
-    dd$latitude <- ifelse(dd$Country == "Burkina Faso", 11.082302,
-                         ifelse(dd$Country == "Benin", 10.3079,
-                                ifelse(dd$Country == "Cote d'Ivoire", 7.69385,
-                                       ifelse(dd$Country == "Guinea", NA,
-                                              ifelse(dd$Country == "Mali", 11.38856, 9.48267)))))
-    dd$longitude <- ifelse(dd$Country == "Burkina Faso", -4.339967,
-                          ifelse(dd$Country == "Benin", 2.4239,
-                                 ifelse(dd$Country == "Cote d'Ivoire", -5.03031,
-                                        ifelse(dd$Country == "Guinea", NA,
-                                               ifelse(dd$Country == "Mali", -5.65644, 6.48478)))))
-    dd$start_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredStart[[4]]
-    dd$end_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredEnd[[4]]
     dd$season <- dd$Season
      dd$variety_code <- dd$Genotype
-	# Only Burkina Faso and Mali miss the grain weight data
+	# Burkina Faso and Mali miss the grain weight data
     dd$grain_weight <- ifelse(dd$Country %in% c("Burkina Faso", "Mali"), NA, dd$GW1000) 
 	dd$yield <- dd$YIELD*1000
-
-    dd <- dd[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "season", "variety_code", "yield", "grain_weight")]
-    d <- rbind(d, dd)
+    dd <- dd[,c("country", "site", "season", "variety_code", "yield", "grain_weight")]
+    d[[i]] <- dd
   }
+
+	d <- do.call(rbind, d)
+
+    d$dataset_id <- dataset_id
+    d$trial_id <- paste0(dataset_id, '-', dd$country)
+    d$start_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredStart[[4]]
+    d$end_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredEnd[[4]]
+
+    # Coordinates extracted using Geonames.org
+	# Africa Rice (CdI) and Bordo from Google
+	# Bordo = Bordo ENAE in Kankan, Guinea
+	xy <- data.frame(country=c("Burkina Faso","Benin", "Côte d'Ivoire", "Mali", "Nigeria", "Guinea"), 
+		  longitude=c(-4.339967, 2.4239, -5.10362, -5.65644, 6.48478, -9.30609),
+		  latitude =c(11.082302, 10.3079, 7.88761, 11.38856, 9.48267, 10.38971))
+
+	d <- merge(d, xy, by="country", all.x=TRUE)
+
     # Rainfed Upland (RU) farming systems
     d$crop <- "rice"
     d$irrigated <- FALSE 
     d$is_survey <- FALSE
     d$on_farm <- TRUE
-
  
   # all scripts must end like this
   carobiner::write_files(dset, d, path, dataset_id, group)
