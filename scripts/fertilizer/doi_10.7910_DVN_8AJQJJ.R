@@ -13,7 +13,7 @@ carob_script <- function(path) {
 
 "
 
-	uri <- "https://doi.org/10.7910/DVN/8AJQJJ"
+	uri <- "doi:10.7910/DVN/8AJQJJ"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	## dataset level data 
@@ -22,7 +22,7 @@ carob_script <- function(path) {
 	   group=group,
 	   project=NA,
 	   uri=uri,
-	   publication= "https://doi.org/10.1007/s13593-017-0431-0",
+	   publication= "doi:10.1007/s13593-017-0431-0",
 	   data_institutions = "CIAT",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   ## something like randomized control...
@@ -50,7 +50,7 @@ carob_script <- function(path) {
 	              times=c('all_nutrient', 'macro_nutrient', 'zero_nutrient'),
 	              v.names=c('yield'),
 	              idvar='observation')
-	rr <- rr[rr$`DATA SOURCE` != "Haileselassie et al. 2011",] # Removing this observations, since they are not properly recorded from the original source (https://doi.org/10.1080/00380768.2011.593482).
+	rr <- rr[rr$`DATA SOURCE` != "Haileselassie et al. 2011",] # Removing this observations, since they are not properly recorded from the original source (doi:10.1080/00380768.2011.593482).
 
 	
 ## process file(s)

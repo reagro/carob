@@ -7,7 +7,7 @@
 
 carob_script <- function(path){
  
-	uri <- "doi.org/10.25502/hwdb-p578"
+	uri <- "doi:10.25502/hwdb-p578"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	 
@@ -22,7 +22,7 @@ carob_script <- function(path){
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, 
 		F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa farm 
 		monitoring - Mozambique, 2012 - 2013 [Data set]. International Institute of 
-		Tropical Agriculture (IITA). https://doi.org/10.25502/HWDB-P578",
+		Tropical Agriculture (IITA). doi:10.25502/HWDB-P578",
 
 		carob_contributor = "Effie Ochieng",
 		experiment_type = "variety_trials",

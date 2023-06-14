@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
 	"
 	Description:
-		Kihara, Job; Tibebe, Degefie; Gurmensa, Biyensa; Lulseged, Desta, 2017, Towards understanding fertilizer responses in Ethiopia, https://doi.org/10.7910/DVN/RKUMXB, Harvard Dataverse, V2, UNF:6:GyS4YNBnn5DjzEC7fY80yw== [fileUNF]
+		Kihara, Job; Tibebe, Degefie; Gurmensa, Biyensa; Lulseged, Desta, 2017, Towards understanding fertilizer responses in Ethiopia, doi:10.7910/DVN/RKUMXB, Harvard Dataverse, V2, UNF:6:GyS4YNBnn5DjzEC7fY80yw== [fileUNF]
 
 	# This is a comprehensive dataset specifically on crop response to fertilizers and is obtained from published journal articles, thesis and proceedings spanning at least 5 decades. It represents all the agriculturally productive regions of Ethiopia. The data contains information on region, crop type and soil type under which experiments were conducted, as well as application rates of nutrients (N, P, K, and other nutrients) as well as yields of the control and fertilized treatment on which crop response ratios are derived.
 

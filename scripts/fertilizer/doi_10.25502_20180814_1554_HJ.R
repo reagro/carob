@@ -30,7 +30,7 @@ carob_script <- function(path) {
     # group=group,
     # uri=uri,
     # publication=NA,
-    # data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Tuchila S2 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1554/HJ",
+    # data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Tuchila S2 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1554/HJ",
     # data_institutions = "IITA",
     # carob_contributor="Cedric Ngakou",
     # experiment_type="fertilizer",

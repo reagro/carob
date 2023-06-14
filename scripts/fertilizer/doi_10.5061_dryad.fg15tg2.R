@@ -18,11 +18,11 @@ carob_script <- function(path) {
 	
 Wortmann, C., C. Senkoro, A.R. Cyamweshi, C. Kibunja, D. Nkonde, M. Munthali, P. Nalivata, L.N. Nabahungu, K. Kaizzi. 2018. Maize-nutrient response functions for Eastern and Southern Africa. Agron. J. 110:2070-2079. doi:10.2134/agronj2018.04.0268
 
-Also see: doi.org/10.21955/gatesopenres.1115299.1
+Also see: doi:10.21955/gatesopenres.1115299.1
 
 "
   
-  uri <- "doi.org/10.5061/dryad.fg15tg2"
+  uri <- "doi:10.5061/dryad.fg15tg2"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ## dataset level data 
@@ -31,7 +31,7 @@ Also see: doi.org/10.21955/gatesopenres.1115299.1
     group=group,
     project = "Optimization of Fertilizer Recommendations in Africa",
     uri=uri,
-    publication= "https://doi.org/10.2134/agronj2018.04.0268",
+    publication= "doi:10.2134/agronj2018.04.0268",
     data_institutions = "University of Nebraska-Lincoln",
     carob_contributor="Effie Ochieng and Rachel Mukami",
     experiment_type="fertilizer",
