@@ -99,6 +99,9 @@ carob_script <- function(path) {
 	ddd$N_splits <- ifelse(ddd$`FERTILIZER_KG/HA_3` > 0, 3,
 	                       ifelse(ddd$`FERTILIZER_KG/HA_2` > 0, 2, 1))
 	
+	
+	#RH 
+	stop("P_fertilzer != P205 fertilizer!")
 	# Phosphorous levels
 	ddd$`FERTILIZER_%P2O5_1` <- as.numeric(ddd$`FERTILIZER_%P2O5_1`)/100
 	ddd$`FERTILIZER_%P2O5_2` <- as.numeric(ddd$`FERTILIZER_%P2O5_2`)/100
@@ -106,13 +109,14 @@ carob_script <- function(path) {
 	ddd$P_fertilizer <- (ddd$`FERTILIZER_KG/HA_1`*ddd$`FERTILIZER_%P2O5_1`) + (ddd$`FERTILIZER_KG/HA_2`*ddd$`FERTILIZER_%P2O5_2`) + (ddd$`FERTILIZER_KG/HA_3`*ddd$`FERTILIZER_%P2O5_3`)
 	
 	# Potassium levels
+	stop("K_fertilzer != K2O fertilizer!")
 	ddd$`FERTILIZER_%K2O_1` <- as.numeric(ddd$`FERTILIZER_%K2O_1`)/100
 	ddd$`FERTILIZER_%K2O_2` <- as.numeric(ddd$`FERTILIZER_%K2O_2`)/100
 	ddd$`FERTILIZER_%K2O_3` <- as.numeric(ddd$`FERTILIZER_%K2O_3`)/100
 	ddd$K_fertilizer <- (ddd$`FERTILIZER_KG/HA_1`*ddd$`FERTILIZER_%K2O_1`) + (ddd$`FERTILIZER_KG/HA_2`*ddd$`FERTILIZER_%K2O_2`) + (ddd$`FERTILIZER_KG/HA_3`*ddd$`FERTILIZER_%K2O_3`)
 	
 	# Other variables
-	ddd$irrigated <- ifelse(ddd$IRRIGATED == "NO", FALSE, TRUE)
+	ddd$irrigated <- ddd$IRRIGATED != "NO"
 	ddd$row_spacing <- as.numeric(ddd$SPACE_BTN_ROWS_SOWN)
 	
 	# Subset for relevant columns
