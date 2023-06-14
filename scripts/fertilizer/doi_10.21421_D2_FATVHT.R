@@ -20,7 +20,7 @@ carob_script <- function(path) {
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   publication="https://doi.org/10.1155/2018/7676058",
+	   publication="doi:10.1155/2018/7676058",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   experiment_type="Split plot",
 	   has_weather=FALSE,

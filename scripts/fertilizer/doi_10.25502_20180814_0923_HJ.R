@@ -32,10 +32,7 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
-    data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1,
-    Kasungu [Data set]. International Institute of Tropical Agriculture (IITA). 
-    https://doi.org/10.25502/20180814/0923/HJ",
-    ## something like randomized control...
+    data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kasungu [Data set]. International Institute of Tropical Agriculture (IITA).  doi:10.25502/20180814/0923/HJ",
     experiment_type="fertilizer",
     has_weather=FALSE,
     has_soil=FALSE,
