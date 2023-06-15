@@ -1,6 +1,6 @@
 name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes
-dataset_id,character,,yes,,,,,,id (normalized URI),
-country,character,,yes,countries,yes,,,,country name,
+dataset_id,character,,yes,,,,,no,id (normalized URI),
+country,character,,yes,countries,yes,,,no,country name,
 adm1,character,,,,,,,,first level administrative subdivision e.g.  counties in Kenya,follow GADM
 adm2,character,,,,,,,,second level administrative subdivision within the first level subdivision e.g. sub-counties in Kenya,follow GADM
 adm3,character,,,,,,,,third level administrative subdivision within the second level subdivision e.g. wards in Kenya,follow GADM
@@ -10,8 +10,8 @@ location,character,,,,,,,,name of the location of the experiment,
 site,character,,,,,,,,name of the sub-location of the experiment,
 trial_id,character,,yes,,,,,,identifier of a single trial (that may have treatments and replicates); should be unique witin dataset_id,
 reference,character,,,,,,,,reference to source if the data set is a compilation,
-longitude,numeric,degrees,yes,,,-60,60,,longitude in decimal notation,
-latitude,numeric,degrees,yes,,,-180,180,,latitude in decimal notation,
+longitude,numeric,degrees,yes,,,-60,60,no,longitude in decimal notation,
+latitude,numeric,degrees,yes,,,-180,180,no,latitude in decimal notation,
 elevation,numeric,meter,,,,,,,elevation above sea level,
 start_date,character,,,,,,,,"experiment start (planting) date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",
 end_date,character,,,,,,,,"experiment end (harvest) date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",
