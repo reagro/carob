@@ -142,7 +142,8 @@ renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "TRIG
 				renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "RAPHANUS  SPP", "vegetables", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "AVENA-VICIA", "vetch", renv$USE_OF_FIELD_SPECIFY_CROP)
 		renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "AVENA / VICIA", "vetch", renv$USE_OF_FIELD_SPECIFY_CROP)
-
+		renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "mucuna", "velvet bean", renv$USE_OF_FIELD_SPECIFY_CROP)
+		
 	# Is corn and maize crop same?
 	renv$previous_crop <-  tolower(renv$USE_OF_FIELD_SPECIFY_CROP)
 	

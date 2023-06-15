@@ -79,7 +79,18 @@ carob_script <- function(path) {
 
 # Select variables and reshape raw table
  	raw <- raw[,c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name", "Value")]
-	raw <- reshape(raw, idvar = c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
+	
+ 	# Make table raw unique
+ 	raw <- unique(raw %>% filter(Value != 0)%>% filter(Value != '-'))
+ 	
+ 	# Aggregate by averaging to fix duplicates
+ 	raw <- raw  %>%
+ 	  group_by(country, location, site, trial_id, Loc_no, Rep, Sub_block, Plot, Gen_name, Trait.name) %>%
+ 	  summarise(Value = first(Value))
+ 	
+ 	raw <- data.frame(raw)
+ 	
+ 	raw <- reshape(raw, idvar = c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
 
 	colnames(raw) <- gsub("Value.","", colnames(raw))
 	
@@ -92,6 +103,17 @@ carob_script <- function(path) {
 	raw <- merge(raw, loc[, c("Loc_no", "longitude", "latitude")], by ="Loc_no", all.x = T)
 	
 	renv <- merge(raw,env, by = c("Loc_no"), all.x = TRUE)[,c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name","Value")]
+	
+	# Make renv table unique
+	renv <- unique(renv)
+	
+	# Aggregate by averaging to fix duplicates
+	renv <- renv  %>%
+	  group_by(Loc_no, Rep, Sub_block, Plot, Gen_name, Trait.name) %>%
+	  summarise(Value = first(Value))
+	
+	renv <- data.frame(renv)	
+	
 	renv <- reshape(renv, idvar = c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
 	colnames(renv) <- gsub("Value.","", colnames(renv))
 
@@ -128,6 +150,9 @@ carob_script <- function(path) {
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "COE PEA", "cowpea", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SUNHIMP", "sunhemp", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SESBANIA SP.", "sesbania", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "green manure", "clover", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "FIBER CROP", "cotton", renv$USE_OF_FIELD_SPECIFY_CROP)
+	
 
 	# Is corn and maize crop same?
 	renv$previous_crop <-  tolower(renv$USE_OF_FIELD_SPECIFY_CROP)
