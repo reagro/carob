@@ -1,6 +1,6 @@
 name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes
 dataset_id,character,,yes,,,,,no,id (normalized URI),
-country,character,,yes,countries,yes,,,no,country name,
+country,character,,yes,countries,,,,no,country name,
 adm1,character,,,,,,,,first level administrative subdivision,follow GADM
 adm2,character,,,,,,,,second level administrative subdivision within the first level subdivision,follow GADM
 adm3,character,,,,,,,,third level administrative subdivision within the second level subdivision,follow GADM
