@@ -111,6 +111,7 @@ Agricultural Water Management 98: 1364-1372
 	z$N_fertilizer[i] <- 20 + 92
 	z$P_fertilizer[i] <- 18
 	z$K_fertilizer[i] <- 16
+
 	i <- z$treatment == "Leucaena"
 	z$treatment <- "no Leuceaena"
 	z$treatment[i] <- "Leuceaena"
@@ -119,14 +120,14 @@ Agricultural Water Management 98: 1364-1372
 
 	d <- rbind(d, z)
 	
-	
 	d$rain <- as.numeric(d$rain)
 	d$on_farm <- FALSE
 	d$crop <- "maize"
+	d$fertilizer_type <- "none"
+	d$fertilizer_type[d$N_fertilizer > 0] <- "urea; NPK"
 	
 	d$dataset_id <- dataset_id
 	d$trial_id <- paste0(d$treatment, "-", d$site)
-	d$fertilizer_type <- "urea; Compound fertilizer"
 
 	carobiner::write_files(dset, d, path, dataset_id, group)
 }

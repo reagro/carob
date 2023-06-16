@@ -119,8 +119,8 @@ carob_script <- function(path) {
    
 ## normalize names 
    d$fertilizer_type <- as.character(rr$P_Source)
-   d[!is.na(d$fertilizer_type) & d$fertilizer_type == "Compound D", "fertilizer_type"] <- "D compound"
-   d[!is.na(d$fertilizer_type) & d$fertilizer_type == "23:21:0+4S", "fertilizer_type"] <- "Compound fertilizer"
+   d[!is.na(d$fertilizer_type) & d$fertilizer_type == "Compound D", "fertilizer_type"] <- "D-compound"
+   d[!is.na(d$fertilizer_type) & d$fertilizer_type == "23:21:0+4S", "fertilizer_type"] <- "NPS"
    d[!is.na(d$fertilizer_type) & d$fertilizer_type == "PKS Blend", "fertilizer_type"] <- "PKS"
    d[!is.na(d$fertilizer_type) & d$fertilizer_type == "composite", "fertilizer_type"] <- "unknown"
    d[!is.na(d$fertilizer_type) & d$fertilizer_type == "composite", "fertilizer_type"] <- "unknown"

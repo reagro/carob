@@ -57,10 +57,10 @@ in diverse environments by modeling G X E using the pedigree-derived additive re
   r5 <- read.csv(f5)
   
   # process file(s)
-  d<-rbind(r,r1,r4) # r1,r,r4 have the same variable 
- r5<-r5[c(2,3,5,1,6)]  
- r2<-r2[c(1,2,4,5,6)] 
- d<-rbind(d,r5,r2)
+  d <- rbind(r, r1, r4) # r1,r,r4 have the same variable 
+  r5 <- r5[c(2,3,5,1,6)]  
+  r2 <- r2[c(1,2,4,5,6)] 
+  d <- rbind(d, r5, r2)
  
  ## create a data frame with location , longitude, latitude and country variable
  ## The information come from # doi: 10.2135/cropsci2016.06.0558 # 
@@ -87,18 +87,18 @@ in diverse environments by modeling G X E using the pedigree-derived additive re
  
   
  
- data_location<-data.frame(code,location,country,longitude,latitude)
+  location <- data.frame(code,location,country,longitude,latitude)
  
  
   # Add location and country in the dataset 
-  d<-merge(d,data_location,by="code")
+  d <- merge(d, location, by="code")
   
   #Add column
   d$dataset_id <- dataset_id
   d$trial_id<- paste0(d$dataset_id,"-",d$code)
   
   # Extract relevant columns 
-  d<-d[,c("dataset_id","trial_id","country","location","longitude","latitude","Rep","YLD")]
+  d <- d[,c("dataset_id","trial_id","country","location","longitude","latitude","Rep","YLD")]
   colnames(d)<-c("dataset_id","trial_id","country","location","longitude","latitude","rep","yield") # standard names
   # Add columns
   d$crop<-"wheat"
@@ -110,9 +110,9 @@ in diverse environments by modeling G X E using the pedigree-derived additive re
 
   
   #data type
-  d$yield<- (as.numeric(d$yield))*1000 
-  d$longitude<- as.numeric(d$longitude)
-  d$latitude<- as.numeric(d$latitude)
+  d$yield <- (as.numeric(d$yield))*1000 
+  d$longitude <- as.numeric(d$longitude)
+  d$latitude <- as.numeric(d$latitude)
   
   carobiner::write_files(dset, d, path, dataset_id, group)
   

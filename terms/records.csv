@@ -29,12 +29,12 @@ previous_crop,character,,,crops,yes,,,,Crop grown on this plot in the prior seas
 crop_rotation,character,,,crops,yes,,,,Crops grown in rotation on this plot,,http://purl.obolibrary.org/obo/AGRO_00000479
 observation_date,character,,,,,,,,"Date in ""yyyy-mm-dd"" ","For experiments with, e.g. intermediate crop cuts; or for surveys",
 biomass_roots,numeric,kg/ha,,,,0,5000,,Dry-weight biomass of fine roots per unit area,,http://purl.obolibrary.org/obo/PO_0009005; http://purl.obolibrary.org/obo/PATO_0001824; http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/UO_0000283
-biomass_stems,numeric,kg/ha,,,,0,5000,,Dry-weight biomass of stems per unit area,,http://purl.obolibrary.org/obo/PO_0009047; http://purl.obolibrary.org/obo/PATO_0001824; http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/UO_0000283
-biomass_leaves,numeric,kg/ha,,,,0,5000,,Dry-weight biomass of leaves per unit area,,http://purl.obolibrary.org/obo/TO_0000870; http://purl.obolibrary.org/obo/UO_0000283
-biomass_storage,numeric,kg/ha,,,,0,5000,,Dry-weight biomass of storage organs per unit area,,http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/PATO_0001824; http://purl.obolibrary.org/obo/UO_0000283
-biomass_total,numeric,kg/ha,,,,0,20000,,Dry-weight total biomass per unit area,,http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/PO_0000003; http://purl.obolibrary.org/obo/PATO_0001824; http://purl.obolibrary.org/obo/UO_0000283
+biomass_stems,numeric,kg/ha,,,,0,20000,,Dry-weight biomass of stems per unit area,,http://purl.obolibrary.org/obo/PO_0009047; http://purl.obolibrary.org/obo/PATO_0001824; http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/UO_0000283
+biomass_leaves,numeric,kg/ha,,,,0,20000,,Dry-weight biomass of leaves per unit area,,http://purl.obolibrary.org/obo/TO_0000870; http://purl.obolibrary.org/obo/UO_0000283
+biomass_storage,numeric,kg/ha,,,,0,20000,,Dry-weight biomass of storage organs per unit area,,http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/PATO_0001824; http://purl.obolibrary.org/obo/UO_0000283
+biomass_total,numeric,kg/ha,,,,0,50000,,Dry-weight total biomass per unit area,,http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/PO_0000003; http://purl.obolibrary.org/obo/PATO_0001824; http://purl.obolibrary.org/obo/UO_0000283
 yield,numeric,kg/ha,yes,,,0,30000,,"Fresh weight biomass of the main harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000176; http://purl.obolibrary.org/obo/UO_0000283
-residue_yield,numeric,kg/ha,,,,0,30000,,"Fresh weight biomass of the above ground biomass except for the harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000164; http://purl.obolibrary.org/obo/UO_0000283
+residue_yield,numeric,kg/ha,,,,0,60000,,"Fresh weight biomass of the above ground biomass except for the harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000164; http://purl.obolibrary.org/obo/UO_0000283
 grain_weight,numeric,g,,,,0,1000,,1000 grain weight,,http://purl.obolibrary.org/obo/TO_0000382; http://purl.obolibrary.org/obo/UO_0000021
 fertilizer_type,character,,,fertilizers,yes,,,,,,http://purl.obolibrary.org/obo/CHEBI_33287
 N_fertilizer,numeric,kg/ha,fertilizer,,,0,,no,N applied in inorganic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000158; http://purl.obolibrary.org/obo/UO_0000283
