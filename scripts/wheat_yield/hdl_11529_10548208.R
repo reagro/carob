@@ -39,11 +39,11 @@ carob_script <- function(path) {
 	dset$license <- carobiner::get_license(js)
 
 
-	env <- ff[basename(ff) == "15TH HRWYT_EnvData.xls"]
-	geno <- ff[basename(ff) == "15TH HRWYT_Genotypes_Data.xls"]
-	grn <- ff[basename(ff) == "15TH HRWYT_GrnYld.xls"]
-	loc <- ff[basename(ff) == "15TH HRWYT_Loc_data.xls"]
-	raw <- ff[basename(ff) == "15TH HRWYT_RawData.xls"]
+	env <- ff[basename(ff) == "16TH HRWYT_EnvData.xls"]
+	geno <- ff[basename(ff) == "16TH HRWYT_Genotypes_Data.xls"]
+	grn <- ff[basename(ff) == "16TH HRWYT_GrnYld.xls"]
+	loc <- ff[basename(ff) == "16TH HRWYT_Loc_data.xls"]
+	raw <- ff[basename(ff) == "16TH HRWYT_RawData.xls"]
 
 ## Read data referenced by the above pathnames
 
@@ -71,7 +71,18 @@ carob_script <- function(path) {
 
 # Select variables and reshape raw table
  	raw <- raw[,c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name", "Value")]
-	raw <- reshape(raw, idvar = c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
+	
+ 	# Make table raw unique
+ 	raw <- unique(raw %>% filter(Value != 0)%>% filter(Value != '-'))
+ 	
+ 	# Aggregate by averaging to fix duplicates
+ 	raw <- raw  %>%
+ 	  group_by(country, location, site, trial_id, Loc_no, Rep, Sub_block, Plot, Gen_name, Trait.name) %>%
+ 	  summarise(Value = first(Value))
+ 	
+ 	raw <- data.frame(raw)
+ 	
+ 	raw <- reshape(raw, idvar = c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
 
 	colnames(raw) <- gsub("Value.","", colnames(raw))
 	
@@ -84,6 +95,16 @@ carob_script <- function(path) {
 	raw <- merge(raw, loc[, c("Loc_no", "longitude", "latitude")], by ="Loc_no", all.x = T)
 	
 	renv <- merge(raw,env, by = c("Loc_no"), all.x = TRUE)[,c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name","Value")]
+	
+	renv <- unique(renv)
+	
+	# Aggregate by averaging to fix duplicates
+	renv <- renv  %>%
+	  group_by(Loc_no, Rep, Sub_block, Plot, Gen_name, Trait.name) %>%
+	  summarise(Value = first(Value))
+	
+	renv <- data.frame(renv)	
+	
 	renv <- reshape(renv, idvar = c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
 	colnames(renv) <- gsub("Value.","", colnames(renv))
 
@@ -117,8 +138,9 @@ renv$country <- ifelse(renv$country == "Null", "Unknown", renv$country)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "MAIZ", "maize", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "COJENUS", "pigeon pea", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "AMAN RCIE", "rice", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "OILSEED", "rapeseed", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "OIL SEED", "rapeseed", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "OIL CROPS", "rapeseed", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SOY BEAN", "soybean", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SOJA", "soybean", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SOYA", "soybean", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "GREEM  MANURE", "green manure", renv$USE_OF_FIELD_SPECIFY_CROP)
@@ -129,7 +151,7 @@ renv$country <- ifelse(renv$country == "Null", "Unknown", renv$country)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "ORYZA SATIVA", "rice", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "PADDY", "rice", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CEREALS", "CEREAL", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "COE PEA", "cowpea", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CHICK PEN", "cowpea", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SUNHIMP", "sunhemp", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SESBANIA SP.", "sesbania", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "TRIFOLIUM ALEXANDIUM", "clover", renv$USE_OF_FIELD_SPECIFY_CROP)
@@ -142,7 +164,7 @@ renv$country <- ifelse(renv$country == "Null", "Unknown", renv$country)
 			renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "AVENA+VICIA", "vetch", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
 		renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "VEGATEABLES", "vegetables", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
 			renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "RAPHANUS  SPP", "vegetables", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
-		renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "LAB.LAB", "vegetables", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
+		renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CROTOTERIA (ABONO VERDE)", "crotalaria", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
 
 
 

@@ -125,9 +125,10 @@ renv$country <- ifelse(renv$country == "South africa", "South Africa", renv$coun
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SUNHIMP", "sunhemp", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SESBANIA SP.", "sesbania", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CORN", "maize", renv$USE_OF_FIELD_SPECIFY_CROP)
-		renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CEREAL", "maize", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
-			renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CROP", "maize", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
-
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CEREAL", "maize", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "LINSEED", "flax", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CROP", "maize", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
+	
 	# Is corn and maize crop same?
 	renv$previous_crop <-  tolower(renv$USE_OF_FIELD_SPECIFY_CROP)
 	

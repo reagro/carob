@@ -7,10 +7,11 @@
 carob_script <- function(path) {
 
 "
-Description:
-CIMMYT annually distributes improved germplasm developed by its researchers and partners in international nurseries trials and experiments. The High Temperature Wheat Yield Trial (HTWYT) is a replicated yield trial that contains spring bread wheat (Triticum aestivum) germplasm adapted to Mega-environment 1 (ME1) which represents high temperature areas. (2004)
+	Description:
+
+    CIMMYT annually distributes improved germplasm developed by its researchers and partners in international nurseries trials and experiments. The High Temperature Wheat Yield Trial (HTWYT) is a replicated yield trial that contains spring bread wheat (Triticum aestivum) germplasm adapted to Mega-environment 1 (ME1) which represents high temperature areas. (2021)
 "
-	uri <- "hdl:11529/10548247"
+	uri <- "hdl:11529/10548702"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_yield"
 	## dataset level data 
@@ -22,7 +23,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)
 	   publication = NA,
-	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '12th High Temperature Wheat Yield Trial', https://hdl.handle.net/11529/10548247, CIMMYT Research Data & Software Repository Network, V3, UNF:6:qOQyhzQDRLvWPpWkPYia1A== [fileUNF]",
+	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Saint Pierre, Carolina, 2022, '20th High Temperature Wheat Yield Trial', https://hdl.handle.net/11529/10548702, CIMMYT Research Data & Software Repository Network, V2",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Andrew Sila",
 	   
@@ -36,15 +37,15 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 ## download and read data 
 
 	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=1)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
 	dset$license <- carobiner::get_license(js)
 
 
-	env <- ff[basename(ff) == "12TH HTWYT_EnvData.xls"]
-	geno <- ff[basename(ff) == "12TH HTWYT_Genotypes_Data.xls"]
-	grn <- ff[basename(ff) == "12TH HTWYT_GrnYld.xls"]
-	loc <- ff[basename(ff) == "12TH HTWYT_Loc_data.xls"]
-	raw <- ff[basename(ff) == "12TH HTWYT_RawData.xls"]
+	env <- ff[basename(ff) == "20TH HTWYT_EnvData.xls"]
+	geno <- ff[basename(ff) == "20TH HTWYT_Genotypes_Data.xls"]
+	grn <- ff[basename(ff) == "20TH HTWYT_GrnYld.xls"]
+	loc <- ff[basename(ff) == "20TH HTWYT_Loc_data.xls"]
+	raw <- ff[basename(ff) == "20TH HTWYT_RawData.xls"]
 
 ## Read data referenced by the above pathnames
 
@@ -67,9 +68,21 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	raw$site <- gsub(" ","",raw$site)
 	raw$trial_id <- raw$Trial.name
 
+
 # Select variables and reshape raw table
  	raw <- raw[,c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name", "Value")]
-	raw <- reshape(raw, idvar = c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
+	
+ 	# Make table raw unique
+ 	raw <- unique(raw %>% filter(Value != 0)%>% filter(Value != '-'))
+ 	
+ 	# Aggregate by averaging to fix duplicates
+ 	raw <- raw  %>%
+ 	  group_by(country, location, site, trial_id, Loc_no, Rep, Sub_block, Plot, Gen_name, Trait.name) %>%
+ 	  summarise(Value = first(Value))
+ 	
+ 	raw <- data.frame(raw)
+ 	
+ 	raw <- reshape(raw, idvar = c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
 
 	colnames(raw) <- gsub("Value.","", colnames(raw))
 	
@@ -82,7 +95,6 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	raw <- merge(raw, loc[, c("Loc_no", "longitude", "latitude")], by ="Loc_no", all.x = T)
 	
 	renv <- merge(raw,env, by = c("Loc_no"), all.x = TRUE)[,c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name","Value")]
-	
 	renv <- unique(renv)
 	
 	# Aggregate by averaging to fix duplicates
@@ -91,18 +103,12 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	  summarise(Value = first(Value))
 	
 	renv <- data.frame(renv)	
-	
 	renv <- reshape(renv, idvar = c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
 	colnames(renv) <- gsub("Value.","", colnames(renv))
-	
+
 # Merge raw with renv
 	renv <- merge(raw,renv, by = c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), all.x = TRUE)
 
-	# Rename South africa, South and United states
-	renv$country <- ifelse(renv$country == "South africa", "South Africa", renv$country)
-	renv$country <- ifelse(renv$country == "Saudi arabia", "Saudi Arabia", renv$country)
-	renv$country <- ifelse(renv$country == "United states", "United States", renv$country)
-	
 # Process in carob format
 	renv$start_date <- as.character(as.Date(renv$SOWING_DATE, "%b %d %Y"))
 	renv$end_date <- as.character(as.Date(renv$HARVEST_FINISHING_DATE, "%b %d %Y"))
@@ -112,6 +118,8 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	renv$is_survey <- FALSE
 	renv$irrigated <- ifelse(renv$IRRIGATED == "NO", FALSE, TRUE)
 	renv$row_spacing <- as.numeric(renv$SPACE_BTN_ROWS_SOWN)
+
+	
 	renv$rep <- renv$Rep
 	renv$crop <- "wheat"
 	renv$variety_code <- renv$Gen_name
@@ -126,16 +134,9 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "ORYZA SATIVA", "rice", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "PADDY", "rice", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CEREALS", "CEREAL", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "PATATO", "potato", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SUGAR CAME", "sugarcane", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SUMHAMP", "sunhemp", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SUNHAMP", "sunhemp", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SUMHEMP", "sunhemp", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SUNHIMP (FLAX)", "sunhemp", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "COTTAN", "cotton", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "TRIGO", "wheat", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SOJA", "soybean", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CROP", "maize", renv$USE_OF_FIELD_SPECIFY_CROP)
 	
+
 	# Is corn and maize crop same?
 	renv$previous_crop <-  tolower(renv$USE_OF_FIELD_SPECIFY_CROP)
 	
