@@ -187,6 +187,11 @@ carob_script <- function(path) {
 	d$fertilizer_type_2 <- NULL
 	d$fertilizer_type_1 <- NULL
 
+	d$OM_type <- ""
+	i <- d$fertilizer_type == "bone meal"
+	d$OM_type[i] <- "bone meal"
+	d$fertilizer_type[i] <- "none"
+
 	d$trial_type <- NULL
 
 	p <- carobiner::fix_name(d$previous_crop, "lower")
@@ -282,6 +287,11 @@ carob_script <- function(path) {
 
 
 ## georeferencing 
+	# 0) remove bad georefs 
+	w = geodata::world(path="data")
+	e = extract(w, d[, c("longitude", "latitude")])
+	d[which(e$NAME_0 != d$country), c("longitude", "latitude")] <- NA 
+
 	# 1) find missing lon.lat that are available in other records
 	d <- carobiner::geocode_duplicates(d, c("country", "location") )
 	
