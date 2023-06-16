@@ -65,6 +65,7 @@ carob_script <- function(path) {
   d2$dataset_id<-dataset_id
   #merge d1 and d2
   d<-merge(d1,d2,by="dataset_id")
+  d$yield<-d$yield*1000 # kg/ha
   # Add columns
   d$country<-"Malawi"
   d$start_date<-"2015-12-29"
@@ -134,11 +135,12 @@ carob_script <- function(path) {
  d$S_fertilizer<-ifelse(d$treatment=="NPK+Mn",5,0)
   
  # data type and date format
-  d$start_date <- as.character(as.Date( d$start_date  ))
-  d$end_date  <- as.character(as.Date(  d$end_date  ))
-  d$season  <- as.character(d$season) 
-  d$fertilizer_type <- as.character(d$fertilizer_type) 
- 
+d$start_date <- as.character(as.Date( d$start_date  ))
+d$end_date  <- as.character(as.Date(  d$end_date  ))
+d$season  <- as.character(d$season) 
+d$fertilizer_type <- as.character(d$fertilizer_type) 
+
+
     # all scripts must end like this
   
     carobiner::write_files(dset, d, path, dataset_id, group)
