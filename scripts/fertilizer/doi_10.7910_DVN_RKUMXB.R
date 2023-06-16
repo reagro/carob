@@ -250,6 +250,12 @@ carob_script <- function(path) {
 	d <- carobiner::change_names(d, c("response", "N", "P", "K", "Zn", "S"), 
 	c("treatment", "N_fertilizer", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer"))
 
+## seems reasonable assumption. 
+## 9 missing out of 4316
+	d$S_fertilizer[is.na(d$S_fertilizer)] <- 0
+# 514 missing	
+	d$K_fertilizer[is.na(d$K_fertilizer)] <- 0
+
 	d$OM_used <- d$OM_used == "Yes"
 	d$inoculated <- d$inoculated == "Yes"
 
@@ -273,7 +279,39 @@ carob_script <- function(path) {
 	d$plant_density[i] <- as.numeric(gsub("Plant density \\(n perha)", "", ps[i]))
 	
 	d$N_splits <- as.numeric(d$N_splits)
+
+
+## georeferencing 
+	# 1) find missing lon.lat that are available in other records
+	d <- geocode_duplicates(d, c("country", "location") )
 	
+	# 2) look up new coords
+	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
+	xy <- uxy[is.na(uxy$longitude),]
+
+	#g <- geocode(xy$country, xy$location, adm1=xy$adm1)
+	#g$put
+	pts <- structure(list(country = c("Ethiopia", "Ethiopia", "Ethiopia", 
+    "Ethiopia", "Ethiopia"), adm1 = c(NA_character_, NA_character_, 
+    NA_character_, NA_character_, NA_character_), location = c("Bule", 
+    "Hosanna", "Menagesha", "Tatek", "Waka"), lon = c(38.4102886, 
+    37.8578477, 38.568749925286, 38.6382559, 37.1791421), lat = c(6.3024217, 
+    7.5578434, 9.05509080403642, 9.0338169, 7.0600736)), row.names = c(2L, 
+    7L, 11L, 12L, 13L), class = "data.frame")
+
+	# all adm1 were NA
+	pts$adm1 <- NULL
+	
+	d <- merge(d, pts, by=c("country", "location"), all.x=TRUE)
+	d$longitude[is.na(d$longitude)] <- d$lon[is.na(d$longitude)]
+	d$latitude[is.na(d$latitude)] <- d$lat[is.na(d$latitude)]
+	d$lon <- d$lat <- NULL
+		
+	#3) to do
+	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
+	xy <- uxy[is.na(uxy$longitude),]
+		
+
 	carobiner::write_files(dset, d, path, dataset_id, group)
 
 }

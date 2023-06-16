@@ -1,11 +1,11 @@
 name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes
 dataset_id,character,,yes,,,,,no,id (normalized URI),
 country,character,,yes,countries,yes,,,no,country name,
-adm1,character,,,,,,,,first level administrative subdivision e.g.  counties in Kenya,follow GADM
-adm2,character,,,,,,,,second level administrative subdivision within the first level subdivision e.g. sub-counties in Kenya,follow GADM
-adm3,character,,,,,,,,third level administrative subdivision within the second level subdivision e.g. wards in Kenya,follow GADM
-adm4,character,,,,,,,,fourth level administrative subdivision within the second level subdivision e.g. wards in Kenya,follow GADM
-adm5,character,,,,,,,,fifth level administrative subdivision within the second level subdivision e.g. wards in Kenya,follow GADM
+adm1,character,,,,,,,,first level administrative subdivision,follow GADM
+adm2,character,,,,,,,,second level administrative subdivision within the first level subdivision,follow GADM
+adm3,character,,,,,,,,third level administrative subdivision within the second level subdivision,follow GADM
+adm4,character,,,,,,,,fourth level administrative subdivision within the second level subdivision,follow GADM
+adm5,character,,,,,,,,fifth level administrative subdivision within the second level subdivision,follow GADM
 location,character,,,,,,,,name of the location of the experiment,
 site,character,,,,,,,,name of the sub-location of the experiment,
 trial_id,character,,yes,,,,,,identifier of a single trial (that may have treatments and replicates); should be unique witin dataset_id,
@@ -33,7 +33,7 @@ biomass_stems,numeric,kg/ha,,,,0,5000,,dry-weight biomass of stems,
 biomass_leaves,numeric,kg/ha,,,,0,5000,,dry-weight biomass of leaves,
 biomass_storage,numeric,kg/ha,,,,0,5000,,dry-weight biomass of storage organs,
 biomass_total,numeric,kg/ha,,,,0,20000,,dry-weight total biomass,
-yield,numeric,kg/ha,yes,,,0,15000,,fresh weight biomass of the main harvestable parts at maturity,
+yield,numeric,kg/ha,yes,,,0,30000,,fresh weight biomass of the main harvestable parts at maturity,
 residue_yield,numeric,kg/ha,,,,0,15000,,fresh weight biomass of the above ground biomess except for the harvestable parts at maturity,
 grain_weight,numeric,g,,,,0,1000,,1000 grain weight,
 fertilizer_type,character,,,fertilizers,yes,,,,,

@@ -1,11 +1,9 @@
 name,sciname,harvest,fresh_moisture,max_yield
-alfalfa,Medicago sativa,forage,,
 banana,Musa acuminata,fruit,,173000
 bambara groundnut,Vigna subterranea,seed,,5000
 barley,Hordeum vulgare,seed,,12000
 cassava,Manihot esculenta,root,,90000
 cassava leaves,Manihot esculenta,leaves,,25000
-cereal,previous crop written cereal,seed,,
 chickpea,Cicer arientinum,seed,,3500
 clover,Trifolium sp.,green manure,,
 common bean,Phaseolus vulgaris,seed,,8000
@@ -15,7 +13,7 @@ crotalaria,Crotalaria spp,depends,,2500
 faba bean,Vica faba,seed,,6500
 fenugreek,Trigonella foenum-graecum,seed,,5500
 finger millet,Eleusine coracana,seed,,6000
-flax,Linum usitatissimum,seed / fiber,,
+flax,linum usitatissimum,seed / fiber,,
 forage legume,spp,forage,,
 gomenzer,Brassica carinata,leaves,,2300
 grass pea,Lathyrus sativus,seed,,2500
@@ -26,7 +24,7 @@ kola,Cola sp.,seed,,10000
 lablab,Lablab purpureus,seed,,5000
 lentil,Lens culinaris,seed,,7000
 lucerne,Medicago sativa,feed,,
-maize,Zea mays,seed,12,41500
+maize,Zea mays,seed,12,25000
 mango,Mangifera indica,fruit,,100000
 mung bean,Vigna radiata,,,
 no crop,,,,
@@ -45,16 +43,14 @@ sesbania,Sesbania spp,none,,125000
 sorghum,Sorghum bicolor,seed,,18000
 soybean,Glycine max,seed,,15000
 sugarcane,Saccharum officinarum,stems,,381000
-sunflower,Helianthus annuus,anuum,,
+sunflower,HelianthusÂ annuus,anuum,,
 sunhemp,Crotalaria juncea,green manure,,
 sweetpotato,Ipomoea batatas,root,,100000
 teff,Eragrostis tef,seed,,10000
 tobacco,Nicotiana tabacum,leaves,,10000
 tomato,Solanum lycopersicum,fruit,,100000
-jute,Corchorus olitorius,fiber,,
 vegetables,spp,leaves,,
 velvet bean,Mucuna pruriens,green manure,,
 vetch,Vicia spp,forage,,
 wheat,Triticum aestivum,seed,,18000
 yam,Dioscorea cayenensis,tuber,,60000
-,Corchorus olitorius,,,
