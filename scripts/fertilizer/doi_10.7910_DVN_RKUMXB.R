@@ -283,13 +283,13 @@ carob_script <- function(path) {
 
 ## georeferencing 
 	# 1) find missing lon.lat that are available in other records
-	d <- geocode_duplicates(d, c("country", "location") )
+	d <- carobiner::geocode_duplicates(d, c("country", "location") )
 	
 	# 2) look up new coords
 	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
 	xy <- uxy[is.na(uxy$longitude),]
 
-	#g <- geocode(xy$country, xy$location, adm1=xy$adm1)
+	#g <- carobiner::geocode(xy$country, xy$location, adm1=xy$adm1)
 	#g$put
 	pts <- structure(list(country = c("Ethiopia", "Ethiopia", "Ethiopia", 
     "Ethiopia", "Ethiopia"), adm1 = c(NA_character_, NA_character_, 
