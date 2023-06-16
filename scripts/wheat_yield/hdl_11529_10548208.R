@@ -73,7 +73,13 @@ carob_script <- function(path) {
  	raw <- raw[,c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name", "Value")]
 	
  	# Make table raw unique
- 	raw <- unique(raw %>% filter(Value != 0)%>% filter(Value != '-'))
+	
+# 	rawx <- unique(raw %>% filter(Value != 0) %>% filter(Value != '-'))
+## why remove 0? and what about " "?
+## perhaps
+##	raw$Value <- trimws(raw$Value)
+##	raw <- unique(raw[!(raw$Value %in% c("", "-")), ])
+
  	
  	# Aggregate by averaging to fix duplicates
  	raw <- raw  %>%
@@ -115,13 +121,16 @@ carob_script <- function(path) {
 	renv$start_date <- as.character(as.Date(renv$SOWING_DATE, "%b %d %Y"))
 	renv$end_date <- as.character(as.Date(renv$HARVEST_FINISHING_DATE, "%b %d %Y"))
 	
+## Most of these countries are not in the data!	
 # Rename South africa, South and North korea and United states
-renv$country <- ifelse(renv$country == "South africa", "South Africa", renv$country)
-renv$country <- ifelse(renv$country == "South korea", "South Korea", renv$country)
-renv$country <- ifelse(renv$country == "North korea", "North Korea", renv$country)
-renv$country <- ifelse(renv$country == "United states", "United States", renv$country)
-renv$country <- ifelse(renv$country == "Null", "Unknown", renv$country)
+#renv$country <- ifelse(renv$country == "South africa", "South Africa", renv$country)
+#renv$country <- ifelse(renv$country == "South korea", "South Korea", renv$country)
+#renv$country <- ifelse(renv$country == "North korea", "North Korea", renv$country)
+#renv$country <- ifelse(renv$country == "United states", "United States", renv$country)
+#renv$country <- ifelse(renv$country == "Null", "Unknown", renv$country)
 
+## simpler	
+	renv$country <- carobiner::fix_name(renv$country, "title")
 
 
 # other variables
@@ -134,41 +143,13 @@ renv$country <- ifelse(renv$country == "Null", "Unknown", renv$country)
 	renv$variety_code <- renv$Gen_name
 	renv$variety_type <- "high-yield"
 	# previous crop details
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "ZEA MAYS", "maize", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "MAIZ", "maize", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "COJENUS", "pigeon pea", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "AMAN RCIE", "rice", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "OIL SEED", "rapeseed", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "OIL CROPS", "rapeseed", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SOY BEAN", "soybean", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SOJA", "soybean", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SOYA", "soybean", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "GREEM  MANURE", "green manure", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "MUNG-PULSES", "mung bean", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "MONG BEAN", "mung bean", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "TRIGO", "fenugreek", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "AMAN RICE", "rice", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "ORYZA SATIVA", "rice", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "PADDY", "rice", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CEREALS", "CEREAL", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CHICK PEN", "cowpea", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SUNHIMP", "sunhemp", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SESBANIA SP.", "sesbania", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "TRIFOLIUM ALEXANDIUM", "clover", renv$USE_OF_FIELD_SPECIFY_CROP)
-	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CORN", "maize", renv$USE_OF_FIELD_SPECIFY_CROP)
-		renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "VIGNA RADIATA", "mung bean", renv$USE_OF_FIELD_SPECIFY_CROP)
 
-		renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "PISUM SATIVUM", "pea", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
-			renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "AVENA+VICIA", "vetch", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
-			renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "VES", "vetch", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
-			renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "AVENA+VICIA", "vetch", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
-		renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "VEGATEABLES", "vegetables", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
-			renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "RAPHANUS  SPP", "vegetables", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
-		renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "CROTOTERIA (ABONO VERDE)", "crotalaria", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
+	croprep <- matrix(c("ZEA MAYS", "maize", "MAIZ", "maize", "COJENUS", "pigeon pea", "AMAN RCIE", "rice", "OIL SEED", "rapeseed", "OIL CROPS", "rapeseed", "SOY BEAN", "soybean", "SOJA", "soybean", "SOYA", "soybean", "GREEM  MANURE", "green manure", "MUNG-PULSES", "mung bean", "MONG BEAN", "mung bean", "TRIGO", "fenugreek", "AMAN RICE", "rice", "ORYZA SATIVA", "rice", "PADDY", "rice", "CEREALS", "CEREAL", "CHICK PEN", "cowpea", "SUNHIMP", "sunhemp", "SESBANIA SP.", "sesbania", "TRIFOLIUM ALEXANDIUM", "clover", "CORN", "maize", "VIGNA RADIATA", "mung bean", "PISUM SATIVUM", "pea", "AVENA+VICIA", "oat; vetch", "VES", "vetch", "VEGATEABLES", "vegetables", "RAPHANUS  SPP", "radish", "CROTOTERIA (ABONO VERDE)", "crotalaria"), ncol=2, byrow=TRUE)
 
-
-
-	# Is corn and maize crop same?
+	for (i in 1:nrow(croprep)) {
+		j <- renv$USE_OF_FIELD_SPECIFY_CROP == croprep[i,1]
+		renv$USE_OF_FIELD_SPECIFY_CROP[j] <- croprep[i,2]
+	}
 	renv$previous_crop <-  tolower(renv$USE_OF_FIELD_SPECIFY_CROP)
 	
 	# Replace previous_crop with NA entry by no crop
