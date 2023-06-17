@@ -31,8 +31,7 @@ carob_script <- function(path) {
 
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)[3]
-
+	dset$license <- carobiner::get_license(js)
 
 	f <- ff[basename(ff) == "Data file of Sorghum N trial Kano Nigeria.xlsx"]
 

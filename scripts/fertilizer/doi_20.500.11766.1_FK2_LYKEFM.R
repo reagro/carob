@@ -12,7 +12,7 @@ carob_script <- function(path) {
     Final dataset from agronomic experiment in Gumara Maksegnit (2016), as elaborated by GARC researcher in charge for this trial (Baye Ayalew). Please contact author and contact person at ICARDA to obtain more detailed metadata or to propose collaboration.
 
 "
-  
+    
   uri <- "doi:20.500.11766.1/FK2/LYKEFM"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
@@ -23,7 +23,7 @@ carob_script <- function(path) {
     uri=uri,
     publication="hdl:20.500.11766/5084",
     data_citation = "Ayalew, Baye, 2020, Determination of rate and timing of N application on bread wheat, https://hdl.handle.net/20.500.11766.1/FK2/LYKEFM, MELDATA, V1",
-    data_institutions = "International Center for Agricultural Research in the Dry Areas (ICARDA)",
+    data_institutions = "ICARDA",
     carob_contributor="Eduardo Garcia Bendito",
     experiment_type="fertilizer",
     has_weather=FALSE,

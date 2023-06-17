@@ -37,7 +37,7 @@ carob_script <- function(path) {
   
   ff  <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
   js <- carobiner::get_metadata(dataset_id, path, group)
-  dset$license <- js$license
+  dset$license <- carobiner::get_license(js)
   
   f <- ff[basename(ff) == "MAIZE_DATA_HI_CPN_CRN_FIELD_CROPS_RESEARCH_2022.csv"][1]
   e <- ff[basename(ff) == "DATA_ID_MAIZE_DATA_HI_CPN_CRN_FIELD_CROPS_RESEARCH_2022.csv"][1]

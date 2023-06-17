@@ -25,7 +25,7 @@ carob_script <- function(path) {
     group=group,
     uri=uri,
     publication="doi:10.1016/j.fcr.2021.108310",
-    data_citation = 'Verhulst, Nele; Grahmann, Kathrin; Honsdorf, Nora; Govaerts, Bram, 2021, "Durum wheat performance (10 years of data) and grain quality (three years of data) with two tillage and two sowing irrigation practices under five nitrogen fertilizer treatments in northwestern Mexico", https://hdl.handle.net/11529/10548582, CIMMYT Research Data & Software Repository Network, V1',
+    data_citation = 'Verhulst, Nele; Grahmann, Kathrin; Honsdorf, Nora; Govaerts, Bram, 2021. Durum wheat performance (10 years of data) and grain quality (three years of data) with two tillage and two sowing irrigation practices under five nitrogen fertilizer treatments in northwestern Mexico, https://hdl.handle.net/11529/10548582',
     data_institutions = "CIMMYT",
     carob_contributor="Eduardo Garcia Bendito",
     experiment_type="fertilizer",

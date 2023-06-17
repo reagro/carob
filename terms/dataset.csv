@@ -4,8 +4,8 @@ group,yes,,
 project,no,,
 uri,yes,the uri of the dataset,
 license,yes,,
-data_citation,no,can be same as publication,"should be, but ideally extracted from dataverse, tbd"
-publication,no,the doi of the publication,
+data_citation,yes,can be same as publication,"should be, but ideally extracted from dataverse, tbd"
+publication,yes,the doi of the publication,
 carob_contributor,yes,name(s) of contributers of the aggregation script,
 experiment_type,no,what kind of experiment is this?,
 has_weather,no,has weather data?,

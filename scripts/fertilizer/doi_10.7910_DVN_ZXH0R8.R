@@ -23,7 +23,7 @@ carob_script <- function(path) {
 	   uri=uri,
 	   publication="doi:10.1017/S1742170519000504",
 	   data_citation = NA,
-	   data_institutions = "International Crops Research Institute for the Semi-Arid Tropics (ICRISAT); Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ); Amhara Agricultural Research Institute (ARARI); International Livestock Research Institute (ILRI)",
+	   data_institutions = "ICRISAT; ARARI; ILRI",
 	   carob_contributor="Siyabusa Mkhulani & Eduardo Garcia Bendito",
 	   experiment_type="On farm experimental trials",
 	   has_weather=FALSE,
@@ -34,9 +34,7 @@ carob_script <- function(path) {
 
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	# No License specified in metadata. Only Terms of use available. It is registered as "CC BY 4.0"
-	# dset$license <- carobiner::get_license(js)
-	dset$license <- "Custom Dataset Terms"
+    dset$license <- gsub("-DEED.AST", "", carobiner::get_license(js))
 
 ## process 001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx
 	f <- ff[basename(ff) == "001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx"]

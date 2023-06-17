@@ -43,7 +43,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
   ## download and read data 
   ff  <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  dset$license <- js$license
+  dset$license <- carobiner::get_license(js)
 
   f <-  ff[basename(ff) == "ESA Maize Fertilizer Response Data.xlsx"][1]
   d <- readxl::read_xlsx(f, sheet = 2)
@@ -57,8 +57,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
   d$adm3 <- as.character(strsplit(d$SY1, split = "[0-9]+"))
   v <- carobiner::fix_name(d$adm3)
   v <- carobiner::replace_values(v,
-                                 c("Embu ATC", "EmbuKPS", "c(\"Kandara\", \"SR\")"),
-                                 c("Embu","Embu","Kandara"))
+                  c("Embu ATC", "EmbuKPS", "c(\"Kandara\", \"SR\")"), c("Embu","Embu","Kandara"))
   d$adm3 <- v
   d$crop <- "maize"
   d$rep <- d$R

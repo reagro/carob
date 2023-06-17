@@ -45,9 +45,7 @@ Notes
 
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(cleanuri, path, major=1, minor=3, group)
-	# No License specified in metadata. Only Terms of use available. It is registered as "CC BY 4.0"
-	# dset$license <- carobiner::get_license(js)
-	dset$license <- "CC BY 4.0"
+	dset$license <- carobiner::get_license(js)
 
 	## the AFSIS data 
 
