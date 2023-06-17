@@ -26,8 +26,8 @@ in West Africa from 2013 to 2016.
     uri=uri,
     data_citation ="Baffour Badu-Apraku. (2018). Gains in Grain Yield of Extra-early Maize during Three Breeding Periods under and Rain-fed Conditions [Data set]. International Institute
     of Tropical Agriculture (IITA).  https://doi.org/10.25502/20181101/1228/BB",
+	data_institutions = "IITA",
     publication= NA,
-    data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
     experiment_type=NA, # please have a look on experiment type 
     has_weather=FALSE,

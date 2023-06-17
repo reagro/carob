@@ -16,6 +16,8 @@ carob_script <- function(path) {
   ## dataset level data. Internal annotation for CAROB 
   dset <- data.frame(
     dataset_id = dataset_id,
+	data_citation = "Tofa, A., Kamara, A. Y., Babaji, B. A., Ademulegun, T. D., & Aliyu, K. T. (2021). Maize response to N and P [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/07RT-7A40/D",
+	data_institutions = "IITA",
     group=group,
     uri=uri,
     publication=NA,

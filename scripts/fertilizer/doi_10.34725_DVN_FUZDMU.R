@@ -20,6 +20,7 @@ Agricultural Water Management 98: 1364-1372
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
+		data_citation="Gudeta W Sileshi; Festus K. Akinnifesi; Oluyede C. Ajayi; Bart Muys, 2011. Replication data for: Integration of legume trees in maize-based cropping systems improves rain use efficiency and yield stability under rain-fed agriculture, https://doi.org/10.34725/DVN/FUZDMU, World Agroforestry (ICRAF)",
 		group = group,
 		uri = uri,
 		publication = "doi:10.1016/j.agwat.2011.04.002",

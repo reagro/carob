@@ -8,7 +8,7 @@ carob_script <- function(path) {
 
 "
 	Description:
-
+Nitrogen (N) is an essential nutrient for sorghum growth and development but often becomes limiting due to low availability and loss. The effects of N fertilization on water use efficiency (WUE) and physiological and yield traits of sorghum were investigated in two locations over two cropping seasons (2014 and 2015) in the Sudan Savanna zone of Nigeria. Three sorghum varieties were evaluated under six (6) N-levels (0, 20, 40, 60, 80, and 100 kg ha−1) at a constant phosphorus and potassium level of 30 kg ha−1. Results showed that N increased grain yield by 35–64% at the Bayero University Kano (BUK) and 23–78% at Minjibir. The highest mean grain yield in the N-fertilizer treatments (2709 kg ha−1 and 1852 kg ha−1 at BUK and Minjibir, resp.) was recorded at 80 kg N ha−1. ICSV400 produced the highest mean grain yields (2677 kg ha−1 and 1848 kg ha−1 at BUK and Minjibir, resp.). Significant differences were observed among the N-levels as well as among the sorghum varieties for estimated water use efficiency (WUE).To review the nutrient needs, especially N of some of selected sorghum varieties and their water use efficiency on marginal land	
 
 "
 
@@ -22,6 +22,7 @@ carob_script <- function(path) {
 	   uri=uri,
 	   publication="doi:10.1155/2018/7676058",
 	   carob_contributor="Eduardo Garcia Bendito",
+	   data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Productivity and water use efficiency of Sorghum [Sorghum bicolor (L.) Moench] grown under different nitrogen applications in Sudan Savanna Zone, Nigeria. https://doi.org/10.21421/D2/FATVHT",
 	   experiment_type="Split plot",
 	   has_weather=FALSE,
 	   has_management=FALSE
@@ -44,11 +45,14 @@ carob_script <- function(path) {
 	d$trial_id <- paste0(dataset_id, '-', d$Location)
 	d$latitude <- ifelse(d$Location == "BUK", 8.5922, 8.5978)
 	d$longitude <- ifelse(d$Location == "BUK", 12.0034, 12.1733)
-	d$start_date <- ifelse(d$Location == "BUK" & d$Year == 2014, as.character(as.Date("2014-07-19")),
-	                       ifelse(d$Location == "BUK" & d$Year == 2015, as.character(as.Date("2014-07-20")),
-	                              ifelse(d$Location == "Minjibir" & d$Year == 2014, as.character(as.Date("2014-07-07")),
-	                                     as.character(as.Date("2014-07-04"))))) # As reported in the associated publication
+	# As reported in the associated publication:
+	d$start_date <- ifelse(d$Location == "BUK" & d$Year == 2014, "2014-07-19",
+                    ifelse(d$Location == "BUK" & d$Year == 2015, "2014-07-20",
+                    ifelse(d$Location == "Minjibir" & d$Year == 2014, "2014-07-07", "2014-07-04"))) 
+						  
+						  
 	d$end_date <- as.character(as.Date(d$start_date) + d$`Days to Maturity`)
+	d$start_date <- as.character(d$start_date)
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	
@@ -62,14 +66,20 @@ carob_script <- function(path) {
 ## assuming that "Stalk yield" also includes leaves	
 	d$residue_yield <- d$`Stalk yield`
 	d$grain_weight <- d$GW_1000grnM_g
-	d$fertilizer_type <- "unknown" # Not reported in the associated publication
-	d$N_splits <- 2 # As reported in the associated publication
+# Not reported in the associated publication	
+	d$fertilizer_type <- "unknown" 
+# As reported in the associated publication	
+	d$N_splits <- 2 
 	d$N_fertilizer <- d$Nitrogen
-	d$P_fertilizer <- 30/2.29 # As reported in the associated publication. Converting P2O5 to P-elemental
-	d$K_fertilizer <- 30/1.2051 # As reported in the associated publication Converting K2O to K-elemental
+
+# As reported in the associated publication. Converting P2O5 to P-elemental
+	d$P_fertilizer <- 30/2.29 
+# As reported in the associated publication Converting K2O to K-elemental	
+	d$K_fertilizer <- 30/1.2051 
 	d$OM_used <- FALSE
-	d$plant_spacing <- 30 # As reported in the associated publication
-	d$row_spacing <- 75 # As reported in the associated publication
+# As reported in the associated publication	
+	d$plant_spacing <- 30 
+	d$row_spacing <- 75 
 
 	d <- d[,c(18:43)]
 	d$dataset_id <- dataset_id

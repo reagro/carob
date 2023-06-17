@@ -22,6 +22,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
+		data_citation = "Sileshi, G.; Debusho, Legesse Kassa; Akinnifesi, Festus K., 2014. Replication data for: Can Integration of Legume Trees Increase Yield Stability in Rainfed Maize Cropping Systems in Southern Africa? https://doi.org/10.34725/DVN/25746, World Agroforestry (ICRAF)",
 		group = group,
 		uri = uri,
 		publication = "doi:10.2134/agronj2012.0063",

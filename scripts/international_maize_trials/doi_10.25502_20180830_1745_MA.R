@@ -15,12 +15,15 @@ carob_script <- function(path) {
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
+		data_citation = "Menkir, A. (2018). Grain Yield and Other Agronomic Traits of International Maize Trials – Republic of Benin, 2016 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180830/1745/MA",
+		data_institutions = "IITA",
 		uri = uri,
 		group=group,
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
 		experiment_type = "varieties",
 		has_weather = FALSE,
+		
 		has_management = FALSE
 	)
 

@@ -15,6 +15,8 @@ carob_script <- function(path) {
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
+		data_citation="Menkir, A. (2018). Grain Yield and Other Agronomic Traits of International Maize Trials – Gambia, 1993 - 2015 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180730/0838/MA",
+		data_institutions = "IITA",
 		group=group,		
 		uri = uri,
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
