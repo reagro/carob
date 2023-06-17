@@ -36,6 +36,7 @@ carob_script <- function(path) {
 	d$striga_trial <- TRUE
 	d$dataset_id <- dataset_id
 	d$country <- "Benin"
+	d$yield <- 1000 * d$yield
 
 	d$x_1000gwt <- NULL
 	d$description <- as.character(d$description)

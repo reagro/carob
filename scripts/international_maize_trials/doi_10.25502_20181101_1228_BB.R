@@ -15,7 +15,7 @@ in West Africa from 2013 to 2016.
 
 "
   
-  uri <- "https://doi.org/10.25502/20181101/1228/BB"
+  uri <- "doi:10.25502/20181101/1228/BB"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "international_maize_trials"
   ## dataset level data 
@@ -24,11 +24,8 @@ in West Africa from 2013 to 2016.
     group=group,
     project=NA,
     uri=uri,
-    data_citation ="Baffour Badu-Apraku. (2018). Gains in Grain Yield
-    of Extra-early Maize during Three Breeding Periods under 
-    and Rain-fed Conditions [Data set]. International Institute
-    of Tropical Agriculture (IITA).
-    https://doi.org/10.25502/20181101/1228/BB",
+    data_citation ="Baffour Badu-Apraku. (2018). Gains in Grain Yield of Extra-early Maize during Three Breeding Periods under and Rain-fed Conditions [Data set]. International Institute
+    of Tropical Agriculture (IITA).  https://doi.org/10.25502/20181101/1228/BB",
     publication= NA,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
@@ -48,6 +45,7 @@ in West Africa from 2013 to 2016.
   f <- ff[basename(ff) == "20181025aao_Combd_BA15150_Final_DS_data.csv"]
   f1 <- ff[basename(ff) == "20181029aao_Combd_BA15150_Final_WW_data.csv"]
   
+ 
   r <- read.csv(f)
   r1 <- read.csv(f1)
   #r <- readxl::read_excel(f) |> as.data.frame()
@@ -74,37 +72,16 @@ in West Africa from 2013 to 2016.
   p <- gsub("IKENNE", "Ikenne", p)
   d$location<- p
   
-  d$country[d$location=="KPEVE"]<- "Ghana"
-  d$country[d$location=="NYANKPALA"]<- "Ghana"
-  d$country[d$location=="FUMESUA"]<- "Ghana"
-  d$country[d$location=="ANGARADEBOU"]<-"Benin"
-  d$country[d$location=="MANGA"]<-"Burkina Faso"
+  d$country[d$location %in% c("KPEVE", "NYANKPALA", "FUMESUA")] <- "Ghana"
+  d$country[d$location=="ANGARADEBOU"] <- "Benin"
+  d$country[d$location=="MANGA"] <- "Burkina Faso"
   ## each site must have corresponding longitude and latitude
-  d$longitude[d$location=="Ikenne"]<-3.6977469 
-  d$latitude[d$location=="Ikenne"]<-6.9010051
-  d$longitude[d$location=="KPEVE"]<- 0.3326709
-  d$latitude[d$location=="KPEVE"]<-6.6851678
-  d$longitude[d$location=="NYANKPALA"]<- -0981456
-  d$latitude[d$location=="NYANKPALA"]<- 9.400463 
-  d$longitude[d$location=="FUMESUA"]<--1.5119402 
-  d$latitude[d$location=="FUMESUA"]<- 6.7143898   
-  d$longitude[d$location=="ANGARADEBOU"]<- 3.0412812
-  d$latitude[d$location=="ANGARADEBOU"]<-11.3228338
-  d$longitude[d$location=="ZARIA"]<- 7.6518533
-  d$latitude[d$location=="ZARIA"]<- 11.0248119
-  d$longitude[d$location=="MOKWA"]<- 5.0544281
-  d$latitude[d$location=="MOKWA"]<- 9.2957202
-  d$longitude[d$location=="DUSU"]<- 12.366667
-  d$latitude[d$location=="DUSU"]<-  8.816667
-    d$longitude[d$location=="BAGAUDA"]<- 8.38546
-    d$latitude[d$location=="BAGAUDA"]<-11.5696
-    d$longitude[d$location=="IFE"]<- 4.5604451
-    d$latitude[d$location=="IFE"]<- 7.482824
-    d$longitude[d$location=="MAINA-HARI"]<- 12.1577
-    d$latitude[d$location=="MAINA-HARI"]<-10.6788
-    d$longitude[d$location=="MANGA"]<- -1.0723972
-    d$latitude[d$location=="MANGA"]<-11.6673837
-    
+	loc <- data.frame(location = c("Ikenne", "KPEVE", "NYANKPALA", "FUMESUA", "ANGARADEBOU", "ZARIA", "MOKWA", "DUSU", "BAGAUDA", "IFE", "MAINA-HARI", "MANGA"), 
+	longitude = c(3.6977469, 0.3326709, -0.981456, -1.5119402, 3.0412812, 7.6518533, 5.0544281, 12.366667, 8.38546, 4.5604451, 12.1577, -1.0723972), 
+	latitude = c(6.9010051, 6.6851678, 9.400463, 6.7143898, 11.3228338, 11.0248119, 9.2957202, 8.816667, 11.5696, 7.482824, 10.6788, 11.6673837))
+	d <- merge(d, loc, by="location", all.x=TRUE)
+	
+   
   d$striga_trial <- FALSE
   d$striga_infected <- FALSE
     ##### Crop #####
