@@ -176,6 +176,9 @@ Notes
 
 	zz$longitude <- as.numeric(gsub(",", ".", zz$longitude))
 
+	i <- zz$country=="Guinea-Bissau" & zz$longitude > 15
+	zz$longitude[i] <- -zz$longitude[i]
+
 	carobiner::write_files(dset, zz, path, cleanuri, group, id="fao")
 }
 
