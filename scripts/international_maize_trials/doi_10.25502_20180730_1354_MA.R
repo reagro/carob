@@ -48,6 +48,9 @@ carob_script <- function(path) {
 	x$yield2 <- as.numeric(x$yield2)
 	x$grain_weight <- as.numeric(x$grain_weight)
 
+	x$latitude[x$location == "Freetown"] <- 8.4542
+	x$latitude[x$location == "Masita"] <- 8.29
+	x$longitude[x$location == "Masita"] <- -13
 
 # all scripts must end like this
 	carobiner::write_files(dset, x, path, dataset_id, group)
