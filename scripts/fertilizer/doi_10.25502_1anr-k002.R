@@ -27,6 +27,7 @@ carob_script <- function(path) {
     project=NA,
     uri=uri,
     publication= NA,
+	data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa diagnostic trial, 2015 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/1ANR-K002",
     data_institutions = "IITA",
     carob_contributor="Effie Ochieng'",
     experiment_type="___",
@@ -40,11 +41,8 @@ carob_script <- function(path) {
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
   dset$license <- carobiner::get_license(js)
   
-  
   f <- ff[basename(ff) == "data_table.csv"]
-  
   d <- read.csv(f)
-  
   
   d$trial_id <- d$id
   d$irrigated <- FALSE 
@@ -100,27 +98,12 @@ carob_script <- function(path) {
 	}
 	dd4 <- cbind(dd3, as.data.frame(split_list))
   
-  #to get the latitude 
-  lat_long <- d[, c("trial_id","gps_latitude_field.decimal_degrees","gps_field_device_latitude.decimal_degrees","gps_field_device_longitude.decimal_degrees","gps_longitude_field.decimal_degrees")]
-  
-	i <- is.na(lat_long$gps_latitude_field.decimal_degrees) & (!is.na(lat_long$gps_field_device_latitude.decimal_degrees))
-	lat_long$gps_latitude_field.decimal_degrees[i] <- lat_long$gps_field_device_latitude.decimal_degrees[i]
-  
-  # to get the longitude
-	i <- is.na(lat_long$gps_longitude_field.decimal_degrees) & (!is.na(lat_long$gps_field_device_longitude.decimal_degrees))
-    lat_long$gps_longitude_field.decimal_degrees[i] <- lat_long$gps_field_device_longitude.decimal_degrees[i]
-  
-	lat_long <- lat_long[, c("trial_id", "gps_latitude_field.decimal_degrees","gps_longitude_field.decimal_degrees")]  
-
-    
-  # The NAs in the lat and lon comes to 109 entries, find a way of doing this efficiently
- # n1 <- which(is.na(lat_long$gps_latitude_field.decimal_degrees & lat_long$gps_longitude_field.decimal_degrees))
- # n2 <- lat_long[n1, ]
-  
-  lat_long$latitude <- lat_long$gps_latitude_field.decimal_degrees
-  lat_long$longitude <- lat_long$gps_longitude_field.decimal_degrees
- 
-  dd5 <- merge(dd4, lat_long, by = "trial_id")
+	
+	latitude <- apply(d[, c("gps_latitude_field.decimal_degrees","gps_field_device_latitude.decimal_degrees")], 1, mean, na.rm=TRUE)
+	longitude <- apply(d[, c("gps_field_device_longitude.decimal_degrees","gps_longitude_field.decimal_degrees")], 1, mean, na.rm=TRUE)
+	lonlat <- cbind(d[, "trial_id", drop=FALSE], longitude, latitude)
+	
+	dd5 <- merge(dd4, lonlat, by = "trial_id")
  
  
   #filling in the fertilizer info using the split columns
@@ -161,35 +144,60 @@ carob_script <- function(path) {
     # 1) get the length and width of farm size in meters
      dd5$length <- ((dd5$row_spacing)*(dd5$no_rows-1))/100
      
-     
+	 
      #2) get plot size in m2
      dd5$plot_size <- dd5$length * dd5$width_harvest
-     
+
+     ## some fields are unreasoably small or large
+	 dd5$plot_size[dd5$plot_size < 30] <- NA
+     dd5$plot_size[dd5$plot_size > 200] <- NA
+	 
      #3) get the yield/ha
-     dd5$yield <- (10000*dd5$grain_weight)/dd5$plot_size
-     dd5$residue_yield <- (10000*dd5$residue_yield)/dd5$plot_size
+     dd5$yield <- 10000 * dd5$grain_weight / dd5$plot_size
+
+     ## some yields are crazy
+     dd5$yield[dd5$yield > 6000] <- NA
+
+     dd5$residue_yield <- 10000 * dd5$residue_yield / dd5$plot_size
+     dd5$residue_yield[dd5$residue_yield > 10000] <- NA
+
      
   dd5$dataset_id <- dataset_id
   dd5$start_date <- as.character(as.Date(dd5$start_date, format = "%d/%m/%Y"))
   dd5$end_date <- as.character(as.Date(dd5$end_date, format = "%d/%m/%Y"))
 
   dd5 <- dd5[, c("trial_id","dataset_id","irrigated","on_farm","is_survey","country","adm1","site","latitude","longitude","start_date","end_date","crop","variety","inoculated","row_spacing","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","S_fertilizer","OM_used","plant_spacing","yield","residue_yield")]
-  
+
+	#library(terra)
+	#w = geodata::world(path="data")
+	#e = extract(w, dd5[,c("longitude", "latitude")])
+	#e = cbind(e, dd5$country, dd5$longitude, dd5$latitude)
+	#table(e[,3], e[,4])
+	#i = which(e[,3] == "Democratic Republic of the Congo")
+	#plot(dd5[dd5$country=="Uganda", c("longitude", "latitude")])
+                     
+	tza = which(dd5$country == "Tanzania" & dd5$latitude > 0)
+	dd5$latitude[tza] <- -dd5$latitude[tza] 
+	  
+	gha = which(dd5$country == "Ghana")
+	dd5$longitude[gha] <- -dd5$longitude[gha] 
+	i <- which(dd5$site == "Narango")
+	dd5$latitude[i] <- 10.6
+	dd5$longitude[i] <- -0.1
+	i <- which(dd5$site == "Bykufa Biyu")
+	dd5$longitude[i] <- -0.4
+	i <- which(dd5$site == "Pishegu")
+	dd5$latitude[i] <- 9.97
+	dd5$longitude[i] <- -0.63
+
+	uga = which(dd5$country == "Uganda" & dd5$latitude > 0 & dd5$longitude < 31)
+	dd5$latitude[uga] <- -dd5$latitude[uga]
+
+	dd6 <- carobiner::geocode_duplicates(dd5, vars=c( "country", "adm1", "site"))
+	
+	dd6 <- dd6[is.finite(dd6$yield), ]
   # all scripts must end like this
-  carobiner::write_files(dset, dd5, path, dataset_id, group)
+  carobiner::write_files(dset, dd6, path, dataset_id, group)
   
   }  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-  
-
-  
   
