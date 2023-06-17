@@ -22,6 +22,7 @@ carob_script <- function(path) {
 	   group=group,
 	   project=NA,
 	   uri=uri,
+	   data_citation="Corbeels, Marc; Naudin, Krishna; Whitbread, Anthony M.; Kühne, Ronald; Letourmy, Philippe, 2020. Data for: Conservation agriculture in Sub-Saharan Africa, crop yields from experiments, https://doi.org/10.18167/DVN1/DLTQWR",
 	   publication= "doi:10.1038_s43016-020-0114-x",
 	   data_institutions = "CIRAD",
 	   carob_contributor="Eduardo Garcia Bendito",
@@ -89,7 +90,6 @@ carob_script <- function(path) {
 	crd <- gsub(" ", "", crd)
 
 	crd <- do.call(rbind, strsplit(crd, ","))
-	
 	lat <- data.frame(trimws(stringr::str_split_fixed(crd[,1], "#", 2)))
 	i <- which(lat[,2] != "" )
 	lat[i,1] <- paste0(lat[i,1], substr(lat[i,2], nchar(lat[i,2]), nchar(lat[i,2])))	
@@ -97,13 +97,13 @@ carob_script <- function(path) {
 	i <- which(lon[,2] != "" )
 	lon[i,1] <- paste0(lon[i,1], substr(lon[i,2], nchar(lon[i,2]), nchar(lon[i,2])))	
 
-
 	make_decimal <- function(x) {
 		direction <- substr(x, nchar(x), nchar(x))
-		x <- substr(x, 1, nchar(x)-1)
+		x <- trimws(substr(x, 1, nchar(x)-1))
 		s <- stringr::str_split_fixed(x, "'", 3)
+		s[s[,2] == "", 2] <- 0 
 		x <- as.numeric(s[,1]) + as.numeric(s[,2])/60 
-		i <- grep("S|W", s[,3], ignore.case=TRUE)
+		i <- grep("S|W", direction, ignore.case=TRUE)
 		x[i] <- -1 * x[i]
 		x
 	}
@@ -115,6 +115,8 @@ carob_script <- function(path) {
 	lon[,1] <- make_decimal(lon[,1])
 	lon[,2] <- make_decimal(lon[,2])
 	d$longitude <- apply(lon, 1, mean, na.rm=TRUE)
+
+#z = data.frame(crd, d$latitude, d$longitude)
 	
 ##### Crop #####
 ## normalize variety names

@@ -54,14 +54,14 @@ inoculant,character,,,,,,,,Name of the inoculant product,,
 soil_type,character,,,,,,,,Soil name or description,,http://purl.obolibrary.org/obo/AGRO_00010099
 soil_pH,numeric,,,,,3,9,,Soil pH (H2O),,http://purl.obolibrary.org/obo/ENVO_00001998; http://purl.obolibrary.org/obo/ENVO_01000017; http://purl.obolibrary.org/obo/PATO_0000025; http://purl.obolibrary.org/obo/UO_0000187
 soil_pH_KCl,numeric,,,,,3,9,,Soil pH (KCl),,http://purl.obolibrary.org/obo/ENVO_00001998; http://purl.obolibrary.org/obo/ENVO_01000017; http://purl.obolibrary.org/obo/PATO_0000025; http://purl.obolibrary.org/obo/UO_0000187
-soil_SOC,numeric,%,,,,0.0001,20,,Soil organic carbon,,http://purl.obolibrary.org/obo/ENVO_00001998
-soil_sand,numeric,%,,,,0.0001,100,,Soil sand content (excluding gravel),,
-soil_clay,numeric,%,,,,0.0001,100,,Soil clay content (excluding gravel),,
-soil_silt,numeric,%,,,,0.0001,100,,Soil silt content (excluding gravel),,http://purl.obolibrary.org/obo/ENVO_09000008; http://purl.obolibrary.org/obo/UO_0000187
-soil_N,numeric,g/kg,,,,0.0001,100,,Soil N content,,
-soil_K,numeric,g/kg,,,,0.0001,100,,Soil K content,,http://purl.obolibrary.org/obo/ENVO_09000017
-soil_P_total,numeric,mg/kg,,,,0.0001,100,,Soil P (total) ,,http://purl.obolibrary.org/obo/ENVO_09200010
-soil_P_available,numeric,mg/kg,,,,0.0001,1000,,Soil P (plant available) ,,
+soil_SOC,numeric,%,,,,0,20,,Soil organic carbon,,http://purl.obolibrary.org/obo/ENVO_00001998
+soil_sand,numeric,%,,,,0,100,,Soil sand content (excluding gravel),,
+soil_clay,numeric,%,,,,0,100,,Soil clay content (excluding gravel),,
+soil_silt,numeric,%,,,,0,100,,Soil silt content (excluding gravel),,http://purl.obolibrary.org/obo/ENVO_09000008; http://purl.obolibrary.org/obo/UO_0000187
+soil_N,numeric,g/kg,,,,0.01,100,,Soil N content,,
+soil_K,numeric,g/kg,,,,0.01,100,,Soil K content,,http://purl.obolibrary.org/obo/ENVO_09000017
+soil_P_total,numeric,mg/kg,,,,0.01,100,,Soil P (total) ,,http://purl.obolibrary.org/obo/ENVO_09200010
+soil_P_available,numeric,mg/kg,,,,0.01,1000,,Soil P (plant available) ,,
 irrigated,logical,,,,,,,,Was the plot irrigated?,,http://purl.obolibrary.org/obo/AGRO_00000006
 tillage,character,,,,,,,,Tillage used,,http://purl.obolibrary.org/obo/AGRO_00000322
 uncertainty,numeric,,,,,0,,,Measure of noise in data ,,

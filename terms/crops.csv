@@ -5,32 +5,32 @@ barley,Hordeum vulgare,seed,,12000
 cassava,Manihot esculenta,root,,90000
 cassava leaves,Manihot esculenta,leaves,,25000
 chickpea,Cicer arientinum,seed,,3500
-clover,Trifolium sp.,green manure,,
+clover,Trifolium sp.,green manure,,100000
 common bean,Phaseolus vulgaris,seed,,8000
 cotton,Gossypium hirsutum,fruit,,5000
 cowpea,Vigna unguiculata,seed,,5000
-crotalaria,Crotalaria spp,depends,,2500
+crotalaria,Crotalaria spp,depends,,3000
 faba bean,Vica faba,seed,,6500
-fenugreek,Trigonella foenum-graecum,seed,,5500
+fenugreek,Trigonella foenum-graecum,seed,,6000
 finger millet,Eleusine coracana,seed,,6000
-flax,linum usitatissimum,seed / fiber,,
-forage legume,spp,forage,,
+flax,linum usitatissimum,seed / fiber,,10000
+forage legume,spp,forage,,100000
 gomenzer,Brassica carinata,leaves,,2300
-grass pea,Lathyrus sativus,seed,,2500
-groundnut,Arachis hypogaea,seed,,4700
+grass pea,Lathyrus sativus,seed,,5000
+groundnut,Arachis hypogaea,seed,,5000
 guar,Cyamopsis tetragonoloba,,,
 jackfruit,Artocarpus heterophyllus,fruit,,80000
 kola,Cola sp.,seed,,10000
 lablab,Lablab purpureus,seed,,5000
 lentil,Lens culinaris,seed,,7000
-lucerne,Medicago sativa,feed,,
+lucerne,Medicago sativa,feed,,100000
 maize,Zea mays,seed,12,25000
 mango,Mangifera indica,fruit,,100000
-mung bean,Vigna radiata,,,
+mung bean,Vigna radiata,,,5000
 no crop,,,,
 noug,Guizotia abyssinica,,,5000
 oats,Avena sativa,seed,,13450
-okra,Abelmoschus esculentus,fruit,,
+okra,Abelmoschus esculentus,fruit,,10000
 orange,Citrus sinensis,fruit,,100000
 pea,Pisum sativum,seed,,10000
 pearl millet,Pennisetum glaucum,seed,,15000
@@ -43,14 +43,14 @@ sesbania,Sesbania spp,none,,125000
 sorghum,Sorghum bicolor,seed,,18000
 soybean,Glycine max,seed,,15000
 sugarcane,Saccharum officinarum,stems,,381000
-sunflower,Helianthus annuus,anuum,,
-sunhemp,Crotalaria juncea,green manure,,
+sunflower,Helianthus annuus,anuum,,20000
+sunhemp,Crotalaria juncea,green manure,,20000
 sweetpotato,Ipomoea batatas,root,,100000
 teff,Eragrostis tef,seed,,10000
 tobacco,Nicotiana tabacum,leaves,,10000
 tomato,Solanum lycopersicum,fruit,,100000
 vegetables,spp,leaves,,
-velvet bean,Mucuna pruriens,green manure,,
-vetch,Vicia spp,forage,,
+velvet bean,Mucuna pruriens,green manure,,5000
+vetch,Vicia spp,forage,,100000
 wheat,Triticum aestivum,seed,,18000
 yam,Dioscorea cayenensis,tuber,,60000

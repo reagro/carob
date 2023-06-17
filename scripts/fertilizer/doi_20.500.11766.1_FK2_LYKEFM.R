@@ -22,7 +22,7 @@ carob_script <- function(path) {
     group=group,
     uri=uri,
     publication="hdl:20.500.11766/5084",
-    data_citation = "Ayalew, Baye, 2020, Determination of rate and timing of N application on bread wheat, https://hdl.handle.net/20.500.11766.1/FK2/LYKEFM, MELDATA, V1",
+    data_citation = "Ayalew, Baye, 2020, Determination of rate and timing of N application on bread wheat, https://hdl.handle.net/20.500.11766.1/FK2/LYKEFM",
     data_institutions = "ICARDA",
     carob_contributor="Eduardo Garcia Bendito",
     experiment_type="fertilizer",
