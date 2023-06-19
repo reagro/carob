@@ -17,7 +17,7 @@ in West Africa from 2013 to 2016.
   
   uri <- "doi:10.25502/20181101/1228/BB"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "international_maize_trials"
+  group <- "maize_trials"
   ## dataset level data 
   dset <- data.frame(
     dataset_id = dataset_id,

@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
 	uri <- "doi:10.25502/20180716/0907/MA"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "international_maize_trials"	
+	group <- "maize_trials"	
 		
 	## dataset level data 
 	dset <- data.frame(

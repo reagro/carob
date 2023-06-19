@@ -86,13 +86,17 @@ carob_script <- function(path) {
 	d$latitude <- as.numeric(rr$Y)
 	xy <- c("longitude", "latitude")
 	i <- apply(is.na(d[, xy]), 1, any)
-	d[i & d$site == "Sidindi", xy] <- c(34.38, 0.15)
-	d[i & d$site == "Thuchila", xy] <- c(35.57, -15.86)
-	d[i & d$site == "Calabar", xy] <- c(8.33, 4.97)
-	d[i & d$site == "Manjawira", xy] <- c(34.85, -14.99)
-	d[i & d$site == "Amoutchou", xy] <-  c(1.08, 7.46)
-	d[i & d$site == "Sarakawa", xy] <- c(1.01, 9.63)
+	
+	crds = data.frame(site = c("Sidindi", "Thuchila", "Calabar", "Manjawira",  "Amoutchou", "Sarakawa"), 
+					lon = c(34.38, 35.57, 8.33, 34.85, 1.08, 1.01), 
+					lat = c(0.15, -15.86, 4.97, -14.99, 7.46, 9.63))
 
+	m <- na.omit(cbind(1:nrow(d), match(d$site, crds$site)))
+	d$longitude[m[,1]] <- crds[m[,2], 2]
+	d$latitude[m[,1]] <- crds[m[,2], 3]
+	
+	d$site[i[,1], "longitude"] <- m[i[,2], 2]
+	
 ##### Crop #####
 ## normalize variety names
 	d$crop <- tolower(rr$CROPTYPE)
@@ -137,12 +141,12 @@ carob_script <- function(path) {
 
 #### SOIL INFORMATION ######
   d$soil_type <- rr$`WRB Soiltype`
-	d$soil_pH <- round(as.numeric(rr$`SOIL pH`), 1)
-	d$soil_SOC <- round(as.numeric(rr$SOC), 2)
-	d$soil_sand <- round(as.numeric(rr$Sand), 2)
-	d$soil_clay <- round(as.numeric(rr$Clay), 2)
+	d$soil_pH <- as.numeric(rr$`SOIL pH`)
+	d$soil_SOC <- as.numeric(rr$SOC)
+	d$soil_sand <- as.numeric(rr$Sand)
+	d$soil_clay <- as.numeric(rr$Clay)
 	# Seems to be in mg/kg, but the range of values in carob do not fit the observations here
-	# d$soil_P_available <- rr$`Avail P` 
+	d$soil_P_available <- rr$`Avail P` 
 	
 	#### OTHER ######
 	 # coerced NAs due to character types. Could be suppressed.

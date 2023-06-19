@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
 	uri <- "doi:10.25502/20180830/1745/MA"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "international_maize_trials"	
+	group <- "maize_trials"	
 		
 	## dataset level data 
 	dset <- data.frame(
@@ -35,7 +35,7 @@ carob_script <- function(path) {
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, "Republic_of_benin_International_Maize_Trials_Regular2016.csv", FALSE)
+	d <- mzfun(ff, "Republic_of_benin_maize_trials_Regular2016.csv", FALSE)
 	d$striga_trial <- TRUE
 	d$dataset_id <- dataset_id
 	d$country <- "Benin"
