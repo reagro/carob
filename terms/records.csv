@@ -10,8 +10,8 @@ location,character,,,,,,,,"Name of the location where the location was made. E.g
 site,character,,,,,,,,Name of the sub-location where the observation was made,,term asked in ENVO.
 trial_id,character,,yes,,,,,,Identifier of a single trial (that may have treatments and replicates); should be unique within dataset_id,,
 reference,character,,,,,,,,Reference to source if the data set is a compilation,,http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/UO_0000283
-longitude,numeric,degrees,yes,,,-60,60,no,Longitude of the location where the observation was made (in decimal notation),,http://purl.obolibrary.org/obo/AGRO_00000575
-latitude,numeric,degrees,yes,,,-180,180,no,Latitude of the location where the observation was made (in decimal notation),,http://purl.obolibrary.org/obo/AGRO_00000574
+longitude,numeric,degrees,yes,,,-180,180,no,Longitude of the location where the observation was made (in decimal notation),,http://purl.obolibrary.org/obo/AGRO_00000575
+latitude,numeric,degrees,yes,,,-60,60,no,Latitude of the location where the observation was made (in decimal notation),,http://purl.obolibrary.org/obo/AGRO_00000574
 elevation,numeric,meter,,,,,,,Elevation above sea level,,http://purl.obolibrary.org/obo/AGRO_00000367
 start_date,character,,,,,,,,"Experiment start (planting) date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,http://purl.obolibrary.org/obo/AGRO_00000002
 end_date,character,,,,,,,,"Experiment end (harvest) date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,http://purl.obolibrary.org/obo/AGRO_00010099
