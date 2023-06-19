@@ -55,9 +55,7 @@ carob_script <- function(path) {
 	raw <- read.csv(raw, sep = "\t")
 	
 ## process file(s)
-	proper <- function(x){paste0(toupper(substr(x, 1,1)), tolower(substr(x,2, nchar(x))))}
-
-	raw$country <- proper(raw$Country)
+	raw$country <- carobiner::fix_name(raw$Country, "title")
 	raw$location <- gsub(" - ","_",raw$Loc_desc)
 	raw$location <- gsub("_-","_",raw$location)
 	raw$location <- gsub(" ","_",raw$location)

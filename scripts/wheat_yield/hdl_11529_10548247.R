@@ -55,9 +55,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	raw <- read.csv(raw, sep = "\t")
 	
 ## process file(s)
-	proper <- function(x){paste0(toupper(substr(x, 1,1)), tolower(substr(x,2, nchar(x))))}
-
-	raw$country <- proper(raw$Country)
+	raw$country <- carobiner::fix_name(raw$Country, "title")
 	raw$location <- gsub("-","_",raw$Loc_desc)
 	raw$location <- gsub("_ ","_",raw$location)
 	raw$location <- gsub(" ","_",raw$location)
@@ -102,11 +100,6 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 # Merge raw with renv
 	renv <- merge(raw,renv, by = c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), all.x = TRUE)
 
-	# Rename South africa, South and United states
-	renv$country <- ifelse(renv$country == "South africa", "South Africa", renv$country)
-	renv$country <- ifelse(renv$country == "Saudi arabia", "Saudi Arabia", renv$country)
-	renv$country <- ifelse(renv$country == "United states", "United States", renv$country)
-	
 # Process in carob format
 	renv$start_date <- as.character(as.Date(renv$SOWING_DATE, "%b %d %Y"))
 	renv$end_date <- as.character(as.Date(renv$HARVEST_FINISHING_DATE, "%b %d %Y"))

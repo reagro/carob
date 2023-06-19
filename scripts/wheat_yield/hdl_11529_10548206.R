@@ -54,9 +54,8 @@ carob_script <- function(path) {
 	raw <- read.csv(raw, sep = "\t")
 	
 ## process file(s)
-	proper <- function(x){paste0(toupper(substr(x, 1,1)), tolower(substr(x,2, nchar(x))))}
 
-	raw$country <- proper(raw$Country)
+	raw$country <- carobiner::fix_name(raw$Country, "title")
 	raw$location <- gsub(" - ","_",raw$Loc_desc)
 	raw$location <- gsub("_-","_",raw$location)
 	raw$location <- gsub(" ","_",raw$location)
@@ -94,12 +93,6 @@ carob_script <- function(path) {
 	renv$start_date <- as.character(as.Date(renv$SOWING_DATE, "%b %d %Y"))
 	renv$end_date <- as.character(as.Date(renv$HARVEST_FINISHING_DATE, "%b %d %Y"))
 	
-# Rename South africa, North korea and United states
-renv$country <- ifelse(renv$country == "South africa", "South Africa", renv$country)
-renv$country <- ifelse(renv$country == "North korea", "North Korea", renv$country)
-renv$country <- ifelse(renv$country == "United states", "United States", renv$country)
-
-
 # other variables
 	renv$on_farm <- FALSE
 	renv$is_survey <- FALSE
