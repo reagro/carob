@@ -50,8 +50,9 @@ carob_script <- function(path) {
 	              times=c('all_nutrient', 'macro_nutrient', 'zero_nutrient'),
 	              v.names=c('yield'),
 	              idvar='observation')
-	rr <- rr[rr$`DATA SOURCE` != "Haileselassie et al. 2011",] # Removing this observations, since they are not properly recorded from the original source (doi:10.1080/00380768.2011.593482).
 
+# Removing this observations, since they are not properly recorded from the original source (doi:10.1080/00380768.2011.593482).				  
+	rr <- rr[rr$`DATA SOURCE` != "Haileselassie et al. 2011",] 
 	
 ## process file(s)
 	
@@ -94,9 +95,7 @@ carob_script <- function(path) {
 	m <- na.omit(cbind(1:nrow(d), match(d$site, crds$site)))
 	d$longitude[m[,1]] <- crds[m[,2], 2]
 	d$latitude[m[,1]] <- crds[m[,2], 3]
-	
-	d$site[i[,1], "longitude"] <- m[i[,2], 2]
-	
+
 ##### Crop #####
 ## normalize variety names
 	d$crop <- tolower(rr$CROPTYPE)

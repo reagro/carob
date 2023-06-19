@@ -15,7 +15,7 @@ intmztrial_borer <- function(ff, f, striga=FALSE) {
 intmztrial_striga <- function(ff, f, striga=FALSE) {
 
 	sf <- ff[tolower(basename(ff))==tolower(f)]
-	d <- read.csv(sf)
+	d  <- read.csv(sf)
 	names(d) <- tolower(names(d))
 	names(d)[1] <- "id"
 	d$id <- NULL

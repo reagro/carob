@@ -35,7 +35,7 @@ carob_script <- function(path) {
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, "Republic_of_benin_maize_trials_Regular2016.csv", FALSE)
+	d <- mzfun(ff, "Republic_of_benin_international_maize_trials_Regular2016.csv", FALSE)
 	d$striga_trial <- TRUE
 	d$dataset_id <- dataset_id
 	d$country <- "Benin"

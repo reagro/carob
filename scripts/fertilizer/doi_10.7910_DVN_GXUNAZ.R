@@ -25,7 +25,7 @@ relative to yields of only NP/K application. (2020-02-25)
     group=group,
     project=NA,
     uri=uri,
-    publication= "doi:10.7910/DVN/8AJQJJ",
+    publication= "",
     data_citation = "Kihara, Job; Okeyo, Jeremiah; Bolo, Peter; Kinyua, Michael, 2020, Non-responsiveness of crops to fertilizers under some soils in sub-Saharan Africa, doi:10.7910/DVN/GXUNAZ",
     data_institutions = "CIAT",
     carob_contributor="Rachel Mukami",
