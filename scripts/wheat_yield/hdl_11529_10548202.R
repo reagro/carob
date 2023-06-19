@@ -137,9 +137,6 @@ renv$country <- ifelse(renv$country == "Null", "Unknown", renv$country)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "PEAS", "pea", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "TRITICALE", "wheat", renv$USE_OF_FIELD_SPECIFY_CROP) # Update once I get clarification
 
-
-
-
 	# Is corn and maize crop same?
 	renv$previous_crop <-  tolower(renv$USE_OF_FIELD_SPECIFY_CROP)
 	

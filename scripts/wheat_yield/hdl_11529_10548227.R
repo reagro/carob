@@ -74,9 +74,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
  	raw <- unique(raw %>% filter(Value != 0)%>% filter(Value != '-'))
  	
  	# Aggregate by averaging to fix duplicates
- 	raw <- raw  %>%
- 	  group_by(country, location, site, trial_id, Loc_no, Rep, Sub_block, Plot, Gen_name, Trait.name) %>%
- 	  summarise(Value = first(Value))
+ 	raw <- raw |> aggregate(Value ~ ., last)
  	
  	raw <- data.frame(raw)
  	
@@ -97,11 +95,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	renv <- unique(renv)
 	
 	# Aggregate by averaging to fix duplicates
-	renv <- renv  %>%
-	  group_by(Loc_no, Rep, Sub_block, Plot, Gen_name, Trait.name) %>%
-	  summarise(Value = first(Value))
-	
-	renv <- data.frame(renv)	
+	renv <- renv |> aggregate(Value ~ ., last)
 	
 	renv <- reshape(renv, idvar = c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
 	colnames(renv) <- gsub("Value.","", colnames(renv))
