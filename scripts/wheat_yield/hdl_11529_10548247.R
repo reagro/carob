@@ -69,7 +69,17 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 
 # Select variables and reshape raw table
  	raw <- raw[,c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name", "Value")]
-	raw <- reshape(raw, idvar = c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
+	
+ 	# Make table raw unique
+ 	raw <- unique(raw |> subset(Value != 0)|>subset(Value != '-'))
+ 	
+ 	# Aggregate by averaging to fix duplicates
+ 	#raw <- raw |>
+ 	  #suppressWarnings(aggregate(cbind(country, location, site, trial_id, Loc_no, Rep, Sub_block, Plot, Gen_name, Trait.name) ~ Value, mean))
+ 	
+ 	#raw <- data.frame(raw)
+ 	
+ 	raw <- reshape(raw, idvar = c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
 
 	colnames(raw) <- gsub("Value.","", colnames(raw))
 	
@@ -83,14 +93,8 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	
 	renv <- merge(raw,env, by = c("Loc_no"), all.x = TRUE)[,c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name","Value")]
 	
-	renv <- unique(renv)
-	
-	# Aggregate by averaging to fix duplicates
-	renv <- renv  %>%
-	  group_by(Loc_no, Rep, Sub_block, Plot, Gen_name, Trait.name) %>%
-	  summarise(Value = first(Value))
-	
-	renv <- data.frame(renv)	
+		# Aggregate to fix duplicates
+	renv <- renv |> aggregate(Value ~ ., last)
 	
 	renv <- reshape(renv, idvar = c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
 	colnames(renv) <- gsub("Value.","", colnames(renv))
@@ -134,7 +138,9 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SUNHIMP (FLAX)", "sunhemp", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "COTTAN", "cotton", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "TRIGO", "wheat", renv$USE_OF_FIELD_SPECIFY_CROP)
+	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "ALFALFA", "lucerne", renv$USE_OF_FIELD_SPECIFY_CROP)
 	renv$USE_OF_FIELD_SPECIFY_CROP <- ifelse(renv$USE_OF_FIELD_SPECIFY_CROP == "SOJA", "soybean", renv$USE_OF_FIELD_SPECIFY_CROP)
+	
 	
 	# Is corn and maize crop same?
 	renv$previous_crop <-  tolower(renv$USE_OF_FIELD_SPECIFY_CROP)
