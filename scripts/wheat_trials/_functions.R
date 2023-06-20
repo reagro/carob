@@ -192,8 +192,8 @@ proc_wheat <- function(ff) {
 	r$K_fertilizer <- fertfun(r, "FERTILIZER_%K")[,1]
 	
 	r$soil_type <- r$SOIL_CLASIFICATION
-	r$soil_om <- r$SOIL_PERCENT_ORGANIC_MATTER
-	r$soil_ph <- r$SOIL_PH_ACTUAL_VALUE
+	r$soil_SOM <- r$SOIL_PERCENT_ORGANIC_MATTER
+	r$soil_pH <- r$SOIL_PH_ACTUAL_VALUE
 	
 	
 	r$heading <- r$DAYS_TO_HEADING
