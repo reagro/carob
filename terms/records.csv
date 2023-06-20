@@ -54,6 +54,7 @@ inoculant,character,,no,,no,,,yes,Name of the inoculant product,,
 soil_type,character,,no,,yes,,,yes,Soil name or description,,http://purl.obolibrary.org/obo/AGRO_00010099
 soil_pH,numeric,,no,,no,3,9,yes,Soil pH (H2O),,http://purl.obolibrary.org/obo/ENVO_09200010
 soil_pH_KCl,numeric,,no,,no,3,9,yes,Soil pH (KCl),,http://purl.obolibrary.org/obo/ENVO_09200010
+soil_SOC,numeric,%,no,,no,0,20,yes,Soil organic carbon,,
 soil_SOM,numeric,%,no,,no,0,20,yes,Soil organic matter,,
 soil_sand,numeric,%,no,,no,0,100,yes,Soil sand content (excluding gravel),,
 soil_clay,numeric,%,no,,no,0,100,yes,Soil clay content (excluding gravel),,http://purl.obolibrary.org/obo/ENVO_00002982
