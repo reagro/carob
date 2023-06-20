@@ -186,14 +186,37 @@ proc_wheat <- function(ff) {
 	
 	x <- fertfun(r, "FERTILIZER_%N")
 	r$N_fertilizer <- x[,1]
-	r$N_splits <- x[,2]
+	r$N_splits <- as.integer(x[,2])
 
 	r$P_fertilizer <- fertfun(r, "FERTILIZER_%P")[,1]
 	r$K_fertilizer <- fertfun(r, "FERTILIZER_%K")[,1]
 	
+	r$soil_type <- r$SOIL_CLASIFICATION
+	r$soil_om <- r$SOIL_PERCENT_ORGANIC_MATTER
+	r$soil_ph <- r$SOIL_PH_ACTUAL_VALUE
+	
+	
+	r$heading <- r$DAYS_TO_HEADING
+	r$height <- r$PLANT_HEIGHT 
+	r$powdery_mildew <- r$POWDERY_MILDEW
+	r$stem_rust <- r$STEM_RUST
+	r$leaf_rust <- r$LEAF_RUST
+	r$sterility <- r$STERILITY_INDEX
+	r$fusarium_scab_spike <- r$FUSARIUM_SCAB_SPIKE
+	r$helminthosporium_sativum_leaf <- r$HELMINTHOSPORIUM_SATIVUM_LEAF
+	r$septoria_tritici_blotch <- r$SEPTORIA_TRITICI_BLOTCH
+	r$septoria_species <- r$SEPTORIA_SPECIES
+		
+	r$bird_damage <- r$BIRD_DAMAGE_PER_PLOT
+	r$blast_intensity <- r$`Blast intensity`
+	r$blast_severity  <- r$`Blast severity`
+	
+	
 	# Subset for relevant columns
+	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep","crop", "variety_code", "variety_type", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_type", "soil_om", "soil_ph",  "irrigated", "row_spacing", "yield", "grain_weight", "heading", "height","powdery_mildew", "stem_rust", "leaf_rust", "sterility_index", "fusarium_scab_spike", "helminthosporium_sativum_leaf", "septoria_tritici_blotch", "septoria_species", "blast_severity", "blast_intensity")
+		
+	# they may not be all available
+	cv <- cvars[cvars %in% names(r)]
 	
-	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep","crop", "variety_code", "variety_type", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer",  "irrigated", "row_spacing", "yield", "grain_weight")
-	
-	r[, cvars]
+	r[, cv]
 }

@@ -17,7 +17,7 @@ in diverse environments by modeling G X E using the pedigree-derived additive re
   
   uri <- "hdl.handle.net/11529/10831"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "wheat_yield"
+  group <- "wheat_trials"
   dset <- data.frame(
     dataset_id = dataset_id,
     group=group,

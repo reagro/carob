@@ -9,13 +9,13 @@ adm5,character,,no,,no,,,yes,Fifth level administrative subdivision (within the 
 location,character,,no,,no,,,yes,"Name of the location where the location was made. E.g., a place name or locality description.",,http://purl.obolibrary.org/obo/ENVO_00000114
 site,character,,no,,no,,,yes,Name of the sub-location where the observation was made,,term asked in ENVO.
 trial_id,character,,yes,,no,,,yes,Identifier of a single trial (that may have treatments and replicates); should be unique within dataset_id,,
-reference,character,,no,,no,,,yes,Reference to source if the data set is a compilation,,http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/UO_0000283
-longitude,numeric,degrees,yes,,no,-180,180,no,Longitude of the location where the observation was made (in decimal notation),,http://purl.obolibrary.org/obo/AGRO_00000575
-latitude,numeric,degrees,yes,,no,-60,60,no,Latitude of the location where the observation was made (in decimal notation),,http://purl.obolibrary.org/obo/AGRO_00000574
-elevation,numeric,meter,no,,no,,,yes,Elevation above sea level,,http://purl.obolibrary.org/obo/AGRO_00000367
-start_date,character,,no,,no,,,yes,"Experiment start (planting) date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,http://purl.obolibrary.org/obo/AGRO_00000002
-end_date,character,,no,,no,,,yes,"Experiment end (harvest) date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,http://purl.obolibrary.org/obo/AGRO_00010099
-season,character,,no,,no,,,yes,Season name,,http://purl.obolibrary.org/obo/BFO_0000029
+reference,character,,no,,no,,,yes,Reference to source if the data set is a compilation,,
+longitude,numeric,degrees,yes,,no,-180,180,no,Longitude of the location where the observation was made (in decimal notation),,
+latitude,numeric,degrees,yes,,no,-60,60,no,Latitude of the location where the observation was made (in decimal notation),,
+elevation,numeric,meter,no,,no,,,yes,Elevation above sea level,,
+start_date,character,,no,,no,,,yes,"Experiment start (planting) date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,http://purl.obolibrary.org/obo/AGRO_00010099
+end_date,character,,no,,no,,,yes,"Experiment end (harvest) date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
+season,character,,no,,no,,,yes,Season name,,
 on_farm,logical,,no,,no,,,yes,Is this observation on farm (not on station),,http://purl.obolibrary.org/obo/AGRO_00000601
 is_survey,logical,,no,,no,,,yes,Is this observation from a survey (not an experiment),,
 treatment,character,,no,,no,,,yes,Description of the treatment,,http://purl.obolibrary.org/obo/AGRO_00000370
@@ -23,44 +23,44 @@ rep,integer,,no,,no,,,yes,"Replication number (1, 2, 3, ...) For this specific o
 crop,character,,yes,crops,no,,,yes,Crop name(s),,http://purl.obolibrary.org/obo/AGRO_00000325
 variety,character,,no,,no,,,yes,Variety name,,
 variety_code,character,,no,,no,,,yes,,,
-variety_type,character,,no,,no,,,yes,,,http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/PATO_0001824; http://purl.obolibrary.org/obo/UO_0000283
-intercrops,character,,no,crops,yes,,,yes,Other crop grown together with the main crop,,http://purl.obolibrary.org/obo/AGRO_00000325
-previous_crop,character,,no,crops,yes,,,yes,Crop grown on this plot in the prior season,,http://purl.obolibrary.org/obo/ENVO_01000830; http://purl.obolibrary.org/obo/PATO_0000119; http://purl.obolibrary.org/obo/UO_0000016
-crop_rotation,character,,no,crops,yes,,,yes,Crops grown in rotation on this plot,,http://purl.obolibrary.org/obo/AGRO_00000479
+variety_type,character,,no,,no,,,yes,,,
+intercrops,character,,no,crops,yes,,,yes,Other crop grown together with the main crop,,
+previous_crop,character,,no,crops,yes,,,yes,Crop grown on this plot in the prior season,,
+crop_rotation,character,,no,crops,yes,,,yes,Crops grown in rotation on this plot,,
 observation_date,character,,no,,no,,,yes,"Date in ""yyyy-mm-dd"" ","For experiments with, e.g. intermediate crop cuts; or for surveys",
-biomass_roots,numeric,kg/ha,no,,no,0,5000,yes,Dry-weight biomass of fine roots per unit area,,http://purl.obolibrary.org/obo/PO_0009005; http://purl.obolibrary.org/obo/PATO_0001824; http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/UO_0000283
-biomass_stems,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of stems per unit area,,http://purl.obolibrary.org/obo/PO_0009047; http://purl.obolibrary.org/obo/PATO_0001824; http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/UO_0000283
-biomass_leaves,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of leaves per unit area,,http://purl.obolibrary.org/obo/TO_0000870; http://purl.obolibrary.org/obo/UO_0000283
-biomass_storage,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of storage organs per unit area,,http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/PATO_0001824; http://purl.obolibrary.org/obo/UO_0000283
-biomass_total,numeric,kg/ha,no,,no,0,50000,yes,Dry-weight total biomass per unit area,,http://purl.obolibrary.org/obo/PATO_0001351; http://purl.obolibrary.org/obo/PO_0000003; http://purl.obolibrary.org/obo/PATO_0001824; http://purl.obolibrary.org/obo/UO_0000283
-yield,numeric,kg/ha,yes,,no,0,30000,yes,"Fresh weight biomass of the main harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000176; http://purl.obolibrary.org/obo/UO_0000283
-residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight biomass of the above ground biomass except for the harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000164; http://purl.obolibrary.org/obo/UO_0000283
-grain_weight,numeric,g,no,,no,0,1000,yes,1000 grain weight,,http://purl.obolibrary.org/obo/TO_0000382; http://purl.obolibrary.org/obo/UO_0000021
+biomass_roots,numeric,kg/ha,no,,no,0,5000,yes,Dry-weight biomass of fine roots per unit area,,http://purl.obolibrary.org/obo/PO_0009005 
+biomass_stems,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of stems per unit area,,http://purl.obolibrary.org/obo/PO_0009047 
+biomass_leaves,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of leaves per unit area,,http://purl.obolibrary.org/obo/TO_0000870 
+biomass_storage,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of storage organs per unit area,,
+biomass_total,numeric,kg/ha,no,,no,0,50000,yes,Dry-weight total biomass per unit area,,http://purl.obolibrary.org/obo/PO_0000003
+yield,numeric,kg/ha,yes,,no,0,30000,yes,"Fresh weight biomass of the main harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000176 
+residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight biomass of the above ground biomass except for the harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000164 
+grain_weight,numeric,g,no,,no,0,1000,yes,1000 grain weight,,http://purl.obolibrary.org/obo/TO_0000382
 fertilizer_type,character,,no,fertilizers,yes,,,yes,,,http://purl.obolibrary.org/obo/CHEBI_33287
-N_fertilizer,numeric,kg/ha,fertilizer,,no,0,,no,N applied in inorganic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000158; http://purl.obolibrary.org/obo/UO_0000283
-N_splits,integer,,no,,no,0,,yes,Number of splits in the N_fertilizer application,,http://purl.obolibrary.org/obo/AGRO_00010011
-P_fertilizer,numeric,kg/ha,fertilizer,,no,0,,no,"P applied in inorganic fertilizer (as P, not P2O5)",,http://purl.obolibrary.org/obo/AGRO_00000160; http://purl.obolibrary.org/obo/UO_0000283
-K_fertilizer,numeric,kg/ha,fertilizer,,no,0,,no,"K applied in inorganic fertilizer (as K, not K2O)",,http://purl.obolibrary.org/obo/AGRO_00000201; http://purl.obolibrary.org/obo/UO_0000283
+N_fertilizer,numeric,kg/ha,fertilizer,,no,0,,no,N applied in inorganic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000158
+N_splits,integer,,no,,no,0,,yes,Number of splits in the N_fertilizer application,,
+P_fertilizer,numeric,kg/ha,fertilizer,,no,0,,no,"P applied in inorganic fertilizer (as P, not P2O5)",,http://purl.obolibrary.org/obo/AGRO_00000160 
+K_fertilizer,numeric,kg/ha,fertilizer,,no,0,,no,"K applied in inorganic fertilizer (as K, not K2O)",,http://purl.obolibrary.org/obo/AGRO_00000201
 Zn_fertilizer,numeric,kg/ha,no,,no,0,,yes,Zn applied in inorganic fertilizer,,
 S_fertilizer,numeric,kg/ha,no,,no,0,,yes,S applied in inorganic fertilizer,,http://purl.obolibrary.org/obo/TO_0000658
 OM_used,logical,,no,,no,,,yes,Organic fertilizer applied,,http://purl.obolibrary.org/obo/AGRO_00002039
 OM_type,character,,no,,yes,,,yes,Type of organic fertilzer applied,,http://purl.obolibrary.org/obo/AGRO_00002039
-OM_applied,numeric,kg/ha,no,,no,0,,yes,Amount of organic fertilizer applied,,http://purl.obolibrary.org/obo/AGRO_00010008; http://purl.obolibrary.org/obo/UO_0000283
-OM_N,numeric,kg/ha,no,,no,0,,yes,N applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00002039; http://purl.obolibrary.org/obo/AGRO_00000158; http://purl.obolibrary.org/obo/UO_0000283
-OM_P,numeric,kg/ha,no,,no,0,,yes,P applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00002039; http://purl.obolibrary.org/obo/AGRO_00000160; http://purl.obolibrary.org/obo/UO_0000283
-OM_K,numeric,kg/ha,no,,no,0,,yes,K applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00002039; http://purl.obolibrary.org/obo/AGRO_00000201; http://purl.obolibrary.org/obo/UO_0000283
+OM_applied,numeric,kg/ha,no,,no,0,,yes,Amount of organic fertilizer applied,,http://purl.obolibrary.org/obo/AGRO_00010008
+OM_N,numeric,kg/ha,no,,no,0,,yes,N applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000158
+OM_P,numeric,kg/ha,no,,no,0,,yes,P applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000160
+OM_K,numeric,kg/ha,no,,no,0,,yes,K applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000201
 inoculated,logical,,no,,no,,,yes,Was the field inoculated (with Rhizobium),,
 inoculant,character,,no,,no,,,yes,Name of the inoculant product,,
 soil_type,character,,no,,yes,,,yes,Soil name or description,,http://purl.obolibrary.org/obo/AGRO_00010099
-soil_pH,numeric,,no,,no,3,9,yes,Soil pH (H2O),,http://purl.obolibrary.org/obo/ENVO_00001998; http://purl.obolibrary.org/obo/ENVO_01000017; http://purl.obolibrary.org/obo/PATO_0000025; http://purl.obolibrary.org/obo/UO_0000187
-soil_pH_KCl,numeric,,no,,no,3,9,yes,Soil pH (KCl),,http://purl.obolibrary.org/obo/ENVO_00001998; http://purl.obolibrary.org/obo/ENVO_01000017; http://purl.obolibrary.org/obo/PATO_0000025; http://purl.obolibrary.org/obo/UO_0000187
-soil_SOC,numeric,%,no,,no,0,20,yes,Soil organic carbon,,http://purl.obolibrary.org/obo/ENVO_00001998
+soil_pH,numeric,,no,,no,3,9,yes,Soil pH (H2O),,http://purl.obolibrary.org/obo/ENVO_09200010
+soil_pH_KCl,numeric,,no,,no,3,9,yes,Soil pH (KCl),,http://purl.obolibrary.org/obo/ENVO_09200010
+soil_SOM,numeric,%,no,,no,0,20,yes,Soil organic matter,,
 soil_sand,numeric,%,no,,no,0,100,yes,Soil sand content (excluding gravel),,
-soil_clay,numeric,%,no,,no,0,100,yes,Soil clay content (excluding gravel),,
-soil_silt,numeric,%,no,,no,0,100,yes,Soil silt content (excluding gravel),,http://purl.obolibrary.org/obo/ENVO_09000008; http://purl.obolibrary.org/obo/UO_0000187
-soil_N,numeric,g/kg,no,,no,0.01,100,yes,Soil N content,,
-soil_K,numeric,g/kg,no,,no,0.01,100,yes,Soil K content,,http://purl.obolibrary.org/obo/ENVO_09000017
-soil_P_total,numeric,mg/kg,no,,no,0.01,100,yes,Soil P (total) ,,http://purl.obolibrary.org/obo/ENVO_09200010
+soil_clay,numeric,%,no,,no,0,100,yes,Soil clay content (excluding gravel),,http://purl.obolibrary.org/obo/ENVO_00002982
+soil_silt,numeric,%,no,,no,0,100,yes,Soil silt content (excluding gravel),,
+soil_N,numeric,g/kg,no,,no,0.01,100,yes,Soil N content,,http://purl.obolibrary.org/obo/ENVO_09000017
+soil_K,numeric,g/kg,no,,no,0.01,100,yes,Soil K content,,
+soil_P_total,numeric,mg/kg,no,,no,0.01,100,yes,Soil P (total) ,,
 soil_P_available,numeric,mg/kg,no,,no,0.01,1000,yes,Soil P (plant available) ,,
 irrigated,logical,,no,,no,,,yes,Was the plot irrigated?,,http://purl.obolibrary.org/obo/AGRO_00000006
 tillage,character,,no,,no,,,yes,Tillage used,,http://purl.obolibrary.org/obo/AGRO_00000322
@@ -69,8 +69,10 @@ uncertainty_type,character,,no,,no,,,yes,Type of noise measure,,
 row_spacing,numeric,cm,no,,no,0,150,yes,Distance between rows,,http://purl.obolibrary.org/obo/ENVO_03000096
 plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,http://purl.obolibrary.org/obo/AGRO_00000325
 plant_density,numeric,plants/ha,no,,no,1000,3000000,yes,Number of plants per ha,,http://purl.obolibrary.org/obo/AGRO_00000316
-rain,numeric,mm,no,,no,0,2500,yes,Total rainfall between planting and harvest,,
-flowering,numeric,,no,,no,1,250,yes,Days to flowering (after emergence),,http://purl.obolibrary.org/obo/TO_0000344
-silking,numeric,,no,,no,1,250,yes,Days to silking (after emergence),,http://purl.obolibrary.org/obo/ENVO_00001998; http://purl.obolibrary.org/obo/ENVO_00002982; http://purl.obolibrary.org/obo/PATO_0000025; http://purl.obolibrary.org/obo/UO_0000187
+rain,numeric,mm,no,,no,0,2500,yes,Total rainfall between planting and harvest,,http://purl.obolibrary.org/obo/ENVO_01000830
+heading,numeric,,no,,no,30,125,,Days to heading (after emergence),,
+flowering,numeric,,no,,no,30,125,yes,Days to flowering (after emergence),,http://purl.obolibrary.org/obo/TO_0000344
+silking,numeric,,no,,no,30,125,yes,Days to silking (after emergence),,
+height,numeric,cm,no,,no,10,250,yes,Maximum plant height,,
 pathogen,character,,no,pathogen,no,,,yes,Name of the pathogen studied,,http://purl.obolibrary.org/obo/PCO_0000079
 rAUDPC,numeric,,no,,no,0,1,yes,Area under the disease progress curve divided by the non-diseased season length,,http://purl.obolibrary.org/obo/AGRO_00000324

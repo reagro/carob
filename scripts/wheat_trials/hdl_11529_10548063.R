@@ -6,12 +6,13 @@
 
 carob_script <- function(path) {
 
-"Description:
-	CIMMYT annually distributes improved germplasm developed by its researchers and partners in international nurseries trials and experiments. The High Rainfall Wheat Yield Trial (HRWYT) contains very top-yielding advance lines of spring bread wheat (Triticum aestivum) germplasm adapted to high rainfall, Wheat Mega-environment 2 (ME2HR). (2017)"
-	
-	uri <- "hdl:11529/10548206"
+"
+	Description:
+	CIMMYT annually distributes improved germplasm developed by its researchers and partners in international nurseries trials and experiments. The High Temperature Wheat Yield Trial (HTWYT) is a replicated yield trial that contains spring bread wheat (Triticum aestivum) germplasm adapted to Mega-environment 1 (ME1) which represents high temperature areas. (2016)
+"
+	uri <- "hdl:11529/10548063"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "wheat_yield"
+	group <- "wheat_trials"
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
@@ -21,7 +22,7 @@ carob_script <- function(path) {
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)
 	   publication = NA,
-	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2022, '14th High Rainfall Wheat Yield Trial', https://hdl.handle.net/11529/10548206, CIMMYT Research Data & Software Repository Network, V1",
+	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '15th High Temperature Wheat Yield Trial', https://hdl.handle.net/11529/10548063, CIMMYT Research Data & Software Repository Network, V3, UNF:6:8YdQ7RxCYkOZnfwm/eVM2Q== [fileUNF]",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Andrew Sila",
 	   
@@ -35,7 +36,7 @@ carob_script <- function(path) {
 ## download and read data 
 
 	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
 	dset$license <- carobiner::get_license(js)
 
 ## process file(s)
