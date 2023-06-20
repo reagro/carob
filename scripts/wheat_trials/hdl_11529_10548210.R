@@ -43,6 +43,11 @@ carob_script <- function(path) {
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
 
+	i <- which(d$location == "BLACK SEA  A.R.I.")
+	d$longitude[i] <- 36.4889
+	d$latitude[i] <- 41.2335
+	
+
 # all scripts must end like this
 	carobiner::write_files(dset, d, path, dataset_id, group)
 

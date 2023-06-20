@@ -44,7 +44,12 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
 
-	d[d$heading > 300] <- NA
+	d$heading[d$heading > 300] <- NA
+
+	i <- which(d$location == "MOUNT VERNON, NWREC, WSU")
+	d$longitude[i] <- -122.38626
+	d$latitude[i] <- 48.4397
+	
 	
 # all scripts must end like this
 	carobiner::write_files(dset, d, path, dataset_id, group)

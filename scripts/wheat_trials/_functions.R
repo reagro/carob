@@ -106,6 +106,7 @@ proc_wheat <- function(ff) {
 		"MAIZE", "maize", 
 		"MAIZ/SOJA", "maize; soybean",
 		"MAIZ", "maize", 
+		"MILICIMA ATERRINA", NA,
 		"MUNG-PULSES", "mung bean", 
 		"MONG BEAN", "mung bean", 
 		"OILSEED", "rapeseed", 

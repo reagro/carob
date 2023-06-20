@@ -44,6 +44,14 @@ carob_script <- function(path) {
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
 
+	i <- which(d$location == "AURANGABAD, GANGAPUR, AJEET SEEDS LTD")
+	d$longitude[i] <- 75.0822
+	d$latitude[i] <- 19.6927
+
+	i <- which(d$location == "SANLIURFA-AKCAKALE,  A.R.I")
+	d$latitude[i] <- 36.72
+
 # all scripts must end like this
 	carobiner::write_files(dset, d, path, dataset_id, group)
 }
+
