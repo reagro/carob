@@ -55,7 +55,6 @@ soil_type,character,,no,,yes,,,yes,Soil name or description,,http://purl.obolibr
 soil_pH,numeric,,no,,no,3,9,yes,Soil pH (H2O),,http://purl.obolibrary.org/obo/ENVO_09200010
 soil_pH_KCl,numeric,,no,,no,3,9,yes,Soil pH (KCl),,http://purl.obolibrary.org/obo/ENVO_09200010
 soil_SOC,numeric,%,no,,no,0,20,yes,Soil organic carbon,,
-soil_SOM,numeric,%,no,,no,0,20,yes,Soil organic matter,,
 soil_sand,numeric,%,no,,no,0,100,yes,Soil sand content (excluding gravel),,
 soil_clay,numeric,%,no,,no,0,100,yes,Soil clay content (excluding gravel),,http://purl.obolibrary.org/obo/ENVO_00002982
 soil_silt,numeric,%,no,,no,0,100,yes,Soil silt content (excluding gravel),,
@@ -71,8 +70,8 @@ row_spacing,numeric,cm,no,,no,0,150,yes,Distance between rows,,http://purl.oboli
 plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,http://purl.obolibrary.org/obo/AGRO_00000325
 plant_density,numeric,plants/ha,no,,no,1000,3000000,yes,Number of plants per ha,,http://purl.obolibrary.org/obo/AGRO_00000316
 rain,numeric,mm,no,,no,0,2500,yes,Total rainfall between planting and harvest,,http://purl.obolibrary.org/obo/ENVO_01000830
-heading,numeric,,no,,no,30,125,,Days to heading (after emergence),,
-flowering,numeric,,no,,no,30,125,yes,Days to flowering (after emergence),,http://purl.obolibrary.org/obo/TO_0000344
+heading,numeric,,no,,no,30,250,yes,Days to heading (after emergence),,
+flowering,numeric,,no,,no,30,200,yes,Days to flowering (after emergence),,http://purl.obolibrary.org/obo/TO_0000344
 silking,numeric,,no,,no,30,125,yes,Days to silking (after emergence),,
 height,numeric,cm,no,,no,10,250,yes,Maximum plant height,,
 pathogen,character,,no,pathogen,no,,,yes,Name of the pathogen studied,,http://purl.obolibrary.org/obo/PCO_0000079

@@ -17,9 +17,9 @@ proc_wheat <- function(ff) {
 	floc <- ff[grep("Loc_data.xls", basename(ff))]
 	fraw <- ff[grep("RawData.xls", basename(ff))]
 
-	loc <- read.csv(floc, sep = "\t")
+	loc <- read.csv(floc, sep = "\t", fileEncoding = "latin1")
 	raw <- read.csv(fraw, sep = "\t", fileEncoding = "latin1")
-	env <- read.csv(fenv, sep = "\t")
+	env <- read.csv(fenv, sep = "\t", fileEncoding = "latin1")
 
 	# 'Cid', 'Sid', 	
 	vars <- c( 'Trait.name', 'Value', 'Trial.name', 'Loc_no', 'Country', 'Loc_desc', 'Cycle', 'Gen_name', 'Rep', 'Sub_block', 'Plot')
@@ -77,6 +77,7 @@ proc_wheat <- function(ff) {
 	# to avoid partial matching, first the more complex names
 	m <- matrix(byrow=TRUE, ncol=2, c(
 		"ALFALFA", "LUCERNE", 
+		"AMAN RICE", "rice",
 		"AMAN RCIE", "rice",
 		"AVENA\\+VICIA", "oats; vetch", 
 		"AVENA-VICIA", "oats; vetch", 
@@ -90,7 +91,7 @@ proc_wheat <- function(ff) {
 		"COJENUS", "pigeon pea", 
 		"CORN", "maize", 
 		"COTTAN", "cotton",
-		"CROTOTERIA (ABONO VERDE)", "crotalaria", 
+		"CROTOTERIA \\(ABONO VERDE)", "crotalaria", 		
 		"CROTOTERIA", "crotalaria", 
 		"FALLOWED", "no crop",
 		"FIELD PEAS", "pea",
@@ -122,8 +123,8 @@ proc_wheat <- function(ff) {
 		"PULSES", "pulse", 
 		"PULSE", "pulse", 
 		"PURPERUREUS", "lablab",
-		"RAPHANUS  SPP", "raphanus spp.", 
-		"RAPHA NUS SPP", "raphanus spp.", 
+		"RAPHANUS  SPP", "radish", 
+		"RAPHA NUS SPP", "radish", 
 		"ROOT", "root crop", 
 		"SESBANIA SP.", "sesbania", 
 		"SOY BEAN", "soybean", 
@@ -134,8 +135,8 @@ proc_wheat <- function(ff) {
 		"SUGAR CAME", "sugarcane",
 		"SOJA", "soybean", 
 		"SOYA", "soybean", 
-		"SUNHEMP (FLAX)", "sunhemp",
-		"SUNHIMP (FLAX)", "sunhemp",
+		"SUNHEMP \\(FLAX)", "sunhemp",
+		"SUNHIMP \\(FLAX)", "sunhemp",
 		"SUNHIMP", "sunhemp", 
 		"SUNHAMP", "sunhemp",
 		"SUMHEMP", "sunhemp",
@@ -146,7 +147,8 @@ proc_wheat <- function(ff) {
 		"TRITICALE", "triticale", 
 		"VIGNA RADIATA", "mung bean", 
 		"V. RADIATA MOONG", "mung bean", 
-		"VES", "vetch", 
+		"VES", "vetch",
+		"VEGATEABLES", "vegetables",
 		"ZEA MAYS", "maize", 
 		"CEREAL", "cereal", 		
 		"BEANS", "common bean",
@@ -155,7 +157,6 @@ proc_wheat <- function(ff) {
 
  # Update once I get clarification
 
-	
 	prcrop <- r$USE_OF_FIELD_SPECIFY_CROP
 	for (i in 1:nrow(m)) {
 		prcrop <- gsub(m[i,1], m[i,2], prcrop)
@@ -192,9 +193,9 @@ proc_wheat <- function(ff) {
 	r$K_fertilizer <- fertfun(r, "FERTILIZER_%K")[,1]
 	
 	r$soil_type <- r$SOIL_CLASIFICATION
-	r$soil_SOM <- r$SOIL_PERCENT_ORGANIC_MATTER
-	r$soil_pH <- r$SOIL_PH_ACTUAL_VALUE
+	r$soil_SOC <- if (is.null(r$SOIL_PERCENT_ORGANIC_MATTER)) {NULL} else {as.numeric(r$SOIL_PERCENT_ORGANIC_MATTER) * 0.58}
 	
+	r$soil_pH <- if(is.null(r$SOIL_PH_ACTUAL_VALUE)) {NULL} else {as.numeric(r$SOIL_PH_ACTUAL_VALUE)}
 	
 	r$heading <- r$DAYS_TO_HEADING
 	r$height <- r$PLANT_HEIGHT 
@@ -210,13 +211,15 @@ proc_wheat <- function(ff) {
 	r$bird_damage <- r$BIRD_DAMAGE_PER_PLOT
 	r$blast_intensity <- r$`Blast intensity`
 	r$blast_severity  <- r$`Blast severity`
-	
-	
+		
 	# Subset for relevant columns
 	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep","crop", "variety_code", "variety_type", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_type", "soil_om", "soil_ph",  "irrigated", "row_spacing", "yield", "grain_weight", "heading", "height","powdery_mildew", "stem_rust", "leaf_rust", "sterility_index", "fusarium_scab_spike", "helminthosporium_sativum_leaf", "septoria_tritici_blotch", "septoria_species", "blast_severity", "blast_intensity")
+		
 		
 	# they may not be all available
 	cv <- cvars[cvars %in% names(r)]
 	
 	r[, cv]
 }
+
+
