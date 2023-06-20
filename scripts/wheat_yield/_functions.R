@@ -1,4 +1,10 @@
 
+# to do: extract more variables of interest. 
+# unique(raw$Trait.name)
+# GRAIN_YIELD, 1000_GRAIN_WEIGHT, DAYS_TO_HEADING, PLANT_HEIGHT, AGRONOMIC_SCORE, SELECTED_CHECK_MARK, DAYS_TO_MATURITY, H_TRITICI_REPENTIS, LODGING_PERCENT_HARVESTED_AREA, STRIPE_RUST_ON_LEAF, POWDERY_MILDEW, TEST_WEIGHT, LEAF_RUST, YRWarriorRace, SPIKE_LENGTH, GERMINATION_%, CHLOROPHYLL, GRAIN_PROTEIN, Normalized Difference Vegetation Index, GRAIN APPEARANCE SCORE, PHENOL REACTION SCORE, Canopy Temperature, ABOVE_GROUND_BIOMASS, STEM_RUST, FeConcentration, ZnConcentration, TILLERS BY METER, HELMINTHOSPORIUM_SATIVUM_LEAF, GRAINS/SPIKE, TILLERS BY M2, Blast intensity, Blast severity, SPIKES_M2, GLUTEN_CONTENT, GRAIN_MOISTURE, SEDIMENTATION_INDEX
+ 
+
+
 proc_wheat <- function(ff) {
 
 # not used
@@ -7,8 +13,6 @@ proc_wheat <- function(ff) {
 #	geno <- read.csv(fgeno, sep = "\t")
 #	grn <- read.csv(fgrn, sep = "\t")
 	
-
-
 	fenv <- ff[grep("EnvData.xls", basename(ff))]
 	floc <- ff[grep("Loc_data.xls", basename(ff))]
 	fraw <- ff[grep("RawData.xls", basename(ff))]
@@ -16,16 +20,18 @@ proc_wheat <- function(ff) {
 	loc <- read.csv(floc, sep = "\t")
 	raw <- read.csv(fraw, sep = "\t", fileEncoding = "latin1")
 	env <- read.csv(fenv, sep = "\t")
+
+	# 'Cid', 'Sid', 	
+	vars <- c( 'Trait.name', 'Value', 'Trial.name', 'Loc_no', 'Country', 'Loc_desc', 'Cycle', 'Gen_name', 'Rep', 'Sub_block', 'Plot')
+	raw <- raw[, vars]
 	
-	raw$country <- carobiner::fix_name(raw$Country, "title")
+	raw$Value <- trimws(raw$Value)
+	raw$Value[raw$Value %in% c("-", ".")] <- ""
+	raw$Value[raw$Value == ""] <- NA
+	raw$Value <- as.numeric(raw$Value)
+	raw <- aggregate(Value ~ ., data=raw, mean, na.rm=TRUE)
 
-	raw$location <- gsub(" - ", ", ", raw$Loc_desc)
-
-	raw$site <- raw$location
-	raw$trial_id <- raw$Trial.name
-
- 	raw <- raw[,c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name", "Value")]
-	raw <- reshape(raw, idvar = c("country", "location", "site", "trial_id", "Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
+	raw <- reshape(raw, idvar=vars[-c(1:2)], timevar = "Trait.name", direction = "wide")
 	colnames(raw) <- gsub("Value.","", colnames(raw))
 
 	loc$latitude <- loc$Lat_degress + loc$Lat_minutes / 60 
@@ -37,132 +43,154 @@ proc_wheat <- function(ff) {
 	loc$latitude[S] <- -loc$latitude[S]
 	
 	# Merge raw and loc tables to get latlon variables
-	raw <- merge(raw, loc[, c("Loc_no", "longitude", "latitude")], by ="Loc_no", all.x = T)
-	
-	
-	renv <- merge(raw,env, by = c("Loc_no"), all.x = TRUE)[,c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name", "Trait.name","Value")]
-	renv <- reshape(renv, idvar = c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), timevar = "Trait.name", direction = "wide")
-	colnames(renv) <- gsub("Value.","", colnames(renv))
+	raw <- merge(raw, loc[, c("Loc_no", "longitude", "latitude")], by ="Loc_no", all.x = TRUE)
 
-# Merge raw with renv
-	renv <- merge(raw,renv, by = c("Loc_no", "Rep", "Sub_block", "Plot", "Gen_name"), all.x = TRUE)
+	envvars <- c('Trait.name', 'Value', 'Trial.name', 'Loc_no', 'Country', 'Cycle')
+	env <- unique(env[,envvars])
+	# take the first in case of duplicates
+	env <- aggregate(Value ~ ., data=env, \(i) i[1])
+	env <- reshape(env, idvar=envvars[-c(1:2)], timevar = "Trait.name", direction = "wide")
+	colnames(env) <- gsub("Value.","", colnames(env))
+
+	r <- merge(raw, env, by = c("Country", "Loc_no", "Trial.name", "Cycle"), all.x = TRUE)
+
+	r$trial_id <- r$Trial.name
+	r$country <- carobiner::fix_name(r$Country, "title")
+	r$location <- gsub(" - ", ", ", r$Loc_desc)
 
 # Process in carob format
-	renv$start_date <- as.character(as.Date(renv$SOWING_DATE, "%b %d %Y"))
-	renv$end_date <- as.character(as.Date(renv$HARVEST_FINISHING_DATE, "%b %d %Y"))
+	r$start_date <- as.character(as.Date(r$SOWING_DATE, "%b %d %Y"))
+	r$end_date <- as.character(as.Date(r$HARVEST_FINISHING_DATE, "%b %d %Y"))
 	
 # other variables
-	renv$on_farm <- FALSE
-	renv$is_survey <- FALSE
-	renv$irrigated <- renv$IRRIGATED != "NO"
-	renv$row_spacing <- as.numeric(renv$SPACE_BTN_ROWS_SOWN)
-	renv$rep <- renv$Rep
-	renv$crop <- "wheat"
-	renv$variety_code <- renv$Gen_name
-	renv$variety_type <- "high-yield"
-	
-	m <- matrix(byrow=TRUE, ncol=2, 
-		c(
+	r$on_farm <- FALSE
+	r$is_survey <- FALSE
+	r$irrigated <- r$IRRIGATED != "NO"
+	r$row_spacing <- as.numeric(r$SPACE_BTN_ROWS_SOWN)
+	r$rep <- r$Rep
+	r$crop <- "wheat"
+	r$variety_name <- r$Gen_name
+	r$variety_code <- r$Gen_name
+	r$variety_type <- "high-yield"
+
+	# note that the order is important
+	# to avoid partial matching, first the more complex names
+	m <- matrix(byrow=TRUE, ncol=2, c(
+		"ALFALFA", "LUCERNE", 
+		"AMAN RCIE", "rice",
+		"AVENA+VICIA", "oats; vetch", 
 		"AVENA-VICIA", "oats; vetch", 
 		"AVENA / VICIA", "oats; vetch", 
+		"AVENA", "oats", 
 		"BAJRA", "pearl millet", 
 		"CEREALS", "CEREAL", 
 		"CHECK PEA", "chickpea", 
+		"CHICK PEN", "chickpea", 
 		"COE PEA", "cowpea", 
 		"COJENUS", "pigeon pea", 
 		"CORN", "maize", 
+		"COTTAN", "cotton",
 		"CROTOTERIA (ABONO VERDE)", "crotalaria", 
+		"FALLOWED", "no crop",
+		"FIELD PEAS", "pea",
 		"GLYCIN MAX", "soybean", 
+		"HARICOT BEAN", "common bean", 
+		"LAB.LAB", "lablab",
 		"LAGUME CROP(SOYABEAN)", "soybean", 
 		"LEGUMES", "legume", 
 		"LEGUME", "legume", 
 		"LINSEED", "flax",
 		"GREEM  MANURE", "green manure", 
 		"MAIZE", "maize", 
+		"MAIZ/SOJA", "maize; soybean",
 		"MAIZ", "maize", 
 		"MUNG-PULSES", "mung bean", 
 		"MONG BEAN", "mung bean", 
 		"OILSEED", "rapeseed", 
 		"OLISEED", "rapeseed", 
 		"OIL SEED", "rapeseed", 
+		"OIL CROPS", "rapeseed", 
 		"OIL CROP", "rapeseed", 
 		"ORYZA SATIVA L.", "rice", 
 		"ORYZA SATIVA", "rice", 
-		"V. RADIATA MOONG", "mung bean", 
 		"PADDY", "rice", 
 		"PAPPER CROP", "pepper", 
+		"PATATO", "potato",
 		"PEAS", "pea", 
 		"PISUM SATIVUM", "pea",
 		"PULSES", "pulse", 
 		"PULSE", "pulse", 
+		"PURPERUREUS", "lablab",
 		"RAPHANUS  SPP", "raphanus spp.", 
+		"RAPHA NUS SPP", "raphanus spp.", 
 		"SESBANIA SP.", "sesbania", 
+		"SOY BEAN", "soybean", 
+		"SOYBEANS", "soybean", 
+		"SOYBEAN", "soybean", 
+		"SOYA BEANS", "soybean", 
+		"SOYA BEAN", "soybean", 
+		"SUGAR CAME", "sugarcane",
 		"SOJA", "soybean", 
 		"SOYA", "soybean", 
-		"SOY BEAN", "soybean", 
+		"SUNHEMP (FLAX)", "sunhemp",
+		"SUNHIMP (FLAX)", "sunhemp",
 		"SUNHIMP", "sunhemp", 
+		"SUNHAMP", "sunhemp",
+		"SUMHEMP", "sunhemp",
+		"SWEET  POTATOS", "sweetpotato",
 		"TRIGO", "wheat", 
 		"TRIFOLIUM ALEXANDRIUM", "clover", 
+		"TRIFOLIUM ALEXANDIUM", "clover", 
 		"TRITICALE", "triticale", 
+		"VIGNA RADIATA", "mung bean", 
+		"V. RADIATA MOONG", "mung bean", 
 		"ZEA MAYS", "maize", 
 		"CEREAL", "cereal", 		
+		"BEANS", "common bean",
 		"CROP", NA)
 	)
+
+ # Update once I get clarification
+
 	
-	
-	prcrop <- renv$USE_OF_FIELD_SPECIFY_CROP
+	prcrop <- r$USE_OF_FIELD_SPECIFY_CROP
 	for (i in 1:nrow(m)) {
 		prcrop <- gsub(m[i,1], m[i,2], prcrop)
 	}
-	renv$previous_crop <- tolower(prcrop)
+	r$previous_crop <- tolower(prcrop)
 	
 	# Convert yield in ton/ha to kg/ha
-	renv$yield <- as.numeric(renv$GRAIN_YIELD)*1000 
-	renv$grain_weight <- as.numeric(renv$`1000_GRAIN_WEIGHT`)
+	r$yield <- as.numeric(r$GRAIN_YIELD) * 1000 
+	r$grain_weight <- as.numeric(r$`1000_GRAIN_WEIGHT`)
 	
 	# Extract columns with NPK fertilizers
-	
-	n <- grep("FERTILIZER_%N", colnames(renv))
-	p <- grep("FERTILIZER_%P", colnames(renv))
-	k <- grep("FERTILIZER_%K", colnames(renv))
-	
-	renvn <- renv[,n]
-	renvp <- renv[,p]
-	renvk <- renv[,k]
-		
-	# function to replace na with 0
-	isna <- function(x){
-		ifelse(is.na(x) == TRUE, 0,x)
+	fertfun <- function(x, v) {
+		i <- grep(v, colnames(x))
+		rn <- x[,i]
+		rn[rn==0] <- NA
+		fert <- apply(rn, 1, \(i) sum(as.numeric(i), na.rm=T))
+		test <- grepl("P2O5", colnames(rn))
+		if (all(test)) {
+			fert <- fert / 2.29
+		} else if (any(test)) { stop("?") }
+		test <- grepl("K2O", colnames(rn))
+		if (all(test)) {
+			fert <- fert / 1.21
+		} else if (any(test)) { stop("?") }
+		splits <- apply(rn, 1, \(i) sum(as.numeric(i) > 0, na.rm=T))
+		cbind(fert, splits)
 	}
 	
-	# Nitrogen levels
-	revns <- as.data.frame(sapply(renvn, isna))
-	
-	revns <- data.frame(apply(revns, 2, as.numeric))
-	
-	renv$N_fertilizer <- apply(revns, 1, sum)
-	
-	renv$N_splits <- ifelse(renv$`FERTILIZER_KG/HA_3` > 0, 3,
-	                       ifelse(renv$`FERTILIZER_KG/HA_2` > 0, 2, 1))
+	x <- fertfun(r, "FERTILIZER_%N")
+	r$N_fertilizer <- x[,1]
+	r$N_splits <- x[,2]
 
-
-	# Phosphorus levels
-	revps <- as.data.frame(sapply(renvp, isna))
-	
-	revps <- data.frame(apply(revps, 2, as.numeric))
-		
-	renv$P_fertilizer <- apply(revps, 1, sum)
-	
-	# Potassium levels
-	revks <- as.data.frame(sapply(renvk, isna))
-	
-	revks <- data.frame(apply(revks, 2, as.numeric))
-		
-	renv$K_fertilizer <- apply(revks, 1, sum)
+	r$P_fertilizer <- fertfun(r, "FERTILIZER_%P")[,1]
+	r$K_fertilizer <- fertfun(r, "FERTILIZER_%K")[,1]
 	
 	# Subset for relevant columns
 	
-	carob_variables <- c("country", "location", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep","crop", "variety_code", "variety_type", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer",  "irrigated", "row_spacing", "yield", "grain_weight")
+	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep","crop", "variety_code", "variety_type", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer",  "irrigated", "row_spacing", "yield", "grain_weight")
 	
-	renv[, carob_variables]
+	r[, cvars]
 }

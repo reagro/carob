@@ -41,7 +41,6 @@ carob_script <- function(path) {
 	dset$license <- carobiner::get_license(js)
 
 ## process file(s)
-
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
