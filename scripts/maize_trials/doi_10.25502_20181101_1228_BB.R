@@ -92,7 +92,7 @@ in West Africa from 2013 to 2016.
   d$striga_infected<- as.logical(d$striga_infected)
   d$striga_trial<- as.logical(d$striga_trial)
     # all scripts must end like this
-    carobiner::write_files(dset, d, path, dataset_id, group)
+    carobiner::write_files(dset, d, path=path)
 }
 
 

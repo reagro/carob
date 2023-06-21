@@ -56,7 +56,7 @@ carob_script <- function(path) {
 	x$longitude[x$location == "Masita"] <- -13
 
 # all scripts must end like this
-	carobiner::write_files(dset, x, path, dataset_id, group)
+	carobiner::write_files(dset, x, path=path)
 }
 
 

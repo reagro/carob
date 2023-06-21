@@ -47,5 +47,5 @@ carob_script <- function(path) {
 
 	x$description <- as.character(x$description)
 # all scripts must end like this
-	carobiner::write_files(dset, x, path, dataset_id, group)
+	carobiner::write_files(dset, x, path=path)
 }
