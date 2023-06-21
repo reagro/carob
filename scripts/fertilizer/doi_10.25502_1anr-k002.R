@@ -197,7 +197,7 @@ carob_script <- function(path) {
 	
 	dd6 <- dd6[is.finite(dd6$yield), ]
   # all scripts must end like this
-  carobiner::write_files(dset, dd6, path, dataset_id, group)
+  carobiner::write_files(dset, dd6, path=path)
   
   }  
   

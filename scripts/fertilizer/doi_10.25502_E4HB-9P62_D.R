@@ -203,6 +203,6 @@ carob_script <- function(path) {
             "soil_K","soil_SOC", "on_farm")]
 	
   # all scripts must end like this
-	carobiner::write_files(dset, w, path, dataset_id, group)
+	carobiner::write_files(dset, w, path=path)
 }
 

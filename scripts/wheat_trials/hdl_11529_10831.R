@@ -114,7 +114,7 @@ in diverse environments by modeling G X E using the pedigree-derived additive re
   d$longitude <- as.numeric(d$longitude)
   d$latitude <- as.numeric(d$latitude)
   
-  carobiner::write_files(dset, d, path, dataset_id, group)
+  carobiner::write_files(dset, d, path=path)
   
 }
 

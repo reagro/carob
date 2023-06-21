@@ -116,7 +116,7 @@ carob_script <- function(path) {
 #data type
   d$yield<- as.numeric(d$yield)
   # all scripts must end like this
- carobiner::write_files(dset, d, path, dataset_id, group)
+ carobiner::write_files(dset, d, path=path)
  
 }
 

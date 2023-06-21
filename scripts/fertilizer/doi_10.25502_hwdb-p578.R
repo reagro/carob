@@ -221,6 +221,6 @@ carob_script <- function(path){
 	
 	
 	# all scripts should end like this
-	carobiner::write_files(dset, q4, path, dataset_id, group)
+	carobiner::write_files(dset, q4, path=path)
 
 }

@@ -281,6 +281,6 @@ Also see: doi:10.21955/gatesopenres.1115299.1
   
   
   # all scripts must end like this
-  carobiner::write_files(dset, z, path, dataset_id, group)
+  carobiner::write_files(dset, z, path=path)
 }
 

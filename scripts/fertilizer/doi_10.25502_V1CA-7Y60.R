@@ -197,7 +197,7 @@ inoculants and fertilizers adapted to local settings.
 	d$yield <- as.numeric(d$yield)
 	d$inoculated <- as.logical(d$inoculated)
   
-  carobiner::write_files(dset, d, path, dataset_id, group)
+  carobiner::write_files(dset, d, path=path)
   
 }
   

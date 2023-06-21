@@ -46,6 +46,6 @@ carob_script <- function(path) {
 	d <- d[d$country != "Null", ]
 
 # all scripts must end like this
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(dset, d, path=path)
 
 }

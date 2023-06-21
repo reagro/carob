@@ -173,5 +173,5 @@ carob_script <- function(path) {
   d$tillage <- gsub("permanent_beds", "permanent beds", d$tillage)
   d$tillage <- gsub("no-tillage", "no tillage", d$tillage)
 # all scripts must end like this
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(dset, d, path=path)
 }

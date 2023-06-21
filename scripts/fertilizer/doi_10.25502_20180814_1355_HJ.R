@@ -132,7 +132,7 @@ carob_script <- function(path) {
 # d<- replace(d,d=='',NA)
 # all scripts must end like this
 
-# carobiner::write_files(dset, d, path, dataset_id, group)
+# carobiner::write_files(dset, d, path=path)
 
 
 # }

@@ -321,7 +321,7 @@ carob_script <- function(path) {
 
 	d$soil_pH[d$soil_pH < 3.5 | d$soil_pH > 8.5] <- NA
 
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(dset, d, path=path)
 
 }
 

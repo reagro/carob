@@ -99,7 +99,7 @@ Notes
 	# not clear what these mean
 	d$rep <- NULL
 		
-	carobiner::write_files(dset, d, path, cleanuri, group, id="afsis")
+	carobiner::write_files(dset, d, path=path, id="afsis")
 
 	## FAO data 
 
@@ -178,7 +178,7 @@ Notes
 	i <- zz$country=="Guinea-Bissau" & zz$longitude > 15
 	zz$longitude[i] <- -zz$longitude[i]
 
-	carobiner::write_files(dset, zz, path, cleanuri, group, id="fao")
+	carobiner::write_files(dset, zz, path=path, id="fao")
 }
 
 

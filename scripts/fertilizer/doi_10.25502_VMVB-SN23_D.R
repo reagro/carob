@@ -195,6 +195,6 @@ carob_script <- function(path){
 	          "P_fertilizer","K_fertilizer","residue_yield","yield","on_farm")] 
 	
   # all scripts must end like this
-	carobiner::write_files(dset, z, path, dataset_id, group)
+	carobiner::write_files(dset, z, path=path)
 }
 

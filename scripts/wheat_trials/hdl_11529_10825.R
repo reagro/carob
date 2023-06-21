@@ -124,7 +124,7 @@ carob_script <- function(path) {
     d$season <- as.character(d$season)
     d$yield <- (as.double(d$yield))
     # all scripts must end like this
-    carobiner::write_files(dset, d, path, dataset_id, group)
+    carobiner::write_files(dset, d, path=path)
 }
 
 

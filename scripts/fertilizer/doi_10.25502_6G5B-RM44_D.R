@@ -160,6 +160,6 @@ d4 <- d4[, c("dataset_id","trial_id","country","location","latitude", "longitude
             "residue_yield","yield","fertilizer_type","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH", "soil_K", 
              "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm")]
 
-carobiner::write_files(dset, d4, path, dataset_id, group)
+carobiner::write_files(dset, d4, path=path)
 }
 

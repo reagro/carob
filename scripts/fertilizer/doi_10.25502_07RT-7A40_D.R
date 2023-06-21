@@ -69,6 +69,6 @@ carob_script <- function(path) {
 	e$silking  <- d$slk50
 		
   # all scripts must end like this
-    carobiner::write_files(dset, e, path, dataset_id, group)
+    carobiner::write_files(dset, e, path=path)
 
 }  

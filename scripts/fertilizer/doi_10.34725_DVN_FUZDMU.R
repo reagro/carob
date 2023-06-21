@@ -130,7 +130,7 @@ Agricultural Water Management 98: 1364-1372
 	d$dataset_id <- dataset_id
 	d$trial_id <- paste0(d$treatment, "-", d$site)
 
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(dset, d, path=path)
 }
 
 
