@@ -1,10 +1,10 @@
 name,sciname,altname,harvest,fresh_moisture,max_yield
-banana,Musa acuminata,,fruit,,173000
 bambara groundnut,Vigna subterranea,,seed,,5000
+banana,Musa acuminata,,fruit,,173000
 barley,Hordeum vulgare,,seed,,12000
 cassava,Manihot esculenta,,root,,90000
 cassava leaves,Manihot esculenta,,leaves,,25000
-cereal,previous crop written cereal,,seed,,
+cereal,spp,,seed,,
 chickpea,Cicer arientinum,,seed,,5000
 clover,Trifolium sp.,,green manure,,
 common bean,Phaseolus vulgaris,,seed,,8000
@@ -18,11 +18,14 @@ flax,Linum usitatissimum,,seed / fiber,,
 forage legume,spp,,forage,,
 gomenzer,Brassica carinata,,leaves,,2300
 grass pea,Lathyrus sativus,,seed,,2500
+green manure,spp,,green manure,,
 groundnut,Arachis hypogaea,,seed,,4700
 guar,Cyamopsis tetragonoloba,,,,
 jackfruit,Artocarpus heterophyllus,,fruit,,80000
+jute,Corchorus olitorius,,fiber,,
 kola,Cola sp.,,seed,,10000
 lablab,Lablab purpureus,,seed,,5000
+legume,spp,,,,
 lentil,Lens culinaris,,seed,,7000
 lucerne,Medicago sativa,alfalfa,feed,,
 maize,Zea mays,,seed,12,41500
@@ -38,27 +41,24 @@ pearl millet,Pennisetum glaucum,,seed,,15000
 pepper,Capsicum spp,,fruit,,100000
 pigeon pea,Cajanus cajan,,seed,,7000
 potato,Solanum tuberosum,,tuber,80,175000
+pulse,spp,,bean,,
+radish,Raphanus sp.,,root,,
 rapeseed,Brassica napus,,seed,,5000
 rice,Oryza sativa,,grain,,22500
+root crop,spp,,root,,
 sesbania,Sesbania spp,,none,,125000
 sorghum,Sorghum bicolor,,seed,,18000
 soybean,Glycine max,,seed,,15000
-sugarcane,Saccharum officinarum,,stems,,381000
-sunflower,Helianthus annuus,,anuum,,
-sunhemp,Crotalaria juncea,,green manure,,
+sugarcane,Saccharum officinarum,,stems,,300000
+sunflower,Helianthus annuus,,anuum,,80000
+sunn hemp,Crotalaria juncea,,green manure,,
 sweetpotato,Ipomoea batatas,,root,,100000
 teff,Eragrostis tef,,seed,,10000
 tobacco,Nicotiana tabacum,,leaves,,10000
 tomato,Solanum lycopersicum,,fruit,,100000
-triticale,×Triticosecale spp,,,,12000
-jute,Corchorus olitorius,,fiber,,
+triticale,×Triticosecale,,,,12000
 vegetables,spp,,leaves,,
 velvet bean,Mucuna pruriens,,green manure,,
 vetch,Vicia spp,,forage,,
 wheat,Triticum aestivum,,seed,,18000
 yam,Dioscorea cayenensis,,tuber,,60000
-green manure,,,green manure,,
-root crop,,,root,,
-pulse,,,bean,,
-legume,,,,,
-radish,Raphanus sp.,,root,,

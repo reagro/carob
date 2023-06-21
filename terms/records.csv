@@ -1,5 +1,6 @@
 name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes,obo
-dataset_id,character,,yes,,no,,,no,ID (normalized URI),,
+dataset_id,character,,yes,,no,,,no,dataset identifier (normalized URI),,
+record_id,integer,,no,,no,,,no,Unique identifier for each records in a dataset (sequence from 1 to n),,
 country,character,,yes,countries,no,,,no,Country name,,http://purl.obolibrary.org/obo/ENVO_00000009 
 adm1,character,,no,,no,,,yes,First level administrative subdivision,follow GADM,http://purl.obolibrary.org/obo/ENVO_00000005
 adm2,character,,no,,no,,,yes,Second level administrative subdivision (within the first level subdivision),follow GADM,http://purl.obolibrary.org/obo/ENVO_00000006
@@ -66,13 +67,14 @@ irrigated,logical,,no,,no,,,yes,Was the plot irrigated?,,http://purl.obolibrary.
 tillage,character,,no,,no,,,yes,Tillage used,,http://purl.obolibrary.org/obo/AGRO_00000322
 uncertainty,numeric,,no,,no,0,,yes,Measure of noise in data ,,
 uncertainty_type,character,,no,,no,,,yes,Type of noise measure,,
-row_spacing,numeric,cm,no,,no,0,150,yes,Distance between rows,,http://purl.obolibrary.org/obo/ENVO_03000096
-plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,http://purl.obolibrary.org/obo/AGRO_00000325
-plant_density,numeric,plants/ha,no,,no,1000,3000000,yes,Number of plants per ha,,http://purl.obolibrary.org/obo/AGRO_00000316
+row_spacing,numeric,cm,no,,no,0,150,yes,Distance between rows,,
+plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,http://purl.obolibrary.org/obo/AGRO_00000316
+plant_density,numeric,plants/ha,no,,no,1000,3000000,yes,Number of plants per ha,,http://purl.obolibrary.org/obo/PCO_0000079
 rain,numeric,mm,no,,no,0,2500,yes,Total rainfall between planting and harvest,,http://purl.obolibrary.org/obo/ENVO_01000830
 heading,numeric,,no,,no,30,250,yes,Days to heading (after emergence),,
 flowering,numeric,,no,,no,30,200,yes,Days to flowering (after emergence),,http://purl.obolibrary.org/obo/TO_0000344
 silking,numeric,,no,,no,30,125,yes,Days to silking (after emergence),,
 height,numeric,cm,no,,no,10,250,yes,Maximum plant height,,
-pathogen,character,,no,pathogen,no,,,yes,Name of the pathogen studied,,http://purl.obolibrary.org/obo/PCO_0000079
-rAUDPC,numeric,,no,,no,0,1,yes,Area under the disease progress curve divided by the non-diseased season length,,http://purl.obolibrary.org/obo/AGRO_00000324
+pathogen,character,,no,pathogen,yes,,,yes,Name of the pathogen studied,,
+AUDPC,numeric,,no,,no,0,150,yes,Area under the disease progress curve,,
+rAUDPC,numeric,,no,,no,0,1,yes,Area under the disease progress curve divided by the non-diseased season length,,
