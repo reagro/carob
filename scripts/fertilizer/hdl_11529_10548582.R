@@ -88,8 +88,8 @@ carob_script <- function(path) {
   #	                                          ifelse(d$FERT == 5, "72 | 168", "240 | 0")))))
   
   d$N_splits <- NA
-  d$N_splits[d$FERT %in% c(2, 3, 5)] <- 2
-  d$N_splits[d$FERT %in% c(4, 6)] <- 1
+  d$N_splits[d$FERT %in% c(2, 3, 5)] <- 2L
+  d$N_splits[d$FERT %in% c(4, 6)] <- 1L
   d$P_fertilizer <- 46/2.29 # convert P2O5 to P
   d$K_fertilizer <- 0
   

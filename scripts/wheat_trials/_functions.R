@@ -140,6 +140,7 @@ proc_wheat <- function(ff) {
 		"SUNHIMP \\(FLAX)", "sunn hemp",
 		"SUNHIMP", "sunn hemp", 
 		"SUNHAMP", "sunn hemp",
+		"SUNHEMP", "sunn hemp",
 		"SUMHEMP", "sunn hemp",
 		"SWEET  POTATOS", "sweetpotato",
 		"TRIGO", "wheat", 

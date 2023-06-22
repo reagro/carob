@@ -88,7 +88,7 @@ carob_script <- function(path) {
                                ifelse(d$Treatment == "NPK", "Urea + DAP + potassium nitrate",
                                       ifelse(d$Treatment == "NPKS", "Urea + DAP + potassium sulfate", "Urea + DAP + potassium sulfate + zinc sulfate")))
   d2$N_fertilizer <- d$N.fertilizer.amount...19
-  d2$N_splits <- 2 # There were two N_splits: Basal (50%) and top dressing (50%)
+  d2$N_splits <- 2L # There were two N_splits: Basal (50%) and top dressing (50%)
   
   # Date of the application of the 2nd split
   ### RH: this is not an observation! 

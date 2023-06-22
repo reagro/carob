@@ -64,8 +64,8 @@ carob_script <- function(path){
    d$K_fertilizer[grepl("KCL", f)] <- 30
    d$P_fertilizer[grepl("TSP", f)] <- 30
    d$N_fertilizer[grepl("UREA", f)] <- 60
-   d$N_splits <- 0
-   d$N_splits[d$N_fertilizer > 0] <- 2
+   d$N_splits <- 0L
+   d$N_splits[d$N_fertilizer > 0] <- 2L
    d$inoculated <- d$sub_treatment_inoc == "Inoculated"
    d$inoculated[d$sub_treatment_inoc == "Sub-treatment (Inocu"] <- TRUE
    

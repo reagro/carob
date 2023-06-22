@@ -72,7 +72,7 @@ carob_script <- function(path) {
 	                          ifelse(d$Treatment %in% c(3), 60, 0))
 #	d1$N_splits <- paste(d1$N_fertilizer*0.3,d1$N_fertilizer*0.3,d1$N_fertilizer*0.4, sep = " | ")
 	d1$N_splits <- NA
-	d1$N_splits[d1$N_fertilizer > 0] <- 3
+	d1$N_splits[d1$N_fertilizer > 0] <- 3L
 
 	d1$P_fertilizer <- ifelse(d$Treatment %in% c(8,7,3,2), 90,
 						 ifelse(d$Treatment %in% c(6), 50,

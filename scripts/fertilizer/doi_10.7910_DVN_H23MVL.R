@@ -148,7 +148,7 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
   d$N_fertilizer <- as.double(d$N_fertilizer)
   d$P_fertilizer <- as.double(d$P_fertilizer)
   d$K_fertilizer <- as.double(d$K_fertilizer)
-  d$N_splits <- as.numeric(d$N_splits)
+  d$N_splits <- as.integer(d$N_splits)
   d$soil_pH <- as.double(d$soil_pH)
   d$soil_SOC <- as.double(d$soil_SOC)
   carobiner::write_files(dset, d, path=path)

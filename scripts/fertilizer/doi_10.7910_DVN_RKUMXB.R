@@ -280,7 +280,7 @@ carob_script <- function(path) {
 	d$plant_density <- NA
 	d$plant_density[i] <- as.numeric(gsub("Plant density \\(n perha)", "", ps[i]))
 	
-	d$N_splits <- as.numeric(d$N_splits)
+	d$N_splits <- as.integer(d$N_splits)
 
 
 ## georeferencing 

@@ -73,10 +73,11 @@ carob_script <- function(path) {
 ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
 ## you can use carobiner::fix_name()
 	d$country <- "Peru"
-	d$site <- "Viena"
 	d$adm1 <- "Junin"
 	d$adm2 <- "Concepcion"
 	d$adm3 <- "Mariscal Castilla"
+	d$location <- "Comas"
+	d$site <- "Viena"
 	d$elevation <- 2415
 ## each site must have corresponding longitude and latitude
 	d$longitude <- -75.1314

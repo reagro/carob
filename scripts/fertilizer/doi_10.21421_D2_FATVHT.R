@@ -69,7 +69,7 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 # Not reported in the associated publication	
 	d$fertilizer_type <- "unknown" 
 # As reported in the associated publication	
-	d$N_splits <- 2 
+	d$N_splits <- 2L
 	d$N_fertilizer <- d$Nitrogen
 
 # As reported in the associated publication. Converting P2O5 to P-elemental

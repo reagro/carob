@@ -113,7 +113,7 @@ carob_script <- function(path) {
   # hence we calculate total amount of DAP whose composition in 18:46:0
   tot_DAP <- 30/0.46
   d$N_fertilizer <- ifelse(d$fertilizer_type == "DAP",tot_DAP*0.18,d$N_fertilizer)
-  d$N_splits <- 2
+  d$N_splits <- 2L
   
   x <- d[,c("trial_id","rep","treatment","variety","start_date","end_date","grain_weight","yield","residue_yield",
             "biomass_total", "fertilizer_type","N_fertilizer","N_splits","K_fertilizer","P_fertilizer","inoculated")]

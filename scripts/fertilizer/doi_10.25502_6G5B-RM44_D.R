@@ -154,7 +154,7 @@ d4$P_fertilizer <- ifelse(grepl("TSP", d4$fertilizer_type), 30, 0)
 d4$P_fertilizer[d4$fertilizer_type=="DAP"] <- 30
 
 d4$K_fertilizer <- ifelse(grepl("KCl", d4$fertilizer_type), 30, 0)
-d4$N_splits <- ifelse(grepl("urea",d4$fertilizer_type),2,0)
+d4$N_splits <- ifelse(grepl("urea",d4$fertilizer_type), 2L, 0L)
 d4 <- d4[, c("dataset_id","trial_id","country","location","latitude", "longitude", "elevation","rep", "treatment","crop", "variety",
              "start_date","end_date","inoculated","plant_density","grain_weight","biomass_roots","biomass_total",
             "residue_yield","yield","fertilizer_type","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH", "soil_K", 
