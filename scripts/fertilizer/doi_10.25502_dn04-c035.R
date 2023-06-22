@@ -136,13 +136,11 @@ carob_script <- function(path){
   #standardizing the varieties
   v <- q$variety
   v <- carobiner::fix_name(v, "first")
-  v[ grepl("TGX", v) ] <- "Tgx"
-  v[ grepl("Santa", v) ] <- "Santa"
-  v[ grepl("santa", v) ] <- "Santa"
+  v <- gsub("TGX", "Tgx", v)
+  v[ grepl("Santa", v, ignore.case=TRUE) ] <- "Santa"
   v[ grepl("Safari", v) ] <- "Safari"
   v[ grepl("Serenade", v) ] <- "Serenade"
-  v[ grepl("Storm", v) ] <- "Storm"
-  v[ grepl("STORM", v) ] <- "Storm"
+  v[ grepl("Storm", v, ignore.case=TRUE) ] <- "Storm"
   v[ grepl("1740-2F", v) ] <- "Tgx-1740-2F"
   v[ grepl("1485", v) ] <- "Tgx-1485-1D"
   v <- gsub("Tgx ", "Tgx-", v)
