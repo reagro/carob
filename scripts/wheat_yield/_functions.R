@@ -78,8 +78,10 @@ proc_wheat <- function(ff) {
 	m <- matrix(byrow=TRUE, ncol=2, c(
 		"ALFALFA", "LUCERNE", 
 		"AMAN RCIE", "rice",
+		"AMAN RICE", "rice",
 		"AVENA\\+VICIA", "oats; vetch", 
-		"AVENA-VICIA", "oats; vetch", 
+		"AVENA-VICIA", "oats; vetch",
+		"AVENA+VICIA", "oats; vetch", 
 		"AVENA / VICIA", "oats; vetch", 
 		"AVENA", "oats", 
 		"BAJRA", "pearl millet", 
@@ -90,21 +92,24 @@ proc_wheat <- function(ff) {
 		"COJENUS", "pigeon pea", 
 		"CORN", "maize", 
 		"COTTAN", "cotton",
-		"CROTOTERIA (ABONO VERDE)", "crotalaria", 
+		"CROTOTERIA (ABONO VERDE)", "crotalaria",
+		"CROTALARIA (ABONO VERDE)", "crotalaria", 
 		"CROTOTERIA", "crotalaria", 
 		"FALLOWED", "no crop",
 		"FIELD PEAS", "pea",
+		"FIBER CROP", "cotton",
 		"GLYCIN MAX", "soybean", 
 		"HARICOT BEAN", "common bean", 
 		"LAB.LAB", "lablab",
 		"LAGUME CROP(SOYABEAN)", "soybean", 
-		"LEGUMES", "legume", 
-		"LEGUME", "legume", 
+		"LEGUMES", "soybean", 
+		"LEGUME", "soybean", 
 		"LINSEED", "flax",
-		"GREEM  MANURE", "green manure", 
+		"GREEM  MANURE", "sunhemp",
 		"MAIZE", "maize", 
 		"MAIZ/SOJA", "maize; soybean",
 		"MAIZ", "maize", 
+		"MILICIMA ATERRINA", "velvet bean",
 		"MUNG-PULSES", "mung bean", 
 		"MONG BEAN", "mung bean", 
 		"OILSEED", "rapeseed", 
@@ -119,12 +124,12 @@ proc_wheat <- function(ff) {
 		"PATATO", "potato",
 		"PEAS", "pea", 
 		"PISUM SATIVUM", "pea",
-		"PULSES", "pulse", 
-		"PULSE", "pulse", 
+		"PULSES", "soybean", 
+		"PULSE", "soybean", 
 		"PURPERUREUS", "lablab",
-		"RAPHANUS  SPP", "raphanus spp.", 
-		"RAPHA NUS SPP", "raphanus spp.", 
-		"ROOT", "root crop", 
+		"RAPHANUS  SPP", "radish", 
+		"RAPHA NUS SPP", "radish", 
+		"ROOT", "yam",
 		"SESBANIA SP.", "sesbania", 
 		"SOY BEAN", "soybean", 
 		"SOYBEANS", "soybean", 
@@ -146,21 +151,31 @@ proc_wheat <- function(ff) {
 		"TRITICALE", "triticale", 
 		"VIGNA RADIATA", "mung bean", 
 		"V. RADIATA MOONG", "mung bean", 
+		"VEGATEABLES", "vegetables", 
 		"VES", "vetch", 
 		"ZEA MAYS", "maize", 
 		"CEREAL", "cereal", 		
 		"BEANS", "common bean",
 		"CROP", NA)
-	)
-
+)
  # Update once I get clarification
 
+	prcrop0 <- r$USE_OF_FIELD_SPECIFY_CROP
+	prcrop0 <- cbind(1:nrow(r), prcrop0)
+	colnames(prcrop0) <- c('ID','crops')
+	colnames(m) <- c('crops', "torepl")
+	prcrop0_m <- merge(prcrop0, m, by = "crops", all.x = TRUE)
 	
-	prcrop <- r$USE_OF_FIELD_SPECIFY_CROP
-	for (i in 1:nrow(m)) {
-		prcrop <- gsub(m[i,1], m[i,2], prcrop)
-	}
-	r$previous_crop <- tolower(prcrop)
+	mm <- which(prcrop0_m[,1] %in% m[,1])
+	prcrop0_m[mm,1] <- prcrop0_m[mm,3]
+	
+	r$previous_crop <- tolower(prcrop0_m[,1])
+	
+	
+	#for (i in 1:nrow(m)) {
+	#	prcrop <- gsub(m[i,1], m[i,2], prcrop)
+#	}
+	#r$previous_crop <- tolower(prcrop)
 	
 	# Convert yield in ton/ha to kg/ha
 	r$yield <- as.numeric(r$GRAIN_YIELD) * 1000 
@@ -184,6 +199,9 @@ proc_wheat <- function(ff) {
 		cbind(fert, splits)
 	}
 	
+x = r; v = 'P2O5'
+x = r; v = 'K2O'
+
 	x <- fertfun(r, "FERTILIZER_%N")
 	r$N_fertilizer <- x[,1]
 	r$N_splits <- x[,2]
@@ -195,5 +213,5 @@ proc_wheat <- function(ff) {
 	
 	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep","crop", "variety_code", "variety_type", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer",  "irrigated", "row_spacing", "yield", "grain_weight")
 	
-	r[, cvars]
+	r[, cvars] |> subset(country != 'Null')
 }

@@ -37,7 +37,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 ## download and read data 
 
 	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=1)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
 	dset$license <- carobiner::get_license(js)
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
