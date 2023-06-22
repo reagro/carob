@@ -19,6 +19,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
     dataset_id = dataset_id,
     group=group,
     uri=uri,
+	data_citation="Hakeem Ayinde Ajeigbe; Alpha Y. Kamara; Abubakar H.Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to plant density and phosphorous application in the sudan savanna zone of Minjibir, Nigeria. https://doi.org/10.21421/D2/01WXFG, ICRISAT Dataverse, V1",
     publication= "doi:10.12692/ijb/9.1.291-302",
     carob_contributor="Siyabusa Mkuhlani",
     experiment_type="fertilizer",
@@ -47,7 +48,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
  d$end_date <- ifelse(d$Year == "2012", "2012", "2013") 
  d$rep <- as.integer(d$`Replication number`)
  d$variety <- d$Variety
- d$P_fertilizer <- ifelse(d$Fertilizer == "F1",0,20)
+ d$P_fertilizer <- ifelse(d$Fertilizer == "F1", 0, 20)
  d$N_fertilizer <- 0
  d$K_fertilizer <- 0 
  d$yield <- d$PodKgHa
@@ -59,6 +60,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
  d$on_farm <- TRUE
  d$is_survey <- FALSE	
  d$row_spacing <- 75
+
  d$flowering <- d$Flw50
  d$plant_spacing <- d$Spacing
  d$rep <- as.integer(d$rep)
@@ -78,7 +80,6 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
             rain     = c(994, 1054.3))
 
  d <- merge(d,ss, by ="s1", all.x = TRUE)
- 
  
  d <- d[,c("trial_id","country","adm1","adm2","adm3","latitude","longitude","start_date","end_date","crop","variety","row_spacing","plant_spacing","rain","flowering","plant_density","on_farm","is_survey","soil_pH","soil_SOC","soil_sand","soil_clay","soil_silt","soil_P_available","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight")]
  
