@@ -13,9 +13,9 @@ carob_script <- function(path) {
 
 	uri <- "doi.org/10.21223/P3/SFXXDC"
 	dataset_id <- carobiner::simple_uri(uri)
-	#dataset_id <- agro::get_simple_uri(uri)
 	group <- "lateblight"
-		## dataset level data 
+
+	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
@@ -40,39 +40,17 @@ carob_script <- function(path) {
   ## Major and minor version are important. This case is 1.3
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
 	dset$license <- carobiner::get_license(js)
-	dset$license
 
 ##Read data 
 	f <- ff[basename(ff) == "PTLB200409_OXAPMP_B3C0OXA05-01.xls"]
-	d <- carobiner::read.excel(f, sheet = "Fieldbook") 
-
-	d$record_id <- as.integer(1:nrow(d))
-	lbvars <- c('LB1', 'LB2', 'LB3', 'LB4')
-	
-	x <- reshape(d[, c("record_id", lbvars)], direction="long", varying =lbvars, v.names="severity", timevar="step")
 	dates <- as.character(as.Date(c("2002-02-03", "2002-02-13", "2002-02-21", "2002-02-28", "2002-03-07")))
-	x$time <- dates[x$step]
-	x$step <- x$id <- NULL
 
-	d[, lbvars] <- NULL	
-	d <- carobiner::change_names(d, 
-		c("REP", "INSTN", "TTYNA"),
-		c("rep", "variety", "yield"))
-
-	d$rep <- as.integer(d$rep)
-	d$yield <- d$yield * 1000
-	d$AUDPC <- d$AUDPC / 100
-	
-	d$dataset_id <- dataset_id
-	d$on_farm <- FALSE
-	d$is_survey <- FALSE
-	d$irrigated <- FALSE
-## the treatment code	
-	d$treatment <- "none"
+## process file(s)
+	proc_lb <- carobiner::get_function("proc_breeding_trial", path, group)
+	p <- proc_lb(f, dates, dataset_id)
+	d <- p$d
 
 ##### Location #####
-## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
-## you can use carobiner::fix_name()
 	d$country <- "Peru"
 	d$adm1 <- "?"
 	d$adm2 <- "?"
@@ -83,32 +61,10 @@ carob_script <- function(path) {
 ## each site must have corresponding longitude and latitude
 	d$longitude <- NA
 	d$latitude <- NA
-	d$rep <- d$REP
-
-##### Crop #####
-## normalize variety names
-	d$crop <- "potato"
-	d$variety <- d$INSTN
-	d$trial_id <- "1"
 	
-
-##### Time #####
-## time can be year (four characters), year-month (7 characters) or date (10 characters).
-## use 	as.character(as.Date()) for dates to assure the correct format. Date in "yyyy-mm-dd", "yyyy-mm", or "yyyy" format
 	d$start_date <- as.character(as.Date("2001-12-10"))
 	d$end_date  <- as.character(as.Date("2002-04-02"))
-
-
-
-##### Time #####
-## time can be year (four characters), year-month (7 characters) or date (10 characters).
-## use 	as.character(as.Date()) for dates to assure the correct format. Date in "yyyy-mm-dd", "yyyy-mm", or "yyyy" format
-	d$start_date <- as.character(as.Date("2001-12-10"))
-	d$end_date  <- as.character(as.Date("2002-04-02"))
-
-
-	d$PLOT <- NULL
 
 # all scripts must end like this
-	carobiner::write_files(dset, d, timerecs=x, path=path)
+	carobiner::write_files(path=path, dset, d, timerecs=p$tim)
 }

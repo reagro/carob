@@ -34,7 +34,7 @@ biomass_stems,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of stems per u
 biomass_leaves,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of leaves per unit area,,http://purl.obolibrary.org/obo/TO_0000870 
 biomass_storage,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of storage organs per unit area,,
 biomass_total,numeric,kg/ha,no,,no,0,50000,yes,Dry-weight total biomass per unit area,,http://purl.obolibrary.org/obo/PO_0000003
-yield,numeric,kg/ha,yes,,no,0,30000,yes,"Fresh weight biomass of the main harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000176 
+yield,numeric,kg/ha,yes,,no,0,150000,yes,"Fresh weight biomass of the main harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000176 
 residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight biomass of the above ground biomass except for the harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000164 
 grain_weight,numeric,g,no,,no,0,1000,yes,1000 grain weight,,http://purl.obolibrary.org/obo/TO_0000382
 fertilizer_type,character,,no,fertilizers,yes,,,yes,,,http://purl.obolibrary.org/obo/CHEBI_33287

@@ -43,35 +43,14 @@ carob_script <- function(path) {
 
 ##Read data 
 	f <- ff[basename(ff) == "PTLB200112_VIENA_B3C0COM02-01.xls"]
-	d <- carobiner::read.excel(f, sheet = "Fieldbook") 
-
-	d$record_id <- as.integer(1:nrow(d))
-	lbvars <- c('LB1', 'LB2', 'LB3', 'LB4', 'LB5')
-	
-	x <- reshape(d[, c("record_id", lbvars)], direction="long", varying =lbvars, v.names="severity", timevar="step")
 	dates <- as.character(as.Date(c("2002-02-03", "2002-02-13", "2002-02-21", "2002-02-28", "2002-03-07")))
-	x$time <- dates[x$step]
-	x$step <- x$id <- NULL
-	
-	d[, lbvars] <- NULL	
-	d <- carobiner::change_names(d, 
-		c("REP", "INSTN", "TTYNA"),
-		c("rep", "variety", "yield"))
 
-	d$rep <- as.integer(d$rep)
-	d$yield <- d$yield * 1000
-	d$AUDPC <- d$AUDPC / 100
-	
-	d$dataset_id <- dataset_id
-	d$on_farm <- FALSE
-	d$is_survey <- FALSE
-	d$irrigated <- FALSE
-## the treatment code	
-	d$treatment <- "none"
+	proc_lb <- carobiner::get_function("proc_breeding_trial", path, group)
+	p <- proc_lb(f, dates, dataset_id)
+	d <- p$d
 
 ##### Location #####
-## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
-## you can use carobiner::fix_name()
+
 	d$country <- "Peru"
 	d$adm1 <- "Junin"
 	d$adm2 <- "Concepcion"
@@ -83,22 +62,10 @@ carob_script <- function(path) {
 	d$longitude <- -75.1314
 	d$latitude <- -11.5237
 	d$trial_id <- "1"
-##### Crop #####
-## normalize variety names
-	d$crop <- "potato"
-	d$pathogen <- "Phytophthora infestans"
-	
 
-##### Time #####
-## time can be year (four characters), year-month (7 characters) or date (10 characters).
-## use 	as.character(as.Date()) for dates to assure the correct format. Date in "yyyy-mm-dd", "yyyy-mm", or "yyyy" format
 	d$start_date <- as.character(as.Date("2001-12-10"))
 	d$end_date  <- as.character(as.Date("2002-04-02"))
-
-
-	d$PLOT <- NULL
-
 # all scripts must end like this
-	carobiner::write_files(dset, d, timerecs=x, path=path)
+	carobiner::write_files(path, dset, d, timerecs=p$tim)
 }
 
