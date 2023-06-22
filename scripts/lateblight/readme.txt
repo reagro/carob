@@ -1,1 +1,0 @@
-potato late blight trials
