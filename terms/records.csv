@@ -72,7 +72,7 @@ plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,http://purl.o
 plant_density,numeric,plants/ha,no,,no,1000,3000000,yes,Number of plants per ha,,http://purl.obolibrary.org/obo/PCO_0000079
 rain,numeric,mm,no,,no,0,2500,yes,Total rainfall between planting and harvest,,http://purl.obolibrary.org/obo/ENVO_01000830
 heading,numeric,,no,,no,30,250,yes,Days to heading (after emergence),,
-flowering,numeric,,no,,no,30,200,yes,Days to flowering (after emergence),,http://purl.obolibrary.org/obo/TO_0000344
+flowering,numeric,,no,,no,30,250,yes,Days to flowering (after emergence),,http://purl.obolibrary.org/obo/TO_0000344
 silking,numeric,,no,,no,30,125,yes,Days to silking (after emergence),,
 height,numeric,cm,no,,no,10,250,yes,Maximum plant height,,
 pathogen,character,,no,pathogen,yes,,,yes,Name of the pathogen studied,,
