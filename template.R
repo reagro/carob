@@ -22,14 +22,13 @@ carob_script <- function(path) {
 	   group=group,
 	   project=NA,
 	   uri=uri,
+	   data_citation="",
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)
 	   publication= "",
 	   data_institutions = "",
 	   carob_contributor="Your name",
 	   
-	   ## something like randomized control...
-	   experiment_type="___",
 	   has_weather=FALSE,
 	   has_soil=FALSE,
 	   has_management=FALSE
@@ -60,10 +59,10 @@ carob_script <- function(path) {
 	d$dataset_id <- dataset_id
 	d$on_farm <- 
 	d$is_survey <- 
+	d$is_experiment <- 
 	d$irrigated <- 
 ## the treatment code	
 	d$treatment <- 
-
 
 ##### Location #####
 ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
@@ -75,13 +74,13 @@ carob_script <- function(path) {
 	d$adm3 <- 
 	d$elevation <- NA
 ## each site must have corresponding longitude and latitude
+## see carobiner::geocode
 	d$longitude <- 
 	d$latitude <- 
 
-
-
 ##### Crop #####
 ## normalize variety names
+## see carobiner::fix_name
 	d$crop <- 
 	d$variety <- 
 
@@ -100,9 +99,9 @@ carob_script <- function(path) {
    d$N_fertilizer <- 
 ## normalize names 
    d$fertlizer_type <- 
-   d$inoculated <- 
+   d$inoculated <- TRUE/FALSE
+   d$inoculant <- 
    
-
 ##### in general, add comments to your script if computations are
 ##### based in information gleaned from metadata, publication, 
 ##### or not immediately obvious for other reasons
@@ -113,7 +112,7 @@ carob_script <- function(path) {
 	d$biomass_total <- 
 	
 # all scripts must end like this
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(dset, d, path=path)
 }
 
 ## now test your function in a clean environment 

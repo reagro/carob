@@ -27,7 +27,7 @@ carob_script <- function(path){
     group=group,
 	  project="N2Africa",
     uri=uri,
-    publication="doi.org/10.21955/gatesopenres.1115299.1",
+    publication="doi:10.21955/gatesopenres.1115299.1",
     data_citation = "Vanlauwe, B. et al. (2020) ‘N2Africa agronomy trials - Kenya, 2011’. International Institute of Tropical Agriculture (IITA). doi:10.25502/VMVB-SN23/D.",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami and Effie Ochieng",
@@ -49,6 +49,7 @@ carob_script <- function(path){
   d$trial_id <- d$experiment_id
   d$rep <- d$replication_no
   d$start_date <- as.character(as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-")))
+  d$date_harvest_yyyy[d$trial_id == "AT_KE003_LR_2011_INPUT_SB_BUTULA"] <- 2011
   d$end_date <-as.character(as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-")))
   d$end_date[d$end_date=="0-08-04"] <- "2011-08-04"
   
@@ -194,6 +195,6 @@ carob_script <- function(path){
 	          "P_fertilizer","K_fertilizer","residue_yield","yield","on_farm")] 
 	
   # all scripts must end like this
-	carobiner::write_files(dset, z, path, dataset_id, group)
+	carobiner::write_files(dset, z, path=path)
 }
 

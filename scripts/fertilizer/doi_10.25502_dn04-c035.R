@@ -7,7 +7,7 @@
 
 carob_script <- function(path){
 
-	uri <- "doi.org/10.25502/dn04-c035"
+	uri <- "doi:10.25502/dn04-c035"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 
@@ -16,13 +16,7 @@ carob_script <- function(path){
 		group = group,
 		uri = uri,
 		publication = NA,
-		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat,
-		P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira,
-		L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, 
-		K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020).
-		N2Africa farm monitoring - Mozambique, 2011 - 2012, III [Data set]. 
-		International Institute of Tropical Agriculture (IITA). 
-		https://doi.org/10.25502/DN04-C035",
+		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa farm monitoring - Mozambique, 2011 - 2012, III [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/DN04-C035",
 		carob_contributor = "Effie Ochieng",
 		experiment_type = "variety_trials",
 		has_weather =  FALSE,
@@ -35,15 +29,15 @@ dset$license <- carobiner::get_license(js)
 
 #read the data
 f <- ff[basename(ff) == "a_general.csv"]
-d <- data.frame(read.csv2(f, sep = ","))
+d <- read.csv(f)
 f1 <- ff[basename(ff)== "b_info_site_2.csv"]
-d1 <- data.frame(read.csv2(f1, sep = ","))
+d1 <- read.csv(f1)
 f2 <- ff[basename(ff) =="c_use_of_package_2.csv" ]
-d2 <- data.frame(read.csv2(f2, sep = ","))
+d2 <- read.csv(f2)
 f3 <- ff[basename(ff) == "d_cropping_calendar.csv"]
-d3 <- data.frame(read.csv2(f3, sep = ",")) 
+d3 <- read.csv(f3)
 f4 <- ff[basename(ff) == "e_harvest.csv"]
-d4 <- data.frame(read.csv2(f4, sep = ","))
+d4 <- read.csv(f4)
  
 #processing the first dataset
 d$trial_id <- d$farm_id
@@ -72,19 +66,38 @@ d2$variety <- d2$variety_1
 d2$inoculated <- ifelse(d2$inoculant_used %in% c("Biagro", "Y", "Yes"), TRUE, 
 					ifelse(d2$inoculant_used %in% c("N", "no"), FALSE, NA))
 
+
 #cleaning fertilizer types
-d2$mineral_fert_type[d2$mineral_fert_type %in% c("UREA", "Ureia", "ureia")]<- "Urea"
+d2$mineral_fert_type <- tolower(d2$mineral_fert_type)
+d2$mineral_fert_type[d2$mineral_fert_type %in% c("urea", "ureia", "ureia")]<- "urea"
 
-# Ouch! better use %in% 
-d2$mineral_fert_type[d2$mineral_fert_type == "Ssp"|d2$mineral_fert_type == "P-SSP ( 10,5%)"|d2$mineral_fert_type == "P-SSP (10,5%)"|d2$mineral_fert_type ==  "SSP 10,5%"|
-                       d2$mineral_fert_amount == "P- SSP 10,5%"|d2$mineral_fert_amount =="SSP (P)"|d2$mineral_fert_type == "P-SSP"| d2$mineral_fert_type == "P- SSP  10,5%"|
-                       d2$mineral_fert_type == "SSP "| d2$mineral_fert_type ==  "ssp"|d2$mineral_fert_type == "SSp"|d2$mineral_fert_type == "P- SSP 10,5%"|d2$mineral_fert_type == "SSP (P)"]<- "SSP"
+i <- grep("ssp", d2$mineral_fert_type)
+d2$mineral_fert_type[i] <- "SSP"
 
- d2$K_fertilizer[d2$mineral_fert_type == "SSP"] <- 30
- d2$N_fertilizer[d2$mineral_fert_type == "Urea"] <- 60
+i <- grep("no", d2$mineral_fert_type)
+d2$mineral_fert_type[i] <- "none"
+
+i <- d2$mineral_fert_type %in% c("lime", "cal")
+d2$mineral_fert_type <- "lime"
+
+##FIXME##
+## how much lime was applied?
+#d2$lime <- 
+## how much gypsum was applied?
+#d2$gypsum <- 
+
+# add organic fert
+# organic_fert_type, organic_fert_amount
+
+d2$fertilizer_type <- d2$mineral_fert_type
+
+#SSP is P, not K!
+d2$K_fertilizer <- 0
+d2$P_fertilizer[d2$mineral_fert_type == "SSP"] <- 30
+d2$N_fertilizer[d2$mineral_fert_type == "urea"] <- 60
 
 
-d2 <- d2[, c("trial_id","crop","variety","inoculated","K_fertilizer","N_fertilizer")]
+d2 <- d2[, c("trial_id","crop","variety","inoculated","P_fertilizer","K_fertilizer","N_fertilizer","fertilizer_type")]
 
 #processing the 4th dataset
 d3$trial_id <- d3$farm_id
@@ -110,9 +123,13 @@ q <- merge(q, d2, "trial_id")
 q <- merge(q, d3, "trial_id")
 q <- merge(q, d4, "trial_id")
 # q <- carobiner::bindr(d,d1,d2,d3,d4)
+
+
 q$country <- "Mozambique"
-q$latitude <- -18.66569
-q$longitude <- 	35.52956
+
+# that is not good enough
+#q$latitude <- -18.66569
+#q$longitude <- 	35.52956
 
 #cleaning the crop variable, NA randomly filled with groundnut
 
@@ -131,7 +148,6 @@ q$crop[grepl("soybean", q$crop)] <- "soybean"
 # # EGB: Many rows with NA across. Removing them
 # q <- q[complete.cases(q$crop),]
 
-
 # this being a varietal trial, we should try to standardize these names
 q$variety <- carobiner::fix_name(q$variety, "first")
 #unique(q$variety) |> sort()
@@ -146,6 +162,5 @@ q$variety <- gsub("- ", "-", q$variety)
 q$dataset_id <- dataset_id
 
 # all scripts should end like this
-carobiner::write_files(dset, q, path, dataset_id, group)
-TRUE
+carobiner::write_files(dset, q, path=path)
 }

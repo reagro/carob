@@ -36,7 +36,6 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	dset$license <- carobiner::get_license(js)
 
-
 	f <- ff[basename(ff) == "TAMASA_ET_CC_2015_BakoF.xlsx"]
 
 	# suppress variable renaming message
@@ -131,6 +130,6 @@ carob_script <- function(path) {
 	
 	
 # all scripts must end like this
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(dset, d, path=path)
 
 }

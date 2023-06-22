@@ -17,6 +17,7 @@ dset <- data.frame(
   dataset_id = dataset_id,
   group=group,
   uri=uri,
+  data_citation="Atnafu, Obsa, 2020. Replication Data for: Response of Maize to blended fertilizer, https://doi.org/10.7910/DVN/LTS278",
   publication=NA,
   carob_contributor="Siyabusa Mkuhlani",
   experiment_type="fertilizer",
@@ -111,7 +112,7 @@ dv$biomass_total <- as.numeric(dv$biomass_total)
 
 dv$rep <- as.integer(dv$rep)
 
-carobiner::write_files(dset, dv, path, dataset_id, group)
+carobiner::write_files(dset, dv, path=path)
 
 }
 

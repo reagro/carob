@@ -1,0 +1,11 @@
+name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes,obo
+powdery_mildew,numeric,,no,,,,,,,,
+stem_rust,numeric,,no,,,,,,,,
+leaf_rust,numeric,,no,,,,,,,,
+sterility_index,numeric,,no,,,,,,,,
+fusarium_scab_spike,numeric,,no,,,,,,,,
+helminthosporium_sativum_leaf,numeric,,no,,,,,,,,
+septoria_tritici_blotch,numeric,,no,,,,,,,,
+septoria_species,numeric,,no,,,,,,,,
+blast_severity,numeric,,no,,,,,,,,
+blast_intensity,numeric,,no,,,,,,,,

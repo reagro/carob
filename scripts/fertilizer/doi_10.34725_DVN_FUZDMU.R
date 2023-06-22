@@ -20,6 +20,7 @@ Agricultural Water Management 98: 1364-1372
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
+		data_citation="Gudeta W Sileshi; Festus K. Akinnifesi; Oluyede C. Ajayi; Bart Muys, 2011. Replication data for: Integration of legume trees in maize-based cropping systems improves rain use efficiency and yield stability under rain-fed agriculture, https://doi.org/10.34725/DVN/FUZDMU, World Agroforestry (ICRAF)",
 		group = group,
 		uri = uri,
 		publication = "doi:10.1016/j.agwat.2011.04.002",
@@ -111,6 +112,7 @@ Agricultural Water Management 98: 1364-1372
 	z$N_fertilizer[i] <- 20 + 92
 	z$P_fertilizer[i] <- 18
 	z$K_fertilizer[i] <- 16
+
 	i <- z$treatment == "Leucaena"
 	z$treatment <- "no Leuceaena"
 	z$treatment[i] <- "Leuceaena"
@@ -119,16 +121,16 @@ Agricultural Water Management 98: 1364-1372
 
 	d <- rbind(d, z)
 	
-	
 	d$rain <- as.numeric(d$rain)
 	d$on_farm <- FALSE
 	d$crop <- "maize"
+	d$fertilizer_type <- "none"
+	d$fertilizer_type[d$N_fertilizer > 0] <- "urea; NPK"
 	
 	d$dataset_id <- dataset_id
 	d$trial_id <- paste0(d$treatment, "-", d$site)
-	d$fertilizer_type <- "urea; Compound fertilizer"
 
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(dset, d, path=path)
 }
 
 

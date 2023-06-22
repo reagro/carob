@@ -24,8 +24,8 @@ carob_script <- function(path) {
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication="https://doi.org/10.1016/j.fcr.2021.108310",
-    data_citation = 'Verhulst, Nele; Grahmann, Kathrin; Honsdorf, Nora; Govaerts, Bram, 2021, "Durum wheat performance (10 years of data) and grain quality (three years of data) with two tillage and two sowing irrigation practices under five nitrogen fertilizer treatments in northwestern Mexico", https://hdl.handle.net/11529/10548582, CIMMYT Research Data & Software Repository Network, V1',
+    publication="doi:10.1016/j.fcr.2021.108310",
+    data_citation = 'Verhulst, Nele; Grahmann, Kathrin; Honsdorf, Nora; Govaerts, Bram, 2021. Durum wheat performance (10 years of data) and grain quality (three years of data) with two tillage and two sowing irrigation practices under five nitrogen fertilizer treatments in northwestern Mexico, https://hdl.handle.net/11529/10548582',
     data_institutions = "CIMMYT",
     carob_contributor="Eduardo Garcia Bendito",
     experiment_type="fertilizer",
@@ -88,8 +88,8 @@ carob_script <- function(path) {
   #	                                          ifelse(d$FERT == 5, "72 | 168", "240 | 0")))))
   
   d$N_splits <- NA
-  d$N_splits[d$FERT %in% c(2, 3, 5)] <- 2
-  d$N_splits[d$FERT %in% c(4, 6)] <- 1
+  d$N_splits[d$FERT %in% c(2, 3, 5)] <- 2L
+  d$N_splits[d$FERT %in% c(4, 6)] <- 1L
   d$P_fertilizer <- 46/2.29 # convert P2O5 to P
   d$K_fertilizer <- 0
   
@@ -111,6 +111,6 @@ carob_script <- function(path) {
   d$dataset_id <- dataset_id
   
   # all scripts must end like this
-  carobiner::write_files(dset, d, path, dataset_id, group)
+  carobiner::write_files(dset, d, path=path)
   
 }

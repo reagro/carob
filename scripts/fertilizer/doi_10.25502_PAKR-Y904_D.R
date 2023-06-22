@@ -15,7 +15,7 @@ carob_script <- function(path) {
    against the commonly used NPK 15-15-15 fertilizer
 "
   
-  uri <- "https://doi.org/10.25502/pakr-y904/d"
+  uri <- "doi:10.25502/pakr-y904/d"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ## dataset level data 
@@ -25,7 +25,7 @@ carob_script <- function(path) {
     uri=uri,
     publication=NA,
     data_citation = "Huising, J. (2019). OCP validation trials for maize fertilizers, OCP - Nigeria [Data set]. International Institute of Tropical 
-    Agriculture (IITA). https://doi.org/10.25502/PAKR-Y904/D",
+    Agriculture (IITA). doi:10.25502/PAKR-Y904/D",
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
     experiment_type="fertilizer",
@@ -95,7 +95,7 @@ carob_script <- function(path) {
   #data type
   d$yield<- as.numeric(d$yield)
   # all scripts must end like this
-  carobiner::write_files(dset, d, path, dataset_id, group)
+  carobiner::write_files(dset, d, path=path)
   
 }
 

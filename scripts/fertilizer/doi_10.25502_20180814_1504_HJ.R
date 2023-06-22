@@ -26,7 +26,7 @@ carob_script <- function(path) {
   # uri=uri,
   # publication=NA,
   # data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Sidindi SR [Data set]. International Institute of Tropical Agriculture 
-  # (IITA). https://doi.org/10.25502/20180814/1504/HJ",
+  # (IITA). doi:10.25502/20180814/1504/HJ",
   # carob_contributor="Cedric Ngakou",
   # experiment_type="fertilizer",
   # has_weather=FALSE,
@@ -124,6 +124,6 @@ carob_script <- function(path) {
 # d <- replace(d, d=='', NA)
 # all scripts must end like this   
 
-# carobiner::write_files(dset, d, path, dataset_id, group)
+# carobiner::write_files(dset, d, path=path)
 
 # }

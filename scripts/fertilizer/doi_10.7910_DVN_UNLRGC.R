@@ -33,6 +33,7 @@ Notes
 		dataset_id = dataset_id,
 		group=group,
 		uri=uri,
+		data_citation="Kihara, Job, 2016. Replication Data for: Maize response to macronutrients and potential for profitability in sub-Saharan Africa, https://doi.org/10.7910/DVN/UNLRGC",
 		publication="doi:10.1007/s10705-015-9717-2",
 		carob_contributor="Camila Bonilla",
 		experiment_type="fertilizer",
@@ -45,9 +46,7 @@ Notes
 
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(cleanuri, path, major=1, minor=3, group)
-	# No License specified in metadata. Only Terms of use available. It is registered as "CC BY 4.0"
-	# dset$license <- carobiner::get_license(js)
-	dset$license <- "CC BY 4.0"
+	dset$license <- carobiner::get_license(js)
 
 	## the AFSIS data 
 
@@ -100,7 +99,7 @@ Notes
 	# not clear what these mean
 	d$rep <- NULL
 		
-	carobiner::write_files(dset, d, path, cleanuri, group, id="afsis")
+	carobiner::write_files(dset, d, path=path, id="afsis")
 
 	## FAO data 
 
@@ -176,7 +175,10 @@ Notes
 
 	zz$longitude <- as.numeric(gsub(",", ".", zz$longitude))
 
-	carobiner::write_files(dset, zz, path, cleanuri, group, id="fao")
+	i <- zz$country=="Guinea-Bissau" & zz$longitude > 15
+	zz$longitude[i] <- -zz$longitude[i]
+
+	carobiner::write_files(dset, zz, path=path, id="fao")
 }
 
 

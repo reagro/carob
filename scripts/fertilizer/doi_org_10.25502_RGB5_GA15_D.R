@@ -14,7 +14,7 @@ carob_script <- function(path) {
    Kaduna, Kano, Katsina, Nasarawa, Niger, Plateau and Taraba
 "
   
-  uri <- "https://doi.org/10.25502/RGB5-GA15/D"
+  uri <- "doi:10.25502/RGB5-GA15/D"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ## dataset level data 
@@ -23,8 +23,7 @@ carob_script <- function(path) {
     group=group,
     uri=uri,
     publication=NA,
-    data_citation = "Huising, J. (2019). OCP validation trials for maize fertilizers, Bayero University Kano - Nigeria [Data set]. International Institute of Tropical Agriculture (IITA).
-    https://doi.org/10.25502/RGB5-GA15/D" ,
+    data_citation = "Huising, J. (2019). OCP validation trials for maize fertilizers, Bayero University Kano - Nigeria [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/RGB5-GA15/D" ,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
     experiment_type="fertilizer",
@@ -117,7 +116,7 @@ carob_script <- function(path) {
 #data type
   d$yield<- as.numeric(d$yield)
   # all scripts must end like this
- carobiner::write_files(dset, d, path, dataset_id, group)
+ carobiner::write_files(dset, d, path=path)
  
 }
 

@@ -8,7 +8,7 @@
 
 carob_script <- function(path){
 
-  uri <- "doi.org/10.25502/DGQZ-YP49/D"
+  uri <- "doi:10.25502/DGQZ-YP49/D"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
@@ -20,12 +20,7 @@ carob_script <- function(path){
   project="N2Africa",
   uri = uri,
   publication = NA,
-  data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, 
-  P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, 
-  L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, 
-  K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - 
-  Kenya, 2012 [Data set]. International Institute of Tropical Agriculture (IITA).
-  https://doi.org/10.25502/DGQZ-YP49/D",
+  data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Kenya, 2012 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/DGQZ-YP49/D",
   carob_contributor = "Effie Ochieng",
   experiment_type = "fertilizer",
   has_weather =  FALSE,
@@ -69,8 +64,8 @@ carob_script <- function(path){
    d$K_fertilizer[grepl("KCL", f)] <- 30
    d$P_fertilizer[grepl("TSP", f)] <- 30
    d$N_fertilizer[grepl("UREA", f)] <- 60
-   d$N_splits <- 0
-   d$N_splits[d$N_fertilizer > 0] <- 2
+   d$N_splits <- 0L
+   d$N_splits[d$N_fertilizer > 0] <- 2L
    d$inoculated <- d$sub_treatment_inoc == "Inoculated"
    d$inoculated[d$sub_treatment_inoc == "Sub-treatment (Inocu"] <- TRUE
    
@@ -128,6 +123,7 @@ carob_script <- function(path){
   
   q$dataset_id <- dataset_id
   # all scripts should end like this
-  carobiner::write_files(dset, q, path, dataset_id, group)
+  carobiner::write_files(dset, q, path=path)
 }  
+  
   

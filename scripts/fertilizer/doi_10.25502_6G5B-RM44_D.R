@@ -27,12 +27,7 @@ dset <- data.frame(
   project="N2Africa",
   uri=uri,
   publication= NA,
-  data_citation = "Vanlauwe, Bernard, Adjei-Nsiah, S., Woldemeskel, E.,
-  Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer,P., Chikowo, R., Phiphira,
-  L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K.,Baars,
-  E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Kenya, 2010
-  [Data set].International Institute of Tropical Agriculture (IITA).
-  https://doi.org/10.25502/6G5B-RM44/D",
+  data_citation = "Vanlauwe, Bernard, Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer,P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K.,Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Kenya, 2010 [Data set].International Institute of Tropical Agriculture (IITA). doi:10.25502/6G5B-RM44/D",
   data_institutions = "IITA",
   carob_contributor="Rachel Mukami and Effie Ochieng",
   experiment_type="Symbiotic N2 fixation",
@@ -159,12 +154,12 @@ d4$P_fertilizer <- ifelse(grepl("TSP", d4$fertilizer_type), 30, 0)
 d4$P_fertilizer[d4$fertilizer_type=="DAP"] <- 30
 
 d4$K_fertilizer <- ifelse(grepl("KCl", d4$fertilizer_type), 30, 0)
-d4$N_splits <- ifelse(grepl("urea",d4$fertilizer_type),2,0)
+d4$N_splits <- ifelse(grepl("urea",d4$fertilizer_type), 2L, 0L)
 d4 <- d4[, c("dataset_id","trial_id","country","location","latitude", "longitude", "elevation","rep", "treatment","crop", "variety",
              "start_date","end_date","inoculated","plant_density","grain_weight","biomass_roots","biomass_total",
             "residue_yield","yield","fertilizer_type","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH", "soil_K", 
              "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm")]
 
-carobiner::write_files(dset, d4, path, dataset_id, group)
+carobiner::write_files(dset, d4, path=path)
 }
 

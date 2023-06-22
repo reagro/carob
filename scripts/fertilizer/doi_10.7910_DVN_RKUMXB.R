@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
 	"
 	Description:
-		Kihara, Job; Tibebe, Degefie; Gurmensa, Biyensa; Lulseged, Desta, 2017, Towards understanding fertilizer responses in Ethiopia, https://doi.org/10.7910/DVN/RKUMXB, Harvard Dataverse, V2, UNF:6:GyS4YNBnn5DjzEC7fY80yw== [fileUNF]
+		Kihara, Job; Tibebe, Degefie; Gurmensa, Biyensa; Lulseged, Desta, 2017, Towards understanding fertilizer responses in Ethiopia, doi:10.7910/DVN/RKUMXB, Harvard Dataverse, V2
 
 	# This is a comprehensive dataset specifically on crop response to fertilizers and is obtained from published journal articles, thesis and proceedings spanning at least 5 decades. It represents all the agriculturally productive regions of Ethiopia. The data contains information on region, crop type and soil type under which experiments were conducted, as well as application rates of nutrients (N, P, K, and other nutrients) as well as yields of the control and fertilized treatment on which crop response ratios are derived.
 
@@ -40,6 +40,7 @@ carob_script <- function(path) {
 	   dataset_id = dataset_id,
 	   group = group,
 	   uri=uri,
+	   data_citation= "Kihara, Job; Tibebe, Degefie; Gurmensa, Biyensa; Lulseged, Desta, 2017, Towards understanding fertilizer responses in Ethiopia, doi:10.7910/DVN/RKUMXB",
 	   publication=NA,
 	   carob_contributor="Camila Bonilla",
 	   experiment_type="fertilizer",
@@ -53,13 +54,9 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "02. ET_data_June2017.csv"]
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
-	# No License specified in metadata. Only Terms of use available. It is registered as "CC BY 4.0"
-	# dset$license <- carobiner::get_license(js)
-	dset$license <- "CC BY 4.0"
+	dset$license <- carobiner::get_license(js)
 
-## Select and fix column names
-	# ft <- c("DATASOURCE", "reference", "SITE", "location", "ADMIN_REGION", "adm1", "CODE", "trial_id", "CodeSE", "drop", "X", "longitude", "Y", "latitude", "CoordType", "drop", "CROPTYPE", "crop", "VARIETY", "variety", "VARIETYTYPE", "variety_type", "TRIALTYPE", "trial_type", "SOILTYPE", "soil_type", "Sand", "soil_sand", "Clay", "soil_clay", "SOC", "soil_SOC", "pH", "soil_pH", "Avail_P", "soil_P_available", "CroppingSystem", "crop_system", "Organicresource", "OM_used", "Inoculation", "inoculated", "OrgR_type", "OM_type", "OrgR_Amount", "OM_applied", "OrganicN", "OM_N", "OrganicK", "OM_K", "OrganicP", "OM_P", "Prev_crop", "previous_crop", "YEAR", "year", "Season", "season", "Response", "response", "N", "N", "N_Timing", "drop", "N_splits", "N_splits", "P", "P", "P_Appl", "drop", "P_Source", "fertilizer_type_1", "K", "K", "Other_Nutrient", "Other_Nutrient", "NutrientSource", "fertilizer_type_2", "Nutrientamount", "Nutrientamount", "AvailableSoilNutrient_OtherthanNPK", "drop", "TrtDesc", "drop", "Treatment_yld", "yield", "Control_Yld", "Control_Yld", "Absolute_Ctrl_Yld", "Absolute_Ctrl_Yld", "Error", "uncertainty", "ErrorType", "uncertainty_type", "Replications", "drop", "Treatments", "drop", "SDEV", "drop", "Application_ForOtherNutrients", "drop", "Rainfall", "drop", "WateringRegime", "irrigated", "Tillage", "tillage", "COMMENTS", "comments", "RR", "drop")
-	## EGB: There is an error with the XY coordinates. They are flipped...
+
 	ft <- c("DATASOURCE", "reference", "SITE", "location", "ADMIN_REGION", "adm1", "CODE", "trial_id", "CodeSE", "drop", "Y", "longitude", "X", "latitude", "CoordType", "drop", "CROPTYPE", "crop", "VARIETY", "variety", "VARIETYTYPE", "variety_type", "TRIALTYPE", "trial_type", "SOILTYPE", "soil_type", "Sand", "soil_sand", "Clay", "soil_clay", "SOC", "soil_SOC", "pH", "soil_pH", "Avail_P", "soil_P_available", "CroppingSystem", "crop_system", "Organicresource", "OM_used", "Inoculation", "inoculated", "OrgR_type", "OM_type", "OrgR_Amount", "OM_applied", "OrganicN", "OM_N", "OrganicK", "OM_K", "OrganicP", "OM_P", "Prev_crop", "previous_crop", "YEAR", "year", "Season", "season", "Response", "response", "N", "N", "N_Timing", "drop", "N_splits", "N_splits", "P", "P", "P_Appl", "drop", "P_Source", "fertilizer_type_1", "K", "K", "Other_Nutrient", "Other_Nutrient", "NutrientSource", "fertilizer_type_2", "Nutrientamount", "Nutrientamount", "AvailableSoilNutrient_OtherthanNPK", "drop", "TrtDesc", "drop", "Treatment_yld", "yield", "Control_Yld", "Control_Yld", "Absolute_Ctrl_Yld", "Absolute_Ctrl_Yld", "Error", "uncertainty", "ErrorType", "uncertainty_type", "Replications", "drop", "Treatments", "drop", "SDEV", "drop", "Application_ForOtherNutrients", "drop", "Rainfall", "drop", "WateringRegime", "irrigated", "Tillage", "tillage", "COMMENTS", "comments", "RR", "drop")
 
 
@@ -187,6 +184,11 @@ carob_script <- function(path) {
 	d$fertilizer_type_2 <- NULL
 	d$fertilizer_type_1 <- NULL
 
+	d$OM_type <- ""
+	i <- d$fertilizer_type == "bone meal"
+	d$OM_type[i] <- "bone meal"
+	d$fertilizer_type[i] <- "none"
+
 	d$trial_type <- NULL
 
 	p <- carobiner::fix_name(d$previous_crop, "lower")
@@ -250,6 +252,12 @@ carob_script <- function(path) {
 	d <- carobiner::change_names(d, c("response", "N", "P", "K", "Zn", "S"), 
 	c("treatment", "N_fertilizer", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer"))
 
+## seems reasonable assumption. 
+## 9 missing out of 4316
+	d$S_fertilizer[is.na(d$S_fertilizer)] <- 0
+# 514 missing	
+	d$K_fertilizer[is.na(d$K_fertilizer)] <- 0
+
 	d$OM_used <- d$OM_used == "Yes"
 	d$inoculated <- d$inoculated == "Yes"
 
@@ -272,9 +280,48 @@ carob_script <- function(path) {
 	d$plant_density <- NA
 	d$plant_density[i] <- as.numeric(gsub("Plant density \\(n perha)", "", ps[i]))
 	
-	d$N_splits <- as.numeric(d$N_splits)
+	d$N_splits <- as.integer(d$N_splits)
+
+
+## georeferencing 
+	# 0) remove bad georefs 
+	w <- geodata::world(path="data")
+	e <- terra::extract(w, d[, c("longitude", "latitude")])
+	d[which(e$NAME_0 != d$country), c("longitude", "latitude")] <- NA 
+
+	# 1) find missing lon.lat that are available in other records
+	d <- carobiner::geocode_duplicates(d, c("country", "location") )
 	
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	# 2) look up new coords
+	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
+	xy <- uxy[is.na(uxy$longitude),]
+
+	#g <- carobiner::geocode(xy$country, xy$location, adm1=xy$adm1)
+	#g$put
+	pts <- structure(list(country = c("Ethiopia", "Ethiopia", "Ethiopia", 
+    "Ethiopia", "Ethiopia"), adm1 = c(NA_character_, NA_character_, 
+    NA_character_, NA_character_, NA_character_), location = c("Bule", 
+    "Hosanna", "Menagesha", "Tatek", "Waka"), lon = c(38.4102886, 
+    37.8578477, 38.568749925286, 38.6382559, 37.1791421), lat = c(6.3024217, 
+    7.5578434, 9.05509080403642, 9.0338169, 7.0600736)), row.names = c(2L, 
+    7L, 11L, 12L, 13L), class = "data.frame")
+
+	# all adm1 were NA
+	pts$adm1 <- NULL
+	
+	d <- merge(d, pts, by=c("country", "location"), all.x=TRUE)
+	d$longitude[is.na(d$longitude)] <- d$lon[is.na(d$longitude)]
+	d$latitude[is.na(d$latitude)] <- d$lat[is.na(d$latitude)]
+	d$lon <- d$lat <- NULL
+		
+	#3) to do
+	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
+	xy <- uxy[is.na(uxy$longitude),]
+		
+
+	d$soil_pH[d$soil_pH < 3.5 | d$soil_pH > 8.5] <- NA
+
+	carobiner::write_files(dset, d, path=path)
 
 }
 

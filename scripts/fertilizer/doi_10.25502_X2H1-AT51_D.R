@@ -25,9 +25,9 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
     group=group,
     uri=uri,
     project="N2Africa",
-    publication= "https://doi.org/10.1080/23311932.2020.1722353",
+    publication= "doi:10.1080/23311932.2020.1722353",
     data_citation = "Vanlauwe, Bernard, Samuel, A.-N., Endalkachew, W., Peter, E., Freddy, B., Jean-Marie, S., Paul, W., Regis, C., Lloyd, P., Nkeki, K., Theresa, A.-B., Esther, R., Fred, K., Ken, G., Edward, B., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Ehtiopia, 2013 [Data set].
-    International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/X2H1-AT51/D",
+    International Institute of Tropical Agriculture (IITA). doi:10.25502/X2H1-AT51/D",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
     experiment_type="Symbiotic N2 fixation",
@@ -185,7 +185,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
             "fertilizer_type","P_fertilizer","N_fertilizer","K_fertilizer","inoculated","row_spacing",
             "plant_spacing","on_farm","elevation","latitude","longitude")]
   
-  carobiner::write_files(dset, f, path, dataset_id, group)
+  carobiner::write_files(dset, f, path=path)
   
 }
 

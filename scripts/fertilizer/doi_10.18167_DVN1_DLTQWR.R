@@ -22,6 +22,7 @@ carob_script <- function(path) {
 	   group=group,
 	   project=NA,
 	   uri=uri,
+	   data_citation="Corbeels, Marc; Naudin, Krishna; Whitbread, Anthony M.; Kühne, Ronald; Letourmy, Philippe, 2020. Data for: Conservation agriculture in Sub-Saharan Africa, crop yields from experiments, https://doi.org/10.18167/DVN1/DLTQWR",
 	   publication= "doi:10.1038_s43016-020-0114-x",
 	   data_institutions = "CIRAD",
 	   carob_contributor="Eduardo Garcia Bendito",
@@ -40,7 +41,7 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "Donnees_meta-analyse_2020.txt"]
 
 	# Handling unknown-8bit charset
-	r <- read.table(f, sep = "\t", quote = "")
+	r <- read.table(f, sep = "\t", quote = "", fileEncoding="latin1")
 	colnames(r) <- r[1,]
 	r <- r[2:nrow(r),]
   # Reshape dataset to long
@@ -67,48 +68,56 @@ carob_script <- function(path) {
 ##### Location #####
 ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
 ## you can use carobiner::fix_name()
-	d$country <- gsub("^.*\\.", "", gsub(".*,","", rr$Site))
-	d$site <- gsub("<92>", "'", gsub("(.*),.*", "\\1", rr$Site))
+
+	rr$Site <- trimws(gsub("\\.", ",", rr$Site))
+	d$country <- trimws(gsub(".*,", "", rr$Site))
+	d$site <- gsub("(.*),.*", "\\1", rr$Site)
+	
 	d$elevation <- round(as.numeric(rr$Altitude), 0)
 ## each site must have corresponding longitude and latitude
 	# Process coordinates
-	rr$Coordinates <- gsub("  ", " ", gsub('"', " ", gsub("<b4>", "'", gsub("\\?.*", "'", gsub("<92>", "'", gsub("<a0>", "\\1", gsub("o", "°", gsub(" °", "°", gsub("<b0>", "°", rr$Coordinates)))))))))
-	rr$Lon <- gsub(".*\\;", "\\1", gsub(".*\\,", "\\1", rr$Coordinates))
-	rr$Lat <- gsub("^(.*?);.*", "\\1", gsub("^(.*?),.*", "\\1", rr$Coordinates))
-	rr$Lon.deg <- as.integer(gsub("^(.*?)°.*", "\\1", rr$Lon))
-	rr$Lon.deg <- ifelse(grepl("W", rr$Lon), as.integer(paste0("-", rr$Lon.deg)), as.integer(rr$Lon.deg))
-	rr$Lon.min <- as.integer(gsub("(.*)'.*", "\\1", gsub(".*°", "" ,rr$Lon)))
-	rr$Lon.min <- ifelse(grepl("W", rr$Lon), as.integer(paste0("-", rr$Lon.min)), as.integer(rr$Lon.min))
-	rr$Lon.min <- ifelse(!is.na(rr$Lon.min), rr$Lon.min, 0)
-	rr$Lon.sec <- as.integer(gsub("[^0-9.-]", '', gsub(".*'", "\\1", rr$Lon)))
-	rr$Lon.sec <- ifelse(grepl("W", rr$Lon), as.integer(paste0("-", rr$Lon.sec)), as.integer(rr$Lon.sec))
-	rr$Lon.sec <- ifelse(!is.na(rr$Lon.sec), rr$Lon.sec, 0)
-	rr$Lat.deg <- as.integer(gsub("^(.*?)°.*", "\\1", rr$Lat))
-	rr$Lat.deg <- ifelse(grepl("S", rr$Lat), as.integer(paste0("-", rr$Lat.deg)), as.integer(rr$Lat.deg))
-	rr$Lat.min <- as.integer(gsub("(.*)'.*", "\\1", gsub(".*°", "" ,rr$Lat)))
-	rr$Lat.min <- ifelse(grepl("S", rr$Lat), as.integer(paste0("-", rr$Lat.min)), as.integer(rr$Lat.min))
-	rr$Lat.min <- ifelse(!is.na(rr$Lat.min), rr$Lat.min, 0)
-	rr$Lat.sec <- as.integer(gsub("[^0-9.-]", '', gsub(".*'", "\\1", rr$Lat)))
-	rr$Lat.sec <- ifelse(grepl("S", rr$Lat), as.integer(paste0("-", rr$Lat.sec)), as.integer(rr$Lat.sec))
-	rr$Lat.sec <- ifelse(!is.na(rr$Lat.sec), rr$Lat.sec, 0)
-	d$longitude <- round(rr$Lon.deg + (rr$Lon.min/60) + (rr$Lon.sec/60), 3)
-	d$latitude <- round(rr$Lat.deg + (rr$Lat.min/60) + (rr$Lat.sec/60), 3)
-	# Certain locations need to be geocoded manually 
-	d$longitude[grep("Holeta", rr$Site, fixed = T)] <- 38.504
-	d$latitude[grep("Holeta", rr$Site, fixed = T)] <- 9.067
-	d$longitude[grep("Chuka", rr$Site, fixed = T)] <- 37.652
-	d$longitude[grep("Bugesera", rr$Site, fixed = T)] <- 30.250
-	d$longitude[grep("Bertoua", rr$Site, fixed = T)] <- 13.678165
-	d$longitude[grep("Meki", rr$Site, fixed = T)] <- 38.839832
-	d$longitude[grep("Ambohitsilaozana", rr$Site, fixed = T)] <- 48.471
-	d$latitude[grep("Ambohitsilaozana", rr$Site, fixed = T)] <- -17.699
-	d$longitude[grep("Murewha", rr$Site, fixed = T)] <- 31.763
-	d$latitude[grep("Murewha", rr$Site, fixed = T)] <- -17.637
-	d$longitude[grep("Andranomanelatra", rr$Site, fixed = T)] <- 47.105
-	d$latitude[grep("Andranomanelatra", rr$Site, fixed = T)] <- -19.779
+	
+	crd <- rr$Coordinates
+	crd <- gsub("´", "'", crd)
+	crd <- gsub("°", "'", crd)
+	crd <- gsub("to", "#", crd)
+	crd <- gsub("o", "'", crd)
+	crd <- gsub("\"", "", crd)
+	crd <- gsub("\\?", "'", crd)
+	crd <- gsub(";", ", ", crd)
+	crd <- gsub("\u0092", "", crd)
+	#replace character that may not be visible to you:
+	crd <- gsub(" ", "", crd)
 
+	crd <- do.call(rbind, strsplit(crd, ","))
+	lat <- data.frame(trimws(stringr::str_split_fixed(crd[,1], "#", 2)))
+	i <- which(lat[,2] != "" )
+	lat[i,1] <- paste0(lat[i,1], substr(lat[i,2], nchar(lat[i,2]), nchar(lat[i,2])))	
+	lon <- data.frame(trimws(stringr::str_split_fixed(crd[,2], "#", 2)))
+	i <- which(lon[,2] != "" )
+	lon[i,1] <- paste0(lon[i,1], substr(lon[i,2], nchar(lon[i,2]), nchar(lon[i,2])))	
 
+	make_decimal <- function(x) {
+		direction <- substr(x, nchar(x), nchar(x))
+		x <- trimws(substr(x, 1, nchar(x)-1))
+		s <- stringr::str_split_fixed(x, "'", 3)
+		s[s[,2] == "", 2] <- 0 
+		x <- as.numeric(s[,1]) + as.numeric(s[,2])/60 
+		i <- grep("S|W", direction, ignore.case=TRUE)
+		x[i] <- -1 * x[i]
+		x
+	}
 
+	lat[,1] <- make_decimal(lat[,1])
+	lat[,2] <- make_decimal(lat[,2])
+	d$latitude <- apply(lat, 1, mean, na.rm=TRUE)
+
+	lon[,1] <- make_decimal(lon[,1])
+	lon[,2] <- make_decimal(lon[,2])
+	d$longitude <- apply(lon, 1, mean, na.rm=TRUE)
+
+#z = data.frame(crd, d$latitude, d$longitude)
+	
 ##### Crop #####
 ## normalize variety names
 	d$crop <- tolower(rr$Crop)
@@ -129,12 +138,12 @@ carob_script <- function(path) {
 ## use 	as.character(as.Date()) for dates to assure the correct format.
 	year <- substr(gsub("[^0-9.-]", "", rr$Year), 1, 4)
 	d$start_date <- as.character(format(as.Date(strptime(ifelse(year == "", NA, year), "%Y")), "%Y"))
-	d$season <- ifelse(grepl("LR", rr$Year), "1",
-	                   ifelse(grepl("SR", rr$Year), "2",
-	                          ifelse(grepl("M", rr$Year), "1",
-	                                 ifelse(grepl("V", rr$Year), "2",
-	                                        ifelse(grepl("masika", rr$Year), "1",
-	                                               ifelse(grepl("vuli", rr$Year), "2", NA))))))
+	d$season <- ifelse(grepl("LR", rr$Year), "LR",
+                  ifelse(grepl("SR", rr$Year), "SR",
+                    ifelse(grepl("M", rr$Year), "M",
+                      ifelse(grepl("V", rr$Year), "V",
+                       ifelse(grepl("masika", rr$Year), "masika",
+                         ifelse(grepl("vuli", rr$Year), "vuli", NA))))))
 
 ##### Fertilizers #####
 ## note that we use P and K, not P2O5 and K2O
@@ -160,8 +169,9 @@ carob_script <- function(path) {
    d$soil_SOC <- as.numeric(gsub(",", ".", ifelse(rr$Initial_soil_C == "?", NA, rr$Initial_soil_C)))/10 # g/kg -> %
    
 ##### Tillage #####   
-  d$tillage <- ifelse(rr$tillage == "CT", rr$CT_type, rr$CA_type1)
-
+  d$tillage <- trimws(tolower(ifelse(rr$tillage == "CT", rr$CT_type, rr$CA_type1)))
+  d$tillage <- gsub("permanent_beds", "permanent beds", d$tillage)
+  d$tillage <- gsub("no-tillage", "no tillage", d$tillage)
 # all scripts must end like this
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(dset, d, path=path)
 }

@@ -77,7 +77,7 @@ carob_script <- function(path) {
 ##	d1$N_splits <- paste(d1$N_fertilizer*0.25,d1$N_fertilizer*0.375,d1$N_fertilizer*0.375, sep = " | ")
 
 	d1$N_splits <- NA
-	d1$N_splits[d1$N_fertilizer > 0] <- 3
+	d1$N_splits[d1$N_fertilizer > 0] <- 3L
 	
 	d1$P_fertilizer <- ifelse(d1$TrtDesc == "Control", 0,
 	                   ifelse(d1$TrtDesc == "NK", 0, 30))
@@ -104,6 +104,6 @@ carob_script <- function(path) {
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(dset, d, path=path)
 
 }

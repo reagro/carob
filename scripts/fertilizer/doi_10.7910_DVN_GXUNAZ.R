@@ -25,8 +25,8 @@ relative to yields of only NP/K application. (2020-02-25)
     group=group,
     project=NA,
     uri=uri,
-    publication= "https://doi.org/10.7910/DVN/8AJQJJ",
-    data_citation = "Kihara, Job; Okeyo, Jeremiah; Bolo, Peter; Kinyua, Michael, 2020, Non-responsiveness of crops to fertilizers under some soils in sub-Saharan Africa, https://doi.org/10.7910/DVN/GXUNAZ",
+    publication= "",
+    data_citation = "Kihara, Job; Okeyo, Jeremiah; Bolo, Peter; Kinyua, Michael, 2020, Non-responsiveness of crops to fertilizers under some soils in sub-Saharan Africa, doi:10.7910/DVN/GXUNAZ",
     data_institutions = "CIAT",
     carob_contributor="Rachel Mukami",
     experiment_type="Crop yield response to secondary and micronutrient (SMN), manure and lime application relative to yields of only NP/K application",
@@ -206,6 +206,6 @@ relative to yields of only NP/K application. (2020-02-25)
             "soil_pH","soil_SOC","soil_P_total","soil_clay","soil_type","rain","yield","on_farm")] 
   
   # all scripts must end like this
-  carobiner::write_files(dset, d, path, dataset_id, group)
+  carobiner::write_files(dset, d, path=path)
 }
 

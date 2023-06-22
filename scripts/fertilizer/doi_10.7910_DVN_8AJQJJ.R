@@ -13,7 +13,7 @@ carob_script <- function(path) {
 
 "
 
-	uri <- "https://doi.org/10.7910/DVN/8AJQJJ"
+	uri <- "doi:10.7910/DVN/8AJQJJ"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	## dataset level data 
@@ -22,7 +22,7 @@ carob_script <- function(path) {
 	   group=group,
 	   project=NA,
 	   uri=uri,
-	   publication= "https://doi.org/10.1007/s13593-017-0431-0",
+	   publication= "doi:10.1007/s13593-017-0431-0",
 	   data_institutions = "CIAT",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   ## something like randomized control...
@@ -50,8 +50,9 @@ carob_script <- function(path) {
 	              times=c('all_nutrient', 'macro_nutrient', 'zero_nutrient'),
 	              v.names=c('yield'),
 	              idvar='observation')
-	rr <- rr[rr$`DATA SOURCE` != "Haileselassie et al. 2011",] # Removing this observations, since they are not properly recorded from the original source (https://doi.org/10.1080/00380768.2011.593482).
 
+# Removing this observations, since they are not properly recorded from the original source (doi:10.1080/00380768.2011.593482).				  
+	rr <- rr[rr$`DATA SOURCE` != "Haileselassie et al. 2011",] 
 	
 ## process file(s)
 	
@@ -86,12 +87,14 @@ carob_script <- function(path) {
 	d$latitude <- as.numeric(rr$Y)
 	xy <- c("longitude", "latitude")
 	i <- apply(is.na(d[, xy]), 1, any)
-	d[i & d$site == "Sidindi", xy] <- c(34.38, 0.15)
-	d[i & d$site == "Thuchila", xy] <- c(35.57, -15.86)
-	d[i & d$site == "Calabar", xy] <- c(8.33, 4.97)
-	d[i & d$site == "Manjawira", xy] <- c(34.85, -14.99)
-	d[i & d$site == "Amoutchou", xy] <-  c(1.08, 7.46)
-	d[i & d$site == "Sarakawa", xy] <- c(1.01, 9.63)
+	
+	crds = data.frame(site = c("Sidindi", "Thuchila", "Calabar", "Manjawira",  "Amoutchou", "Sarakawa"), 
+					lon = c(34.38, 35.57, 8.33, 34.85, 1.08, 1.01), 
+					lat = c(0.15, -15.86, 4.97, -14.99, 7.46, 9.63))
+
+	m <- na.omit(cbind(1:nrow(d), match(d$site, crds$site)))
+	d$longitude[m[,1]] <- crds[m[,2], 2]
+	d$latitude[m[,1]] <- crds[m[,2], 3]
 
 ##### Crop #####
 ## normalize variety names
@@ -119,8 +122,8 @@ carob_script <- function(path) {
    
 ## normalize names 
    d$fertilizer_type <- as.character(rr$P_Source)
-   d[!is.na(d$fertilizer_type) & d$fertilizer_type == "Compound D", "fertilizer_type"] <- "D compound"
-   d[!is.na(d$fertilizer_type) & d$fertilizer_type == "23:21:0+4S", "fertilizer_type"] <- "Compound fertilizer"
+   d[!is.na(d$fertilizer_type) & d$fertilizer_type == "Compound D", "fertilizer_type"] <- "D-compound"
+   d[!is.na(d$fertilizer_type) & d$fertilizer_type == "23:21:0+4S", "fertilizer_type"] <- "NPS"
    d[!is.na(d$fertilizer_type) & d$fertilizer_type == "PKS Blend", "fertilizer_type"] <- "PKS"
    d[!is.na(d$fertilizer_type) & d$fertilizer_type == "composite", "fertilizer_type"] <- "unknown"
    d[!is.na(d$fertilizer_type) & d$fertilizer_type == "composite", "fertilizer_type"] <- "unknown"
@@ -137,12 +140,12 @@ carob_script <- function(path) {
 
 #### SOIL INFORMATION ######
   d$soil_type <- rr$`WRB Soiltype`
-	d$soil_pH <- round(as.numeric(rr$`SOIL pH`), 1)
-	d$soil_SOC <- round(as.numeric(rr$SOC), 2)
-	d$soil_sand <- round(as.numeric(rr$Sand), 2)
-	d$soil_clay <- round(as.numeric(rr$Clay), 2)
+	d$soil_pH <- as.numeric(rr$`SOIL pH`)
+	d$soil_SOC <- as.numeric(rr$SOC)
+	d$soil_sand <- as.numeric(rr$Sand)
+	d$soil_clay <- as.numeric(rr$Clay)
 	# Seems to be in mg/kg, but the range of values in carob do not fit the observations here
-	# d$soil_P_available <- rr$`Avail P` 
+	d$soil_P_available <- rr$`Avail P` 
 	
 	#### OTHER ######
 	 # coerced NAs due to character types. Could be suppressed.
@@ -152,6 +155,6 @@ carob_script <- function(path) {
 	
 	  
 # all scripts must end like this
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(dset, d, path=path)
 }
 

@@ -18,7 +18,7 @@ carob_script <- function(path) {
 
 "
   
-  uri <- "https://doi.org/10.25502/20180814/0923/HJ"
+  uri <- "doi:10.25502/20180814/0923/HJ"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ## dataset level data 
@@ -32,10 +32,7 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
-    data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1,
-    Kasungu [Data set]. International Institute of Tropical Agriculture (IITA). 
-    https://doi.org/10.25502/20180814/0923/HJ",
-    ## something like randomized control...
+    data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kasungu [Data set]. International Institute of Tropical Agriculture (IITA).  doi:10.25502/20180814/0923/HJ",
     experiment_type="fertilizer",
     has_weather=FALSE,
     has_soil=FALSE,
@@ -68,6 +65,7 @@ carob_script <- function(path) {
   d2$dataset_id<-dataset_id
   #merge d1 and d2
   d<-merge(d1,d2,by="dataset_id")
+  d$yield<-d$yield*1000 # kg/ha
   # Add columns
   d$country<-"Malawi"
   d$start_date<-"2015-12-29"
@@ -91,15 +89,16 @@ carob_script <- function(path) {
   d$previous_crop <- p
   
   # fix fertilizer_type name
-  d$fertilizer_type<-ifelse(d$fertilizer_type=="NPK+Urea","urea",
-                     ifelse(d$fertilizer_type=="CAN-DAP+NPK","CAN; DAP",
-                     ifelse(d$fertilizer_type=="NPK+CAN+Urea","CAN; urea",
-                     ifelse(d$fertilizer_type=="D.Comp;NPK;Urea;CAN","D compound; urea; CAN",
-                     ifelse(d$fertilizer_type=="Urea+CAN","urea; CAN",
-                     ifelse(d$fertilizer_type=="CAN+NPK","CAN",
-                     ifelse(d$fertilizer_type=="NPK+Urea+CAN","urea; CAN",
-                     ifelse(d$fertilizer_type=="NPK++CAN","CAN",
-                     ifelse(d$fertilizer_type=="NPK;D Compound;Urea&CAN","D compound; urea; CAN","unknown")))))))))
+  d$fertilizer_type <- ifelse(d$fertilizer_type=="NPK+Urea","NPK; urea",
+          ifelse(d$fertilizer_type=="CAN-DAP+NPK","CAN; DAP; NPK",
+          ifelse(d$fertilizer_type=="NPK+CAN+Urea","CAN; urea; NPK",
+          ifelse(d$fertilizer_type=="D.Comp;NPK;Urea;CAN","D-compound; urea; CAN; NPK",
+          ifelse(d$fertilizer_type=="Urea+CAN","urea; CAN",
+          ifelse(d$fertilizer_type=="CAN+NPK", "CAN; NPK",
+          ifelse(d$fertilizer_type=="NPK+Urea+CAN","urea; CAN; NPK",
+          ifelse(d$fertilizer_type=="NPK++CAN","CAN; NPK",
+          ifelse(d$fertilizer_type=="NPK;D Compound;Urea&CAN","D-compound; urea; CAN; NPK",
+				"something went wrong")))))))))
   #### about the data #####
   ## (TRUE/FALSE)
   
@@ -137,13 +136,14 @@ carob_script <- function(path) {
  d$S_fertilizer<-ifelse(d$treatment=="NPK+Mn",5,0)
   
  # data type and date format
-  d$start_date <- as.character(as.Date( d$start_date  ))
-  d$end_date  <- as.character(as.Date(  d$end_date  ))
-  d$season  <- as.character(d$season) 
-  d$fertilizer_type <- as.character(d$fertilizer_type) 
- 
+d$start_date <- as.character(as.Date( d$start_date  ))
+d$end_date  <- as.character(as.Date(  d$end_date  ))
+d$season  <- as.character(d$season) 
+d$fertilizer_type <- as.character(d$fertilizer_type) 
+
+
     # all scripts must end like this
   
-    carobiner::write_files(dset, d, path, dataset_id, group)
+    carobiner::write_files(dset, d, path=path)
 }
 

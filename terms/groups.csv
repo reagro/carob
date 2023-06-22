@@ -1,6 +1,7 @@
 name,description
 fertilizer,
 crop_cuts,
-international_maize_trials,
+maize_trials,
 variety_trials,
-wheat_yield,
+wheat_trials,
+lateblight,

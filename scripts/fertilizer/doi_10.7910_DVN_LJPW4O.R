@@ -8,8 +8,7 @@ carob_script <- function(path) {
 
 "
 	Description:
-    These data were produced with co-funding provided by the AgMIP project, and funds received via CGIAR CRP WLE (2013)
-
+	Response of maize to N and P in two trials in Uganda
 "
 
 	uri <- "doi:10.7910/DVN/LJPW4O"
@@ -18,11 +17,12 @@ carob_script <- function(path) {
 	## dataset level data 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
+	   data_citation = "Sommer, Rolf; Kihara, Job; Kinyua, Michael, 2019, Response of maize to N and P in two trials in Uganda, https://doi.org/10.7910/DVN/LJPW4O, Harvard Dataverse",
 	   group=group,
 	   uri=uri,
 	   publication=NA,
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type = "mineral fertilizers (macro & micro nutrients) + manure & pesticide",
+	   experiment_type = "fertilizer and pesticide application",
 	   has_weather=FALSE,
 	   has_management=FALSE
    
@@ -32,9 +32,7 @@ carob_script <- function(path) {
 
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=5) 
-	# No License specified in metadata. Only Terms of use available. It is registered as "CC BY 4.0"
-	# dset$license <- carobiner::get_license(js)
-	dset$license <- "CC BY 4.0"
+	dset$license <- carobiner::get_license(js)
 
 
 	f <- ff[basename(ff) == "9a Yield data.xlsx"]
@@ -74,7 +72,7 @@ carob_script <- function(path) {
 	                          ifelse(d$Treatment %in% c(3), 60, 0))
 #	d1$N_splits <- paste(d1$N_fertilizer*0.3,d1$N_fertilizer*0.3,d1$N_fertilizer*0.4, sep = " | ")
 	d1$N_splits <- NA
-	d1$N_splits[d1$N_fertilizer > 0] <- 3
+	d1$N_splits[d1$N_fertilizer > 0] <- 3L
 
 	d1$P_fertilizer <- ifelse(d$Treatment %in% c(8,7,3,2), 90,
 						 ifelse(d$Treatment %in% c(6), 50,
@@ -132,6 +130,6 @@ carob_script <- function(path) {
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(dset, d, path=path)
 
 }
