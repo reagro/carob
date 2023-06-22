@@ -44,6 +44,8 @@ P_fertilizer,numeric,kg/ha,fertilizer,,no,0,,no,"P applied in inorganic fertiliz
 K_fertilizer,numeric,kg/ha,fertilizer,,no,0,,no,"K applied in inorganic fertilizer (as K, not K2O)",,http://purl.obolibrary.org/obo/AGRO_00000201
 Zn_fertilizer,numeric,kg/ha,no,,no,0,,yes,Zn applied in inorganic fertilizer,,
 S_fertilizer,numeric,kg/ha,no,,no,0,,yes,S applied in inorganic fertilizer,,http://purl.obolibrary.org/obo/TO_0000658
+lime,numeric,kg/ha,no,,no,0,,yes,lime applied,,
+gypsum,numeric,kg/ha,no,,no,0,,yes,gypsum applied,,
 OM_used,logical,,no,,no,,,yes,Organic fertilizer applied,,http://purl.obolibrary.org/obo/AGRO_00002039
 OM_type,character,,no,,yes,,,yes,Type of organic fertilzer applied,,http://purl.obolibrary.org/obo/AGRO_00002039
 OM_applied,numeric,kg/ha,no,,no,0,,yes,Amount of organic fertilizer applied,,http://purl.obolibrary.org/obo/AGRO_00010008

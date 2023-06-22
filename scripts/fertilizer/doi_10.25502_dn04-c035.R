@@ -100,22 +100,23 @@ carob_script <- function(path){
   d2$lime_amt <- ifelse(d2$fertilizer_type == "lime", d2$mineral_fert_amount[i],0)
   d2$lime <- 10000/as.numeric(d2$crop_1_area_harvested)*d2$gypsum_amt
   
-  d2$K_fertilizer <- 0
+  d2$N_fertilizer <- d2$K_fertilizer <- 0
+
   i<- which(d2$fertilizer_type == "SSP")
-  d2$p_plot_amt<- ifelse(d2$fertilizer_type== "SSP", d2$mineral_fert_amount[i],0) 
+  d2$p_plot_amt<- ifelse(d2$fertilizer_type== "SSP", d2$mineral_fert_amount[i], 0) 
   d2$P_fertilizer <- (10000/d2$crop_1_area_harvested) * d2$p_plot_amt
   
   i<- which(d2$fertilizer_type == "urea")
   d2$N_plot_amt<- ifelse(d2$fertilizer_type== "urea", d2$mineral_fert_amount[i],0) 
   d2$N_fertilizer <- (10000/d2$crop_1_area_harvested) * d2$N_plot_amt
   
+  
   d2$crop_1_area_harvested <- as.numeric(d2$crop_1_area_harvested)
   d2$crop_1_weight_grain <- as.numeric(d2$crop_1_weight_grain)
   d2$yield <- (10000/d2$crop_1_area_harvested)*d2$crop_1_weight_grain
   
-  
-  
-  d2 <- d2[, c("trial_id","crop","variety","inoculated","lime","gypsum","P_fertilizer","K_fertilizer","N_fertilizer","fertilizer_type", "yield")]
+    
+  d2 <- d2[, c("trial_id","crop","variety","inoculated","lime","gypsum","P_fertilizer", "K_fertilizer","N_fertilizer","fertilizer_type", "yield")]
   
   d3$trial_id <- d3$farm_id
   d3$start_date <- ifelse(d3$date_planting_yyyy == 0, NA, paste(d3$date_planting_yyyy, sprintf("%02d", d3$date_planting_mm), sprintf("%02d", d3$date_planting_dd), sep = "-"))
@@ -144,11 +145,13 @@ carob_script <- function(path){
   v[ grepl("STORM", v) ] <- "Storm"
   v[ grepl("1740-2F", v) ] <- "Tgx-1740-2F"
   v[ grepl("1485", v) ] <- "Tgx-1485-1D"
-  v <- carobiner::replace_values(v,c("Tgx 1904-6F","Tgx1908-8F"), c("Tgx-1904-6F","Tgx-1908-8F"))
+  v <- gsub("Tgx ", "Tgx-", v)
+  v <- gsub("Tgx1", "Tgx-1", v)
+  
   q$variety <- v
   q$dataset_id <- dataset_id
   
 
 # all scripts should end like this
-carobiner::write_files(dset, q, path=path)
+carobiner::write_files(path=path, dset, q)
 }

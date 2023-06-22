@@ -163,8 +163,8 @@ proc_wheat <- function(ff) {
 	#	prcrop <- gsub(m[i,1], m[i,2], prcrop)
 	#}
 
-	mm <- cbind(1:nrow(r), match(prcrop, m[,1])) |> na.omit()
-	prcrop[mm[,1]] <- m[mm[,2],2]
+	h <- cbind(1:nrow(r), match(prcrop, m[,1])) |> na.omit()
+	prcrop[h[,1]] <- m[h[,2], 2]
 
 	r$previous_crop <- tolower(prcrop)
 	
