@@ -103,7 +103,17 @@ inoculants and fertilizers adapted to local settings.
 	dd$residue_yield <- dd$residue_yield / dd$area
 
   #plant density
-	dd$plant_density <- (((dd$width_size_plot/dd$plant_spacing)+1)*dd$number_row)/dd$area # number of plan per ha
+	dd$plant_spacing[dd$plant_spacing > 30] <- NA
+
+# RH not ok:	
+# number of plan per ha
+#	dd$plant_density <- (((dd$width_size_plot/dd$plant_spacing)+1)*dd$number_row)/dd$area 
+
+	# spacing is in cm, one_row_plot_length in m
+	# length of plot if it was 1 ha and had 1 row
+	one_row <- 10000 / (dd$row_spacing/100)
+	dd$plant_density <- one_row / (dd$plant_spacing/100)
+
   
   
    # variety column
