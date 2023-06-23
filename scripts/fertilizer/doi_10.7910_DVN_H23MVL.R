@@ -111,25 +111,23 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
   # fill missing data in long and lat columns
 
   yx <- c("latitude", "longitude")
-  d$location[is.na(d$location)] <- ""
-  d[d$location=="Bihar", yx] <- c(25.6440, 85.9065)
-  d[d$location=="Haryana", yx] <- c(29, 76)
-  d[d$location=="Punjab", yx] <- c(30.9293, 75.50048)
-  d[d$location=="Can Tho, Mekong River Delta", yx] <- c(10.03642, 105.7875219)
-  d[d$location=="An Giang, Mekong River Delta", yx] <- c(10.5392, 105.2312822)  
-  d[d$location=="Tien Giang, Mekong River Delta", yx] <- c(10.4030368, 106.3616) 
-  d[d$location=="Norman E. Borlaug Crop Research Centre of G.B. Pant University of Agriculture and Technology, Pantnagar", yx] <- c(29.0284405, 79.4832094) 
-  d[d$location=="Andhra Pradesh", yx] <- c(14.8432502746, 78.7590408325)
-  d[d$location=="Karnataka", yx] <- c(14.5203896, 75.7223521)
-  d[d$location=="Tamil Nadu", yx] <- c(10.9094334, 78.3665347)
-  d[d$location=="Odisha", yx] <- c(20.5431241, 84.6897321)
-  d[d$location=="Karnal, Kurukshetra, Kaithal, Ambala,\nYamunanagar, Panipat, and Sonepat districts of Haryana", yx] <- c(29.6803266, 76.9896254)  
-  d[d$location=="Gurdaspur, Hoshiarpur, Ludhiana, Patiala, Faridkot, and Firozpur in Punjab province in Northwest India", yx] <- c(32.16667, 75.316667)
-  
-  d[d$location=="Site 1 in Siruguppa, Bijapur, and \nNavalgund Talukas of Northern Karnataka", yx] <- c(15.6336064, 76.8939231)  
-  d[d$location=="Kpong", yx] <- c(9.7018896, -0.8277126)
-  d$location[d$location == ""] <- NA
-  d$location <- gsub("\n", "", d$location)
+  d$location <- gsub("\n", "",  d$location)
+
+   locs <- data.frame(
+   location = c("Bihar", "Haryana", "Punjab", "Can Tho, Mekong River Delta", 
+"An Giang, Mekong River Delta", "Tien Giang, Mekong River Delta", "Norman E. Borlaug Crop Research Centre of G.B. Pant University of Agriculture and Technology, Pantnagar", "Andhra Pradesh", "Karnataka", "Tamil Nadu", "Odisha", "Karnal, Kurukshetra, Kaithal, Ambala,Yamunanagar, Panipat, and Sonepat districts of Haryana", "Gurdaspur, Hoshiarpur, Ludhiana, Patiala, Faridkot, and Firozpur in Punjab province in Northwest India", 
+"Site 1 in Siruguppa, Bijapur, and Navalgund Talukas of Northern Karnataka", "Kpong"), 
+lat = c(25.644, 29, 30.9293, 10.03642, 10.5392, 10.4030368, 29.0284405, 14.8432502746, 14.5203896, 10.9094334, 20.5431241, 29.6803266, 32.16667, 15.6336064, 9.7018896), 
+lon = c(85.9065, 76, 75.50048, 105.7875219, 105.2312822, 106.3616, 79.4832094, 78.7590408325, 75.7223521, 78.3665347, 84.6897321, 76.9896254, 75.316667, 76.8939231, -0.8277126))   
+   
+	d <- merge(d, locs, by="location", all.x=TRUE)
+	i <- is.na(d$longitude)
+	d$longitude[i] <- d$lon[i]
+	i <- is.na(d$latitude)
+	d$latitude[i] <- d$lat[i]
+    d$lat <- d$lon <- NULL
+
+	
   # fix crop name 
   p <- carobiner::fix_name(d$crop, "lower")
   d$crop <- p
