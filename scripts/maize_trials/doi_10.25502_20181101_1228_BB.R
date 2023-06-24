@@ -70,15 +70,17 @@ in West Africa from 2013 to 2016.
   # Fix country name base on location 
   p <- carobiner::fix_name(gsub("/", "; ", d$location))
   p <- gsub("IKENNE", "Ikenne", p)
+  p <- gsub("INA", "Baba Ina", p)
+  p <- gsub("MABaba Ina-HARI", "Baba Ina", p)
   d$location<- p
   
   d$country[d$location %in% c("KPEVE", "NYANKPALA", "FUMESUA")] <- "Ghana"
   d$country[d$location=="ANGARADEBOU"] <- "Benin"
   d$country[d$location=="MANGA"] <- "Burkina Faso"
   ## each site must have corresponding longitude and latitude
-	loc <- data.frame(location = c("Ikenne", "KPEVE", "NYANKPALA", "FUMESUA", "ANGARADEBOU", "ZARIA", "MOKWA", "DUSU", "BAGAUDA", "IFE", "MAINA-HARI", "MANGA"), 
-	longitude = c(3.6977469, 0.3326709, -0.981456, -1.5119402, 3.0412812, 7.6518533, 5.0544281, 12.366667, 8.38546, 4.5604451, 12.1577, -1.0723972), 
-	latitude = c(6.9010051, 6.6851678, 9.400463, 6.7143898, 11.3228338, 11.0248119, 9.2957202, 8.816667, 11.5696, 7.482824, 10.6788, 11.6673837))
+	loc <- data.frame(location = c("Ikenne", "KPEVE", "NYANKPALA", "FUMESUA", "ANGARADEBOU", "ZARIA", "MOKWA", "DUSU", "BAGAUDA", "IFE", "MAINA-HARI", "MANGA","Baba Ina"), 
+	longitude = c(3.6977469, 0.3326709, -0.981456, -1.5119402, 3.0412812, 7.6518533, 5.0544281, 12.366667, 8.38546, 4.5604451, 12.1577, -1.0723972,12.40664), 
+	latitude = c(6.9010051, 6.6851678, 9.400463, 6.7143898, 11.3228338, 11.0248119, 9.2957202, 8.816667, 11.5696, 7.482824, 10.6788, 11.6673837,8.95185))
 	d <- merge(d, loc, by="location", all.x=TRUE)
 	
    
