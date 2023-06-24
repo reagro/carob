@@ -92,7 +92,16 @@ in diverse environments by modeling G X E using the pedigree-derived additive re
  
   # Add location and country in the dataset 
   d <- merge(d, location, by="code")
+  #fix long and lat
+  d$longitude[d$location=="Dharwad"]<-75.0066516
+  d$latitude[d$location=="Dharwad"]<-15.4540505
+  d$longitude[d$location=="Pirsabak"]<-72.0393338
+  d$latitude[d$location=="Pirsabak"]<- 34.0258704
+  d$longitude[d$location=="Gemmeiza"]<-24.2037306
+  d$latitude[d$location=="Gemmeiza"]<- 12.6666536 
   
+  d$country[d$location=="Gemmeiza"]<-"Sudan" #
+  d$location[d$location=="Pirsabak"]<-"Pir Sabak" #
   #Add column
   d$dataset_id <- dataset_id
   d$trial_id<- paste0(d$dataset_id,"-",d$code)
@@ -106,6 +115,7 @@ in diverse environments by modeling G X E using the pedigree-derived additive re
   d$on_farm <- FALSE
   d$is_survey <- TRUE
   d$irrigated <- FALSE
+  
   
 
   
