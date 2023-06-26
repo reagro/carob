@@ -10,7 +10,8 @@ carob_script <- function(path) {
 Description:
 The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that contains spring bread wheat (Triticum aestivum) germplasm adapted to Mega-environment 1 (ME1) which represents the optimally irrigated, low rainfall areas. Major stresses include leaf, stem and yellow rusts, Karnal bunt, and lodging. Representative areas include the Gangetic Valley (India), the Indus Valley (Pakistan), the Nile Valley (Egypt), irrigated river valleys in parts of China (e.g. Chengdu), and the Yaqui Valley (Mexico). This ME encompasses 36 million hectares spread primarily over Asia and Africa between 350S -350N latitudes. White (amber)-grained types are preferred by consumers of wheat in the vast majority of the areas. It is distributed to upto 200 locations and contains 50 entries. (2021)
 "
-	dataset_id <- carobiner::simple_uri(uri)
+  uri <- "hdl:11529/10548701"
+  dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_trials"
 	## dataset level data 
 	dset <- data.frame(
@@ -35,7 +36,7 @@ The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that c
 ## download and read data 
 
 	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
 	dset$license <- carobiner::get_license(js)
 
 ## process file(s)
@@ -44,5 +45,5 @@ The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that c
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(path, dset, d)
 }
