@@ -53,6 +53,7 @@ carob_script <- function(path) {
 	d$latitude[i] <- 36.72
 
 # all scripts must end like this
-	carobiner::write_files(path, dset, d)
+	#carobiner::write_files(path, dset, d)
+	carobiner::write_files(dset, d, path, dataset_id, group)
 }
 
