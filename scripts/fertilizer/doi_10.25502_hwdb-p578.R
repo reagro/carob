@@ -67,12 +67,14 @@ carob_script <- function(path){
 	v <- carobiner::replace_values(v, c("Maica","Tsangano-Fonte boa"),
 	                                 c("Matica", "Tsangano"))
 	d$adm2 <- v
-	w <- carobiner::replace_values(d$sector_ward, c( "Agonia", "Calipo/Muhua","Calipo/Mucua", "Calipo/Marasse", "Calipo/Mirasse","Calopo/Marrasse","Calipo/ Marasse","Calipo/ Muhua","Calipo/ Mirasse","Calipo/Maleliha","Uerro","Marasse"),
-	                                             c("Angonia","Muhua","Mucua","Mirrasse","Mirrasse","Mirrasse","Mirrasse","Muhua","Mirrasse","Calipo","Uorra","Mirrasse"))
+	w <- carobiner::replace_values(d$sector_ward, 
+			c( "Agonia", "Calipo/Muhua","Calipo/Mucua", "Calipo/Marasse", "Calipo/Mirasse","Calopo/Marrasse","Calipo/ Marasse","Calipo/ Muhua","Calipo/ Mirasse","Calipo/Maleliha","Uerro","Marasse"),
+	        c("Angonia","Muhua","Mucua","Mirrasse","Mirrasse","Mirrasse","Mirrasse","Muhua","Mirrasse","Calipo","Uorra","Mirrasse"))
 	d$adm3 <- w
 	x <- carobiner::fix_name(d$vilage, "Title")
-	x <- carobiner::replace_values(d$vilage, c("Siwama", "Gurue-UP2","Murimo","Lioma-Namiepe","Lioma-Nintulo","Madiea","Niza","Mpupha","Namurekele","Mulosa","Namphi","Nahaco","Pwasiua","Mugunuwa","Jordan", "Vaiya","Nvine","Ruace-pissi","Nakuilo","Jordao","Mwetxo", "Mpupwa","Mohiyera","Viola 2"),
-	 c("Manica","Gurue","Murrimo","Namiepe","Nintulo","Madea","Zembe","Gurue","Gurue","Gurue","Gurue","Gurue","Gurue","Gurue","Gurue","Gurue","Gurue","Pissi","Gurue","Gurue","Gurue","Gurue","Gurue","Viola"))
+	x <- carobiner::replace_values(d$vilage, 
+		c("Siwama", "Gurue-UP2","Murimo","Lioma-Namiepe","Lioma-Nintulo","Madiea","Niza","Mpupha","Namurekele","Mulosa","Namphi","Nahaco","Pwasiua","Mugunuwa","Jordan", "Vaiya","Nvine","Ruace-pissi","Nakuilo","Jordao","Mwetxo", "Mpupwa","Mohiyera","Viola 2"),
+		c("Manica","Gurue","Murrimo","Namiepe","Nintulo","Madea","Zembe","Gurue","Gurue","Gurue","Gurue","Gurue","Gurue","Gurue","Gurue","Gurue","Gurue","Pissi","Gurue","Gurue","Gurue","Gurue","Gurue","Viola"))
 	
 	d$site <- x
 	
@@ -84,26 +86,23 @@ carob_script <- function(path){
 	
 	
  # creating a data frame with the unique entries and the latitudes and longitudes, coordinates hard coded
+	lat_lon <- data.frame(
+		site = c("Barue", "Domue", "Ewarelo", "Gurue", "Lioma", "Macanga", "Magige", "Manica", "Mossurize", "Murrimo", "Mussacumbira", "Mutequelesse", "Nametil", "Nintulo", "Pissi", "Ruace", "Serra", "Tetete", "Tsangano", "Ulongue", "Zembe"), 
 	
-  lat_lon <- data.frame(trial_id = c("FM_MOZ0752_TEC","FM_MOZ0751_TEC",	"FM_MOZ0750_TEC",	"FM_MOZ0749_TEC", "FM_MOZ0748_TEC", "FM_MOZ0747_TEC", "FM_MOZ0745_TEC", "FM_MOZ0746_TEC", "FM_MOZ0744_TEC", "FM_MOZ0743_TEC", "FM_MOZ0742_TEC", "FM_MOZ0741_TEC", "FM_MOZ0740_TEC", 
-  "FM_MOZ0738_TEC","FM_MOZ0739_TEC", "FM_MOZ0737_TEC", "FM_MOZ0736_TEC", "FM_MOZ0735_TEC", "FM_MOZ0734_TEC", "FM_MOZ0732_TEC", "FM_MOZ0733_TEC", "FM_MOZ0731_TEC", "FM_MOZ0730_TEC", "FM_MOZ0729_TEC", "FM_MOZ0728_TEC", "FM_MOZ0727_TEC", "FM_MOZ0725_TEC","FM_MOZ0726_TEC", "FM_MOZ0724_TEC", "FM_MOZ0723_TEC", "FM_MOZ0722_TEC", "FM_MOZ0720_TEC", "FM_MOZ0721_TEC", "FM_MOZ0719_TEC", "FM_MOZ0718_TEC", "FM_MOZ0717_TEC", "FM_MOZ0716_TEC", "FM_MOZ0715_TNS", "FM_MOZ0714_TNS", "FM_MOZ0713_TNS","FM_MOZ0712_TNS", "FM_MOZ0711_TNS", "FM_MOZ0710_TNS", "FM_MOZ0709_TNS", "FM_MOZ0708_TNS", "FM_MOZ0707_TNS", "FM_MOZ0706_TNS", "FM_MOZ0705_TNS", "FM_MOZ0705_TEC", "FM_MOZ0704_TNS", "FM_MOZ0704_TEC", "FM_MOZ0702_ZAM", "FM_MOZ0701_ZAM","FM_MOZ0700_ZAM", "FM_MOZ0699_ZAM", "FM_MOZ0698_ZAM", "FM_MOZ0154_MAN", "FM_MOZ0150_MAN", "FM_MOZ0139_MAN", "FM_MOZ0135_MAN", "FM_MOZ0134_MAN", "FM_MOZ0132_MAN", "FM_MOZ0130_ZAM", "FM_MOZ0128_MAN", "FM_MOZ0127_MAN", "FM_MOZ0126_MAN","FM_MOZ0124_ZAM", "FM_MOZ0123_ZAM", "FM_MOZ0122_ZAM", "FM_MOZ0121_ZAM", "FM_MOZ0120_ZAM", "FM_MOZ0019_NPL", "FM_MOZ0020_NPL", "FM_MOZ0022_NPL", "FM_MOZ0024_NPL", "FM_MOZ0029_NPL", "FM_MOZ0030_NPL", "FM_MOZ0031_NPL", "FM_MOZ0032_NPL","FM_MOZ0077_ZAM", "FM_MOZ0078_ZAM", "FM_MOZ0079_ZAM", "FM_MOZ0080_ZAM", "FM_MOZ0081_ZAM", "FM_MOZ0082_ZAM", "FM_MOZ0083_ZAM", "FM_MOZ0084_ZAM", "FM_MOZ0085_ZAM", "FM_MOZ0086_ZAM", "FM_MOZ0087_ZAM", "FM_MOZ0088_ZAM", 
-   "FM_MOZ0089_ZAM","FM_MOZ0090_ZAM", "FM_MOZ0091_ZAM", "FM_MOZ0093_ZAM", "FM_MOZ0094_ZAM", "FM_MOZ0095_ZAM", "FM_MOZ0096_ZAM", "FM_MOZ0097_ZAM", "FM_MOZ0098_ZAM", "FM_MOZ0099_ZAM", "FM_MOZ0100_ZAM", "FM_MOZ0101_ZAM", "FM_MOZ0102_ZAM", "FM_MOZ0103_ZAM","FM_MOZ0104_ZAM", "FM_MOZ0105_ZAM", "FM_MOZ0106_ZAM", "FM_MOZ0107_ZAM", "FM_MOZ0108_ZAM", "FM_MOZ0109_ZAM", "FM_MOZ0110_ZAM", "FM_MOZ0111_ZAM", "FM_MOZ0112_ZAM", "FM_MOZ0113_ZAM", "FM_MOZ0114_ZAM", "FM_MOZ0115_ZAM", "FM_MOZ0116_ZAM","FM_MOZ0117_ZAM", "FM_MOZ0118_ZAM", "FM_MOZ0119_ZAM"),
-   
-   site = c( "Mossurize", "Mossurize", "Barue", "Barue", "Barue", "Barue", "Manica", "Barue", "Ulongue", "Manica", "Manica", "Manica", "Macanga", "Macanga", "Macanga", "Macanga", "Macanga", "Macanga", "Macanga", "Macanga", "Macanga", "Macanga", "Tsangano", "Tsangano", "Tsangano", "Tsangano", 
-    "Tsangano", "Tsangano", "Tsangano", "Tsangano", "Tsangano", "Domue", "Domue", "Domue", "Domue", "Domue", "Domue", "Domue", "Domue", "Ulongue", "Ulongue", "Ulongue", "Ulongue", "Ulongue", "Ulongue", "Ulongue", "Ulongue", "Ulongue", "Nintulo", "Ulongue", "Lioma", "Serra", "Ewarelo", "Mutequelesse", "Tetete", "Tetete", "Mussacumbira", "Mussacumbira", "Zembe", "Zembe", "Zembe", "Zembe", "Gurue", "Zembe", "Zembe", 
-    "Zembe", "Ewarelo", "Ruace", "Ruace", "Gurue", "Ruace", "Nametil", "Nametil", "Nametil", "Nametil", "Nametil", "Nametil", "Nametil", "Nametil", "Gurue", "Gurue", "Gurue", "Gurue", "Lioma", "Ruace", "Gurue", "Ruace", "Ruace", "Mutequelesse", "Gurue", "Gurue", "Gurue", "Pissi", "Mutequelesse", "Murrimo", "Gurue", "Magige", "Gurue", "Gurue", "Magige", "Gurue", "Gurue", "Mutequelesse", "Gurue", 
-    "Gurue", "Mutequelesse", "Gurue", "Gurue", "Gurue", "Mutequelesse", "Gurue", "Ruace", "Ruace", "Tetete", "Tetete", "Gurue", "Ruace", "Magige", "Gurue", "Gurue", "Ruace"),
-                            
-    lat = c(-21.21, -21.21, -17.50, -17.50, -17.50, -17.50, -19.00, -17.50, -14.72, -19.00, -19.00, -19.00, -14.68, -14.68, -14.68, -14.68, -14.68, -14.68, -14.68, -14.68, -14.68, -14.68, -15.16, -15.16, -15.16, -15.16, -15.16, -15.16, -15.16, -15.16, -15.16, -14.47, -14.47, -14.47, -14.47, -14.47, -14.47, -14.47, -14.47, -14.72, -14.72, -14.72, -14.72, -14.72, -14.72, -14.72, -14.72, -14.72, -15.09, -14.72, -15.17, -16.47, -15.16, -19.00, -15.38, -15.38, -13.43, -13.43, -19.29, -19.29, -19.29, -19.29, -15.46, -19.29, -19.29, -19.29, -15.16, -14.91, -14.91, -15.46, -14.91, -14.21, -14.21, -14.21, -14.21, -14.21, -14.21, -14.21, -14.21, -15.46, -15.46, -15.46, -15.46, -15.17, -14.91, -15.46, -14.91, -14.91, -19.00, -15.46, -15.46, -15.46, -14.90, -19.00, -15.37, -15.46, -15.32, -15.46, -15.46, -15.32, -15.46, -15.46, -19.00, -15.46, -15.46, -19.00, -15.46, -15.46, -15.46, -19.00, -15.46, -14.91, -14.91, -15.38, -15.38, -15.46, -14.91, -15.32, -15.46, -15.46, -14.91),
-    
-    lon = c(33.38, 33.38, 33.65, 33.65, 33.65, 33.65, 33.5, 33.65, 34.36, 33.5, 33.5, 33.5, 32.73,  32.73	,32.73, 32.73, 32.73, 32.73, 32.73, 32.73, 32.73, 32.73, 34.5, 34.5, 34.5, 34.5,  34.5, 34.5, 34.5,34.5, 34.5, 34.2, 34.2, 34.2, 34.2, 34.2, 34.2, 34.2, 34.2,  34.36, 34.36, 34.36, 34.36, 34.36, 34.36, 34.36, 34.36, 34.36, 37.1, 34.36, 36.8, 35.7,  36.94, 33.5, 36.5, 36.5, 38.6, 38.6, 33.35, 33.35, 33.35, 33.35, 36.98, 36.98, 33.35,  33.35, 36.94, 36.35, 36.35, 36.98, 36.35, 40.55, 40.55, 40.55, 40.55, 40.55, 40.55, 40.55,  40.55, 36.98, 36.98, 36.98, 36.98, 36.8, 36.35, 36.98, 36.35, 36.35, 33.5, 36.98, 36.98,  36.98, 36.6, 33.5, 36.8,36.98, 36.7, 36.98, 36.98, 36.7, 36.98, 36.98, 33.5, 36.98,  36.98, 33.5, 36.98, 36.98, 36.98, 33.5, 36.98, 36.35, 36.35, 36.5, 36.5, 36.98, 36.35, 36.7, 36.98, 36.98, 36.35))   
+		lat = c(-17.5, -14.47, -15.16, -15.46, -15.17, -14.68, -15.32, -19, -21.21, -15.37, -13.43, -19, -14.21, -15.09, -14.9, -14.91, -16.47, -15.38, -15.16, -14.72, -19.29), 
+
+		lon = c(33.65, 34.2, 36.94, 36.98, 36.8, 32.73, 36.7, 33.5, 33.38, 36.8, 38.6, 33.5, 40.55, 37.1, 36.6, 36.35, 35.7, 36.5, 34.5, 34.36, 33.35))	
+	
   
-	d <- merge(d, lat_lon, by=c("trial_id", "site"), all.x=TRUE)
+	d <- merge(d, lat_lon, by=c("site"), all.x=TRUE)
+ 
 	d$latitude <- d$gps_latitude
 	d$longitude <- d$gps_longitude
-	ina <- is.na(d$latitude) | is.na(d$longitude)
-	d$longitude[ina] <- d$lon[ina]
-	d$latitude[ina] <- d$lat[ina]
+	
+	nna <- !is.na(d$lat)
+	d$longitude[nna] <- d$lon[nna]
+	d$latitude[nna] <- d$lat[nna]
+
 	d$lat <- d$lon <- NULL
     
     d <- d[, c("trial_id","country","adm2","site","latitude","longitude")]

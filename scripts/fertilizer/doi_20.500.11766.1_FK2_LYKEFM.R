@@ -67,7 +67,7 @@ carob_script <- function(path) {
  # This refers to the splits indicated in "Treatment.csv"
     d$N_splits <- ifelse(d$Treatment %in% c(1:3), 2L,
                    ifelse(d$Treatment %in% c(4,9,14), 1L,
-                    ifelse(d$Treatment %in% c(5,10,15), 3, 0L)))
+                    ifelse(d$Treatment %in% c(5,10,15), 3L, 0L)))
     d$P_fertilizer <- 46/2.29 # as per reference https://hdl.handle.net/20.500.11766/5084
     d$K_fertilizer <- 0
 	# see "Experimental_Layout.png"

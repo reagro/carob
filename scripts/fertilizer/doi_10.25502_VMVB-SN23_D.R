@@ -106,7 +106,7 @@ carob_script <- function(path){
   # Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
   # and Urea split (50-50) applied at a rate of 60 kg N/ha in Kenya and Rwanda trials
   
-  d$N_splits <- ifelse(grepl("urea",d$fertilizer_type),2,0)
+  d$N_splits <- ifelse(grepl("urea",d$fertilizer_type), 2L, 0L)
   d$N_fertilizer <- ifelse(grepl("urea", d$fertilizer_type), 60, 0)
   
   # Since DAP was applied at a rate of 30 kg P per hectare, we only know the amount of phosphorus applied, 

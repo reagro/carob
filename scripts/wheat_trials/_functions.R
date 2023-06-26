@@ -79,7 +79,7 @@ proc_wheat <- function(ff) {
 		"ALFALFA", "LUCERNE", 
 		"AMAN RICE", "rice",
 		"AMAN RCIE", "rice",
-		"AVENA\\+VICIA", "oats; vetch", 
+		"AVENA+VICIA", "oats; vetch", 
 		"AVENA-VICIA", "oats; vetch", 
 		"AVENA / VICIA", "oats; vetch", 
 		"AVENA", "oats", 
@@ -91,7 +91,7 @@ proc_wheat <- function(ff) {
 		"COJENUS", "pigeon pea", 
 		"CORN", "maize", 
 		"COTTAN", "cotton",
-		"CROTOTERIA \\(ABONO VERDE)", "crotalaria", 		
+		"CROTOTERIA (ABONO VERDE)", "crotalaria", 		
 		"CROTOTERIA", "crotalaria", 
 		"FALLOWED", "no crop",
 		"FIELD PEAS", "pea",
@@ -136,16 +136,16 @@ proc_wheat <- function(ff) {
 		"SUGAR CAME", "sugarcane",
 		"SOJA", "soybean", 
 		"SOYA", "soybean", 
-		"SUNHEMP \\(FLAX)", "sunn hemp",
-		"SUNHIMP \\(FLAX)", "sunn hemp",
+		"SUNHEMP (FLAX)", "sunn hemp",
+		"SUNHIMP (FLAX)", "sunn hemp",
 		"SUNHIMP", "sunn hemp", 
 		"SUNHAMP", "sunn hemp",
 		"SUNHEMP", "sunn hemp",
 		"SUMHEMP", "sunn hemp",
 		"SWEET  POTATOS", "sweetpotato",
 		"TRIGO", "wheat", 
-		"TRIFOLIUM ALEXANDRIUM", "clover", 
-		"TRIFOLIUM ALEXANDIUM", "clover", 
+		"TRIFOLIUM ALEXANDRIUM", "berseem clover", 
+		"TRIFOLIUM ALEXANDIUM", "berseem clover", 
 		"TRITICALE", "triticale", 
 		"VIGNA RADIATA", "mung bean", 
 		"V. RADIATA MOONG", "mung bean", 
@@ -157,12 +157,15 @@ proc_wheat <- function(ff) {
 		"CROP", NA)
 	)
 
- # Update once I get clarification
 
 	prcrop <- r$USE_OF_FIELD_SPECIFY_CROP
-	for (i in 1:nrow(m)) {
-		prcrop <- gsub(m[i,1], m[i,2], prcrop)
-	}
+	#for (i in 1:nrow(m)) {
+	#	prcrop <- gsub(m[i,1], m[i,2], prcrop)
+	#}
+
+	h <- cbind(1:nrow(r), match(prcrop, m[,1])) |> na.omit()
+	prcrop[h[,1]] <- m[h[,2], 2]
+
 	r$previous_crop <- tolower(prcrop)
 	
 	# Convert yield in ton/ha to kg/ha

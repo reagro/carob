@@ -16,6 +16,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
     dataset_id = dataset_id,
     group=group,
     uri=uri,
+	data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Jerome Jonah; Ayuba Kunihya, 2019. Sorghum productivity and water use under phosphorus fertilization in the sudan savanna of Nigeria. https://doi.org/10.21421/D2/EYFR2F, ICRISAT Dataverse, V1",
     publication=NA, # "http://oar.icrisat.org/id/eprint/10842" Is the reference
     carob_contributor="Siyabusa Mkuhlani",
     experiment_type="fertilizer",
@@ -41,8 +42,9 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   v <- d$Location
   v <- carobiner::replace_values(v,"BUK","Bayero")
   d$location <- v
-  d$latitude <- ifelse(d$location == "Minjibir",12.17,12.98)
-  d$longitude <- ifelse(d$location == "Minjibir",8.65,9.75) 
+  
+  d$latitude <- ifelse(d$location == "Minjibir", 12.17, 11.975)
+  d$longitude <- ifelse(d$location == "Minjibir", 8.65, 8.423) 
   d$crop <- "sorghum"
   d$variety <- d$Sorghum
   # additional info from the reference then merge

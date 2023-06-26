@@ -85,11 +85,35 @@ inoculants and fertilizers adapted to local settings.
 	dd$yield1[i] <- dd$yield2[i]
   
 # calculate the yield value using area of different plot 
-	dd$area <- ((dd$width_size_plot*(dd$number_row-1)*dd$row_spacing)/100)/10000 # in ha
-	dd$yield <- dd$yield1/dd$area
-	dd$residue_yield <- dd$residue_yield/dd$area
+## RH: "-1" is wrong
+## RH: dd$area <- ((dd$width_size_plot*(dd$number_row-1)*dd$row_spacing)/100)/10000 # in ha
+
+# yield is in kg, width in m, row spacing in cm
+
+# there are some crazy yields
+	dd$width_size_plot[dd$width_size_plot < 4 | dd$width_size_plot > 12] <- NA
+	dd$number_row[dd$number_row < 4 | dd$number_row > 24] <- NA
+	dd$row_spacing[dd$row_spacing < 40 | dd$row_spacing > 100] <- NA
+
+
+	dd$area <- dd$width_size_plot * dd$number_row * dd$row_spacing / 100 # in m2
+	dd$yield <- 10000 * dd$yield1 / dd$area #kg/ha
+	dd$yield[dd$yield > 6000] <- NA
+	
+	dd$residue_yield <- dd$residue_yield / dd$area
+
   #plant density
-	dd$plant_density <- (((dd$width_size_plot/dd$plant_spacing)+1)*dd$number_row)/dd$area # number of plan per ha
+	dd$plant_spacing[dd$plant_spacing > 30] <- NA
+
+# RH not ok:	
+# number of plan per ha
+#	dd$plant_density <- (((dd$width_size_plot/dd$plant_spacing)+1)*dd$number_row)/dd$area 
+
+	# spacing is in cm, one_row_plot_length in m
+	# length of plot if it was 1 ha and had 1 row
+	one_row <- 10000 / (dd$row_spacing/100)
+	dd$plant_density <- one_row / (dd$plant_spacing/100)
+
   
   
    # variety column
@@ -136,17 +160,20 @@ inoculants and fertilizers adapted to local settings.
   
   # longitude and latitude
 # Cedric, could we have used "site"?
-
-	geo <- data.frame(location=c('Tolon', 'Karaga', 'Wa-West', 'Ajingi', 'Bugiri', 'Biu', 'Kassena Nankana', 'Bawku Municipal', 'Nadowli', 'Bagwai', 'Bayo', 'Chikun', 'Gwarzo', 'Hawul', 'Igabi', 'Kajuru', 'Kwaya Kusar', 'Lapai', 'Paikoro', 'Shiroro', 'Gairo', 'Kilosa', 'Kongwa', 'Mvomero', 'Bukedea', 'Kapchorwa', 'Kibuku', 'Kisoro', 'Kole', 'Kumi', 'Pallisa', 'Shanono'), 
-	lon = c(-1.0665974, -0.4316607, -2.6832633, 9.03665, 33.76176, 12.1909612, -1.1132999, -0.2333, -2.664189, 8.1357, 11.6827, 7.0706742, 8.8295, 12.2, 7.776152, 7.680287, 11.848337, 6.716667, 6.837686, 6.83326, 36.86907, 38.648945, 37.91068, 37.44778, 34.04511, 34.45081, 33.79363, 29.69267, 32.80096, 33.96053, 34.16643, 7.988561),
-	lat = c(9.432468, 9.92678, 9.898577, 11.9678, 0.5637032, 10.61461, 10.9589, 11.05, 10.372021, 12.1577, 10.4524, 10.242006, 12.358697, 10.5, 10.83151, 10.331663, 10.562206, 9.066667, 9.4930391, 9.956072, -6.140271, -10.835097, -7.253275, -6.3042153, 1.3440293, 1.3967784, 1.043475, -1.2822138, 2.4283032, 1.495144, 1.0778522, 12.048429))
+	geo <- data.frame(location=c('Tolon', 'Karaga', 'Wa-West', 'Ajingi', 'Bugiri', 'Biu', 'Kassena Nankana', 'Bawku Municipal', 'Nadowli', 'Bagwai', 'Bayo', 'Chikun', 'Gwarzo', 'Hawul', 'Igabi', 'Kajuru', 'Kwaya Kusar', 'Lapai', 'Paikoro', 'Shiroro', 'Gairo', 'Kilosa', 'Kongwa', 'Mvomero', 'Bukedea', 'Kapchorwa', 'Kibuku', 'Kisoro', 'Kole', 'Kumi', 'Pallisa', 'Shanono', 'Apac', 'Kanungu', 'Oyam'), 
+	lon = c(-1.0665974, -0.4316607, -2.6832633, 9.03665, 33.76176, 12.1909612, -1.1132999, -0.2333, -2.664189, 8.1357, 11.6827, 7.0706742, 8.8295, 12.2, 7.776152, 7.680287, 11.848337, 6.716667, 6.837686, 6.83326, 36.86907, 38.648945, 37.91068, 37.44778, 34.04511, 34.45081, 33.79363, 29.69267, 32.80096, 33.96053, 34.16643, 7.988561, 32.5, 29.9, 32.4),
+	lat = c(9.432468, 9.92678, 9.898577, 11.9678, 0.5637032, 10.61461, 10.9589, 11.05, 10.372021, 12.1577, 10.4524, 10.242006, 12.358697, 10.5, 10.83151, 10.331663, 10.562206, 9.066667, 9.4930391, 9.956072, -6.140271, -10.835097, -7.253275, -6.3042153, 1.3440293, 1.3967784, 1.043475, -1.2822138, 2.4283032, 1.495144, 1.0778522, 12.048429, 2, -1, 2.4))
 
 	d <- merge(d, geo, by="location", all.x =TRUE)
-# Cedric, should we overwrite existing lon/lats? (as you did)
+# Cedric, I think we should not overwrite existing lon/lat data (as you did)
+	d$latitude[d$latitude==0] <- NA
 	d$longitude[is.na(d$longitude)] <- d$lon[is.na(d$longitude)]
 	d$latitude[is.na(d$latitude)] <- d$lat[is.na(d$latitude)]
 	d$lat <- d$lon <- NULL
-  
+
+	i <- d$country == "Tanzania" & d$latitude > 0
+	d$latitude[i] <- -d$latitude[i]
+	
   # fix crops names
   b <- carobiner::fix_name(d$crop, "lower")  
   b <- gsub("soya_bean", "soybean", b)
@@ -196,7 +223,8 @@ inoculants and fertilizers adapted to local settings.
 ##  d$end_date <- format(as.Date(d$end_date, format = '%d/%m/%Y'), "%Y-%m-%d")
 	d$yield <- as.numeric(d$yield)
 	d$inoculated <- as.logical(d$inoculated)
-  
+
+	d <- d[!is.na(d$yield), ]
   carobiner::write_files(dset, d, path=path)
   
 }

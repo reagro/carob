@@ -2,6 +2,7 @@ name,sciname,altname,harvest,fresh_moisture,max_yield
 bambara groundnut,Vigna subterranea,,seed,,5000
 banana,Musa acuminata,,fruit,,173000
 barley,Hordeum vulgare,,seed,,12000
+berseem clover,Trifolium alexandrium,,,,
 cassava,Manihot esculenta,,root,,90000
 cassava leaves,Manihot esculenta,,leaves,,25000
 cereal,spp,,seed,,
@@ -19,7 +20,7 @@ forage legume,spp,,forage,,
 gomenzer,Brassica carinata,,leaves,,2300
 grass pea,Lathyrus sativus,,seed,,5000
 green manure,spp,,green manure,,
-groundnut,Arachis hypogaea,,seed,,4700
+groundnut,Arachis hypogaea,,seed,,6000
 guar,Cyamopsis tetragonoloba,,,,
 jackfruit,Artocarpus heterophyllus,,fruit,,80000
 jute,Corchorus olitorius,,fiber,,
@@ -62,3 +63,4 @@ velvet bean,Mucuna pruriens,,green manure,,
 vetch,Vicia spp,,forage,,
 wheat,Triticum aestivum,,seed,,18000
 yam,Dioscorea cayenensis,,tuber,,60000
+fiber crop,spp,,,,

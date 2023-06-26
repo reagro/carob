@@ -34,7 +34,7 @@ biomass_stems,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of stems per u
 biomass_leaves,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of leaves per unit area,,http://purl.obolibrary.org/obo/TO_0000870 
 biomass_storage,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of storage organs per unit area,,
 biomass_total,numeric,kg/ha,no,,no,0,50000,yes,Dry-weight total biomass per unit area,,http://purl.obolibrary.org/obo/PO_0000003
-yield,numeric,kg/ha,yes,,no,0,30000,yes,"Fresh weight biomass of the main harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000176 
+yield,numeric,kg/ha,yes,,no,0,150000,yes,"Fresh weight biomass of the main harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000176 
 residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight biomass of the above ground biomass except for the harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000164 
 grain_weight,numeric,g,no,,no,0,1000,yes,1000 grain weight,,http://purl.obolibrary.org/obo/TO_0000382
 fertilizer_type,character,,no,fertilizers,yes,,,yes,,,http://purl.obolibrary.org/obo/CHEBI_33287
@@ -44,6 +44,8 @@ P_fertilizer,numeric,kg/ha,fertilizer,,no,0,,no,"P applied in inorganic fertiliz
 K_fertilizer,numeric,kg/ha,fertilizer,,no,0,,no,"K applied in inorganic fertilizer (as K, not K2O)",,http://purl.obolibrary.org/obo/AGRO_00000201
 Zn_fertilizer,numeric,kg/ha,no,,no,0,,yes,Zn applied in inorganic fertilizer,,
 S_fertilizer,numeric,kg/ha,no,,no,0,,yes,S applied in inorganic fertilizer,,http://purl.obolibrary.org/obo/TO_0000658
+lime,numeric,kg/ha,no,,no,0,,yes,lime applied,,
+gypsum,numeric,kg/ha,no,,no,0,,yes,gypsum applied,,
 OM_used,logical,,no,,no,,,yes,Organic fertilizer applied,,http://purl.obolibrary.org/obo/AGRO_00002039
 OM_type,character,,no,,yes,,,yes,Type of organic fertilzer applied,,http://purl.obolibrary.org/obo/AGRO_00002039
 OM_applied,numeric,kg/ha,no,,no,0,,yes,Amount of organic fertilizer applied,,http://purl.obolibrary.org/obo/AGRO_00010008
@@ -72,7 +74,7 @@ plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,http://purl.o
 plant_density,numeric,plants/ha,no,,no,1000,3000000,yes,Number of plants per ha,,http://purl.obolibrary.org/obo/PCO_0000079
 rain,numeric,mm,no,,no,0,2500,yes,Total rainfall between planting and harvest,,http://purl.obolibrary.org/obo/ENVO_01000830
 heading,numeric,,no,,no,30,250,yes,Days to heading (after emergence),,
-flowering,numeric,,no,,no,30,250,yes,Days to flowering (after emergence),,http://purl.obolibrary.org/obo/TO_0000344
+flowering,numeric,,no,,no,15,250,yes,Days to flowering (after emergence),,http://purl.obolibrary.org/obo/TO_0000344
 silking,numeric,,no,,no,30,125,yes,Days to silking (after emergence),,
 height,numeric,cm,no,,no,10,250,yes,Maximum plant height,,
 pathogen,character,,no,pathogen,yes,,,yes,Name of the pathogen studied,,
