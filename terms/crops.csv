@@ -1,8 +1,10 @@
 name,sciname,altname,harvest,fresh_moisture,max_yield
+amaranto,Amaranthus cruentus,,leaves,,
 bambara groundnut,Vigna subterranea,,seed,,5000
 banana,Musa acuminata,,fruit,,173000
 barley,Hordeum vulgare,,seed,,12000
 berseem clover,Trifolium alexandrium,,,,
+black gram,Vigna mungo,,seed,,
 cassava,Manihot esculenta,,root,,90000
 cassava leaves,Manihot esculenta,,leaves,,25000
 cereal,spp,,seed,,
@@ -37,6 +39,7 @@ noug,Guizotia abyssinica,,,,5000
 oats,Avena sativa,,seed,,13450
 okra,Abelmoschus esculentus,,fruit,,
 orange,Citrus sinensis,,fruit,,100000
+pawpaw,Carica papaya,,fruit,,
 pea,Pisum sativum,,seed,,10000
 pearl millet,Pennisetum glaucum,,seed,,15000
 pepper,Capsicum spp,,fruit,,100000
@@ -47,11 +50,13 @@ radish,Raphanus sp.,,root,,
 rapeseed,Brassica napus,,seed,,5000
 rice,Oryza sativa,,grain,,22500
 root crop,spp,,root,,
+sesame,Sesamum radiatum,,seed,,
 sesbania,Sesbania spp,,none,,125000
 sorghum,Sorghum bicolor,,seed,,18000
 soybean,Glycine max,,seed,,15000
+sugar beet,Beta vulgaris,,,,
 sugarcane,Saccharum officinarum,,stems,,300000
-sunflower,Helianthus annuus,,anuum,,80000
+sunflower,Helianthus annuus,,anuum,,80000
 sunn hemp,Crotalaria juncea,,green manure,,
 sweetpotato,Ipomoea batatas,,root,,100000
 teff,Eragrostis tef,,seed,,10000
