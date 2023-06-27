@@ -76,6 +76,18 @@ dv$K_fertilizer <- 0
 dv$Zn_fertilizer <- 0
 dv$S_fertilizer <- 0
 
+i <- dv$treatment=='A'
+dv$treatment[i] <- 'Ctrl/FP'
+dv$N_fertilizer[i] <- 0
+dv$P_fertilizer[i] <- 0
+dv$fertilizer_type <- "unknown" # Unknown fertilizer
+
+i <- dv$treatment=='B'
+dv$treatment[i] <- 'Cal. P & rec. N'
+dv$N_fertilizer[i] <- 92
+dv$P_fertilizer[i] <- 0
+dv$fertilizer_type <- "unknown" # Unknown fertilizer
+
 i <- dv$treatment=='C'
 dv$treatment[i] <- '92 kg/ha N & 30 kg/ha P'
 dv$N_fertilizer[i] <- 92
@@ -87,9 +99,9 @@ dv$fertilizer_type <- "unknown" # Unknown fertilizer
 ## RH: see what I have done above for treatment "C"
 ## RH: also, avoid non-standard abbreviations
 
-message("    NPK treatments incomplete. SM please fix\n")
-dv$treatment[dv$treatment=='A'] <- 'Ctrl/FP'
-dv$treatment[dv$treatment=='B'] <- 'Cal. P & rec. N'
+# message("    NPK treatments incomplete. SM please fix\n")
+# dv$treatment[dv$treatment=='A'] <- 'Ctrl/FP'
+# dv$treatment[dv$treatment=='B'] <- 'Cal. P & rec. N'
 
 
 ##Correct date
@@ -111,6 +123,14 @@ dv$yield <- as.numeric(dv$yield)
 dv$biomass_total <- as.numeric(dv$biomass_total)
 
 dv$rep <- as.integer(dv$rep)
+
+dv$longitude<-0
+dv$latitude<-0
+
+dv$longitude[dv$adm3=='Limmu Sekka'] <- 36.945489
+dv$latitude[dv$adm3=='Limmu Sekka'] <- 8.191739
+dv$longitude[dv$adm3=='Omo Nada'] <- 37.25
+dv$latitude[dv$adm3=='Omo Nada'] <- 7.6333333
 
 carobiner::write_files(dset, dv, path=path)
 
