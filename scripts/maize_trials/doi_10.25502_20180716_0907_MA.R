@@ -17,6 +17,7 @@ carob_script <- function(path) {
 		dataset_id = dataset_id,
 		group=group,
 		uri = uri,
+		data_citation="Menkir, A. & Olufisola Oladipo, 2018. Grain Yield and Other Agronomic Traits of International Maize Trials - Borer [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180716/0907/MA",
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
 		experiment_type = "varieties",
@@ -42,6 +43,20 @@ carob_script <- function(path) {
 	x <- carobiner::bindr(d, e)
 	x$location[	x$location == "Cameroon"] <- NA
 	x$description <- as.character(x$description)
+
+	i <- which(x$location == "Mayo-Galke") 
+	x$longitude[i] <- 14.2421
+	x$latitude[i] <- 8.3868
+	x$location[i] <- "Mayo-Galké"
+
+	i <- which(x$location == "Nfonta") 
+	x$longitude[i] <- 10.271
+	x$latitude[i] <- 6.0178
+
+	i <- which(x$location == "Djallingo") 
+	x$longitude[i] <- 13.45833
+	x$latitude[i] <- 9.245833
+
 
 # all scripts must end like this
 	carobiner::write_files(dset, x, path=path)
