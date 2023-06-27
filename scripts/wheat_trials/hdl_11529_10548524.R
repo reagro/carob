@@ -9,7 +9,9 @@ carob_script <- function(path) {
 "
 Description:
 CIMMYT annually distributes improved germplasm developed by its researchers and partners in international nurseries trials and experiments. The High Rainfall Wheat Yield Trial (HRWYT) contains very top-yielding advance lines of spring bread wheat (Triticum aestivum) germplasm adapted to high rainfall, Wheat Mega-environment 2 (ME2HR). (2019)"
-	dataset_id <- carobiner::simple_uri(uri)
+	
+  uri <- "hdl:11529/10548524"
+  dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_trials"
 	## dataset level data 
 	dset <- data.frame(
@@ -34,7 +36,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 ## download and read data 
 
 	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=0)
 	dset$license <- carobiner::get_license(js)
 
 ## process file(s)
@@ -43,5 +45,5 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(path, dset, d)
 }

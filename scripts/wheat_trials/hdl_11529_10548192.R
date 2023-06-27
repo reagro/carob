@@ -10,7 +10,6 @@ carob_script <- function(path) {
 Description:
 CIMMYT annually distributes improved germplasm developed by its researchers and partners in international nurseries trials and experiments. The High Temperature Wheat Yield Trial (HTWYT) is a replicated yield trial that contains spring bread wheat (Triticum aestivum) germplasm adapted to Mega-environment 1 (ME1) which represents high temperature areas. (2017)
 "
-
 	uri = "hdl:11529/10548192"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_trials"
@@ -46,5 +45,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	#carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(path, dset, d)
+	
 }
