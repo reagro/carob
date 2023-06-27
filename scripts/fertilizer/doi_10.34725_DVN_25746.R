@@ -81,8 +81,8 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	e$soil_SOC <- 10.2
 	e$soil_pH <- 5.3
 	e$soil_P_total <- 2.02 # mg/kg
-	e$soil_N <- 0.70 # g/kg
-	e$soil_K <- 1.47 # cmolc kg−1
+	e$soil_N <- 1000 * 0.70 # g/kg -> mg/kg
+	e$soil_K <- 390 * 1.47 # cmolc kg−1 -> mg/kg
 
 	e$K_fertilizer <- e$P_fertilizer <- e$N_fertilizer <- 0
 	i <- e$treatment == "Fertilizer"

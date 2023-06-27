@@ -118,8 +118,8 @@ carob_script <- function(path) {
 	d$soil_type <- d$`Soil type`
 	d$soil_pH <- d$pH
 	d$soil_SOC <- d$`Carbon (%)`*10 # convert to g/kg
-	d$soil_N <- d$`Nitrogen (%)`*10 # convert to g/kg
-	d$soil_K <- d$`K (mg kg-1)`/1000 # convert to g/kg
+	d$soil_N <- d$`Nitrogen (%)`* 10000 # convert to mg/kg
+	d$soil_K <- d$`K (mg kg-1)` # mg/kg
 	d$soil_P_total <- d$`P (mg kg-1)`
 	
 	d <- d[,c("country", "site", "trial_id", "longitude", "latitude", "start_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety_code", "variety_type", "previous_crop",

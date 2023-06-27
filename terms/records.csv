@@ -1,5 +1,5 @@
 name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes,obo
-dataset_id,character,,yes,,no,,,no,dataset identifier (normalized URI),,
+dataset_id,character,,yes,,no,,,no,"dataset identifier (normalized URI, that is: ""/"" replaced with ""_"")",,
 record_id,integer,,no,,no,,,no,Unique identifier for each records in a dataset (sequence from 1 to n),,
 country,character,,yes,countries,no,,,no,Country name,,http://purl.obolibrary.org/obo/ENVO_00000009 
 adm1,character,,no,,no,,,yes,First level administrative subdivision,follow GADM,http://purl.obolibrary.org/obo/ENVO_00000005
@@ -63,7 +63,7 @@ soil_clay,numeric,%,no,,no,0,100,yes,Soil clay content (excluding gravel),,http:
 soil_silt,numeric,%,no,,no,0,100,yes,Soil silt content (excluding gravel),,
 soil_N,numeric,mg/kg,no,,no,1,10000,yes,Soil N content,,http://purl.obolibrary.org/obo/ENVO_09000017
 soil_K,numeric,mg/kg,no,,no,1,10000,yes,Soil K content,,
-soil_P_total,numeric,mg/kg,no,,no,0.01,100,yes,Soil P (total) ,,
+soil_P_total,numeric,mg/kg,no,,no,1,1000,yes,Soil P (total) ,,
 soil_P_available,numeric,mg/kg,no,,no,0.01,100,yes,Soil P (plant available) ,,
 soil_Ca,numeric,mg/kg,no,,no,1,10000,yes,Soil Ca content,,
 soil_Mg,numeric,mg/kg,no,,no,1,10000,yes,Soil Mg content,,

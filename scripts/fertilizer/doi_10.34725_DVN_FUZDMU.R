@@ -104,8 +104,8 @@ Agricultural Water Management 98: 1364-1372
 	z$soil_clay <- 28
 	z$soil_SOC <- 10.2
 	z$soil_P_total <- 2.02 # mg/kg
-	z$soil_N <- 0.70 # g/kg
-	z$soil_K <- 1.47 # cmolc kg−1 t
+	z$soil_N <- 100 * 0.70 # g/kg to mg/kg
+	z$soil_K <- 390 * 1.47 # cmolc kg−1 to mg/kg
 	z$soil_pH <- 5.3
 	z$K_fertilizer <- z$P_fertilizer <- z$N_fertilizer <- 0
 	i <- z$treatment == "Fertilized maize"

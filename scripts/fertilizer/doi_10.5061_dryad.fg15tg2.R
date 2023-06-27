@@ -244,7 +244,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
                    elevation = c(1220,1224,1290,1230),
                    soil_pH = c(7.3,6.2,5.7,5.1),
                    soil_P_total = c(28.1,11.9,26.2,37.7),
-                   soil_K = c(295,204,72,79)
+                   soil_K = c(295, 204, 72, 79)
   )
   
   d4 <- merge(d4,LL, by = "site", all.x = TRUE)
@@ -275,8 +275,8 @@ Also see: doi:10.21955/gatesopenres.1115299.1
   z$end_date <- ifelse(grepl("-", z$end_date),
                        as.character(as.Date(z$end_date, format = c("%Y-%m-%d"))),
                        NA)
-  z$soil_K <- z$soil_K/1000 #to g/kg
-  z$soil_P_total <- z$soil_P_total/1000 #to g/kg
+  z$soil_K <- z$soil_K # mg/kg
+  z$soil_P_total <- z$soil_P_total # mg/kg
   z$fertilizer_type <- "unknown" # Not specified
   
   
