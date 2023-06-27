@@ -9,7 +9,7 @@ We do this by writing an R script for each individual dataset. Feel free to impr
 
 ### Get the data
 
-Versions of the dataset will be made available on the [carob dataverse](https://dataverse.harvard.edu/dataverse/carob/).
+Compiled versions of the dataset can be downloaded from [carob-data.org](http://carob-data.org) and some will eventually be made available on the [carob dataverse](https://dataverse.harvard.edu/dataverse/carob/).
 
 You can also compile your own version by cloning the repo and running 
 
