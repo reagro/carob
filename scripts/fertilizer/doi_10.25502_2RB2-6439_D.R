@@ -49,34 +49,51 @@ carob_script <- function(path) {
   # read the dataset
   r1 <- read.csv(f)
   r2 <- read.csv(f1)
-  #d <- readxl::read_excel(f) |> as.data.frame()
   
   # process file(s)
-  d1 <- r1[, c(2,4,5,6,7,8,9,10,11,12,15,25,26,27,28)] 
-  colnames(d1) <- c("trial_id","season","location","site","rep","tillage","crop","treatment","variety","plant_density","yield","latitude","longitude","start_date","end_date")
+### use names, not numbers for variables. numbers are not safe against updates.
+#  d1 <- r1[, c(2,4,5,6,7,8,9,10,11,12,15,25,26,27,28)] 
+#  colnames(d1) <- c("trial_id","season","location","site","rep","tillage","crop","treatment","variety","plant_density","yield","latitude","longitude","start_date","end_date")
+
+	sel <- c('UniqueID', 'Season', 'Loc', 'Site', 'Rep', 'Tillage', 'cropSystem', 'Fertilizer', 'Variety', 'Density', 'YLDOKfr_kgm2', 'Lat', 'Long', 'Date_Planted_Cas', 'Date_Harvested_Cas')
+	d1 <- r1[,sel]
+	d1 <- carobiner::change_names(d1, sel,
+		c("trial_id", "season", "location", "site", "rep", "tillage", "crop", "treatment", "variety","plant_density","yield", "latitude", "longitude", "start_date", "end_date"))
+
   # soil information
-  d1$soil_SOC<-(r1$OC_d10+r1$OC_d20)/2
-  d1$soil_pH<-(r1$pH_d10+r1$pH_d20)/2
-  d1$soil_P_available<-(r1$P_d10+r1$P_d20)/2
-  d1$soil_K<-(r1$K_d10+r1$K_d20)/2
-  d1$soil_N<-(r1$N_d10+r1$N_d20)/2
+  d1$soil_pH <- (r1$pH_d10 + r1$pH_d20)/2
+  d1$soil_SOC <- (r1$OC_d10 + r1$OC_d20)/2
+#P_d10	Phosphorus (ppm) @ Soil Depth: 0-10 cm	
+  d1$soil_P_available <- (r1$P_d10 + r1$P_d20)/2
+
+## check and fix units. Should be mg/kg (ppm)
+
+  d1$soil_N <- (r1$N_d10 + r1$N_d20)/2
+  d1$soil_K <- (r1$K_d10 + r1$K_d20)/2
+  d1$soil_Ca <- (r1$Ca_d10 + r1$Ca_d20)/2
+  d1$soil_Mg <- (r1$Mg_d10 + r1$Mg_d20)/2
   
-  d2 <- r2[, c(2,4,5,6,12,7,8,10,9,11,15,24,25,26,27)]
-  colnames(d2) <- c("trial_id","season","location","site","rep","tillage","crop","treatment","variety","plant_density","yield","latitude","longitude","start_date","end_date")
+#N_d10	% Nitrogen @ Soil Depth: 0-10 cm	
+#K_d10	Potassium (C mol/kg) @ Soil Depth: 0-10 cm	
+#Ca_d10	Calcium (C mol/kg) @ Soil Depth: 0-10 cm	
+#Mg_d10	Magnesium (C mol/kg) @ Soil Depth: 0-10 cm	
+ 
+ 
+#  d2 <- r2[, c(2,4,5,6,12,7,8,10,9,11,15,24,25,26,27)]
+#  colnames(d2) <- c("trial_id","season","location","site","rep","tillage","crop","treatment","variety","plant_density","yield","latitude","longitude","start_date","end_date")
+
+	sel <- c('UniqueID', 'Season', 'Loc', 'Site', 'Rep', 'Tillage', 'cropSystem', 'Fertilizer', 'Variety', 'Density', "Yldokfr_Kgm2", 'Lat', 'Long', 'Date_Planted_Cas', 'Date_Harvested_Cas')
+	d2 <- r2[,sel]
+	d2 <- carobiner::change_names(d2, sel,
+		c("trial_id", "season", "location", "site", "rep", "tillage", "crop", "treatment", "variety","plant_density","yield", "latitude", "longitude", "start_date", "end_date"))
+
   # fill soil information for second season base on $site.
   # I assume that soil information is the same for the same long and lat position
-  for (i in 1:length(d1$season)){
-    
-    j<-grepl(d1$site[i],d2$site)
-    d2$soil_SOC[j]<-d1$soil_SOC[i]
-    d2$soil_pH[j]<-d1$soil_pH[i]
-    d2$soil_P_available[j]<-d1$soil_P_available[i]
-    d2$soil_K[j]<-d1$soil_K[i]
-    d2$soil_N[j]<-d1$soil_N[i]
-  }
+	u <- na.omit(unique(d1[, c("longitude", "latitude", "soil_SOC", "soil_pH", "soil_P_available", "soil_K", "soil_N", "soil_Ca", "soil_Mg")]))
+	d2 <- merge(d2, u,by=c("longitude", "latitude"), all.x=TRUE)
+	
   # combine d1 and d2
-  d<-rbind(d1,d2)
-  # fill soil in information in the second season
+  d <- rbind(d1, d2)
   
   # Add columns
   d$dataset_id <- dataset_id
@@ -84,31 +101,30 @@ carob_script <- function(path) {
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$irrigated <- FALSE
+
   # NPK Apply  75-20-90 means 15% N, 15% P2O5, 15% K2O
-  d$N_fertilizer <- ifelse(d$treatment == "NoFert", 0, 75)
-  
-  d$K_fertilizer <- ifelse(d$treatment == "NoFert", 0,90/1.2051 )
-                           
-  
+  d$N_fertilizer <- ifelse(d$treatment == "NoFert", 0, 75) 
+  d$K_fertilizer <- ifelse(d$treatment == "NoFert", 0, 90/1.2051 )
   d$P_fertilizer <- ifelse(d$treatment == "NoFert", 0, 20/2.29)
                            
   # fix crop names 
-  d$intercrops <- ifelse(d$crop=="CasMz","maize","no crop") # add intercrops column
-  p<- carobiner::fix_name(d$crop)
-  p<-gsub("CasMz","cassava",p)
-  p<-gsub("Cassava","cassava",p)
-  d$crop<-p
+  d$intercrops <- ifelse(d$crop=="CasMz", "maize", "no crop") 
+  d$crop <- "cassava"
   #fix Long and lat
-  d$longitude[d$site=="Makurdi"]<-7.6736
-  d$latitude[d$site=="Makurdi"]<-12.906337
-  d$longitude[d$site=="Otobi"]<-8.0701088
-  d$latitude[d$site=="Otobi"]<-7.103026
+  d$longitude[d$site=="Makurdi"] <- 7.6736
+  d$latitude[d$site=="Makurdi"] <- 12.906337
+  d$longitude[d$site=="Otobi"] <- 8.0701088
+  d$latitude[d$site=="Otobi"] <- 7.103026
   #data type
-  d$yield<- (as.numeric(d$yield))*10000 # convert into kg/ha 
-  d$plant_density<- as.numeric(d$plant_density)
+
+	# convert to kg/ha 
+  d$yield <- (as.numeric(d$yield))*10000 
+  d$plant_density <- as.numeric(d$plant_density)
   #date format
-  d$start_date <- format(as.Date(d$start_date, format = "%m/%d/%Y"), "%Y-%m-%d")
-  d$end_date <- format(as.Date(d$end_date, format = "%m/%d/%Y"), "%Y-%m-%d")
+  d$start_date <- as.character(as.Date(d$start_date, format = "%m/%d/%Y"))
+  d$end_date <- as.character(as.Date(d$end_date, format = "%m/%d/%Y"))
+	d$tillage <- tolower(d$tillage)
+	
   # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
   
