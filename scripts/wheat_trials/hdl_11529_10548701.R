@@ -17,7 +17,7 @@ The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that c
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
-	   project=NA,
+	   project="CIMMYT Elite Selection Wheat Yield Trial",
 	   uri=uri,
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)

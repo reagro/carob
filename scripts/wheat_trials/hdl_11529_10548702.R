@@ -18,7 +18,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
-	   project=NA,
+	   project="CIMMYT High Temperature Wheat Yield Trial",
 	   uri=uri,
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)
@@ -45,14 +45,11 @@ carob_script <- function(path) {
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
 
-	i <- which(d$location == "AICRP ON WHEAT")
+	i <- which(d$location == "Aicrp On Wheat")
+	d$location[i] == "AICRP on wheat"
 	tmp <- d$longitude[i]
 	d$longitude[i] <- d$latitude[i] 
 	d$latitude[i] <- tmp
-
-	i <- which(d$location == "AURANGABAD, GANGAPUR, AJEET SEEDS LTD")
-	d$longitude[i] <- 75.0822
-	d$latitude[i] <- 19.6927
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)

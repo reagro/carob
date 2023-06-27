@@ -17,7 +17,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
-	   project=NA,
+	   project="CIMMYT High Rainfall Wheat Yield Trial",
 	   uri=uri,
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)
@@ -44,8 +44,8 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
 
+
 # all scripts must end like this
-	#carobiner::write_files(dset, d, path, dataset_id, group)
 	carobiner::write_files(path, dset, d)
 	
 }

@@ -17,7 +17,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
-	   project=NA,
+	   project="CIMMYT High Temperature Wheat Yield Trial",
 	   uri=uri,
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)
@@ -43,6 +43,8 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
+
+#NOTE:  ATHIENOY is in the UN buffer zone between Cyprus and N Cyprus. GADM needs to updated for that.
 
 # all scripts must end like this
 	carobiner::write_files(path, dset, d)

@@ -80,6 +80,7 @@ proc_wheat <- function(ff) {
 		"ALFA ALFA", "LUCERNE",
 		"AMAN RICE", "rice",
 		"AMAN RCIE", "rice",
+		"AMARANTO", "amaranth",
 		"AVENA+VICIA", "oats; vetch", 
 		"AVENA-VICIA", "oats; vetch", 
 		"AVENA / VICIA", "oats; vetch", 
@@ -128,8 +129,8 @@ proc_wheat <- function(ff) {
 		"LEGUME", "legume",
 		"LEGUMINOUS", "legume",
 		"LINSEED", "flax",
-		"LUPINUS ALBUS", "pulse",
-		"LUPINO", "pulse",
+		"LUPINUS ALBUS", "white lupin",
+		"LUPINO", "white lupin", #?
 		"GRAMINEAE", "maize; rice",
 		"GREEM  MANURE", "green manure", 
 		"GREEN  MANWERE", "green manure",
@@ -158,12 +159,12 @@ proc_wheat <- function(ff) {
 		"ORYZA SATIVA", "rice",
 		"ORYZA  SATIVA", "rice", 
 		"PADDY", "rice", 
-		"PAPA", "pawpaw", 
+		"PAPA", "potato", 
 		"PAPPER CROP", "pepper", 
 		"PATATO", "potato",
 		"PEAS", "pea",
 		"PEARL  MILLET", "pearl millet",
-		"PHACELIA TANACETIFOLIA", 'green manure',
+		"PHACELIA TANACETIFOLIA", 'phacelia',
 		"PISUM SATIVUM", "pea",
 		"PULSES", "pulse", 
 		"PULSE", "pulse", 
@@ -201,7 +202,7 @@ proc_wheat <- function(ff) {
 		"SUNYHEMP", "sunn hemp",
 		"SYNHEMP", "sunn hemp",
 		"SWEET  POTATOS", "sweetpotato",
-		"TREBOL ROJO", "clover", 
+		"TREBOL ROJO", "red clover", 
 		"TRIGO", "wheat", 
 		"TRIFOLIUM ALEXANDRIUM", "berseem clover", 
 		"TRIFOLIUM ALEXANDIUM", "berseem clover", 
@@ -285,12 +286,27 @@ proc_wheat <- function(ff) {
 	# Subset for relevant columns
 	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep","crop", "variety_code", "variety_type", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_type", "soil_om", "soil_ph",  "irrigated", "row_spacing", "yield", "grain_weight", "heading", "height","powdery_mildew", "stem_rust", "leaf_rust", "sterility_index", "fusarium_scab_spike", "helminthosporium_sativum_leaf", "septoria_tritici_blotch", "septoria_species", "blast_severity", "blast_intensity")
 		
-	r$country <- ifelse(r$country== "Dem Rep of Congo", "Democratic Republic of the Congo",r$country)
-	r$country <- ifelse(r$country== "U A Emirates", "United Arab Emirates",r$country)
+	r$country <- ifelse(r$country== "Dem Rep of Congo", "Democratic Republic of the Congo", r$country)
+	r$country <- ifelse(r$country== "U A Emirates", "United Arab Emirates", r$country)
+
+	# more could be done. But we should not keep ALL CAPS
+	r$location <- carobiner::fix_name(r$location, "title")
+	r$location <- gsub(" Ltd$", " LTD", r$location)
 	
+	i <- which(r$location == "Aurangabad, Gangapur, Ajeet Seeds LTD")
+	r$longitude[i] <- 75.0822
+	r$latitude[i] <- 19.6927
+	
+	i <- which(r$location == "Black Sea  A.R.I.")
+	r$longitude[i] <- 36.4889
+	r$latitude[i] <- 41.2335
+
+	i <- which(r$location == "Sanliurfa-Akcakale,  A.R.I")
+	r$latitude[i] <- 36.72
+
+
 	# they may not be all available
-	cv <- cvars[cvars %in% names(r)]
-	
+	cv <- cvars[cvars %in% names(r)]	
 	r[, cv]
 }
 

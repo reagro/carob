@@ -18,7 +18,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
-	   project=NA,
+	   project="CIMMYT High Rainfall Wheat Yield Trial",
 	   uri=uri,
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)
@@ -46,7 +46,8 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 
 	d$heading[d$heading > 300] <- NA
 
-	i <- which(d$location == "MOUNT VERNON, NWREC, WSU")
+	i <- which(d$location == "Mount Vernon, Nwrec, Wsu")
+	d$location[i] <- "Mount Vernon, NWREC, WSU"
 	d$longitude[i] <- -122.38626
 	d$latitude[i] <- 48.4397
 	
