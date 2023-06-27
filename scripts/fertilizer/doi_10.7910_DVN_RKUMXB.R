@@ -314,10 +314,41 @@ carob_script <- function(path) {
 	d$latitude[is.na(d$latitude)] <- d$lat[is.na(d$latitude)]
 	d$lon <- d$lat <- NULL
 		
-	#3) to do
+	#3) manual georeferencing
+	
+	#eth <- geodata::gadm("ETH", level=3, path=tempdir())
+	#"Anno-Kere" and "Gende-Sheno" are in Degem Woreda
+	#centroids(eth[eth$NAME_3=="Degem", ]) |> crds()
+	i <- which(d$location %in% c("Annokere", "Gendesheno"))
+	d$longitude[i] <- 38.621
+	d$latitude[i] <- 9.808
+
+	#centroids(eth[eth$NAME_3=="Hulet Ej Enese", ]) |> crds()
+	i <- which(d$location == "Huleteju-Enebssie")
+	d$longitude[i] <- 37.903
+	d$latitude[i] <- 10.981
+
+	#centroids(eth[eth$NAME_3=="Godere", ]) |> crds()
+	i <- which(d$location == "Godere")
+	d$longitude[i] <- 35.258
+	d$latitude[i] <- 7.2424
+
+
+	#centroids(eth[eth$NAME_3=="Lay Gayint", ]) |> crds()
+	i <- which(d$location == "Laie-Gaient Woreda")
+	d$longitude[i] <- 38.4315
+	d$latitude[i] <- 11.846
+
+	i <- which(d$location == "Estayesh, North Wollo")
+	d$longitude[i] <- 39.154
+	d$latitude[i] <- 11.835
+
+
+	#4) to do
+	#Garadella = Garadella State Farm
 	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
 	xy <- uxy[is.na(uxy$longitude),]
-		
+
 
 	d$soil_pH[d$soil_pH < 3.5 | d$soil_pH > 8.5] <- NA
 
