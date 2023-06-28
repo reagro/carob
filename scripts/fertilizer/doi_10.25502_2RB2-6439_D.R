@@ -28,7 +28,7 @@ carob_script <- function(path) {
     dataset_id = dataset_id,
     group=group,
     uri=uri,
-    publication=NA,
+    publication= NA, #"DOI:10.1564/v27_oct_04"
     data_citation = "Hauser, S. (2020). Cassava Weed Management Data - Agronomy Trials 2015 [Data set]. International Institute of Tropical 
     Agriculture (IITA). https://doi.org/10.25502/2RB2-6439/D",
     data_institutions = "IITA",
@@ -66,43 +66,47 @@ carob_script <- function(path) {
 #P_d10	Phosphorus (ppm) @ Soil Depth: 0-10 cm	
   d1$soil_P_available <- (r1$P_d10 + r1$P_d20)/2
 
-## check and fix units. Should be mg/kg (ppm)
-
   d1$soil_N <- (r1$N_d10 + r1$N_d20)/2
   d1$soil_K <- (r1$K_d10 + r1$K_d20)/2
   d1$soil_Ca <- (r1$Ca_d10 + r1$Ca_d20)/2
   d1$soil_Mg <- (r1$Mg_d10 + r1$Mg_d20)/2
+  #d1$weed_biomass<- ((r1$biomass_04WAP_gm2+r1$biomass_08WAP_gm2+r1$biomass_12WAP_gm2+r1$biomass_24WAP_gm2)/2)*1000 # in kg/ha
   
-#N_d10	% Nitrogen @ Soil Depth: 0-10 cm	
-#K_d10	Potassium (C mol/kg) @ Soil Depth: 0-10 cm	
-#Ca_d10	Calcium (C mol/kg) @ Soil Depth: 0-10 cm	
-#Mg_d10	Magnesium (C mol/kg) @ Soil Depth: 0-10 cm	
- 
- 
-#  d2 <- r2[, c(2,4,5,6,12,7,8,10,9,11,15,24,25,26,27)]
-#  colnames(d2) <- c("trial_id","season","location","site","rep","tillage","crop","treatment","variety","plant_density","yield","latitude","longitude","start_date","end_date")
-
+  #N_d10	% Nitrogen
+  # to convert Nitrogen in mg/kg (PPm) we use: 1g of soil contain n% of Nitrogen 
+  d1$soil_N<- (d1$soil_N/100)*1000000 # mg/kg
+  # #K_d10	Potassium (C mol/kg),#Mg_d10	Magnesium (C mol/kg) #Ca_d10	,Calcium (C mol/kg) 
+  ## to convert in mg/kg (ppm) we use molar atomic mass of each element
+  d1$soil_K<- d1$soil_K*10*39.1 
+  d1$soil_Ca<- d1$soil_Ca*10*40
+  d1$soil_Mg <-d1$soil_Mg*10*24
+  
 	sel <- c('UniqueID', 'Season', 'Loc', 'Site', 'Rep', 'Tillage', 'cropSystem', 'Fertilizer', 'Variety', 'Density', "Yldokfr_Kgm2", 'Lat', 'Long', 'Date_Planted_Cas', 'Date_Harvested_Cas')
 	d2 <- r2[,sel]
 	d2 <- carobiner::change_names(d2, sel,
 		c("trial_id", "season", "location", "site", "rep", "tillage", "crop", "treatment", "variety","plant_density","yield", "latitude", "longitude", "start_date", "end_date"))
-
-  # fill soil information for second season base on $site.
+	#d2$weed_biomass<- ((r2$Biomass_04Wap_Gm2+r2$Biomass_08Wap_Gm2+r2$Biomass_12Wap_Gm2+r2$Biomass_24Wap_Gm2)/2)*1000 # in kg/ha
+  
+	# fill soil information for second season base on $site.
   # I assume that soil information is the same for the same long and lat position
-	u <- na.omit(unique(d1[, c("longitude", "latitude", "soil_SOC", "soil_pH", "soil_P_available", "soil_K", "soil_N", "soil_Ca", "soil_Mg")]))
-	d2 <- merge(d2, u,by=c("longitude", "latitude"), all.x=TRUE)
+	
+	d2$latitude[d2$site=="Ido"]<-7.55140 #instead of 7.5517
+	d2$longitude[d2$site=="Ido"]<-3.66990 #instead of 3.6691
+	u <- na.omit(unique(d1[, c("rep","variety","treatment","tillage","crop","longitude", "latitude", "soil_SOC", "soil_pH", "soil_P_available", "soil_K", "soil_N", "soil_Ca", "soil_Mg")]))
+	d2 <-merge(d2, u,by=c("variety","treatment","tillage","crop","longitude", "latitude","rep"),all.x = TRUE)
 	
   # combine d1 and d2
   d <- rbind(d1, d2)
   
   # Add columns
+ 
   d$dataset_id <- dataset_id
   d$country <- "Nigeria"
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$irrigated <- FALSE
 
-  # NPK Apply  75-20-90 means 15% N, 15% P2O5, 15% K2O
+  # NPK Apply  75-20-90 means 75 kg/ha N, 20kg/ha of P2O5, 90kg/ha of K2O from #DOI:10.1564/v27_oct_04
   d$N_fertilizer <- ifelse(d$treatment == "NoFert", 0, 75) 
   d$K_fertilizer <- ifelse(d$treatment == "NoFert", 0, 90/1.2051 )
   d$P_fertilizer <- ifelse(d$treatment == "NoFert", 0, 20/2.29)
