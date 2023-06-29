@@ -66,8 +66,8 @@ carob_script <- function(path) {
   d$sub_treatment_inoc <- v
   d$treatment <- paste("main treatment: ",d$main_treatment," |","inoculant treatment : ",d$sub_treatment_inoc) # ignoring sub treatment fert as it has no input
   d$date_harvest_yyyy[d$trial_id == "RW030_VAR_CB_SR_2010"] <- 2011
-  d$start_date <- as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-"))
-  d$end_date <- as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-"))
+  d$planting_date <- as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-"))
+  d$harvest_date <- as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-"))
   d$grain_weight <- as.numeric(d$dry_weight_100_seeds)*10
   d$yield <- d$grain_yield_ha_calc
   d$residue_yield <- d$tot_stover_yield_haulm_husks_calc
@@ -115,7 +115,7 @@ carob_script <- function(path) {
   d$N_fertilizer <- ifelse(d$fertilizer_type == "DAP",tot_DAP*0.18,d$N_fertilizer)
   d$N_splits <- 2L
   
-  x <- d[,c("trial_id","rep","treatment","variety","start_date","end_date","grain_weight","yield","residue_yield",
+  x <- d[,c("trial_id","rep","treatment","variety","planting_date","harvest_date","grain_weight","yield","residue_yield",
             "biomass_total", "fertilizer_type","N_fertilizer","N_splits","K_fertilizer","P_fertilizer","inoculated")]
   x <- unique(x) #removing duplicates
 
@@ -193,12 +193,12 @@ carob_script <- function(path) {
   w$fertilizer_type <- gsub("/","; ",w$fertilizer_type)
 	
   # data type fixed
-  w$end_date<-as.character(w$end_date)
-  w$start_date<-as.character(w$start_date)
+  w$harvest_date<-as.character(w$harvest_date)
+  w$planting_date<-as.character(w$planting_date)
   w$residue_yield<-as.numeric(w$residue_yield)
  
   w <- w[,c("dataset_id","trial_id","country","adm2","location","latitude", "longitude","rep", "treatment","crop", "variety",
-            "start_date","end_date","inoculated","grain_weight","biomass_total","residue_yield","yield","fertilizer_type",
+            "planting_date","harvest_date","inoculated","grain_weight","biomass_total","residue_yield","yield","fertilizer_type",
             "N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH","soil_sand","soil_clay","soil_silt","soil_N",
             "soil_K","soil_SOC", "on_farm")]
 	

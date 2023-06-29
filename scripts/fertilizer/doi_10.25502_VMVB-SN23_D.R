@@ -48,10 +48,10 @@ carob_script <- function(path){
   d <- d[d$grain_yield_ha_calc > 0,] # dropping entries without complete data under trial_id AT_KE010_LR_2011_MAIZE_ROT_BUTERE as they all have zero yield input.
   d$trial_id <- d$experiment_id
   d$rep <- d$replication_no
-  d$start_date <- as.character(as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-")))
+  d$planting_date <- as.character(as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-")))
   d$date_harvest_yyyy[d$trial_id == "AT_KE003_LR_2011_INPUT_SB_BUTULA"] <- 2011
-  d$end_date <-as.character(as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-")))
-  d$end_date[d$end_date=="0-08-04"] <- "2011-08-04"
+  d$harvest_date <-as.character(as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-")))
+  d$harvest_date[d$harvest_date=="0-08-04"] <- "2011-08-04"
   
   d$yield <- d$grain_yield_ha_calc
   d$residue_yield <- d$tot_stover_yield_haulm_husks_calc
@@ -138,7 +138,7 @@ carob_script <- function(path){
   vv <- gsub("x","X",vv)
   d$variety <- vv # note that variety names are listed in the publication attached above
   
-  d <- d[,c("trial_id","rep","variety","treatment","inoculated","start_date","end_date","fertilizer_type","N_splits","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight","biomass_roots","biomass_total")]
+  d <- d[,c("trial_id","rep","variety","treatment","inoculated","planting_date","harvest_date","fertilizer_type","N_splits","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight","biomass_roots","biomass_total")]
   
   # ignoring the rust_score.csv data it's redundant and carob doesn't cater to rust and economic related variables
   
@@ -191,7 +191,7 @@ carob_script <- function(path){
 	#rearranging the data 
 	
 	z <- z[,c("dataset_id","trial_id","country","location","latitude","longitude","elevation","rep","treatment","crop","variety",
-	          "start_date","end_date","observation_date","inoculated","grain_weight","biomass_roots","biomass_total","fertilizer_type","N_fertilizer","N_splits",
+	          "planting_date","harvest_date","observation_date","inoculated","grain_weight","biomass_roots","biomass_total","fertilizer_type","N_fertilizer","N_splits",
 	          "P_fertilizer","K_fertilizer","residue_yield","yield","on_farm")] 
 	
   # all scripts must end like this

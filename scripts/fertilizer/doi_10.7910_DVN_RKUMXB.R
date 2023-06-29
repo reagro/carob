@@ -129,23 +129,23 @@ carob_script <- function(path) {
 	d$irrigated <- d$irrigated == "irrigated"
 
 	## year to start year / end year
-	d$start_date <- NA
-	d$end_date <- NA
+	d$planting_date <- NA
+	d$harvest_date <- NA
 	i <- nchar(d$year) == 4
-	d$start_date[i] <- d$year[i]
-	d$end_date[i] <- d$year[i]
+	d$planting_date[i] <- d$year[i]
+	d$harvest_date[i] <- d$year[i]
 
 	i <- nchar(d$year) == 9
-	d$start_date[i] <- substr(d$year[i], 1, 4)
-	d$end_date[i] <- substr(d$year[i], 6, 9)
+	d$planting_date[i] <- substr(d$year[i], 1, 4)
+	d$harvest_date[i] <- substr(d$year[i], 6, 9)
 
 	i <- d$year == "2007-8"
-	d$start_date[i] <- 2007
-	d$end_date[i] <- 2008
+	d$planting_date[i] <- 2007
+	d$harvest_date[i] <- 2008
 
 	i <- d$year == "2008-09"
-	d$start_date[i] <- 2008
-	d$end_date[i] <- 2009
+	d$planting_date[i] <- 2008
+	d$harvest_date[i] <- 2009
 	
 	d$year <- NULL
 

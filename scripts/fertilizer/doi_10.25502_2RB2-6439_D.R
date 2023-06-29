@@ -53,12 +53,12 @@ carob_script <- function(path) {
   # process file(s)
 ### use names, not numbers for variables. numbers are not safe against updates.
 #  d1 <- r1[, c(2,4,5,6,7,8,9,10,11,12,15,25,26,27,28)] 
-#  colnames(d1) <- c("trial_id","season","location","site","rep","tillage","crop","treatment","variety","plant_density","yield","latitude","longitude","start_date","end_date")
+#  colnames(d1) <- c("trial_id","season","location","site","rep","tillage","crop","treatment","variety","plant_density","yield","latitude","longitude","planting_date","harvest_date")
 
 	sel <- c('UniqueID', 'Season', 'Loc', 'Site', 'Rep', 'Tillage', 'cropSystem', 'Fertilizer', 'Variety', 'Density', 'YLDOKfr_kgm2', 'Lat', 'Long', 'Date_Planted_Cas', 'Date_Harvested_Cas')
 	d1 <- r1[,sel]
 	d1 <- carobiner::change_names(d1, sel,
-		c("trial_id", "season", "location", "site", "rep", "tillage", "crop", "treatment", "variety","plant_density","yield", "latitude", "longitude", "start_date", "end_date"))
+		c("trial_id", "season", "location", "site", "rep", "tillage", "crop", "treatment", "variety","plant_density","yield", "latitude", "longitude", "planting_date", "harvest_date"))
 
   # soil information
   d1$soil_pH <- (r1$pH_d10 + r1$pH_d20)/2
@@ -88,7 +88,7 @@ carob_script <- function(path) {
 	sel <- c('UniqueID', 'Season', 'Loc', 'Site', 'Rep', 'Tillage', 'cropSystem', 'Fertilizer', 'Variety', 'Density', "Yldokfr_Kgm2", 'Lat', 'Long', 'Date_Planted_Cas', 'Date_Harvested_Cas')
 	d2 <- r2[,sel]
 	d2 <- carobiner::change_names(d2, sel,
-		c("trial_id", "season", "location", "site", "rep", "tillage", "crop", "treatment", "variety","plant_density","yield", "latitude", "longitude", "start_date", "end_date"))
+		c("trial_id", "season", "location", "site", "rep", "tillage", "crop", "treatment", "variety","plant_density","yield", "latitude", "longitude", "planting_date", "harvest_date"))
 
 	weeds2 <- r2[, c("Biomass_04Wap_Gm2", "Biomass_08Wap_Gm2", "Biomass_12Wap_Gm2", "Biomass_24Wap_Gm2")]
 	# mean weed biomass in kg/ha	
@@ -123,6 +123,8 @@ carob_script <- function(path) {
   # fix crop names 
   d$intercrops <- ifelse(d$crop=="CasMz", "maize", "no crop") 
   d$crop <- "cassava"
+	d$harvested_part <- "roots"
+  
   #fix Long and lat
   d$longitude[d$site=="Makurdi"] <- 7.6736
   d$latitude[d$site=="Makurdi"] <- 12.906337
@@ -134,8 +136,8 @@ carob_script <- function(path) {
   d$yield <- (as.numeric(d$yield))*10000 
   d$plant_density <- as.numeric(d$plant_density)
   #date format
-  d$start_date <- as.character(as.Date(d$start_date, format = "%m/%d/%Y"))
-  d$end_date <- as.character(as.Date(d$end_date, format = "%m/%d/%Y"))
+  d$planting_date <- as.character(as.Date(d$planting_date, format = "%m/%d/%Y"))
+  d$harvest_date <- as.character(as.Date(d$harvest_date, format = "%m/%d/%Y"))
 	d$tillage <- tolower(d$tillage)
 	
   # all scripts must end like this

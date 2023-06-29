@@ -44,8 +44,8 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
  d$latitude <- 8.67
  d$longitude <- 12.15
  # sown during the growing seasons of 2012 and 2013 no actual dates mentioned
- d$start_date <- ifelse(d$Year == "2012", "2012","2013") 
- d$end_date <- ifelse(d$Year == "2012", "2012", "2013") 
+ d$planting_date <- ifelse(d$Year == "2012", "2012","2013") 
+ d$harvest_date <- ifelse(d$Year == "2012", "2012", "2013") 
  d$rep <- as.integer(d$`Replication number`)
  d$variety <- d$Variety
  d$P_fertilizer <- ifelse(d$Fertilizer == "F1", 0, 20)
@@ -55,6 +55,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
  d$residue_yield <- d$FdWtKgHa
  d$grain_weight <- d$seedgm
  d$crop <-"groundnut"
+ 
  d$dataset_id <- dataset_id
  d$trial_id <- paste0(dataset_id, d$adm2, sep = "_")
  d$on_farm <- TRUE
@@ -81,7 +82,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 
  d <- merge(d,ss, by ="s1", all.x = TRUE)
  
- d <- d[,c("trial_id","country","adm1","adm2","adm3","latitude","longitude","start_date","end_date","crop","variety","row_spacing","plant_spacing","rain","flowering","plant_density","on_farm","is_survey","soil_pH","soil_SOC","soil_sand","soil_clay","soil_silt","soil_P_available","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight")]
+ d <- d[,c("trial_id","country","adm1","adm2","adm3","latitude","longitude","planting_date","harvest_date","crop","variety","row_spacing","plant_spacing","rain","flowering","plant_density","on_farm","is_survey","soil_pH","soil_SOC","soil_sand","soil_clay","soil_silt","soil_P_available","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight")]
  
  d$dataset_id <- dataset_id
  

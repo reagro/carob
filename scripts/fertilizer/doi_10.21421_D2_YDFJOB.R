@@ -60,10 +60,10 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 
 ##RH
 ## wrong
-##   e$start_date <- "2014-06-01" # Assuming this start date...
+##   e$planting_date <- "2014-06-01" # Assuming this start date...
 
-	e$start_date <- paste0(e$year, "-06-01")
-	e$end_date <- as.character(as.Date(e$start_date) + d$Mat_c_day)
+	e$planting_date <- paste0(e$year, "-06-01")
+	e$harvest_date <- as.character(as.Date(e$planting_date) + d$Mat_c_day)
 	e$year <- NULL
 	e$adm1 <-'Kano'
   

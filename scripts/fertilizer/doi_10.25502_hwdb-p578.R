@@ -193,19 +193,19 @@ carob_script <- function(path){
 	
 	p <- d4[grepl("planting", d4$activity), ]
 	h <- d4[grepl("harvest", d4$activity), ]
-	p$start_date <- with(p, paste(date_planting_yyyy, date_planting_mm, date_planting_dd, sep = "-"))
-	h$end_date <- with(h, paste(date_planting_yyyy, date_planting_mm, date_planting_dd, sep = "-"))
-	p <- p[, c("trial_id","start_date")]
-	h <- h[, c("trial_id","end_date")]
+	p$planting_date <- with(p, paste(date_planting_yyyy, date_planting_mm, date_planting_dd, sep = "-"))
+	h$harvest_date <- with(h, paste(date_planting_yyyy, date_planting_mm, date_planting_dd, sep = "-"))
+	p <- p[, c("trial_id","planting_date")]
+	h <- h[, c("trial_id","harvest_date")]
     d4 <- merge(p,h, by = "trial_id")
   
   ## RH: do not remove data for that reason. But do try to fix.. 
   #remove rows with no planting and harvest info
-  ##d4 <- subset(d4, !(start_date == "0-0-0" & end_date == "0-0-0"))
-	d4$start_date[d4$start_date == "0-0-0"] <- NA
-	d4$start_date[d4$end_date == "0-0-0"] <- NA
-	d4$start_date <- as.character(as.Date(d4$start_date, format = "%Y-%m-%d"))
-	d4$end_date <- as.character(as.Date(d4$end_date, format = "%Y-%m-%d"))
+  ##d4 <- subset(d4, !(planting_date == "0-0-0" & harvest_date == "0-0-0"))
+	d4$planting_date[d4$planting_date == "0-0-0"] <- NA
+	d4$planting_date[d4$harvest_date == "0-0-0"] <- NA
+	d4$planting_date <- as.character(as.Date(d4$planting_date, format = "%Y-%m-%d"))
+	d4$harvest_date <- as.character(as.Date(d4$harvest_date, format = "%Y-%m-%d"))
   
   
 	#merge the data sets
@@ -216,7 +216,7 @@ carob_script <- function(path){
   
 	q4$dataset_id <- dataset_id
 	
-	q4 <- q4[, c("trial_id","country","adm2","site", "latitude","longitude","rep","crop","variety","inoculated","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","start_date","end_date", "row_spacing","plant_spacing","yield","previous_crop","dataset_id")]
+	q4 <- q4[, c("trial_id","country","adm2","site", "latitude","longitude","rep","crop","variety","inoculated","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","planting_date","harvest_date", "row_spacing","plant_spacing","yield","previous_crop","dataset_id")]
 	
 	
 	# all scripts should end like this

@@ -68,8 +68,8 @@ carob_script <- function(path) {
   d1$variety_type <- d1$TCVariety
   
   d1$previous_crop <- d1$PCrop1
-  d1$start_date <- d1$PlntDa
-  d1$end_date <- d1$HarvDa
+  d1$planting_date <- d1$PlntDa
+  d1$harvest_date <- d1$HarvDa
   #d1$fertilizer_type <- d1$FType1
   # add column
   d1$site  <- d1$Site
@@ -86,7 +86,7 @@ carob_script <- function(path) {
   d1$previous_crop[d1$previous_crop=="Millet"] <- "pearl millet"
  
    d1 <- d1[,c("dataset_id","trial_id","location","site","country",
-             "latitude","longitude","start_date","end_date","crop","variety_type","previous_crop" )]
+             "latitude","longitude","planting_date","harvest_date","crop","variety_type","previous_crop" )]
   
   #process plot data 
   
@@ -126,9 +126,9 @@ carob_script <- function(path) {
   # data type
   d$season <- as.character(d$season)
   # change date format
-  d$start_date <- format(as.Date(d$start_date, format = "%m/%d/%Y"), "%Y-%m-%d")
+  d$planting_date <- format(as.Date(d$planting_date, format = "%m/%d/%Y"), "%Y-%m-%d")
   
-  d$end_date <- format(as.Date(d$end_date, format = "%m/%d/%Y"), "%Y-%m-%d")
+  d$harvest_date <- format(as.Date(d$harvest_date, format = "%m/%d/%Y"), "%Y-%m-%d")
   # fill whitespace in observation 
   d <- replace(d,d=='',NA)
   # all scripts must end like this

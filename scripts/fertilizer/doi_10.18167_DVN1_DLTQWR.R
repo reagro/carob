@@ -137,7 +137,7 @@ carob_script <- function(path) {
 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
 ## use 	as.character(as.Date()) for dates to assure the correct format.
 	year <- substr(gsub("[^0-9.-]", "", rr$Year), 1, 4)
-	d$start_date <- as.character(format(as.Date(strptime(ifelse(year == "", NA, year), "%Y")), "%Y"))
+	d$planting_date <- as.character(format(as.Date(strptime(ifelse(year == "", NA, year), "%Y")), "%Y"))
 	d$season <- ifelse(grepl("LR", rr$Year), "LR",
                   ifelse(grepl("SR", rr$Year), "SR",
                     ifelse(grepl("M", rr$Year), "M",

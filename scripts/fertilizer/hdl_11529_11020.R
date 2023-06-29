@@ -52,7 +52,7 @@ carob_script <- function(path) {
 	d$latitude <- ymax + ((ymin - ymax)/2)
 	# d$longitude <- 37.115
 	# d$latitude <- 9.085
-	d$start_date <- as.character(as.Date(d$`Planting Date`))
+	d$planting_date <- as.character(as.Date(d$`Planting Date`))
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$treatment <- "none"
@@ -60,6 +60,8 @@ carob_script <- function(path) {
 					gsub("^[^.]*.", "", as.character(d$`plot ID`)))
 	d$rep <- as.integer(d$rep)			
 	d$crop <- "maize"
+	d$harvested_part <- "grain"
+	
 	d$variety_code <- d$`Type of Variety`
 	d$variety_type <- d$`Seed type (Local vs Improved)`
 	d$previous_crop <- tolower(d$`Previous/precursor crop`)
@@ -122,7 +124,7 @@ carob_script <- function(path) {
 	d$soil_K <- d$`K (mg kg-1)` # mg/kg
 	d$soil_P_total <- d$`P (mg kg-1)`
 	
-	d <- d[,c("country", "site", "trial_id", "longitude", "latitude", "start_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety_code", "variety_type", "previous_crop",
+	d <- d[,c("country", "site", "trial_id", "longitude", "latitude", "planting_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety_code", "variety_type", "previous_crop",
 	          "yield", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "OM_type", "OM_applied", "soil_type", "soil_pH", "soil_SOC",
 	          "soil_N", "soil_K", "soil_P_total")]
 	

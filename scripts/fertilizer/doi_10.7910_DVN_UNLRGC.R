@@ -71,8 +71,8 @@ Notes
 	d$longitude <- round(lon, 5)
 	d$crop <- tolower(d$crop)
 
-	d$start_date <- substr(d$field, 5, 8)	
-	d$start_date[d$start_date %in% c('10LR', '10SR')] <- "2010"
+	d$planting_date <- substr(d$field, 5, 8)	
+	d$planting_date[d$planting_date %in% c('10LR', '10SR')] <- "2010"
 	# months can be estimated from LR and SR 
 
 	d$yield <- round(d$yield*1000)
@@ -118,31 +118,31 @@ Notes
 	z$year[z$year=="87B"] <- "1987"
 	z$year[z$year=="88A"] <- "1988"
 
-	z$start_date <- substr(z$year, 1, 4)
+	z$planting_date <- substr(z$year, 1, 4)
 
-	z$end_date <- paste0("19", substr(z$year, 6, 8))
-	z$end_date[z$end_date==19] <- NA
+	z$harvest_date <- paste0("19", substr(z$year, 6, 8))
+	z$harvest_date[z$harvest_date==19] <- NA
 	
-# 'trialid', 'country', 'zone', 'site', 'year', 'season', 'trial', 'nid', 'ycontrol_abs', 'yield', 'pcontrol', 'n control', 'n', 'p2o5', 'p', 'nae', 'pae', 'k2o', 'design', 'fym', 'classes', 'lat', 'long', 'soiltype', 'start_date', 'end_date'
+# 'trialid', 'country', 'zone', 'site', 'year', 'season', 'trial', 'nid', 'ycontrol_abs', 'yield', 'pcontrol', 'n control', 'n', 'p2o5', 'p', 'nae', 'pae', 'k2o', 'design', 'fym', 'classes', 'lat', 'long', 'soiltype', 'planting_date', 'harvest_date'
 
 	z$k <- z$k2o * 0.8301
-	sel <- c('country', 'zone', 'site', 'year', 'season', 'nid', 'ycontrol_abs', 'yield', 'pcontrol', 'n control', 'n', 'p', 'k', 'fym', 'lat', 'long', 'soiltype', 'start_date', 'end_date')
+	sel <- c('country', 'zone', 'site', 'year', 'season', 'nid', 'ycontrol_abs', 'yield', 'pcontrol', 'n control', 'n', 'p', 'k', 'fym', 'lat', 'long', 'soiltype', 'planting_date', 'harvest_date')
 	z <- z[, sel]
 	z <- carobiner::change_names(z, c("nid", "site"), c("trial_id", "location"))
 	
-	fcontrol <- c('country', 'zone', 'location', 'year', 'season', "trial_id", 'ycontrol_abs', 'fym', 'lat', 'long', 'soiltype', 'start_date', 'end_date')
+	fcontrol <- c('country', 'zone', 'location', 'year', 'season', "trial_id", 'ycontrol_abs', 'fym', 'lat', 'long', 'soiltype', 'planting_date', 'harvest_date')
 	ctr <- unique(z[, fcontrol])
 	ctr <- carobiner::change_names(ctr, "ycontrol_abs", "yield")
 	ctr$n <- 0
 	ctr$p <- 0
 	ctr$k <- 0
 
-	pcontrol <- c('country', 'zone', 'location', 'year', 'season', "trial_id", 'pcontrol', 'n', 'k', 'fym', 'lat', 'long', 'soiltype', 'start_date', 'end_date')
+	pcontrol <- c('country', 'zone', 'location', 'year', 'season', "trial_id", 'pcontrol', 'n', 'k', 'fym', 'lat', 'long', 'soiltype', 'planting_date', 'harvest_date')
 	pctr <- unique(z[, pcontrol])
 	pctr <- carobiner::change_names(pctr, "pcontrol", "yield")
 	pctr$p <- 0
 
-	ncontrol <- c('country', 'zone', 'location', 'year', 'season', "trial_id", 'n control', 'p', 'k', 'fym', 'lat', 'long', 'soiltype', 'start_date', 'end_date')
+	ncontrol <- c('country', 'zone', 'location', 'year', 'season', "trial_id", 'n control', 'p', 'k', 'fym', 'lat', 'long', 'soiltype', 'planting_date', 'harvest_date')
 	nctr <- unique(z[, ncontrol])
 	nctr <- carobiner::change_names(nctr, "n control", "yield")
 	nctr <- nctr[!is.na(nctr$yield), ]

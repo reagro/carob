@@ -119,10 +119,10 @@ carob_script <- function(path){
   d2 <- d2[, c("trial_id","crop","variety","inoculated","lime","gypsum","P_fertilizer", "K_fertilizer","N_fertilizer","fertilizer_type", "yield")]
   
   d3$trial_id <- d3$farm_id
-  d3$start_date <- ifelse(d3$date_planting_yyyy == 0, NA, paste(d3$date_planting_yyyy, sprintf("%02d", d3$date_planting_mm), sprintf("%02d", d3$date_planting_dd), sep = "-"))
-  d3$end_date <- ifelse(d3$date_harvest_yyyy == 0, NA, paste(d3$date_harvest_yyyy, sprintf("%02d", d3$date_harvest_mm), sprintf("%02d", d3$date_harvest_dd), sep = "-"))
+  d3$planting_date <- ifelse(d3$date_planting_yyyy == 0, NA, paste(d3$date_planting_yyyy, sprintf("%02d", d3$date_planting_mm), sprintf("%02d", d3$date_planting_dd), sep = "-"))
+  d3$harvest_date <- ifelse(d3$date_harvest_yyyy == 0, NA, paste(d3$date_harvest_yyyy, sprintf("%02d", d3$date_harvest_mm), sprintf("%02d", d3$date_harvest_dd), sep = "-"))
   
-  d3 <- d3[,c("trial_id","start_date","end_date")]
+  d3 <- d3[,c("trial_id","planting_date","harvest_date")]
   
   
   q <- merge(d, d1, "trial_id")

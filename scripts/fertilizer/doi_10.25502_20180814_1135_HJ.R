@@ -50,8 +50,8 @@ carob_script <- function(path) {
 	d$trial_id <- paste0(dataset_id, "-", d$ID)
 	d$latitude <- d$Flat
 	d$longitude <- d$Flong
-	d$start_date <- format(as.Date(js$result$coverage_start_date), "%Y-%m-%d")
-	d$end_date <- format(as.Date(js$result$coverage_end_date), "%Y-%m-%d")
+	d$planting_date <- format(as.Date(js$result$coverage_start_date), "%Y-%m-%d")
+	d$harvest_date <- format(as.Date(js$result$coverage_end_date), "%Y-%m-%d")
 	d$season <- "rainy"
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
@@ -96,11 +96,9 @@ carob_script <- function(path) {
 	d2$previous_crop <- p
 
 	d <- d2[,c("country", "location", "site", "trial_id", "latitude", "longitude",
-	            "start_date", "end_date", "season", "on_farm", "is_survey",
+	            "planting_date", "harvest_date", "season", "on_farm", "is_survey",
 	            "treatment", "rep", "crop", "variety", "previous_crop",
-	            "yield", "residue_yield",
-	            "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer",
-	            "OM_used", "OM_type", "OM_applied")]
+	            "yield", "residue_yield", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer", "OM_used", "OM_type", "OM_applied")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this

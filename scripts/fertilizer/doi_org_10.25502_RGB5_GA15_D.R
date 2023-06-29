@@ -99,6 +99,8 @@ carob_script <- function(path) {
   d$dataset_id <- dataset_id
   d$country <- "Nigeria"
   d$crop <- "maize"
+	d$harvested_part <- "grain"
+  
   d$variety<- "Sammaz 15"    # get from VT protocol OCP Project Document
 #Longitude and latitude fixed base on location
   d$latitude[d$location=="Bauchi"] <- 10.6228284
@@ -108,8 +110,8 @@ carob_script <- function(path) {
   d$latitude[d$location=="kaduna-kano"] <- 10.5182899
   d$longitude[d$location=="kaduna-kano"] <- 7.4359863
 # planting date is June 2017  get from VT protocol
-  d$start_date <- "2017-06-01"
-  d$end_date <- "2017-11-01"
+  d$planting_date <- "2017-06-01"
+  d$harvest_date <- "2017-11-01"
   d$season<- "2017"
   
   d$trial_id <- paste0(dataset_id, '-', d$Location)

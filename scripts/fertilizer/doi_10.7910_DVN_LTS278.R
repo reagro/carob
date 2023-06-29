@@ -67,7 +67,7 @@ colnames(dh) <- c("Rep","Trt","GY kg/ha","BM kg/ha","country","adm3","year")
 
 ##BindRows
 dv  <- rbind(dh,dg,df,de)
-colnames(dv) <- c("rep","treatment","yield","biomass_total","country","adm3","start_date")
+colnames(dv) <- c("rep","treatment","yield","biomass_total","country","adm3","planting_date")
 
 #####Change Treatment
 dv$N_fertilizer <- 0
@@ -105,12 +105,12 @@ dv$fertilizer_type <- "unknown" # Unknown fertilizer
 
 
 ##Correct date
-i <- dv$start_date=='2016/17'
-dv$start_date[i] <- '2016'
-dv$end_date[i] <- '2017'
-i <- dv$start_date=='2017/18'
-dv$start_date[i] <- '2017'
-dv$end_date[i] <- '2018'
+i <- dv$planting_date=='2016/17'
+dv$planting_date[i] <- '2016'
+dv$harvest_date[i] <- '2017'
+i <- dv$planting_date=='2017/18'
+dv$planting_date[i] <- '2017'
+dv$harvest_date[i] <- '2018'
 
 #Format data set
 dv$dataset_id <- "doi_10.7910_DVN_LTS278"

@@ -47,11 +47,11 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 	 , must_have=FALSE)
 
 
-	d$start_date <- d$year
-	d$start_date[d$year==22] <- 2002
-	d$start_date[d$year==24] <- 2004
-	d$start_date[d$year==25] <- 2005
-	d$start_date <- as.character(d$start_date)
+	d$planting_date <- d$year
+	d$planting_date[d$year==22] <- 2002
+	d$planting_date[d$year==24] <- 2004
+	d$planting_date[d$year==25] <- 2005
+	d$planting_date <- as.character(d$planting_date)
 	
 	d$country <- carobiner::fix_name(d$country, "title")
 	d$location <- carobiner::fix_name(d$location, "title")
@@ -97,6 +97,9 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 	if (is.null(d$grain_weight)) {
 		d$grain_weight <- as.numeric(NA)
 	} 
+	
+	d$harvested_part <- "grain"
+	
 	d
 }
 

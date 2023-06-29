@@ -38,10 +38,10 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 #  names(d)
   e <- d[,c(1,2,4,5,6,7,14,15)]
 #  names(e)
-  colnames(e) <- c('start_date','location','rep','variety_type','treatment','plant_density','yield','residue_yield')
+  colnames(e) <- c('planting_date','location','rep','variety_type','treatment','plant_density','yield','residue_yield')
   e$rep <- as.integer(e$rep)  
   
-  e$start_date <- as.character(e$start_date)
+  e$planting_date <- as.character(e$planting_date)
   e$country <-  "Nigeria"
   e$crop <- "groundnut"
   e$dataset_id <- dataset_id

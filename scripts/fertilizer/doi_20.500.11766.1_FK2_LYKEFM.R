@@ -52,13 +52,15 @@ carob_script <- function(path) {
     d$latitude <- ifelse(farm == "Mandie", 12.4215, 12.3971)
     d$longitude <- ifelse(farm == "Mandie", 37.5833, 37.5621)
     # There is no year 2 in the original dataset
-    d$start_date <- ifelse(d$Year == 1, "2013-06-03", "2014-06-08")
-    d$end_date <- ifelse(d$Year == 1, "2013-10-25", "2014-10-27")
+    d$planting_date <- ifelse(d$Year == 1, "2013-06-03", "2014-06-08")
+    d$harvest_date <- ifelse(d$Year == 1, "2013-10-25", "2014-10-27")
     d$on_farm <- TRUE
     d$is_survey <- FALSE
     d$treatment <- "Multi-level application of N fertilizers at different times."
     d$rep <- d$Replicate
     d$crop <- "wheat"
+	d$harvested_part <- "grain"
+	
     d$yield <- d$Yield
 # This refers to the treatment levels indicated in "Treatment.csv"	
     d$N_fertilizer <- ifelse(d$Treatment %in% c(1:5), 23, 
@@ -74,7 +76,7 @@ carob_script <- function(path) {
     d$plant_spacing <- 20 
 
     # Subset to columns of interest
-    d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep", "crop", "yield", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "plant_spacing")]
+    d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "treatment", "rep", "crop", "yield", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "plant_spacing")]
     dd <- rbind(dd,d) 
   }
   

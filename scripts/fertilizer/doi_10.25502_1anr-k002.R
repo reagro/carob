@@ -82,8 +82,8 @@ carob_script <- function(path) {
     
 	dd3$inoculated <- ifelse(dd3$inoculation_n2africa_field == "y", TRUE, FALSE)
 	dd3$crop <- carobiner::replace_values(dd3$legume_planted_in_the_n2africa_trial, c("soya_bean", "climbing_bean", "bush_bean"), c("soybean","common bean","common bean"))
-	dd3$start_date <- dd3$start
-	dd3$end_date <- dd3$end
+	dd3$planting_date <- dd3$start
+	dd3$harvest_date <- dd3$end
 	dd3$country <- carobiner::fix_name(dd3$country, case = "title")
 	dd3$adm1 <- carobiner::fix_name(dd3$lga_district_woreda, case = "title")
 	dd3$site <- carobiner::fix_name(dd3$sector_ward, case = "title")
@@ -163,10 +163,10 @@ carob_script <- function(path) {
 
      
   dd5$dataset_id <- dataset_id
-  dd5$start_date <- as.character(as.Date(dd5$start_date, format = "%d/%m/%Y"))
-  dd5$end_date <- as.character(as.Date(dd5$end_date, format = "%d/%m/%Y"))
+  dd5$planting_date <- as.character(as.Date(dd5$planting_date, format = "%d/%m/%Y"))
+  dd5$harvest_date <- as.character(as.Date(dd5$harvest_date, format = "%d/%m/%Y"))
 
-  dd5 <- dd5[, c("trial_id","dataset_id","irrigated","on_farm","is_survey","country","adm1","site","latitude","longitude","start_date","end_date","crop","variety","inoculated","row_spacing","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","S_fertilizer","OM_used","plant_spacing","yield","residue_yield")]
+  dd5 <- dd5[, c("trial_id","dataset_id","irrigated","on_farm","is_survey","country","adm1","site","latitude","longitude","planting_date","harvest_date","crop","variety","inoculated","row_spacing","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","S_fertilizer","OM_used","plant_spacing","yield","residue_yield")]
 
 	#library(terra)
 	#w = geodata::world(path="data")

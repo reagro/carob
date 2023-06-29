@@ -125,8 +125,8 @@ carob_script <- function(path) {
   f3 <- ff[basename(ff) == "d_cropping_calendar.csv"]
   d3 <- data.frame(read.csv(f3))
   d3$trial_id <- d3$farm_id
-  d3$start_date <- as.character(as.Date(paste(d3$date_planting_mm,d3$date_planting_dd,d3$date_planting_yyyy,sep = "/"),"%m/%d/%Y"))
-  d3 <- d3[,c("trial_id","start_date")]
+  d3$planting_date <- as.character(as.Date(paste(d3$date_planting_mm,d3$date_planting_dd,d3$date_planting_yyyy,sep = "/"),"%m/%d/%Y"))
+  d3 <- d3[,c("trial_id","planting_date")]
   
   ##  EGB: Removing grain_weight variable, since it is not the 1000 grain weight.
   # f4 <- ff[basename(ff) == "e_harvest.csv"]
@@ -165,7 +165,7 @@ carob_script <- function(path) {
   z$crop[is.na(z$crop)] <- "common bean" # filled NAs in crops with common bean
   
   z <- z[,c("dataset_id","trial_id","season","country","adm1","adm2","adm3","latitude","longitude","elevation","crop","variety",
-            "start_date","inoculated","OM_used","OM_type","OM_applied","fertilizer_type",
+            "planting_date","inoculated","OM_used","OM_type","OM_applied","fertilizer_type",
             "N_fertilizer","P_fertilizer","K_fertilizer","yield","row_spacing","plant_spacing",
             "on_farm","is_survey")]
   

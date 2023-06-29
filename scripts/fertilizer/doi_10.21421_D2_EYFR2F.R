@@ -36,7 +36,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   
   #names(d)
   # e <- d[,c(1,2,4,5,6,14,15,16)]
-  # colnames(e) <- c('start_date','location','rep','P_fertilizer','variety_type','yield','residue_yield','grain_weight')
+  # colnames(e) <- c('planting_date','location','rep','P_fertilizer','variety_type','yield','residue_yield','grain_weight')
   d$country <- "Nigeria"
   d$adm1 <- "Kano"
   v <- d$Location
@@ -46,6 +46,8 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   d$latitude <- ifelse(d$location == "Minjibir", 12.17, 11.975)
   d$longitude <- ifelse(d$location == "Minjibir", 8.65, 8.423) 
   d$crop <- "sorghum"
+  d$harvested_part <- "grain"
+  
   d$variety <- d$Sorghum
   # additional info from the reference then merge
   d$year <- paste(d$Year,d$location, sep = "_")
@@ -56,8 +58,8 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
                soil_sand = c(92.3,82.64, 79.85,78.64),
                soil_clay = c(3.36,16.08,9.91,10.08),
                soil_silt = c(4.35,1.28,10.2,11.28),
-              start_date = c("2014-07-07","2015-07-04","2014-07-19","2015-07-20"),
-              end_date   = c("2014","2015","2014","2015"))
+              planting_date = c("2014-07-07","2015-07-04","2014-07-19","2015-07-20"),
+              harvest_date   = c("2014","2015","2014","2015"))
   d <- merge(d,ss, by = "year", all.x = TRUE)
   d$dataset_id <- dataset_id
   d$trial_id <- paste0('P_fert_', d$Location)
@@ -86,7 +88,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   }
   
   
-  d <- d[,c("dataset_id","country", "adm1",'location',"latitude","longitude","trial_id", "start_date","on_farm","soil_pH","soil_SOC","soil_P_available","soil_sand","soil_clay","soil_silt","is_survey","rep","crop", "variety","residue_yield", "yield", "grain_weight","N_fertilizer","P_fertilizer","K_fertilizer","fertilizer_type")]  
+  d <- d[,c("dataset_id","country", "adm1",'location',"latitude","longitude","trial_id", "planting_date","on_farm","soil_pH","soil_SOC","soil_P_available","soil_sand","soil_clay","soil_silt","is_survey","rep","crop", "variety","residue_yield", "yield", "grain_weight","N_fertilizer","P_fertilizer","K_fertilizer","fertilizer_type")]  
 
   #all scripts should end like this
 	carobiner::write_files(dset, d, path=path)

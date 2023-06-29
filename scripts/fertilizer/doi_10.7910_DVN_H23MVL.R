@@ -51,7 +51,7 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
                   "water_mangement","variety","observation_date","season","tillage","treatment","N_splits","N_fertilizer",
                   "P_fertilizer","K_fertilizer","Zn_fertilizer","rep","yield")
   
-  d[c('start_date', 'end_date')] <- stringr::str_split_fixed(d$observation_date, "-", 2) 
+  d[c('planting_date', 'harvest_date')] <- stringr::str_split_fixed(d$observation_date, "-", 2) 
   
   d[c('latitude1', 'Latitude2')] <- stringr::str_split_fixed(d$latitude, "\u0096", 2)
   d[c('longitude1', 'Longitude2')] <- stringr::str_split_fixed(d$longitude, "\u0096", 2)
@@ -60,14 +60,14 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
   
   d[c('soil_SOC', 'soil_SOC1')] <- stringr::str_split_fixed(d$soil_SOC, "-", 2)
  
-  d$k <- d$end_date
-  d$end_date <- ifelse((d$start_date=="2006 and 2007")& is.na(d$end_date),"2007",
-                     ifelse((d$start_date=="2005 and 2006")& is.na(d$end_date),"2006",d$k))
+  d$k <- d$harvest_date
+  d$harvest_date <- ifelse((d$planting_date=="2006 and 2007")& is.na(d$harvest_date),"2007",
+                     ifelse((d$planting_date=="2005 and 2006")& is.na(d$harvest_date),"2006",d$k))
   #fix start date 
-  p <- carobiner::fix_name(d$start_date)
+  p <- carobiner::fix_name(d$planting_date)
   p <- gsub("2006 and 2007","2006",p)
   p <- gsub("2005 and 2006","2005",p)
-  d$start_date <- p
+  d$planting_date <- p
   
   d[d==""] <- NA
   rownames(d) <- NULL
@@ -101,7 +101,7 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
   d$latitude = as.numeric(lat[,1]) + as.numeric(lat[,2])/60
   
   # extract relevant columns 
-  d <- d[c("reference","country","location","longitude","latitude","crop","previous_crop","variety","yield","tillage","N_fertilizer", "P_fertilizer","K_fertilizer","N_splits","start_date","end_date","season","soil_pH",'soil_type',"soil_SOC")]
+  d <- d[c("reference","country","location","longitude","latitude","crop","previous_crop","variety","yield","tillage","N_fertilizer", "P_fertilizer","K_fertilizer","N_splits","planting_date","harvest_date","season","soil_pH",'soil_type',"soil_SOC")]
   # Add columns
   d$dataset_id <- dataset_id
   d$trial_id <- paste0(d$dataset_id,"_",d$country)

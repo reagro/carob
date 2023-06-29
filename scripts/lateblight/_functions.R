@@ -35,5 +35,7 @@ proc_breeding_trial <- function(f, dates, dataset_id) {
 # 'NTP', 'SAUDPC', 'NoMTWP', 'TTWP', 'MTWP', 'MTYNA',
 	d <- d[, c('dataset_id', 'record_id', 'rep', 'variety', 'AUDPC', 'rAUDPC',  'yield', 'on_farm', 'is_survey', 'irrigated', 'treatment', 'trial_id', 'crop', 'pathogen')] 
 	
+	d$harvested_part <- "tubers"
+	
 	list(d=d, tim=x)
 }

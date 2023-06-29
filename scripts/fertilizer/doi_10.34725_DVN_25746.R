@@ -100,13 +100,15 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 
 	d$yield <- round(as.numeric(d$yield) * 1000)
 	d$crop <- "maize"
+	d$harvested_part <- "grain"
+	
 	d$variety_type <- "hybrid"
 
-	d$start_date <- paste0(d$year, "-11")
+	d$planting_date <- paste0(d$year, "-11")
 	year <- as.numeric(d$year) + 1
-	d$end_date <- paste0(year, "-04")
-	d$start_date[is.na(d$year)] <- NA
-	d$end_date[is.na(d$year)] <- NA
+	d$harvest_date <- paste0(year, "-04")
+	d$planting_date[is.na(d$year)] <- NA
+	d$harvest_date[is.na(d$year)] <- NA
 	d$year <- NULL
 	
 	gli <- grep("Gliricidia", d$treatment)

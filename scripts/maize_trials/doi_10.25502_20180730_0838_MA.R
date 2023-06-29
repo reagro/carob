@@ -34,7 +34,7 @@ carob_script <- function(path) {
 	d <- mzfun(ff, "international_maize_trial_gambia_striga.csv", TRUE)
 	d$striga_trial <- TRUE
 	d$dataset_id <- dataset_id
-	d$start_date[d$start_date == 215] <- 2015
+	d$planting_date[d$planting_date == 215] <- 2015
 	
 	e <- mzfun(ff, "international_maize_trial_gambia_regular.csv")
 	e$striga_trial <- FALSE

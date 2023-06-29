@@ -74,8 +74,8 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
                                                     ifelse(d$treatment == "Variety + +i & +p",paste(d$variety,"+I,+P",sep = ","),
                                                            ifelse(d$treatment %in% c("Inoculant","I"),"+I",
                                                                   ifelse(d$treatment == "Variety",d$variety,d$treatment))))))))
-  d$start_date <- as.character(as.Date(d$date_planting,"%m/%d/%Y"))
-  d$end_date <- as.character(as.Date(d$date_harvest, "%m/%d/%Y"))
+  d$planting_date <- as.character(as.Date(d$date_planting,"%m/%d/%Y"))
+  d$harvest_date <- as.character(as.Date(d$date_harvest, "%m/%d/%Y"))
   d$plant_density <- d$no_plants/(d$area_harvest_plot_m2/10000) # based on harvested plants from harvested area/ha
   d$plant_density[d$plant_density == "NaN"] <- NA
   d$yield <- as.numeric(d$grain_yield_kgperha)
@@ -83,7 +83,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   d$residue_yield<- as.numeric(d$total_yield_stover_kg_per_ha)
   d$biomass_total <- as.numeric(d$calc_weight_a_ground_biomass_kg)
   d$grain_weight <- d$dry_weight_100_seed_g * 10
-  d <- d[,c("trial_id","rep","treatment","variety","start_date","end_date","plant_density","yield",
+  d <- d[,c("trial_id","rep","treatment","variety","planting_date","harvest_date","plant_density","yield",
               "residue_yield","biomass_total","grain_weight")]
 
   # processing field_history.csv
@@ -179,7 +179,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   f$plant_spacing <-10
   f$on_farm <- as.logical("TRUE")
   
-  f <- f[,c("dataset_id","trial_id","country","adm3","location","site","start_date","end_date",
+  f <- f[,c("dataset_id","trial_id","country","adm3","location","site","planting_date","harvest_date",
             "rep","treatment","crop","variety","previous_crop","yield","residue_yield","biomass_total",
             "grain_weight","plant_density","soil_pH","soil_SOC","soil_N","soil_sand","soil_clay","rain",
             "fertilizer_type","P_fertilizer","N_fertilizer","K_fertilizer","inoculated","row_spacing",

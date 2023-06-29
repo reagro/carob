@@ -53,16 +53,18 @@ carob_script <- function(path) {
 	d$trial_id <- paste0(d$HHID, "-", d$QID)
 	d$latitude <- d$Latitude
 	d$longitude <- d$Longitude
-	d$start_date <- "2016-05-01"
-	d$end_date <- "2016-12-01"
+	d$planting_date <- "2016-05-01"
+	d$harvest_date <- "2016-12-01"
 	d$on_farm <- TRUE
 	d$is_survey <- TRUE
 	d$crop <- "maize"
+	d$harvested_part <- "grain"
+	
 	# d$yield <- d$`FWt of Cobs_all (kg)`*4 # FWt of Cobs_all (kg) = Fresh Weight of Cobs in Quadrat (25m2)
 	d$yield <- d$`Grain yield (kg/ha@12.5%)` # Grain yield at 12.5% moisture
 	
 	# process file(s)
-	d <- d[,c("country", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "crop", "yield")]
+	d <- d[,c("country", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "crop", "harvested_part", "yield")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this

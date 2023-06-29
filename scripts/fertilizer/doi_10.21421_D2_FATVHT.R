@@ -46,13 +46,13 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 	d$latitude <- ifelse(d$Location == "BUK", 8.5922, 8.5978)
 	d$longitude <- ifelse(d$Location == "BUK", 12.0034, 12.1733)
 	# As reported in the associated publication:
-	d$start_date <- ifelse(d$Location == "BUK" & d$Year == 2014, "2014-07-19",
+	d$planting_date <- ifelse(d$Location == "BUK" & d$Year == 2014, "2014-07-19",
                     ifelse(d$Location == "BUK" & d$Year == 2015, "2014-07-20",
                     ifelse(d$Location == "Minjibir" & d$Year == 2014, "2014-07-07", "2014-07-04"))) 
 						  
 						  
-	d$end_date <- as.character(as.Date(d$start_date) + d$`Days to Maturity`)
-	d$start_date <- as.character(d$start_date)
+	d$harvest_date <- as.character(as.Date(d$planting_date) + d$`Days to Maturity`)
+	d$planting_date <- as.character(d$planting_date)
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	
@@ -60,6 +60,8 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 
 	d$rep <- as.integer(d$`Replication umber`)
 	d$crop <- "sorghum"
+	d$harvested_part <- "grain"
+	
 	d$variety <- d$Sorghum
 ## RH	d$yield <- d$`Grain yield` + d$`Stalk yield`
 	d$yield <- d$`Grain yield`

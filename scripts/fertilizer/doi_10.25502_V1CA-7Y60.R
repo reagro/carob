@@ -47,7 +47,7 @@ inoculants and fertilizers adapted to local settings.
   
 	d <- r[, c("country", "id", "lga_district_woreda", "sector_ward", "gps_homestead_device_latitude.decimal_degrees", "gps_latitude_field.decimal_degrees", "gps_homestead_device_longitude.decimal_degrees", "gps_field_device_longitude.decimal_degrees", "date_of_planting_whole_n2africa_field.date", "date_of_final_harvest_whole_n2a_field.date", "legume_planted_in_the_n2africa_trial", "crop_1_previous_season", "inoculation_n2africa_field")] 
  
-	colnames(d) <- c("country", "trial_id", "location", "site", "latitude1", "latitude2", "longitude1", "longitude2", "start_date", "end_date", "crop", "previous_crop", "inoculated")
+	colnames(d) <- c("country", "trial_id", "location", "site", "latitude1", "latitude2", "longitude1", "longitude2", "planting_date", "harvest_date", "crop", "previous_crop", "inoculated")
   
  # Fix long and lat columns 
 	i <- is.na(d$latitude1)
@@ -128,8 +128,8 @@ inoculants and fertilizers adapted to local settings.
 # merge d and dd
 	d  <- merge(d, dd, by=c("country", "location", "trial_id"))
 
-	d <- d[, c("country", "trial_id", "location", "site", "longitude", "latitude", "start_date"
-        , "end_date", "crop", "previous_crop", "variety", "inoculated", "treatment", "row_spacing", "plant_spacing", "yield", "residue_yield", "plant_density")]
+	d <- d[, c("country", "trial_id", "location", "site", "longitude", "latitude", "planting_date"
+        , "harvest_date", "crop", "previous_crop", "variety", "inoculated", "treatment", "row_spacing", "plant_spacing", "yield", "residue_yield", "plant_density")]
 
 # Add columns
 	d$dataset_id <- dataset_id   
@@ -194,33 +194,33 @@ inoculants and fertilizers adapted to local settings.
   b <- gsub("climbing_bean", "common bean", b)
   b <- gsub("green_gram", "mung bean", b)
   d$previous_crop <- b 
- ###RH ? b2 <- carobiner::fix_name(d$start_date) 
+ ###RH ? b2 <- carobiner::fix_name(d$planting_date) 
  ## b2 <- gsub("2025-07-08", , b2)
- ## d$start_date <- b2
-## d$start_date[d$start_date == "2025-07-08"] <- "2015-07-08"
+ ## d$planting_date <- b2
+## d$planting_date[d$planting_date == "2025-07-08"] <- "2015-07-08"
 # change the date format 
-##RH ?  d$start_date <- format(dmy(d$start_date), '%d/%m/%Y')
-##RH ?  d$end_date <- format(dmy(d$end_date), '%d/%m/%Y')
+##RH ?  d$planting_date <- format(dmy(d$planting_date), '%d/%m/%Y')
+##RH ?  d$harvest_date <- format(dmy(d$harvest_date), '%d/%m/%Y')
 
 ## this works in English locales (that is, not on e.g. a French computer)
-##  d$start_date <- as.Date(d$start_date, '%d-%b-%y')
-##  d$end_date <- as.Date(d$end_date, '%d-%b-%y')
+##  d$planting_date <- as.Date(d$planting_date, '%d-%b-%y')
+##  d$harvest_date <- as.Date(d$harvest_date, '%d-%b-%y')
 
 ##  therefore
 	for (i in 1:12) {
-		d$start_date <- gsub(month.abb[i], i, d$start_date)
-		d$end_date <- gsub(month.abb[i], i, d$end_date)
+		d$planting_date <- gsub(month.abb[i], i, d$planting_date)
+		d$harvest_date <- gsub(month.abb[i], i, d$harvest_date)
 	}
-	d$start_date <- as.character(as.Date(d$start_date, '%d-%m-%y'))
-	d$end_date <- as.character(as.Date(d$end_date, '%d-%m-%y'))
+	d$planting_date <- as.character(as.Date(d$planting_date, '%d-%m-%y'))
+	d$harvest_date <- as.character(as.Date(d$harvest_date, '%d-%m-%y'))
 	
   #fix start date column
-##??  b2 <- carobiner::fix_name(d$start_date) 
+##??  b2 <- carobiner::fix_name(d$planting_date) 
 ##  b2 <- gsub("08/07/2025", "08/07/2016", b2) # end date is 2016-11-05 and the crop is soybean
-	d$start_date[d$start_date=="2025-07-08"] <- "2016-07-08"
+	d$planting_date[d$planting_date=="2025-07-08"] <- "2016-07-08"
   #data type
- ## d$start_date <- format(as.Date(d$start_date, format = '%d/%m/%Y'), "%Y-%m-%d")
-##  d$end_date <- format(as.Date(d$end_date, format = '%d/%m/%Y'), "%Y-%m-%d")
+ ## d$planting_date <- format(as.Date(d$planting_date, format = '%d/%m/%Y'), "%Y-%m-%d")
+##  d$harvest_date <- format(as.Date(d$harvest_date, format = '%d/%m/%Y'), "%Y-%m-%d")
 	d$yield <- as.numeric(d$yield)
 	d$inoculated <- as.logical(d$inoculated)
 

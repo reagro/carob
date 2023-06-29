@@ -51,24 +51,26 @@ carob_script <- function(path) {
   d$trial_id <- dataset_id
   d$latitude <- 27.369444
   d$longitude <- -109.930833
-  # EGB: Adding start_date
-  d$start_date <- NA
-  d$start_date[d$Year == 2009] <- as.character("2008-12-03")
-  d$start_date[d$Year == 2010] <- as.character("2009-12-01")
-  d$start_date[d$Year == 2011] <- as.character("2010-12-08")
-  d$start_date[d$Year == 2012] <- as.character("2011-12-15")
-  d$start_date[d$Year == 2013] <- as.character("2012-12-10")
-  d$start_date[d$Year == 2014] <- as.character("2013-12-11")
-  d$start_date[d$Year == 2015] <- as.character("2014-11-26")
-  d$start_date[d$Year == 2016] <- as.character("2015-11-23")
-  d$start_date[d$Year == 2017] <- as.character("2016-11-28")
-  d$start_date[d$Year == 2018] <- as.character("2017-11-27")
-  d$end_date <- as.character(d$Year)
+  # EGB: Adding planting_date
+  d$planting_date <- NA
+  d$planting_date[d$Year == 2009] <- as.character("2008-12-03")
+  d$planting_date[d$Year == 2010] <- as.character("2009-12-01")
+  d$planting_date[d$Year == 2011] <- as.character("2010-12-08")
+  d$planting_date[d$Year == 2012] <- as.character("2011-12-15")
+  d$planting_date[d$Year == 2013] <- as.character("2012-12-10")
+  d$planting_date[d$Year == 2014] <- as.character("2013-12-11")
+  d$planting_date[d$Year == 2015] <- as.character("2014-11-26")
+  d$planting_date[d$Year == 2016] <- as.character("2015-11-23")
+  d$planting_date[d$Year == 2017] <- as.character("2016-11-28")
+  d$planting_date[d$Year == 2018] <- as.character("2017-11-27")
+  d$harvest_date <- as.character(d$Year)
   
   d$on_farm <- FALSE
   d$is_survey <- FALSE
   d$rep <- as.integer(d$REP)
   d$crop <- "wheat"
+	d$harvested_part <- "grain"
+  
   d$BIOMASS[d$BIOMASS == "."] <- NA 
   d$biomass_total <- as.numeric(d$BIOMASS)
   d$`YIELD 12%`[d$`YIELD 12%` == "."] <- NA
@@ -102,7 +104,7 @@ carob_script <- function(path) {
   
   # process file(s)
   d <- d[,c("country", "adm1", "adm2", "trial_id",
-            "latitude", "longitude", "start_date", "end_date",
+            "latitude", "longitude", "planting_date", "harvest_date",
             "on_farm", "is_survey", "rep", "crop",
             "biomass_total", "yield",
             "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer",

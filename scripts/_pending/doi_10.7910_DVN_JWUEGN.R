@@ -63,8 +63,8 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   e$on_farm<-TRUE
   e$is_survey<-FALSE
   e$crop<-"rice"
-  e$start_date <- "2006-05-01"
-  e$end_date <-"2006-10-30"
+  e$planting_date <- "2006-05-01"
+  e$harvest_date <-"2006-10-30"
   
   #Replace values in a data frame
  e["N_fertilizer"][e["N_fertilizer"]=="0"]<-"0"
@@ -87,7 +87,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
  e["variety"][e["variety"]=="4"]<-"v4 - WAB 56-50"
 
  ##re-order
- e<-e[, c("rep","dataset_id","trial_id","country","on_farm","is_survey","start_date","end_date","crop","N_fertilizer","variety","yield","biomass_leaves","plant_spacing","row_spacing")]       
+ e<-e[, c("rep","dataset_id","trial_id","country","on_farm","is_survey","planting_date","harvest_date","crop","N_fertilizer","variety","yield","biomass_leaves","plant_spacing","row_spacing")]       
  
  carobiner::write_files(dset, e, path, dataset_id, group)
 }

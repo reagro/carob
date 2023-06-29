@@ -61,8 +61,8 @@ carob_script <- function(path) {
 	d$latitude <- 11.793702
 	d$longitude <- 8.838846
 	# sown during the growing seasons of 2012 and 2013 no actual dates mentioned
-	d$start_date <- ifelse(d$Year == "2012", "2012","2013") 
-	d$end_date <- ifelse(d$Year == "2012", "2012","2013") 
+	d$planting_date <- ifelse(d$Year == "2012", "2012","2013") 
+	d$harvest_date <- ifelse(d$Year == "2012", "2012","2013") 
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$rep <- as.integer(d$Replication.number)
@@ -95,7 +95,7 @@ carob_script <- function(path) {
 	
 	
 	# process file(s)
-	d <- d[,c("trial_id","country","adm1","adm2","adm3","latitude","longitude","start_date","end_date","crop","variety","row_spacing","plant_spacing","flowering","plant_density","on_farm","is_survey","soil_pH","soil_SOC","soil_sand","soil_clay","soil_silt","soil_P_available","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight")]
+	d <- d[,c("trial_id","country","adm1","adm2","adm3","latitude","longitude","planting_date","harvest_date","crop","variety","row_spacing","plant_spacing","flowering","plant_density","on_farm","is_survey","soil_pH","soil_SOC","soil_sand","soil_clay","soil_silt","soil_P_available","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight")]
 	
 	d$dataset_id <- dataset_id
 

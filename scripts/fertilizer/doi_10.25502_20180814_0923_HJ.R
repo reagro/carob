@@ -68,10 +68,12 @@ carob_script <- function(path) {
   d$yield<-d$yield*1000 # kg/ha
   # Add columns
   d$country<-"Malawi"
-  d$start_date<-"2015-12-29"
-  d$end_date<-"2016-06-01"
+  d$planting_date<-"2015-12-29"
+  d$harvest_date<-"2016-06-01"
   d$trial_id<-paste0(d$dataset_id,"-",d$location)
   d$crop<-"maize"
+	d$harvested_part <- "grain"
+  
   # fill whitespace 
   d <- replace(d, d=='', NA)
   #Add column
@@ -109,41 +111,40 @@ carob_script <- function(path) {
     #d$elevation <- NA
     ##### Fertilizers #####
     d$N_fertilizer<-ifelse(d$treatment=="Control",0,
-                            ifelse(d$treatment=="PK",0,
-                            ifelse(d$treatment=="0N40P60K",0,
-                             ifelse(d$treatment=="45N40P60K",45,
-                                    ifelse(d$treatment=="90N40P60K",90,
-                                           ifelse(d$treatment=="120N40P60K",120,
-                                                  ifelse(d$treatment=="150N40P60K",150,
-                                                         ifelse(d$treatment=="120N0P60K",120,
-                                                                ifelse(d$treatment=="120N15P60K",120,
-                                                                       ifelse(d$treatment=="120N30P60K",120,100))))))))))
+                    ifelse(d$treatment=="PK",0,
+                    ifelse(d$treatment=="0N40P60K",0,
+                    ifelse(d$treatment=="45N40P60K",45,
+                    ifelse(d$treatment=="90N40P60K",90,
+                    ifelse(d$treatment=="120N40P60K",120,
+                    ifelse(d$treatment=="150N40P60K",150,
+                    ifelse(d$treatment=="120N0P60K",120,
+                    ifelse(d$treatment=="120N15P60K",120,
+                    ifelse(d$treatment=="120N30P60K",120,100))))))))))
  d$K_fertilizer<-ifelse(d$treatment=="Control",0,
-                            ifelse(d$treatment=="NP",0,60))
+                    ifelse(d$treatment=="NP",0,60))
                             
  d$P_fertilizer<-ifelse(d$treatment=="Control",0,
-                         ifelse(d$treatment=="NK",0,
-                                ifelse(d$treatment=="120N0P60K",0,
-                                       ifelse(d$treatment=="0N40P60K",40,
-                                              ifelse(d$treatment=="45N40P60K",40,
-                                                     ifelse(d$treatment=="90N40P60K",40,
-                                                            ifelse(d$treatment=="120N40P60K",40,
-                                                                   ifelse(d$treatment=="150N40P60K",40,
-                                                                          ifelse(d$treatment=="120N15P60K",15,30)))))))))
+                    ifelse(d$treatment=="NK",0,
+                    ifelse(d$treatment=="120N0P60K",0,
+                    ifelse(d$treatment=="0N40P60K",40,
+                    ifelse(d$treatment=="45N40P60K",40,
+                    ifelse(d$treatment=="90N40P60K",40,
+                    ifelse(d$treatment=="120N40P60K",40,
+                    ifelse(d$treatment=="150N40P60K",40,
+                    ifelse(d$treatment=="120N15P60K",15,30)))))))))
                             
  d$Zn_fertilizer<-ifelse(d$treatment=="NPK+Mn",3,0)
                             
  d$S_fertilizer<-ifelse(d$treatment=="NPK+Mn",5,0)
   
  # data type and date format
-d$start_date <- as.character(as.Date( d$start_date  ))
-d$end_date  <- as.character(as.Date(  d$end_date  ))
-d$season  <- as.character(d$season) 
-d$fertilizer_type <- as.character(d$fertilizer_type) 
+	d$planting_date <- as.character(as.Date( d$planting_date  ))
+	d$harvest_date  <- as.character(as.Date(  d$harvest_date  ))
+	d$season  <- as.character(d$season) 
+	d$fertilizer_type <- as.character(d$fertilizer_type) 
 
 
-    # all scripts must end like this
-  
+    # all scripts must end like this  
     carobiner::write_files(dset, d, path=path)
 }
 

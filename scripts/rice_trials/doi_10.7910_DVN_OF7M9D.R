@@ -14,7 +14,7 @@ In 2010, the Africa-wide Rice Breeding Task Force was launched by AfricaRice inv
   
   uri <- "doi:10.7910/DVN/OF7M9D"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "variety_trials"
+  group <- "rice_trials"
   ## dataset level data 
   dset <- data.frame(
     dataset_id = dataset_id,
@@ -54,9 +54,9 @@ In 2010, the Africa-wide Rice Breeding Task Force was launched by AfricaRice inv
     d$trial_id <- paste0(dataset_id, '-', dd$country)
     
 	## RH: these are not trial start and end dates 
-	#d$start_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredStart[[4]]
-    #d$end_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredEnd[[4]]
-	d$start_date <- d$end_date <- "2016"
+	#d$planting_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredStart[[4]]
+    #d$harvest_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredEnd[[4]]
+	d$planting_date <- d$harvest_date <- "2016"
 
     # Coordinates extracted using Geonames.org
 	# RH: Africa Rice (CdI) and Bordo from Google
@@ -69,6 +69,7 @@ In 2010, the Africa-wide Rice Breeding Task Force was launched by AfricaRice inv
 
     # Rainfed Upland (RU) farming systems
     d$crop <- "rice"
+	d$harvested_part <- "grain"
     d$irrigated <- FALSE 
     d$is_survey <- FALSE
     d$on_farm <- TRUE

@@ -60,12 +60,13 @@ Also see: doi:10.21955/gatesopenres.1115299.1
                   c("Embu ATC", "EmbuKPS", "c(\"Kandara\", \"SR\")"), c("Embu","Embu","Kandara"))
   d$adm3 <- v
   d$crop <- "maize"
+	d$harvested_part <- "grain"
+  
   d$rep <- d$R
   d$treatment <- d$Trt
   d$N_fertilizer <- d$N
   d$P_fertilizer <- d$P
   d$K_fertilizer <- d$K
-  d$crop <- "maize"
   d$variety <- d$Variety
   d$yield <- d$GrainYld*1000 #converting to kg/ha
   d$trial_id <- paste("KE",d$SY1, sep = "_")
@@ -86,12 +87,12 @@ Also see: doi:10.21955/gatesopenres.1115299.1
   
   # dates extracted from the reference
   dd <- data.frame(SY1= c("Eldoret14","Embu ATC15","EmbuKPS15","Kandara14","Kandara15SR","Kisii14","Kitale15","Machakos","Njoro14"),
-                   start_date = c("2014-06-19","2015-03-31","2015-03-31","2014-03-27","2015-10-02","2014-04-03","2015-04-28","2015-04-08","2014-04-23"),
-                   end_date = c("2014","2015-07-10","2015-07-10","2014-07-15","2016-01-27","2014", "2015","2015-07-12","2014-11-14"))
+                   planting_date = c("2014-06-19","2015-03-31","2015-03-31","2014-03-27","2015-10-02","2014-04-03","2015-04-28","2015-04-08","2014-04-23"),
+                   harvest_date = c("2014","2015-07-10","2015-07-10","2014-07-15","2016-01-27","2014", "2015","2015-07-12","2014-11-14"))
   
   d <- merge(d,dd, by = "SY1", all.x = TRUE)
   
-  d <- d[,c("trial_id","country","adm3","latitude","longitude","crop","variety","treatment","rep","N_fertilizer","P_fertilizer","K_fertilizer","start_date","end_date","elevation",
+  d <- d[,c("trial_id","country","adm3","latitude","longitude","crop","variety","treatment","rep","N_fertilizer","P_fertilizer","K_fertilizer","planting_date","harvest_date","elevation",
             "soil_pH","soil_P_total","soil_K","yield")]
   
   d1$country <-"Malawi"
@@ -111,8 +112,8 @@ Also see: doi:10.21955/gatesopenres.1115299.1
   d1$trial_id <- paste("MW",d1$adm1,d1$L, sep = "_")
   #Dates extracted from reference
   dd <- data.frame(L = c("BDF15","BDFS15", "SLS15"), 
-                   start_date = c("2015-01-05","2015-01-05","2015-01-25"),
-                   end_date = c("2015-04-25","2015-04-25","2015-05-12"))
+                   planting_date = c("2015-01-05","2015-01-05","2015-01-25"),
+                   harvest_date = c("2015-04-25","2015-04-25","2015-05-12"))
   
   d1 <- merge(d1,dd, by = "L", all.x = TRUE)
   dr <- data.frame(adm1 = c("Bunda","Salima"),
@@ -120,7 +121,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
                    soil_P_total = c(13.3,10.7),
                    soil_K = c(113,156))
   d1 <- merge(d1,dr,by = "adm1",all.x = TRUE)
-  d1 <- d1[,c("trial_id","country","adm1","latitude","longitude","crop","rep","start_date","end_date","N_fertilizer","P_fertilizer","K_fertilizer","grain_weight","elevation",
+  d1 <- d1[,c("trial_id","country","adm1","latitude","longitude","crop","rep","planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","grain_weight","elevation",
               "soil_pH","soil_P_total","soil_K","yield")]
   
   d2<- readxl::read_xlsx(f, sheet = 4)
@@ -149,8 +150,8 @@ Also see: doi:10.21955/gatesopenres.1115299.1
   d2$dd <- paste(d2$Season,d2$adm2)
   
   dd1 <- data.frame(dd =c("2014B Ngoma","2014B Nyagatare","2015 B Ngoma","2015 B Nyagatare","2015 B Musanze","2015A Bugesera", "2015A Ngoma","2015A Nyagatare","2015A Burera","2015A Musanze","2015A Huye"),
-                    start_date =c("2014-03-09","2013-11-03","2015-02-27","2015-02-24","2015-02-10","2014-03-10","2014-09-26","2014-09-22","2014-09-18","2014-10-09","2015-03-04"),
-                    end_date   =c("2014-07-29","2014_07-24","2015-07-16","2015-07-21","2015-08-11","2015-02-06","2015-02-10","2015-02-03","2015-02-26","2015_03-02","2015-07-23"))
+                    planting_date =c("2014-03-09","2013-11-03","2015-02-27","2015-02-24","2015-02-10","2014-03-10","2014-09-26","2014-09-22","2014-09-18","2014-10-09","2015-03-04"),
+                    harvest_date   =c("2014-07-29","2014_07-24","2015-07-16","2015-07-21","2015-08-11","2015-02-06","2015-02-10","2015-02-03","2015-02-26","2015_03-02","2015-07-23"))
   
   
   d2 <- merge(d2,dd1, by = "dd", all.x = TRUE)
@@ -170,7 +171,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
   
   d2 <- merge(d2,LL, by = "adm2", all.x = TRUE)
   
-  d2 <- d2[, c("trial_id","country","adm2","latitude","longitude","crop","start_date","end_date",
+  d2 <- d2[, c("trial_id","country","adm2","latitude","longitude","crop","planting_date","harvest_date",
                "variety","rep","treatment","N_fertilizer","P_fertilizer","K_fertilizer","elevation",
                "soil_P_total","soil_K","yield")]
   
@@ -212,12 +213,12 @@ Also see: doi:10.21955/gatesopenres.1115299.1
   d3$dd <- paste(d3$adm3,d3$Y)
   
   dd <- data.frame(dd = c("Dareda 15","Dareda 16","Ilonga 14","Ilonga 15","Kwedizinga 16","Kwedizinga 15","Mavamizi 14","Mlingano 14","Mlingano 15","Muheza 15","Selian 14","Selian 15","Uyole 15","Uyole 16"),
-                   start_date = c("2015-05-01","2016-01-01","2014-02-21","2015-03-04","2016-04-04","2015-03-21","2014-03-17","2014-03-10","2015-03-24","2015-03-19","2014-03-20","2015-04-03","2014-12-12","2015-12-24"),
-                   end_date   = c("2015-07-15","2016-07-28","2014-07-10","2015-07-14","2016-07-26","2015-07-20","2014-07-18","2014-07-18","2015-08-13","2015-09-14","2014-09-14","2015-09-11","2015-08-11","2016-07-05"))
+                   planting_date = c("2015-05-01","2016-01-01","2014-02-21","2015-03-04","2016-04-04","2015-03-21","2014-03-17","2014-03-10","2015-03-24","2015-03-19","2014-03-20","2015-04-03","2014-12-12","2015-12-24"),
+                   harvest_date   = c("2015-07-15","2016-07-28","2014-07-10","2015-07-14","2016-07-26","2015-07-20","2014-07-18","2014-07-18","2015-08-13","2015-09-14","2014-09-14","2015-09-11","2015-08-11","2016-07-05"))
   
   d3 <- merge(d3,dd, by = "dd", all.x = TRUE)
   d3[is.na(d3)] <- 0
-  d3 <- d3[,c("trial_id","country","adm3","latitude","longitude","crop","variety","rep","start_date","end_date","N_fertilizer","P_fertilizer","K_fertilizer",
+  d3 <- d3[,c("trial_id","country","adm3","latitude","longitude","crop","variety","rep","planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer",
               "elevation","soil_pH","soil_P_total","soil_K","yield")]
   
   d4$country <- "Zambia"
@@ -250,12 +251,12 @@ Also see: doi:10.21955/gatesopenres.1115299.1
   d4 <- merge(d4,LL, by = "site", all.x = TRUE)
   # dates from the reference
   dd <- data.frame(trial_id = c("ZM_Choma_2014","ZM_Choma_2015","ZM_Kasama_2014","ZM_Msekera_2014","ZM_Msekera_2015","ZM_Mt. Makulu_2013","ZM_Mt. Makulu_2014","ZM_Mt. Makulu_2015"),
-                   start_date = c("2014-12-08","2015-12-13","2014-12-06","2014-12-13","2015-12-18","2013-12-12","2014-12-12","2015-12-01"),
-                   end_date = c("2015-05-18","2016-05-17","2015-05-14","2015-05-22","2016-05-22","2014-05-05","2015-05-05","2016-05-06"))
+                   planting_date = c("2014-12-08","2015-12-13","2014-12-06","2014-12-13","2015-12-18","2013-12-12","2014-12-12","2015-12-01"),
+                   harvest_date = c("2015-05-18","2016-05-17","2015-05-14","2015-05-22","2016-05-22","2014-05-05","2015-05-05","2016-05-06"))
   
   d4 <- merge(d4,dd, by = "trial_id", all.x = TRUE)
   
-  d4 <- d4[, c("trial_id","country","site","latitude","longitude","crop","variety","rep","start_date","end_date","elevation",
+  d4 <- d4[, c("trial_id","country","site","latitude","longitude","crop","variety","rep","planting_date","harvest_date","elevation",
                "soil_pH","soil_P_total","soil_K","N_fertilizer","P_fertilizer","K_fertilizer","yield")]
   
   dd1 <- merge(d,d1, all = TRUE)
@@ -272,8 +273,8 @@ Also see: doi:10.21955/gatesopenres.1115299.1
   z$latitude <- as.numeric(z$latitude)
   z$longitude <- as.numeric(z$longitude)
   z$rep <- as.integer(z$rep)
-  z$end_date <- ifelse(grepl("-", z$end_date),
-                       as.character(as.Date(z$end_date, format = c("%Y-%m-%d"))),
+  z$harvest_date <- ifelse(grepl("-", z$harvest_date),
+                       as.character(as.Date(z$harvest_date, format = c("%Y-%m-%d"))),
                        NA)
   z$soil_K <- z$soil_K # mg/kg
   z$soil_P_total <- z$soil_P_total # mg/kg

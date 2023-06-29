@@ -45,7 +45,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
 
-	d$end_date[which(d$end_date == "2049-06-12")] <- "2019-06-12"
+	d$harvest_date[which(d$harvest_date == "2049-06-12")] <- "2019-06-12"
 
 # all scripts must end like this
 	carobiner::write_files(path, dset, d)

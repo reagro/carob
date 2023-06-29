@@ -59,8 +59,8 @@ proc_wheat <- function(ff) {
 	r$location <- gsub(" - ", ", ", r$Loc_desc)
 
 # Process in carob format
-	r$start_date <- as.character(as.Date(r$SOWING_DATE, "%b %d %Y"))
-	r$end_date <- as.character(as.Date(r$HARVEST_FINISHING_DATE, "%b %d %Y"))
+	r$planting_date <- as.character(as.Date(r$SOWING_DATE, "%b %d %Y"))
+	r$harvest_date <- as.character(as.Date(r$HARVEST_FINISHING_DATE, "%b %d %Y"))
 	
 # other variables
 	r$on_farm <- FALSE
@@ -308,7 +308,7 @@ proc_wheat <- function(ff) {
 	r$blast_severity  <- r$`Blast severity`
 		
 	# Subset for relevant columns
-	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "rep","crop", "variety_code", "variety_type", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_type", "soil_om", "soil_ph",  "irrigated", "row_spacing", "yield", "grain_weight", "heading", "height","powdery_mildew", "stem_rust", "leaf_rust", "sterility_index", "fusarium_scab_spike", "helminthosporium_sativum_leaf", "septoria_tritici_blotch", "septoria_species", "blast_severity", "blast_intensity")
+	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "rep","crop", "variety_code", "variety_type", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_type", "soil_om", "soil_ph",  "irrigated", "row_spacing", "harvested_part", "yield", "grain_weight", "heading", "height","powdery_mildew", "stem_rust", "leaf_rust", "sterility_index", "fusarium_scab_spike", "helminthosporium_sativum_leaf", "septoria_tritici_blotch", "septoria_species", "blast_severity", "blast_intensity")
 		
 	r$country <- ifelse(r$country== "Dem Rep of Congo", "Democratic Republic of the Congo", r$country)
 	r$country <- ifelse(r$country== "U A Emirates", "United Arab Emirates", r$country)
@@ -331,6 +331,9 @@ proc_wheat <- function(ff) {
 	i <- which(r$location == "Sanliurfa-Akcakale,  A.R.I")
 	r$latitude[i] <- 36.72
 
+	r$harvested_part <- "grain"
+	# records without yield are not very useful
+	#r <- r[!is.na(r$yield), ]
 
 	# they may not be all available
 	cv <- cvars[cvars %in% names(r)]	

@@ -72,8 +72,8 @@ carob_script <- function(path) {
   d$country <- "Zambia"
   d$dataset_id <- dataset_id
   d$trial_id <- paste0(d$dataset_id,"-",d$adm1)
-  d$start_date  <- "2006"
-  d$end_date  <- "2015"
+  d$planting_date  <- "2006"
+  d$harvest_date  <- "2015"
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$irrigated <- FALSE

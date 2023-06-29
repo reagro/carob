@@ -45,8 +45,8 @@ carob_script <- function(path){
   d$trial_id <-  d$experiment_id
   d$rep <- d$replication_no
   d$on_farm <- TRUE
-  d$start_date <- as.character(as.Date(paste(d$planting_date_yyyy, d$planting_date_mm, d$planting_date_dd, sep = "-")))
-  d$end_date <- as.character(as.Date(paste(d$date_harvest_yyyy, d$date_harvest_mm, d$date_harvest_dd, sep = "-")))
+  d$planting_date <- as.character(as.Date(paste(d$planting_date_yyyy, d$planting_date_mm, d$planting_date_dd, sep = "-")))
+  d$harvest_date <- as.character(as.Date(paste(d$date_harvest_yyyy, d$date_harvest_mm, d$date_harvest_dd, sep = "-")))
   d$inoculated <- grepl("INO", d$experiment_id)
   d$yield <- d$grain_yield_ha_calc
   ## EGB:
@@ -68,7 +68,7 @@ carob_script <- function(path){
   d$N_splits[d$N_fertilizer > 0] <- 2L
   
   # subsetting the processed variables
-  d <- d[, c("trial_id","rep","on_farm","start_date","end_date","inoculated","yield","P_fertilizer","K_fertilizer","N_fertilizer","N_splits")]
+  d <- d[, c("trial_id","rep","on_farm","planting_date","harvest_date","inoculated","yield","P_fertilizer","K_fertilizer","N_fertilizer","N_splits")]
   
   
   d1$trial_id <- d1$experiment_id
