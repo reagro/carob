@@ -20,7 +20,7 @@ carob_script <- function(path) {
    the development and adoption of improved weed control methods
 "
   
-  uri <- "doi.org/10.25502/2RB2-6439/D"
+  uri <- "doi:10.25502/2RB2-6439/D"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ## dataset level data 

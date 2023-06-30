@@ -11,7 +11,7 @@ carob_script <- function(path) {
 "
 #Metadata for Carob
 
-	uri <- "doi.org/10.21223/P3/SFXXDC"
+	uri <- "doi:10.21223/P3/SFXXDC"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "lateblight"
 

@@ -16,7 +16,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 "
 carob_script <- function(path) {
   
-  uri <- "https://doi.org/10.25502/NY1Z-W564/D"
+  uri <- "doi:10.25502/NY1Z-W564/D"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
