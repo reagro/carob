@@ -37,10 +37,9 @@ carob_script <- function(path) {
     data_institutions = "CIMMYT",
     carob_contributor="Cedric Ngakou",
     experiment_type="NA",
-    has_weather=FALSE,
-    has_soil=FALSE,
-    has_management=FALSE
-  )
+    has_weather=FALSE
+     
+       )
   
   ## download and read data 
   

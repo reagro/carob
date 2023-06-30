@@ -28,10 +28,8 @@ carob_script <- function(path) {
     
     ## something like randomized control...
     experiment_type="meta-analysis",
-    has_weather=FALSE,
-    has_soil=FALSE,
-    has_management=FALSE
-  )
+    has_weather=FALSE
+   )
   
   ## download and read data 
   

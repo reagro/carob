@@ -30,8 +30,8 @@ carob_script <- function(path){
   https://doi.org/10.25502/JHRJ-9423",
     carob_contributor = "Effie Ochieng",
     experiment_type = "variety_performance",
-    has_weather = FALSE,
-    has_management = FALSE)
+    has_weather = FALSE
+    )
   
   #extract the data
   ff <- carobiner::get_data(uri,path,group)

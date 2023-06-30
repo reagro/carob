@@ -27,9 +27,8 @@ carob_script <- function(path) {
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   experiment_type="Station experiment",
-	   has_weather=FALSE,
-	   has_management=FALSE
-	)
+	   has_weather=FALSE
+ 	)
 
 ## download and read data 
 

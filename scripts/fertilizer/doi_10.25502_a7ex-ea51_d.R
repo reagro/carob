@@ -19,12 +19,11 @@ carob_script <- function(path){
   project="N2Africa",
   uri = uri,
   publication = "doi:10.1016/j.agee.2017.08.015",
-  data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., 
-  & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Rwanda, 2012 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/A7EX-EA51/D",
+  data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Rwanda, 2012 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/A7EX-EA51/D",
   carob_contributor = "Effie Ochieng",
   experiment_type = "on farm",
-  has_weather =  FALSE,
-  has_management = FALSE
+  has_weather =  FALSE
+  
 )
 
 

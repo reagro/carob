@@ -37,9 +37,8 @@ Notes
 		publication="doi:10.1007/s10705-015-9717-2",
 		carob_contributor="Camila Bonilla",
 		experiment_type="fertilizer",
-		has_weather=FALSE,
-		has_management=FALSE
-	)
+		has_weather=FALSE
+		 	)
 
 	## treatment level data 
 	ff  <- carobiner::get_data(uri, path, group)

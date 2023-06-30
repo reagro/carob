@@ -32,9 +32,8 @@ carob_script <- function(path) {
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
     experiment_type="variety trial",
-    has_weather=FALSE,
-    has_management=FALSE
-  )
+    has_weather=FALSE
+       )
   
   ## download and read data 
   

@@ -30,8 +30,8 @@ relative to yields of only NP/K application. (2020-02-25)
     data_institutions = "CIAT",
     carob_contributor="Rachel Mukami",
     experiment_type="Crop yield response to secondary and micronutrient (SMN), manure and lime application relative to yields of only NP/K application",
-    has_weather=FALSE,
-    has_management=TRUE
+    has_weather=FALSE
+     
   )
   
   ## downloading data 

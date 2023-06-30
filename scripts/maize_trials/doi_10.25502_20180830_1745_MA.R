@@ -22,9 +22,9 @@ carob_script <- function(path) {
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
 		experiment_type = "varieties",
-		has_weather = FALSE,
+		has_weather = FALSE
 		
-		has_management = FALSE
+
 	)
 
 	

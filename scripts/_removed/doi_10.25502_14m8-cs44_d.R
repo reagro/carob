@@ -33,8 +33,8 @@ carob_script <- function(path) {
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
     experiment_type = "fertilizer",
-    has_weather=TRUE,
-    has_management=TRUE
+    has_weather=TRUE
+     
   )
   
   ## download and read data

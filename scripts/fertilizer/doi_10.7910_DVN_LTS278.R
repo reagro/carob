@@ -21,9 +21,8 @@ dset <- data.frame(
   publication=NA,
   carob_contributor="Siyabusa Mkuhlani",
   experiment_type="fertilizer",
-  has_weather=FALSE,
-  has_management=FALSE
-)
+  has_weather=FALSE
+   )
 
 ## treatment level data 
 ff  <- carobiner::get_data(uri, path, group)

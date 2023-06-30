@@ -27,9 +27,9 @@ carob_script <- function(path) {
 	   
 	   ## something like randomized control...
 	   experiment_type="On-station experiment",
-	   has_weather=FALSE,
-	   has_soil=FALSE,
-	   has_management=TRUE
+	   has_weather=FALSE
+	    
+	    
 	)
 
 ## download and read data 

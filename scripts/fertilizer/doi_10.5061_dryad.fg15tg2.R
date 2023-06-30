@@ -2,19 +2,8 @@
 carob_script <- function(path) {
   
   "
-	Information is scarce for maize (Zea mays L.) response to nutrient application for many production areas in tropical Africa. 
-	Research was conducted to determine macronutrient response functions and to diagnose Mg–S–Zn–B deficiencies. 
-	Site–year × N-rate interactions within countries often accounted for little variation in yield relative to the N-rate effect. 
-	Country mean grain yield responses to N-rate were curvilinear to plateau, but linear in Malawi. Although mean yields differed, 
-	the response to N was similar for Kenya, Tanzania, and Zambia with a mean yield increase of 0.94 Mg ha–1 due to 50 kg ha–1 N compared
-	with 1.59 Mg ha–1 for Malawi and Rwanda. Response to N was related to yield with no fertilizer applied (r = 0.40). 
-	Only Rwanda had mean responses to P and K with respective yield increases of 0.99 and 0.22 Mg ha–1 due to 15 kg ha–1.
-	Application of Mg–S–Zn–B caused a mean yield increase of 0.73 Mg ha–1 in Rwanda but had no effect in other countries. 
-	Application of affordable fertilizer to twice as much land at 50% compared with 100% of the economically optimum rate results 
-	in mean gains of 50% for production and agronomic efficiency and 72% for profit/cost ratio. Soil test results were not related
-	to response to applied nutrients but historical yield appears to be weakly predictive of N response. The determined country-level 
-	P and K response functions can be widely applied, except for Kenya, in consideration of other available information. 
-	The response to Mg–S–Zn–B in Rwanda needs further investigation.
+	Information is scarce for maize (Zea mays L.) response to nutrient application for many production areas in tropical Africa. Research was conducted to determine macronutrient response functions and to diagnose Mg–S–Zn–B deficiencies. Site–year × N-rate interactions within countries often accounted for little variation in yield relative to the N-rate effect. Country mean grain yield responses to N-rate were curvilinear to plateau, but linear in Malawi. Although mean yields differed, the response to N was similar for Kenya, Tanzania, and Zambia with a mean yield increase of 0.94 Mg ha–1 due to 50 kg ha–1 N compared with 1.59 Mg ha–1 for Malawi and Rwanda. Response to N was related to yield with no fertilizer applied (r = 0.40). Only Rwanda had mean responses to P and K with respective yield increases of 0.99 and 0.22 Mg ha–1 due to 15 kg ha–1. Application of Mg–S–Zn–B caused a mean yield increase of 0.73 Mg ha–1 in Rwanda but had no effect in other countries. Application of affordable fertilizer to twice as much land at 50% compared with 100% of the economically optimum rate results in mean gains of 50% for production and agronomic efficiency and 72% for profit/cost ratio. Soil test results were not related
+	to response to applied nutrients but historical yield appears to be weakly predictive of N response. The determined country-level P and K response functions can be widely applied, except for Kenya, in consideration of other available information. The response to Mg–S–Zn–B in Rwanda needs further investigation.
 	
 Wortmann, C., C. Senkoro, A.R. Cyamweshi, C. Kibunja, D. Nkonde, M. Munthali, P. Nalivata, L.N. Nabahungu, K. Kaizzi. 2018. Maize-nutrient response functions for Eastern and Southern Africa. Agron. J. 110:2070-2079. doi:10.2134/agronj2018.04.0268
 
@@ -33,11 +22,11 @@ Also see: doi:10.21955/gatesopenres.1115299.1
     uri=uri,
     publication= "doi:10.2134/agronj2018.04.0268",
     data_institutions = "University of Nebraska-Lincoln",
+    data_citation = NA,
+
     carob_contributor="Effie Ochieng and Rachel Mukami",
     experiment_type="fertilizer",
-    has_weather= TRUE,
-    has_soil=TRUE,
-    has_management=FALSE
+    has_weather= TRUE
   )
   
   ## download and read data 

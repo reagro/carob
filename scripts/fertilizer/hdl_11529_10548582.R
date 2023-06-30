@@ -29,9 +29,7 @@ carob_script <- function(path) {
     data_institutions = "CIMMYT",
     carob_contributor="Eduardo Garcia Bendito",
     experiment_type="fertilizer",
-    has_weather=TRUE,
-    has_management=FALSE,
-    has_soil=TRUE
+    has_weather=TRUE 
   )
   
   ## download and read data 

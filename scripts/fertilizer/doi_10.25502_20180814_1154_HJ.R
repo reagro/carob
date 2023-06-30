@@ -29,8 +29,8 @@ carob_script <- function(path) {
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
     experiment_type="fertilizer",
-    has_weather=FALSE,
-    has_management=TRUE
+    has_weather=FALSE
+     
   )
   
   ## download and read data 
@@ -82,7 +82,7 @@ carob_script <- function(path) {
   d1$previous_crop[d1$previous_crop=="Groundnuts(Aracide)"] <- "groundnut"
   
   d1$previous_crop[d1$previous_crop=="Sorghum"] <- "sorghum"
-  d1$previous_crop[d1$previous_crop=="Kolokoland"] <- "kola"
+  d1$previous_crop[d1$previous_crop=="Kolokoland"] <- NA
   d1$previous_crop[d1$previous_crop=="Millet"] <- "pearl millet"
  
    d1 <- d1[,c("dataset_id","trial_id","location","site","country",
@@ -130,7 +130,8 @@ carob_script <- function(path) {
   
   d$harvest_date <- format(as.Date(d$harvest_date, format = "%m/%d/%Y"), "%Y-%m-%d")
   # fill whitespace in observation 
-  d <- replace(d,d=='',NA)
+  d[d==""] <- NA
+  d$yield_part <- "grain"
   # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
   #TRUE

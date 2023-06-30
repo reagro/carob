@@ -32,9 +32,8 @@ carob_script <- function(path){
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami and Effie Ochieng",
     experiment_type="N2 fixation",
-    has_weather=FALSE,
-    has_management=FALSE
-  )
+    has_weather=FALSE
+       )
   
   ## downloading data 
   

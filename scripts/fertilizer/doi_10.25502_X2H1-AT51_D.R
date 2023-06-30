@@ -31,8 +31,8 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
     experiment_type="Symbiotic N2 fixation",
-    has_weather=TRUE,
-    has_management=TRUE)
+    has_weather=TRUE
+    )
   
   ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)

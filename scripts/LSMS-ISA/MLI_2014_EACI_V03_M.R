@@ -29,9 +29,8 @@ return( TRUE)
 	   publication="publication doi",
 	   contributor="Your name",
 	   experiment_type="___",
-	   has_weather=FALSE,
-	   has_management=FALSE
-	)
+	   has_weather=FALSE
+ 	)
 
 ## download and read data 
 

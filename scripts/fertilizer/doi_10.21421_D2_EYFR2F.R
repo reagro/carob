@@ -20,8 +20,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
     publication=NA, # "http://oar.icrisat.org/id/eprint/10842" Is the reference
     carob_contributor="Siyabusa Mkuhlani",
     experiment_type="fertilizer",
-    has_weather=FALSE,
-    has_management=TRUE
+    has_weather=FALSE
   )
   
   ## treatment level data 

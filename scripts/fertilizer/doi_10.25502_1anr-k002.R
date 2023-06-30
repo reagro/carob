@@ -29,10 +29,9 @@ carob_script <- function(path) {
     data_institutions = "IITA",
     carob_contributor="Effie Ochieng'",
     experiment_type="___",
-    has_weather=FALSE,
-    has_soil=FALSE,
-    has_management=FALSE
-  )
+    has_weather=FALSE
+     
+       )
   
   ## download and read data 
   ff  <- carobiner::get_data(uri, path, group)

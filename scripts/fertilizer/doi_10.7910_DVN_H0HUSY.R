@@ -24,8 +24,8 @@ Description: This dataset contains information of experiments carried out upland
     data_institutions = "CIAT",
     carob_contributor="Jean-Martial Johnson",
     experiment_type="fertilizer",
-    has_weather=FALSE,
-    has_management=TRUE)
+    has_weather=FALSE
+     )
   
   ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)

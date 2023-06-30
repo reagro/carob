@@ -8,8 +8,7 @@ carob_script <- function(path) {
 
 "
 	Description:
-
-    [copy the abstract from the repo]
+The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveilllance framework and inlcuded also multi-location diagnostic trials in selected sentiale sites to determine nutrient limitations and response to improved soil management practices (soil amendments).
 
 "
 
@@ -22,13 +21,12 @@ carob_script <- function(path) {
 	   group=group,
 	   uri=uri,
 	   publication=NA,
-	   data_citation = NA,
-	   data_institutions = NA,
+	   data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kiberashi [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1135/HJ",
+	   data_institutions = "IITA",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   experiment_type=NA,
-	   has_weather=FALSE,
-	   has_management=FALSE
-	)
+	   has_weather=FALSE
+ 	)
 
 ## download and read data 
 
@@ -41,10 +39,6 @@ carob_script <- function(path) {
 	d <- read.csv(f)
 	d <- d[complete.cases(d[ , 6:7]),]
 	d$country <- "Tanzania"
-	# enrichment with spatial data is better done on the aggregated data
-	#d$adm1 <- a$NAME_1
-	#d$adm2 <- a$NAME_2
-	#d$adm3 <- a$NAME_3
 	d$location <- d$Village
 	d$site <- d$Site
 	d$trial_id <- paste0(dataset_id, "-", d$ID)
@@ -101,6 +95,7 @@ carob_script <- function(path) {
 	            "yield", "residue_yield", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer", "OM_used", "OM_type", "OM_applied")]
 	d$dataset_id <- dataset_id
 
+	d$yield_part <- "grain"
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 

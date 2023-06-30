@@ -44,9 +44,8 @@ carob_script <- function(path) {
 	   publication=NA,
 	   carob_contributor="Camila Bonilla",
 	   experiment_type="fertilizer",
-	   has_weather=FALSE,
-	   has_management=FALSE
-	)
+	   has_weather=FALSE
+ 	)
 
 ## download and read data 
 

@@ -22,8 +22,8 @@ carob_script <- function(path) {
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
 		experiment_type = "varieties",
-		has_weather = FALSE,
-		has_management = FALSE
+		has_weather = FALSE
+
 	)
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)

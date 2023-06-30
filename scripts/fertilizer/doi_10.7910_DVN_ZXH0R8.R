@@ -26,9 +26,8 @@ carob_script <- function(path) {
 	   data_institutions = "ICRISAT; ARARI; ILRI",
 	   carob_contributor="Siyabusa Mkhulani & Eduardo Garcia Bendito",
 	   experiment_type="On farm experimental trials",
-	   has_weather=FALSE,
-	   has_management=FALSE
-	)
+	   has_weather=FALSE
+ 	)
 
 ## download and read data 
 

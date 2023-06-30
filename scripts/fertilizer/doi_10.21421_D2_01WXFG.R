@@ -23,8 +23,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
     publication= "doi:10.12692/ijb/9.1.291-302",
     carob_contributor="Siyabusa Mkuhlani",
     experiment_type="fertilizer",
-    has_weather=TRUE,
-    has_management=TRUE
+    has_weather=TRUE
   )
   
   ## treatment level data 

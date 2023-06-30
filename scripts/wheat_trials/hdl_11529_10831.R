@@ -23,8 +23,8 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
     data_institutions = "CIMMYT", 
     carob_contributor="Cedric Ngakou", 
     experiment_type=NA, 
-    has_weather=FALSE, 
-    has_management=TRUE
+    has_weather=FALSE 
+     
   )
   
   ## download and read data 

@@ -26,9 +26,8 @@ carob_script <- function(path) {
     data_institutions = "ICARDA",
     carob_contributor="Eduardo Garcia Bendito",
     experiment_type="fertilizer",
-    has_weather=FALSE,
-    has_management=FALSE
-  )
+    has_weather=FALSE
+       )
   
   ## download and read data 
   

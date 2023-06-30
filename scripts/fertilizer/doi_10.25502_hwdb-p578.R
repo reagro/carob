@@ -26,8 +26,8 @@ carob_script <- function(path){
 
 		carob_contributor = "Effie Ochieng",
 		experiment_type = "variety_trials",
-		has_weather =	TRUE,
-		has_management = FALSE
+		has_weather = TRUE
+
 	)
 	
 	#Registering the dataset

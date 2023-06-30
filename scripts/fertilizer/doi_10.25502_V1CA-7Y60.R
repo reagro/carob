@@ -31,8 +31,8 @@ inoculants and fertilizers adapted to local settings.
     data_institutions = "IITA", 
     carob_contributor="Cedric Ngakou", 
     experiment_type="experiment", 
-    has_weather=FALSE, 
-    has_management=TRUE
+    has_weather=FALSE 
+     
   )
   
   ## download and read data 

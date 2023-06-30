@@ -31,8 +31,8 @@ dset <- data.frame(
   data_institutions = "IITA",
   carob_contributor="Rachel Mukami and Effie Ochieng",
   experiment_type="Symbiotic N2 fixation",
-  has_weather=FALSE,
-  has_management=FALSE)
+  has_weather=FALSE
+  )
 
 ## download and read data
 
@@ -159,6 +159,8 @@ d4 <- d4[, c("dataset_id","trial_id","country","location","latitude", "longitude
              "planting_date","harvest_date","inoculated","plant_density","grain_weight","biomass_roots","biomass_total",
             "residue_yield","yield","fertilizer_type","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH", "soil_K", 
              "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm")]
+
+d4$yield_part <- "seed"
 
 carobiner::write_files(dset, d4, path=path)
 }

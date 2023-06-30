@@ -29,8 +29,8 @@ carob_script <- function(path) {
   # (IITA). doi:10.25502/20180814/1504/HJ",
   # carob_contributor="Cedric Ngakou",
   # experiment_type="fertilizer",
-  # has_weather=FALSE,
-  # has_management=TRUE
+  # has_weather=FALSE
+  #  
 # )
 
 ### download and read data 

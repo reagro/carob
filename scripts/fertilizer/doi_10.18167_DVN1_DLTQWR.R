@@ -27,9 +27,7 @@ carob_script <- function(path) {
 	   data_institutions = "CIRAD",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   experiment_type="meta-analysis",
-	   has_weather=TRUE,
-	   has_soil=TRUE,
-	   has_management=TRUE
+	   has_weather=TRUE 
 	)
 
 ## download and read data 

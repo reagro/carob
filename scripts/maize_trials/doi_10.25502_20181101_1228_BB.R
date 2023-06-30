@@ -29,10 +29,9 @@ in West Africa from 2013 to 2016.
 		publication= NA,
 		carob_contributor="Cedric Ngakou",
 		experiment_type=NA, # please have a look on experiment type 
-		has_weather=FALSE,
-		has_soil=FALSE,
-		has_management=FALSE
-	)
+		has_weather=FALSE
+		 
+		 	)
 	
 	## download and read data 
 	
