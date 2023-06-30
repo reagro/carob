@@ -22,7 +22,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)
 	   publication = NA,
-	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '20th High Rainfall Wheat Yield Trial', https://hdl.handle.net/11529/10548212, CIMMYT Research Data & Software Repository Network, V2",
+	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '20th High Rainfall Wheat Yield Trial', hdl:11529/10548212, CIMMYT Research Data & Software Repository Network, V2",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Andrew Sila",
 	   

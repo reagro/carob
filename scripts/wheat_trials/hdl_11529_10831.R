@@ -19,7 +19,7 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
     group=group, 
     uri=uri, 
     publication=NA, #doi: 10.2135/cropsci2016.06.0558
-    data_citation = "Sukumaran, Sivakumar; Crossa, Jose; Jarquín, Diego; Reynolds, Matthew, 2016. Yield data for pedigree-based prediction models with genotype × environment interaction in multi-environment trials of CIMMYT wheat. https://hdl.handle.net/11529/10831. CIMMYT Research Data & Software Repository Network, V1", 
+    data_citation = "Sukumaran, Sivakumar; Crossa, Jose; Jarquín, Diego; Reynolds, Matthew, 2016. Yield data for pedigree-based prediction models with genotype × environment interaction in multi-environment trials of CIMMYT wheat. hdl:11529/10831. CIMMYT Research Data & Software Repository Network, V1", 
     data_institutions = "CIMMYT", 
     carob_contributor="Cedric Ngakou", 
     experiment_type=NA, 
@@ -56,6 +56,13 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
  
  ## create a data frame with location , longitude, latitude and country variable
  ## The information come from # doi: 10.2135/cropsci2016.06.0558 # 
+
+## RH missing codes
+## "BGLD J3" "Iran S"  "Iran SA" "Iran SC" "Mex B"   "MEX CM"  "Mex D"   "Mex H"   "Mex HD"  "Pak N"   "Pak R" 
+
+## RH included codes that are not in d$code
+## "China L" "Mex-Baj"
+
  code <-  c("BGLD D", "BGLD J", "BGLD R", "China L", "Croatia O", "Egypt A", 
         "Egypt G", "Egypt N", "Egypt S", "Egypt Si", "Egypt SK", "India D", "India H", 
         "India I", "India K", "India L", "India U", "India V", 
@@ -67,23 +74,23 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
         "Zargan", "Mexicali Baja California", "Cd Obregon, Sonora", "Tepatitlan Jalisco", "Valle del Fuerte, Sinaloa", 
         "Valle del Yaqui", "Bajio", "Bhairahawa", "Bahawalpur", "Faisalabad", "Islamabad", "Pirsabak", "Fundulea", "Bethlehem")
  
- longitude <-  c("88.63", "90.42", "89.037", NA, "18.69", "31.20", NA, "30.07", "32.09", "30.93", "30.94", "77.22", NA, "75.86", "77.47", "75.85", "74.82", "83.007", "54.54", "48.40", "51.38", 
-               "52.72", "-115.47", "-99.19", "-102.75", "-115.44", "-98.75", "-99.21", "83.45", "71.66", "73.09", "73.06", NA, "26.50", "28.30")
+ longitude <-  c(88.63, 90.42, 89.037, NA, 18.69, 31.20, NA, 30.07, 32.09, 30.93, 30.94, 77.22, NA, 75.86, 77.47, 75.85, 74.82, 83.007, 54.54, 48.40, 51.38, 
+               52.72, -115.47, -99.19, -102.75, -115.44, -98.75, -99.21, 83.45, 71.66, 73.09, 73.06, NA, 26.50, 28.30)
  
- latitude <-  c("25.62", "23.99", "24.62", NA, "45.55", "27.17", NA, "30.66", "26.76", "28.90", "31.09", "28.65", NA, "22.72", "18.70", "30.90", "16.67", "25.33", "28.75", "32.37", "35.80", 
-              "29.77", "32.64", "19.38", "20.81", "32.63", "20.10", "19.38", "27.51", "29.39", "31.42", "33.69", NA, "44.46", "-28.23")
+ latitude <-  c(25.62, 23.99, 24.62, NA, 45.55, 27.17, NA, 30.66, 26.76, 28.90, 31.09, 28.65, NA, 22.72, 18.70, 30.90, 16.67, 25.33, 28.75, 32.37, 35.80, 
+              29.77, 32.64, 19.38, 20.81, 32.63, 20.10, 19.38, 27.51, 29.39, 31.42, 33.69, NA, 44.46, -28.23)
  
  country <-  c("Bangladesh", "Bangladesh", "Bangladesh", "China", "Croatia", "Egypt", "Egypt", "Egypt", "Egypt", "Egypt", "Egypt", "India", 
         "India", "India", "India", "India", "India", "India", "Iran", "Iran", "Iran", "Iran", "Mexico", "Mexico", "Mexico", "Mexico", "Mexico", "Mexico", 
         "Nepal", "Pakistan", "Pakistan", "Pakistan", "Pakistan", "Romania", "South Africa")
  
-  
- 
+
   location <- data.frame(code, location, country, longitude, latitude)
  
  
   # Add location and country in the dataset 
-  d <- merge(d, location, by="code")
+  d <- merge(d, location, by="code", all.x=TRUE)
+  
   #fix long and lat
   d$longitude[d$location=="Dharwad"] <- 75.0066516
   d$latitude[d$location=="Dharwad"] <- 15.4540505
@@ -109,13 +116,10 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
   d$irrigated <- FALSE
   
   
-
-  
   #data type
   d$yield <- (as.numeric(d$yield))*1000 
-  d$longitude <- as.numeric(d$longitude)
-  d$latitude <- as.numeric(d$latitude)
-  
+	d$yield_part <- "grain"
+
   carobiner::write_files(dset, d, path=path)
   
 }

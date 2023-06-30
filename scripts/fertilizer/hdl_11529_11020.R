@@ -60,7 +60,7 @@ carob_script <- function(path) {
 					gsub("^[^.]*.", "", as.character(d$`plot ID`)))
 	d$rep <- as.integer(d$rep)			
 	d$crop <- "maize"
-	d$harvested_part <- "grain"
+	d$yield_part <- "grain"
 	
 	d$variety_code <- d$`Type of Variety`
 	d$variety_type <- d$`Seed type (Local vs Improved)`

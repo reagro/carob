@@ -19,13 +19,16 @@ In 2010, the Africa-wide Rice Breeding Task Force was launched by AfricaRice inv
   dset <- data.frame(
     dataset_id = dataset_id,
     group=group,
+	project=NA,
     uri=uri,
 	data_citation="Fofana, Mamadou, 2017. 2016 Africa-wide Breeding Task Force Trials for Rainfed Upland - MET. https://doi.org/10.7910/DVN/OF7M9D, Harvard Dataverse, V1",
     publication=NA,
     carob_contributor="Eduardo Garcia Bendito",
     experiment_type="variety trial",
     has_weather=FALSE,
-    has_management=FALSE
+    has_soil=FALSE,
+    has_management=FALSE,
+	data_institutions="AfricaRice"
   )
   
   ## download and read data 
@@ -69,7 +72,7 @@ In 2010, the Africa-wide Rice Breeding Task Force was launched by AfricaRice inv
 
     # Rainfed Upland (RU) farming systems
     d$crop <- "rice"
-	d$harvested_part <- "grain"
+	d$yield_part <- "grain"
     d$irrigated <- FALSE 
     d$is_survey <- FALSE
     d$on_farm <- TRUE

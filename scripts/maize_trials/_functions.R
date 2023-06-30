@@ -98,7 +98,7 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 		d$grain_weight <- as.numeric(NA)
 	} 
 	
-	d$harvested_part <- "grain"
+	d$yield_part <- "grain"
 	
 	d
 }

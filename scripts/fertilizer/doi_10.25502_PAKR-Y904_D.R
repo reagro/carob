@@ -56,7 +56,7 @@ carob_script <- function(path) {
   d$dataset_id <- dataset_id
   d$country <- "Nigeria"
   d$crop <- "maize"
-	d$harvested_part <- "grain"  
+	d$yield_part <- "grain"  
   d$variety<- "Sammaz 15" # get from VT protocol OCP Project Document
   d$on_farm <- TRUE
   d$is_survey <- FALSE

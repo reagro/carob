@@ -50,7 +50,7 @@ carob_script <- function(path) {
 	d$on_farm <- FALSE
 	d$is_survey <- TRUE	
 	d$crop <- "maize"
-	d$harvested_part <- "grain"
+	d$yield_part <- "grain"
 	d$variety <- "Longe 10H"
 	d$variety_code <- "SC627"
 	

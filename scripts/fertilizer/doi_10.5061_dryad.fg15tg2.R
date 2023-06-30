@@ -60,7 +60,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
                   c("Embu ATC", "EmbuKPS", "c(\"Kandara\", \"SR\")"), c("Embu","Embu","Kandara"))
   d$adm3 <- v
   d$crop <- "maize"
-	d$harvested_part <- "grain"
+	d$yield_part <- "grain"
   
   d$rep <- d$R
   d$treatment <- d$Trt

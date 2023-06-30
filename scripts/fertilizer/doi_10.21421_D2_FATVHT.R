@@ -60,7 +60,7 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 
 	d$rep <- as.integer(d$`Replication umber`)
 	d$crop <- "sorghum"
-	d$harvested_part <- "grain"
+	d$yield_part <- "grain"
 	
 	d$variety <- d$Sorghum
 ## RH	d$yield <- d$`Grain yield` + d$`Stalk yield`

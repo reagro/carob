@@ -124,7 +124,7 @@ Agricultural Water Management 98: 1364-1372
 	d$rain <- as.numeric(d$rain)
 	d$on_farm <- FALSE
 	d$crop <- "maize"
-	d$harvested_part <- "grain"
+	d$yield_part <- "grain"
 	
 	d$fertilizer_type <- "none"
 	d$fertilizer_type[d$N_fertilizer > 0] <- "urea; NPK"

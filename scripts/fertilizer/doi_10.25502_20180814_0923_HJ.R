@@ -72,7 +72,7 @@ carob_script <- function(path) {
   d$harvest_date<-"2016-06-01"
   d$trial_id<-paste0(d$dataset_id,"-",d$location)
   d$crop<-"maize"
-	d$harvested_part <- "grain"
+	d$yield_part <- "grain"
   
   # fill whitespace 
   d <- replace(d, d=='', NA)

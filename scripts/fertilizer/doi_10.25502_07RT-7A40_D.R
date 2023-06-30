@@ -61,7 +61,7 @@ carob_script <- function(path) {
     e$variety <- d$variety
     e$is_survey <- FALSE
     e$crop <- "maize"
-    e$harvested_part <- "grain"
+    e$yield_part <- "grain"
     e$grain_weight <- (d$swt500)*2 ### [swt500	Weight of 500 seeds		g, the original value was multiplied by 2]
     e$biomass_total <- d$tdmm2*10 # Add total biomass (dry matter) in kg/ha )
     e$yield <- d$yield

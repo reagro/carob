@@ -308,7 +308,7 @@ proc_wheat <- function(ff) {
 	r$blast_severity  <- r$`Blast severity`
 		
 	# Subset for relevant columns
-	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "rep","crop", "variety_code", "variety_type", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_type", "soil_om", "soil_ph",  "irrigated", "row_spacing", "harvested_part", "yield", "grain_weight", "heading", "height","powdery_mildew", "stem_rust", "leaf_rust", "sterility_index", "fusarium_scab_spike", "helminthosporium_sativum_leaf", "septoria_tritici_blotch", "septoria_species", "blast_severity", "blast_intensity")
+	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "rep","crop", "variety_code", "variety_type", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_type", "soil_om", "soil_ph",  "irrigated", "row_spacing", "yield_part", "yield", "grain_weight", "heading", "height","powdery_mildew", "stem_rust", "leaf_rust", "sterility_index", "fusarium_scab_spike", "helminthosporium_sativum_leaf", "septoria_tritici_blotch", "septoria_species", "blast_severity", "blast_intensity")
 		
 	r$country <- ifelse(r$country== "Dem Rep of Congo", "Democratic Republic of the Congo", r$country)
 	r$country <- ifelse(r$country== "U A Emirates", "United Arab Emirates", r$country)
@@ -331,7 +331,7 @@ proc_wheat <- function(ff) {
 	i <- which(r$location == "Sanliurfa-Akcakale,  A.R.I")
 	r$latitude[i] <- 36.72
 
-	r$harvested_part <- "grain"
+	r$yield_part <- "grain"
 	# records without yield are not very useful
 	#r <- r[!is.na(r$yield), ]
 

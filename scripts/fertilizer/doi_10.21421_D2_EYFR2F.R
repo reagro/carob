@@ -46,7 +46,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   d$latitude <- ifelse(d$location == "Minjibir", 12.17, 11.975)
   d$longitude <- ifelse(d$location == "Minjibir", 8.65, 8.423) 
   d$crop <- "sorghum"
-  d$harvested_part <- "grain"
+  d$yield_part <- "grain"
   
   d$variety <- d$Sorghum
   # additional info from the reference then merge

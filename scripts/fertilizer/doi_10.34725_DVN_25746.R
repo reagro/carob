@@ -100,7 +100,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 
 	d$yield <- round(as.numeric(d$yield) * 1000)
 	d$crop <- "maize"
-	d$harvested_part <- "grain"
+	d$yield_part <- "grain"
 	
 	d$variety_type <- "hybrid"
 

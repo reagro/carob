@@ -123,7 +123,7 @@ carob_script <- function(path) {
   # fix crop names 
   d$intercrops <- ifelse(d$crop=="CasMz", "maize", "no crop") 
   d$crop <- "cassava"
-	d$harvested_part <- "roots"
+	d$yield_part <- "roots"
   
   #fix Long and lat
   d$longitude[d$site=="Makurdi"] <- 7.6736

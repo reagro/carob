@@ -23,7 +23,7 @@ carob_script <- function(path) {
 	   project="TAMASA",
 	   uri=uri,
 	   publication=NA,
-	   data_citation = 'Craufurd, Peter; Karwani, George; Masuki, Kenneth, 2019, "TAMASA TZ APS 2017 CC MaizeYield v3", https://hdl.handle.net/11529/10548242, CIMMYT Research Data & Software Repository Network, V2, UNF:6:FARtQ7xWh1m0+YYceI+wnw== [fileUNF]',
+	   data_citation = 'Craufurd, Peter; Karwani, George; Masuki, Kenneth, 2019, "TAMASA TZ APS 2017 CC MaizeYield v3", hdl:11529/10548242, CIMMYT Research Data & Software Repository Network, V2, UNF:6:FARtQ7xWh1m0+YYceI+wnw== [fileUNF]',
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   experiment_type=NA,
@@ -58,13 +58,13 @@ carob_script <- function(path) {
 	d$on_farm <- TRUE
 	d$is_survey <- TRUE
 	d$crop <- "maize"
-	d$harvested_part <- "grain"
+	d$yield_part <- "grain"
 	
 	# d$yield <- d$`FWt of Cobs_all (kg)`*4 # FWt of Cobs_all (kg) = Fresh Weight of Cobs in Quadrat (25m2)
 	d$yield <- d$`Grain yield (kg/ha@12.5%)` # Grain yield at 12.5% moisture
 	
 	# process file(s)
-	d <- d[,c("country", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "crop", "harvested_part", "yield")]
+	d <- d[,c("country", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "crop", "yield_part", "yield")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this

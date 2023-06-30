@@ -82,7 +82,7 @@ in West Africa from 2013 to 2016.
 	d$striga_trial <- FALSE
 	d$striga_infected <- FALSE
 	d$crop <- "maize"
-	d$harvested_part <- "grain"
+	d$yield_part <- "grain"
 	d$planting_date <- as.character(d$planting_date)
 
 	# all scripts must end like this

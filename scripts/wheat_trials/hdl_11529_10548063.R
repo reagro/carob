@@ -23,7 +23,7 @@ carob_script <- function(path) {
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)
 	   publication = NA,
-	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '15th High Temperature Wheat Yield Trial', https://hdl.handle.net/11529/10548063, CIMMYT Research Data & Software Repository Network, V3, UNF:6:8YdQ7RxCYkOZnfwm/eVM2Q== [fileUNF]",
+	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '15th High Temperature Wheat Yield Trial', hdl:11529/10548063, CIMMYT Research Data & Software Repository Network, V3, UNF:6:8YdQ7RxCYkOZnfwm/eVM2Q== [fileUNF]",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Andrew Sila",
 	   
