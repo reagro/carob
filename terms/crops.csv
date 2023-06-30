@@ -1,36 +1,35 @@
 name,sciname,altname,is_preferred,harvest,groups,fresh_moisture,max_yield,NOTE,snake_case,CamelCase,AGROVOC,CATEGORY,URI
-abaca,,,,,fibre_crops,,,,abaca,Abaca,abaca,fibre_crops,http://aims.fao.org/aos/agrovoc/c_4
-acorn,,,,,nuts,,,,acorn,Acorn,acorns,nuts,http://aims.fao.org/aos/agrovoc/c_23986
-adzuki bean,,,,,beans,,,,adzuki_bean,AdzukiBean,adzuki beans,pulses,http://aims.fao.org/aos/agrovoc/c_8632
-agave,,,,,fibre_crops,,,,agave,Agave,agave,fibre_crops,http://aims.fao.org/aos/agrovoc/c_176
-akee,,,,,fruits,,,,akee,Akee,akees,fruits,http://aims.fao.org/aos/agrovoc/c_8697
-allspice,,,,,spices,,,,allspice,Allspice,allspice,spices,http://aims.fao.org/aos/agrovoc/c_19193
-almond,,,,,nuts,,,,almond,Almond,almonds,nuts,http://aims.fao.org/aos/agrovoc/c_8734
+Abacá,Musa textilis,Manila hemp,,,fibre_crops,,,,abaca,Abaca,abaca,fibre_crops,http://aims.fao.org/aos/agrovoc/c_4
+adzuki bean,Vigna angularis,,,,beans,,,,adzuki_bean,AdzukiBean,adzuki beans,pulses,http://aims.fao.org/aos/agrovoc/c_8632
+agave,Agave spp.,,,,fibre_crops,,,,agave,Agave,agave,fibre_crops,http://aims.fao.org/aos/agrovoc/c_176
+akee,Blighia sapida,,,,fruits,,,,akee,Akee,akees,fruits,http://aims.fao.org/aos/agrovoc/c_8697
+allspice,Pimenta dioica,,,,spices,,,,allspice,Allspice,allspice,spices,http://aims.fao.org/aos/agrovoc/c_19193
+almond,Prunus dulcis,,,,nuts,,,,almond,Almond,almonds,nuts,http://aims.fao.org/aos/agrovoc/c_8734
 amaranth,Amaranthus sp,,,grain; leaves,pseudocereals; vegetables,,,,amaranth,Amaranth,,,
-anise,,,,,spices,,,,anise,Anise,anise,spices,http://aims.fao.org/aos/agrovoc/c_8817
-apple,,,,,fruits,,,,apple,Apple,apples,fruits,http://aims.fao.org/aos/agrovoc/c_541
-apricot,,,,,fruits,,,,apricot,Apricot,apricots,fruits,http://aims.fao.org/aos/agrovoc/c_545
-arabica coffee,,,,,coffee,,,,arabica_coffee,ArabicaCoffee,arabica coffee,coffee,http://aims.fao.org/aos/agrovoc/c_566
-areca nut,,,,,nuts,,,,areca_nut,ArecaNut,areca nuts,nuts,http://aims.fao.org/aos/agrovoc/c_ac0d27db
-argan,,,,,oil_crops,,,,argan,Argan,argan,oil_crops,http://aims.fao.org/aos/agrovoc/c_32068
-asparagus,,,,,vegetables,,,,asparagus,Asparagus,asparagus,vegetables,http://aims.fao.org/aos/agrovoc/c_669
+anise,Pimpinella anisum,,,,spices,,,,anise,Anise,anise,spices,http://aims.fao.org/aos/agrovoc/c_8817
+apple,Malus domestica,,,,fruits,,,,apple,Apple,apples,fruits,http://aims.fao.org/aos/agrovoc/c_541
+apricot,Prunus armeniaca,,,,fruits,,,,apricot,Apricot,apricots,fruits,http://aims.fao.org/aos/agrovoc/c_545
+arabica coffee,Coffea arabica,,,,coffee,,,,arabica_coffee,ArabicaCoffee,arabica coffee,coffee,http://aims.fao.org/aos/agrovoc/c_566
+areca nut,Areca catechu,,,,nuts,,,,areca_nut,ArecaNut,areca nuts,nuts,http://aims.fao.org/aos/agrovoc/c_ac0d27db
+argan,Argania spinosa,,,,oil_crops,,,,argan,Argan,argan,oil_crops,http://aims.fao.org/aos/agrovoc/c_32068
+asparagus,asparagus officinalis,,,,vegetables,,,,asparagus,Asparagus,asparagus,vegetables,http://aims.fao.org/aos/agrovoc/c_669
 asparagus bean,Vigna unguiculata subsp. sesquipedalis,yardlong bean; pea bean; long-podded cowpea; Chinese long bean; snake bean,,,pulses,,,,asparagus_bean,AsparagusBean,asparagus beans,pulses,http://aims.fao.org/aos/agrovoc/c_670
-avocado,,,,,fruits,,,,avocado,Avocado,avocados,fruits,http://aims.fao.org/aos/agrovoc/c_9022
-babassu palm,,,,,oil_crops,,,,babassu_palm,BabassuPalm,babassu palm,oil_crops,http://aims.fao.org/aos/agrovoc/c_703
-balm,,,,,culinary_herbs,,,,balm,Balm,balm,culinary_herbs,http://aims.fao.org/aos/agrovoc/c_25465
+avocado,Persea americana,,,,fruits,,,,avocado,Avocado,avocados,fruits,http://aims.fao.org/aos/agrovoc/c_9022
+babassu palm,Attalea speciosa,,,,oil_crops,,,,babassu_palm,BabassuPalm,babassu palm,oil_crops,http://aims.fao.org/aos/agrovoc/c_703
 bambara groundnut,Vigna subterranea,,,seed,grain_crops,,5000,,bambara_groundnut,BambaraGroundnut,bambara groundnut,grain_crops,http://aims.fao.org/aos/agrovoc/c_15594
 banana,Musa acuminata,,,fruit,fruits,,173000,,banana,Banana,bananas,fruits,http://aims.fao.org/aos/agrovoc/c_806
 barley,Hordeum vulgare,,,grain,cereals,,12000,,barley,Barley,barley,cereals,http://aims.fao.org/aos/agrovoc/c_823
-basil,,,,,culinary_herbs,,,,basil,Basil,basil,culinary_herbs,http://aims.fao.org/aos/agrovoc/c_9093
-beetroot,,,,,vegetables,,,,beetroot,Beetroot,beetroot,vegetables,http://aims.fao.org/aos/agrovoc/c_867
-bell pepper,,,,,vegetables,,,,bell_pepper,BellPepper,sweet peppers,vegetables,http://aims.fao.org/aos/agrovoc/c_14727
-bergamot orange,,,,,fruits,,,,bergamot_orange,BergamotOrange,bergamot orange,fruits,http://aims.fao.org/aos/agrovoc/c_9233
+basil,Ocimum basilicum,,,,culinary_herbs,,,,basil,Basil,basil,culinary_herbs,http://aims.fao.org/aos/agrovoc/c_9093
+beetroot,Beta vulgaris,,,,vegetables,,,,beetroot,Beetroot,beetroot,vegetables,http://aims.fao.org/aos/agrovoc/c_867
+bell pepper,Capsicum annuum,,,,vegetables,,,,bell_pepper,BellPepper,sweet peppers,vegetables,http://aims.fao.org/aos/agrovoc/c_14727
+bergamot orange,Citrus bergamia,,,,fruits,,,,bergamot_orange,BergamotOrange,bergamot orange,fruits,http://aims.fao.org/aos/agrovoc/c_9233
 berseem clover,Trifolium alexandrium,,,green manure,feed_crops,,,,berseem_clover,BerseemClover,,,
-bilberry,,,,,fruits,,,,bilberry,Bilberry,bilberries,fruits,http://aims.fao.org/aos/agrovoc/c_aeec9b59
-black currant,,,,,fruits,,,,black_currant,BlackCurrant,black currants,fruits,http://aims.fao.org/aos/agrovoc/c_945
+bilberry,Vaccinium myrtillus,,,,fruits,,,,bilberry,Bilberry,bilberries,fruits,http://aims.fao.org/aos/agrovoc/c_aeec9b59
+black currant,Ribes nigrum,,,,fruits,,,,black_currant,BlackCurrant,black currants,fruits,http://aims.fao.org/aos/agrovoc/c_945
 black gram,Vigna mungo,,,seed,pulses,,,,black_gram,BlackGram,,,
-black salsify,,,,,root_crops,,,,black_salsify,BlackSalsify,black salsify,root_crops,http://aims.fao.org/aos/agrovoc/c_0f628632
-blackberry,,,,,fruits,,,,blackberry,Blackberry,blackberries,fruits,http://aims.fao.org/aos/agrovoc/c_947
+black salsify,Scorzonera hispanica,,,,root_crops,,,,black_salsify,BlackSalsify,black salsify,root_crops,http://aims.fao.org/aos/agrovoc/c_0f628632
+blackberry,Rubus spp,,,,fruits,,,,blackberry,Blackberry,blackberries,fruits,http://aims.fao.org/aos/agrovoc/c_947
+blue agave,Agave tequilana,,,,syrup,,,,blue_agave,BlueAgave,,,
 blueberry,,,,,fruits,,,,blueberry,Blueberry,blueberries,fruits,http://aims.fao.org/aos/agrovoc/c_974
 borage,,,,seed,oil_seeds,,,,borage,Borage,borage seed,oil_seeds,http://aims.fao.org/aos/agrovoc/c_d2910779
 brassica carinata,,,,,vegetables,,,,brassica_carinata,BrassicaCarinata,brassica carinata,vegetables,http://aims.fao.org/aos/agrovoc/c_33311
@@ -69,13 +68,12 @@ citrange,,,,,fruits,,,,citrange,Citrange,citranges,fruits,http://aims.fao.org/ao
 citron,,,,,fruits,,,,citron,Citron,citrons,fruits,http://aims.fao.org/aos/agrovoc/c_1632
 citrus fruit,,,,,fruits,,,,citrus_fruit,CitrusFruit,citrus fruits,fruits,http://aims.fao.org/aos/agrovoc/c_1641
 clementine,,,,,fruits,,,,clementine,Clementine,clementines,fruits,http://aims.fao.org/aos/agrovoc/c_9895
-clover,Trifolium sp.,,,green manure,feed_crops,,,,clover,Clover,clover,feed_crops,http://aims.fao.org/aos/agrovoc/c_7910
 clove tree,Syzygium aromaticum,,,,spices,,,,clove_tree,CloveTree,cloves,spices,http://aims.fao.org/aos/agrovoc/c_23597
+clover,Trifolium sp.,,,green manure,feed_crops,,,,clover,Clover,clover,feed_crops,http://aims.fao.org/aos/agrovoc/c_7910
 cocoa,,,,,cocoa,,,,cocoa,Cocoa,cocoa beans,cocoa,http://aims.fao.org/aos/agrovoc/c_1711
 coconut,,,,,nuts,,,,coconut,Coconut,coconuts,nuts,http://aims.fao.org/aos/agrovoc/c_25470
 coffee,Coffea sp.,,,,coffee,,,,coffee,Coffee,,,
 common bean,Phaseolus vulgaris,,,seed,pulses,,8000,,common_bean,CommonBean,common beans,pulses,http://aims.fao.org/aos/agrovoc/c_4098
-congusta coffee,,,,,coffee,,,,congusta_coffee,CongustaCoffee,congusta coffee,coffee,http://aims.fao.org/aos/agrovoc/c_1812
 coriander,,,,,culinary_herbs,,,,coriander,Coriander,coriander,culinary_herbs,http://aims.fao.org/aos/agrovoc/c_10097
 cotton,Gossypium hirsutum,,,fruit,plant_fibres,,5000,,cotton,Cotton,cotton,plant_fibres,http://aims.fao.org/aos/agrovoc/c_1926
 cowpea,Vigna unguiculata,,,seed,pulses,,5000,,cowpea,Cowpea,cowpeas,pulses,http://aims.fao.org/aos/agrovoc/c_1938
@@ -131,12 +129,13 @@ kumquat,,,,,fruits,,,,kumquat,Kumquat,kumquats,fruits,http://aims.fao.org/aos/ag
 lablab,Lablab purpureus,,,seed,grain_crops,,5000,,lablab,Lablab,lablab,grain_crops,http://aims.fao.org/aos/agrovoc/c_12024
 leek,,,,,vegetables,,,,leek,Leek,leeks,vegetables,http://aims.fao.org/aos/agrovoc/c_12128
 lemon,,,,,fruits,,,,lemon,Lemon,lemons,fruits,http://aims.fao.org/aos/agrovoc/c_4259
+lemon balm,Melissa officinalis,,balm,,culinary_herbs,,,,balm,Balm,balm,culinary_herbs,http://aims.fao.org/aos/agrovoc/c_25465
 lemon grass,,,,,culinary_herbs,,,,lemon_grass,LemonGrass,lemon grass,culinary_herbs,http://aims.fao.org/aos/agrovoc/c_41d978c7
 lentil,Lens culinaris,,,seed,pulses,,7000,,lentil,Lentil,lentils,pulses,http://aims.fao.org/aos/agrovoc/c_12140
 lettuce,,,,,vegetables,,,,lettuce,Lettuce,lettuces,vegetables,http://aims.fao.org/aos/agrovoc/c_12151
-liberica coffee,,,,,coffee,,,,liberica_coffee,LibericaCoffee,liberica coffee,coffee,http://aims.fao.org/aos/agrovoc/c_4308
+liberian coffee,Coffea liberica,,,,coffee,,,,liberian_coffee,LiberianCoffee,liberica coffee,coffee,http://aims.fao.org/aos/agrovoc/c_4308
 limequat,,,,,fruits,,,,limequat,Limequat,limequats,fruits,http://aims.fao.org/aos/agrovoc/c_4340
-limes,,,,,fruits,,,,limes,Limes,limes,fruits,http://aims.fao.org/aos/agrovoc/c_4341
+lime,,,,,fruits,,,,lime,Lime,limes,fruits,http://aims.fao.org/aos/agrovoc/c_4341
 lingonberry,,,,,fruits,,,,lingonberry,Lingonberry,lingonberries,fruits,http://aims.fao.org/aos/agrovoc/c_ebfdf3a4
 litchi,,,,,fruits,,,,litchi,Litchi,litchis,fruits,http://aims.fao.org/aos/agrovoc/c_12283
 little millet,Panicum sumatrense,,,grain,cereals,,,,little_millet,LittleMillet,little millet,cereals,http://aims.fao.org/aos/agrovoc/c_cc8f6dca
@@ -153,7 +152,7 @@ mandarin,,,,,fruits,,,,mandarin,Mandarin,mandarins,fruits,http://aims.fao.org/ao
 mango,Mangifera indica,,,,fruits,,100000,,mango,Mango,mangoes,fruits,http://aims.fao.org/aos/agrovoc/c_12367
 mangosteen,,,,,fruits,,,,mangosteen,Mangosteen,mangosteens,fruits,http://aims.fao.org/aos/agrovoc/c_12368
 mate,,,,leaves,beverage_crops,,,,mate,Mate,mate,beverage_crops,http://aims.fao.org/aos/agrovoc/c_4647
-millets,,,,grain,cereals,,,,millets,Millets,millets,cereals,http://aims.fao.org/aos/agrovoc/c_4838
+,,,,,,,,,,,,,
 mint,,,,,culinary_herbs,,,,mint,Mint,mint,culinary_herbs,http://aims.fao.org/aos/agrovoc/c_12606
 mulberry,,,,,fruits,,,,mulberry,Mulberry,mulberries,fruits,http://aims.fao.org/aos/agrovoc/c_25487
 mung bean,Vigna radiata,,,,pulses,,,,mung_bean,MungBean,mung beans,pulses,http://aims.fao.org/aos/agrovoc/c_4988
@@ -175,8 +174,8 @@ oregano,,,,,culinary_herbs,,,,oregano,Oregano,oregano,culinary_herbs,http://aims
 palm heart,,,,,vegetables,,,,palm_heart,PalmHeart,palm hearts,vegetables,http://aims.fao.org/aos/agrovoc/c_28302
 palm kernel,,,,,oil_seeds,,,,palm_kernel,PalmKernel,palm kernels,oil_seeds,http://aims.fao.org/aos/agrovoc/c_25493
 papaya,Carica papaya,,,fruit,fruits,,,,papaya,Papaya,papayas,fruits,http://aims.fao.org/aos/agrovoc/c_13087
-parsley,,,,,culinary_herbs,,,,parsley,Parsley,parsley,culinary_herbs,http://aims.fao.org/aos/agrovoc/c_13120
-parsley root,,,,,root_crops,,,,parsley_root,ParsleyRoot,parsley root,root_crops,http://aims.fao.org/aos/agrovoc/c_7f40dbdf
+parsley,Petroselinum crispum,,,,culinary_herbs; root_crops,,,,parsley,Parsley,parsley,culinary_herbs,http://aims.fao.org/aos/agrovoc/c_13120
+parsley root,Petroselinum crispum,,,,root_crops,,,,parsley_root,ParsleyRoot,parsley root,root_crops,http://aims.fao.org/aos/agrovoc/c_7f40dbdf
 parsnip,,,,,vegetables,,,,parsnip,Parsnip,parsnips,vegetables,http://aims.fao.org/aos/agrovoc/c_13122
 passion fruit,,,,,fruits,,,,passion_fruit,PassionFruit,passion fruits,fruits,http://aims.fao.org/aos/agrovoc/c_13127
 pawpaw,Asimina triloba,,,fruit,fruits,,,,pawpaw,Pawpaw,pawpaws,fruits,http://aims.fao.org/aos/agrovoc/c_ceb1a952
@@ -212,7 +211,7 @@ red clover,Trifolium pratense,,,green manure,green_manures; feed_crops,,,,red_cl
 red currant,,,,,fruits,,,,red_currant,RedCurrant,red currants,fruits,http://aims.fao.org/aos/agrovoc/c_6479
 rhubarb,,,,,vegetables,,,,rhubarb,Rhubarb,rhubarb,vegetables,http://aims.fao.org/aos/agrovoc/c_11089
 rice,Oryza sativa,,,grain,cereals,,22500,,rice,Rice,rice,cereals,http://aims.fao.org/aos/agrovoc/c_6599
-robusta coffee,,,,,coffee,,,,robusta_coffee,RobustaCoffee,robusta coffee,coffee,http://aims.fao.org/aos/agrovoc/c_6626
+robusta coffee,Coffea canephora,,,,coffee,,,,robusta_coffee,RobustaCoffee,robusta coffee,coffee,http://aims.fao.org/aos/agrovoc/c_6626
 rocket,,,,,vegetables,,,,rocket,Rocket,rocket,vegetables,http://aims.fao.org/aos/agrovoc/c_5c9e76bc
 rose hips,,,,,fruits,,,,rose_hips,RoseHips,rose hips,fruits,http://aims.fao.org/aos/agrovoc/c_50142
 roselle,,,,,vegetables,,,,roselle,Roselle,roselle,vegetables,http://aims.fao.org/aos/agrovoc/c_a8b0f9a7
@@ -237,6 +236,7 @@ sour cherry,,,,,fruits,,,,sour_cherry,SourCherry,sour cherries,fruits,http://aim
 soybean,Glycine max,,,seed,pulses,,15000,,soybean,Soybean,soybeans,pulses,http://aims.fao.org/aos/agrovoc/c_14477
 spinach,,,,,vegetables,,,,spinach,Spinach,spinach,vegetables,http://aims.fao.org/aos/agrovoc/c_14508
 squash,,,,,vegetables,,,,squash,Squash,squashes,vegetables,http://aims.fao.org/aos/agrovoc/c_37735
+star anise,Illicium verum,,,,spices,,,,star_anise,StarAnise,,,
 strawberry,,,,,fruits,,,,strawberry,Strawberry,strawberries,fruits,http://aims.fao.org/aos/agrovoc/c_7443
 sugar beet,Beta vulgaris,,,root,sugar_crops,,,,sugar_beet,SugarBeet,sugar beet,sugar_crops,http://aims.fao.org/aos/agrovoc/c_7499
 sugarcane,Saccharum officinarum,,,stems,sugar_crops,,300000,,sugarcane,Sugarcane,sugar cane,sugar_crops,http://aims.fao.org/aos/agrovoc/c_7501
@@ -265,7 +265,7 @@ vetch,Vicia spp,,,forage,vegetables,,,,vetch,Vetch,vetches,vegetables,http://aim
 walnut,,,,,nuts,,,,walnut,Walnut,walnuts,nuts,http://aims.fao.org/aos/agrovoc/c_15254
 watercress,,,,,vegetables,,,,watercress,Watercress,watercress,vegetables,http://aims.fao.org/aos/agrovoc/c_15275
 watermelon,,,,,fruits,,,,watermelon,Watermelon,watermelons,fruits,http://aims.fao.org/aos/agrovoc/c_15277
-wheat,Triticum aestivum,,,seed,cereals,,18000,,wheat,Wheat,wheat,cereals,http://aims.fao.org/aos/agrovoc/c_8373
+wheat,Triticum aestivum,,,seed,cereals,,19000,,wheat,Wheat,wheat,cereals,http://aims.fao.org/aos/agrovoc/c_8373
 white clover,Trifolium repens,,,green manure,green_manures,,,,white_clover,WhiteClover,,,
 white currant,,,,,fruits,,,,white_currant,WhiteCurrant,white currants,fruits,http://aims.fao.org/aos/agrovoc/c_8379
 white lupin,Lupinus albus,,,seed,vegetables,,,,white_lupin,WhiteLupin,,,
@@ -273,10 +273,11 @@ winter melon,,,,,fruits,,,,winter_melon,WinterMelon,winter melons,fruits,http://
 yam,Dioscorea cayenensis,,,tuber,vegetables,,60000,,yam,Yam,yams,vegetables,http://aims.fao.org/aos/agrovoc/c_8478
 yautia,,,,,vegetables,,,,yautia,Yautia,yautia,vegetables,http://aims.fao.org/aos/agrovoc/c_8460
 cereal,spp,,NO,seed,cereals,,,,cereal,Cereal,,,
+fiber crop,spp,,NO,stems; leaves,fibre_crops,,,,fiber_crop,FibreCrop,,,
 forage legume,spp,,NO,forage,feed_crops,,,,forage_legume,ForageLegume,,,
 green manure,spp,,NO,green manure,green_manures,,,,green_manure,GreenManure,,,
 legume,spp,,NO,,other,,,,legume,Legume,,,
+millet,spp,,NO,grain,cereals,,,,millet,Millet,millets,cereals,http://aims.fao.org/aos/agrovoc/c_4838
 pulse,spp,,NO,bean,pulses,,,,pulse,Pulse,,,
 root crop,spp,,NO,root,root_crops,,,,root_crop,RootCrop,,,
 vegetables,spp,,NO,leaves,vegetables,,,,vegetables,Vegetables,,,
-fiber crop,spp,,NO,stems; leaves,fibre_crops,,,,fiber_crop,FibreCrop,,,

@@ -103,13 +103,15 @@ carob_script <- function(path) {
    d$inoculant <- 
    
 ##### in general, add comments to your script if computations are
-##### based in information gleaned from metadata, publication, 
-##### or not immediately obvious for other reasons
+##### based on information gleaned from metadata, a publication, 
+##### or when they are not immediately obvious for other reasons
 
 ##### Yield #####
+	d$biomass_total <- 
 
 	d$yield <- 
-	d$biomass_total <- 
+	#what plant part does yield refer to?
+	d$yield_part <- 
 	
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
