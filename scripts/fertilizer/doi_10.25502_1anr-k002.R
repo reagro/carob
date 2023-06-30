@@ -7,14 +7,12 @@
 carob_script <- function(path) {
   
   "
-  N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among 
-  African smallholder farmers which will contribute to enhancing soil fertility, improving household 
+  N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household 
   nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will 
   build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic 
   N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers 
   adapted to local settings. A strong national expertise in grain legume production and N2-fixation 
   research and development will be the legacy of the project.
- 
   "
   
   uri <- "doi:10.25502/1anr-k002"
@@ -196,6 +194,10 @@ carob_script <- function(path) {
 	dd6 <- carobiner::geocode_duplicates(dd5, vars=c( "country", "adm1", "site"))
 	
 	dd6 <- dd6[is.finite(dd6$yield), ]
+	dd6$yield_part <- "grain"
+	dd6$yield_part[dd6$crop == "groundnut"] <- "pod"
+	 
+	
   # all scripts must end like this
   carobiner::write_files(dset, dd6, path=path)
   

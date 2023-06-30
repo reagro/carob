@@ -62,6 +62,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   e$K_fertilizer <- 20
   e$fertilizer_type <- "unknown"
  
+	e$yield_part <- "pod"
   
  carobiner::write_files(dset, e, path=path)
 

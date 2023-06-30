@@ -85,7 +85,8 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
  d <- d[,c("trial_id","country","adm1","adm2","adm3","latitude","longitude","planting_date","harvest_date","crop","variety","row_spacing","plant_spacing","rain","flowering","plant_density","on_farm","is_survey","soil_pH","soil_SOC","soil_sand","soil_clay","soil_silt","soil_P_available","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight")]
  
  d$dataset_id <- dataset_id
- 
+	d$yield_part <- "pod"
+	
  # all scripts must end like this
  carobiner::write_files(dset, d, path=path)
 

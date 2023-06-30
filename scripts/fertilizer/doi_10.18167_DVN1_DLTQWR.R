@@ -162,8 +162,14 @@ carob_script <- function(path) {
 ##### or not immediately obvious for other reasons
 
 ##### Yield #####
-   d$yield <- as.numeric(gsub(",", ".", rr$yield))
-   
+	d$yield <- as.numeric(gsub(",", ".", rr$yield))
+	#d$crop %in% c("sorghum", "maize", "wheat", "teff", "barley", "pearl millet", "rice")
+	d$yield_part <- "grain"
+	i <- d$crop %in% c("grass pea", "cowpea", "common bean", "pigeon pea")
+	d$yield_part[i] <- "seed"
+	d$yield_part[d$crop=="cotton"] <- "fruit"
+
+      
 ##### Soil #####
    d$soil_type <- tolower(trimws(rr$Soil_NRCS))
    d$soil_SOC <- as.numeric(gsub(",", ".", ifelse(rr$Initial_soil_C == "?", NA, rr$Initial_soil_C)))/10 # g/kg -> %

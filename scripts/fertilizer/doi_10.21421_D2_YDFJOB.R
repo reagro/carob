@@ -68,6 +68,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	e$adm1 <-'Kano'
   
 	e$rep <- as.integer(e$rep)
+	e$yield_part <- "grain"
 
 	carobiner::write_files(dset, e, path=path)
 

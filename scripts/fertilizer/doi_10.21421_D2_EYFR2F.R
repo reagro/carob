@@ -90,6 +90,8 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   
   d <- d[,c("dataset_id","country", "adm1",'location',"latitude","longitude","trial_id", "planting_date","on_farm","soil_pH","soil_SOC","soil_P_available","soil_sand","soil_clay","soil_silt","is_survey","rep","crop", "variety","residue_yield", "yield", "grain_weight","N_fertilizer","P_fertilizer","K_fertilizer","fertilizer_type")]  
 
+	d$yield_part <- "grain"
+
   #all scripts should end like this
 	carobiner::write_files(dset, d, path=path)
 
