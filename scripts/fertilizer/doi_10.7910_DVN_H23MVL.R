@@ -178,6 +178,8 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
   d$N_splits <- as.integer(d$N_splits)
   d$soil_pH <- as.double(d$soil_pH)
   d$soil_SOC <- as.double(d$soil_SOC)
+  d$yield_part <- "grain"
+	
   carobiner::write_files(dset, d, path=path)
   
 }

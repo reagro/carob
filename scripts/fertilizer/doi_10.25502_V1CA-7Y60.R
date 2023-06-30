@@ -225,6 +225,9 @@ inoculants and fertilizers adapted to local settings.
 	d$inoculated <- as.logical(d$inoculated)
 
 	d <- d[!is.na(d$yield), ]
+	d$yield_part <- "seed"
+	d$yield_part[d$crop == "groundnut"] <- "pod"
+	
   carobiner::write_files(dset, d, path=path)
   
 }

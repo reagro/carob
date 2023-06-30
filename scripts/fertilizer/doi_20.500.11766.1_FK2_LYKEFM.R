@@ -78,7 +78,7 @@ carob_script <- function(path) {
     d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "treatment", "rep", "crop", "yield", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "plant_spacing")]
     dd <- rbind(dd,d) 
   }
-  
+	dd$yield_part <- "grain"  
   # all scripts must end like this
   carobiner::write_files(dset, dd, path=path)
 }

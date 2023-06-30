@@ -33,7 +33,7 @@ carob_script <- function(path){
     carob_contributor="Rachel Mukami and Effie Ochieng",
     experiment_type="N2 fixation",
     has_weather=FALSE
-       )
+	)
   
   ## downloading data 
   
@@ -128,14 +128,16 @@ carob_script <- function(path){
   vv[aa] <- carobiner::fix_name(vv[aa],"upper")
   vv[vv %in% c("saga","Saga")] <- "SC Saga"
   vv <- carobiner::replace_values(vv,
-                                  c("EAI3600","Gasirida","KK071","KK072","KK15","KK8","MAC44","Maksoy 4M","MAMESA","Namsoy 2N",
-                                    "NEWROSCOCO","OKWODHO","RWV2070","SB19","Sequel","Squire","TGx-1987-62 F","TGx1740-2F","TGx1987-62F",
-                                    "TGx1987-6F","TGx-1987-62F"),
-                                  c("EAI 3600","Gasilida","KK 071","KK 072","KK 15","KK 8","MAC 44","Maksoy","Mamesa","Namsoy",
-                                    "Newrosecoco","Okwodho","RWV 2070","SB 19","SC Sequel","SC Squire","TGx-1987-62F","TGx 1740-2F",
-                                    "TGx 1987-62F","TGx 1987-62F","TGx 1987-62F"))
+       c("EAI3600","Gasirida","KK071","KK072","KK15","KK8","MAC44","Maksoy 4M","MAMESA","Namsoy 2N",
+         "NEWROSCOCO","OKWODHO","RWV2070","SB19","Sequel","Squire","TGx-1987-62 F","TGx1740-2F","TGx1987-62F",
+         "TGx1987-6F","TGx-1987-62F"),
+       c("EAI 3600","Gasilida","KK 071","KK 072","KK 15","KK 8","MAC 44","Maksoy","Mamesa","Namsoy",
+         "Newrosecoco","Okwodho","RWV 2070","SB 19","SC Sequel","SC Squire","TGx-1987-62F","TGx 1740-2F",
+         "TGx 1987-62F","TGx 1987-62F","TGx 1987-62F"))
   vv <- gsub("x","X",vv)
-  d$variety <- vv # note that variety names are listed in the publication attached above
+
+# variety names are listed in the publication attached above  
+  d$variety <- vv 
   
   d <- d[,c("trial_id","rep","variety","treatment","inoculated","planting_date","harvest_date","fertilizer_type","N_splits","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight","biomass_roots","biomass_total")]
   
@@ -163,22 +165,22 @@ carob_script <- function(path){
   
   # lats and longs extracted from geonames.org
   z$latitude <- ifelse(grepl("Bungoma",z$location), 0.5635,
-                       ifelse(grepl("Butere",z$location),0.20694,
-                              ifelse(grepl("Kakamega",z$location),0.28422,
-                                     ifelse(grepl("Migori",z$location),-0.982,
-                                            ifelse(grepl("Mumias",z$location),0.33474,
-                                                   ifelse(grepl("Kakamega South",z$location),0.17124,
-                                                          ifelse(z$location == "Kisumu West",-0.091702,
-                                                                 ifelse(grepl("Butula",z$location),0.33796, -0.0693307))))))))
+		ifelse(grepl("Butere",z$location),0.20694,
+		ifelse(grepl("Kakamega",z$location),0.28422,
+        ifelse(grepl("Migori",z$location),-0.982,
+        ifelse(grepl("Mumias",z$location),0.33474,
+		ifelse(grepl("Kakamega South",z$location),0.17124,
+        ifelse(z$location == "Kisumu West",-0.091702,
+		ifelse(grepl("Butula",z$location),0.33796, -0.0693307))))))))
     
   z$longitude <- ifelse(grepl("Bungoma",z$location),34.56055,
-                        ifelse(grepl("Butere",z$location),34.49006,
-                               ifelse(grepl("Kakamega",z$location),34.75229,
-                                      ifelse(grepl("Migori",z$location),34.409,
-                                             ifelse(grepl("Mumias",z$location),34.48796,
-                                                    ifelse(grepl("Kakamega South",z$location),34.59466,
-                                                           ifelse(grepl("Kisumu West",z$location),34.767956,
-                                                                  ifelse(grepl("Butula",z$location),34.3355,35.2146883))))))))
+		ifelse(grepl("Butere",z$location),34.49006,
+        ifelse(grepl("Kakamega",z$location),34.75229,
+		ifelse(grepl("Migori",z$location),34.409,
+        ifelse(grepl("Mumias",z$location),34.48796,
+		ifelse(grepl("Kakamega South",z$location),34.59466,
+		ifelse(grepl("Kisumu West",z$location),34.767956,
+		ifelse(grepl("Butula",z$location),34.3355,35.2146883))))))))
 
 	# filling in the crop column based on trial_id
 	z$crop <- ""
@@ -189,9 +191,10 @@ carob_script <- function(path){
 	z <- z[!is.na(z$yield),] # dropping entries without yield output
 	#rearranging the data 
 	
-	z <- z[,c("dataset_id","trial_id","country","location","latitude","longitude","elevation","rep","treatment","crop","variety",
-	          "planting_date","harvest_date","observation_date","inoculated","grain_weight","biomass_roots","biomass_total","fertilizer_type","N_fertilizer","N_splits",
-	          "P_fertilizer","K_fertilizer","residue_yield","yield","on_farm")] 
+	z <- z[,c("dataset_id","trial_id","country","location","latitude","longitude","elevation","rep","treatment","crop","variety", "planting_date","harvest_date","observation_date","inoculated","grain_weight","biomass_roots","biomass_total","fertilizer_type","N_fertilizer","N_splits",
+	"P_fertilizer","K_fertilizer","residue_yield","yield","on_farm")] 
+	
+	z$yield_part <- "seed"
 	
   # all scripts must end like this
 	carobiner::write_files(dset, z, path=path)
