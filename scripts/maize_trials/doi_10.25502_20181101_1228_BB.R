@@ -28,7 +28,7 @@ in West Africa from 2013 to 2016.
 		data_institutions = "IITA",
 		publication= NA,
 		carob_contributor="Cedric Ngakou",
-		experiment_type=NA, # please have a look on experiment type 
+		data_type=NA, # please have a look on experiment type 
 		has_weather=FALSE
 		 
 		 	)

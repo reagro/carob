@@ -22,7 +22,7 @@ carob_script <- function(path) {
 	   uri=uri,
 	   publication=NA,
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type = "fertilizer and pesticide application",
+	   data_type = "experiment",
 	   has_weather=FALSE
     
 	)

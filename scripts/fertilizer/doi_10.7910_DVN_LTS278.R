@@ -20,7 +20,8 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 		data_citation="Atnafu, Obsa, 2020. Replication Data for: Response of Maize to blended fertilizer, https://doi.org/10.7910/DVN/LTS278",
 		publication=NA,
 		carob_contributor="Siyabusa Mkuhlani",
-		experiment_type="fertilizer",
+		data_type="experiment",
+
 		has_weather=FALSE
 	)
 

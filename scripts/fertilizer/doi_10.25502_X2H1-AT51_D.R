@@ -20,18 +20,18 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   
   ## dataset level data 
   
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    uri=uri,
-    project="N2Africa",
-    publication= "doi:10.1080/23311932.2020.1722353",
-    data_citation = "Vanlauwe, Bernard, Samuel, A.-N., Endalkachew, W., Peter, E., Freddy, B., Jean-Marie, S., Paul, W., Regis, C., Lloyd, P., Nkeki, K., Theresa, A.-B., Esther, R., Fred, K., Ken, G., Edward, B., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Ehtiopia, 2013 [Data set].
-    International Institute of Tropical Agriculture (IITA). doi:10.25502/X2H1-AT51/D",
-    data_institutions = "IITA",
-    carob_contributor="Rachel Mukami",
-    experiment_type="Symbiotic N2 fixation",
-    has_weather=TRUE
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		uri=uri,
+		project="N2Africa",
+		publication= "doi:10.1080/23311932.2020.1722353",
+		data_citation = "Vanlauwe, Bernard, Samuel, A.-N., Endalkachew, W., Peter, E., Freddy, B., Jean-Marie, S., Paul, W., Regis, C., Lloyd, P., Nkeki, K., Theresa, A.-B., Esther, R., Fred, K., Ken, G., Edward, B., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Ehtiopia, 2013 [Data set].
+		International Institute of Tropical Agriculture (IITA). doi:10.25502/X2H1-AT51/D",
+		data_institutions = "IITA",
+		carob_contributor="Rachel Mukami",
+		data_type = "on-farm experiment",
+		has_weather=TRUE
     )
   
   ff <- carobiner::get_data(uri, path, group)

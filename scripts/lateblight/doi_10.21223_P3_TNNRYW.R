@@ -28,11 +28,9 @@ carob_script <- function(path) {
 		data_institutions = "CIP",
 		carob_contributor="Henry Juarez",
 	   
-	   ## something like randomized control...
-		experiment_type="___",
+		data_type="experiment",
 		has_weather=FALSE
-		 
-		 	)
+ 	)
 
 ## download and read data 
 	ff  <- carobiner::get_data(uri, path, group)

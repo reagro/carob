@@ -22,24 +22,23 @@ carob_script <- function(path) {
 
 "
   
-  uri <- "hdl:11529/10825"
-  dataset_id <- carobiner::simple_uri(uri)
-  group <- "wheat_trials"
-  ## dataset level data 
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    project=NA,
-    uri=uri,
-    publication=NA,
-    data_citation="Thierfelder, Christian, 2016, Facilitating the widespread adoption of conservation agriculture 
-    in maize-based systems in Zambia, hdl:11529/10825, CIMMYT Research Data & Software Repository Network, V3",
-    data_institutions = "CIMMYT",
-    carob_contributor="Cedric Ngakou",
-    experiment_type="NA",
-    has_weather=FALSE
-     
-       )
+	uri <- "hdl:11529/10825"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "wheat_trials"
+	## dataset level data 
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		project=NA,
+		uri=uri,
+		publication=NA,
+		data_citation="Thierfelder, Christian, 2016, Facilitating the widespread adoption of conservation agriculture 
+		in maize-based systems in Zambia, hdl:11529/10825, CIMMYT Research Data & Software Repository Network, V3",
+		data_institutions = "CIMMYT",
+		carob_contributor="Cedric Ngakou",
+		data_type="on-station experiment",
+		has_weather=FALSE
+    )
   
   ## download and read data 
   

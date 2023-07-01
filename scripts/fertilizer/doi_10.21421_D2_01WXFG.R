@@ -11,83 +11,85 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   
   ## Process 
 
-  uri <- "doi:10.21421/D2/01WXFG"
-  dataset_id <- carobiner::simple_uri(uri)
-  group <- "fertilizer"
+	uri <- "doi:10.21421/D2/01WXFG"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "fertilizer"
+	  
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		uri=uri,
+		data_citation="Hakeem Ayinde Ajeigbe; Alpha Y. Kamara; Abubakar H.Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to plant density and phosphorous application in the sudan savanna zone of Minjibir, Nigeria. https://doi.org/10.21421/D2/01WXFG, ICRISAT Dataverse, V1",
+		publication= "doi:10.12692/ijb/9.1.291-302",
+		carob_contributor="Siyabusa Mkuhlani",
+		data_type="experiment",
+		has_weather=TRUE
+	)
+	  
+	## treatment level data 
+	ff  <- carobiner::get_data(uri, path, group)
+	  
+	## read the json for version, license, terms of use  
+	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
+	dset$license <- carobiner::get_license(js) 
+	  
+	f <- ff[basename(ff) == "Data file of Groundnut to plant density and phosphorous application in Minjibir 2012-13.xlsx"]
+	d <- carobiner::read.excel(f)
   
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    uri=uri,
-	data_citation="Hakeem Ayinde Ajeigbe; Alpha Y. Kamara; Abubakar H.Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to plant density and phosphorous application in the sudan savanna zone of Minjibir, Nigeria. https://doi.org/10.21421/D2/01WXFG, ICRISAT Dataverse, V1",
-    publication= "doi:10.12692/ijb/9.1.291-302",
-    carob_contributor="Siyabusa Mkuhlani",
-    experiment_type="fertilizer",
-    has_weather=TRUE
-  )
-  
-  ## treatment level data 
-  ff  <- carobiner::get_data(uri, path, group)
-  
-  ## read the json for version, license, terms of use  
-  js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
-  dset$license <- carobiner::get_license(js) 
-  
-  f <- ff[basename(ff) == "Data file of Groundnut to plant density and phosphorous application in Minjibir 2012-13.xlsx"]
-  d <- carobiner::read.excel(f)
-  
- d$country <- "Nigeria"
- d$adm1 <- "Kano"
- d$adm2 <- d$Location
- d$adm3 <- "Wasai" #from the reference
- d$latitude <- 8.67
- d$longitude <- 12.15
- # sown during the growing seasons of 2012 and 2013 no actual dates mentioned
- d$planting_date <- ifelse(d$Year == "2012", "2012","2013") 
- d$harvest_date <- ifelse(d$Year == "2012", "2012", "2013") 
- d$rep <- as.integer(d$`Replication number`)
- d$variety <- d$Variety
- d$P_fertilizer <- ifelse(d$Fertilizer == "F1", 0, 20)
- d$N_fertilizer <- 0
- d$K_fertilizer <- 0 
- d$yield <- d$PodKgHa
- d$residue_yield <- d$FdWtKgHa
- d$grain_weight <- d$seedgm
- d$crop <-"groundnut"
- 
- d$dataset_id <- dataset_id
- d$trial_id <- paste0(dataset_id, d$adm2, sep = "_")
- d$on_farm <- TRUE
- d$is_survey <- FALSE	
- d$row_spacing <- 75
+	d$country <- "Nigeria"
+	d$adm1 <- "Kano"
+	d$adm2 <- d$Location
+	d$adm3 <- "Wasai" #from the reference
+	d$latitude <- 8.67
+	d$longitude <- 12.15
+	# sown during the growing seasons of 2012 and 2013 no actual dates mentioned
+	d$planting_date <- ifelse(d$Year == "2012", "2012","2013") 
+	d$harvest_date <- ifelse(d$Year == "2012", "2012", "2013") 
+	d$rep <- as.integer(d$`Replication number`)
+	d$variety <- d$Variety
+	d$P_fertilizer <- ifelse(d$Fertilizer == "F1", 0, 20)
+	d$N_fertilizer <- 0
+	d$K_fertilizer <- 0 
+	d$yield <- d$PodKgHa
+	d$residue_yield <- d$FdWtKgHa
+	d$grain_weight <- d$seedgm
+	d$crop <-"groundnut"
+	
+	d$dataset_id <- dataset_id
+	d$trial_id <- paste0(dataset_id, d$adm2, sep = "_")
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE	
+	d$row_spacing <- 75
 
- d$flowering <- d$Flw50
- d$plant_spacing <- d$Spacing
- d$rep <- as.integer(d$rep)
- d$plant_density <- ifelse(d$plant_spacing == 30, 44444,
-	                      ifelse(d$plant_spacing == 20, 66667, 133333)) #as per the reference
- d$fertilizer_type <- "SSP" #from the reference
- 
- #soil properties from reference
- d$s1 <- paste(d$Year,d$adm2, sep = "_")
- ss <- data.frame(s1 = c("2012_Minjibir","2013_Minjibir"),
-            soil_SOC = c(0.221 ,0.198 ),
-           soil_sand = c(91.7 ,89.8),
-           soil_clay = c(4.2,6.0),
-           soil_silt = c(4.0,4.2),
-    soil_P_available = c(3.1,3.6),
-            soil_pH  = c(5.10, 5.0),
+	d$flowering <- d$Flw50
+	d$plant_spacing <- d$Spacing
+	d$rep <- as.integer(d$rep)
+	 #as per the reference
+	d$plant_density <- ifelse(d$plant_spacing == 30, 44444,
+					 ifelse(d$plant_spacing == 20, 66667, 133333))
+	#from the reference
+	d$fertilizer_type <- "SSP" 
+	
+	#soil properties from reference
+	d$s1 <- paste(d$Year,d$adm2, sep = "_")
+	ss <- data.frame(s1 = c("2012_Minjibir","2013_Minjibir"),
+			soil_SOC = c(0.221 ,0.198 ),
+			soil_sand = c(91.7 ,89.8),
+			soil_clay = c(4.2,6.0),
+			soil_silt = c(4.0,4.2),
+			soil_P_available = c(3.1,3.6),
+			soil_pH  = c(5.10, 5.0),
             rain     = c(994, 1054.3))
 
- d <- merge(d,ss, by ="s1", all.x = TRUE)
- 
- d <- d[,c("trial_id","country","adm1","adm2","adm3","latitude","longitude","planting_date","harvest_date","crop","variety","row_spacing","plant_spacing","rain","flowering","plant_density","on_farm","is_survey","soil_pH","soil_SOC","soil_sand","soil_clay","soil_silt","soil_P_available","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight")]
- 
- d$dataset_id <- dataset_id
-	d$yield_part <- "pod"
+	d <- merge(d, ss, by ="s1", all.x = TRUE)
 	
- # all scripts must end like this
- carobiner::write_files(dset, d, path=path)
+	d <- d[,c("trial_id","country","adm1","adm2","adm3","latitude","longitude","planting_date","harvest_date","crop","variety","row_spacing","plant_spacing","rain","flowering","plant_density","on_farm","is_survey","soil_pH","soil_SOC","soil_sand","soil_clay","soil_silt","soil_P_available","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight")]
+	
+	d$dataset_id <- dataset_id
+	d$yield_part <- "pod"
+		
+	# all scripts must end like this
+	carobiner::write_files(dset, d, path=path)
 
 }
 

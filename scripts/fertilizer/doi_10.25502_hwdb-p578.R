@@ -25,7 +25,7 @@ carob_script <- function(path){
 		Tropical Agriculture (IITA). doi:10.25502/HWDB-P578",
 
 		carob_contributor = "Effie Ochieng",
-		experiment_type = "variety_trials",
+		data_type = "on-farm experiment",
 		has_weather = TRUE
 
 	)

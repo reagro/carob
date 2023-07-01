@@ -32,7 +32,7 @@ carob_script <- function(path) {
     International Institute of Tropical Agriculture (IITA). doi:10.25502/14M8-CS44/D",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
-    experiment_type = "fertilizer",
+    data_type = "fertilizer",
     has_weather=TRUE
      
   )

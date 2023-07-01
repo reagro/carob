@@ -43,7 +43,8 @@ carob_script <- function(path) {
 	   data_citation= "Kihara, Job; Tibebe, Degefie; Gurmensa, Biyensa; Lulseged, Desta, 2017, Towards understanding fertilizer responses in Ethiopia, doi:10.7910/DVN/RKUMXB",
 	   publication=NA,
 	   carob_contributor="Camila Bonilla",
-	   experiment_type="fertilizer",
+	   data_type="experiment",
+
 	   has_weather=FALSE
  	)
 

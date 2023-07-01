@@ -25,7 +25,8 @@ Agricultural Water Management 98: 1364-1372
 		uri = uri,
 		publication = "doi:10.1016/j.agwat.2011.04.002",
 		carob_contributor = "Camila Bonilla",
-		experiment_type = "fertilizer;agroforestry",
+		data_type = "experiment",
+		data_institutions ="ICRAF",
 		has_weather = FALSE
 	)
 

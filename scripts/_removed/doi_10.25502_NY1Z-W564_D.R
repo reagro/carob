@@ -33,7 +33,7 @@ carob_script <- function(path) {
     2012 - 2013 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/NY1Z-W564/D",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
-    experiment_type="variety trial",
+    data_type="variety trial",
     has_weather=TRUE
      
   )

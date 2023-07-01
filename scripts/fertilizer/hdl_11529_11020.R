@@ -8,9 +8,7 @@ carob_script <- function(path) {
 
 "
 	Description:
-
-    [copy the abstract from the repo]
-
+Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 area in Bako in 2015 conducted by EIAR and CIMMYT. Replicated crop cuts of 16m2 in farmers fields along with addition data on agronomy, household characteristics, fertilizer use, variety, and soil analysis.
 "
 
 	uri <- "hdl:11529/11020"
@@ -22,10 +20,10 @@ carob_script <- function(path) {
 	   group=group,
 	   uri=uri,
 	   publication=NA,
-	   data_citation = "Balemi T. and Kebede M., Tufa T., and Gurumu G.. 2017. TAMASA Ethiopia.  Yield, soil and agronomy data from 70 farmers’ maize fields  in Bako, Ethiopia, 2015 season. International Maize and Wheat Improvement Centre (CIMMYT), Ethiopia.",
+	   data_citation = "T Balemi; M Kebede; T Tufa; G Gurumu, 2017. TAMASA Ethiopia. Yield, soil and agronomy data from 70 farmers’ maize fields in Bako, Ethiopia, 2015 season. https://hdl.handle.net/11529/11020, CIMMYT Research Data & Software Repository Network, V1",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type= "on-farm observations",
+	   data_type= "farm survey",
 	   has_weather=FALSE
  	)
 

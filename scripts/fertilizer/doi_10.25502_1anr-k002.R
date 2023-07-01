@@ -22,13 +22,13 @@ carob_script <- function(path) {
   dset <- data.frame(
     dataset_id = dataset_id,
     group=group,
-    project=NA,
+    project="N2Africa",
     uri=uri,
     publication= NA,
 	data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa diagnostic trial, 2015 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/1ANR-K002",
     data_institutions = "IITA",
     carob_contributor="Effie Ochieng'",
-    experiment_type="___",
+    data_type=NA,
     has_weather=FALSE
      
        )

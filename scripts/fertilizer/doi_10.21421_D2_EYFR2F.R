@@ -19,7 +19,8 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
 	data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Jerome Jonah; Ayuba Kunihya, 2019. Sorghum productivity and water use under phosphorus fertilization in the sudan savanna of Nigeria. https://doi.org/10.21421/D2/EYFR2F, ICRISAT Dataverse, V1",
     publication=NA, # "http://oar.icrisat.org/id/eprint/10842" Is the reference
     carob_contributor="Siyabusa Mkuhlani",
-    experiment_type="fertilizer",
+    data_type="experiment",
+
     has_weather=FALSE
   )
   

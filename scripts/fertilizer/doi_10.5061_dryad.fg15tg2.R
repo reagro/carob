@@ -25,7 +25,8 @@ Also see: doi:10.21955/gatesopenres.1115299.1
     data_citation = NA,
 
     carob_contributor="Effie Ochieng and Rachel Mukami",
-    experiment_type="fertilizer",
+    data_type="experiment",
+
     has_weather= TRUE
   )
   

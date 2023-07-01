@@ -26,7 +26,7 @@ carob_script <- function(path) {
 	   publication= "doi:10.1038_s43016-020-0114-x",
 	   data_institutions = "CIRAD",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="meta-analysis",
+	   data_type="compilation",
 	   has_weather=TRUE 
 	)
 

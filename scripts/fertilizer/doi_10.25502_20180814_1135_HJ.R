@@ -24,7 +24,7 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	   data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kiberashi [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1135/HJ",
 	   data_institutions = "IITA",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type=NA,
+	   data_type=NA,
 	   has_weather=FALSE
  	)
 

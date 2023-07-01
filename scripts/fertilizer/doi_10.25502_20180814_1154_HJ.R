@@ -28,7 +28,8 @@ carob_script <- function(path) {
     (IITA). doi:10.25502/20180814/1154/HJ" ,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
-    experiment_type="fertilizer",
+    data_type="experiment",
+
     has_weather=FALSE
      
   )

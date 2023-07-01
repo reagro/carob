@@ -25,7 +25,7 @@ carob_script <- function(path) {
 	   data_citation = NA,
 	   data_institutions = "ICRISAT; ARARI; ILRI",
 	   carob_contributor="Siyabusa Mkhulani & Eduardo Garcia Bendito",
-	   experiment_type="On farm experimental trials",
+	   data_type="on-farm experiment",
 	   has_weather=FALSE
  	)
 

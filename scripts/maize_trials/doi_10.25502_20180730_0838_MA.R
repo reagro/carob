@@ -21,7 +21,7 @@ carob_script <- function(path) {
 		uri = uri,
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
-		experiment_type = "varieties",
+		data_type = "experiment",
 		has_weather = FALSE
 
 	)

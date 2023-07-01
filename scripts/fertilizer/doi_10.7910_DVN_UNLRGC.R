@@ -36,7 +36,8 @@ Notes
 		data_citation="Kihara, Job, 2016. Replication Data for: Maize response to macronutrients and potential for profitability in sub-Saharan Africa, https://doi.org/10.7910/DVN/UNLRGC",
 		publication="doi:10.1007/s10705-015-9717-2",
 		carob_contributor="Camila Bonilla",
-		experiment_type="fertilizer",
+		data_type="experiment",
+
 		has_weather=FALSE
 		 	)
 

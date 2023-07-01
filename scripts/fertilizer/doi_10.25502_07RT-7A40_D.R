@@ -22,7 +22,8 @@ carob_script <- function(path) {
     uri=uri,
     publication=NA,
     carob_contributor="Henry Juarez",
-    experiment_type="fertilizer",
+    data_type="experiment",
+
     has_weather=FALSE
        )
   

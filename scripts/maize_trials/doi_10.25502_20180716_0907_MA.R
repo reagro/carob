@@ -20,7 +20,7 @@ carob_script <- function(path) {
 		data_citation="Menkir, A. & Olufisola Oladipo, 2018. Grain Yield and Other Agronomic Traits of International Maize Trials - Borer [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180716/0907/MA",
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
-		experiment_type = "varieties",
+		data_type = "experiment",
 		has_weather = FALSE
 
 	)

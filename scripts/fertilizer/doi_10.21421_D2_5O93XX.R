@@ -35,7 +35,7 @@ carob_script <- function(path) {
 	   uri=uri,
 	   publication="doi:10.12692/ijb/9.1.291-302",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="fertilizer",
+		data_type="experiment",
 	   has_weather=FALSE 
 	)
 

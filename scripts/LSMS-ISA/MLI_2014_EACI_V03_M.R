@@ -28,7 +28,7 @@ return( TRUE)
 	   uri=uri,
 	   publication="publication doi",
 	   contributor="Your name",
-	   experiment_type="___",
+	   data_type="___",
 	   has_weather=FALSE
  	)
 

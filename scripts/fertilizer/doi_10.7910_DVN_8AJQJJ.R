@@ -18,17 +18,15 @@ carob_script <- function(path) {
 	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
-	   project=NA,
-	   uri=uri,
-	   publication= "doi:10.1007/s13593-017-0431-0",
-	   data_institutions = "CIAT",
-	   carob_contributor="Eduardo Garcia Bendito",
-	   ## something like randomized control...
-	   experiment_type="meta-analysis",
-	   has_weather=FALSE
-	    
+		dataset_id = dataset_id,
+		group=group,
+		project=NA,
+		uri=uri,
+		publication= "doi:10.1007/s13593-017-0431-0",
+		data_institutions = "CIAT",
+		carob_contributor="Eduardo Garcia Bendito",
+		data_type="compilation",
+		has_weather=FALSE
  	)
 
 ## download and read data 

@@ -37,7 +37,7 @@ no_carob_script <- function(path) {
     International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/RWZE-CC90",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
-    experiment_type="variety_performance",
+    data_type="variety_performance",
     has_weather=TRUE
      
   )

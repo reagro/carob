@@ -28,7 +28,8 @@ carob_script <- function(path) {
     Agriculture (IITA). doi:10.25502/PAKR-Y904/D",
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
-    experiment_type="fertilizer",
+    data_type="experiment",
+
     has_weather=FALSE
      
   )

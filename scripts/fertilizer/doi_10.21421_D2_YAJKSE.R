@@ -20,7 +20,8 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	data_citation="Hakeem Ayinde Ajeigbe; Alpha Kamara; Kunihya Ayuba; Abubakar H. Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to Plant Density and Phosphorous application in the Sudan Savanna zone of Nigeria, Minjibir. https://doi.org/10.21421/D2/YAJKSE, ICRISAT Dataverse, V1",
     publication=NA,
     carob_contributor="Siyabusa Mkuhlani",
-    experiment_type="fertilizer",
+    data_type="experiment",
+
     has_weather=FALSE
      
   )
