@@ -3,9 +3,12 @@
 # unique(raw$Trait.name)
 # GRAIN_YIELD, 1000_GRAIN_WEIGHT, DAYS_TO_HEADING, PLANT_HEIGHT, AGRONOMIC_SCORE, SELECTED_CHECK_MARK, DAYS_TO_MATURITY, H_TRITICI_REPENTIS, LODGING_PERCENT_HARVESTED_AREA, STRIPE_RUST_ON_LEAF, POWDERY_MILDEW, TEST_WEIGHT, LEAF_RUST, YRWarriorRace, SPIKE_LENGTH, GERMINATION_%, CHLOROPHYLL, GRAIN_PROTEIN, Normalized Difference Vegetation Index, GRAIN APPEARANCE SCORE, PHENOL REACTION SCORE, Canopy Temperature, ABOVE_GROUND_BIOMASS, STEM_RUST, FeConcentration, ZnConcentration, TILLERS BY METER, HELMINTHOSPORIUM_SATIVUM_LEAF, GRAINS/SPIKE, TILLERS BY M2, Blast intensity, Blast severity, SPIKES_M2, GLUTEN_CONTENT, GRAIN_MOISTURE, SEDIMENTATION_INDEX
  
+# also env data such repas irrigation 
+
 
 
 proc_wheat <- function(ff) {
+
 
 # not used
 #	fgeno <- ff[basename(ff) == "29 HRWYT_Genotypes_Data.xls"]
@@ -17,9 +20,17 @@ proc_wheat <- function(ff) {
 	floc <- ff[grep("Loc_data.xls", basename(ff))]
 	fraw <- ff[grep("RawData.xls", basename(ff))]
 
-	loc <- read.csv(floc, sep = "\t", fileEncoding = "latin1")
-	raw <- read.csv(fraw, sep = "\t", fileEncoding = "latin1")
-	env <- read.csv(fenv, sep = "\t", fileEncoding = "latin1")
+	if (carobiner::is_excel(floc)) {
+		loc <- carobiner::read.excel(floc)
+		raw <- carobiner::read.excel(fraw, na="-")
+		env <- carobiner::read.excel(fenv)
+		colnames(raw) <- gsub(" ", ".", colnames(raw))
+		colnames(env) <- gsub(" ", ".", colnames(env))
+	} else {
+		loc <- read.csv(floc, sep = "\t", fileEncoding = "latin1")
+		raw <- read.csv(fraw, sep = "\t", fileEncoding = "latin1")	
+		env <- read.csv(fenv, sep = "\t", fileEncoding = "latin1")
+	}
 
 	# 'Cid', 'Sid', 	
 	vars <- c( 'Trait.name', 'Value', 'Trial.name', 'Loc_no', 'Country', 'Loc_desc', 'Cycle', 'Gen_name', 'Rep', 'Sub_block', 'Plot')
@@ -67,7 +78,7 @@ proc_wheat <- function(ff) {
 	r$is_survey <- FALSE
 	r$irrigated <- r$IRRIGATED != "NO"
 	r$row_spacing <- as.numeric(r$SPACE_BTN_ROWS_SOWN)
-	r$rep <- r$Rep
+	r$rep <- as.integer(r$Rep)
 	r$crop <- "wheat"
 	r$variety_name <- r$Gen_name
 	r$variety_code <- r$Gen_name
@@ -107,6 +118,7 @@ proc_wheat <- function(ff) {
 		"CLUSTERBEAN", "guar", 
 		"COE PEA", "cowpea", 
 		"COJENUS", "pigeon pea", 
+		"COJANUS", "pigeon pea", 
 		"CORN", "maize", 
 		"COTTON/VEGETABLE", "cotton; vegetables",
 		"COTTAN", "cotton",
@@ -196,6 +208,7 @@ proc_wheat <- function(ff) {
 		"RICE SEED PRODUCTION", 'rice',
 		"ROOT", "root crop", 
 		"SESBANIA SP.", "sesbania",
+		"SINAPIS", "mustard",
 		"SOGO", "sorghum",
 		"SORGO", "sorghum", 
 		"SOY BEAN", "soybean", 
@@ -224,7 +237,8 @@ proc_wheat <- function(ff) {
 		"SUPER BEAT", "sugar beet",
 		"SWEET  POTATOS", "sweetpotato",
 		"TRAMANRICE", "rice",
-		"TREBOL ROJO", "red clover", 
+		"TREBOL ROJO", "red clover",
+		"TREFOIL CLOVER", "clover",		
 		"TRIGO", "wheat", 
 		"TRIFOLIUM ALEXANDRIUM", "berseem clover", 
 		"TRIFOLIUM ALEXANDIUM", "berseem clover", 
