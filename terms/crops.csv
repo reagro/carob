@@ -96,6 +96,7 @@ fig,,,,,fruits,,,,fig,Fig,figs,fruits,http://aims.fao.org/aos/agrovoc/c_10840
 finger millet,Eleusine coracana,,,grain,cereals,,6000,,finger_millet,FingerMillet,finger millet,cereals,http://aims.fao.org/aos/agrovoc/c_2904
 flax,Linum usitatissimum,,,seed; stems,plant_fibres,,,,flax,Flax,flax,plant_fibres,http://aims.fao.org/aos/agrovoc/c_2970
 fonio,,,,grain,cereals,,,,fonio,Fonio,fonio,cereals,http://aims.fao.org/aos/agrovoc/c_ed7c5c09
+foxtail millet,Setaria italica,,,,,,,,,,,,
 forage crop,,,,,feed_crops,,,,forage_crop,ForageCrop,forage,feed_crops,http://aims.fao.org/aos/agrovoc/c_36108
 garlic,Allium sativum,,,tuber,vegetables,,,,garlic,Garlic,garlic,vegetables,http://aims.fao.org/aos/agrovoc/c_11091
 ginger,,,,,spices,,,,ginger,Ginger,ginger,spices,http://aims.fao.org/aos/agrovoc/c_11157
@@ -219,6 +220,7 @@ rosemary,,,,,culinary_herbs,,,,rosemary,Rosemary,rosemary,culinary_herbs,http://
 rubber,,,,,industrial_crops,,,,rubber,Rubber,rubber crops,industrial_crops,http://aims.fao.org/aos/agrovoc/c_6679
 rutabaga,,,,,vegetables,,,,rutabaga,Rutabaga,rutabagas,vegetables,http://aims.fao.org/aos/agrovoc/c_6713
 rye,,,,grain,cereals,,,,rye,Rye,rye,cereals,http://aims.fao.org/aos/agrovoc/c_14010
+rye grass,Lolium perenne,,,leaves,feed_crops,,,,rye_grass,RyeGrass,,,
 safflower,Cartamo tinctorius,,,,oil_seeds,,,,safflower,Safflower,safflower seed,oil_seeds,http://aims.fao.org/aos/agrovoc/c_25503
 saffron,,,,,spices,,,,saffron,Saffron,saffron,spices,http://aims.fao.org/aos/agrovoc/c_14023
 safou,,,,,fruits,,,,safou,Safou,safou,fruits,http://aims.fao.org/aos/agrovoc/c_34775
