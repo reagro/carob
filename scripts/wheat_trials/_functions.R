@@ -75,12 +75,19 @@ proc_wheat <- function(ff) {
 	r$location <- gsub(" - ", ", ", r$Loc_desc)
 
 # Process in carob format
-	r$planting_date <- as.character(as.Date(r$SOWING_DATE, "%b %d %Y"))
+	r$planting_date <- as.Date(r$SOWING_DATE, "%b %d %Y")
 	if (!is.null(r$HARVEST_STARTING_DATE)) {
-		r$harvest_date <- as.character(as.Date(r$HARVEST_STARTING_DATE, "%b %d %Y"))	
+		r$harvest_date <- as.Date(r$HARVEST_STARTING_DATE, "%b %d %Y")
 	} else {
-		r$harvest_date <- as.character(as.Date(r$HARVEST_FINISHING_DATE, "%b %d %Y"))
+		r$harvest_date <- as.Date(r$HARVEST_FINISHING_DATE, "%b %d %Y")
 	}
+	
+	r$heading <- r$DAYS_TO_HEADING
+	season <- as.numeric(r$harvest_date - r$planting_date)	
+	h <- which((r$heading > 150) & (r$heading > (season + 15)))
+	r$heading[h] <- NA
+
+	
 # other variables
 	r$on_farm <- FALSE
 	r$is_survey <- FALSE
@@ -89,7 +96,6 @@ proc_wheat <- function(ff) {
 	r$rep <- as.integer(r$Rep)
 	r$crop <- "wheat"
 	r$variety_code <- r$Gen_name
-
 
 	m <- matrix(byrow=TRUE, ncol=2, c(
 	  "AJOS", "garlic",
@@ -433,7 +439,6 @@ proc_wheat <- function(ff) {
 	
 	r$soil_pH <- if(is.null(r$SOIL_PH_ACTUAL_VALUE)) {NULL} else {as.numeric(r$SOIL_PH_ACTUAL_VALUE)}
 	
-	r$heading <- r$DAYS_TO_HEADING
 	r$height <- r$PLANT_HEIGHT 
 	r$powdery_mildew <- r$POWDERY_MILDEW
 	r$stem_rust <- r$STEM_RUST
@@ -449,8 +454,8 @@ proc_wheat <- function(ff) {
 	r$blast_severity  <- r$`Blast severity`
 		
 	# Subset for relevant columns
-	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "rep","crop", "variety_code", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_type", "soil_om", "soil_ph",  "irrigated", "row_spacing", "yield_part", "yield", "grain_weight", "heading", "height","powdery_mildew", "stem_rust", "leaf_rust", "sterility_index", "fusarium_scab_spike", "helminthosporium_sativum_leaf", "septoria_tritici_blotch", "septoria_species", "blast_severity", "blast_intensity")
-		
+	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "rep", "crop", "variety_code", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_type", "soil_om", "soil_ph",  "irrigated", "row_spacing", "yield_part", "yield", "grain_weight", "heading", "height","powdery_mildew", "stem_rust", "leaf_rust", "sterility_index", "fusarium_scab_spike", "helminthosporium_sativum_leaf", "septoria_tritici_blotch", "septoria_species", "blast_severity", "blast_intensity")
+					
 	r$country <- ifelse(r$country== "Dem Rep of Congo", "Democratic Republic of the Congo", r$country)
 	r$country <- ifelse(r$country== "U A Emirates", "United Arab Emirates", r$country)
 	r$country <- ifelse(r$country== "Swaziland", "Eswatini", r$country)
@@ -494,6 +499,9 @@ proc_wheat <- function(ff) {
 	r$yield_part <- "grain"
 	# records without yield are not very useful
 	#r <- r[!is.na(r$yield), ]
+
+	r$planting_date <- as.character(r$planting_date)	
+	r$harvest_date <- as.character(r$harvest_date)
 
 	# they may not be all available
 	cv <- cvars[cvars %in% names(r)]	
