@@ -44,10 +44,6 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
 
-	i <- which(d$location == "Lyamungo")
-	d$longitude[i] <- 37.249
-	d$latitude[i] <- -3.248
-
 # all scripts must end like this
 	carobiner::write_files(path, dset, d)
 }

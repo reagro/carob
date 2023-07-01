@@ -248,7 +248,7 @@ proc_wheat <- function(ff) {
 		"MANG BEEB", "mung bean",
 		"MANGBEAN", "mung bean",
 		"MANN BEAN", "mung bean",
-		"MANDY SETARIA", "foxtail millet",
+		"MANDY SETERIA", "foxtail millet",
 		"MIAZE", "maize",
 		"O. SATIVA", 'rice',
 		"OAT", "oats", 
@@ -472,6 +472,21 @@ proc_wheat <- function(ff) {
 
 	i <- which(r$location == "Sanliurfa-Akcakale,  A.R.I")
 	r$latitude[i] <- 36.72
+
+	i <- r$location == "Bagh-E-Zakherah Taloqan, Aria"
+	r$longitude[i] <- 69.48988
+
+	i <- r$location == "Bardc, Quetta"
+	r$latitude[i] <- 30.193
+
+	i <- which(r$location == "Exp.Farm Kasapa, U.Lubumbashi")
+	r$location[i] <- "Exp. Farm Kasapa, University of Lubumbashi"
+	r$longitude[i] <- 27.4144
+	r$latitude[i] <- -11.5657
+
+	i <- which(r$location == "Lyamungo")
+	r$longitude[i] <- 37.249
+	r$latitude[i] <- -3.248
 
 	r$yield_part <- "grain"
 	# records without yield are not very useful

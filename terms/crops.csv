@@ -30,14 +30,14 @@ black gram,Vigna mungo,,,seed,pulses,,,,black_gram,BlackGram,,,
 black salsify,Scorzonera hispanica,,,,root_crops,,,,black_salsify,BlackSalsify,black salsify,root_crops,http://aims.fao.org/aos/agrovoc/c_0f628632
 blackberry,Rubus spp,,,,fruits,,,,blackberry,Blackberry,blackberries,fruits,http://aims.fao.org/aos/agrovoc/c_947
 blue agave,Agave tequilana,,,,syrup,,,,blue_agave,BlueAgave,,,
-blueberry,,,,,fruits,,,,blueberry,Blueberry,blueberries,fruits,http://aims.fao.org/aos/agrovoc/c_974
-borage,,,,seed,oil_seeds,,,,borage,Borage,borage seed,oil_seeds,http://aims.fao.org/aos/agrovoc/c_d2910779
-brassica carinata,,,,,vegetables,,,,brassica_carinata,BrassicaCarinata,brassica carinata,vegetables,http://aims.fao.org/aos/agrovoc/c_33311
-brazil nut,,,,,nuts,,,,brazil_nut,BrazilNut,brazil nuts,nuts,http://aims.fao.org/aos/agrovoc/c_9410
-broccoli,,,,,vegetables,,,,broccoli,Broccoli,broccoli,vegetables,http://aims.fao.org/aos/agrovoc/c_7339
-brussels sprouts,,,,,vegetables,,,,brussels_sprouts,BrusselsSprouts,brussels sprouts,vegetables,http://aims.fao.org/aos/agrovoc/c_1127
-buckwheat,,,,,pseudocereals,,,,buckwheat,Buckwheat,buckwheat,pseudocereals,http://aims.fao.org/aos/agrovoc/c_9471
-cabbage,,,,,vegetables,,,,cabbage,Cabbage,cabbages,vegetables,http://aims.fao.org/aos/agrovoc/c_1173
+blueberry,Vaccinium spp.,,,,fruits,,,,blueberry,Blueberry,blueberries,fruits,http://aims.fao.org/aos/agrovoc/c_974
+borage,Borago officinalis,,,seed,oil_seeds,,,,borage,Borage,borage seed,oil_seeds,http://aims.fao.org/aos/agrovoc/c_d2910779
+abyssinian cabbage,Brassica carinata,,,,vegetables,,,,abyssinian_cabbage,AbyssinianCabbage,brassica carinata,vegetables,http://aims.fao.org/aos/agrovoc/c_33311
+brazil nut,Bertholletia excelsa,,,,nuts,,,,brazil_nut,BrazilNut,brazil nuts,nuts,http://aims.fao.org/aos/agrovoc/c_9410
+broccoli,Brassica oleracea var. italica,,,,vegetables,,,,broccoli,Broccoli,broccoli,vegetables,http://aims.fao.org/aos/agrovoc/c_7339
+brussels sprouts,Brassica oleracea,,,,vegetables,,,,brussels_sprouts,BrusselsSprouts,brussels sprouts,vegetables,http://aims.fao.org/aos/agrovoc/c_1127
+buckwheat,Fagopyrum esculentum,,,,pseudocereals,,,,buckwheat,Buckwheat,buckwheat,pseudocereals,http://aims.fao.org/aos/agrovoc/c_9471
+cabbage,Brassica oleracea,,,,vegetables,,,,cabbage,Cabbage,cabbages,vegetables,http://aims.fao.org/aos/agrovoc/c_1173
 cactus pear,,,,,fruits,,,,cactus_pear,CactusPear,cactus pears,fruits,http://aims.fao.org/aos/agrovoc/c_ba7fc495
 calamondin,,,,,fruits,,,,calamondin,Calamondin,calamondins,fruits,http://aims.fao.org/aos/agrovoc/c_15497
 cantaloupe,,,,,fruits,,,,cantaloupe,Cantaloupe,cantaloupes,fruits,http://aims.fao.org/aos/agrovoc/c_12714
@@ -219,7 +219,7 @@ roselle,,,,,vegetables,,,,roselle,Roselle,roselle,vegetables,http://aims.fao.org
 rosemary,,,,,culinary_herbs,,,,rosemary,Rosemary,rosemary,culinary_herbs,http://aims.fao.org/aos/agrovoc/c_13963
 rubber,,,,,industrial_crops,,,,rubber,Rubber,rubber crops,industrial_crops,http://aims.fao.org/aos/agrovoc/c_6679
 rutabaga,,,,,vegetables,,,,rutabaga,Rutabaga,rutabagas,vegetables,http://aims.fao.org/aos/agrovoc/c_6713
-rye,,,,grain,cereals,,,,rye,Rye,rye,cereals,http://aims.fao.org/aos/agrovoc/c_14010
+rye,Secale cereale,,,grain,cereals,,,,rye,Rye,rye,cereals,http://aims.fao.org/aos/agrovoc/c_14010
 rye grass,Lolium perenne,,,leaves,feed_crops,,,,rye_grass,RyeGrass,,,
 safflower,Cartamo tinctorius,,,,oil_seeds,,,,safflower,Safflower,safflower seed,oil_seeds,http://aims.fao.org/aos/agrovoc/c_25503
 saffron,,,,,spices,,,,saffron,Saffron,saffron,spices,http://aims.fao.org/aos/agrovoc/c_14023
