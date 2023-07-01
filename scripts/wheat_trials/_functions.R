@@ -39,6 +39,7 @@ proc_wheat <- function(ff) {
 	raw$Value <- trimws(raw$Value)
 	raw$Value[raw$Value %in% c("-", ".")] <- ""
 	raw$Value[raw$Value == ""] <- NA
+	raw$Value[raw$Value %in% c("NORMAL", "SPARSE", "DENSE")] <- NA
 	raw$Value <- as.numeric(raw$Value)
 	raw <- aggregate(Value ~ ., data=raw, mean, na.rm=TRUE)
 
@@ -94,15 +95,16 @@ proc_wheat <- function(ff) {
 		"AMAN RCIE", "rice",
 		"AMARANTO", "amaranth",
 		"AVENA+VICIA", "oats; vetch", 
+		"AVENA + VICIA", "oats; vetch", 
 		"AVENA-VICIA", "oats; vetch", 
 		"AVENA / VICIA", "oats; vetch", 
 		"AVENA", "oats",
 		"AVENA  SATIVA", "oats",
 		"BAJRA", "pearl millet",
 		"BAJWA", "pearl millet",
+		"BERSEEM (FODDER)", "berseem clover",
 		"BLEND", NA,
 		"BRASICA  NAPUS", "rapeseed",
-		"CAJONES", NA,
 		"CANOLA", "rapeseed",
 		"CEREALS", "CEREAL",
 		"CEAREALS", "CEREAL",
@@ -116,13 +118,17 @@ proc_wheat <- function(ff) {
 		"CHIKPEA", "chickpea",
 		"CHOCHO", "tarwi",
 		"CLUSTERBEAN", "guar", 
+		"CLASVERBEEN", "guar", 
 		"COE PEA", "cowpea", 
 		"COJENUS", "pigeon pea", 
 		"COJANUS", "pigeon pea", 
+		"COJENUS COJON", "pigeon pea", 
+		"CAJONES", "pigeon pea", 		
 		"CORN", "maize", 
 		"COTTON/VEGETABLE", "cotton; vegetables",
 		"COTTAN", "cotton",
 		"COTTOON", "cotton",
+		"COWPEAS", "cowpea",
 		"CROTOTERIA (ABONO VERDE)", "crotalaria", 		
 		"CROTOTERIA", "crotalaria", 
 		"FALLOWED", "no crop",
@@ -140,6 +146,8 @@ proc_wheat <- function(ff) {
 		"GIYCIN MAX", "soybean",
 		"GRASSES", "forage legume",
 		"GUISANTE", "pea",
+		"HABAS", "faba bean",
+		"MARICOT BEAN", "common bean",
 		"HARICOT BEAN", "common bean",
 		"HARICOT  BEAN", "common bean", 
 		"IRISH POTATO", "potato",
@@ -166,13 +174,20 @@ proc_wheat <- function(ff) {
 		"MAIZ", "maize",
 		"MAIZ FODDER", "maize",
 		"MAÍZ", "maize",
+		"MALINBEAN", NA,
 		"MILICIMA ATERRINA", NA,
+		"MONSOON", "rice",
+		"MONSSON RICE", "rice",
 		"MUNJE WHEAT", "wheat",
 		"MUNG-PULSES", "mung bean",
 		"MUNG BAEN", "mung bean", 
 		"MUNG BEEN", "mung bean", 
+		"MUNG", "mung bean",
 		"MONG BEAN", "mung bean",
 		"MONG (V. RADIATA)", "mung bean",
+		"MONG", "mung bean",
+		"MOONG", "mung bean",
+		"MUNGHEAN", "mung bean",
 		"MUNGBEAN", "mung bean",
 		"MANG BEAN", "mung bean",
 		"MANGBEAN", "mung bean",
@@ -187,6 +202,7 @@ proc_wheat <- function(ff) {
 		"ORYZA SATIVA", "rice",
 		"ORYZA  SATIVA", "rice", 
 		"PADDY", "rice", 
+		"PAADY", "rice", 
 		"PAPA", "potato", 
 		"PAPPER CROP", "pepper", 
 		"PATATO", "potato",
@@ -198,7 +214,9 @@ proc_wheat <- function(ff) {
 		"PISUM SATIVUM", "pea",
 		"PULSES", "pulse", 
 		"PULSE", "pulse", 
+		"PULSE CROP", "pulse", 		
 		"PURPERUREUS", "lablab",
+		"QUINUA", "quinoa", 
 		"RAPE SEED", "RAPESEED",
 		"RAPHANUS  SPP", "radish",
 		"RAPHANUS SPP.", "radish", 
@@ -209,6 +227,7 @@ proc_wheat <- function(ff) {
 		"ROOT", "root crop", 
 		"SESBANIA SP.", "sesbania",
 		"SINAPIS", "mustard",
+		"SIGA", NA,
 		"SOGO", "sorghum",
 		"SORGO", "sorghum", 
 		"SOY BEAN", "soybean", 
@@ -228,6 +247,7 @@ proc_wheat <- function(ff) {
 		"SUNFLOVER", "sunflower",
 		"SUNHEMP (FLAX)", "sunn hemp",
 		"SUNHIMP (FLAX)", "sunn hemp",
+		"SUNHAMP", "sunn hemp", 
 		"SUNHIMP", "sunn hemp", 
 		"SUNHAMP", "sunn hemp",
 		"SUNHEMP", "sunn hemp",
@@ -279,7 +299,8 @@ proc_wheat <- function(ff) {
 	# Extract columns with NPK fertilizers
 	fertfun <- function(x, v) {
 		i <- grep(v, colnames(x))
-		rn <- x[,i]
+		#if (length(i) == 0) return(cbind(NA, NA))
+		rn <- x[,i,drop=FALSE]
 		rn[rn==0] <- NA
 		fert <- apply(rn, 1, \(i) sum(as.numeric(i), na.rm=T))
 		test <- grepl("P2O5", colnames(rn))
