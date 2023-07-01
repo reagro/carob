@@ -488,6 +488,9 @@ proc_wheat <- function(ff) {
 	r$longitude[i] <- 37.249
 	r$latitude[i] <- -3.248
 
+	i <- grep("Karaj", r$location)
+	r$latitude[i] <- 35.802
+
 	r$yield_part <- "grain"
 	# records without yield are not very useful
 	#r <- r[!is.na(r$yield), ]
