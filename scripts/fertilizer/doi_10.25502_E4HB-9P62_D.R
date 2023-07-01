@@ -200,7 +200,8 @@ carob_script <- function(path) {
             "planting_date","harvest_date","inoculated","grain_weight","biomass_total","residue_yield","yield","fertilizer_type",
             "N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH","soil_sand","soil_clay","soil_silt","soil_N",
             "soil_K","soil_SOC", "on_farm")]
-	
+
+	w$yield_part <- "seed"
   # all scripts must end like this
 	carobiner::write_files(dset, w, path=path)
 }

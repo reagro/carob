@@ -148,6 +148,9 @@ carob_script <- function(path) {
 	d$uncertainty_type <- as.character(rr$`Error Type`)
 	d$rain <- as.integer(rr$Rainfall)
 	
+	d$yield_part <- "grain"
+	d$yield_part[d$crop %in% c("soybean", "faba bean", "cowpea")] <- "seed"
+
 	  
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)

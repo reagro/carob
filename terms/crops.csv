@@ -162,7 +162,7 @@ muskmelon,,,,,fruits,,,,muskmelon,Muskmelon,muskmelons,fruits,http://aims.fao.or
 mustard,,,,seed,spices,,,,mustard,Mustard,mustard seed,spices,http://aims.fao.org/aos/agrovoc/c_fd07a050
 nectarine,,,,,fruits,,,,nectarine,Nectarine,nectarines,fruits,http://aims.fao.org/aos/agrovoc/c_5100
 no crop,,,,,other,,,,no_crop,NoCrop,,,
-noug,Guizotia abyssinica,,,,oil_seeds,,5000,,noug,Noug,noug seed,oil_seeds,http://aims.fao.org/aos/agrovoc/c_12827
+noug,Guziota scarba,,,,oil_seeds,,5000,,noug,Noug,noug seed,oil_seeds,http://aims.fao.org/aos/agrovoc/c_12827
 nutmeg,,,,,spices,,,,nutmeg,Nutmeg,nutmegs,spices,http://aims.fao.org/aos/agrovoc/c_23169
 oats,Avena sativa,,,grain,cereals,,13450,,oats,Oats,oats,cereals,http://aims.fao.org/aos/agrovoc/c_5287
 oil palm,,,,,oil_crops,,,,oil_palm,OilPalm,oil palms,oil_crops,http://aims.fao.org/aos/agrovoc/c_5330
@@ -243,6 +243,7 @@ strawberry,,,,,fruits,,,,strawberry,Strawberry,strawberries,fruits,http://aims.f
 sugar beet,Beta vulgaris,,,root,sugar_crops,,,,sugar_beet,SugarBeet,sugar beet,sugar_crops,http://aims.fao.org/aos/agrovoc/c_7499
 sugarcane,Saccharum officinarum,,,stems,sugar_crops,,300000,,sugarcane,Sugarcane,sugar cane,sugar_crops,http://aims.fao.org/aos/agrovoc/c_7501
 sumac,,,,,spices,,,,sumac,Sumac,sumac,spices,http://aims.fao.org/aos/agrovoc/c_aa51cda6
+sunflecks, Guizotia abyssinica,,,,,,,,sunflecks,Sunflecks,,,
 sunflower,Helianthus annuus,,,anuum,oil_crops,,80000,,sunflower,Sunflower,sunflowers,oil_crops,http://aims.fao.org/aos/agrovoc/c_aad037e4
 sunn hemp,Crotalaria juncea,,,green manure,fibre_crops,,,,sunn_hemp,SunnHemp,sunn hemp,fibre_crops,http://aims.fao.org/aos/agrovoc/c_7520
 sweetpotato,Ipomoea batatas,,,root,vegetables,,100000,,sweetpotato,Sweetpotato,sweet potatoes,vegetables,http://aims.fao.org/aos/agrovoc/c_14729
