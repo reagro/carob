@@ -33,7 +33,7 @@ proc_wheat <- function(ff) {
 	}
 
 	# 'Cid', 'Sid', 	
-	vars <- c( 'Trait.name', 'Value', 'Trial.name', 'Loc_no', 'Country', 'Loc_desc', 'Cycle', 'Gen_name', 'Rep', 'Sub_block', 'Plot')
+	vars <- c( 'Trait.name', 'Value', 'Trial.name', 'Loc_no', 'Country', 'Loc_desc', 'Cycle', 'Gen_name', 'Rep', 'Plot')
 	raw <- raw[, vars]
 	
 	raw$Value <- trimws(raw$Value)
@@ -72,8 +72,11 @@ proc_wheat <- function(ff) {
 
 # Process in carob format
 	r$planting_date <- as.character(as.Date(r$SOWING_DATE, "%b %d %Y"))
-	r$harvest_date <- as.character(as.Date(r$HARVEST_FINISHING_DATE, "%b %d %Y"))
-	
+	if (!is.null(r$HARVEST_STARTING_DATE)) {
+		r$harvest_date <- as.character(as.Date(r$HARVEST_STARTING_DATE, "%b %d %Y"))	
+	} else {
+		r$harvest_date <- as.character(as.Date(r$HARVEST_FINISHING_DATE, "%b %d %Y"))
+	}
 # other variables
 	r$on_farm <- FALSE
 	r$is_survey <- FALSE
@@ -81,19 +84,21 @@ proc_wheat <- function(ff) {
 	r$row_spacing <- as.numeric(r$SPACE_BTN_ROWS_SOWN)
 	r$rep <- as.integer(r$Rep)
 	r$crop <- "wheat"
-	r$variety_name <- r$Gen_name
 	r$variety_code <- r$Gen_name
-	r$variety_type <- "high-yield"
 
-	# note that the order is important
-	# to avoid partial matching, first the more complex names
+
 	m <- matrix(byrow=TRUE, ncol=2, c(
 	  "AJOS", "garlic",
+	  "AJO", "garlic",
 	  "ALFA ALFA", "LUCERNE",
 	  "ALFALFA", "LUCERNE",
+	  "ALGODON", "cotton",		
+	  "ALGODONERO", "cotton",			  
+	  "ALGODAON", "cotton",		
 		"AMAN RICE", "rice",
 		"AMAN RCIE", "rice",
 		"AMARANTO", "amaranth",
+		"AVENA+VICI", "oats; vetch", 
 		"AVENA+VICIA", "oats; vetch", 
 		"AVENA + VICIA", "oats; vetch", 
 		"AVENA-VICIA", "oats; vetch", 
@@ -102,12 +107,18 @@ proc_wheat <- function(ff) {
 		"AVENA  SATIVA", "oats",
 		"BAJRA", "pearl millet",
 		"BAJWA", "pearl millet",
+		"BEANS&POTATOES", "common bean; potato",
 		"BERSEEM (FODDER)", "berseem clover",
 		"BLEND", NA,
 		"BRASICA  NAPUS", "rapeseed",
+		"CARTAMO", "safflower",
 		"CANOLA", "rapeseed",
-		"CEREALS", "CEREAL",
-		"CEAREALS", "CEREAL",
+		"CEBADA", "barley",
+		"CEBOLLA", "onion",
+		"CEREALS", "cereal",
+		"CEREAL (MAGI)", "cereal",  #rice?
+		"CEREAL (MAYIL)", "cereal", #rice?
+		"CEAREALS", "cereal",
 		"CEREAL (RICE)", "rice",
 		"CEREAL  (RICE)", "rice",
 		"CICER ARIETINUM", "chickpea",
@@ -117,6 +128,7 @@ proc_wheat <- function(ff) {
 		"CHICK PEA", "chickpea",
 		"CHIKPEA", "chickpea",
 		"CHOCHO", "tarwi",
+		"CHAINCHA", "common bean", #chaucha
 		"CLUSTERBEAN", "guar", 
 		"CLASVERBEEN", "guar", 
 		"COE PEA", "cowpea", 
@@ -124,6 +136,7 @@ proc_wheat <- function(ff) {
 		"COJANUS", "pigeon pea", 
 		"COJENUS COJON", "pigeon pea", 
 		"CAJONES", "pigeon pea", 		
+		"COMPOSITEA", NA, 
 		"CORN", "maize", 
 		"COTTON/VEGETABLE", "cotton; vegetables",
 		"COTTAN", "cotton",
@@ -134,11 +147,14 @@ proc_wheat <- function(ff) {
 		"FALLOWED", "no crop",
 		"FABABEAN", "faba bean",
 		"FABA BEEN", "faba bean",
+		"FABACEAE", "faba bean",
 		"FEET FOLLOWED BY MU", NA,
 		"FIELD PEAS", "pea",
 		"FIELD BEANS", "lablab",
 		"FODDER", "forage legume",
 		"FOOD LEGUMES", "legume",
+		"FOOD LEGUME", "legume",		
+		"FRIJOL", "common bean",
 		"GIRASOL", "sunflower",
 		"G. HIRSUTUM", "cotton",
 		"GLYCIN MAX", "soybean",
@@ -155,17 +171,27 @@ proc_wheat <- function(ff) {
 		"LABLAB PURPUREUS (COVER CROP)", "lablab",
 		"LAGUME CROP(SOYABEAN)", "soybean",
 		"LEAVES VEGETABLE FOLLOWED BY MAIZE", "vegetables; maize",
+		"LECHUGA", "lettuce",		
 		"LEGUMES", "legume", 
 		"LEGUME", "legume",
 		"LEGUMINOUS", "legume",
+		"LEGUMINOSAS", "legume",
+		"LEGUMINOSAEA", "legume",
 		"LENTILS", "lentil",
 		"LINSEED", "flax",
+		"LOLIUM", "rye grass",
+		"LUPINS", "white lupin",
 		"LUPINUS ALBUS", "white lupin",
 		"LUPINO", "white lupin", #?
 		"GRAMINEAE", "maize; rice",
+		"AREEN  MANURE", "green manure", 
+		"GREEN  MANURE", "green manure", 
 		"GREEM  MANURE", "green manure", 
+		"GREEN  MANWE", "green manure", 
 		"GREEN  MANWERE", "green manure",
+		"GREEN MAMURE", "green manure", 		
 		"GREEN GRAIN", "mung bean",
+		"GRUNDNUT", "groundnut",
 		"HELIANTHUS ANNUUS", "sunflower",
 		"HELIANTHUS  ANNUS", "sunflower",
 		"MAIN SEASON", NA, 
@@ -178,19 +204,24 @@ proc_wheat <- function(ff) {
 		"MILICIMA ATERRINA", NA,
 		"MONSOON", "rice",
 		"MONSSON RICE", "rice",
-		"MUNJE WHEAT", "wheat",
+		"MUNJE WHEAT", "wheat",		
 		"MUNG-PULSES", "mung bean",
+		"MUNG- PULSE", "mung bean",
+		"MAIN BAEN", "mung bean", 
 		"MUNG BAEN", "mung bean", 
 		"MUNG BEEN", "mung bean", 
 		"MUNG", "mung bean",
 		"MONG BEAN", "mung bean",
+		"MOONG BEAN", "mung bean",		
 		"MONG (V. RADIATA)", "mung bean",
 		"MONG", "mung bean",
 		"MOONG", "mung bean",
 		"MUNGHEAN", "mung bean",
 		"MUNGBEAN", "mung bean",
 		"MANG BEAN", "mung bean",
+		"MANG  BEAN", "mung bean",
 		"MANGBEAN", "mung bean",
+		"MANDY SETARIA", "foxtail millet",
 		"OAT", "oats", 
 		"OILSEED", "rapeseed", 
 		"OLISEED", "rapeseed", 
@@ -209,8 +240,11 @@ proc_wheat <- function(ff) {
 		"POTATOES", "potato",
 		"PEAS", "pea",
 		"PERCO", NA,
+		"PEAEL  MILLELE", "pearl millet",
 		"PEARL  MILLET", "pearl millet",
+		"PEARLI MILLER", "pearl millet",
 		"PHACELIA TANACETIFOLIA", 'phacelia',
+		"PHASEOLUS VULGARIS", "common bean",
 		"PISUM SATIVUM", "pea",
 		"PULSES", "pulse", 
 		"PULSE", "pulse", 
@@ -221,15 +255,23 @@ proc_wheat <- function(ff) {
 		"RAPHANUS  SPP", "radish",
 		"RAPHANUS SPP.", "radish", 
 		"RAPHA NUS SPP", "radish",
+		"RAPHANUS SATIRUS L", "radish", 		
+		"RICE (CEREALS)", "rice",
 		"RICE-CEREAL", "rice",
 		"RICE, CEREAL", "rice",
 		"RICE SEED PRODUCTION", 'rice',
+		"RICE/PADDY", "rice",		
 		"ROOT", "root crop", 
 		"SESBANIA SP.", "sesbania",
+		"SESBANIA\\", "sesbania",
+		"SEED PRODUCTION", NA,
 		"SINAPIS", "mustard",
 		"SIGA", NA,
 		"SOGO", "sorghum",
 		"SORGO", "sorghum", 
+		"SORGO FORR", "sorghum", 
+		"SOYBEAN JS-335", "soybean", 
+		"SOYBEAN-JS 335", "soybean", 
 		"SOY BEAN", "soybean", 
 		"SOYBEANS", "soybean", 
 		"SOYBEAN", "soybean",
@@ -240,38 +282,51 @@ proc_wheat <- function(ff) {
 		"SOY  BEAN", "soybean",
 		"SUGAR CAME", "sugarcane",
 		"SUGAR BEET-MAIZE", "sugar beet; maize",
+		"SUGAR  BEET", "sugar beet",
 		"SOJA", "soybean",
 		"SOJA CICLO CORTO", "soybean",
 		"SOYA", "soybean",
+		"SOYA-OIL SEED", "soybean",
 		"SOYA- OIL SEED", "soybean",
 		"SUNFLOVER", "sunflower",
 		"SUNHEMP (FLAX)", "sunn hemp",
 		"SUNHIMP (FLAX)", "sunn hemp",
+		"SUN-HAMP", "sunn hemp", 
 		"SUNHAMP", "sunn hemp", 
 		"SUNHIMP", "sunn hemp", 
 		"SUNHAMP", "sunn hemp",
 		"SUNHEMP", "sunn hemp",
 		"SUMHEMP", "sunn hemp",
+		"SUMHEAD", "sunn hemp",
+		"SUM HEUF", "sunn hemp",
 		"SUNYHEMP", "sunn hemp",
 		"SYNHEMP", "sunn hemp",
+		"SYNHEME", "sunn hemp",
+		"SYMHEMP", "sunn hemp",
 		"SUPER BEAT", "sugar beet",
 		"SWEET  POTATOS", "sweetpotato",
 		"TRAMANRICE", "rice",
+		"TREBOL BLANCO", "white clover",
 		"TREBOL ROJO", "red clover",
 		"TREFOIL CLOVER", "clover",		
+		"TREBOL-SOJA", "clover; soybean",
 		"TRIGO", "wheat", 
 		"TRIFOLIUM ALEXANDRIUM", "berseem clover", 
 		"TRIFOLIUM ALEXANDIUM", "berseem clover", 
+		"TREBOL BLANCO", "white clover", 
+		"TRIFOLIUM REPENS", "white clover", 
 		"TRITICALE", "triticale",
 		"TRITICUM", "wheat",
 		"T. AESTIVUM", "wheat",
 		"UPLAND RICE", "rice",
 		"URDBEAN", "black gram",
+		"URDBEAN- PULSES", "black gram",
 		"URDBEAN-PULSES", "black gram",
 		"VICIA LABA", "faba bean", 
 		"VIGNA RADIATA", "mung bean", 
 		"V. RADIATA MOONG", "mung bean", 
 		"VES", "vetch",
+		"VEGETABLE", "vegetables",
 		"VEGATEABLES", "vegetables",
 		"ZEA MAYS", "maize",
 		"ZEA  MAYS", "maize", 
@@ -283,15 +338,13 @@ proc_wheat <- function(ff) {
 
 
 	prcrop <- r$USE_OF_FIELD_SPECIFY_CROP
-	#for (i in 1:nrow(m)) {
-	#	prcrop <- gsub(m[i,1], m[i,2], prcrop)
-	#}
-
-	h <- cbind(1:nrow(r), match(prcrop, m[,1])) |> na.omit()
-	prcrop[h[,1]] <- m[h[,2], 2]
-
-	r$previous_crop <- tolower(prcrop)
-	
+	if (is.null(prcrop)) {
+		r$previous_crop <- NA	
+	} else {
+		h <- cbind(1:nrow(r), match(prcrop, m[,1])) |> na.omit()
+		prcrop[h[,1]] <- m[h[,2], 2]
+		r$previous_crop <- tolower(prcrop)
+	}
 	# Convert yield in ton/ha to kg/ha
 	r$yield <- as.numeric(r$GRAIN_YIELD) * 1000 
 	r$grain_weight <- as.numeric(r$`1000_GRAIN_WEIGHT`)
@@ -343,13 +396,13 @@ proc_wheat <- function(ff) {
 	r$blast_severity  <- r$`Blast severity`
 		
 	# Subset for relevant columns
-	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "rep","crop", "variety_code", "variety_type", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_type", "soil_om", "soil_ph",  "irrigated", "row_spacing", "yield_part", "yield", "grain_weight", "heading", "height","powdery_mildew", "stem_rust", "leaf_rust", "sterility_index", "fusarium_scab_spike", "helminthosporium_sativum_leaf", "septoria_tritici_blotch", "septoria_species", "blast_severity", "blast_intensity")
+	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "rep","crop", "variety_code", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_type", "soil_om", "soil_ph",  "irrigated", "row_spacing", "yield_part", "yield", "grain_weight", "heading", "height","powdery_mildew", "stem_rust", "leaf_rust", "sterility_index", "fusarium_scab_spike", "helminthosporium_sativum_leaf", "septoria_tritici_blotch", "septoria_species", "blast_severity", "blast_intensity")
 		
 	r$country <- ifelse(r$country== "Dem Rep of Congo", "Democratic Republic of the Congo", r$country)
 	r$country <- ifelse(r$country== "U A Emirates", "United Arab Emirates", r$country)
 	
 	# Exclude countries with Null value
-	r <- r |> subset(country != 'Null')
+	r <- r[!is.null(r$country)]
 
 	# more could be done. But we should not keep ALL CAPS
 	r$location <- carobiner::fix_name(r$location, "title")

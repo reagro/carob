@@ -152,7 +152,7 @@ mandarin,,,,,fruits,,,,mandarin,Mandarin,mandarins,fruits,http://aims.fao.org/ao
 mango,Mangifera indica,,,,fruits,,100000,,mango,Mango,mangoes,fruits,http://aims.fao.org/aos/agrovoc/c_12367
 mangosteen,,,,,fruits,,,,mangosteen,Mangosteen,mangosteens,fruits,http://aims.fao.org/aos/agrovoc/c_12368
 mate,,,,leaves,beverage_crops,,,,mate,Mate,mate,beverage_crops,http://aims.fao.org/aos/agrovoc/c_4647
-,,,,,,,,,,,,,
+durum wheat,Triticum durum,,,grain,cereals,,,,durum_wheat,DurumWheat,,,
 mint,,,,,culinary_herbs,,,,mint,Mint,mint,culinary_herbs,http://aims.fao.org/aos/agrovoc/c_12606
 mulberry,,,,,fruits,,,,mulberry,Mulberry,mulberries,fruits,http://aims.fao.org/aos/agrovoc/c_25487
 mung bean,Vigna radiata,,,,pulses,,,,mung_bean,MungBean,mung beans,pulses,http://aims.fao.org/aos/agrovoc/c_4988
@@ -219,7 +219,7 @@ rosemary,,,,,culinary_herbs,,,,rosemary,Rosemary,rosemary,culinary_herbs,http://
 rubber,,,,,industrial_crops,,,,rubber,Rubber,rubber crops,industrial_crops,http://aims.fao.org/aos/agrovoc/c_6679
 rutabaga,,,,,vegetables,,,,rutabaga,Rutabaga,rutabagas,vegetables,http://aims.fao.org/aos/agrovoc/c_6713
 rye,,,,grain,cereals,,,,rye,Rye,rye,cereals,http://aims.fao.org/aos/agrovoc/c_14010
-safflower,,,,,oil_seeds,,,,safflower,Safflower,safflower seed,oil_seeds,http://aims.fao.org/aos/agrovoc/c_25503
+safflower,Cartamo tinctorius,,,,oil_seeds,,,,safflower,Safflower,safflower seed,oil_seeds,http://aims.fao.org/aos/agrovoc/c_25503
 saffron,,,,,spices,,,,saffron,Saffron,saffron,spices,http://aims.fao.org/aos/agrovoc/c_14023
 safou,,,,,fruits,,,,safou,Safou,safou,fruits,http://aims.fao.org/aos/agrovoc/c_34775
 sage,,,,,culinary_herbs,,,,sage,Sage,sage,culinary_herbs,http://aims.fao.org/aos/agrovoc/c_14025
