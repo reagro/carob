@@ -20,10 +20,11 @@ carob_script <- function(path) {
 		group=group,
 		project=NA,
 		uri=uri,
+		data_citation="Ludemann, Cameron et al. (2022), Data from: Estimating maize harvest index and nitrogen concentrations in grain and residue using globally available data, Dryad, Dataset, https://doi.org/10.5061/dryad.j3tx95xhc",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= "doi:10.1016/j.fcr.2022.108578",
-		data_institutions = "International Fertilizer Association",
+		data_institutions = "Wageningen University & Research",
 		carob_contributor="Eduardo Garcia Bendito",
 		
 		data_type="compilation",
@@ -108,6 +109,7 @@ carob_script <- function(path) {
   ##### Yield #####
   
   d$yield <- d$CPY * 1000 # Megagram to kilogram
+  d$yield_part <- "grain"
   
   d$dataset_id <- dataset_id
   d <- d[,c(27:length(d))]

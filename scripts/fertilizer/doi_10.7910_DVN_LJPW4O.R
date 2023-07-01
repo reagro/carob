@@ -128,7 +128,7 @@ carob_script <- function(path) {
 	
 	d$trial_id <- paste0(d$trial_id, "-", id)
 	d$dataset_id <- dataset_id
-
+	d$yield_part <- "grain"
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 

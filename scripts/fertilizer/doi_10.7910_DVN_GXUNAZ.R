@@ -18,7 +18,7 @@ Low productivity of agriculture observed in different parts of sub-Saharan Afric
 		group=group,
 		project=NA,
 		uri=uri,
-		publication= "",
+		publication= NA,
 		data_citation = "Kihara, Job; Okeyo, Jeremiah; Bolo, Peter; Kinyua, Michael, 2020, Non-responsiveness of crops to fertilizers under some soils in sub-Saharan Africa, doi:10.7910/DVN/GXUNAZ",
 		data_institutions = "CIAT",
 		carob_contributor="Rachel Mukami",
@@ -213,6 +213,9 @@ Low productivity of agriculture observed in different parts of sub-Saharan Afric
 	
 	#rearranging
 	d <- d[,c("dataset_id","trial_id","country","site","latitude","longitude","crop","variety","treatment","rep","N_fertilizer","P_fertilizer","K_fertilizer", "S_fertilizer","Ca_fertilizer", "Mg_fertilizer","Zn_fertilizer", "B_fertilizer", "lime", "OM_used", "soil_pH","soil_SOC","soil_P_total","soil_clay","soil_type","rain","yield","on_farm")] 
+	
+	d$yield_part <- "grain"
+	d$yield_part[d$crop %in% c("cowpea", "faba bean", "soybean")] <- "seed"
 	
 	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)

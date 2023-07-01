@@ -27,7 +27,6 @@ carob_script <- function(path){
 		carob_contributor = "Effie Ochieng",
 		data_type = "on-farm experiment",
 		has_weather = TRUE
-
 	)
 	
 	#Registering the dataset
@@ -218,6 +217,7 @@ carob_script <- function(path){
 	
 	q4 <- q4[, c("trial_id","country","adm2","site", "latitude","longitude","rep","crop","variety","inoculated","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","planting_date","harvest_date", "row_spacing","plant_spacing","yield","previous_crop","dataset_id")]
 	
+	q4$yield_part <- ifelse(q4$crop == "groundnut", "pod", "seed")
 	
 	# all scripts should end like this
 	carobiner::write_files(dset, q4, path=path)

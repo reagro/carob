@@ -6,8 +6,7 @@
 
 carob_script <- function(path) {
 
-"
-	Description:
+"Description:
 Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 area in Bako in 2015 conducted by EIAR and CIMMYT. Replicated crop cuts of 16m2 in farmers fields along with addition data on agronomy, household characteristics, fertilizer use, variety, and soil analysis.
 "
 
@@ -41,10 +40,11 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 	d$country <- "Ethiopia"
 	d$site <- d$`Name of the Village`
 	d$trial_id <- paste0("TAMASABako2015_", gsub("\\.", "-", d$`plot ID`))
-	xmin <- as.numeric(js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]$westLongitude[4][[1]])
-	xmax <- as.numeric(js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]$eastLongitude[4][[1]])
-	ymin <- as.numeric(js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]$southLongitude[4][[1]])
-	ymax <- as.numeric(js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]$northLongitude[4][[1]])
+	jsgeo <- js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]
+	xmin <- as.numeric(jsgeo$westLongitude[4][[1]])
+	xmax <- as.numeric(jsgeo$eastLongitude[4][[1]])
+	ymin <- as.numeric(jsgeo$southLongitude[4][[1]])
+	ymax <- as.numeric(jsgeo$northLongitude[4][[1]])
 	d$longitude <- xmin + ((xmin - xmax)/2)
 	d$latitude <- ymax + ((ymin - ymax)/2)
 	# d$longitude <- 37.115
@@ -126,7 +126,7 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 	          "soil_N", "soil_K", "soil_P_total")]
 	
 	d$dataset_id <- dataset_id
-	
+	d$yield_part <- "grain"
 	
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)

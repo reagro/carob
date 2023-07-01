@@ -8,12 +8,10 @@
 
 carob_script <- function(path) {
 
-	"
-	Description:
+	"Description:
 		Kihara, Job; Tibebe, Degefie; Gurmensa, Biyensa; Lulseged, Desta, 2017, Towards understanding fertilizer responses in Ethiopia, doi:10.7910/DVN/RKUMXB, Harvard Dataverse, V2
 
 	# This is a comprehensive dataset specifically on crop response to fertilizers and is obtained from published journal articles, thesis and proceedings spanning at least 5 decades. It represents all the agriculturally productive regions of Ethiopia. The data contains information on region, crop type and soil type under which experiments were conducted, as well as application rates of nutrients (N, P, K, and other nutrients) as well as yields of the control and fertilized treatment on which crop response ratios are derived.
-
 
 	Towards understanding fertilizer responses in Ethiopia
 
@@ -43,7 +41,7 @@ carob_script <- function(path) {
 	   data_citation= "Kihara, Job; Tibebe, Degefie; Gurmensa, Biyensa; Lulseged, Desta, 2017, Towards understanding fertilizer responses in Ethiopia, doi:10.7910/DVN/RKUMXB",
 	   publication=NA,
 	   carob_contributor="Camila Bonilla",
-	   data_type="experiment",
+	   data_type="compilation",
 
 	   has_weather=FALSE
  	)
@@ -343,16 +341,18 @@ carob_script <- function(path) {
 	d$longitude[i] <- 39.154
 	d$latitude[i] <- 11.835
 
-
 	#4) to do
 	#Garadella = Garadella State Farm
 	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
 	xy <- uxy[is.na(uxy$longitude),]
 
-
 	d$soil_pH[d$soil_pH < 3.5 | d$soil_pH > 8.5] <- NA
 
-	carobiner::write_files(dset, d, path=path)
+	d$yield_part <- "grain"
+	d$yield_part[d$crop %in% c("pea", "common bean", "chickpea", "faba bean", "rapeseed")] <- "seed" 
+	d$yield_part[d$crop == "gomenzer"] <- "leaves" 
+	d$yield_part[d$crop == "potato"] <- "tubers" 
 
+	carobiner::write_files(dset, d, path=path)
 }
 

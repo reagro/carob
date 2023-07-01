@@ -7,8 +7,7 @@
 
 carob_script <- function(path) {
 
-"
-Description
+"Description
 	Kihara, J., Huising, J., Nziguheba, G. et al. Maize response to macronutrients and potential for profitability in sub-Saharan Africa. Nutr Cycl Agroecosyst 105, 171–181 (2016).
 
 	Abstract: The objective of this study was to determine the attainable maize grain response to and potential of profitability of N, P and K application in SSA using boundary line approaches. Data from experiments conducted in SSA under AfSIS project (2009–2012) and from FAO trials database (1969–1996) in 15 countries and constituting over 375 different experimental locations and 6600 data points are used. 
@@ -36,10 +35,9 @@ Notes
 		data_citation="Kihara, Job, 2016. Replication Data for: Maize response to macronutrients and potential for profitability in sub-Saharan Africa, https://doi.org/10.7910/DVN/UNLRGC",
 		publication="doi:10.1007/s10705-015-9717-2",
 		carob_contributor="Camila Bonilla",
-		data_type="experiment",
-
+		data_type="compilation",
 		has_weather=FALSE
-		 	)
+	)
 
 	## treatment level data 
 	ff  <- carobiner::get_data(uri, path, group)
@@ -98,9 +96,11 @@ Notes
 
 	# not clear what these mean
 	d$rep <- NULL
-		
+	
+	d$yield_part <- "grain"
 	carobiner::write_files(dset, d, path=path, id="afsis")
 
+###############################
 	## FAO data 
 
 	f <- ff[basename(ff) == "Kihara et al.2015_All_Sites.xlsx"]
@@ -177,6 +177,7 @@ Notes
 
 	i <- zz$country=="Guinea-Bissau" & zz$longitude > 15
 	zz$longitude[i] <- -zz$longitude[i]
+	zz$yield_part <- "grain"
 
 	carobiner::write_files(dset, zz, path=path, id="fao")
 }
