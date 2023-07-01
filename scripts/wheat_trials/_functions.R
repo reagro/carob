@@ -40,6 +40,10 @@ proc_wheat <- function(ff) {
 	raw$Value[raw$Value %in% c("-", ".")] <- ""
 	raw$Value[raw$Value == ""] <- NA
 	raw$Value[raw$Value %in% c("NORMAL", "SPARSE", "DENSE")] <- NA
+	raw$Value[raw$Value %in% c("2*", "1/2*", "7+9", "7+8", "7+8/17+18", "17+18", "13+16", "5+10", "2+12", "5+10/2+12")] <- NA
+	raw$Value[raw$Value %in% c("+", "+,-", "1B", "1B/1R", "1B", "1B", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B", "MIX", "1B/1R", "1B/1R", "1B", "1B", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B", "1B/1R", "1B", "1B/1R", "1B/1R", "MIX", "1B/1R", "1B", "1B/1R", "1B/1R", "1B")] <- NA 
+	raw$Value[raw$Value %in% c("1B/1B", "7+9/17+18", "2.1+12", "2.1+10")] <- NA   
+
 	raw$Value <- as.numeric(raw$Value)
 	raw <- aggregate(Value ~ ., data=raw, mean, na.rm=TRUE)
 
@@ -142,6 +146,7 @@ proc_wheat <- function(ff) {
 		"COJENUS COJON", "pigeon pea", 
 		"CAJONES", "pigeon pea", 		
 		"COMPOSITEA", NA, 
+		"COMPOSITAE", NA, 
 		"CORN", "maize", 
 		"COTTON/VEGETABLE", "cotton; vegetables",
 		"COTLON", "cotton",
@@ -150,11 +155,14 @@ proc_wheat <- function(ff) {
 		"COWPEAS", "cowpea",
 		"CROTOTERIA (ABONO VERDE)", "crotalaria", 		
 		"CROTOTERIA", "crotalaria",
+		"DEHNEHA", NA,
 		"DURUM  WHEAT", "wheat",
+		"FALLOW", "no crop",		
 		"FALLOWED", "no crop",
 		"FABABEAN", "faba bean",
 		"FABA BEEN", "faba bean",
 		"FABA  BEAN", "faba bean",
+		"FABA VULGARIS", "faba bean",
 		"FABACEAE", "faba bean",
 		"FEET FOLLOWED BY MU", NA,
 		"FIELD PEAS", "pea",
@@ -185,7 +193,7 @@ proc_wheat <- function(ff) {
 		"LEGUME", "legume",
 		"LEGUMINOUS", "legume",
 		"LEGUMINOSAS", "legume",
-		"LEGUMINOSAEA", "legume",
+		"LEGUMINOSAE", "legume",
 		"LENTILS", "lentil",
 		"LINSEED", "flax",
 		"LOLIUM", "rye grass",
@@ -210,6 +218,8 @@ proc_wheat <- function(ff) {
 		"MAIZ FODDER", "maize",
 		"MAIZE (FODDER)", "maize",
 		"MAÍZ", "maize",
+		"MAIZ, BAJO", "maize",
+		"MAIZE,MUNG BEAN", "maize; mung bean",
 		"MALINBEAN", NA,
 		"MILICIMA ATERRINA", NA,
 		"MONSOON", "rice",
@@ -218,6 +228,7 @@ proc_wheat <- function(ff) {
 		"MUNG-PULSES", "mung bean",
 		"MUNG- PULSE", "mung bean",
 		"MAIN BAEN", "mung bean", 
+		"MAIN BEAN", "mung bean", 
 		"MUNG BAEN", "mung bean", 
 		"MUNG BEEN", "mung bean", 
 		"MUNG", "mung bean",
@@ -258,9 +269,10 @@ proc_wheat <- function(ff) {
 		"PAPPER CROP", "pepper", 
 		"PATATO", "potato",
 		"POTATOES", "potato",
+		"POTATO AND RAPE SEED", "potato; rapeseed",
 		"PEAS", "pea",
 		"PERCO", NA,
-		"PEAEL  MILLELE", "pearl millet",
+		"PEAEL MILLELE", "pearl millet",
 		"PEARL  MILLET", "pearl millet",
 		"PEARLI MILLER", "pearl millet",
 		"PHACELIA TANACETIFOLIA", 'phacelia',
@@ -268,6 +280,7 @@ proc_wheat <- function(ff) {
 		"PISUM SATIVUM", "pea",
 		"PNLEES", NA,
 		"PULSEC", "pulse", 
+		"PEA FOR GRAIN", "pea", 
 		"PULSES", "pulse", 
 		"PULSE", "pulse", 
 		"PULSE CROP", "pulse", 		
@@ -311,6 +324,7 @@ proc_wheat <- function(ff) {
 		"SUGAR  BEET", "sugar beet",
 		"SUGERBEET", "sugar beet",
 		"SUGARR BEETS", "sugar beet",
+		"SIJA", "soybean",
 		"SOJA", "soybean",
 		"SOJA CICLO CORTO", "soybean",
 		"SOYA", "soybean",
@@ -324,12 +338,15 @@ proc_wheat <- function(ff) {
 		"SUN-HAMP", "sunn hemp", 
 		"SUNHAMP", "sunn hemp",
 		"SUNHAMN", "sunn hemp", 
+		"SUNFLOWER; COMPOSITAE", "sunflower",
+		"SUN-HAMP", "sunn hemp", 
+		"SANHAMP", "sunn hemp", 
 		"SUNHIMP", "sunn hemp", 
 		"SUNHAMP", "sunn hemp",
 		"SUNHEMP", "sunn hemp",
 		"SUMHEMP", "sunn hemp",
-		"SUMHEAD", "sunn hemp",
-		"SUM HEUF", "sunn hemp",
+		"SUNHEAD", "sunn hemp",
+		"SUN HEUF", "sunn hemp",
 		"SUNYHEMP", "sunn hemp",
 		"SYNHEMP", "sunn hemp",
 		"SYNHEME", "sunn hemp",
@@ -359,6 +376,7 @@ proc_wheat <- function(ff) {
 		"VIGNA RADIATA", "mung bean", 
 		"V. RADIATA MOONG", "mung bean", 
 		"VES", "vetch",
+		"VEZA", "vetch",
 		"VEGETABLE", "vegetables",
 		"VEGATEABLES", "vegetables",
 		"WATER  MELON", "watermelon",
@@ -435,9 +453,10 @@ proc_wheat <- function(ff) {
 		
 	r$country <- ifelse(r$country== "Dem Rep of Congo", "Democratic Republic of the Congo", r$country)
 	r$country <- ifelse(r$country== "U A Emirates", "United Arab Emirates", r$country)
+	r$country <- ifelse(r$country== "Swaziland", "Eswatini", r$country)
 	
-	# Exclude countries with Null value
-	r <- r[!is.null(r$country)]
+	# Exclude Null countries
+	r <- r[r$country!="Null",]
 
 	# more could be done. But we should not keep ALL CAPS
 	r$location <- carobiner::fix_name(r$location, "title")
