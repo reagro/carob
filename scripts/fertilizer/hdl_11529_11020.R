@@ -23,7 +23,7 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   data_type= "farm survey",
-	   has_weather=FALSE
+	   project=NA
  	)
 
 ## download and read data 

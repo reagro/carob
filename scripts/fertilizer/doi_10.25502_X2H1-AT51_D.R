@@ -30,8 +30,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 		International Institute of Tropical Agriculture (IITA). doi:10.25502/X2H1-AT51/D",
 		data_institutions = "IITA",
 		carob_contributor="Rachel Mukami",
-		data_type = "on-farm experiment",
-		has_weather=TRUE
+		data_type = "on-farm experiment"
     )
   
 	ff <- carobiner::get_data(uri, path, group)

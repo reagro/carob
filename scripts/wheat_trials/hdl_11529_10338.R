@@ -22,8 +22,7 @@ The Semi-Arid Wheat Yield Trial (SAWYT) is a replicated yield trial that contain
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2015. 20th Semi-Arid Wheat Yield Trial. https://hdl.handle.net/11529/10338, CIMMYT Research Data & Software Repository Network, V6",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Robert Hijmans",
-	   data_type="on-station experiment",
-	   has_weather=FALSE
+	   data_type="on-station experiment"
  	)
 
 ## download and read data 

@@ -27,8 +27,7 @@ carob_script <- function(path) {
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
     data_type="experiment",
-
-    has_weather=FALSE
+		project=NA
      
   )
   

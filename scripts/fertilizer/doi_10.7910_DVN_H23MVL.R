@@ -15,23 +15,22 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
    
 "
   
-  uri <- "doi:10.7910/DVN/H23MVL"
-  dataset_id <- carobiner::simple_uri(uri)
-  group <- "fertilizer"
-  ## dataset level data 
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    uri=uri,
-    publication=NA,
-    data_citation ="Dobermann A, Witt C, Dawe D, et al (2002) Site-specific nutrient management for intensive rice cropping systems in Asia. F Crop Res 74:37–66. 
-    doi: doi: 10.1016/S0378- 4290(01)00197-6" ,
-    data_institutions = "IRRI",
-    carob_contributor="Cedric Ngakou",
-    data_type="NA",
-    has_weather=FALSE
-     
-  )
+	uri <- "doi:10.7910/DVN/H23MVL"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "fertilizer"
+	## dataset level data 
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		uri=uri,
+		publication=NA,
+		data_citation ="Dobermann A, Witt C, Dawe D, et al (2002) Site-specific nutrient management for intensive rice cropping systems in Asia. F Crop Res 74:37–66. 
+		doi: doi: 10.1016/S0378- 4290(01)00197-6" ,
+		data_institutions = "IRRI",
+		carob_contributor="Cedric Ngakou",
+		data_type="NA",
+		project=NA     
+	)
   
   ## download and read data 
   ff <- carobiner::get_data(uri, path, group)

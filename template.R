@@ -6,8 +6,7 @@
 
 carob_script <- function(path) {
 
-"
-	Description:
+"Description:
 
     [copy the abstract from the repo]
 
@@ -18,20 +17,17 @@ carob_script <- function(path) {
 	group <- ""
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
-	   project=NA,
-	   uri=uri,
-	   data_citation="",
-	   ## if there is a paper, include the paper's doi here
-	   ## also add a RIS file in references folder (with matching doi)
-	   publication= "",
-	   data_institutions = "",
-	   carob_contributor="Your name",
-	   
-	   has_weather=FALSE,
-	   has_soil=FALSE,
-	   has_management=FALSE
+		dataset_id = dataset_id,
+		group=group,
+		project=NA,
+		uri=uri,
+		data_citation="",
+		## if there is a paper, include the paper's doi here
+		## also add a RIS file in references folder (with matching doi)
+		publication= "",
+		data_institutions = "",
+   		data_type="experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
+		carob_contributor="Your name",  
 	)
 
 ## download and read data 
@@ -117,7 +113,7 @@ carob_script <- function(path) {
 	carobiner::write_files(dset, d, path=path)
 }
 
-## now test your function in a clean environment 
+## now test your function in a clean R environment 
 # path <- _____
 # carob_script(path)
 

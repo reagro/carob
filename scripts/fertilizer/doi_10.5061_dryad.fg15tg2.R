@@ -25,9 +25,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
     data_citation = NA,
 
     carob_contributor="Effie Ochieng and Rachel Mukami",
-    data_type="experiment",
-
-    has_weather= TRUE
+    data_type="experiment"
   )
   
   ## download and read data 

@@ -15,23 +15,21 @@ carob_script <- function(path) {
   research and development will be the legacy of the project.
   "
   
-  uri <- "doi:10.25502/1anr-k002"
-  dataset_id <- carobiner::simple_uri(uri)
-  group <- "fertilizer"
+	uri <- "doi:10.25502/1anr-k002"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "fertilizer"
   ## dataset level data 
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    project="N2Africa",
-    uri=uri,
-    publication= NA,
-	data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa diagnostic trial, 2015 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/1ANR-K002",
-    data_institutions = "IITA",
-    carob_contributor="Effie Ochieng'",
-    data_type=NA,
-    has_weather=FALSE
-     
-       )
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		project="N2Africa",
+		uri=uri,
+		publication= NA,
+		data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa diagnostic trial, 2015 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/1ANR-K002",
+		data_institutions = "IITA",
+		carob_contributor="Effie Ochieng'",
+		data_type=NA
+    )
   
   ## download and read data 
   ff  <- carobiner::get_data(uri, path, group)

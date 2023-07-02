@@ -27,7 +27,7 @@ Agricultural Water Management 98: 1364-1372
 		carob_contributor = "Camila Bonilla",
 		data_type = "experiment",
 		data_institutions ="ICRAF",
-		has_weather = FALSE
+		project=NA
 	)
 
 ## download and read data 

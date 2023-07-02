@@ -27,8 +27,7 @@ The experiment was established in 1986 and continued until 2018 at the ICRISAT S
 	   uri=uri,
 	   publication="doi:10.21421/D2/AVKD0T",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   data_type="fertilizer",
-	   has_weather=FALSE
+	   data_type="fertilizer"
 	    
 	)
 

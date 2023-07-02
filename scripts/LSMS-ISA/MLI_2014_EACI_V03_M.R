@@ -28,8 +28,7 @@ return( TRUE)
 	   uri=uri,
 	   publication="publication doi",
 	   contributor="Your name",
-	   data_type="___",
-	   has_weather=FALSE
+	   data_type="___"
  	)
 
 ## download and read data 

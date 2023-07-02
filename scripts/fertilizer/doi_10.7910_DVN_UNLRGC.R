@@ -36,7 +36,8 @@ Notes
 		publication="doi:10.1007/s10705-015-9717-2",
 		carob_contributor="Camila Bonilla",
 		data_type="compilation",
-		has_weather=FALSE
+		project=NA,
+		data_institutions="CIAT"
 	)
 
 	## treatment level data 

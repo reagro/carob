@@ -27,8 +27,7 @@ carob_script <- function(path) {
     data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kontela [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1219/HJ",
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
-    data_type="fertilizer",
-    has_weather=FALSE
+    data_type="fertilizer"
      
   )
   

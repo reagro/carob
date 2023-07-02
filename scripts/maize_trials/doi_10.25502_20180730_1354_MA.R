@@ -18,14 +18,12 @@ carob_script <- function(path) {
 		dataset_id = dataset_id,
 		uri = uri,
 		data_citation = "Menkir, A. (2018). Grain Yield and Other Agronomic Traits of International Maize Trials – Sierra Leone, 1990 - 2013 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180730/1354/MA",
-		data_institutions = "IITA",		
-		
 		group=group,
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
 		data_type = "experiment",
-		has_weather = FALSE
-
+		project="International Maize Trials",
+		data_institutions="IITA"
 	)
 
 	## download and read data 

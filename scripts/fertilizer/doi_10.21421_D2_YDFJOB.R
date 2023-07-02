@@ -9,65 +9,64 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
   
   ## Process 
  
-  uri <- "doi:10.21421/D2/YDFJOB"
-  dataset_id <- carobiner::simple_uri(uri)
-  group <- "fertilizer"
+	uri <- "doi:10.21421/D2/YDFJOB"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "fertilizer"
   
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    uri=uri,
-    publication=NA,
-	data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Sorghum productivity and water use under Phosphorus fertilization in the Sudan savanna of Nigeria. https://doi.org/10.21421/D2/YDFJOB, ICRISAT Dataverse, V1",
-    carob_contributor="Siyabusa Mkuhlani",
-    data_type="experiment",
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		uri=uri,
+		publication=NA,
+		data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Sorghum productivity and water use under Phosphorus fertilization in the Sudan savanna of Nigeria. https://doi.org/10.21421/D2/YDFJOB, ICRISAT Dataverse, V1",
+		carob_contributor="Siyabusa Mkuhlani",
+		data_type="experiment",
+		data_institutions=NA,
+		project=NA 
+	)
+  
+	## treatment level data 
+	ff	<- carobiner::get_data(uri, path, group)
+	
+	## read the json for version, license, terms of use	
+	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
+	dset$license <- carobiner::get_license(js) #Cant get the license right??
+	
+	f <- ff[basename(ff) == "Data file of Sorghum productivity and water use under phosphorous fertilization.xlsx"]
+	d <- carobiner::read.excel(f)
 
-    has_weather=FALSE
-     
-  )
-  
-  ## treatment level data 
-  ff  <- carobiner::get_data(uri, path, group)
-  
-  ## read the json for version, license, terms of use  
-  js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
-  dset$license <- carobiner::get_license(js) #Cant get the license right??
-  
-  f <- ff[basename(ff) == "Data file of Sorghum productivity and water use under phosphorous fertilization.xlsx"]
-  d <- carobiner::read.excel(f)
-
-  ##Convert First Row to Header
-  e <- d[,c(1,2,4,5,6,14,15,16)]
-  colnames(e) <- c('year', 'adm1','rep','P_fertilizer','variety','yield','biomass_stems','grain_weight')
-  e$country <- "Nigeria"
-  e$crop <- "sorghum"
-  e$dataset_id <- dataset_id
-  e$trial_id <- paste0('P_fert_', e$adm1)
-  e$on_farm <- FALSE
-  e$is_survey <- FALSE
-  
-  ## RH covert P205 to P!
-  e$P_fertilizer <- e$P_fertilizer / 2.29
-  
-  ## RH check in paper if N or K were applied
-  e$N_fertilizer <- 0
-  e$K_fertilizer <- 0
-  e$fertilizer_type <- "unknown"
-  
-  #Replace values in a data frame
-  e$location <- ifelse(d$Location == "BUK", "Bayero", d$Location)
-  e$longitude <- ifelse(e$location == "Minjibir", 8.637, 8.429)
-  e$latitude <- ifelse(e$location == "Minjibir", 12.192, 11.975)
+	##Convert First Row to Header
+	e <- d[,c(1,2,4,5,6,14,15,16)]
+	colnames(e) <- c('year', 'adm1','rep','P_fertilizer','variety','yield','biomass_stems','grain_weight')
+	e$country <- "Nigeria"
+	e$crop <- "sorghum"
+	e$dataset_id <- dataset_id
+	e$trial_id <- paste0('P_fert_', e$adm1)
+	e$on_farm <- FALSE
+	e$is_survey <- FALSE
+	
+	## RH covert P205 to P!
+	e$P_fertilizer <- e$P_fertilizer / 2.29
+	
+	## RH check in paper if N or K were applied
+	e$N_fertilizer <- 0
+	e$K_fertilizer <- 0
+	e$fertilizer_type <- "unknown"
+	
+	#Replace values in a data frame
+	e$location <- ifelse(d$Location == "BUK", "Bayero", d$Location)
+	e$longitude <- ifelse(e$location == "Minjibir", 8.637, 8.429)
+	e$latitude <- ifelse(e$location == "Minjibir", 12.192, 11.975)
 
 ##RH
 ## wrong
-##   e$planting_date <- "2014-06-01" # Assuming this start date...
+##	 e$planting_date <- "2014-06-01" # Assuming this start date...
 
 	e$planting_date <- paste0(e$year, "-06-01")
 	e$harvest_date <- as.character(as.Date(e$planting_date) + d$Mat_c_day)
 	e$year <- NULL
 	e$adm1 <-'Kano'
-  
+	
 	e$rep <- as.integer(e$rep)
 	e$yield_part <- "grain"
 

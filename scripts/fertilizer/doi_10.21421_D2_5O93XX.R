@@ -6,8 +6,7 @@
 
 carob_script <- function(path) {
 
-"
-	Description:
+"Description:
 
     Despite the recent release of several improved varieties of groundnut in Nigeria the productivities have not increase significantly due to lack of commensurate recommendation in agronomic practices.
     Two groundnut varieties were evaluated for their response to different plant density and phosphorus application in two locations in the Sudan Savanna zone of Nigeria in 2012 and 2013.
@@ -29,14 +28,15 @@ carob_script <- function(path) {
 	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   data_citation = "Hakeem Ayinde Ajeigbe; Alpha Y. Kamara; Kunihya Ayuba; Abubakar H.Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to plant density and phosphorous application in the sudan savanna zone of Wudil, Nigeria. https://doi.org/10.21421/D2/5O93XX",
-	   group=group,
-	   uri=uri,
-	   publication="doi:10.12692/ijb/9.1.291-302",
-	   carob_contributor="Eduardo Garcia Bendito",
+		dataset_id = dataset_id,
+		data_citation = "Hakeem Ayinde Ajeigbe; Alpha Y. Kamara; Kunihya Ayuba; Abubakar H.Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to plant density and phosphorous application in the Sudan Savanna zone of Wudil, Nigeria. https://doi.org/10.21421/D2/5O93XX",
+		group=group,
+		uri=uri,
+		publication="doi:10.12692/ijb/9.1.291-302",
+		carob_contributor="Eduardo Garcia Bendito",
 		data_type="experiment",
-	   has_weather=FALSE 
+		data_institutions=NA,
+		project=NA
 	)
 
 ## download and read data 

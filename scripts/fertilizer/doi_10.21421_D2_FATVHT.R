@@ -17,15 +17,15 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
-	   uri=uri,
-	   publication="doi:10.1155/2018/7676058",
-	   carob_contributor="Eduardo Garcia Bendito",
-	   data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Productivity and water use efficiency of Sorghum [Sorghum bicolor (L.) Moench] grown under different nitrogen applications in Sudan Savanna Zone, Nigeria. https://doi.org/10.21421/D2/FATVHT",
-	   data_type="experiment",
-
-	   has_weather=FALSE
+		dataset_id = dataset_id,
+		group=group,
+		uri=uri,
+		publication="doi:10.1155/2018/7676058",
+		carob_contributor="Eduardo Garcia Bendito",
+		data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Productivity and water use efficiency of Sorghum [Sorghum bicolor (L.) Moench] grown under different nitrogen applications in Sudan Savanna Zone, Nigeria. https://doi.org/10.21421/D2/FATVHT",
+		data_type="experiment",
+		data_institutions="ICRISAT",
+		project=NA		   
  	)
 
 ## download and read data 

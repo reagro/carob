@@ -21,8 +21,8 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 		publication=NA,
 		carob_contributor="Siyabusa Mkuhlani",
 		data_type="experiment",
-
-		has_weather=FALSE
+		data_institutions=NA,
+		project=NA
 	)
 
 	## treatment level data 

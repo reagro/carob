@@ -17,7 +17,6 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		dataset_id = dataset_id,
 		group=group,
-		project=NA,
 		uri=uri,
 		data_citation="Ludemann, Cameron et al. (2022), Data from: Estimating maize harvest index and nitrogen concentrations in grain and residue using globally available data, Dryad, Dataset, https://doi.org/10.5061/dryad.j3tx95xhc",
 		## if there is a paper, include the paper's doi here
@@ -25,9 +24,8 @@ carob_script <- function(path) {
 		publication= "doi:10.1016/j.fcr.2022.108578",
 		data_institutions = "Wageningen University & Research",
 		carob_contributor="Eduardo Garcia Bendito",
-		
 		data_type="compilation",
-		has_weather=FALSE
+		project=NA
 	)
   
 	## download and read data 

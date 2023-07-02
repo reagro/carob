@@ -28,8 +28,7 @@ carob_script <- function(path) {
 	   carob_contributor="Andrew Sila",
 	   
 	   ## something like randomized control...
-	   data_type="on-station experiment",
-	   has_weather=FALSE
+	   data_type="on-station experiment"
 	    
  	)
 

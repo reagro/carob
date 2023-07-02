@@ -24,8 +24,7 @@ carob_script <- function(path) {
 		publication= "doi:10.1007/s13593-017-0431-0",
 		data_institutions = "CIAT",
 		carob_contributor="Eduardo Garcia Bendito",
-		data_type="compilation",
-		has_weather=FALSE
+		data_type="compilation"
  	)
 
 ## download and read data 

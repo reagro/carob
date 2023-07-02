@@ -26,8 +26,7 @@ carob_script <- function(path) {
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2021, '28th High Rainfall Wheat Yield Trial', hdl:11529/10548587, CIMMYT Research Data & Software Repository Network, V1",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   data_type="on-station experiment",
-	   has_weather=FALSE
+	   data_type="on-station experiment"
  	)
 
 ## download and read data 

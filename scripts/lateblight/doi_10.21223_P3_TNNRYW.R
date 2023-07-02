@@ -28,8 +28,7 @@ carob_script <- function(path) {
 		data_institutions = "CIP",
 		carob_contributor="Henry Juarez",
 	   
-		data_type="experiment",
-		has_weather=FALSE
+		data_type="experiment"
  	)
 
 ## download and read data 

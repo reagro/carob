@@ -33,9 +33,7 @@ carob_script <- function(path) {
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
     data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kasungu [Data set]. International Institute of Tropical Agriculture (IITA).  doi:10.25502/20180814/0923/HJ",
-    data_type="experiment",
-
-    has_weather=FALSE
+    data_type="experiment"
      
        )
   

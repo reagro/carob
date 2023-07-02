@@ -23,10 +23,9 @@ carob_script <- function(path){
 		F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa farm 
 		monitoring - Mozambique, 2012 - 2013 [Data set]. International Institute of 
 		Tropical Agriculture (IITA). doi:10.25502/HWDB-P578",
-
 		carob_contributor = "Effie Ochieng",
 		data_type = "on-farm experiment",
-		has_weather = TRUE
+		data_institutions="IITA"
 	)
 	
 	#Registering the dataset

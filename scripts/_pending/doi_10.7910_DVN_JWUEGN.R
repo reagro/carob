@@ -29,8 +29,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
     uri=uri,
     publication=NA,
     carob_contributor="Siyabusa Mkuhlani",
-    data_type="fertilizer",
-    has_weather=FALSE
+    data_type="fertilizer"
        )
   
   ## treatment level data 

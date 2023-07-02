@@ -23,7 +23,8 @@ carob_script <- function(path) {
 	   publication=NA,
 	   carob_contributor="Eduardo Garcia Bendito",
 	   data_type = "experiment",
-	   has_weather=FALSE
+		data_institutions=NA,
+		project=NA
     
 	)
 

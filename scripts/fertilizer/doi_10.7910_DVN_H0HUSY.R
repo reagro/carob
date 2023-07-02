@@ -20,7 +20,7 @@ Description: This dataset contains information of experiments carried out upland
 		data_institutions = "CIAT",
 		carob_contributor="Jean-Martial Johnson",
 		data_type="experiment",
-		has_weather=FALSE
+		project=NA
     )
   
 	ff <- carobiner::get_data(uri, path, group)

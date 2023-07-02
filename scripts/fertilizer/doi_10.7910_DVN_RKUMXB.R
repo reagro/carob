@@ -42,8 +42,8 @@ carob_script <- function(path) {
 	   publication=NA,
 	   carob_contributor="Camila Bonilla",
 	   data_type="compilation",
-
-	   has_weather=FALSE
+	   data_institutions="CIAT",
+	   project=NA
  	)
 
 ## download and read data 

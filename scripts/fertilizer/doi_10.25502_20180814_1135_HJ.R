@@ -25,7 +25,7 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	   data_institutions = "IITA",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   data_type=NA,
-	   has_weather=FALSE
+	   project=NA
  	)
 
 ## download and read data 

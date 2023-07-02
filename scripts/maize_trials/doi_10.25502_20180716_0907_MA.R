@@ -21,8 +21,8 @@ carob_script <- function(path) {
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
 		data_type = "experiment",
-		has_weather = FALSE
-
+		project="International Maize Trials",
+		data_institutions="IITA"
 	)
 
 	## download and read data 

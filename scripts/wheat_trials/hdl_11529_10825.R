@@ -36,8 +36,7 @@ carob_script <- function(path) {
 		in maize-based systems in Zambia, hdl:11529/10825, CIMMYT Research Data & Software Repository Network, V3",
 		data_institutions = "CIMMYT",
 		carob_contributor="Cedric Ngakou",
-		data_type="on-station experiment",
-		has_weather=FALSE
+		data_type="on-station experiment"
     )
   
   ## download and read data 

@@ -8,65 +8,63 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   
   ## Process 
  
-  uri <- "doi:10.21421/D2/STACVA"
-  dataset_id <- carobiner::simple_uri(uri)
-  group <- "fertilizer"
+	uri <- "doi:10.21421/D2/STACVA"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "fertilizer"
   
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    uri=uri,
-    publication=NA,
-	data_citation="Hakeem Ayinde Ajeigbe; Alpha Kamara; Kunihya Ayuba; Abubakar H. Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to Plant Density and Phosphorous application in the Sudan Savanna zone of Nigeria. https://doi.org/10.21421/D2/STACVA, ICRISAT Dataverse, V1",
-    carob_contributor="Siyabusa Mkuhlani",
-    data_type="experiment",
-
-    has_weather=FALSE
-     
-  )
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		uri=uri,
+		publication=NA,
+		data_citation="Hakeem Ayinde Ajeigbe; Alpha Kamara; Kunihya Ayuba; Abubakar H. Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to Plant Density and Phosphorous application in the Sudan Savanna zone of Nigeria. https://doi.org/10.21421/D2/STACVA, ICRISAT Dataverse, V1",
+		carob_contributor="Siyabusa Mkuhlani",
+		data_type="experiment",
+		data_institutions="ICRISAT",
+		project=NA
+	)
   
-  ## treatment level data 
-  ff  <- carobiner::get_data(uri, path, group)
+	## treatment level data 
+	ff  <- carobiner::get_data(uri, path, group)
   
-  ## read the json for version, license, terms of use  
-  js <- carobiner::get_metadata(dataset_id, path, major=1, minor=1, group)
-  dset$license <- carobiner::get_license(js) 
-  
-  f <- ff[basename(ff) == "Data file of Groundnut fertilizer plant density of combine Wudil..xlsx"]
-  d <- carobiner::read.excel(f)
-  
-  #names(d)
-  e <- d[,c(1,2,4,5,6,7,14,15)]
-  #names(e)
-  colnames(e) <- c('planting_date','location','rep','variety_type','treatment','plant_density','yield','residue_yield')
-  e$rep <- as.integer(e$rep)
-  
-  e$planting_date <- as.character(e$planting_date)
-  e$country <-  "Nigeria"
-  e$crop <- "groundnut"
-  e$dataset_id <- dataset_id
-  e$trial_id <- paste0("gnut_fert_phosph_", e$location)
-  e$adm1 <- 'Kano'
-  e$site <- "Wudil"
-  e$longitude <- 8.8307
-  e$latitude <- 11.8094
-  e$on_farm <- FALSE
-  e$is_survey <- FALSE
-  e$P_fertilizer[e$treatment=='F1'] <- 0
-  e$P_fertilizer[e$treatment=='F2'] <- 20
-  #names(e)
-  ##e <- e[c("dataset_id","country", "adm1", 'location', "trial_id", "planting_date","on_farm", "is_survey", "rep", "crop", "variety_type","yield", "residue_yield")]  
-  
- #RH: SM please check 
-  e$plant_density <- 2 * c(44444, 66667, 133333)[e$plant_density/10]
-  e$N_fertilizer <- 0
-  e$K_fertilizer <- 20
-  e$fertilizer_type <- "unknown"
- 
+	## read the json for version, license, terms of use  
+	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=1, group)
+	dset$license <- carobiner::get_license(js) 
+	
+	f <- ff[basename(ff) == "Data file of Groundnut fertilizer plant density of combine Wudil..xlsx"]
+	d <- carobiner::read.excel(f)
+	
+	#names(d)
+	e <- d[,c(1,2,4,5,6,7,14,15)]
+	#names(e)
+	colnames(e) <- c('planting_date','location','rep','variety_type','treatment','plant_density','yield','residue_yield')
+	e$rep <- as.integer(e$rep)
+	
+	e$planting_date <- as.character(e$planting_date)
+	e$country <-  "Nigeria"
+	e$crop <- "groundnut"
+	e$dataset_id <- dataset_id
+	e$trial_id <- paste0("gnut_fert_phosph_", e$location)
+	e$adm1 <- 'Kano'
+	e$site <- "Wudil"
+	e$longitude <- 8.8307
+	e$latitude <- 11.8094
+	e$on_farm <- FALSE
+	e$is_survey <- FALSE
+	e$P_fertilizer[e$treatment=='F1'] <- 0
+	e$P_fertilizer[e$treatment=='F2'] <- 20
+	#names(e)
+	##e <- e[c("dataset_id","country", "adm1", 'location', "trial_id", "planting_date","on_farm", "is_survey", "rep", "crop", "variety_type","yield", "residue_yield")]  
+	
+	 #RH: SM please check 
+	e$plant_density <- 2 * c(44444, 66667, 133333)[e$plant_density/10]
+	e$N_fertilizer <- 0
+	e$K_fertilizer <- 20
+	e$fertilizer_type <- "unknown"
+	 
 	e$yield_part <- "pod"
-  
- carobiner::write_files(dset, e, path=path)
-
+	
+	carobiner::write_files(dset, e, path=path)
 }
 
 
