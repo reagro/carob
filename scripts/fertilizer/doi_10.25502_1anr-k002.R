@@ -14,7 +14,7 @@ carob_script <- function(path) {
   adapted to local settings. A strong national expertise in grain legume production and N2-fixation 
   research and development will be the legacy of the project.
 "
-  
+
 	uri <- "doi:10.25502/1anr-k002"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
@@ -28,7 +28,7 @@ carob_script <- function(path) {
 		data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa diagnostic trial, 2015 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/1ANR-K002",
 		data_institutions = "IITA",
 		carob_contributor="Effie Ochieng'",
-		data_type=NA
+		data_type="on-farm experiments"
     )
   
   ## download and read data 
@@ -64,6 +64,8 @@ carob_script <- function(path) {
 	
 	dd1$row_spacing <- as.numeric(dd1$row_spacing)
 	dd1$plant_spacing <- as.numeric(dd1$plant_spacing)
+	dd1$plant_spacing[dd1$plant_spacing == 252] <- 25
+
 	
 	#subsetting for the other variables of interest
 	dd2 <- d[,c("trial_id","submissiondate","start","irrigated","on_farm","is_survey","end","country","lga_district_woreda", "sector_ward", "legume_planted_in_the_n2africa_trial","crop_1_previous_season","inoculation_n2africa_field")]
@@ -142,14 +144,14 @@ carob_script <- function(path) {
 	dd5$S_fertilizer <- ifelse(dd5$mix == "S", 12, 0)
 	
 	# putting in the yield information
-		# 1) get the length and width of farm size in meters
-	dd5$length <- ((dd5$row_spacing)*(dd5$no_rows-1))/100
+	# 1) get the length and width of plot size in meters
+	dd5$length <- ((dd5$row_spacing) * (dd5$no_rows-1)) /100
 		 
 	 
 	#2) get plot size in m2
 	dd5$plot_size <- dd5$length * dd5$width_harvest
 
-	## some fields are unreasoably small or large
+	## some fields are unreasonably small or large
 	dd5$plot_size[dd5$plot_size < 30] <- NA
 	dd5$plot_size[dd5$plot_size > 200] <- NA
 	 
@@ -220,15 +222,16 @@ carob_script <- function(path) {
 	z$lon <- z$lat <- NULL
 
 	#i <- which(is.na(z$latitude))
-	#u <- unique(z[i, c("country", "adm2", "location")])
+	#u <- unique(z[i, c("country", "adm2")])
 	#uu <- u[!is.na(u$adm2), -3]
 	#g <- carobiner::geocode(uu$country, uu$adm2)
 	#g$put
-	georef2 <- data.frame(country = c("Ghana", "Ghana", "Ghana", "Nigeria", "Nigeria", "Nigeria", "Tanzania", "Tanzania"), 
-	adm2 = c("Tolon", "Wa-West", "Wa-West", "Hawul", "Kwaya Kusar", "Kwaya Kusar", 
-    "Gairo", "Kilosa"), 
-	lon = c(-1.0666, -2.6833, -2.6833, 12.3078, 11.8543, 11.854, 36.8825, 36.9212), 
-	lat = c(9.4324, 9.8986, 9.8987, 10.4545, 10.4857, 10.4857, -6.2292, -6.9595))
+	georef2 <- data.frame(
+		country = c("Ghana", "Ghana", "Nigeria", "Nigeria", "Tanzania", "Tanzania"), 
+		adm2 = c("Tolon", "Wa-West",  "Hawul", "Kwaya Kusar", "Gairo", "Kilosa"), 
+		lon = c(-1.0666, -2.6833, 12.3078, 11.8543, 36.8825, 36.9212), 
+		lat = c(9.4325, 9.8986, 10.4545, 10.4857, -6.2292, -6.9595))
+	
 	z <- merge(z, georef2, all.x=TRUE, by=c( "country", "adm2"))
 	z$latitude  <- ifelse(is.na(z$latitude), z$lat, z$latitude)
 	z$longitude <- ifelse(is.na(z$longitude), z$lon, z$longitude)
@@ -238,6 +241,7 @@ carob_script <- function(path) {
 	i <- which(z$country=="Nigeria" & is.na(z$adm2) & z$location=="Uran I")
 	z$latitude[i] <- 8.8028 
 	z$longitude[i] <- 12.0435
+	
 		
 	# all scripts must end like this
 	carobiner::write_files(dset, z, path=path)
