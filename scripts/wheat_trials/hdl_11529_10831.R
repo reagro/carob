@@ -18,7 +18,7 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
 		dataset_id = dataset_id, 
 		group=group, 
 		uri=uri, 
-		publication= "doi:10.2135/cropsci2016.06.0558"
+		publication= "doi:10.2135/cropsci2016.06.0558",
 		data_citation = "Sukumaran, Sivakumar; Crossa, Jose; Jarquín, Diego; Reynolds, Matthew, 2016. Yield data for pedigree-based prediction models with genotype × environment interaction in multi-environment trials of CIMMYT wheat. hdl:11529/10831. CIMMYT Research Data & Software Repository Network, V1", 
 		data_institutions = "CIMMYT", 
 		carob_contributor="Cedric Ngakou", 
