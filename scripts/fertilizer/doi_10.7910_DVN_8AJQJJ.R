@@ -33,10 +33,8 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	dset$license <- carobiner::get_license(js)
 
-
 	f <- ff[basename(ff) == "02. Micronutrients_SSA_Publication data.xlsx"]
-
-	r <- readxl::read_excel(f) |> as.data.frame()
+	r <- carobiner::read.excel(f) 
 	
 	# Wide to long, since yield for different treatments is spread wide
 	rr <- reshape(r, direction='long', 
@@ -72,8 +70,8 @@ carob_script <- function(path) {
 ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
 ## you can use carobiner::fix_name()
 	d$country <- ifelse(rr$COUNTRY %in% c("Cote dIvoire", "Cote d'Ivoire"), "Côte d'Ivoire", rr$COUNTRY)
-	d$site <- as.character(rr$SITE)
-## each site must have corresponding longitude and latitude
+	d$location <- as.character(rr$SITE)
+## each location must have corresponding longitude and latitude
 	rr$X[rr$X == "NA"] <- NA
 	rr$Y[rr$Y == "NA"] <- NA
 	rr$Y[grep(" and ", rr$Y)] <- NA
@@ -82,11 +80,12 @@ carob_script <- function(path) {
 	xy <- c("longitude", "latitude")
 	i <- apply(is.na(d[, xy]), 1, any)
 	
-	crds = data.frame(site = c("Sidindi", "Thuchila", "Calabar", "Manjawira",  "Amoutchou", "Sarakawa"), 
-					lon = c(34.38, 35.57, 8.33, 34.85, 1.08, 1.01), 
-					lat = c(0.15, -15.86, 4.97, -14.99, 7.46, 9.63))
+	crds = data.frame(location = 
+		c("Affem", "Sidindi", "Thuchila", "Calabar", "Manjawira",  "Amoutchou", "Sarakawa"), 
+		lon = c(1.5, 34.38, 35.57, 8.33, 34.85, 1.08, 1.01), 
+		lat = c(9.15, 0.15, -15.86, 4.97, -14.99, 7.46, 9.63))
 
-	m <- na.omit(cbind(1:nrow(d), match(d$site, crds$site)))
+	m <- na.omit(cbind(1:nrow(d), match(d$location, crds$location)))
 	d$longitude[m[,1]] <- crds[m[,2], 2]
 	d$latitude[m[,1]] <- crds[m[,2], 3]
 
@@ -150,6 +149,34 @@ carob_script <- function(path) {
 	d$yield_part <- "grain"
 	d$yield_part[d$crop %in% c("soybean", "faba bean", "cowpea")] <- "seed"
 
+	i <- which(d$latitude > 30)
+	tmp <- d$latitude[i]
+	d$latitude[i] <- d$longitude[i]
+	d$longitude[i] <- tmp
+	
+	i <- which(d$country=="Mali" & d$latitude < 0)
+	tmp <- d$latitude[i]
+	d$latitude[i] <- d$longitude[i]
+	d$longitude[i] <- tmp
+
+	i <- which(d$country=="Burkina Faso" & d$location == "Sourou Valley")
+	d$latitude[i] <- 13.1
+	  
+	i <- which(d$country=="Côte d'Ivoire" & d$location == "Guessihio")
+	d$longitude[i] <- -6
+
+	i <- which(d$country=="Nigeria" & d$location == "Ibadan")
+	d$longitude[i] <- 3.9
+
+	i <- which(d$country=="Nigeria" & d$location %in% c("Calabar", "Iwo"))
+	tmp <- d$latitude[i]
+	d$latitude[i] <- d$longitude[i]
+	d$longitude[i] <- tmp
+
+	i <- which(d$country=="Ghana" & d$longitude > .1)
+	d$longitude[i] <- -d$longitude[i] 
+	  
+	   
 	  
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
