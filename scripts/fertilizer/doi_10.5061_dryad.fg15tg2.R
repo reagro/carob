@@ -38,13 +38,13 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 	d2 <- readxl::read_xlsx(f, sheet = 4)
 	d3 <- readxl::read_xlsx(f, sheet = 5)
 	d4 <- readxl::read_xlsx(f, sheet = 6)
-	
-	
+		
 	d$country <- "Kenya"
 	d$adm3 <- as.character(strsplit(d$SY1, split = "[0-9]+"))
 	v <- carobiner::fix_name(d$adm3)
 	v <- carobiner::replace_values(v,
-									c("Embu ATC", "EmbuKPS", "c(\"Kandara\", \"SR\")"), c("Embu","Embu","Kandara"))
+			c("Embu ATC", "EmbuKPS", "c(\"Kandara\", \"SR\")"),
+			c("Embu","Embu","Kandara"))
 	d$adm3 <- v
 	d$crop <- "maize"
 	d$yield_part <- "grain"
