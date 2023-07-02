@@ -6,8 +6,7 @@
 
 carob_script <- function(path) {
   
-  "
-	Description:
+  "Description:
     Estimates of crop nitrogen (N) uptake and offtake are critical in estimating N balances, N use efficiencies and potential losses to the environment. Calculation of crop N uptake and offtake requires estimates of crop product yield (e.g. grain or beans) and crop residue yield (e.g. straw or stover) and the N concentration of both components. Yields of crop products are often reasonably well known, but those of crop residues are not. While the harvest index (HI) can be used to interpolate the quantity of crop residue from available data on crop product yields, harvest indices are known to vary across locations, as do N concentrations of residues and crop products. The increasing availability of crop data and advanced statistical and machine learning methods present us with an opportunity to move towards more locally relevant estimates of crop harvest index and N concentrations using more readily available data. This dataset includes maize field experiment data. It is a culmination of summary statistic data collected from the literature as well as raw data requested from various researchers and organisations from around the world. These data will enable more locally relevant estimates of crop nutrient offtake, nutrient balances and nutrient use efficiency at national, regional or global levels, as part of strategies towards more sustainable nutrient management.
 "
   
@@ -31,89 +30,135 @@ carob_script <- function(path) {
 		has_weather=FALSE
 	)
   
-  ## download and read data 
-  
-  ff  <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
-  js <- carobiner::get_metadata(dataset_id, path, group)
-  dset$license <- carobiner::get_license(js)
-  
-  f <- ff[basename(ff) == "MAIZE_DATA_HI_CPN_CRN_FIELD_CROPS_RESEARCH_2022.csv"][1]
-  e <- ff[basename(ff) == "DATA_ID_MAIZE_DATA_HI_CPN_CRN_FIELD_CROPS_RESEARCH_2022.csv"][1]
-  
-  d <- read.csv(f)
-  dd <- read.csv(e)
-  
-  d <- merge(d,dd,by = "Data_id")
-  ## process file(s)
-  
-  #### about the data #####
-  ## (TRUE/FALSE)
-  
-  d$on_farm <- FALSE
-  d$is_survey <- FALSE
-  d$irrigated <- ifelse(d$Water_regime == "Irrigated", TRUE, FALSE)
-  ## the treatment code	
-  d$trial_id <- d$Publication
-  d$trial_id[d$trial_id=="Horv\xe1th et al 2021"] <- "Horváth et al 2021"
-  d$trial_id[d$trial_id=="Martin\xednezCuesta et al 2020"] <- "MartinínezCuesta et al 2020"
-  d$trial_id[d$trial_id=="Sz\xe9les et al 2019"] <- "Széles et al 2019"
-  
-  ##### Location #####
-  ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
-  ## you can use carobiner::fix_name()
-  d$country <- d$Country
-  d$country[d$country == "C\xf4te d\x92Ivoire"] <- "Côte d'Ivoire"
-  
-  d$Site[d$Site == "Ca\xf1ada de Gomez"] <- "Cañada de Gómez"
-  d$Site[d$Site == "Ca\xf1ada Rica"] <- "Cañada Rica"
-  d$Site[d$Site == "Cai\xf1ogan Alto"] <- "Cañogan Alto"
-  d$Site[d$Site == "Sto. Ni\xf1o"] <- "Sto. Niño"
-  d$Site[d$Site == "Sztgyv\xf6lgy"] <- "Sztgyvölgy"
-  d$Site[d$Site == "Bics\xe9rd"] <- "Bicsérd"
-  d$Site[d$Site == "Isma\xeflia"] <- "Ismaïlia"
-  d$Site[d$Site == "Rol\xe2ndia"] <- "Rolândia"
-  d$Site[d$Site == "Brgy. Cape\xf1ahan"] <- "Brgy. Capeñahan"
-  d$Site[d$Site == "Chill\xe1n"] <- "Chillán"
-  d$Site[d$Site == "L\xe9vis"] <- "Lévis"
-  d$Site[d$Site == "La Concepci\xf3n"] <- "La Concepción"
-  d$site <- carobiner::fix_name(d$Site, "title")
-  
-  
-  d$adm1 <- d$Region_province
-  d$adm1[d$adm1 == "Gouvernement Isma\xeflia"] <- "Gouvernement Ismaïlia"
-  d$adm1[d$adm1 == "Hajd\xfa-Bihar"] <- "Hajdú-Bihar"
-  d$adm1[d$adm1 == "Paran\xe1"] <- "Paraná"
-  d$adm1[d$adm1 == "Diguill\xedn"] <- "Diguillín"
-  d$adm1[d$adm1 == "Goi\xe1s"] <- "Goiás"
-  d$adm1[d$adm1 == "Quer\xe9taro"] <- "Querétaro"
- 
-  d$adm1 <- carobiner::fix_name(d$adm1, "title")
+	## download and read data 
+	
+	ff	<- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
+	js <- carobiner::get_metadata(dataset_id, path, group)
+	dset$license <- carobiner::get_license(js)
+	
+	f <- ff[basename(ff) == "MAIZE_DATA_HI_CPN_CRN_FIELD_CROPS_RESEARCH_2022.csv"][1]
+	e <- ff[basename(ff) == "DATA_ID_MAIZE_DATA_HI_CPN_CRN_FIELD_CROPS_RESEARCH_2022.csv"][1]
+	
+	d <- read.csv(f, fileEncoding="latin1")
+	dd <- read.csv(e, fileEncoding="latin1")
+	
+	d <- merge(d,dd,by = "Data_id")
+	## process file(s)
+	
+	#### about the data #####
+	## (TRUE/FALSE)
 
-  ## each site must have corresponding longitude and latitude
-  d$longitude <- d$GPS_long_DD
-  d$latitude <- d$GPS_lat_DD
+	x <- data.frame(reference=d$Publication)
+	x$on_farm <- FALSE
+	x$is_survey <- FALSE
+	x$irrigated <- ifelse(d$Water_regime == "Irrigated", TRUE, FALSE)
+	## the treatment code	
+	x$reference <- d$Publication
+	x$trial_id <- paste0("lud_", as.integer(as.factor(x$reference)))
+	
+	##### Location #####
+	## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
+	## you can use carobiner::fix_name()
+	x$country <- d$Country
+	x$country[x$country == "Côte d\u0092Ivoire"] <- "Côte d'Ivoire"	
+	x$location <- carobiner::fix_name(d$Site, "title")
+	x$adm1 <- carobiner::fix_name(d$Region_province, "title")
 
-  ##### Crop #####
-  ## normalize variety names
-  d$crop <- tolower(d$Crop)
-  
-  ##### Fertilizers #####
-  ## note that we use P and K, not P2O5 and K2O
-  ## P <- P2O5 / 2.29
-  ## K <- K2O / 1.2051
-  d$P_fertilizer <- d$FP*10000 # Converting from kg/m2 -> kg/ha
-  d$K_fertilizer <- d$FK*10000 # Converting from kg/m2 -> kg/ha
-  d$N_fertilizer <- d$FN*10000 # Converting from kg/m2 -> kg/ha
-  d$fertilizer_type <- "unknown" # Fertilizer type not specified
-  
-  ##### Yield #####
-  
-  d$yield <- d$CPY * 1000 # Megagram to kilogram
-  d$yield_part <- "grain"
-  
-  d$dataset_id <- dataset_id
-  d <- d[,c(27:length(d))]
-  
-  # all scripts must end like this
-  carobiner::write_files(dset, d, path=path)
+	## each site must have corresponding longitude and latitude
+	x$longitude <- d$GPS_long_DD
+	x$latitude <- d$GPS_lat_DD
+
+	##### Crop #####
+	## normalize variety names
+	x$crop <- tolower(d$Crop)
+	
+	##### Fertilizers #####
+	## note that we use P and K, not P2O5 and K2O
+	## P <- P2O5 / 2.29
+	## K <- K2O / 1.2051
+	# Converting from kg/m2 -> kg/ha
+	x$P_fertilizer <- d$FP * 10000 
+	x$K_fertilizer <- d$FK * 10000
+	x$N_fertilizer <- d$FN * 10000
+	#Fertilizer type not specified
+	x$fertilizer_type <- "unknown"
+	
+	##### Yield #####
+	# Megagram to kilogram
+	x$yield <- d$CPY * 1000 
+	x$yield_part <- "grain"
+	
+	x$dataset_id <- dataset_id
+
+	i <- which(is.na(x$reference) & x$adm1 == "Veracruz")
+	x$longitude[i] <- -x$longitude[i]
+
+	i <- which(x$reference == "Khalafi et al 2021" & x$country=="Iran" & x$adm1 == "Khuzestan")
+#	x$location==Dezful Khuzestan
+	temp <- x$longitude[i]
+	x$longitude[i] <- x$latitude[i]
+	x$latitude[i] <- temp
+	
+	i <- x$reference == "Van Reuler Janssen 1996"
+	# Tai, CdI
+	x$longitude[i] <- -7.4669
+	x$latitude[i] <- 5.8721
+
+	i <- which(x$adm1 == "Bihar" & x$longitude < 1)
+	x$longitude[i] <- 86
+
+	i <- which(x$adm1 == "Bihar" & x$latitude > 94)
+	x$latitude[i] <- 84.7
+
+	i <- which(x$country == "India" & x$location == "Chowk Azam")
+	x$country[i] <- "Pakistan"
+	x$latitude[i] <- 31.2
+
+	i <- which(x$country == "India" & x$location == "Multan")
+	x$country[i] <- "Pakistan"
+
+
+	i <- which(x$reference == "Setiyono et al 2010" & x$country == "Ethiopia" & x$longitude < 10)	
+	temp <- x$longitude[i]
+	x$longitude[i] <- x$latitude[i]
+	x$latitude[i] <- temp
+
+	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Maguindanao" & x$location=="Margues")
+	x$longitude[i] <- 124.3
+	x$latitude[i] <- 7.136
+	
+	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Bihar" & x$location=="Begusarai" & x$longitude > 94)
+	x$longitude[i] <- 86.14
+
+	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Bihar" & is.na(x$location) & x$latitude > 35)
+	x <- x[-i,]
+
+	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "North Vietnam")
+	x <- x[-i,]
+
+	i <- which(x$longitude == -44.84954 & x$latitude == -21.97502)
+	x <- x[-i,]
+
+	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Bukidnon" & x$location=="Crossing Poblacion")
+	x$longitude[i] <- 124.80
+	x$latitude[i] <- 8.32
+	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Bukidnon" & x$location=="Sta. Ana")
+	x$longitude[i] <- 124.805
+	x$latitude[i] <- 8.538
+	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Bukidnon" & x$location=="Kisolon")
+	x$longitude[i] <- 124.974
+	x$latitude[i] <- 8.334
+	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Bukidnon" & x$location=="Calatcat")
+	x$longitude[i] <- 124.476
+	x$latitude[i] <- 8.554
+	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Leyte" & x$location=="Maslug")
+	x$longitude[i] <- 124.7697
+	x$latitude[i] <- 10.5786
+	
+	# the locations for Rakshaskhali, India that are flagged as not on land
+	# are OK, not in the ocean (needs to be fixed in GADM)
+
+
+	# all scripts must end like this
+	carobiner::write_files(dset, x, path=path)
 }
