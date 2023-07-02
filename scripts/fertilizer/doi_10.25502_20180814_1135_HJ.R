@@ -8,7 +8,7 @@ carob_script <- function(path) {
 
 "
 	Description:
-The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveilllance framework and inlcuded also multi-location diagnostic trials in selected sentiale sites to determine nutrient limitations and response to improved soil management practices (soil amendments).
+The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveilllance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments).
 
 "
 
@@ -24,7 +24,7 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	   data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kiberashi [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1135/HJ",
 	   data_institutions = "IITA",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   data_type=NA,
+	   data_type="on-farm experiments",
 	   project=NA
  	)
 
@@ -39,8 +39,8 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	d <- read.csv(f)
 	d <- d[complete.cases(d[ , 6:7]),]
 	d$country <- "Tanzania"
-	d$location <- d$Village
-	d$site <- d$Site
+	d$location <- d$Site
+	d$site <- d$Village
 	d$trial_id <- paste0(dataset_id, "-", d$ID)
 	d$latitude <- d$Flat
 	d$longitude <- d$Flong
