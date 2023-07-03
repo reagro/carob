@@ -188,7 +188,9 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 	i <- which(f$location == "oda haro" & f$adm3 == "Bako Tibe")
 	f$longitude[i] <- 37.2 
 	f$latitude[i] <- 9
-
+	
+	f$yield_part <- "seed"
+	
 	carobiner::write_files(dset, f, path=path)
 }
 
