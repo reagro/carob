@@ -93,22 +93,24 @@ carob_script <- function(path){
 	as[as=="Marcel Olela"] <- NA
 	as <- gsub(" Patrick Obwanga", "", as)
 	as <- gsub(": Alice Obiero", "", as)
-	ma <- carobiner::fix_name(d1$mandate_area_name, "title")
-	d1$site <- paste0(as, " (", ma, ")")
+	d1$location <- as
+	d1$adm1 <- carobiner::fix_name(d1$mandate_area_name, "title")
 	d1$longitude <- d1$gps_longitude_dec
 	d1$latitude <- d1$gps_latitude_dec
 	d1$elevation <- d1$gps_altitude_dec
 	
 	#subset the processed variables
-	d1 <- d1 [, c("trial_id", "country", "site", "longitude", "latitude", "elevation")]
+	d1 <- d1 [, c("trial_id", "country", "location", "adm1", "longitude", "latitude", "elevation")]
 	
 	d2$trial_id <- d2$experiment_id
 	d2$soil_pH <- d2$ph
+	d2$soil_pH[d2$soil_pH == 0] <- NA
 	# all zero  d2$soil_K <- d2$k
 	d2$soil_sand <- d2$sand
 	d2$soil_clay <- d2$clay
 	d2$soil_SOC <- d2$tot_carbon
 	d2$soil_N <- d2$tot_nitrogen 
+	d2$soil_N[d2$soil_N == 0] <- NA
 	
 	#subset the processed variables
 	d2 <- d2[, c("trial_id", "soil_pH", "soil_sand","soil_clay","soil_SOC","soil_N")]
@@ -119,6 +121,18 @@ carob_script <- function(path){
 	
 	q$dataset_id <- dataset_id
 	q$yield_part <- "seed"
+	
+	q$latitude[q$location == "Migori"] <- -1.0
+	
+	i <- q$location == "Nyabeda"
+	q$longitude[i] <- 34.3997
+	q$latitude[i] <- 0.12862
+	i <- q$location == "Bondo"
+	q$latitude[i] <- -0.082
+	i <- q$adm1 == "Nyanza" & is.na(q$location)
+	q$longitude[i] <- 34.74
+	q$latitude[i] <- -0.55
+
 	# all scripts should end like this
 	carobiner::write_files(dset, q, path=path)
 }  

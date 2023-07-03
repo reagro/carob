@@ -3,7 +3,14 @@ carob_script <- function(path){
   "
  Title: Non-responsiveness of crops to fertilizers under some soils in sub-Saharan Africa
  
-Low productivity of agriculture observed in different parts of sub-Saharan Africa is threatening food security in the region. Decades of production with mostly application of small amounts of inorganic fertilizers (mostly macronutrients) and scarce organic resources in the context of integrated soil fertility management (ISFM) result in nutrient mining of secondary and micronutrients in majority of smallholder farms. With the last decade, crop non-responsiveness to nutrient application has become an important issue requiring scientific understanding. We provide data focused on identifying the extent of non-responsiveness of crops to nutrient application and the associated factors. Data contains crop yield response to secondary and micronutrient (SMN), manure and lime application relative to yields of only NP/K application. (2020-02-25)
+Low productivity of agriculture observed in different parts of sub-Saharan Africa is threatening food 
+security in the region. Decades of production with mostly application of small amounts of inorganic 
+fertilizers (mostly macronutrients) and scarce organic resources in the context of integrated soil fertility 
+management (ISFM) result in nutrient mining of secondary and micronutrients in majority of smallholder farms. 
+With the last decade, crop non-responsiveness to nutrient application has become an important issue requiring 
+scientific understanding. We provide data focused on identifying the extent of non-responsiveness of crops to 
+nutrient application and the associated factors. Data contains crop yield response to secondary and 
+micronutrient (SMN), manure and lime application relative to yields of only NP/K application. (2020-02-25)
   
   "
   
