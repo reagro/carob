@@ -89,6 +89,14 @@ Notes
 	d$country[d$location=="Pampaida"] <- "Nigeria"
 	d$country[d$location=="Sidindi"] <- "Kenya"
 
+	i <- d$country == "Malawi" & d$location == "Thuchila"
+	d$longitude[i] <- 35.355
+	d$latitude[i] <- -15.904
+	i <- d$country == "Kenya" & d$location == "Sidindi"
+	d$longitude[i] <- 34.389
+	d$latitude[i] <- 0.154
+
+
 	d$dataset_id <- dataset_id
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
@@ -163,6 +171,7 @@ Notes
 	zz <- carobiner::change_names(zz, 
 	c("zone", "n", "p", "k", "fym", "lat", "long", "soiltype"), 
 	c("adm1", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "latitude", "longitude", "soil_type"))
+	zz$yield_part <- "grain"
 
 	dataset_id <- paste0(cleanuri, "-fao")
 
@@ -176,10 +185,22 @@ Notes
 
 	zz$longitude <- as.numeric(gsub(",", ".", zz$longitude))
 
-	i <- zz$country=="Guinea-Bissau" & zz$longitude > 15
+	i <- zz$country=="Guinea-Bissau" & zz$longitude > 0
 	zz$longitude[i] <- -zz$longitude[i]
-	zz$yield_part <- "grain"
 
+	i <- zz$country=="Guinea-Bissau" & zz$adm1=="Cacheu" & zz$location=="PASSANGUE" 
+	zz$longitude[i] <- -16.1670
+	zz$latitude[i] <- 12.2596 
+
+	i <- zz$country=="Botswana" & zz$adm1=="Southern Region" & zz$location=="DITLHARAPA" 
+	zz$longitude[i] <- 25.287
+	zz$latitude[i] <- -25.750
+
+	i <- zz$country=="Botswana" & zz$adm1=="Southern Region" & zz$location=="PELOTSHETLA" 
+	zz$latitude[i] <- -25.6
+
+	zz$location <- carobiner::fix_name(zz$location, "title")
+ 
 	carobiner::write_files(dset, zz, path=path, id="fao")
 }
 

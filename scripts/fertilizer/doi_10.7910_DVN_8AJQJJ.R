@@ -174,9 +174,7 @@ carob_script <- function(path) {
 	d$longitude[i] <- tmp
 
 	i <- which(d$country=="Ghana" & d$longitude > .1)
-	d$longitude[i] <- -d$longitude[i] 
-	  
-	   
+	d$longitude[i] <- -d$longitude[i]
 	  
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
