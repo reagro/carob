@@ -113,6 +113,15 @@ carob_script <- function(path){
   
 	s$dataset_id <- dataset_id
 	s$yield_part <- "seed"
+	
+	i <- s$location == "Musenyi"
+	s$longitude <- 30.0209
+	s$latitude <- -2.1789
+
+	i <- s$location == "Nyamiyaga"
+	s$longitude <- 30.135
+	s$latitude <- -1.6874
+	
   # all scripts should end like this
 	carobiner::write_files(dset, s, path=path)
 
