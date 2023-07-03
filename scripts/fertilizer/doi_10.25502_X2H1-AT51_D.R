@@ -176,7 +176,8 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 	f$country <- "Ethiopia"
 	f$row_spacing <- 40 
 	f$plant_spacing <-10
-	f$on_farm <- as.logical("TRUE")
+	f$on_farm <- TRUE
+	f$yield_part <- "seed"
 	
 	f <- f[,c("dataset_id","trial_id","country","adm3","location","site","planting_date","harvest_date",
 			"rep","treatment","crop","variety","previous_crop","yield","residue_yield","biomass_total",
@@ -184,7 +185,10 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 			"fertilizer_type","P_fertilizer","N_fertilizer","K_fertilizer","inoculated","row_spacing",
 			"plant_spacing","on_farm","elevation","latitude","longitude")]
 
-	f$yield_part <- "seed"
+	i <- which(f$location == "oda haro" & f$adm3 == "Bako Tibe")
+	f$longitude[i] <- 37.2 
+	f$latitude[i] <- 9
+
 	carobiner::write_files(dset, f, path=path)
 }
 

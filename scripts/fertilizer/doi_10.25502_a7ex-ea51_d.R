@@ -81,23 +81,34 @@ carob_script <- function(path){
 	d$planting_date <- as.character(as.Date(paste(d$planting_date_yyyy, d$planting_date_mm, d$planting_date_dd, sep = "-")))
 	d$harvest_date <- as.character(as.Date(paste(d$date_harvest_yyyy, d$date_harvest_mm, d$date_harvest_dd, sep = "-")))
 	d$treatment <- paste(d$main_treatment, d$sub_treatment_inoc, d$sub_treatment_fert, sep = "-")
+
+	d$grain_weight <- as.numeric(d$dry_weight_100_seeds)*10 # to get 1000 seed weight
+
 	
 	#getting the biomass total 
-	d$above_ground_dry_biomass <- as.numeric(d$above_ground_dry_biomass)/1000 # to convert to kg
+	d$above_ground_dry_biomass <- as.numeric(d$above_ground_dry_biomass)/1000 #  convert to kg
 	d$area_biomass_sampling <- as.numeric(d$area_biomass_sampling)
-	d$biomass_total <- (10000/d$area_biomass_sampling)* d$above_ground_dry_biomass # to get kg/ha
+	d$biomass_total <- 10000 * d$above_ground_dry_biomass / d$area_biomass_sampling  # to get kg/ha
+	i <- d$area_biomass_sampling == 0
+	d$biomass_total[i] <- NA
+
 	
-	d$grain_weight <- as.numeric(d$dry_weight_100_seeds)*10 # to get 1000 seed weight
-	
+	# to get kg/ha
 	#getting residue yield according to the reference
 	d$plot_area_harvest <- as.numeric(d$plot_area_harvest)
 	d$dry_weight_sub_husks <- as.numeric(d$dry_weight_sub_husks)/1000 # convert to kg
 	d$residue_yield <- (10000/d$plot_area_harvest) *d$dry_weight_sub_husks
 	
 	#getting the yield
-	d$plot_area_harvest <- as.numeric(d$plot_area_harvest)
 	d$dry_weight_sub_grains_sep_husks <- as.numeric(d$dry_weight_sub_grains_sep_husks)/1000
 	d$yield <- (10000/d$plot_area_harvest) * d$dry_weight_sub_grains_sep_husks
+
+	#RH removing fiels with zero area. Please check if this is necessary.
+	message("    Effie Ochieng, please check")
+	i <- d$plot_area_harvest == 0
+	d$residue_yield[i] <- NA
+	d$yield[i] <- NA
+
 
 	# adding the fertilizer information
 	d$N_fertilizer <- 0
@@ -117,7 +128,7 @@ carob_script <- function(path){
 	
 	# all scripts should end like this
 	carobiner::write_files(dset, e, path=path)
-	}
+}
 
 
 
