@@ -42,8 +42,8 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 	}
 	
 	d <- carobiner::change_names(d, 
-	 c("trl_titl", "entry", "entryno", "instinf", "bltin_m", "bltun_m", "x1000gwt", "cobdamco", "cobdamrt", "borerdmrat", "sbdamat"), 
-	 c("trial_name", "variety", "variety_code", "instin", "blight_in", "blight_un", "grain_weight", "cob_dam_co", "cob_dam_rt", "borer_dam_rat", "sb_dam_rat")
+	 c("trl_titl", "entry", "entryno", "instinf", "bltin_m", "bltun_m", "x1000gwt", "x_1000gwt", "cobdamco", "cobdamrt", "borerdmrat", "sbdamat"), 
+	 c("trial_name", "variety", "variety_code", "instin", "blight_in", "blight_un", "grain_weight", "grain_weight", "cob_dam_co", "cob_dam_rt", "borer_dam_rat", "sb_dam_rat")
 	 , must_have=FALSE)
 
 
@@ -93,13 +93,24 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 	}
 	if (is.null(d$yield2)) {
 		d$yield2 <- as.numeric(NA)
-	} 
+	} else {
+		d$yield2 <- as.numeric(d$yield2)	
+	}
 	if (is.null(d$grain_weight)) {
 		d$grain_weight <- as.numeric(NA)
-	} 
+	} else {
+		d$grain_weight <- as.numeric(d$grain_weight)	
+	}
+	d$yield[d$yield == "."] <- NA
+	d$yield <- as.numeric(d$yield)
+	d$yield[d$yield < 0] <- NA
 	
 	d$yield_part <- "grain"
-	
+	d$striga_trial <- striga
+	d$variety <- trimws(d$variety)
+	d$variety[d$variety == ""] <- NA
+	d$description <- as.character(d$description)
+
 	d
 }
 
