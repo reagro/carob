@@ -35,7 +35,41 @@ The study was carried out by the International Institute of Tropical Agriculture
 	e <- mzfun(ff, TRUE)
 	d <- carobiner::bindr(d, e)
 	d$dataset_id <- dataset_id
+	
+	i <- d$location == "Mokwa"
+	d$longitude[i] <- 5.06
+	d$latitude[i] <- 9.29
 
+	i <- d$location == "Kaduna"
+	d$longitude[i] <- 7.45
+	d$latitude[i] <- 10.6
+
+	i <- d$location == "Dansadau"
+	d$longitude[i] <- 8
+	d$latitude[i] <- 10
+
+	i <- d$location == "Ikorodu"
+	d$longitude[i] <- 3.50
+	d$latitude[i] <- 6.59
+
+	i <- grep("Gusau", d$location)
+	d$longitude[i] <- 7.08
+	d$latitude[i] <- 12.03
+
+	i <- d$location == "Kilissi"
+	d$country[i] <- "Guinea"
+	d$longitude[i] <- -12.6 
+	d$latitude[i] <- 9.64 
+
+	i <- d$location == "Sinematiali"
+	d$country[i] <- "Côte d'Ivoire"
+	
+	i <- d$location == "Niaouli"
+	d$country[i] <- "Benin"
+	
+	i <- d$location == "Touboro"
+	d$country[i] <- "Cameroon"
+	
 	carobiner::write_files(dset, d, path=path)
 
 }

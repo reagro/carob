@@ -37,6 +37,15 @@ The study was carried out by the International Institute of Tropical Agriculture
 	d <- carobiner::bindr(d, e)
 	d$dataset_id <- dataset_id
 	
+	i <- d$location == "Mayo-Galke"
+	d$longitude[i] <- 14.2441
+	d$latitude[i] <- 8.3888
+	d$location[i] <- "Mayo Galké"
+
+	i <- d$location == "Nfonta"
+	d$longitude[i] <- 10.13
+	d$latitude[i] <- 5.98
+	
 	carobiner::write_files(dset, d, path=path)
 
 }

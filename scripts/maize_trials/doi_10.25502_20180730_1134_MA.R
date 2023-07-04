@@ -38,6 +38,10 @@ This dataset contains output of the research for Republic of Benin.
 	d <- carobiner::bindr(d, e)
 	d$dataset_id <- dataset_id
 	d$country <- "Benin"
+	
+	i <- d$location == "Bagou"
+	d$latitude[i] <- 10.70
+	
 	carobiner::write_files(dset, d, path=path)
 
 }

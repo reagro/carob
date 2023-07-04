@@ -7,7 +7,7 @@ This is an international study that contains data on yield and other agronomic t
 
 The study was carried out by the International Institute of Tropical Agriculture in 2016 in eight African countries and one asian country.
 "
-				
+
 	uri <- "doi:10.25502/20180730/0930/MA"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "maize_trials"	
@@ -34,7 +34,11 @@ The study was carried out by the International Institute of Tropical Agriculture
 
 	d <- mzfun(ff, FALSE)
 	d$dataset_id <- dataset_id
-
+	
+	i <- d$location == "Kilissi"
+	d$longitude[i] <- -12.6 
+	d$latitude[i] <- 9.64 
+	
 	carobiner::write_files(dset, d, path=path)
 
 }
