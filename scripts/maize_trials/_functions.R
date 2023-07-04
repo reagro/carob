@@ -26,6 +26,7 @@ intmztrial_striga <- function(ff, striga=FALSE, sf=NULL) {
 	
 	d  <- read.csv(sf)
 	names(d) <- tolower(names(d))
+	d$x <- NULL
 	names(d)[1] <- "id"
 	d$id <- NULL
 	if (!is.null(d$str_rat1)) {
@@ -56,9 +57,20 @@ intmztrial_striga <- function(ff, striga=FALSE, sf=NULL) {
 	 , must_have=FALSE)
 
 	d$planting_date <- d$year
+	d$planting_date[d$year==199] <- 1990 #??
+	d$planting_date[d$year==2] <- 2000
+	d$planting_date[d$year==21] <- 2001
 	d$planting_date[d$year==22] <- 2002
+	d$planting_date[d$year==23] <- 2003
 	d$planting_date[d$year==24] <- 2004
 	d$planting_date[d$year==25] <- 2005
+	d$planting_date[d$year==26] <- 2006
+	d$planting_date[d$year==27] <- 2007
+	d$planting_date[d$year==28] <- 2008
+	d$planting_date[d$year==29] <- 2009
+	d$planting_date[d$year==214] <- 2014
+	d$planting_date[d$year==215] <- 2015
+
 	d$planting_date <- as.character(d$planting_date)
 	
 	d$country <- carobiner::fix_name(d$country, "title")
@@ -118,6 +130,7 @@ intmztrial_striga <- function(ff, striga=FALSE, sf=NULL) {
 	d$variety <- trimws(d$variety)
 	d$variety[d$variety == ""] <- NA
 	d$description <- as.character(d$description)
+	d$description[d$description==""] <- "not provided"
 
 	if (inherits(d$latitude, "character")) {
 		d$latitude <- trimws(d$latitude)

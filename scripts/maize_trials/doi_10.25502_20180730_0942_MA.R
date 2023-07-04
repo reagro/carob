@@ -38,6 +38,9 @@ This dataset contains output of the research for Kenya."
 	d <- carobiner::bindr(d, e)
 
 	d$dataset_id <- dataset_id
+
+	d$trial_name[d$trial_name == ""] <- "not specified"
+	
 	carobiner::write_files(dset, d, path=path)
 
 }
