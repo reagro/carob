@@ -13,7 +13,7 @@ intmztrial_borer <- function(ff, f, striga=FALSE) {
 
 
 intmztrial_striga <- function(ff, striga=FALSE) {
-	
+
 	if (striga) {
 		sf <- grep("striga", ff, ignore.case=TRUE, value=TRUE)		
 	} else {
@@ -50,7 +50,6 @@ intmztrial_striga <- function(ff, striga=FALSE) {
 	 c("trl_titl", "entry", "entryno", "instinf", "bltin_m", "bltun_m", "x1000gwt", "x_1000gwt", "cobdamco", "cobdamrt", "borerdmrat", "sbdamat"), 
 	 c("trial_name", "variety", "variety_code", "instin", "blight_in", "blight_un", "grain_weight", "grain_weight", "cob_dam_co", "cob_dam_rt", "borer_dam_rat", "sb_dam_rat")
 	 , must_have=FALSE)
-
 
 	d$planting_date <- d$year
 	d$planting_date[d$year==22] <- 2002
@@ -116,6 +115,18 @@ intmztrial_striga <- function(ff, striga=FALSE) {
 	d$variety[d$variety == ""] <- NA
 	d$description <- as.character(d$description)
 
+	if (inherits(d$latitude, "character")) {
+		d$latitude <- trimws(d$latitude)
+		d$latitude <- gsub(" ", "", d$latitude)
+		d$latitude[d$latitude == ""] <- NA
+		d$latitude <- as.numeric(d$latitude)
+	}
+	if (inherits(d$longitude, "character")) {
+		d$longitude <- trimws(d$longitude)
+		d$longitude <- gsub(" ", "", d$longitude)
+		d$longitude[d$longitude == ""] <- NA
+		d$longitude <- as.numeric(d$longitude)
+	}
 	d
 }
 
