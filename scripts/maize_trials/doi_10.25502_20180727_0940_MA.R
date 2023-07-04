@@ -16,6 +16,8 @@ The study was carried out by the International Institute of Tropical Agriculture
 		dataset_id = dataset_id,
 		group=group,
 		uri = uri,
+		
+		# "Central Afrique" is puzzling. The data appear to be for Yezin, Myanmar
 		data_citation="Menkir, A. (2018). Grain Yield and Other Agronomic Traits of International Maize Trials – Central Afrique, 1991 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180727/0940/MA",
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Robert Hijmans",
@@ -34,7 +36,12 @@ The study was carried out by the International Institute of Tropical Agriculture
 	d <- mzfun(ff, FALSE)
 	d$dataset_id <- dataset_id
 
-	message("    check more: this is data from Myanmar, not Central Africa")
+	d$country <- "Myanmar"
+	
+	#Yezin
+	d$longitude <- 96.267
+	d$latitude  <- 19.832
+	
 	carobiner::write_files(dset, d, path=path)
 
 }

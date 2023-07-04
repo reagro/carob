@@ -36,6 +36,23 @@ This dataset contains output of the research for Mali."
 	d <- mzfun(ff, FALSE)
 	e <- mzfun(ff, TRUE)
 	d <- carobiner::bindr(d, e)
+	
+	i <- d$location == "Gandajika"
+	d$longitude[i] <- 23.95
+	d$latitude[i] <- -6.750
+	
+	i <- d$location == "Kipopo"
+	d$longitude[i] <- 17.83
+	d$latitude[i] <- -4.970
+	
+	i <- d$location == "Mangongo"
+	d$longitude[i] <- 23.744
+	d$latitude[i] <- 0.9257
+
+	i <- d$location == "Kalemba"
+	d$longitude[i] <- 22.217
+	d$latitude[i] <- -6.867
+	
 	d$country <- "Democratic Republic of the Congo"
 	d$dataset_id <- dataset_id
 	carobiner::write_files(dset, d, path=path)
