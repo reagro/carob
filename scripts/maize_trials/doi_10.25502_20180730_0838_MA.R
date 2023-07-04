@@ -16,14 +16,14 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		dataset_id = dataset_id,
 		data_citation="Menkir, A. (2018). Grain Yield and Other Agronomic Traits of International Maize Trials – Gambia, 1993 - 2015 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180730/0838/MA",
-		data_institutions = "IITA",
 		group=group,		
 		uri = uri,
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
-		experiment_type = "varieties",
-		has_weather = FALSE,
-		has_management = FALSE
+		data_type = "experiment",
+		project="International Maize Trials",
+		data_institutions="IITA"
+
 	)
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
@@ -31,13 +31,11 @@ carob_script <- function(path) {
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, "international_maize_trial_gambia_striga.csv", TRUE)
-	d$striga_trial <- TRUE
+	d <- mzfun(ff, TRUE)
 	d$dataset_id <- dataset_id
-	d$start_date[d$start_date == 215] <- 2015
+	d$planting_date[d$planting_date == 215] <- 2015
 	
-	e <- mzfun(ff, "international_maize_trial_gambia_regular.csv")
-	e$striga_trial <- FALSE
+	e <- mzfun(ff, FALSE)
 	e$dataset_id <- dataset_id
 
 	x <- carobiner::bindr(d, e)

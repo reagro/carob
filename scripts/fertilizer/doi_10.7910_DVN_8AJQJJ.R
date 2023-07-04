@@ -6,10 +6,8 @@
 
 carob_script <- function(path) {
 
-"
-	Description:
-
-    Secondary and micronutrients are important in enhancing crop productivity; yet, they are hardly studied in sub-Sahara Africa. In this region, the main focus has been on macronutrients but there is emerging though scattered evidence of crop productivity limitations by the secondary and micronutrients. Elsewhere, widespread deficiencies of these nutrients are associated with stagnation of yields. In total, 530 rows of yield data were extracted from the 40 papers of which 49.4% were on sulfur (S) response, 23.0% on Zn, 7.4% on Cu, 3.0% on Mo, 4.5% on Fe, 1.1% on boron (B), and 11.5% involved two or more, i.e., S and micronutrient combinations. Here, we undertake a meta-analysis using 40 articles reporting crop response to secondary and micronutrients to (1) determine the productivity increase of crops and nutrient use efficiency associated with these nutrients, and (2) provide synthesis of responses to secondary nutrients and micronutrients in sub-Sahara Africa. This study used 757 yield data rows (530 from publications and 227 from Africa Soil Information Service) from field trials carried out in SSA between 1969 and 2013 in 14 countries. Data from publications constituted response to S (49.4%), Zn (23.0%), S and micronutrient combinations (11.5%), and <10% each for Cu, Mo, Fe, and B. Data from Africa Soil Information Service were all for S and micronutrient combinations. Of the two sources, most yield data are for maize (73.6%), followed by sorghum (6.7%) and wheat (6.1%) while rice, cowpea, faba bean, tef, and soybean each accounted for less than 5%. The major points are the following: (1) application of S and micronutrients increased maize yield by 0.84 t ha−1 (i.e., 25%) over macronutrient only treatment and achieved agronomic efficiencies (kilograms of grain increase per kilogram of micronutrient added) between 38 and 432 and (2) response ratios were >1 for S and all micronutrients, i.e., the probability of response ratio exceeding 1 was 0.77 for S and 0.83 for Zn, 0.95 for Cu, and 0.92 for Fe, and indicates positive crop response for a majority of farmers. We conclude that S and micronutrients are holding back crop productivity especially on soils where response to macronutrients is low and that more research is needed to unravel conditions under which application of S and micronutrients may pose financial risks.
+"Description:
+  Secondary and micronutrients are important in enhancing crop productivity; yet, they are hardly studied in sub-Sahara Africa. In this region, the main focus has been on macronutrients but there is emerging though scattered evidence of crop productivity limitations by the secondary and micronutrients. Elsewhere, widespread deficiencies of these nutrients are associated with stagnation of yields. In total, 530 rows of yield data were extracted from the 40 papers of which 49.4% were on sulfur (S) response, 23.0% on Zn, 7.4% on Cu, 3.0% on Mo, 4.5% on Fe, 1.1% on boron (B), and 11.5% involved two or more, i.e., S and micronutrient combinations. Here, we undertake a meta-analysis using 40 articles reporting crop response to secondary and micronutrients to (1) determine the productivity increase of crops and nutrient use efficiency associated with these nutrients, and (2) provide synthesis of responses to secondary nutrients and micronutrients in sub-Sahara Africa. This study used 757 yield data rows (530 from publications and 227 from Africa Soil Information Service) from field trials carried out in SSA between 1969 and 2013 in 14 countries. Data from publications constituted response to S (49.4%), Zn (23.0%), S and micronutrient combinations (11.5%), and <10% each for Cu, Mo, Fe, and B. Data from Africa Soil Information Service were all for S and micronutrient combinations. Of the two sources, most yield data are for maize (73.6%), followed by sorghum (6.7%) and wheat (6.1%) while rice, cowpea, faba bean, tef, and soybean each accounted for less than 5%. The major points are the following: (1) application of S and micronutrients increased maize yield by 0.84 t ha−1 (i.e., 25%) over macronutrient only treatment and achieved agronomic efficiencies (kilograms of grain increase per kilogram of micronutrient added) between 38 and 432 and (2) response ratios were >1 for S and all micronutrients, i.e., the probability of response ratio exceeding 1 was 0.77 for S and 0.83 for Zn, 0.95 for Cu, and 0.92 for Fe, and indicates positive crop response for a majority of farmers. We conclude that S and micronutrients are holding back crop productivity especially on soils where response to macronutrients is low and that more research is needed to unravel conditions under which application of S and micronutrients may pose financial risks.
 
 "
 
@@ -18,19 +16,16 @@ carob_script <- function(path) {
 	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
-	   project=NA,
-	   uri=uri,
-	   publication= "doi:10.1007/s13593-017-0431-0",
-	   data_institutions = "CIAT",
-	   carob_contributor="Eduardo Garcia Bendito",
-	   ## something like randomized control...
-	   experiment_type="meta-analysis",
-	   has_weather=FALSE,
-	   has_soil=FALSE,
-	   has_management=FALSE
-	)
+		dataset_id = dataset_id,
+		group=group,
+		project=NA,
+		data_citation="Kihara, Job; Sileshi, Gudeta W.; Nziguheba, Generose; Kinyua, Michael; Zingore, Shamie; Sommer, Rolf, 2017. Replication Data for: Application of secondary nutrients and micronutrients increases crop yields in sub-Saharan Africa. https://doi.org/10.7910/DVN/8AJQJJ, Harvard Dataverse, V1",
+		uri=uri,
+		publication= "doi:10.1007/s13593-017-0431-0",
+		data_institutions = "CIAT",
+		carob_contributor="Eduardo Garcia Bendito",
+		data_type="compilation"
+ 	)
 
 ## download and read data 
 
@@ -38,10 +33,8 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	dset$license <- carobiner::get_license(js)
 
-
 	f <- ff[basename(ff) == "02. Micronutrients_SSA_Publication data.xlsx"]
-
-	r <- readxl::read_excel(f) |> as.data.frame()
+	r <- carobiner::read.excel(f) 
 	
 	# Wide to long, since yield for different treatments is spread wide
 	rr <- reshape(r, direction='long', 
@@ -73,13 +66,12 @@ carob_script <- function(path) {
 	d$trial_id <- paste(rr$`DATA SOURCE`, rr$treatment_type, sep = " - ")
 	
 
-
 ##### Location #####
 ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
 ## you can use carobiner::fix_name()
-	d$country <- as.character(ifelse(rr$COUNTRY %in% c("Cote dIvoire", "Cote d'Ivoire"), "Côte d'Ivoire", rr$COUNTRY))
-	d$site <- as.character(rr$SITE)
-## each site must have corresponding longitude and latitude
+	d$country <- ifelse(rr$COUNTRY %in% c("Cote dIvoire", "Cote d'Ivoire"), "Côte d'Ivoire", rr$COUNTRY)
+	d$location <- as.character(rr$SITE)
+## each location must have corresponding longitude and latitude
 	rr$X[rr$X == "NA"] <- NA
 	rr$Y[rr$Y == "NA"] <- NA
 	rr$Y[grep(" and ", rr$Y)] <- NA
@@ -88,11 +80,12 @@ carob_script <- function(path) {
 	xy <- c("longitude", "latitude")
 	i <- apply(is.na(d[, xy]), 1, any)
 	
-	crds = data.frame(site = c("Sidindi", "Thuchila", "Calabar", "Manjawira",  "Amoutchou", "Sarakawa"), 
-					lon = c(34.38, 35.57, 8.33, 34.85, 1.08, 1.01), 
-					lat = c(0.15, -15.86, 4.97, -14.99, 7.46, 9.63))
+	crds = data.frame(location = 
+		c("Affem", "Sidindi", "Thuchila", "Calabar", "Manjawira",  "Amoutchou", "Sarakawa"), 
+		lon = c(1.5, 34.38, 35.57, 8.33, 34.85, 1.08, 1.01), 
+		lat = c(9.15, 0.15, -15.86, 4.97, -14.99, 7.46, 9.63))
 
-	m <- na.omit(cbind(1:nrow(d), match(d$site, crds$site)))
+	m <- na.omit(cbind(1:nrow(d), match(d$location, crds$location)))
 	d$longitude[m[,1]] <- crds[m[,2], 2]
 	d$latitude[m[,1]] <- crds[m[,2], 3]
 
@@ -105,8 +98,8 @@ carob_script <- function(path) {
 ##### Time #####
 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
 ## use 	as.character(as.Date()) for dates to assure the correct format.
-	d$start_date <- as.character(format(as.Date(substr(rr$YEAR, start = 1, stop = 4), "%Y"), "%Y"))
-	d$end_date  <- as.character(format(as.Date(substr(rr$YEAR, (nchar(rr$YEAR)+1) - 4, nchar(rr$YEAR)), "%Y"), "%Y"))
+	d$planting_date <- as.character(format(as.Date(substr(rr$YEAR, start = 1, stop = 4), "%Y"), "%Y"))
+	d$harvest_date  <- as.character(format(as.Date(substr(rr$YEAR, (nchar(rr$YEAR)+1) - 4, nchar(rr$YEAR)), "%Y"), "%Y"))
 
 ##### Fertilizers #####
 ## note that we use P and K, not P2O5 and K2O
@@ -139,7 +132,7 @@ carob_script <- function(path) {
 	d$yield <- as.numeric(rr$yield)*1000 # Yield in ton/ha
 
 #### SOIL INFORMATION ######
-  d$soil_type <- rr$`WRB Soiltype`
+	d$soil_type <- rr$`WRB Soiltype`
 	d$soil_pH <- as.numeric(rr$`SOIL pH`)
 	d$soil_SOC <- as.numeric(rr$SOC)
 	d$soil_sand <- as.numeric(rr$Sand)
@@ -153,6 +146,35 @@ carob_script <- function(path) {
 	d$uncertainty_type <- as.character(rr$`Error Type`)
 	d$rain <- as.integer(rr$Rainfall)
 	
+	d$yield_part <- "grain"
+	d$yield_part[d$crop %in% c("soybean", "faba bean", "cowpea")] <- "seed"
+
+	i <- which(d$latitude > 30)
+	tmp <- d$latitude[i]
+	d$latitude[i] <- d$longitude[i]
+	d$longitude[i] <- tmp
+	
+	i <- which(d$country=="Mali" & d$latitude < 0)
+	tmp <- d$latitude[i]
+	d$latitude[i] <- d$longitude[i]
+	d$longitude[i] <- tmp
+
+	i <- which(d$country=="Burkina Faso" & d$location == "Sourou Valley")
+	d$latitude[i] <- 13.1
+	  
+	i <- which(d$country=="Côte d'Ivoire" & d$location == "Guessihio")
+	d$longitude[i] <- -6
+
+	i <- which(d$country=="Nigeria" & d$location == "Ibadan")
+	d$longitude[i] <- 3.9
+
+	i <- which(d$country=="Nigeria" & d$location %in% c("Calabar", "Iwo"))
+	tmp <- d$latitude[i]
+	d$latitude[i] <- d$longitude[i]
+	d$longitude[i] <- tmp
+
+	i <- which(d$country=="Ghana" & d$longitude > .1)
+	d$longitude[i] <- -d$longitude[i]
 	  
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)

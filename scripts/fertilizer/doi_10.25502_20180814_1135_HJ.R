@@ -6,11 +6,8 @@
 
 carob_script <- function(path) {
 
-"
-	Description:
-
-    [copy the abstract from the repo]
-
+"Description:
+The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveilllance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments).
 "
 
 	uri <- "doi:10.25502/20180814/1135/HJ"
@@ -22,13 +19,12 @@ carob_script <- function(path) {
 	   group=group,
 	   uri=uri,
 	   publication=NA,
-	   data_citation = NA,
-	   data_institutions = NA,
+	   data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kiberashi [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1135/HJ",
+	   data_institutions = "IITA",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type=NA,
-	   has_weather=FALSE,
-	   has_management=FALSE
-	)
+	   data_type="on-farm experiments",
+	   project=NA
+ 	)
 
 ## download and read data 
 
@@ -41,17 +37,13 @@ carob_script <- function(path) {
 	d <- read.csv(f)
 	d <- d[complete.cases(d[ , 6:7]),]
 	d$country <- "Tanzania"
-	# enrichment with spatial data is better done on the aggregated data
-	#d$adm1 <- a$NAME_1
-	#d$adm2 <- a$NAME_2
-	#d$adm3 <- a$NAME_3
-	d$location <- d$Village
-	d$site <- d$Site
+	d$location <- d$Site
+	d$site <- d$Village
 	d$trial_id <- paste0(dataset_id, "-", d$ID)
 	d$latitude <- d$Flat
 	d$longitude <- d$Flong
-	d$start_date <- format(as.Date(js$result$coverage_start_date), "%Y-%m-%d")
-	d$end_date <- format(as.Date(js$result$coverage_end_date), "%Y-%m-%d")
+	d$planting_date <- format(as.Date(js$result$coverage_start_date), "%Y-%m-%d")
+	d$harvest_date <- format(as.Date(js$result$coverage_end_date), "%Y-%m-%d")
 	d$season <- "rainy"
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
@@ -96,13 +88,12 @@ carob_script <- function(path) {
 	d2$previous_crop <- p
 
 	d <- d2[,c("country", "location", "site", "trial_id", "latitude", "longitude",
-	            "start_date", "end_date", "season", "on_farm", "is_survey",
+	            "planting_date", "harvest_date", "season", "on_farm", "is_survey",
 	            "treatment", "rep", "crop", "variety", "previous_crop",
-	            "yield", "residue_yield",
-	            "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer",
-	            "OM_used", "OM_type", "OM_applied")]
+	            "yield", "residue_yield", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer", "OM_used", "OM_type", "OM_applied")]
 	d$dataset_id <- dataset_id
 
+	d$yield_part <- "grain"
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 

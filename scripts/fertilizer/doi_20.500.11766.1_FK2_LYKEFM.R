@@ -22,13 +22,12 @@ carob_script <- function(path) {
     group=group,
     uri=uri,
     publication="hdl:20.500.11766/5084",
-    data_citation = "Ayalew, Baye, 2020, Determination of rate and timing of N application on bread wheat, https://hdl.handle.net/20.500.11766.1/FK2/LYKEFM",
+    data_citation = "Ayalew, Baye, 2020, Determination of rate and timing of N application on bread wheat, hdl:20.500.11766.1/FK2/LYKEFM",
     data_institutions = "ICARDA",
     carob_contributor="Eduardo Garcia Bendito",
-    experiment_type="fertilizer",
-    has_weather=FALSE,
-    has_management=FALSE
-  )
+    data_type="experiment",
+		project=NA  
+	)
   
   ## download and read data 
   
@@ -52,13 +51,15 @@ carob_script <- function(path) {
     d$latitude <- ifelse(farm == "Mandie", 12.4215, 12.3971)
     d$longitude <- ifelse(farm == "Mandie", 37.5833, 37.5621)
     # There is no year 2 in the original dataset
-    d$start_date <- ifelse(d$Year == 1, "2013-06-03", "2014-06-08")
-    d$end_date <- ifelse(d$Year == 1, "2013-10-25", "2014-10-27")
+    d$planting_date <- ifelse(d$Year == 1, "2013-06-03", "2014-06-08")
+    d$harvest_date <- ifelse(d$Year == 1, "2013-10-25", "2014-10-27")
     d$on_farm <- TRUE
     d$is_survey <- FALSE
     d$treatment <- "Multi-level application of N fertilizers at different times."
     d$rep <- d$Replicate
     d$crop <- "wheat"
+	d$yield_part <- "grain"
+	
     d$yield <- d$Yield
 # This refers to the treatment levels indicated in "Treatment.csv"	
     d$N_fertilizer <- ifelse(d$Treatment %in% c(1:5), 23, 
@@ -68,16 +69,16 @@ carob_script <- function(path) {
     d$N_splits <- ifelse(d$Treatment %in% c(1:3), 2L,
                    ifelse(d$Treatment %in% c(4,9,14), 1L,
                     ifelse(d$Treatment %in% c(5,10,15), 3L, 0L)))
-    d$P_fertilizer <- 46/2.29 # as per reference https://hdl.handle.net/20.500.11766/5084
+    d$P_fertilizer <- 46/2.29 # as per reference hdl:20.500.11766/5084
     d$K_fertilizer <- 0
 	# see "Experimental_Layout.png"
     d$plant_spacing <- 20 
 
     # Subset to columns of interest
-    d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "treatment", "rep", "crop", "yield", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "plant_spacing")]
+    d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "treatment", "rep", "crop", "yield", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "plant_spacing")]
     dd <- rbind(dd,d) 
   }
-  
+	dd$yield_part <- "grain"  
   # all scripts must end like this
   carobiner::write_files(dset, dd, path=path)
 }

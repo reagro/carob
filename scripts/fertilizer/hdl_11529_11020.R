@@ -6,11 +6,8 @@
 
 carob_script <- function(path) {
 
-"
-	Description:
-
-    [copy the abstract from the repo]
-
+"Description:
+Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 area in Bako in 2015 conducted by EIAR and CIMMYT. Replicated crop cuts of 16m2 in farmers fields along with addition data on agronomy, household characteristics, fertilizer use, variety, and soil analysis.
 "
 
 	uri <- "hdl:11529/11020"
@@ -22,13 +19,12 @@ carob_script <- function(path) {
 	   group=group,
 	   uri=uri,
 	   publication=NA,
-	   data_citation = "Balemi T. and Kebede M., Tufa T., and Gurumu G.. 2017. TAMASA Ethiopia.  Yield, soil and agronomy data from 70 farmers’ maize fields  in Bako, Ethiopia, 2015 season. International Maize and Wheat Improvement Centre (CIMMYT), Ethiopia.",
+	   data_citation = "T Balemi; M Kebede; T Tufa; G Gurumu, 2017. TAMASA Ethiopia. Yield, soil and agronomy data from 70 farmers’ maize fields in Bako, Ethiopia, 2015 season. https://hdl.handle.net/11529/11020, CIMMYT Research Data & Software Repository Network, V1",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type= "on-farm observations",
-	   has_weather=FALSE,
-	   has_management=FALSE
-	)
+	   data_type= "farm survey",
+	   project=NA
+ 	)
 
 ## download and read data 
 
@@ -44,15 +40,16 @@ carob_script <- function(path) {
 	d$country <- "Ethiopia"
 	d$site <- d$`Name of the Village`
 	d$trial_id <- paste0("TAMASABako2015_", gsub("\\.", "-", d$`plot ID`))
-	xmin <- as.numeric(js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]$westLongitude[4][[1]])
-	xmax <- as.numeric(js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]$eastLongitude[4][[1]])
-	ymin <- as.numeric(js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]$southLongitude[4][[1]])
-	ymax <- as.numeric(js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]$northLongitude[4][[1]])
+	jsgeo <- js$data$latestVersion$metadataBlocks$geospatial$fields$value[[3]]
+	xmin <- as.numeric(jsgeo$westLongitude[4][[1]])
+	xmax <- as.numeric(jsgeo$eastLongitude[4][[1]])
+	ymin <- as.numeric(jsgeo$southLongitude[4][[1]])
+	ymax <- as.numeric(jsgeo$northLongitude[4][[1]])
 	d$longitude <- xmin + ((xmin - xmax)/2)
 	d$latitude <- ymax + ((ymin - ymax)/2)
 	# d$longitude <- 37.115
 	# d$latitude <- 9.085
-	d$start_date <- as.character(as.Date(d$`Planting Date`))
+	d$planting_date <- as.character(as.Date(d$`Planting Date`))
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$treatment <- "none"
@@ -60,6 +57,8 @@ carob_script <- function(path) {
 					gsub("^[^.]*.", "", as.character(d$`plot ID`)))
 	d$rep <- as.integer(d$rep)			
 	d$crop <- "maize"
+	d$yield_part <- "grain"
+	
 	d$variety_code <- d$`Type of Variety`
 	d$variety_type <- d$`Seed type (Local vs Improved)`
 	d$previous_crop <- tolower(d$`Previous/precursor crop`)
@@ -118,16 +117,16 @@ carob_script <- function(path) {
 	d$soil_type <- d$`Soil type`
 	d$soil_pH <- d$pH
 	d$soil_SOC <- d$`Carbon (%)`*10 # convert to g/kg
-	d$soil_N <- d$`Nitrogen (%)`*10 # convert to g/kg
-	d$soil_K <- d$`K (mg kg-1)`/1000 # convert to g/kg
+	d$soil_N <- d$`Nitrogen (%)`* 10000 # convert to mg/kg
+	d$soil_K <- d$`K (mg kg-1)` # mg/kg
 	d$soil_P_total <- d$`P (mg kg-1)`
 	
-	d <- d[,c("country", "site", "trial_id", "longitude", "latitude", "start_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety_code", "variety_type", "previous_crop",
+	d <- d[,c("country", "site", "trial_id", "longitude", "latitude", "planting_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety_code", "variety_type", "previous_crop",
 	          "yield", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "OM_type", "OM_applied", "soil_type", "soil_pH", "soil_SOC",
 	          "soil_N", "soil_K", "soil_P_total")]
 	
 	d$dataset_id <- dataset_id
-	
+	d$yield_part <- "grain"
 	
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)

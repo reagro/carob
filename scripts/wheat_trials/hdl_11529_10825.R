@@ -22,25 +22,22 @@ carob_script <- function(path) {
 
 "
   
-  uri <- "https://hdl.handle.net/11529/10825"
-  dataset_id <- carobiner::simple_uri(uri)
-  group <- "wheat_trials"
-  ## dataset level data 
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    project=NA,
-    uri=uri,
-    publication=NA,
-    data_citation="Thierfelder, Christian, 2016, Facilitating the widespread adoption of conservation agriculture 
-    in maize-based systems in Zambia, https://hdl.handle.net/11529/10825, CIMMYT Research Data & Software Repository Network, V3",
-    data_institutions = "CIMMYT",
-    carob_contributor="Cedric Ngakou",
-    experiment_type="NA",
-    has_weather=FALSE,
-    has_soil=FALSE,
-    has_management=FALSE
-  )
+	uri <- "hdl:11529/10825"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "wheat_trials"
+	## dataset level data 
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		project=NA,
+		uri=uri,
+		publication=NA,
+		data_citation="Thierfelder, Christian, 2016, Facilitating the widespread adoption of conservation agriculture 
+		in maize-based systems in Zambia, hdl:11529/10825, CIMMYT Research Data & Software Repository Network, V3",
+		data_institutions = "CIMMYT",
+		carob_contributor="Cedric Ngakou",
+		data_type="on-station experiment"
+    )
   
   ## download and read data 
   
@@ -72,8 +69,8 @@ carob_script <- function(path) {
   d$country <- "Zambia"
   d$dataset_id <- dataset_id
   d$trial_id <- paste0(d$dataset_id,"-",d$adm1)
-  d$start_date  <- "2006"
-  d$end_date  <- "2015"
+  d$planting_date  <- "2006"
+  d$harvest_date  <- "2015"
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$irrigated <- FALSE
@@ -127,6 +124,7 @@ carob_script <- function(path) {
     # data type 
     d$season <- as.character(d$season)
     d$yield <- (as.double(d$yield))
+	d$yield_part <- "grain"
     # all scripts must end like this
     carobiner::write_files(dset, d, path=path)
 }

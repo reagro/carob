@@ -13,57 +13,56 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    uri=uri,
-	data_citation="Hakeem Ayinde Ajeigbe; Alpha Kamara; Kunihya Ayuba; Abubakar H. Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to Plant Density and Phosphorous application in the Sudan Savanna zone of Nigeria, Minjibir. https://doi.org/10.21421/D2/YAJKSE, ICRISAT Dataverse, V1",
-    publication=NA,
-    carob_contributor="Siyabusa Mkuhlani",
-    experiment_type="fertilizer",
-    has_weather=FALSE,
-    has_management=TRUE
-  )
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		uri=uri,
+		data_citation="Hakeem Ayinde Ajeigbe; Alpha Kamara; Kunihya Ayuba; Abubakar H. Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to Plant Density and Phosphorous application in the Sudan Savanna zone of Nigeria, Minjibir. https://doi.org/10.21421/D2/YAJKSE, ICRISAT Dataverse, V1",
+		publication=NA,
+		carob_contributor="Siyabusa Mkuhlani",
+		data_type="experiment",
+		data_institutions="ICRISAT",
+		project=NA
+	)
   
-  ## treatment level data 
-  ff  <- carobiner::get_data(uri, path, group)
-  
-  ## read the json for version, license, terms of use  
-  js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
-  dset$license <- carobiner::get_license(js) 
-  
-  f <- ff[basename(ff) == "Data file of Groundnut fertilizer plant density of combine Minjibir.xlsx"]
-  d <- carobiner::read.excel(f)
-  
-#  names(d)
-  e <- d[,c(1,2,4,5,6,7,14,15)]
-#  names(e)
-  colnames(e) <- c('start_date','location','rep','variety_type','treatment','plant_density','yield','residue_yield')
-  e$rep <- as.integer(e$rep)  
-  
-  e$start_date <- as.character(e$start_date)
-  e$country <-  "Nigeria"
-  e$crop <- "groundnut"
-  e$dataset_id <- dataset_id
-  e$trial_id <- paste0("gnut_dens_phosph_", e$location)
-  e$adm1 <- "Kano"
-  e$site <- "Minjibir"
-  e$longitude <- 8.557
-  e$latitude <- 11.980
-  
-  e$on_farm <- FALSE
-  e$is_survey <- FALSE
-  e$P_fertilizer[e$treatment=='F1'] <- 0
-  e$P_fertilizer[e$treatment=='F2'] <- 20
-#  names(e)
+	## treatment level data 
+	ff  <- carobiner::get_data(uri, path, group)
+	  
+	## read the json for version, license, terms of use  
+	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
+	dset$license <- carobiner::get_license(js) 
+	
+	f <- ff[basename(ff) == "Data file of Groundnut fertilizer plant density of combine Minjibir.xlsx"]
+	d <- carobiner::read.excel(f)
+	
+	#  names(d)
+	e <- d[,c(1,2,4,5,6,7,14,15)]
+	#  names(e)
+	colnames(e) <- c('planting_date','location','rep','variety_type','treatment','plant_density','yield','residue_yield')
+	e$rep <- as.integer(e$rep)  
+	
+	e$planting_date <- as.character(e$planting_date)
+	e$country <-  "Nigeria"
+	e$crop <- "groundnut"
+	e$dataset_id <- dataset_id
+	e$trial_id <- paste0("gnut_dens_phosph_", e$location)
+	e$adm1 <- "Kano"
+	e$site <- "Minjibir"
+	e$longitude <- 8.557
+	e$latitude <- 11.980
+	
+	e$on_farm <- FALSE
+	e$is_survey <- FALSE
+	e$P_fertilizer[e$treatment=='F1'] <- 0
+	e$P_fertilizer[e$treatment=='F2'] <- 20
+	#  names(e)
 
-#RH: SM please check 
-  e$plant_density <- 2 * c(44444, 66667, 133333)[e$plant_density/10]
-  e$N_fertilizer <- 0
-  e$K_fertilizer <- 20
-  e$fertilizer_type <- "unknown"
-
-
+	#RH: SM please check 
+	e$plant_density <- 2 * c(44444, 66667, 133333)[e$plant_density/10]
+	e$N_fertilizer <- 0
+	e$K_fertilizer <- 20
+	e$fertilizer_type <- "unknown"
+	e$yield_part <- "pod"
 	carobiner::write_files(dset, e, path=path)
 }
 

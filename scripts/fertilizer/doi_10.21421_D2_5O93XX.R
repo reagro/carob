@@ -6,8 +6,7 @@
 
 carob_script <- function(path) {
 
-"
-	Description:
+"Description:
 
     Despite the recent release of several improved varieties of groundnut in Nigeria the productivities have not increase significantly due to lack of commensurate recommendation in agronomic practices.
     Two groundnut varieties were evaluated for their response to different plant density and phosphorus application in two locations in the Sudan Savanna zone of Nigeria in 2012 and 2013.
@@ -29,16 +28,15 @@ carob_script <- function(path) {
 	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   data_citation = "Hakeem Ayinde Ajeigbe; Alpha Y. Kamara; Kunihya Ayuba; Abubakar H.Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to plant density and phosphorous application in the sudan savanna zone of Wudil, Nigeria. https://doi.org/10.21421/D2/5O93XX",
-	   group=group,
-	   uri=uri,
-	   publication="doi:10.12692/ijb/9.1.291-302",
-	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="fertilizer",
-	   has_weather=FALSE,
-	   has_management=FALSE
-
+		dataset_id = dataset_id,
+		data_citation = "Hakeem Ayinde Ajeigbe; Alpha Y. Kamara; Kunihya Ayuba; Abubakar H.Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to plant density and phosphorous application in the Sudan Savanna zone of Wudil, Nigeria. https://doi.org/10.21421/D2/5O93XX",
+		group=group,
+		uri=uri,
+		publication="doi:10.12692/ijb/9.1.291-302",
+		carob_contributor="Eduardo Garcia Bendito",
+		data_type="experiment",
+		data_institutions=NA,
+		project=NA
 	)
 
 ## download and read data 
@@ -61,8 +59,8 @@ carob_script <- function(path) {
 	d$latitude <- 11.793702
 	d$longitude <- 8.838846
 	# sown during the growing seasons of 2012 and 2013 no actual dates mentioned
-	d$start_date <- ifelse(d$Year == "2012", "2012","2013") 
-	d$end_date <- ifelse(d$Year == "2012", "2012","2013") 
+	d$planting_date <- ifelse(d$Year == "2012", "2012","2013") 
+	d$harvest_date <- ifelse(d$Year == "2012", "2012","2013") 
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$rep <- as.integer(d$Replication.number)
@@ -91,15 +89,16 @@ carob_script <- function(path) {
 	                  soil_pH  = c(5.10, 5.0),
 	                  rain     = c(945.8, 907.4))
 	
-	d <- merge(d,ss, by ="s1", all.x = TRUE)
+	d <- merge(d, ss, by ="s1", all.x = TRUE)
 	
 	
 	# process file(s)
-	d <- d[,c("trial_id","country","adm1","adm2","adm3","latitude","longitude","start_date","end_date","crop","variety","row_spacing","plant_spacing","flowering","plant_density","on_farm","is_survey","soil_pH","soil_SOC","soil_sand","soil_clay","soil_silt","soil_P_available","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight")]
+	d <- d[, c("trial_id", "country", "adm1", "adm2", "adm3", "latitude", "longitude", "planting_date", "harvest_date", "crop", "variety", "row_spacing", "plant_spacing", "flowering", "plant_density", "on_farm", "is_survey", "soil_pH", "soil_SOC", "soil_sand", "soil_clay", "soil_silt", "soil_P_available", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "yield", "residue_yield", "grain_weight")]
 	
 	d$dataset_id <- dataset_id
+	d$yield_part <- "pod"
 
 # all scripts must end like this
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(dset,  d,  path=path)
 
 }

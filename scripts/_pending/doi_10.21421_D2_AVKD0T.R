@@ -27,9 +27,8 @@ The experiment was established in 1986 and continued until 2018 at the ICRISAT S
 	   uri=uri,
 	   publication="doi:10.21421/D2/AVKD0T",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="fertilizer",
-	   has_weather=FALSE,
-	   has_management=TRUE
+	   data_type="fertilizer"
+	    
 	)
 
 ## download and read data 
@@ -63,8 +62,8 @@ The experiment was established in 1986 and continued until 2018 at the ICRISAT S
 	d$trial_id <- paste0(dataset_id, '-', d$site, '-', d$Years)
 	d$latitude <- 13.234295
 	d$longitude <- 2.283155
-	d$start_date <- as.character(d$Years)
-	d$end_date <- as.character(d$Years)
+	d$planting_date <- as.character(d$Years)
+	d$harvest_date <- as.character(d$Years)
 	d$season <- "rainy"
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE

@@ -22,10 +22,10 @@ carob_script <- function(path) {
 	   uri=uri,
 	   publication=NA,
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type = "fertilizer and pesticide application",
-	   has_weather=FALSE,
-	   has_management=FALSE
-   
+	   data_type = "experiment",
+		data_institutions=NA,
+		project=NA
+    
 	)
 
 ## download and read data 
@@ -45,11 +45,12 @@ carob_script <- function(path) {
 	d$trial_id <- paste0(dataset_id, '-', d$Site)
 	d$latitude <- ifelse(d$Site == "Kawanda", 0.4172778, 0.5256090)
 	d$longitude <- ifelse(d$Site == "Kawanda", 32.5355326, 32.6136960)
-	d$start_date <- "2013-08-10"
-	d$end_date <- "2014"
+	d$planting_date <- "2013-08-10"
+	d$harvest_date <- "2014"
 	d$on_farm <- FALSE
-	d$is_survey <- TRUE
+	d$is_survey <- TRUE	
 	d$crop <- "maize"
+	d$yield_part <- "grain"
 	d$variety <- "Longe 10H"
 	d$variety_code <- "SC627"
 	
@@ -121,14 +122,14 @@ carob_script <- function(path) {
 	     c("Site", "pH", "N (%)", "K (ppm)", "P (ppm)", "Sand (%)", "Clay (%)"),
 	     c("site", "soil_pH", "soil_N", "soil_K", "soil_P_total", "soil_sand", "soil_clay"))
 		 	 
-	d <- d[,c("country", "adm1", "adm2", "adm3", "latitude", "longitude", "site", "start_date", "end_date", "season", "on_farm", "is_survey", "crop", "variety", "variety_code", "biomass_total", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "OM_used", "OM_type", "OM_applied", "OM_N", "OM_P", "OM_K", "soil_pH", "soil_N", "soil_K", "soil_P_total", "soil_sand", "soil_clay", "irrigated", "row_spacing","plant_spacing")]
+	d <- d[,c("country", "adm1", "adm2", "adm3", "latitude", "longitude", "site", "planting_date", "harvest_date", "season", "on_farm", "is_survey", "crop", "variety", "variety_code", "biomass_total", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "OM_used", "OM_type", "OM_applied", "OM_N", "OM_P", "OM_K", "soil_pH", "soil_N", "soil_K", "soil_P_total", "soil_sand", "soil_clay", "irrigated", "row_spacing","plant_spacing")]
 
 	id <- ifelse(d$site == "Kawanda", seq(1,sum(d$site == "Kawanda")), 
 										seq(1,sum(d$site == "Namulonge")))
 	
 	d$trial_id <- paste0(d$trial_id, "-", id)
 	d$dataset_id <- dataset_id
-
+	d$yield_part <- "grain"
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 

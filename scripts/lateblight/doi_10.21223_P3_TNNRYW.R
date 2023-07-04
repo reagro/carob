@@ -28,12 +28,8 @@ carob_script <- function(path) {
 		data_institutions = "CIP",
 		carob_contributor="Henry Juarez",
 	   
-	   ## something like randomized control...
-		experiment_type="___",
-		has_weather=FALSE,
-		has_soil=FALSE,
-		has_management=FALSE
-	)
+		data_type="experiment"
+ 	)
 
 ## download and read data 
 	ff  <- carobiner::get_data(uri, path, group)
@@ -63,8 +59,8 @@ carob_script <- function(path) {
 	d$latitude <- -11.5237
 	d$trial_id <- "1"
 
-	d$start_date <- as.character(as.Date("2001-12-10"))
-	d$end_date  <- as.character(as.Date("2002-04-02"))
+	d$planting_date <- as.character(as.Date("2001-12-10"))
+	d$harvest_date  <- as.character(as.Date("2002-04-02"))
 
 # all scripts must end like this
 	carobiner::write_files(path, dset, d, timerecs=p$tim)

@@ -16,7 +16,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 "
 carob_script <- function(path) {
   
-  uri <- "https://doi.org/10.25502/NY1Z-W564/D"
+  uri <- "doi:10.25502/NY1Z-W564/D"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
@@ -33,9 +33,8 @@ carob_script <- function(path) {
     2012 - 2013 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/NY1Z-W564/D",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
-    experiment_type="variety trial",
-    has_weather=TRUE,
-    has_management=TRUE
+    data_type="variety trial"
+     
   )
   
   ## download and read data
@@ -164,13 +163,13 @@ carob_script <- function(path) {
   x$date_planting_yyyy[x$trial_id %in% c("FM_MW001_20122013","FM_MW002_20122013",
                                          "FM_MW115_20122013","FM_MW353_20122013")] <- 2012
   x$date_planting_yyyy[x$trial_id %in% c("FM_MW005_20122013","FM_MW006_20122013")] <- 2013
-  x$start_date <- as.character(as.Date(paste(x$date_planting_yyyy,x$date_planting_mm,x$date_planting_dd,sep = "-")))
-  x <- x[,c("trial_id","start_date")]
+  x$planting_date <- as.character(as.Date(paste(x$date_planting_yyyy,x$date_planting_mm,x$date_planting_dd,sep = "-")))
+  x <- x[,c("trial_id","planting_date")]
   
   y <- d4[d4$activity == "Date of harvest",]
   y$date_planting_yyyy[y$trial_id %in% c("FM_MW001_20122013","FM_MW002_20122013","FM_MW012_20122013","FM_MW005_20122013","FM_MW006_20122013")] <- 2013
-  y$end_date <- as.character(as.Date(paste(y$date_planting_yyyy,y$date_planting_mm,y$date_planting_dd,sep = "-")))
-  y <- y[,c("trial_id","end_date")]
+  y$harvest_date <- as.character(as.Date(paste(y$date_planting_yyyy,y$date_planting_mm,y$date_planting_dd,sep = "-")))
+  y <- y[,c("trial_id","harvest_date")]
   d4 <- merge(x,y,by = "trial_id", all = TRUE)
   
   f6 <- ff[basename(ff) == "f_farmer_assessment.csv"]  
@@ -220,7 +219,7 @@ carob_script <- function(path) {
   z$K_fertilizer[is.na(z$K_fertilizer)] <- 0
   
   z <- z[,c("dataset_id","trial_id","season","country","adm1","adm2","adm3","site","longitude","latitude","elevation","observation_date"
-            ,"start_date","end_date","crop","variety","inoculated","OM_used","OM_type","OM_applied","fertilizer_type","N_fertilizer",
+            ,"planting_date","harvest_date","crop","variety","inoculated","OM_used","OM_type","OM_applied","fertilizer_type","N_fertilizer",
             "P_fertilizer","K_fertilizer","row_spacing","plant_spacing","yield","on_farm","is_survey")]
   
   # all scripts must end like this

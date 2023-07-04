@@ -33,9 +33,10 @@ TRUE
     # data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Mbinga [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1239/HJ",
     # data_institutions = "IITA",
     # carob_contributor="Cedric Ngakou",
-    # experiment_type="fertilizer",
-    # has_weather=FALSE,
-    # has_management=TRUE
+    # data_type="experiment",
+
+    # has_weather=FALSE
+    #  
   # )
   
   ### download and read data 
@@ -90,12 +91,12 @@ TRUE
   
   # d1$latitude<-d1$Flat
   # d1$longitude<-d1$Flong
-  # d1$start_date<-d1$Basal.fertilizer.application
-  # d1$end_date<-d1$HarvDa
+  # d1$planting_date<-d1$Basal.fertilizer.application
+  # d1$harvest_date<-d1$HarvDa
   # d1$OM_type<-d1$MType1
   # d1$previous_crop<- d1$PCrop1
   # d1$site<-d1$Site
-  # d1<-d1[,c("dataset_id","site","longitude","latitude","start_date","end_date","previous_crop","OM_type")]
+  # d1<-d1[,c("dataset_id","site","longitude","latitude","planting_date","harvest_date","previous_crop","OM_type")]
  
   # merge dataset
   
@@ -121,13 +122,13 @@ TRUE
   # d$grain_weight<- as.numeric(d$grain_weight)
   
   #d$OM_used<-as.character(d$OM_used)
-  # d<-d[,c("dataset_id","rep","season","country","site","treatment","longitude","latitude","start_date",
-          # "end_date","trial_id","crop","yield","residue_yield","grain_weight","previous_crop","OM_type","N_fertilizer",
+  # d<-d[,c("dataset_id","rep","season","country","site","treatment","longitude","latitude","planting_date",
+          # "harvest_date","trial_id","crop","yield","residue_yield","grain_weight","previous_crop","OM_type","N_fertilizer",
             # "K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
   # change date format
-  # d$start_date <- format(as.Date(d$start_date, format = "%d/%m/%Y"), "%Y-%m-%d")
+  # d$planting_date <- format(as.Date(d$planting_date, format = "%d/%m/%Y"), "%Y-%m-%d")
   
-  # d$end_date <- format(as.Date(d$end_date, format = "%m/%d/%Y"), "%Y-%m-%d")
+  # d$harvest_date <- format(as.Date(d$harvest_date, format = "%m/%d/%Y"), "%Y-%m-%d")
   
   # all scripts must end like this
   

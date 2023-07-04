@@ -8,7 +8,7 @@ carob_script <- function(path) {
 
 "
 	Description:
-Nitrogen (N) is an essential nutrient for sorghum growth and development but often becomes limiting due to low availability and loss. The effects of N fertilization on water use efficiency (WUE) and physiological and yield traits of sorghum were investigated in two locations over two cropping seasons (2014 and 2015) in the Sudan Savanna zone of Nigeria. Three sorghum varieties were evaluated under six (6) N-levels (0, 20, 40, 60, 80, and 100 kg ha−1) at a constant phosphorus and potassium level of 30 kg ha−1. Results showed that N increased grain yield by 35–64% at the Bayero University Kano (BUK) and 23–78% at Minjibir. The highest mean grain yield in the N-fertilizer treatments (2709 kg ha−1 and 1852 kg ha−1 at BUK and Minjibir, resp.) was recorded at 80 kg N ha−1. ICSV400 produced the highest mean grain yields (2677 kg ha−1 and 1848 kg ha−1 at BUK and Minjibir, resp.). Significant differences were observed among the N-levels as well as among the sorghum varieties for estimated water use efficiency (WUE).To review the nutrient needs, especially N of some of selected sorghum varieties and their water use efficiency on marginal land	
+Nitrogen (N) is an essential nutrient for sorghum growth and development but often becomes limiting due to low availability and loss. The effects of N fertilization on water use efficiency (WUE) and physiological and yield traits of sorghum were investigated in two locations over two cropping seasons (2014 and 2015) in the Sudan Savanna zone of Nigeria. Three sorghum varieties were evaluated under six (6) N-levels (0, 20, 40, 60, 80, and 100 kg ha−1) at a constant phosphorus and potassium level of 30 kg ha−1. Results showed that N increased grain yield by 35–64% at the Bayero University Kano (BUK) and 23–78% at Minjibir. The highest mean grain yield in the N-fertilizer treatments (2709 kg ha−1 and 1852 kg ha−1 at BUK and Minjibir, resp.) was recorded at 80 kg N ha−1. ICSV400 produced the highest mean grain yields (2677 kg ha−1 and 1848 kg ha−1 at BUK and Minjibir, resp.). Significant differences were observed among the N-levels as well as among the sorghum varieties for estimated water use efficiency (WUE).To review the nutrient needs, especially N of some of selected sorghum varieties and their water use efficiency on marginal land	
 
 "
 
@@ -17,16 +17,16 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
-	   uri=uri,
-	   publication="doi:10.1155/2018/7676058",
-	   carob_contributor="Eduardo Garcia Bendito",
-	   data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Productivity and water use efficiency of Sorghum [Sorghum bicolor (L.) Moench] grown under different nitrogen applications in Sudan Savanna Zone, Nigeria. https://doi.org/10.21421/D2/FATVHT",
-	   experiment_type="Split plot",
-	   has_weather=FALSE,
-	   has_management=FALSE
-	)
+		dataset_id = dataset_id,
+		group=group,
+		uri=uri,
+		publication="doi:10.1155/2018/7676058",
+		carob_contributor="Eduardo Garcia Bendito",
+		data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Productivity and water use efficiency of Sorghum [Sorghum bicolor (L.) Moench] grown under different nitrogen applications in Sudan Savanna Zone, Nigeria. https://doi.org/10.21421/D2/FATVHT",
+		data_type="experiment",
+		data_institutions="ICRISAT",
+		project=NA		   
+ 	)
 
 ## download and read data 
 
@@ -46,13 +46,13 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 	d$latitude <- ifelse(d$Location == "BUK", 8.5922, 8.5978)
 	d$longitude <- ifelse(d$Location == "BUK", 12.0034, 12.1733)
 	# As reported in the associated publication:
-	d$start_date <- ifelse(d$Location == "BUK" & d$Year == 2014, "2014-07-19",
+	d$planting_date <- ifelse(d$Location == "BUK" & d$Year == 2014, "2014-07-19",
                     ifelse(d$Location == "BUK" & d$Year == 2015, "2014-07-20",
                     ifelse(d$Location == "Minjibir" & d$Year == 2014, "2014-07-07", "2014-07-04"))) 
 						  
 						  
-	d$end_date <- as.character(as.Date(d$start_date) + d$`Days to Maturity`)
-	d$start_date <- as.character(d$start_date)
+	d$harvest_date <- as.character(as.Date(d$planting_date) + d$`Days to Maturity`)
+	d$planting_date <- as.character(d$planting_date)
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	
@@ -60,6 +60,8 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 
 	d$rep <- as.integer(d$`Replication umber`)
 	d$crop <- "sorghum"
+	d$yield_part <- "grain"
+	
 	d$variety <- d$Sorghum
 ## RH	d$yield <- d$`Grain yield` + d$`Stalk yield`
 	d$yield <- d$`Grain yield`
@@ -83,6 +85,7 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 
 	d <- d[,c(18:43)]
 	d$dataset_id <- dataset_id
+	d$yield_part <- "grain"
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)

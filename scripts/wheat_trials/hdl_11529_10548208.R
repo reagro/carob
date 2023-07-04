@@ -16,20 +16,19 @@ carob_script <- function(path) {
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
-	   project=NA,
+	   project="CIMMYT High Rainfall Wheat Yield Trial",
 	   uri=uri,
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)
 	   publication = NA,
-	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '15th High Rainfall Wheat Yield Trial', https://hdl.handle.net/11529/10548207, CIMMYT Research Data & Software Repository Network, V2",
+	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '15th High Rainfall Wheat Yield Trial', hdl:11529/10548207, CIMMYT Research Data & Software Repository Network, V2",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Andrew Sila",
 	   
 	   ## something like randomized control...
-	   experiment_type="On-station experiment",
-	   has_weather=FALSE,
-	   has_soil=FALSE,
-	   has_management=TRUE
+	   data_type="on-station experiment"
+	    
+	    
 	)
 
 ## download and read data 

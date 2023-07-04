@@ -12,9 +12,14 @@ intmztrial_borer <- function(ff, f, striga=FALSE) {
 }
 
 
-intmztrial_striga <- function(ff, f, striga=FALSE) {
+intmztrial_striga <- function(ff, striga=FALSE) {
 
-	sf <- ff[tolower(basename(ff))==tolower(f)]
+	if (striga) {
+		sf <- grep("striga", ff, ignore.case=TRUE, value=TRUE)		
+	} else {
+		sf <- grep("regular", ff, ignore.case=TRUE, value=TRUE)
+	}
+
 	d  <- read.csv(sf)
 	names(d) <- tolower(names(d))
 	names(d)[1] <- "id"
@@ -42,16 +47,15 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 	}
 	
 	d <- carobiner::change_names(d, 
-	 c("trl_titl", "entry", "entryno", "instinf", "bltin_m", "bltun_m", "x1000gwt", "cobdamco", "cobdamrt", "borerdmrat", "sbdamat"), 
-	 c("trial_name", "variety", "variety_code", "instin", "blight_in", "blight_un", "grain_weight", "cob_dam_co", "cob_dam_rt", "borer_dam_rat", "sb_dam_rat")
+	 c("trl_titl", "entry", "entryno", "instinf", "bltin_m", "bltun_m", "x1000gwt", "x_1000gwt", "cobdamco", "cobdamrt", "borerdmrat", "sbdamat"), 
+	 c("trial_name", "variety", "variety_code", "instin", "blight_in", "blight_un", "grain_weight", "grain_weight", "cob_dam_co", "cob_dam_rt", "borer_dam_rat", "sb_dam_rat")
 	 , must_have=FALSE)
 
-
-	d$start_date <- d$year
-	d$start_date[d$year==22] <- 2002
-	d$start_date[d$year==24] <- 2004
-	d$start_date[d$year==25] <- 2005
-	d$start_date <- as.character(d$start_date)
+	d$planting_date <- d$year
+	d$planting_date[d$year==22] <- 2002
+	d$planting_date[d$year==24] <- 2004
+	d$planting_date[d$year==25] <- 2005
+	d$planting_date <- as.character(d$planting_date)
 	
 	d$country <- carobiner::fix_name(d$country, "title")
 	d$location <- carobiner::fix_name(d$location, "title")
@@ -93,10 +97,36 @@ intmztrial_striga <- function(ff, f, striga=FALSE) {
 	}
 	if (is.null(d$yield2)) {
 		d$yield2 <- as.numeric(NA)
-	} 
+	} else {
+		d$yield2 <- as.numeric(d$yield2)	
+	}
 	if (is.null(d$grain_weight)) {
 		d$grain_weight <- as.numeric(NA)
-	} 
+	} else {
+		d$grain_weight <- as.numeric(d$grain_weight)	
+	}
+	d$yield[d$yield == "."] <- NA
+	d$yield <- as.numeric(d$yield)
+	d$yield[d$yield < 0] <- NA
+	
+	d$yield_part <- "grain"
+	d$striga_trial <- striga
+	d$variety <- trimws(d$variety)
+	d$variety[d$variety == ""] <- NA
+	d$description <- as.character(d$description)
+
+	if (inherits(d$latitude, "character")) {
+		d$latitude <- trimws(d$latitude)
+		d$latitude <- gsub(" ", "", d$latitude)
+		d$latitude[d$latitude == ""] <- NA
+		d$latitude <- as.numeric(d$latitude)
+	}
+	if (inherits(d$longitude, "character")) {
+		d$longitude <- trimws(d$longitude)
+		d$longitude <- gsub(" ", "", d$longitude)
+		d$longitude[d$longitude == ""] <- NA
+		d$longitude <- as.numeric(d$longitude)
+	}
 	d
 }
 

@@ -25,9 +25,9 @@ Agricultural Water Management 98: 1364-1372
 		uri = uri,
 		publication = "doi:10.1016/j.agwat.2011.04.002",
 		carob_contributor = "Camila Bonilla",
-		experiment_type = "fertilizer;agroforestry",
-		has_weather = FALSE,
-		has_management = FALSE
+		data_type = "experiment",
+		data_institutions ="ICRAF",
+		project=NA
 	)
 
 ## download and read data 
@@ -45,7 +45,7 @@ Agricultural Water Management 98: 1364-1372
 
 	d <- d12[, c("Year", "TotalRF", "GRLL50F", "GRLL", "GRFert", "GRNofert")]
 	d <- reshape2::melt(d, 1:2)
-	colnames(d) <- c("start_date", "rain", "treatment", "yield")
+	colnames(d) <- c("planting_date", "rain", "treatment", "yield")
 	# Information from the paper
 	d$soil_type <- 'Ferric luvisol'
 	d$N_fertilizer <- 0
@@ -67,8 +67,8 @@ Agricultural Water Management 98: 1364-1372
 	d$adm2 <- 'Oyo'
 	d$variety <- 'MM604'
 	d$variety_type <- 'hybrid'
-	d$end_date <- paste0(d$start_date, "-10")
-	d$start_date <- paste0(d$start_date, "-04")
+	d$harvest_date <- paste0(d$planting_date, "-10")
+	d$planting_date <- paste0(d$planting_date, "-04")
 	d$soil_SOC <- NA
 	d$soil_P_total <- NA
 	d$soil_N  <- NA
@@ -91,8 +91,8 @@ Agricultural Water Management 98: 1364-1372
 	z <- aggregate(z[,i], z[,-i], mean)
 
 	z$year <- z$year + 1994
-	z$start_date <- paste0(z$year, "-11")
-	z$end_date <- paste0(z$year + 1, "-04")
+	z$planting_date <- paste0(z$year, "-11")
+	z$harvest_date <- paste0(z$year + 1, "-04")
 	z$year <- NULL
 	z$longitude <- 32.34
 	z$latitude <- -13.39
@@ -104,8 +104,8 @@ Agricultural Water Management 98: 1364-1372
 	z$soil_clay <- 28
 	z$soil_SOC <- 10.2
 	z$soil_P_total <- 2.02 # mg/kg
-	z$soil_N <- 0.70 # g/kg
-	z$soil_K <- 1.47 # cmolc kg−1 t
+	z$soil_N <- 100 * 0.70 # g/kg to mg/kg
+	z$soil_K <- 390 * 1.47 # cmolc kg−1 to mg/kg
 	z$soil_pH <- 5.3
 	z$K_fertilizer <- z$P_fertilizer <- z$N_fertilizer <- 0
 	i <- z$treatment == "Fertilized maize"
@@ -124,6 +124,8 @@ Agricultural Water Management 98: 1364-1372
 	d$rain <- as.numeric(d$rain)
 	d$on_farm <- FALSE
 	d$crop <- "maize"
+	d$yield_part <- "grain"
+	
 	d$fertilizer_type <- "none"
 	d$fertilizer_type[d$N_fertilizer > 0] <- "urea; NPK"
 	

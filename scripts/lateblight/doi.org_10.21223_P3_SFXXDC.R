@@ -11,7 +11,7 @@ carob_script <- function(path) {
 "
 #Metadata for Carob
 
-	uri <- "doi.org/10.21223/P3/SFXXDC"
+	uri <- "doi:10.21223/P3/SFXXDC"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "lateblight"
 
@@ -27,13 +27,8 @@ carob_script <- function(path) {
 	   data_institutions = "CIP",
 	   carob_contributor="Henry Juarez",
 	   data_citation="Gastelo, Manuel; Bonierbale, Merideth; Landeo, Juan; Diaz, Luis, 2016. Dataset for: Advanced clones of B3C0, group B3, population B in Oxapampa-Peru. https://doi.org/10.21223/P3/SFXXDC, International Potato Center, V1",
-	   
-	   ## something like randomized control...
-	   experiment_type="___",
-	   has_weather=FALSE,
-	   has_soil=FALSE,
-	   has_management=FALSE
-	)
+		data_type="experiment" 
+ 	)
 
 ## download and read data 
 	ff  <- carobiner::get_data(uri, path, group)
@@ -62,8 +57,8 @@ carob_script <- function(path) {
 	d$longitude <- NA
 	d$latitude <- NA
 	
-	d$start_date <- as.character(as.Date("2001-12-10"))
-	d$end_date  <- as.character(as.Date("2002-04-02"))
+	d$planting_date <- as.character(as.Date("2001-12-10"))
+	d$harvest_date  <- as.character(as.Date("2002-04-02"))
 
 # all scripts must end like this
 	carobiner::write_files(path=path, dset, d, timerecs=p$tim)

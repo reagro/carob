@@ -23,13 +23,10 @@ carob_script <- function(path) {
 	   project="TAMASA",
 	   uri=uri,
 	   publication=NA,
-	   data_citation = 'Masuki, Kenneth, 2019, "TZ TAMASA APS 2016 Yield MetaData", https://hdl.handle.net/11529/10548235, CIMMYT Research Data & Software Repository Network, V2, UNF:6:dF6+/EEer8HsSlxKsQJIVA== [fileUNF]',
+	   data_citation = 'Masuki, Kenneth, 2019, "TZ TAMASA APS 2016 Yield MetaData", hdl:11529/10548235, CIMMYT Research Data & Software Repository Network, V2, UNF:6:dF6+/EEer8HsSlxKsQJIVA== [fileUNF]',
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type=NA,
-	   has_weather=FALSE,
-	   has_management=FALSE,
-	   has_soil=FALSE
+	   data_type="survey"
 	)
 
 ## download and read data 
@@ -38,11 +35,8 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
 	dset$license <- carobiner::get_license(js)
 
-
 	f <- ff[basename(ff) == "TZ_TAMASA_APS_2017_Yield_MetaData.xlsx"]
-
-	d <- as.data.frame(readxl::read_excel(f, sheet = "Corrected-Raw-Data", n_max = 1835))
-	
+	d <- as.data.frame(readxl::read_excel(f, sheet = "Corrected-Raw-Data", n_max = 1835))	
 	d$country <- "Tanzania"
 	d$adm1 <- d$Zone
 	d$adm2 <- d$Region 
@@ -56,16 +50,17 @@ carob_script <- function(path) {
 	d$longitude <- d$Longitude
 	d$elevation <- d$Altitude
 	
-	d$start_date <- "2016-05-01"
-	d$end_date <- "2016-12-01"
+	d$planting_date <- "2016-05-01"
+	d$harvest_date <- "2016-12-01"
 	d$on_farm <- TRUE
 	d$is_survey <- TRUE
 	d$crop <- "maize"
+	d$yield_part <- "grain"
 	# d$yield <- d$`FWt of Cobs_all (kg)`*4 # FWt of Cobs_all (kg) = Fresh Weight of Cobs in Quadrat (25m2)
 	d$yield <- d$`Grain yield (kg/ha@12.5%)` # Grain yield at 12.5% moisture
 	
 	# process file(s)
-	d <- d[,c("country", "trial_id", "location", "site","latitude", "longitude", "start_date", "end_date", "on_farm", "is_survey", "crop", "yield", "adm1", "adm2", "adm3", "adm4")]
+	d <- d[,c("country", "trial_id", "location", "site","latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "crop", "yield_part", "yield", "adm1", "adm2", "adm3", "adm4")]
 	d$dataset_id <- dataset_id
 
 # all scripts must end like this

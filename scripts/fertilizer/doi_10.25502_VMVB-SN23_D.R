@@ -22,19 +22,17 @@ carob_script <- function(path){
   group <- "fertilizer"
   
   # The metadata at the dataset level
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-	  project="N2Africa",
-    uri=uri,
-    publication="doi:10.21955/gatesopenres.1115299.1",
-    data_citation = "Vanlauwe, B. et al. (2020) ‘N2Africa agronomy trials - Kenya, 2011’. International Institute of Tropical Agriculture (IITA). doi:10.25502/VMVB-SN23/D.",
-    data_institutions = "IITA",
-    carob_contributor="Rachel Mukami and Effie Ochieng",
-    experiment_type="N2 fixation",
-    has_weather=FALSE,
-    has_management=FALSE
-  )
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		project="N2Africa",
+		uri=uri,
+		publication="doi:10.21955/gatesopenres.1115299.1",
+		data_citation = "Vanlauwe, B. et al. (2020) ‘N2Africa agronomy trials - Kenya, 2011’. International Institute of Tropical Agriculture (IITA). doi:10.25502/VMVB-SN23/D.",
+		data_institutions = "IITA",
+		carob_contributor="Rachel Mukami and Effie Ochieng",
+		data_type = "on-farm experiment"
+	)
   
   ## downloading data 
   
@@ -48,10 +46,10 @@ carob_script <- function(path){
   d <- d[d$grain_yield_ha_calc > 0,] # dropping entries without complete data under trial_id AT_KE010_LR_2011_MAIZE_ROT_BUTERE as they all have zero yield input.
   d$trial_id <- d$experiment_id
   d$rep <- d$replication_no
-  d$start_date <- as.character(as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-")))
+  d$planting_date <- as.character(as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-")))
   d$date_harvest_yyyy[d$trial_id == "AT_KE003_LR_2011_INPUT_SB_BUTULA"] <- 2011
-  d$end_date <-as.character(as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-")))
-  d$end_date[d$end_date=="0-08-04"] <- "2011-08-04"
+  d$harvest_date <-as.character(as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-")))
+  d$harvest_date[d$harvest_date=="0-08-04"] <- "2011-08-04"
   
   d$yield <- d$grain_yield_ha_calc
   d$residue_yield <- d$tot_stover_yield_haulm_husks_calc
@@ -129,16 +127,18 @@ carob_script <- function(path){
   vv[aa] <- carobiner::fix_name(vv[aa],"upper")
   vv[vv %in% c("saga","Saga")] <- "SC Saga"
   vv <- carobiner::replace_values(vv,
-                                  c("EAI3600","Gasirida","KK071","KK072","KK15","KK8","MAC44","Maksoy 4M","MAMESA","Namsoy 2N",
-                                    "NEWROSCOCO","OKWODHO","RWV2070","SB19","Sequel","Squire","TGx-1987-62 F","TGx1740-2F","TGx1987-62F",
-                                    "TGx1987-6F","TGx-1987-62F"),
-                                  c("EAI 3600","Gasilida","KK 071","KK 072","KK 15","KK 8","MAC 44","Maksoy","Mamesa","Namsoy",
-                                    "Newrosecoco","Okwodho","RWV 2070","SB 19","SC Sequel","SC Squire","TGx-1987-62F","TGx 1740-2F",
-                                    "TGx 1987-62F","TGx 1987-62F","TGx 1987-62F"))
+       c("EAI3600","Gasirida","KK071","KK072","KK15","KK8","MAC44","Maksoy 4M","MAMESA","Namsoy 2N",
+         "NEWROSCOCO","OKWODHO","RWV2070","SB19","Sequel","Squire","TGx-1987-62 F","TGx1740-2F","TGx1987-62F",
+         "TGx1987-6F","TGx-1987-62F"),
+       c("EAI 3600","Gasilida","KK 071","KK 072","KK 15","KK 8","MAC 44","Maksoy","Mamesa","Namsoy",
+         "Newrosecoco","Okwodho","RWV 2070","SB 19","SC Sequel","SC Squire","TGx-1987-62F","TGx 1740-2F",
+         "TGx 1987-62F","TGx 1987-62F","TGx 1987-62F"))
   vv <- gsub("x","X",vv)
-  d$variety <- vv # note that variety names are listed in the publication attached above
+
+# variety names are listed in the publication attached above  
+  d$variety <- vv 
   
-  d <- d[,c("trial_id","rep","variety","treatment","inoculated","start_date","end_date","fertilizer_type","N_splits","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight","biomass_roots","biomass_total")]
+  d <- d[,c("trial_id","rep","variety","treatment","inoculated","planting_date","harvest_date","fertilizer_type","N_splits","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","grain_weight","biomass_roots","biomass_total")]
   
   # ignoring the rust_score.csv data it's redundant and carob doesn't cater to rust and economic related variables
   
@@ -164,22 +164,22 @@ carob_script <- function(path){
   
   # lats and longs extracted from geonames.org
   z$latitude <- ifelse(grepl("Bungoma",z$location), 0.5635,
-                       ifelse(grepl("Butere",z$location),0.20694,
-                              ifelse(grepl("Kakamega",z$location),0.28422,
-                                     ifelse(grepl("Migori",z$location),-0.982,
-                                            ifelse(grepl("Mumias",z$location),0.33474,
-                                                   ifelse(grepl("Kakamega South",z$location),0.17124,
-                                                          ifelse(z$location == "Kisumu West",-0.091702,
-                                                                 ifelse(grepl("Butula",z$location),0.33796, -0.0693307))))))))
+		ifelse(grepl("Butere",z$location),0.20694,
+		ifelse(grepl("Kakamega",z$location),0.28422,
+        ifelse(grepl("Migori",z$location),-0.982,
+        ifelse(grepl("Mumias",z$location),0.33474,
+		ifelse(grepl("Kakamega South",z$location),0.17124,
+        ifelse(z$location == "Kisumu West",-0.091702,
+		ifelse(grepl("Butula",z$location),0.33796, -0.0693307))))))))
     
   z$longitude <- ifelse(grepl("Bungoma",z$location),34.56055,
-                        ifelse(grepl("Butere",z$location),34.49006,
-                               ifelse(grepl("Kakamega",z$location),34.75229,
-                                      ifelse(grepl("Migori",z$location),34.409,
-                                             ifelse(grepl("Mumias",z$location),34.48796,
-                                                    ifelse(grepl("Kakamega South",z$location),34.59466,
-                                                           ifelse(grepl("Kisumu West",z$location),34.767956,
-                                                                  ifelse(grepl("Butula",z$location),34.3355,35.2146883))))))))
+		ifelse(grepl("Butere",z$location),34.49006,
+        ifelse(grepl("Kakamega",z$location),34.75229,
+		ifelse(grepl("Migori",z$location),34.409,
+        ifelse(grepl("Mumias",z$location),34.48796,
+		ifelse(grepl("Kakamega South",z$location),34.59466,
+		ifelse(grepl("Kisumu West",z$location),34.767956,
+		ifelse(grepl("Butula",z$location),34.3355,35.2146883))))))))
 
 	# filling in the crop column based on trial_id
 	z$crop <- ""
@@ -190,9 +190,10 @@ carob_script <- function(path){
 	z <- z[!is.na(z$yield),] # dropping entries without yield output
 	#rearranging the data 
 	
-	z <- z[,c("dataset_id","trial_id","country","location","latitude","longitude","elevation","rep","treatment","crop","variety",
-	          "start_date","end_date","observation_date","inoculated","grain_weight","biomass_roots","biomass_total","fertilizer_type","N_fertilizer","N_splits",
-	          "P_fertilizer","K_fertilizer","residue_yield","yield","on_farm")] 
+	z <- z[,c("dataset_id","trial_id","country","location","latitude","longitude","elevation","rep","treatment","crop","variety", "planting_date","harvest_date","observation_date","inoculated","grain_weight","biomass_roots","biomass_total","fertilizer_type","N_fertilizer","N_splits",
+	"P_fertilizer","K_fertilizer","residue_yield","yield","on_farm")] 
+	
+	z$yield_part <- "seed"
 	
   # all scripts must end like this
 	carobiner::write_files(dset, z, path=path)

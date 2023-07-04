@@ -20,7 +20,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 
 no_carob_script <- function(path) {
   
-  uri <- "https://doi.org/10.25502/rwze-cc90"
+  uri <- "doi:10.25502/rwze-cc90"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "variety_performance"
    
@@ -37,9 +37,7 @@ no_carob_script <- function(path) {
     International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/RWZE-CC90",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
-    experiment_type="variety_performance",
-    has_weather=TRUE,
-    has_management=TRUE
+    data_type="variety_performance"
   )
   
   ## download and read data
@@ -90,9 +88,9 @@ no_carob_script <- function(path) {
   f4 <- ff[basename(ff) == "d_cropping_calendar.csv"]
   d4 <- data.frame(read.csv(f4))
   d4$trial_id <- d4$farm_id
-  d4$start_date <- as.Date(paste(d4$date_planting_yyyy,d4$date_planting_mm,d4$date_planting_dd,sep = "-"))
-  d4$end_date <- as.Date(paste(d4$date_harvest_yyyy,d4$date_harvest_mm ,d4$date_harvest_dd,sep = "-"))
-  d4 <- d4[,c("trial_id","start_date","end_date")]
+  d4$planting_date <- as.Date(paste(d4$date_planting_yyyy,d4$date_planting_mm,d4$date_planting_dd,sep = "-"))
+  d4$harvest_date <- as.Date(paste(d4$date_harvest_yyyy,d4$date_harvest_mm ,d4$date_harvest_dd,sep = "-"))
+  d4 <- d4[,c("trial_id","planting_date","harvest_date")]
   
   f5 <- ff[basename(ff) == "e_harvest.csv"]
   d5 <- data.frame(read.csv(f5))
@@ -124,7 +122,7 @@ no_carob_script <- function(path) {
  
  
   z <- z[,c("dataset_id","trial_id","season","country","adm1","adm2","adm3","crop","variety",
-            "start_date","end_date","inoculated","fertilizer_type","N_fertilizer","P_fertilizer",
+            "planting_date","harvest_date","inoculated","fertilizer_type","N_fertilizer","P_fertilizer",
             "grain_weight","yield","row_spacing","plant_spacing","on_farm","is_survey","longitude","latitude")]
   
   # all scripts must end like this

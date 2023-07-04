@@ -26,10 +26,7 @@ carob_script <- function(path) {
 	   publication= "doi:10.1038_s43016-020-0114-x",
 	   data_institutions = "CIRAD",
 	   carob_contributor="Eduardo Garcia Bendito",
-	   experiment_type="meta-analysis",
-	   has_weather=TRUE,
-	   has_soil=TRUE,
-	   has_management=TRUE
+	   data_type="compilation"
 	)
 
 ## download and read data 
@@ -137,7 +134,7 @@ carob_script <- function(path) {
 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
 ## use 	as.character(as.Date()) for dates to assure the correct format.
 	year <- substr(gsub("[^0-9.-]", "", rr$Year), 1, 4)
-	d$start_date <- as.character(format(as.Date(strptime(ifelse(year == "", NA, year), "%Y")), "%Y"))
+	d$planting_date <- as.character(format(as.Date(strptime(ifelse(year == "", NA, year), "%Y")), "%Y"))
 	d$season <- ifelse(grepl("LR", rr$Year), "LR",
                   ifelse(grepl("SR", rr$Year), "SR",
                     ifelse(grepl("M", rr$Year), "M",
@@ -162,8 +159,14 @@ carob_script <- function(path) {
 ##### or not immediately obvious for other reasons
 
 ##### Yield #####
-   d$yield <- as.numeric(gsub(",", ".", rr$yield))
-   
+	d$yield <- as.numeric(gsub(",", ".", rr$yield))
+	#d$crop %in% c("sorghum", "maize", "wheat", "teff", "barley", "pearl millet", "rice")
+	d$yield_part <- "grain"
+	i <- d$crop %in% c("grass pea", "cowpea", "common bean", "pigeon pea")
+	d$yield_part[i] <- "seed"
+	d$yield_part[d$crop=="cotton"] <- "fruit"
+
+      
 ##### Soil #####
    d$soil_type <- tolower(trimws(rr$Soil_NRCS))
    d$soil_SOC <- as.numeric(gsub(",", ".", ifelse(rr$Initial_soil_C == "?", NA, rr$Initial_soil_C)))/10 # g/kg -> %

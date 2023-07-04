@@ -27,9 +27,9 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 		uri = uri,
 		publication = "doi:10.2134/agronj2012.0063",
 		carob_contributor = "Camila Bonilla",
-		experiment_type = "fertilizer;agroforestry",
-		has_weather = FALSE,
-		has_management = FALSE
+		data_type = "experiment",
+		data_institutions = "ICRAF",
+		project=NA
 	)
 
 ## download and read data 
@@ -81,8 +81,8 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	e$soil_SOC <- 10.2
 	e$soil_pH <- 5.3
 	e$soil_P_total <- 2.02 # mg/kg
-	e$soil_N <- 0.70 # g/kg
-	e$soil_K <- 1.47 # cmolc kg−1
+	e$soil_N <- 1000 * 0.70 # g/kg -> mg/kg
+	e$soil_K <- 390 * 1.47 # cmolc kg−1 -> mg/kg
 
 	e$K_fertilizer <- e$P_fertilizer <- e$N_fertilizer <- 0
 	i <- e$treatment == "Fertilizer"
@@ -100,13 +100,15 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 
 	d$yield <- round(as.numeric(d$yield) * 1000)
 	d$crop <- "maize"
+	d$yield_part <- "grain"
+	
 	d$variety_type <- "hybrid"
 
-	d$start_date <- paste0(d$year, "-11")
+	d$planting_date <- paste0(d$year, "-11")
 	year <- as.numeric(d$year) + 1
-	d$end_date <- paste0(year, "-04")
-	d$start_date[is.na(d$year)] <- NA
-	d$end_date[is.na(d$year)] <- NA
+	d$harvest_date <- paste0(year, "-04")
+	d$planting_date[is.na(d$year)] <- NA
+	d$harvest_date[is.na(d$year)] <- NA
 	d$year <- NULL
 	
 	gli <- grep("Gliricidia", d$treatment)

@@ -27,9 +27,8 @@ carob_script <- function(path) {
     data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kontela [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1219/HJ",
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
-    experiment_type="fertilizer",
-    has_weather=FALSE,
-    has_management=TRUE
+    data_type="fertilizer"
+     
   )
   
   ## download and read data 
@@ -56,15 +55,15 @@ carob_script <- function(path) {
   d1$latitude<- d1$Flat
   d1$site<- d1$Site
   d1$longitude<- d1$Flong
-  d1$start_date<-d1$PlntDa_mac
-  d1$end_date<-d1$HarvDa
+  d1$planting_date<-d1$PlntDa_mac
+  d1$harvest_date<-d1$HarvDa
   d1$longitude<- d1$Flong
   d1$location<- d1$Village
   d1$variety_type<- d1$TCVariety
   d1$season<- d1$Season
   
   d1<-d1[,c("site","longitude","latitude","location","variety_type",
-            "start_date","end_date","season")]
+            "planting_date","harvest_date","season")]
   
   # process plot data 
   d3$trial_id<- paste0(d3$dataset_id,"-",d3$ID)
@@ -94,7 +93,7 @@ carob_script <- function(path) {
  d$country <- "Mali"
  d$crop <- "sorghum"
  
- d <-d[,c("site","season","country","location","rep","trial_id","treatment","longitude","latitude","start_date","end_date","variety_type",
+ d <-d[,c("site","season","country","location","rep","trial_id","treatment","longitude","latitude","planting_date","harvest_date","variety_type",
          "crop","residue_yield","yield","N_fertilizer","K_fertilizer","P_fertilizer","Zn_fertilizer",
          "S_fertilizer","N_splits")]
  
@@ -103,8 +102,8 @@ carob_script <- function(path) {
 ## needs to be replaced 
   d$season <- as.character(d$season) 
   # date format
- d$end_date <- format(as.Date(d$end_date, format = "%m/%d/%Y"), "%Y-%m-%d")
- d$start_date <- format(as.Date(d$start_date, format = "%m/%d/%Y"), "%Y-%m-%d")
+ d$harvest_date <- format(as.Date(d$harvest_date, format = "%m/%d/%Y"), "%Y-%m-%d")
+ d$planting_date <- format(as.Date(d$planting_date, format = "%m/%d/%Y"), "%Y-%m-%d")
   # all scripts must end like this
 
   d$dataset_id <- dataset_id

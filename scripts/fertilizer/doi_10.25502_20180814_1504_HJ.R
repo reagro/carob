@@ -28,9 +28,10 @@ carob_script <- function(path) {
   # data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Sidindi SR [Data set]. International Institute of Tropical Agriculture 
   # (IITA). doi:10.25502/20180814/1504/HJ",
   # carob_contributor="Cedric Ngakou",
-  # experiment_type="fertilizer",
-  # has_weather=FALSE,
-  # has_management=TRUE
+  # data_type="experiment",
+
+  # has_weather=FALSE
+  #  
 # )
 
 ### download and read data 

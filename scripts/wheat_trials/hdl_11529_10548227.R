@@ -18,21 +18,19 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
-	   project=NA,
+	   project="CIMMYT High Rainfall Wheat Yield Trial",
 	   uri=uri,
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)
 	   publication = NA,
-	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '11th High Temperature Wheat Yield Trial', https://hdl.handle.net/11529/10548246, CIMMYT Research Data & Software Repository Network, V3, UNF:6:oJ2DuGSy9ABipG56/5AKRQ== [fileUNF]",
+	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '11th High Temperature Wheat Yield Trial', hdl:11529/10548246, CIMMYT Research Data & Software Repository Network, V3, UNF:6:oJ2DuGSy9ABipG56/5AKRQ== [fileUNF]",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Andrew Sila",
 	   
 	   ## something like randomized control...
-	   experiment_type="On-station experiment",
-	   has_weather=FALSE,
-	   has_soil=FALSE,
-	   has_management=FALSE
-	)
+	   data_type="on-station experiment"
+	    
+ 	)
 
 ## download and read data 
 
@@ -46,7 +44,8 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 
 	d$heading[d$heading > 300] <- NA
 
-	i <- which(d$location == "MOUNT VERNON, NWREC, WSU")
+	i <- which(d$location == "Mount Vernon, Nwrec, Wsu")
+	d$location[i] <- "Mount Vernon, NWREC, WSU"
 	d$longitude[i] <- -122.38626
 	d$latitude[i] <- 48.4397
 	

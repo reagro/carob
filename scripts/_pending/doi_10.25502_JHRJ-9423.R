@@ -10,7 +10,7 @@
 
 carob_script <- function(path){
 
-  uri <- "doi.org/10.25502/JHRJ-9423"
+  uri <- "doi:10.25502/JHRJ-9423"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "variety_performance"
   
@@ -29,9 +29,8 @@ carob_script <- function(path){
   Institute of Tropical Agriculture (IITA). 
   https://doi.org/10.25502/JHRJ-9423",
     carob_contributor = "Effie Ochieng",
-    experiment_type = "variety_performance",
-    has_weather = FALSE,
-    has_management = FALSE)
+    data_type = "variety_performance"
+    )
   
   #extract the data
   ff <- carobiner::get_data(uri,path,group)
@@ -76,10 +75,10 @@ carob_script <- function(path){
   x$previous_crop[x$previous_crop == ""] <- NA 
 
 # from d4  
-  x$start_date <- as.character(as.Date(paste(d$date_planting_yyyy, d$date_planting_mm, d$date_planting_dd, sep = "-")))
-  x$end_date <- as.character(as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-")))
+  x$planting_date <- as.character(as.Date(paste(d$date_planting_yyyy, d$date_planting_mm, d$date_planting_dd, sep = "-")))
+  x$harvest_date <- as.character(as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-")))
  
-#   d <- d[, c("trial_id","season","country","adm2", "adm3", "site", "longitude", "latitude", "elevation", "previous_crop", "start_date", "end_date")]
+#   d <- d[, c("trial_id","season","country","adm2", "adm3", "site", "longitude", "latitude", "elevation", "previous_crop", "planting_date", "harvest_date")]
   
 
 ## d3 has four more records than d2 and d5, but there is no point keeping 
