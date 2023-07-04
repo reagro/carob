@@ -34,6 +34,8 @@ The study was carried out by the International Institute of Tropical Agriculture
 
 	d <- mzfun(ff, sf="Nigeria.csv")
 	d$dataset_id <- dataset_id	
+	d$yield[d$yield > 20000] <- NA
+	
 	carobiner::write_files(dset, d, path=path)
 
 }

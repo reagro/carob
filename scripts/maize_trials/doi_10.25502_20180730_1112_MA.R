@@ -7,7 +7,6 @@ This is an international study that contains data on yield and other agronomic t
 
 The study was carried out by the International Institute of Tropical Agriculture in 2016 in eight African countries and one asian country.
 "
-				
 	uri <- "doi:10.25502/20180730/1112/MA"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "maize_trials"	

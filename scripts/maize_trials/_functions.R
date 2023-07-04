@@ -68,6 +68,9 @@ intmztrial_striga <- function(ff, striga=FALSE, sf=NULL) {
 	d$planting_date[d$year==27] <- 2007
 	d$planting_date[d$year==28] <- 2008
 	d$planting_date[d$year==29] <- 2009
+	d$planting_date[d$year==211] <- 2011
+	d$planting_date[d$year==212] <- 2012
+	d$planting_date[d$year==213] <- 2013
 	d$planting_date[d$year==214] <- 2014
 	d$planting_date[d$year==215] <- 2015
 
@@ -121,8 +124,14 @@ intmztrial_striga <- function(ff, striga=FALSE, sf=NULL) {
 	} else {
 		d$grain_weight <- as.numeric(d$grain_weight)	
 	}
-	d$yield[d$yield == "."] <- NA
-	d$yield <- as.numeric(d$yield)
+	
+	qv <- c("yield", "pl_ht", "e_ht", "asi", "gwt", "dy_sk", "p_asp", "p_harv", "e_asp", "husk", "rl", "sl", "e_rot", "rust", "anthesis", "moist", "pl_st")
+	for (v in qv) {
+		if (!is.null(d[[v]])) {
+			d[[v]][d[[v]] == "."] <- NA
+			d[[v]] <- as.numeric(d[[v]])			
+		}
+	}
 	d$yield[d$yield < 0] <- NA
 	
 	d$yield_part <- "grain"
