@@ -32,7 +32,7 @@ The study was carried out by the International Institute of Tropical Agriculture
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, "Nigeria_International_Maize_Trials_Regular2016.csv", FALSE)
+	d <- mzfun(ff, FALSE)
 	d$dataset_id <- dataset_id
 	d$description <- as.character(d$description)
 	d$yield <- d$yield * 1000

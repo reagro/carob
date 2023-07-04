@@ -35,7 +35,7 @@ carob_script <- function(path) {
 
 	# d <- mzfun(ff, "international_maize_trial_sierra leone_borer.csv", TRUE)
 	cat("  borer file to be done\n")
-	e <- mzfun(ff, "international_maize_trial_sierra leone_regular.csv")
+	e <- mzfun(ff, FALSE)
 
 
 	#x <- carobiner::bindr(d, e)

@@ -1,11 +1,14 @@
 
+# borer to be done
+
 carob_script <- function(path) {
 "Description:
 This is an international study that contains data on yield and other agronomic traits of maize including striga attacks on maize in Africa.
 
 The study was carried out by the International Institute of Tropical Agriculture in 2016 in eight African countries and one asian country.
 "
-	uri <- "doi:10.25502/20180716/1145/MA"
+				
+	uri <- "doi:10.25502/20180730/0930/MA"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "maize_trials"	
 		
@@ -14,7 +17,7 @@ The study was carried out by the International Institute of Tropical Agriculture
 		dataset_id = dataset_id,
 		group=group,
 		uri = uri,
-		data_citation="Menkir, A. & Olufisola Oladipo. (2018). Grain Yield and Other Agronomic Traits of International Maize Trials - Borer [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180716/1145/MA",
+		data_citation="Menkir, A. (2018). Grain Yield and Other Agronomic Traits of International Maize Trials – Guinea, 1993 - 2014 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180730/0930/MA",
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Robert Hijmans",
 		data_type = "experiment",
@@ -31,8 +34,7 @@ The study was carried out by the International Institute of Tropical Agriculture
 
 	d <- mzfun(ff, FALSE)
 	d$dataset_id <- dataset_id
-	d$description <- as.character(d$description)
-	d$country <- "Myanmar"
-	
+
 	carobiner::write_files(dset, d, path=path)
+
 }

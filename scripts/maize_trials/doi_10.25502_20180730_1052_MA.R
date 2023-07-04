@@ -32,7 +32,7 @@ The study was carried out by the International Institute of Tropical Agriculture
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, "International_Maize_Trial_Mozambique_Regular.csv", FALSE)
+	d <- mzfun(ff, FALSE)
 	d$dataset_id <- dataset_id
 	
 	carobiner::write_files(dset, d, path=path)

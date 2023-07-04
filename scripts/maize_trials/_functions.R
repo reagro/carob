@@ -12,9 +12,14 @@ intmztrial_borer <- function(ff, f, striga=FALSE) {
 }
 
 
-intmztrial_striga <- function(ff, f, striga=FALSE) {
+intmztrial_striga <- function(ff, striga=FALSE) {
+	
+	if (striga) {
+		sf <- grep("striga", ff, ignore.case=TRUE, value=TRUE)		
+	} else {
+		sf <- grep("regular", ff, ignore.case=TRUE, value=TRUE)
+	}
 
-	sf <- ff[tolower(basename(ff))==tolower(f)]
 	d  <- read.csv(sf)
 	names(d) <- tolower(names(d))
 	names(d)[1] <- "id"
