@@ -12,14 +12,18 @@ intmztrial_borer <- function(ff, f, striga=FALSE) {
 }
 
 
-intmztrial_striga <- function(ff, striga=FALSE) {
+intmztrial_striga <- function(ff, striga=FALSE, sf=NULL) {
 
-	if (striga) {
-		sf <- grep("striga", ff, ignore.case=TRUE, value=TRUE)		
+	if (is.null(sf)) {
+		if (striga) {
+			sf <- grep("striga", ff, ignore.case=TRUE, value=TRUE)		
+		} else {
+			sf <- grep("regular", ff, ignore.case=TRUE, value=TRUE)
+		}
 	} else {
-		sf <- grep("regular", ff, ignore.case=TRUE, value=TRUE)
+		sf <- grep(sf, ff, ignore.case=TRUE, value=TRUE)
 	}
-
+	
 	d  <- read.csv(sf)
 	names(d) <- tolower(names(d))
 	names(d)[1] <- "id"
