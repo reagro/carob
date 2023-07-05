@@ -33,9 +33,7 @@ This dataset contains output of the research for Republic of Benin.
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, FALSE)
-	e <- mzfun(ff, TRUE)
-	d <- carobiner::bindr(d, e)
+	d <- mzfun(ff)
 	d$dataset_id <- dataset_id
 	d$country <- "Benin"
 	

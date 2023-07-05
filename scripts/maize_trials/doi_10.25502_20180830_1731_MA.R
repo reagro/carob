@@ -1,6 +1,4 @@
 
-# striga file to be done
-
 carob_script <- function(path) {
 "Description:
 This is an international study that contains data on yield and other agronomic traits of maize including striga attacks on maize in Africa.
@@ -32,10 +30,8 @@ The study was carried out by the International Institute of Tropical Agriculture
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, FALSE)
+	d <- mzfun(ff)
 	d$dataset_id <- dataset_id
-	d$description <- as.character(d$description)
-	d$yield <- d$yield * 1000
 	
 	carobiner::write_files(dset, d, path=path)
 }

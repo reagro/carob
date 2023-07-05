@@ -31,19 +31,14 @@ carob_script <- function(path) {
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, TRUE)
+	d <- mzfun(ff)
 	d$dataset_id <- dataset_id
 	d$planting_date[d$planting_date == 215] <- 2015
 	
-	e <- mzfun(ff, FALSE)
-	e$dataset_id <- dataset_id
+#	suppressWarnings(x$sl <- as.numeric(x$sl))
+#	suppressWarnings(x$rl <- as.numeric(x$rl))
 
-	x <- carobiner::bindr(d, e)
-
-	suppressWarnings(x$sl <- as.numeric(x$sl))
-	suppressWarnings(x$rl <- as.numeric(x$rl))
-
-	x$description <- as.character(x$description)
+#	x$description <- as.character(x$description)
 # all scripts must end like this
-	carobiner::write_files(dset, x, path=path)
+	carobiner::write_files(dset, d, path=path)
 }

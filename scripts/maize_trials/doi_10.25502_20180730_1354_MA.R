@@ -33,25 +33,20 @@ This dataset contains output of the research for Sierra Leone.
 	
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	# d <- mzfun(ff, "international_maize_trial_sierra leone_borer.csv", TRUE)
-	cat("  borer file to be done\n")
-	e <- mzfun(ff, FALSE)
+	d <- mzfun(ff)
 
-	#x <- carobiner::bindr(d, e)
-	x <- e
-	x$description[x$description == ""] <- NA
-	x$yield <- suppressWarnings(as.numeric(x$yield))
+	d$description[d$description == ""] <- NA
+#	d$yield <- suppressWarnings(as.numeric(d$yield))
 	
-	x$striga_infected <- NA
-	x$dataset_id <- dataset_id
-	x$grain_weight <- as.numeric(x$grain_weight)
+	d$dataset_id <- dataset_id
+#	d$grain_weight <- as.numeric(d$grain_weight)
 
-	x$latitude[x$location == "Freetown"] <- 8.4542
-	x$latitude[x$location == "Masita"] <- 8.29
-	x$longitude[x$location == "Masita"] <- -13
+	d$latitude[d$location == "Freetown"] <- 8.4542
+	d$latitude[d$location == "Masita"] <- 8.29
+	d$longitude[d$location == "Masita"] <- -13
 
 # all scripts must end like this
-	carobiner::write_files(dset, x, path=path)
+	carobiner::write_files(dset, d, path=path)
 }
 
 

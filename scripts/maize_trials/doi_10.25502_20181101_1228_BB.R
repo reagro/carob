@@ -12,7 +12,6 @@ The objectives of this study were to examine yield gains
 in the cultivars and to investigate inter-trait relationships
 and yield stability under six drought and 17 rainfed conditions
 in West Africa from 2013 to 2016.
-
 "
 	uri <- "doi:10.25502/20181101/1228/BB"
 	dataset_id <- carobiner::simple_uri(uri)
@@ -27,7 +26,7 @@ in West Africa from 2013 to 2016.
 		of Tropical Agriculture (IITA).	https://doi.org/10.25502/20181101/1228/BB",
 		publication= NA,
 		carob_contributor="Cedric Ngakou",
-		data_type=NA,
+		data_type="experiment",
 		data_institutions="IITA"
  	)
 	
@@ -76,6 +75,7 @@ in West Africa from 2013 to 2016.
 	latitude = c(6.9010051, 6.6851678, 9.400463, 6.7143898, 11.3228338, 11.0248119, 9.2957202, 8.816667, 11.5696, 7.482824, 10.6788, 11.6673837,8.95185))
 	d <- merge(d, loc, by="location", all.x=TRUE)
 		 
+	d$borer_trial <- FALSE
 	d$striga_trial <- FALSE
 	d$striga_infected <- FALSE
 	d$crop <- "maize"

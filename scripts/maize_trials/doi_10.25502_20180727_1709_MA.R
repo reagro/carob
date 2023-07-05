@@ -33,9 +33,7 @@ This dataset contains output of the research for Mali."
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, FALSE)
-	e <- mzfun(ff, TRUE)
-	d <- carobiner::bindr(d, e)
+	d <- mzfun(ff)
 	
 	i <- d$location == "Gandajika"
 	d$longitude[i] <- 23.95
