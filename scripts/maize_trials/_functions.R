@@ -86,9 +86,8 @@ intmztrial_striga <- function(ff, sf=NULL) {
 		}
 
 		d <- carobiner::change_names(d, 
-		 c("str_ra1", "str_ra2",    "yld", "r_l", "s_l", "plst", "eld", "borer_dm_rat", "deadheart"), 
-		 c("str_rat1", "str_rat2", "yield", "rl", "sl", "pl_st", "eldana", "borer_dam_rat", "dead_heart")
-		 , must_have=FALSE)
+		 c("str_ra1", "str_ra2", "yld", "r_l", "s_l", "plst", "eld", "borer_dm_rat", "deadheart", "yieldin1", "yieldun2"), 
+		 c("str_rat1", "str_rat2", "yield", "rl", "sl", "pl_st", "eldana", "borer_dam_rat", "dead_heart", "yieldin", "yield2"), must_have=FALSE)
 
 		if (!is.null(d$e_dam_rat)) {
 			if (all(is.na(d$e_dam_rat))) {
@@ -105,11 +104,22 @@ intmztrial_striga <- function(ff, sf=NULL) {
 			dd <- d[!is.na(d$yield2), ]
 			if (nrow(dd) > 0) {
 				dd$season <- "second"
+				if (!is.null(dd$yieldin2)) {
+					dd$yieldin <- dd$yieldin2
+					d$yieldin2 <- NA
+				}
 				d <- rbind(d, dd)
+				d$yieldin2 <- NULL
 			}
 			d$yield2 <- NULL
 		}
 
+		if (!is.null(d$yieldin2)) {
+			if (!all(is.na(d$yieldin2))) {
+				message("     this should not happen")
+			}
+			d$yieldin2 <- NULL
+		}
 
 		if (is.null(d$grain_weight)) {
 			d$grain_weight <- as.numeric(NA)
