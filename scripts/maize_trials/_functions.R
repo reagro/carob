@@ -1,16 +1,4 @@
 
-intmztrial_borer <- function(ff, f, striga=FALSE) {
-
-	combine_syn <- function(dd, keep, drop) {
-		if (!is.null(d[[keep]]) & !is.null(d[[drop]])) {
-			d[[keep]] <- rowMeans(d[, c(keep, drop)], na.rm=TRUE)
-			d[[drop]] <- NULL
-		}
-		d
-	}
-	
-}
-
 
 intmztrial_striga <- function(ff, sf=NULL) {
 
@@ -71,7 +59,7 @@ intmztrial_striga <- function(ff, sf=NULL) {
 		d$location <- carobiner::fix_name(d$location, "title")
 
 		d$crop <- "maize"
-
+		d$season <- "first"
 		d$on_farm <- FALSE
 		d$year <- NULL
 		d$aezone <- NULL
@@ -98,18 +86,31 @@ intmztrial_striga <- function(ff, sf=NULL) {
 		}
 
 		d <- carobiner::change_names(d, 
-		 c("str_ra1", "str_ra2",    "yld", "r_l", "s_l", "plst", "eld", "borer_dm_rat"), 
-		 c("str_rat1", "str_rat2", "yield", "rl", "sl", "pl_st", "eldana", "borer_dam_rat")
+		 c("str_ra1", "str_ra2",    "yld", "r_l", "s_l", "plst", "eld", "borer_dm_rat", "deadheart"), 
+		 c("str_rat1", "str_rat2", "yield", "rl", "sl", "pl_st", "eldana", "borer_dam_rat", "dead_heart")
 		 , must_have=FALSE)
+
+		if (!is.null(d$e_dam_rat)) {
+			if (all(is.na(d$e_dam_rat))) {
+				d$ear_dam_rat <- d$e_dam_rat
+			}
+			d$e_dam_rat <- NULL
+		}
 
 		if (!is.null(d$variety_code)) {
 			d$variety_code <- as.character(d$variety_code)
 		}
-		if (is.null(d$yield2)) {
-			d$yield2 <- as.numeric(NA)
-		} else {
+		if (!is.null(d$yield2)) {
 			d$yield2 <- as.numeric(d$yield2)	
+			dd <- d[!is.na(d$yield2), ]
+			if (nrow(dd) > 0) {
+				dd$season <- "second"
+				d <- rbind(d, dd)
+			}
+			d$yield2 <- NULL
 		}
+
+
 		if (is.null(d$grain_weight)) {
 			d$grain_weight <- as.numeric(NA)
 		} else {
