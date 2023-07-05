@@ -36,5 +36,10 @@ The study was carried out by the International Institute of Tropical Agriculture
 	d$description <- as.character(d$description)
 	d$yield <- d$yield * 1000
 	
+	# Dalabani is in Guinea
+	i <- d$location == "Dalabani"
+	d$country[i] <- "Guinea"
+
+	
 	carobiner::write_files(dset, d, path=path)
 }

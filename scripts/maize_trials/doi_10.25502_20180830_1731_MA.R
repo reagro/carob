@@ -33,5 +33,21 @@ The study was carried out by the International Institute of Tropical Agriculture
 	d <- mzfun(ff)
 	d$dataset_id <- dataset_id
 	
+	#lonlat reversed
+	i <- d$location == "Eruwa"
+	d$longitude[i] <- 3.42
+	d$latitude[i] <- 7.53
+	# presumably also reversed
+	i <- d$location == "Agwan-Millan"
+	d$longitude[i] <- 4.48
+	d$latitude[i] <-  12.54
+	
+	i <- d$location == "Angaradebou"
+	d$country[i] <- "Benin"
+	
+	i <- d$location == "Ikorodu"
+	d$longitude[i] <- 3.5
+	d$latitude[i] <-  6.59
+	
 	carobiner::write_files(dset, d, path=path)
 }

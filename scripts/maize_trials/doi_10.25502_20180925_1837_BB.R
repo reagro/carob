@@ -31,9 +31,12 @@ The study was carried out by the International Institute of Tropical Agriculture
 	dset$license <- carobiner::get_license(js)
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
-
 	d <- mzfun(ff, sf="Mali.csv")
 	d$dataset_id <- dataset_id	
+	
+	i <- d$location == "Sapu"
+	d$country[i] <- "Gambia"
+	
 	carobiner::write_files(dset, d, path=path)
 
 }

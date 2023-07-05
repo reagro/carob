@@ -37,7 +37,7 @@ This dataset contains output of the research for Mali."
 	
 	# Dalabani is in Guinea
 	i <- d$location == "Dalabani"
-	d$country <- "Guinea"
+	d$country[i] <- "Guinea"
 
 	d$dataset_id <- dataset_id
 	carobiner::write_files(dset, d, path=path)

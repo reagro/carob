@@ -35,7 +35,20 @@ The study was carried out by the International Institute of Tropical Agriculture
 	d <- mzfun(ff, sf="Nigeria.csv")
 	d$dataset_id <- dataset_id	
 	d$yield[d$yield > 20000] <- NA
+
+	#lonlat reversed
+	i <- d$location == "Eruwa"
+	d$longitude[i] <- 3.42
+	d$latitude[i] <- 7.53
 	
+	i <- d$location == "Zaria"
+	d$longitude[i] <- 7.717
+	d$latitude[i] <- 11.131
+
+	i <- d$location == "Angaradebou"
+	d$country[i] <- "Benin"
+	
+
 	carobiner::write_files(dset, d, path=path)
 
 }

@@ -67,6 +67,9 @@ The study was carried out by the International Institute of Tropical Agriculture
 	i <- d$location == "Touboro"
 	d$country[i] <- "Cameroon"
 	
+	i <- d$location == "Rubona"
+	d$country[i] <- "Uganda"
+	
 	carobiner::write_files(dset, d, path=path)
 
 }

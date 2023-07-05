@@ -35,6 +35,14 @@ The study was carried out by the International Institute of Tropical Agriculture
 
 	d <- mzfun(ff, sf="Ghana.csv")
 	d$dataset_id <- dataset_id	
+	
+	i <- d$location == "Babile"
+	d$longitude[i] <- -2.83
+	i <- d$location == "Wa"
+	d$longitude[i] <- -2.5
+	i <- d$location == "Manga"
+	d$longitude[i] <- -0.16
+	
 	carobiner::write_files(dset, d, path=path)
 
 }

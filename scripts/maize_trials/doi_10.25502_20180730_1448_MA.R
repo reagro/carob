@@ -34,5 +34,11 @@ The study was carried out by the International Institute of Tropical Agriculture
 	d <- mzfun(ff)
 	d$dataset_id <- dataset_id
 	
+	# lon/lat reversed
+	i <- d$location == "Wad-Medan"
+	d$longitude[i] <- 33.48
+	d$latitude[i] <- 14.4
+
+	
 	carobiner::write_files(dset, d, path=path)
 }

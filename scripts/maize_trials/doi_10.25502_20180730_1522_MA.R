@@ -36,6 +36,11 @@ This dataset contains output of the research for Togo."
 	d <- mzfun(ff)
 	d$dataset_id <- dataset_id
 
+	#lon/lat reversal
+	i <- d$location == "Sotouboua"
+	d$longitude[i] <- 0.98
+	d$latitude[i] <- 8.57
+
 	carobiner::write_files(dset, d, path=path)
 
 }

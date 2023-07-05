@@ -35,6 +35,14 @@ This dataset contains output of the research for Thailand."
 
 	d <- mzfun(ff)
 	d$dataset_id <- dataset_id
+	
+	i <- d$location == "Koktoom"
+	d$longitude[i] <- 100.822
+	d$latitude[i] <- 14.857
+	
+	i <- d$location == "Ciba-Geigy"
+	d$longitude[i] <- NA
+	d$latitude[i] <- NA
 
 	carobiner::write_files(dset, d, path=path)
 
