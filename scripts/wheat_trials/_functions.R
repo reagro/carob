@@ -1,14 +1,12 @@
 
 # to do: extract more variables of interest. 
-# unique(raw$Trait.name)
-# GRAIN_YIELD, 1000_GRAIN_WEIGHT, DAYS_TO_HEADING, PLANT_HEIGHT, AGRONOMIC_SCORE, SELECTED_CHECK_MARK, DAYS_TO_MATURITY, H_TRITICI_REPENTIS, LODGING_PERCENT_HARVESTED_AREA, STRIPE_RUST_ON_LEAF, POWDERY_MILDEW, TEST_WEIGHT, LEAF_RUST, YRWarriorRace, SPIKE_LENGTH, GERMINATION_%, CHLOROPHYLL, GRAIN_PROTEIN, Normalized Difference Vegetation Index, GRAIN APPEARANCE SCORE, PHENOL REACTION SCORE, Canopy Temperature, ABOVE_GROUND_BIOMASS, STEM_RUST, FeConcentration, ZnConcentration, TILLERS BY METER, HELMINTHOSPORIUM_SATIVUM_LEAF, GRAINS/SPIKE, TILLERS BY M2, Blast intensity, Blast severity, SPIKES_M2, GLUTEN_CONTENT, GRAIN_MOISTURE, SEDIMENTATION_INDEX
- 
-# also env data such repas irrigation 
+# not included from raw$Trait.name
+# PLANT_HEIGHT, AGRONOMIC_SCORE, SELECTED_CHECK_MARK, DAYS_TO_MATURITY, H_TRITICI_REPENTIS, LODGING_PERCENT_HARVESTED_AREA, TEST_WEIGHT, YRWarriorRace, SPIKE_LENGTH, GERMINATION_%, CHLOROPHYLL, GRAIN_PROTEIN, Normalized Difference Vegetation Index, GRAIN APPEARANCE SCORE, PHENOL REACTION SCORE, Canopy Temperature, ABOVE_GROUND_BIOMASS, TILLERS BY METER, GRAINS/SPIKE, TILLERS BY M2, SPIKES_M2, GLUTEN_CONTENT, GRAIN_MOISTURE, SEDIMENTATION_INDEX
 
+# also can use more variables from env data such as irrigation 
 
 
 proc_wheat <- function(ff) {
-
 
 # not used
 #	fgeno <- ff[basename(ff) == "29 HRWYT_Genotypes_Data.xls"]
@@ -72,6 +70,7 @@ proc_wheat <- function(ff) {
 
 	r$trial_id <- r$Trial.name
 	r$country <- carobiner::fix_name(r$Country, "title")
+	r$Country <- NULL
 	r$location <- gsub(" - ", ", ", r$Loc_desc)
 
 # Process in carob format
@@ -89,23 +88,24 @@ proc_wheat <- function(ff) {
 
 	
 # other variables
+	r$IRRIGATED <- r$IRRIGATED != "NO"
+	r$Rep <- as.integer(r$Rep)
+
 	r$on_farm <- FALSE
 	r$is_survey <- FALSE
-	r$irrigated <- r$IRRIGATED != "NO"
 	r$row_spacing <- as.numeric(r$SPACE_BTN_ROWS_SOWN)
-	r$rep <- as.integer(r$Rep)
 	r$crop <- "wheat"
 	r$variety_code <- r$Gen_name
 
 	m <- matrix(byrow=TRUE, ncol=2, c(
-	  "AJOS", "garlic",
-	  "AJO", "garlic",
-	  "ALFA ALFA", "LUCERNE",
-	  "ALFALFA", "LUCERNE",
-	  "ALGODON", "cotton",		
-	  "ALGODONERO", "cotton",			  
-	  "ALGODAON", "cotton",
-	  "ALUBIAS", "common bean",
+		"AJOS", "garlic",
+		"AJO", "garlic",
+		"ALFA ALFA", "LUCERNE",
+		"ALFALFA", "LUCERNE",
+		"ALGODON", "cotton",		
+		"ALGODONERO", "cotton",			  
+		"ALGODAON", "cotton",
+		"ALUBIAS", "common bean",
 		"AMAN RICE", "rice",
 		"AMAN RCIE", "rice",
 		"AMARANTO", "amaranth",
@@ -395,7 +395,6 @@ proc_wheat <- function(ff) {
 		"CROP", NA)
 	)
 
-
 	prcrop <- r$USE_OF_FIELD_SPECIFY_CROP
 	if (is.null(prcrop)) {
 		r$previous_crop <- NA	
@@ -437,24 +436,14 @@ proc_wheat <- function(ff) {
 	r$soil_type <- r$SOIL_CLASIFICATION
 	r$soil_SOC <- if (is.null(r$SOIL_PERCENT_ORGANIC_MATTER)) {NULL} else {as.numeric(r$SOIL_PERCENT_ORGANIC_MATTER) * 0.58}
 	
-	r$soil_pH <- if(is.null(r$SOIL_PH_ACTUAL_VALUE)) {NULL} else {as.numeric(r$SOIL_PH_ACTUAL_VALUE)}
+	r$SOIL_PH <- if(is.null(r$SOIL_PH_ACTUAL_VALUE)) {NULL} else {as.numeric(r$SOIL_PH_ACTUAL_VALUE)}
 	
 	r$height <- r$PLANT_HEIGHT 
-	r$powdery_mildew <- r$POWDERY_MILDEW
-	r$stem_rust <- r$STEM_RUST
-	r$leaf_rust <- r$LEAF_RUST
 	r$sterility <- r$STERILITY_INDEX
-	r$fusarium_scab_spike <- r$FUSARIUM_SCAB_SPIKE
-	r$helminthosporium_sativum_leaf <- r$HELMINTHOSPORIUM_SATIVUM_LEAF
-	r$septoria_tritici_blotch <- r$SEPTORIA_TRITICI_BLOTCH
-	r$septoria_species <- r$SEPTORIA_SPECIES
 		
 	r$bird_damage <- r$BIRD_DAMAGE_PER_PLOT
 	r$blast_intensity <- r$`Blast intensity`
 	r$blast_severity  <- r$`Blast severity`
-		
-	# Subset for relevant columns
-	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "rep", "crop", "variety_code", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_type", "soil_om", "soil_ph",  "irrigated", "row_spacing", "yield_part", "yield", "grain_weight", "heading", "height","powdery_mildew", "stem_rust", "leaf_rust", "sterility_index", "fusarium_scab_spike", "helminthosporium_sativum_leaf", "septoria_tritici_blotch", "septoria_species", "blast_severity", "blast_intensity")
 					
 	r$country <- ifelse(r$country== "Dem Rep of Congo", "Democratic Republic of the Congo", r$country)
 	r$country <- ifelse(r$country== "U A Emirates", "United Arab Emirates", r$country)
@@ -502,10 +491,24 @@ proc_wheat <- function(ff) {
 
 	r$planting_date <- as.character(r$planting_date)	
 	r$harvest_date <- as.character(r$harvest_date)
+	
+		
+	# set all colnames to lowercase and subset	
+	colnames(r) <- tolower(colnames(r))
+
+	# Subset for relevant columns
+	cvars <- c("country", "location", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "rep", "crop", "variety_code", "previous_crop", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_type", "soil_om", "soil_ph",  "irrigated", "row_spacing", "yield_part", "yield", "grain_weight", "heading", "height","powdery_mildew", "stem_rust", "leaf_rust", "sterility_index", "fusarium_scab_spike", "helminthosporium_sativum_leaf", "septoria_tritici_blotch", "septoria_species", "blast_severity", "blast_intensity", "stripe_rust_on_leaf", "h_tritici_repentis", "feconcentration", "znconcentration")
 
 	# they may not be all available
-	cv <- cvars[cvars %in% names(r)]	
-	r[, cv]
+	r <- r[, cvars[cvars %in% names(r)]]
+
+	#fix colnames with uppercase
+	r <- carobiner::change_names(r, 
+		c("soil_ph", "h_tritici_repentis", "feconcentration", "znconcentration","n_fertilizer", "n_splits", "p_fertilizer", "k_fertilizer", "soil_om"),
+		c("soil_pH", "H_tritici_repentis", "Fe_concentration", "Zn_concentration",  "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_OM"), must_have=FALSE)
+
+	r
+
 }
 
 

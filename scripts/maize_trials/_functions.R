@@ -116,9 +116,15 @@ intmztrial_striga <- function(ff, sf=NULL) {
 
 		if (!is.null(d$yieldin2)) {
 			if (!all(is.na(d$yieldin2))) {
-				message("     this should not happen")
+				message("     yieldin2. this should not happen")
 			}
 			d$yieldin2 <- NULL
+		}
+		if (!is.null(d$sesamia)) {
+			if (!all(is.na(d$sesamia))) {
+				message("     sesamia. this should not happen")
+			}
+			d$sesamia <- NULL
 		}
 
 		if (is.null(d$grain_weight)) {
