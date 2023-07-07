@@ -1,7 +1,7 @@
 # R script for "carob"
 
 ## ISSUES
-# ....
+# waring for Pieter Pypers to provide NPK quantities 
 
 
 carob_script <- function(path) {
@@ -48,16 +48,29 @@ ACAI is a 5 year Bill & Melinda Gates Foundation funded project in 5 countries i
 		planting_date = as.character(as.Date(r$plantingDate, "%d/%m/%Y")),
 		harvest_date = as.character(as.Date(r$Hdate, "%d/%m/%Y")),	
 		treatment = r$treat,
+		fertilizer_type="unknown",
 		yield_part="roots",
 		yield = r$rootYield_t_ha * 1000
 	)
 
-	d$fertilizer_type <- "unknown"
-	d$N_fertilizer <- as.numeric(NA)
-	d$P_fertilizer <- as.numeric(NA)
-	d$K_fertilizer <- as.numeric(NA)
-	d$inoculated <- FALSE
 
+	x <- data.frame(
+		treatment=c("CON", "half_NPK", "NK", "NP", "NPK", "NPK_micro", "PK"),
+		N_fertilizer= as.numeric(NA),
+		P_fertilizer=as.numeric(NA),
+		K_fertilizer=as.numeric(NA)
+	)
+	x[x$treatment=="NK", "P_fertilizer"] <- 0
+	x[x$treatment=="NP", "K_fertilizer"] <- 0
+	x[x$treatment=="PK", "N_fertilizer"] <- 0
+	x[grep("N", x$treatment), "N_fertilizer"] <- NA
+	x[grep("P", x$treatment), "P_fertilizer"] <- NA
+	x[grep("K", x$treatment), "K_fertilizer"] <- NA
+	x[grep("half", x$treatment), 2:4] <- 0.5 * x[grep("half", x$treatment), 2:4]
+	#x[grep("micro", x$treatment), "???"] <- NA
+	x[x$treatment=="CON", 2:4] <- 0
+
+	d <- merge(d, x, all.x=TRUE, by="treatment")
 	carobiner::write_files(dset, d, path=path)
 }
 
