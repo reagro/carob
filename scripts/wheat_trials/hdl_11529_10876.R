@@ -46,6 +46,7 @@ The Semi-Arid Wheat Yield Trial (SAWYT) is a replicated yield trial that contain
 	dd <- do.call(carobiner::bindr, d)
 	dd$dataset_id <- dataset_id
 
+	dd$soil_pH[dd$soil_pH > 20] <- NA
 # all scripts must end like this
 	carobiner::write_files(dset, dd, path=path)
 }
