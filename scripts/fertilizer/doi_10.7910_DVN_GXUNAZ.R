@@ -82,14 +82,13 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 	d$country <- carobiner::fix_name(d$COUNTRY,"title")
 	
 	# country sites based on publication and coordinates
-	NGA <- c("Bakori","Bunkure","Dandume","Doguwa","Faskari","Funtua","Giwa","Ikara","Kauru","Lere","Makarfi","Soba","T/wada","Tofa","Tudun Wada","Bauchi","Calabar","Ibadan","Ikenne","Ikole","Ikoyi","Ilora","Iwo","Kishi","Mokwa","Ogbomosho","Oyo",
-	"Yola","Sepeteri","Samaru") # nigeria 
+	NGA <- c("Bakori","Bunkure","Dandume","Doguwa","Faskari","Funtua","Giwa","Ikara","Kauru","Lere","Makarfi","Soba","T/wada","Tofa","Tudun Wada","Bauchi","Calabar","Ibadan","Ikenne","Ikole","Ikoyi","Ilora","Iwo","Kishi","Mokwa","Ogbomosho","Oyo","Pamp" ,	"Yola","Sepeteri","Samaru") # nigeria 
 	ZMB <- c("Lusaka") # Zambia
 	CMR <- c("Minna") # Cameroon
 	MOZ <- c("Nampula","Sussundenga") #"Mozambique"
 	BEN <- c("Niaouli","Cana","Warda") # "Benin"
 	KEN <- c("Kand", "Sidi","Nai Farm","Strong","Cox","Davidson","Hulme","Kiminini","Leys","Russell","Sabwani") # "Kenya"
-	MWI <- c("Kasu","Nkha" ,"Pamp" ,"Thuc","Balaka","Bembeke","Chitedze","Kanyama","Lilongwe","Mlomba","Mzuzu","Manjawira","Tsangano","Salima") #"Malawi"
+	MWI <- c("Kasu","Nkha", "Thuc","Balaka","Bembeke","Chitedze","Kanyama","Lilongwe","Mlomba","Mzuzu","Manjawira","Tsangano","Salima") #"Malawi"
 	MLI <- c("Kolo","Kont","Sourou Valley") #"Mali"
 	TZA <- c("Kibe","Mbin","Mpangala") # "Tanzania"
 	TGO <- c("Affem","Sessaro") # "Togo"
@@ -146,8 +145,8 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 	d$longitude[i] <- 5.0548
 	d$latitude[i] <- 9.2979
 	
-	i <- which(d$country=="Malawi" & d$latitude > 0)
-	d$latitude[i] <- -d$latitude[i]
+#	i <- which(d$country=="Malawi" & d$latitude > 0)
+#	d$latitude[i] <- -d$latitude[i]
 
 	d <- unique(d) # dropping duplicate entries
 	
