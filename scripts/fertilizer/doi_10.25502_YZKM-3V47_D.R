@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# don't know which year this was
-
 # Fertilizer applied at 75 kg N, 20 kg P, and 90 kg K per hectare;
 # 12.20 g per plant of NPK 15-15-15 was applied at 4 and 8 WAP; 
 # 5.08 g of Urea was applied at 10 WAP ; 
@@ -10,6 +7,9 @@
 # MOP=Muriate of potash 
 # WAP=Weeks after planting
 
+
+#Article
+# Ologunde O.H, Busari M.A, Adebayo O.E, Olowokere F.A, Kreye C, et al. (2023) Effects of planting date and crop age at harvest on cassava root and starch yield in the derived savanna of southwestern Nigeria. Advances in Agriculture, Horticulture and Entomology: AAHE-182
 
 
 carob_script <- function(path) {
@@ -28,7 +28,8 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 	   project=NA,
 	   uri=uri,
 	   data_citation="Hauser, S., Kreye, C., Salako, F. K., Ologunde, O., Adebayo, O. E., Busari, M. A., & Olowokere, O. E. (2023). Cassava storage root yield as affected by planting and harvest date and fertilizer and variety in SW Nigeria [Data set]. IITA. https://doi.org/10.25502/YZKM-3V47/D",
-	   publication= NA,
+	   # this DOI is currently not active
+	   publication = "doi:10.37722/AAHAE.2022403",
 	   data_institutions = "IITA",
 	   carob_contributor="Robert Hijmans",
 	   data_type="experiment"
@@ -49,7 +50,7 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 		dataset_id = dataset_id,
 		record_id =r$ID,
 		trial_id = "1",
-		treatment= apply(r[, c("Planting_date", "Fertilizer", "Cassava_variety", "Harvest_date")], 1, paste, collapse="_"),
+		treatment= apply(r[, c("Planting_date", "Harvest_date", "Fertilizer", "Cassava_variety")], 1, paste, collapse="_"),
 		country="Nigeria",
 		location= ifelse(r$Location=="fu", "Federal University of Agriculture, Abeokuta, Ogun State (FUNNAB)", "Psaltry International Limited, Ado-Awaye, Oyo state (Ado Awaye)"),
 		longitude=NA,
@@ -70,8 +71,8 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 	i <- r$Location == "fu"
 	d$latitude[i] <- 7.232
 	d$longitude[i] <- 3.441
-	d$latitude[-i] <- 7.777
-	d$longitude[-i] <- 3.41
+	d$latitude[!i] <- 7.777
+	d$longitude[!i] <- 3.41
 
 	i <- d$treatment == "F1"
 	d$N_fertilizer[i] <- 75
@@ -80,14 +81,13 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 	d$N_splits[i] <- 2L
 	d$fertilizer_type[i] <- "MOP; urea"
 
-## we do not know the year. For now placeholder is 2091/92
-
+# year from communication with S Hauser. See publication 
 	s <- c(4, 6, 8)[d$planting_date]
 	h <- c(9, 11, 13)[d$harvest_date]
 	h <- formatC(s + h - 12, width=2, flag="0")
-	d$harvest_date <- paste0("2092-", h)
+	d$harvest_date <- paste0("2018-", h)
 
-	pdates <- paste0("2091-", c("04", "06", "08"))
+	pdates <- paste0("2017-", c("04", "06", "08"))
 	d$planting_date <- pdates[d$planting_date]
 
 	carobiner::write_files(dset, d, path=path)
