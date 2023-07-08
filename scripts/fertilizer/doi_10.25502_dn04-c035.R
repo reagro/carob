@@ -43,8 +43,8 @@ carob_script <- function(path){
 	d$trial_id <- d$farm_id
 	d$adm2 <- carobiner::fix_name(d$district, "title")
 	d$adm3 <- carobiner::fix_name(d$sector_ward, "title")
-	d$longitude <- d$gps_longitude
-	d$latitude <- -(d$gps_latitude)
+	d$longitude <- d$gps_latitude
+	d$latitude <- -(d$gps_longitude)
 	d <- d[, c("trial_id", "adm2","adm3", "latitude","longitude")]
 	
 	#processing the 2nd dataset
