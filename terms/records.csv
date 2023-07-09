@@ -81,9 +81,11 @@ row_spacing,numeric,cm,no,,no,0,150,yes,Distance between rows,,
 plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,http://purl.obolibrary.org/obo/AGRO_00000316
 plant_density,numeric,plants/ha,no,,no,1000,3000000,yes,Number of plants per ha,,http://purl.obolibrary.org/obo/PCO_0000079
 rain,numeric,mm,no,,no,0,3000,yes,Total rainfall between planting and harvest,,http://purl.obolibrary.org/obo/ENVO_01000830
+emergence,numeric,,no,,no,3,30,yes,Days to emergence (after planting),,
 heading,numeric,,no,,no,25,300,yes,Days to heading (after planting),,
 flowering,numeric,,no,,no,15,250,yes,Days to flowering (after planting),,http://purl.obolibrary.org/obo/TO_0000344
 silking,numeric,,no,,no,30,125,yes,Days to silking (after planting),,
+maturity,numeric,,no,,no,45,300,yes,Days to maturity (after planting),,
 height,numeric,cm,no,,no,10,250,yes,Maximum plant height,,
 pathogen,character,,no,pathogen,yes,,,yes,Name of the pathogen studied,,
 AUDPC,numeric,,no,,no,0,150,yes,Area under the disease progress curve,,
