@@ -44,9 +44,6 @@ carob_script <- function(path) {
 	}
 
 	get_df <- function(d) {
-		# for rep
-		d <- d[order(d$Treatment), ]
-		
 		data.frame(
 			country = d$Country,
 			adm1= d$Region.state,
@@ -77,8 +74,10 @@ carob_script <- function(path) {
 ## process 001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx
 	f <- ff[basename(ff) == "001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx"] 
  	d <- carobiner::read.excel(f)
-
 	d <- data.frame(d)
+	# for rep
+	d <- d[order(d$Treatment), ]
+
 	d2 <- get_df(d)
 	d2$trial_id = paste0('2014-2015_Wheat_', d$village.Kebele)
 	d2$longitude = ifelse(d$village.Kebele == "Goshe Bado", 39.446,
@@ -103,8 +102,9 @@ carob_script <- function(path) {
 ## process 002_2016_Wheat_ ICRISAT-AR_ETH.xlsx
 	f <- ff[basename(ff) == "002_2016_Wheat_ ICRISAT-AR_ETH.xlsx"]
 	d <- carobiner::read.excel(f)
-
 	d <- data.frame(d)
+	d <- d[order(d$Treatment), ]
+	
 	d3 <- get_df(d)
 	d3$trial_id = paste0("2016_Wheat_", d$village.Kebele)
 	d3$longitude = ifelse(d3$location == "Lemo", 37.851,
@@ -127,6 +127,8 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx"]
 	d <- carobiner::read.excel(f)
 	d <- data.frame(d)
+	d <- d[order(d$Treatment), ]
+
 	d4 <- get_df(d)
 	d4$trial_id <- paste0("2017_Sorghum-Tef_", d$village.Kebele)
 	d4$longitude <- ifelse(d4$location == "Sirinka", 39.607, 39.684)
@@ -145,8 +147,9 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "004_2019_Wheat_ ICRISAT-AR_ETH.xlsx"]
 	d <- carobiner::read.excel(f)
 	d <- data.frame(d)
-	d5 <- get_df(d)
-	
+	d <- d[order(d$Treatment), ]
+
+	d5 <- get_df(d)	
 	d5$trial_id <- paste0("2019_Wheat_", d$village)
 	d5$longitude <- ifelse(d5$location == "Goshebado", 39.446,
 					ifelse(d5$location == "Lemo", 37.851, 40.215))
