@@ -48,7 +48,6 @@ carob_script <- function(path) {
 			country = d$Country,
 			adm1= d$Region.state,
 			adm3 = d$LGA.District,
-			location = ifelse(is.null(d$village.Kebele), d$village, d$village.Kebele),
 			planting_date = as.character(as.Date(d$Planting.date)),
 			harvest_date = as.character(as.Date(d$Harvest.date)),
 			on_farm = TRUE,
@@ -81,6 +80,11 @@ carob_script <- function(path) {
 		x$flowering <- d$Days.to.flowering
 		x$maturity <- d$Days.to.maturity		
 		x$trial_id <- paste0(trialname, x$location)
+		if (is.null(d$village.Kebele)) {
+			x$location <- d$village
+		} else {
+			x$location <- d$village.Kebele
+		}
 
 	# x$biomass <- d$Biomass..kg.ha.  # Biomass is collected as fresh biomass
 	###x$observation_date <- d$N.topdressing.date # Date of the application of the 2nd split
@@ -100,16 +104,6 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "001_2014-2015_Wheat_ICRISAT-AR_ETH.xlsx"] 
 	d <- read.file(f)
 	d2 <- get_df(d, '2014-2015_Wheat_')
-	
-	d2$longitude = ifelse(d$village.Kebele == "Goshe Bado", 39.446,
-					ifelse(d$village.Kebele == "Tsibet", 39.482,
-					ifelse(d$village.Kebele == "Lemo", 37.851,
-					ifelse(d$village.Kebele == "Selka", 40.289, 39.682))))
-	d2$latitude <- ifelse(d$village.Kebele == "Goshe Bado", 9.740,
-					ifelse(d$village.Kebele == "Tsibet", 12.860,
-					ifelse(d$village.Kebele == "Lemo", 5.436,
-					ifelse(d$village.Kebele == "Selka", 6.857, 9.799))))
-	
 
 	# different names than in the other files
 	d2$N_fertilizer <- d$N.fertilizer.amount...19
@@ -123,39 +117,19 @@ carob_script <- function(path) {
 	d <- read.file(f)
 	d3 <- get_df(d, "2016_Wheat_")
 	
-	d3$longitude = ifelse(d3$location == "Lemo", 37.851,
-					 ifelse(d3$location == "Tsibet", 39.482,39.460))
-	d3$latitude = ifelse(d3$location == "Lemo", 5.436,
-					ifelse(d3$location == "Tsibet", 12.860, 10.826))
-
-	
 ## process 003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx
 	f <- ff[basename(ff) == "003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx"]
 	d <- read.file(f)
 	d4 <- get_df(d, "2017_Sorghum-Tef_")
-	d4$longitude <- ifelse(d4$location == "Sirinka", 39.607, 39.684)
-	d4$latitude <- ifelse(d4$location == "Sirinka", 11.748, 11.316)
 
-	
 ## process 004_2019_Wheat_ ICRISAT-AR_ETH.xlsx
 	f <- ff[basename(ff) == "004_2019_Wheat_ ICRISAT-AR_ETH.xlsx"]
 	d <- read.file(f)
 	d5 <- get_df(d, "2019_Wheat_")	
 	
-	d5$longitude <- ifelse(d5$location == "Goshebado", 39.446,
-					ifelse(d5$location == "Lemo", 37.851, 40.215))
-	d5$latitude <- ifelse(d5$location == "Goshebado", 9.740,
-					ifelse(d5$location == "Lemo", 5.436, 7.068))
-
-	
 ## Append the data.frames
 	d <- carobiner::bindr(d2, d3, d4, d5)
 	
-## Filter only relevant variables
-## RH: no need, and you were using d2!
-#	d <- d2[,c("country", "adm1", "adm3", "location", "trial_id", "longitude", "latitude", "planting_date", "harvest_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety", "previous_crop", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer","soil_type")]
-## Add dataset ID
-
 	d$dataset_id <- dataset_id
 	d$yield_part <- "grain"
 
@@ -169,7 +143,15 @@ carob_script <- function(path) {
 	d$K_fertilizer[is.na(d$K_fertilizer)] <- 0
 	d$Zn_fertilizer[is.na(d$Zn_fertilizer)] <- 0
 	d$S_fertilizer[is.na(d$S_fertilizer)] <- 0
-	
+
+	d$location[d$location == "Goshebado"] <- "Goshe Bado"
+	geo <- data.frame(
+		location  = c("Goshe Bado", "Gudo Beret", "Hayk", "Kabe", "Lemo", "Selka", "Sinana", "Sirinka", "Tsibet"), 
+		longitude = c(39.446, 39.682, 39.684, 39.46, 37.851, 40.289, 40.215, 39.607, 39.482), 
+		latitude  = c(9.74, 9.799, 11.316, 10.826, 5.436, 6.857, 7.068, 11.748, 12.86)
+	)
+	d <- merge(d, geo, by="location", all.x=TRUE)
+
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
