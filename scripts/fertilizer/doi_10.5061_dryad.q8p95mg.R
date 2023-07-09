@@ -1,15 +1,12 @@
 
-"Title: Bean yield and economic response to fertilizer in eastern and southern Africa
-
-Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for human dietary protein. Low yields are attributed to biotic and 
-abiotic constraints including inadequate nutrient availability. Research was conducted to determine nutrient response functions for bean production
-areas of Kenya, Mozambique, Rwanda, Tanzania, and Zambia.
-
-"
-
-
 
 carob_script <- function(path) {
+
+"
+Title: Bean yield and economic response to fertilizer in eastern and southern Africa
+
+Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for human dietary protein. Low yields are attributed to biotic and abiotic constraints including inadequate nutrient availability. Research was conducted to determine nutrient response functions for bean production areas of Kenya, Mozambique, Rwanda, Tanzania, and Zambia.
+"
 
 	uri <- "doi.org/10.5061/dryad.q8p95mg"
 	dataset_id <- carobiner::simple_uri(uri)
