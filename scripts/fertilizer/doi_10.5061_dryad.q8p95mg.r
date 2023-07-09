@@ -15,7 +15,7 @@ carob_script <- function(path) {
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
   
-  ## data set level data
+  ## data set level data0
 	dset <- data.frame(
 		dataset_id = dataset_id, 
 		group=group, 
@@ -29,9 +29,10 @@ carob_script <- function(path) {
 	
 	## download and read data
 		
-	ff	<- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
+	#fpdf <- carobiner::get_more_data(url, dataset_id, path, group)
 	
 	# reading the datasets
 	f <- ff[basename(ff) == "ESA Bean Nutrient Response Dataset.xlsx"]
@@ -194,13 +195,13 @@ carob_script <- function(path) {
 
 
 process_pdf_doi_10.5061_dryad.q8p95mg <- function() {
-	extract_from_pdf <- function(url, pages) {
-		f <- basename(url)
-		f <- file.path(path, group, basename(url))
-		if (!file.exists(f)) {
-			download.file(url, f, mode="wb")
-		}
-		if (!file.exists(f)) stop("download failed")
+
+	purl <- "https://xxxx"
+	path <- "c:/"
+	did <- "doi_10.5061_dryad.q8p95mg"
+	fpdf <- carobiner::get_more_data(purl, did, path, group="fertilizer")
+	
+	extract_from_pdf <- function(f, pages) {
 		p <- package_name::extract_areas(f, pages = pages)
 		as.data.frame(p)
 	}
@@ -208,7 +209,7 @@ process_pdf_doi_10.5061_dryad.q8p95mg <- function() {
 	# Publication Table 1 Site-year, FAO dominant soil type, growth habit (GH) of climbing (CL) and bush (BB) type, coordinates, mean site-year yield, and response to a diagnostic treatment (Diag) for bean nutrient response trials conducted in Rwanda during 2014–2015""
 #	d5 <- as.data.frame(extract_areas("C:/Users/User/Downloads/s10705-018-9915-9.pdf", pages = 3))
 
-	d5 <- extract_from_pdf("https://xxx/s10705-018-9915-9.pdf", pages = 3)
+	d5 <- extract_from_pdf(fpdf, pages = 3)
 	names(d5) <- c("Site-year_soil type", "GH", "Lat (WGS84°)a", "Long (WGS84°)", "Elev (m)", "Yield (Mg ha−1", "Diag (Mg ha−1)c")
 	
 	d5$`Site-year_soil type`[1] <- gsub("Nyagat", "Nyagat_", d5$`Site-year_soil type`[1])
@@ -226,7 +227,7 @@ process_pdf_doi_10.5061_dryad.q8p95mg <- function() {
 
 	
 #	d6 <- as.data.frame(extract_areas("C:/Users/User/Downloads/s10705-018-9915-9.pdf", pages = 4))
-	d6 <- extract_from_pdf("https://xxx/s10705-018-9915-9.pdf", pages = 4)
+	d6 <- extract_from_pdf(fpdf, pages = 4)
 
 	names(d6) <- c("Site_soil type", "Year", "Lat", "Long", "Elev", "Variety", "Yield")
 	d6$`Site_soil type`<- gsub("-", "_", d6$`Site_soil type`)
@@ -245,8 +246,7 @@ process_pdf_doi_10.5061_dryad.q8p95mg <- function() {
 	# Publication Table 3 Soil test information of the 0 to 20 cm depth for bean-nutrient response trials conducted in eastern and southern Africa
 	#d7 <- as.data.frame(extract_areas("C:/Users/User/Downloads/s10705-018-9915-9.pdf", pages = 5))
 
-	d7 <- extract_from_pdf("https://xxx/s10705-018-9915-9.pdf", pages = 5)
-
+	d7 <- extract_from_pdf(fpdf, pages = 5)
 	names(d7) <- c("Site-year", "TC", "pH", "SOC(g kg-1)", "P(mg kg-1)", "K(mg kg-1)", "Mg(mg kg-1)", "S(mg kg-1)", "Zn(mg kg-1)", "B(mg kg-1)")
 	d7$`Site-year`[d7$`Site-year` == "RW_ENyagatKat14B"] <- "RW_ENyagat_Kat14B"
 	d7 <- d7[, c("Site-year", "pH", "SOC(g kg-1)" , "P(mg kg-1)", "K(mg kg-1)", "Mg(mg kg-1)")]
