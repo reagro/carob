@@ -73,6 +73,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	i <- which(d$variety %in% c("Y", "N") & d$inoculated == "")
 	d$inoculated[i] <- d$variety[i]
 
+	d$inoculated[d$inoculated == ""] <- NA
 	d$inoculated <- d$inoculated == "Y"
 	
 	i <- d$crop=="100"
