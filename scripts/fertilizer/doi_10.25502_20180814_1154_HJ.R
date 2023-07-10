@@ -22,7 +22,7 @@ carob_script <- function(path) {
 		dataset_id = dataset_id,
 		group=group,
 		uri=uri,
-		publication=NA,
+		publication=NA,#  10.1016/j.agee.2016.05.012
 		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Koloko [Data set]. International Institute of Tropical Agriculture 
 		(IITA). doi:10.25502/20180814/1154/HJ" ,
 		data_institutions = "IITA",
@@ -43,85 +43,62 @@ carob_script <- function(path) {
 	f3 <- ff[basename(ff) == "Koloko_DT2009_plot.csv"] # get plot dataset
 	
 	# read the dataset
-	d1 <- read.csv(f1)
-	d2 <- read.csv(f2)
-	d3 <- read.csv(f3)
-	#d <- readxl::read_excel(f) |> as.data.frame()
-	
-	# process file(s)
-	#d <- carobiner::change_names(d, from, to)
-	d1$dataset_id <- dataset_id
-	d3$dataset_id <- dataset_id
+	r1 <- read.csv(f1)
+	r2 <- read.csv(f2)
+	r3 <- read.csv(f3)
 	
 	#process field dataset
-	
-	d1$trial_id <- c(paste0(d1$dataset_id,"-",d1$ID))
-	
-	d1$location <- d1$Village
-	
-	d1$latitude <- d1$Flat
-	
-	d1$longitude <- d1$Flong
-	
-	d1$variety_type <- d1$TCVariety
-	
-	d1$previous_crop <- d1$PCrop1
-	d1$planting_date <- d1$PlntDa
-	d1$harvest_date <- d1$HarvDa
-	#d1$fertilizer_type <- d1$FType1
-	# add column
-	d1$site	<- d1$Site
-	d1$country <- "Mali"
-	d1$crop <- "sorghum"
-	
-	# previous crop name normalization 
-	d1$previous_crop[d1$previous_crop==""] <- "no crop"
-	
-	d1$previous_crop[d1$previous_crop=="Groundnuts(Aracide)"] <- "groundnut"
-	
-	d1$previous_crop[d1$previous_crop=="Sorghum"] <- "sorghum"
-	d1$previous_crop[d1$previous_crop=="Kolokoland"] <- NA
-	d1$previous_crop[d1$previous_crop=="Millet"] <- "pearl millet"
- 
-	 d1 <- d1[,c("dataset_id","trial_id","location","site","country",
-						 "latitude","longitude","planting_date","harvest_date","crop","variety_type","previous_crop" )]
+	d1<-r1[,c("Cluster","FieldID","Field","Country","Village","Site","Flat","Flong","TCVariety","TCrop","PCrop1","PlntDa","HarvDa")]
+	colnames(d1)<-c("cluster","FieldID","Field","country","location","site","latitude","longitude","variety","crop","previous_crop","planting_date","harvest_date")
 	
 	#process plot data 
+	d2<-r3[,c("Cluster","FieldID","Field","Site","Rep","TrtDesc","TGrainYld","TStoverYld","Season")]
+	colnames(d2)<-c("cluster","FieldID","Field","site","rep","treatment","yield","residue_yield","season")
 	
-	d3$rep <- d3$Rep
+	#merge d1 and d2
+	d <- merge(d1,d2,by=c("cluster","FieldID","Field","site"), all.x = TRUE)
 	
-	d3$treatment <- d3$TrtDesc
+	# keep the relevant columm
+	d<-d[,c("country","location","site","latitude","longitude","variety","crop","previous_crop","planting_date","harvest_date","rep","treatment","yield","residue_yield","season")]
 	
-	d3$yield <- (d3$TGrainYld)*1000
+	#fertilizer apply	 more information can be found here  10.1016/j.agee.2016.05.012
+	d$N_fertilizer <- ifelse(d$treatment=="Control",0,
+	                          ifelse(d$treatment=="PK",0,60))
 	
-	d3$residue_yield <- (d3$TStoverYld) * 1000
+	d$K_fertilizer <- ifelse(d$treatment=="Control", 0,
+	                          ifelse(d$treatment=="NP", 0, 20))
 	
-	d3$season	<- d3$Season
+	d$P_fertilizer <- ifelse(d$treatment=="Control", 0,
+	                          ifelse(d$treatment=="NK", 0, 30))
 	
+	d$Zn_fertilizer <- ifelse(d$treatment=="NPK+MN", 3, 0)
 	
-	d3$N_fertilizer <- ifelse(d3$TrtDesc=="Control",0,
-					ifelse(d3$TrtDesc=="PK",0,100))
+	d$S_fertilizer <- ifelse(d$treatment=="NPK+MN", 5, 0)
+	d$Ca_fertilizer<- ifelse(d$treatment=="NPK+MN",10,0)
+	d$Mg_fertilizer<- ifelse(d$treatment=="NPK+MN",5,0)
+	d$N_splits <- ifelse(d$treatment > 0, 3L, 0L)
 	
-	d3$K_fertilizer <- ifelse(d3$TrtDesc=="Control", 0,
-					ifelse(d3$TrtDesc=="NP", 0, 60))
-	
-	d3$P_fertilizer <- ifelse(d3$TrtDesc=="Control", 0,
-					ifelse(d3$TrtDesc=="NK", 0, 30))
-	
-	d3$Zn_fertilizer <- ifelse(d3$TrtDesc=="NPK+MN", 3, 0)
-	
-	d3$S_fertilizer <- ifelse(d3$TrtDesc=="NPK+MN", 5, 0)
-	
-	d3$N_splits <- ifelse(d3$N_fertilizer > 0, 3L, 0L)
-	
-	d3 <- d3[,c("dataset_id","rep","treatment","season","yield","residue_yield","N_fertilizer",
-						"K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
-	
-	#merge all the data
-	d <- merge(d1,d3,by="dataset_id", all.x = TRUE)
-	
-	
-	# data type
+	#Add columns 
+d$OM_type<- NA
+d$OM_used <- FALSE
+d$dataset_id <- dataset_id
+d$trial_id<-paste0(d$dataset_id,"-",d$location)
+d$OM_type[grepl("+MN",d$treatment)]<- "manure"
+d$OM_used[grepl("manure",d$OM_type)]<- TRUE
+	# previous crop name normalization 
+
+	p<- carobiner::fix_name(d$previous_crop,"lower")
+	p<- gsub("kolokoland",NA,p)
+	p<- gsub("millet","pearl millet",p)
+	p[p == ""] <- "no crop"
+	p[p =="groundnuts(aracide)"]<- "groundnut"
+	d$previous_crop<- p
+	# fix crop name
+	d$crop<-"sorghum"
+	# fix yield unit
+	d$yield<- d$yield*1000
+	d$residue_yield<- d$residue_yield*1000
+		# data type
 	d$season <- as.character(d$season)
 	# change date format
 	d$planting_date <- format(as.Date(d$planting_date, format = "%m/%d/%Y"), "%Y-%m-%d")
