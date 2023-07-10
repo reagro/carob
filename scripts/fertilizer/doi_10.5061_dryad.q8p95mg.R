@@ -36,7 +36,7 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	
 ### Kenya
 	r <- readxl::read_xlsx(f, sheet = 1)
-	r$Yr[d0$Yr == "2015b"] <- "2015"
+	r$Yr[r$Yr == "2015b"] <- "2015"
 
 	d0 <- data.frame(
 		country = "Kenya",
@@ -155,7 +155,8 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	z$irrigated <- FALSE
 	z$variety_type <- ifelse(z$variety %in% c("RWR2245", "GLP2"), "bush bean", 
 						ifelse(z$variety == "MAC44", "climbing bean", NA))
-	z$yield <- z$yield*1000 # converting to kg/ha from Mg/ha
+	# converting to kg/ha from Mg/ha
+	z$yield <- z$yield*1000 
 
 
 	#z <- z[, c("dataset_id", "trial_id", "country", "adm1", "adm2", "location", "latitude", "longitude", "elevation", "rep", "treatment", "crop", "variety", "variety_type", "inoculated", "irrigated", "yield", "yield_part", "N_fertilizer", "P_fertilizer", "K_fertilizer", "soil_type", "soil_pH",  "soil_SOC", "soil_P_total", "soil_K", "soil_Mg")]
