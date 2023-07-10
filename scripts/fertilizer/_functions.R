@@ -1,6 +1,6 @@
 
 
-N2A_monitoring_2 <- function(ff) {	
+N2A_monitoring_2 <- function(ff, path) {	
 
 	fix_crop <- function(p) {
 		p[grep("^grou", p, ignore.case=TRUE)] <- "groundnut"	
@@ -76,6 +76,19 @@ N2A_monitoring_2 <- function(ff) {
 ## from old script that _may_ be useful but 
 ## needs to be rewritten to be readable
 ## too much use of nested ifelse. Instead make a data.frame with type and content
+  
+
+#	fert <- data.frame(
+#		fertilizer_type = c("urea", "D-compound"),
+#		N = c(0.46, 0.08),
+#		P = c(0, 0),
+#		K = c(0, 0)
+#	)
+
+# in fact we should be able to use this
+
+	fert <- carobiner::get_accepted_values("fertilizer_type", path)
+
   
   # # Adjusting NPK amounts
   # d1$N_fertilizer <- ifelse(d1$fertilizer_type %in% c("urea"), d1$mineral_fert_amount * 0.46,  # assumption is that mineral fert amount is in kg

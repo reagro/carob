@@ -30,7 +30,7 @@ carob_script <- function(path) {
 	dset$license <- carobiner::get_license(js)
 	
 	n2afun <- carobiner::get_function("N2A_monitoring_2", path, group)
-	d <- n2afun(ff)
+	d <- n2afun(ff, path)
 	d$dataset_id <- dataset_id
 	
 	carobiner::write_files(dset, d, path=path)
