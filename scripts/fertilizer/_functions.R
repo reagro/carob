@@ -65,9 +65,13 @@ N2A_monitoring_2 <- function(ff) {
 	
 	dd$fertilizer_type <- p
 	
-	dd$P_fertilizer <- NA # what are codes 0, 1, 2?
-	dd$N_fertilizer <- 0
-	dd$K_fertilizer <- 0
+##	mineral_fert_amount uses codes 
+##  what are codes 0, 1, 2?
+##  perhaps one of the codebooks explains that?
+
+	dd$P_fertilizer <- NA
+	dd$N_fertilizer <- NA
+	dd$K_fertilizer <- NA
 
 ## from old script that _may_ be useful but 
 ## needs to be rewritten to be readable
