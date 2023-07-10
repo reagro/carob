@@ -35,131 +35,123 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	f <- ff[basename(ff) == "ESA Bean Nutrient Response Dataset.xlsx"]
 	
 ### Kenya
-	r <- readxl::read_xlsx(f, sheet = 1)
-	r$Yr[r$Yr == "2015b"] <- "2015"
+	r0 <- readxl::read_xlsx(f, sheet = 1)
+	r0$Yr[r0$Yr == "2015b"] <- "2015"
 
 	d0 <- data.frame(
 		country = "Kenya",
 		adm1 = NA,
 		adm2 = NA,
-		location = carobiner::fix_name(r$S, "title"),
-		planting_date = r$Yr,
-		trial_id = paste0("KE_", r$S),
+		location = carobiner::fix_name(r0$S, "title"),
+		planting_date = r0$Yr,
+		trial_id = paste0("KE_", r0$S),
 		variety = NA, # GLP2 bean variety from publication??
-		N_fertilizer = r$Nrate,
-		P_fertilizer = r$Prate,
-		K_fertilizer = r$Krate,
-		treatment = r$Trtcode, 
-		rep = r$Rep,
-		yield = r$GrainYld
+		N_fertilizer = r0$Nrate,
+		P_fertilizer = r0$Prate,
+		K_fertilizer = r0$Krate,
+		treatment = r0$Trtcode, 
+		rep = r0$Rep,
+		yield = r0$GrainYld
 	)
 	# why?
 	#d0[d0$trial_id == "KE_Kisii"] <- "KE_Migori" 
 	
 ### Mozambique
-	r <- readxl::read_xlsx(f, sheet = 2)
+	r1 <- readxl::read_xlsx(f, sheet = 2)
 	d1 <- data.frame(
 		country = "Mozambique",
 		adm1 = NA,
-		adm2 = r$District,
+		adm2 = r1$District,
 		location=NA,
-		planting_date = r$Y,
-		trial_id = paste0("MZ_", r$District),
-		variety = r$v,
-		N_fertilizer = r$n,
-		P_fertilizer = r$p,
-		K_fertilizer = r$k,
-		treatment = paste0(r$n, "N", r$p, "P", r$k, "K", "v", r$v, "d", r$Diagnostic),
-		rep = r$Rep,
-		yield = r$GrainYld
+		planting_date = r1$Y,
+		trial_id = paste0("MZ_", r1$District),
+		variety = r1$v,
+		N_fertilizer = r1$n,
+		P_fertilizer = r1$p,
+		K_fertilizer = r1$k,
+		treatment = paste0(r1$n, "N", r1$p, "P", r1$k, "K", "v", r1$v, "d", r1$Diagnostic),
+		rep = r1$Rep,
+		yield = r1$GrainYld
 	)
 
 
 ### Rwanda
-	r <- readxl::read_xlsx(f, sheet = 3)
-	r$Prov[r$Tr %in% c("E_Ngoma_Sake_15A", "E_Busegerwa_Mareba_15A")] <- "E"
+	r2 <- readxl::read_xlsx(f, sheet = 3)
+	r2$Prov[r2$Tr %in% c("E_Ngoma_Sake_15A", "E_Busegerwa_Mareba_15A")] <- "E"
 
 	d2 <- data.frame(
 		country="Rwanda",
-		adm1 = ifelse(r$Prov == "N", "Amajyaruguru", 
-				ifelse(r$Prov == "E", "Iburasirazuba", "Amajyepfo")),
+		adm1 = ifelse(r2$Prov == "N", "Amajyaruguru", 
+				ifelse(r2$Prov == "E", "Iburasirazuba", "Amajyepfo")),
 		adm2 = NA,
 		location=NA,
-		planting_date = ifelse(grepl("14", r$Tr), 2014, 2015),
-		trial_id = paste0("RW_", r$Tr),
-		variety = ifelse(r$BT == "CL", "MAC44", "RWR2245"),
-		N_fertilizer = r$N,
-		P_fertilizer = r$P,
-		K_fertilizer = r$K,
-		treatment = r$Treatment,
-		rep = r$Rep,
-		yield = r$GrainYld
+		planting_date = ifelse(grepl("14", r2$Tr), 2014, 2015),
+		trial_id = paste0("RW_", r2$Tr),
+		variety = ifelse(r2$BT == "CL", "MAC44", "RWR2245"),
+		N_fertilizer = r2$N,
+		P_fertilizer = r2$P,
+		K_fertilizer = r2$K,
+		treatment = r2$Treatment,
+		rep = r2$Rep,
+		yield = r2$GrainYld
 	)
 
 ### Tanzania
 
-	r <- readxl::read_xlsx(f, sheet = 4) 
-	r$S[r$S %in% c("Kar", "Kar2")] <- "Karangai"
-	r$Diagnostic[is.na(r$Diagnostic)] <- 0
+	r3 <- readxl::read_xlsx(f, sheet = 4) 
+	r3$S[r3$S %in% c("Kar", "Kar2")] <- "Karangai"
+	r3$Diagnostic[is.na(r3$Diagnostic)] <- 0
 	
 	d3 <- data.frame(
 		country = "Tanzania",
 		adm1 = NA,
 		adm2 = NA,
-		location = r$S,
-		planting_date = r$Yr,
-		trial_id = paste0("TZ_", r$S, r$Yr),
+		location = r3$S,
+		planting_date = r3$Yr,
+		trial_id = paste0("TZ_", r3$S, r3$Yr),
 		variety = NA,
-		N_fertilizer = r$n,
-		P_fertilizer = r$p,
-		K_fertilizer = r$k,
-		treatment = paste0(r$n, "N", r$p, "P", r$k, "K", "diag", r$Diagnostic),
-		rep = r$Rep,
-		yield = r$GrainYld
+		N_fertilizer = r3$n,
+		P_fertilizer = r3$p,
+		K_fertilizer = r3$k,
+		treatment = paste0(r3$n, "N", r3$p, "P", r3$k, "K", "diag", r3$Diagnostic),
+		rep = r3$Rep,
+		yield = r3$GrainYld
 	)
 	
 ### Zambia
-	r <- readxl::read_xlsx(f, sheet = 5)
-	r$Diagnostic[is.na(r$Diagnostic)] <- 0
+	r4 <- readxl::read_xlsx(f, sheet = 5)
+	r4$Diagnostic[is.na(r4$Diagnostic)] <- 0
 	
 	d4 <- data.frame(
 		country = "Zambia",
 		adm1 = NA,
 		adm2 = NA,
-		location = r$S,
-		planting_date = r$Yr,
-		trial_id = paste0("ZM_", r$S),
+		location = r4$S,
+		planting_date = r4$Yr,
+		trial_id = paste0("ZM_", r4$S),
 		variety = NA,
-		N_fertilizer = r$N,
-		P_fertilizer = r$P,
-		K_fertilizer = r$K,
-		treatment = paste0(r$N, "N", r$P, "P", r$K, "K", "diag", r$Diagnostic),
-		rep = r$R,
-		yield = r$GrainYld
+		N_fertilizer = r4$N,
+		P_fertilizer = r4$P,
+		K_fertilizer = r4$K,
+		treatment = paste0(r4$N, "N", r4$P, "P", r4$K, "K", "diag", r4$Diagnostic),
+		rep = r4$R,
+		yield = r4$GrainYld
 	)
 
 	d4$location[d4$location == "Mt Makulu"] <- "Mt. Makulu"
 
 
-	#merging all countries datasets
-## why merge? That is a bad mistake
-##	z <- Reduce(function(...) merge(..., all=T), list(d, d1, d2, d3, d4))
-
-	z <- rbind(d1, d2, d3, d4)
-	
+	z <- rbind(d1, d2, d3, d4)	
 	z$rep <- as.integer(z$rep)
-	z$crop = "common bean" 
+	z$crop <- "common bean" 
 	z$dataset_id <- dataset_id
 	z$inoculated <- FALSE
 	z$yield_part <- "grain"
 	z$irrigated <- FALSE
 	z$variety_type <- ifelse(z$variety %in% c("RWR2245", "GLP2"), "bush bean", 
 						ifelse(z$variety == "MAC44", "climbing bean", NA))
-	# converting to kg/ha from Mg/ha
+	# convert to kg/ha from Mg/ha
 	z$yield <- z$yield*1000 
-
-
-	#z <- z[, c("dataset_id", "trial_id", "country", "adm1", "adm2", "location", "latitude", "longitude", "elevation", "rep", "treatment", "crop", "variety", "variety_type", "inoculated", "irrigated", "yield", "yield_part", "N_fertilizer", "P_fertilizer", "K_fertilizer", "soil_type", "soil_pH",  "soil_SOC", "soil_P_total", "soil_K", "soil_Mg")]
 
 
 #	z <- merge(z, d5, by = "trial_id", all.x = TRUE)	
@@ -177,13 +169,13 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 #	z$soil_K <- as.numeric(z$soil_K)
 #	z$soil_Mg <- as.numeric(z$soil_Mg)
 	
-#	z$latitude <- ifelse(z$trial_id == "E_Busegerwa_Mushikiri_14B", -2.18893865, 
-#					ifelse(z$trial_id == "ENGOMAUFITUB15b", -2.1663637, 
-#					ifelse(z$trial_id == "E_Busegerwa_Musenyi_14B", 	-2.17889725, z$latitude)))
+#	z$latitude <- ifelse(z$trial_id == "E_Busegerwa_Mushikiri_14B", -2.1889, 
+#					ifelse(z$trial_id == "ENGOMAUFITUB15b", -2.1664, 
+#					ifelse(z$trial_id == "E_Busegerwa_Musenyi_14B", -2.1789, z$latitude)))
 	
-#	z$longitude <- ifelse (z$trial_id == "E_Busegerwa_Mushikiri_14B", 30.68517191848185, 
-#					ifelse(z$trial_id == "ENGOMAUFITUB15b", 30.5391524, 
-#					ifelse(z$trial_id == "E_Busegerwa_Musenyi_14B", 30.02089217993953, z$longitude)))
+#	z$longitude <- ifelse (z$trial_id == "E_Busegerwa_Mushikiri_14B", 30.6852, 
+#					ifelse(z$trial_id == "ENGOMAUFITUB15b", 30.5392, 
+#					ifelse(z$trial_id == "E_Busegerwa_Musenyi_14B", 30.0209, z$longitude)))
 
 	z$planting_date <- as.character(z$planting_date)
 	# all scripts must end like this
