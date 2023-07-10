@@ -30,7 +30,6 @@ variety_type,character,,no,,no,,,yes,variety grouping (e.g. climbing/bush),,
 intercrops,character,,no,crops,yes,,,yes,Other crop grown together with the main crop,,
 previous_crop,character,,no,crops,yes,,,yes,Crop grown on this plot in the prior season,,
 crop_rotation,character,,no,crops,yes,,,yes,Crops grown in rotation on this plot,,
-observation_date,character,,no,,no,,,yes,"Date in ""yyyy-mm-dd"" ","For experiments with, e.g. intermediate crop cuts; or for surveys",
 biomass_roots,numeric,kg/ha,no,,no,0,5000,yes,Dry-weight biomass of fine roots per unit area,,http://purl.obolibrary.org/obo/PO_0009005 
 biomass_stems,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of stems per unit area,,http://purl.obolibrary.org/obo/PO_0009047 
 biomass_leaves,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of leaves per unit area,,http://purl.obolibrary.org/obo/TO_0000870 
