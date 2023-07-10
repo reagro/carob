@@ -25,11 +25,11 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		dataset_id = dataset_id, 
 		group=group, 
-		project=NA, 
+		project=NA, #carobiner::write_files(dset, d, path=path)
 		uri=uri, 
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
-		publication= NA, 
+		publication= NA, # 10.1016/j.agee.2016.05.012
 		data_institutions = "IITA", 
 		carob_contributor="Cedric Ngakou", 
 		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kasungu [Data set]. International Institute of Tropical Agriculture (IITA).  doi:10.25502/20180814/0923/HJ", 
@@ -99,8 +99,7 @@ carob_script <- function(path) {
 	#d$elevation <- NA
 	
 	##### Fertilizers #####
-# what is the source of the "defaults" of 100N 60K and 30P?
-
+	# more information for fertilizer apply can be found her 10.1016/j.agee.2016.05.012 
 	d$N_fertilizer <- 0
 	d$N_fertilizer[grepl("N", d$treatment)] <- 100 
 	d$N_fertilizer[grepl("45N", d$treatment)] <- 45 
@@ -120,8 +119,8 @@ carob_script <- function(path) {
 	d$S_fertilizer <- ifelse(d$treatment=="NPK+Mn", 5, 0)
 
 	# can we find out what the amount of lime applied was?
-	d$lime <- ifelse(d$treatment=="NPK+Lime", -99, 0)						
-
+	d$lime <- ifelse(d$treatment=="NPK+Lime", 500, 0)						
+   
 	d$country <- "Malawi"
 	d$location <- carobiner::fix_name(d$location, "title")
 	d$planting_date <- "2015-12-29"
