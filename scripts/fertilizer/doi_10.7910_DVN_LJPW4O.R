@@ -59,7 +59,7 @@ carob_script <- function(path) {
 	biomass$Season <- ifelse(biomass$`Days after planting (dap)` == 30, 1, 2)
 	biomass$season <- "rainy"
 	biomass$observation_date <- as.Date("2013-08-10", format='%Y-%m-%d')+biomass$`Days after planting (dap)`
-  biomass <- biomass[order(biomass[,"Site"], biomass[,"Season"], biomass[,"Block"], biomass[,"Treatment"]), ]
+	biomass <- biomass[order(biomass[,"Site"], biomass[,"Season"], biomass[,"Block"], biomass[,"Treatment"]), ]
 	biomass1 <- aggregate(biomass[, "Dry weight with roots (g)", drop=FALSE], 
 						  biomass[, c("Site", "Season", "season", "Block", "Treatment")], FUN=mean)
 	d1 <- merge(d, biomass1, by = intersect(names(d), names(biomass1)), all.x = TRUE)

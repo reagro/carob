@@ -251,8 +251,9 @@ N2A_monitoring_1 <- function(ff) {
 	dd3 <- d3[, "farm_id", drop=FALSE]
 	dd3$row_spacing <- as.numeric(d3$crop_1_spacing_row_to_row)
 	dd3$plant_spacing <- as.numeric(d3$crop_1_spacing_plant_to_plant)
+	dd3 <- unique(dd3)
 	
-	dd4 <- d4[, "farm_id", drop=FALSE]
+	dd4 <- unique(d4[, "farm_id", drop=FALSE])
 	p <- d4[grepl("planting", d4$activity), ]
 	h <- d4[grepl("harvest", d4$activity), ]
 	p$planting_date <- with(p, paste(date_planting_yyyy, date_planting_mm, date_planting_dd, sep = "-"))
@@ -262,7 +263,7 @@ N2A_monitoring_1 <- function(ff) {
 
 	p <- p[, c("farm_id", "planting_date")]
 	h <- h[, c("farm_id", "harvest_date")]
-	ph <- merge(p, h, by = "farm_id", all=TRUE)
+	ph <- unique(merge(p, h, by = "farm_id", all=TRUE))
 	dd4 <- merge(dd4, ph, by = "farm_id", all.x=TRUE)
 	
 	dd4$planting_date <- as.character(as.Date(dd4$planting_date, format = "%Y-%m-%d"))
@@ -271,11 +272,10 @@ N2A_monitoring_1 <- function(ff) {
 	#standardizing the previous crop variable
 	dd5 <- d5[, "farm_id", drop=FALSE]
 	dd5$previous_crop <- fix_crop(carobiner::fix_name(d5$main_crop_last_season, "lower"))
-
 	
 	#merge the data sets
 	z <- merge(d, dd, by = "farm_id", all.x=TRUE)
-	z <- merge(z, d3, by = "farm_id", all.x=TRUE)
+	z <- merge(z, dd3, by = "farm_id", all.x=TRUE)
 	z <- merge(z, dd4, by = "farm_id", all.x=TRUE)
 	z <- merge(z, dd5, by = "farm_id", all.x=TRUE)
 	

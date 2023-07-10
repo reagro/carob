@@ -200,6 +200,9 @@ Notes
 	zz$latitude[i] <- -25.6
 
 	zz$location <- carobiner::fix_name(zz$location, "title")
+
+	# most likely here
+	zz$K_fertilizer[is.na(zz$K_fertilizer)] <- 0
  
 	carobiner::write_files(dset, zz, path=path, id="fao")
 }

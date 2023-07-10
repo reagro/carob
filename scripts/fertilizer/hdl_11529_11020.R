@@ -69,18 +69,13 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 	d$yield <- d$`Average yield kg/ha or (Q1+Q2)/2`
 	fr <- toupper(gsub("\n", "", gsub("\r", "", d$`Type of Inorganic Fertilizer`)))
 	fr <- gsub(" ", "", fr)
-	fr <- gsub("\\.,", "; ", fr)
-	fr <- gsub(",", "; ", fr)
-	fr <- gsub("AND", "; ", fr)
-	fr <- gsub("&", "; ", fr)
-	fr <- gsub("-", "; ", fr)
+	fr <- gsub("\\.,|,|AND|&|-", "; ", fr)
 	fr <- gsub("UREA", "urea", fr)
 	fr <- gsub("URE", "urea", fr)
 	
-# RH: Eduardo: please confirm that my assumption is correct that 
-# RH: they are applying normal superphosphate 	
-	fr <- gsub("SPS", "NSP", fr)
-	fr <- gsub("NPS", "NSP", fr)
+	fr <- gsub("SPS", "SSP", fr)
+	fr <- gsub("NPS", "SSP", fr)
+	fr <- gsub("NSP", "SSP", fr)
 	d$fertilizer_type <- fr
 
 	d$N_fertilizer <- 0
@@ -90,19 +85,18 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 	i <- grep("DAP", d$fertilizer_type)
 	# summing because you can have DAP _and_ urea
 	d$N_fertilizer[i] <- (d$N_fertilizer[i] + d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.18)
-	d$N_fertilizer <- d$N_fertilizer/d$`Farm size (ha)`
+	d$N_fertilizer <- d$N_fertilizer / d$`Farm size (ha)`
 	
-	# message("   N fert rate seemed off. EGB please check\n")
-	##this did not seem to make sense (compare with original)
-	##RH : else??  d$`Amount of Inorganic Fertilizer (kg)` * 0.19))
+	## message("   N fert rate seemed off. EGB please check\n")
+	## this did not seem to make sense (compare with original)
+	## RH : else??  d$`Amount of Inorganic Fertilizer (kg)` * 0.19))
 	## EGB: Fixed. There is no other fertilizer application not containing either DAP or Urea...
-	
 	
 	d$P_fertilizer <- 0
 	d$P_fertilizer[i] <- (d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.2)
-	i <- grep("NSP", d$fertilizer_type)
+	i <- grep("SSP", d$fertilizer_type)
 	d$P_fertilizer[i] <- (d$`Amount of Inorganic Fertilizer (kg)`[i] * 0.1659)
-	d$P_fertilizer <- d$P_fertilizer/d$`Farm size (ha)`
+	d$P_fertilizer <- d$P_fertilizer / d$`Farm size (ha)`
 	d$K_fertilizer <- 0
 
 	d$OM_used <- d$`Apply Organic Fertilizer ?` == "Yes"
