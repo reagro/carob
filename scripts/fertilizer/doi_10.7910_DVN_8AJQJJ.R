@@ -176,7 +176,7 @@ carob_script <- function(path) {
 	i <- which(d$country=="Ghana" & d$longitude > .1)
 	d$longitude[i] <- -d$longitude[i]
 	  
-  	d$soil_P_available[d$soil_P_available > 500] <- NA
+  	d$soil_P_available[d$soil_P_available > 200] <- NA
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
