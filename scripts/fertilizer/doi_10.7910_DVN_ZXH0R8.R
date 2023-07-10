@@ -64,6 +64,7 @@ carob_script <- function(path) {
 			yield = d$Yield..kg.ha. / 0.87, 
 			 # Residue data is measured as dry weight
 			residue_yield = d$Stover.yield..kg.ha,
+			
 			fertilizer_type = 
 				ifelse(d$Treatment == "0.33NP/farmer practice" | d$Treatment == "NP", "urea; DAP",
 				ifelse(d$Treatment == "NPK", "urea; DAP; KNO",
@@ -111,11 +112,15 @@ carob_script <- function(path) {
 	d2$K_fertilizer <- ifelse(is.na(d$K.fertilizer.amount..K2O.kg.ha..), 0, d$K.fertilizer.amount..K2O.kg.ha..)
 	d2$Zn_fertilizer <- ifelse(is.na(d$Zn.fertilizer.amount..Zn.kg.ha..), 0, d$Zn.fertilizer.amount..Zn.kg.ha..)
 	d2$S_fertilizer <- ifelse(is.na(d$S.fertilizer.amount..S.kg.ha..), 0, d$S.fertilizer.amount..S.kg.ha..)
+	## remove bizarre high values
+	d2$residue_yield[d2$residue_yield > 25000] <- NA
 	
 ## process 002_2016_Wheat_ ICRISAT-AR_ETH.xlsx
 	f <- ff[basename(ff) == "002_2016_Wheat_ ICRISAT-AR_ETH.xlsx"]
 	d <- read.file(f)
 	d3 <- get_df(d, "2016_Wheat_")
+	## weird (including many negative) values
+	d3$residue_yield <- NA
 	
 ## process 003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx
 	f <- ff[basename(ff) == "003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx"]
@@ -126,6 +131,8 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "004_2019_Wheat_ ICRISAT-AR_ETH.xlsx"]
 	d <- read.file(f)
 	d5 <- get_df(d, "2019_Wheat_")	
+	## many values that are much lower than yield
+	d5$residue_yield <- NA
 	
 ## Append the data.frames
 	d <- carobiner::bindr(d2, d3, d4, d5)
@@ -151,6 +158,10 @@ carob_script <- function(path) {
 		latitude  = c(9.74, 9.799, 11.316, 10.826, 5.436, 6.857, 7.068, 11.748, 12.86)
 	)
 	d <- merge(d, geo, by="location", all.x=TRUE)
+
+## RH becaus of all the error in residue yield it may not be reliable at all
+## so I remove it from all records
+	d$residue_yield <- NULL
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
