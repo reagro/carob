@@ -6,7 +6,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 "
 carob_script <- function(path) {
   
-	uri <- "doi:10.25502/8yq1-dm57/d"
+	uri <- "doi:10.25502/14M8-CS44/D"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
   
@@ -17,7 +17,7 @@ carob_script <- function(path) {
 		project="N2Africa",
 		uri=uri,
 		publication=NA,
-		data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa farm monitoring - Malawi, 2010 - 2011 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/8YQ1-DM57/D",
+		data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa farm monitoring - Malawi, 2011 - 2012 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/14M8-CS44/D",
 		data_institutions = "IITA",
 		carob_contributor="Robert Hijmans",
 		data_type = "on-farm experiment"

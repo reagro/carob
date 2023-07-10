@@ -5,13 +5,17 @@ N2A_monitoring_2 <- function(ff) {
 	fix_crop <- function(p) {
 		p[grep("^grou", p, ignore.case=TRUE)] <- "groundnut"	
 		p[grep("soy", p, ignore.case=TRUE)] <- "soybean"	
-		p[grep("sweet pot", p, ignore.case=TRUE)] <- "sweetpotato"	
+		p[grep("sweet p", p, ignore.case=TRUE)] <- "sweetpotato"	
+		p[grep("sweetpot", p, ignore.case=TRUE)] <- "sweetpotato"	
 		p <- gsub("tobaco", "tobacco", p)
 		p <- gsub("beans", "common bean", p)
+		p <- gsub("pumpkins", "pumpkin", p)
 		p <- gsub("irish potatoes", "potato", p)
 		p <- gsub(" ma$", " maize", p)
 		p <- gsub(", ", "; ", p)
-		p <- gsub("\\+|/|&|,", "; ", p)
+		p <- gsub("\\+|/| &|&|,", "; ", p)
+		p <- gsub("maize; bean", "maize; common bean", p)
+		p <- gsub("fallow", "no crop", p)
 		p
 	}
 	
@@ -43,13 +47,57 @@ N2A_monitoring_2 <- function(ff) {
 	dd <- merge(d1, d2, by = c("farm_id", "plot_no"), all.x = TRUE )
 
 	# working on fertilizer types
-	dd$fertilizer_type <- carobiner::fix_name(dd$mineral_fert_type, "upper")
+# Super D and D Compound seem to be the same blend (https://agra.org/wp-content/uploads/2020/08/Malawi-Report_Assessment-of-Fertilizer-Distribution-Systems-and-Opportunities-for-Developing-Fertilizer-Blends.pdf)
+# Sympal: https://www.researchgate.net/profile/Charlotte-Schilt/publication/283304707_N2Africa_Final_Report_of_the_first_Phase_-_2009_-_2013/links/5d77729c4585151ee4ab2639/N2Africa-Final-Report-of-the-first-Phase-2009-2013.pdf
+
+	p <- carobiner::fix_name(dd$mineral_fert_type, "upper")
+	p[grepl("UREA", p)] <- "urea"
+	
+	p[grepl("^SYMP", p)] <- "sympal"
+	p[grepl("^S ", p)] <- "S-compound"
+	p[grepl("^D ", p)] <- "D-compound"
+	p[grepl("^S-COM", p)] <- "S-compound"
+	p[grepl("^D-COM", p)] <- "D-compound"
+	p[grepl("SUPER D", p)] <- "D-compound"
+	p[grepl("SINGLE SUPER PHOSPHATE", p)] <- "SSP"
+	p[p == "SUPER PHOSPHATE"] <- "SSP"
+	p[p %in% c("NONE", "NOON", "NON", "NO")] <- "none"
+	
+	dd$fertilizer_type <- p
 	
 	dd$P_fertilizer <- NA # what are codes 0, 1, 2?
 	dd$N_fertilizer <- 0
 	dd$K_fertilizer <- 0
-	#getting the yield
-	
+
+## from old script that _may_ be useful but 
+## needs to be rewritten to be readable
+## too much use of nested ifelse. Instead make a data.frame with type and content
+  
+  # # Adjusting NPK amounts
+  # d1$N_fertilizer <- ifelse(d1$fertilizer_type %in% c("urea"), d1$mineral_fert_amount * 0.46,  # assumption is that mineral fert amount is in kg
+                     # ifelse(d1$fertilizer_type == "23:21:0+4S", d1$mineral_fert_amount * 0.23,
+                     # ifelse(d1$fertilizer_type %in% c("D compound", "S compound"), d1$mineral_fert_amount * 0.08, NA)))
+                     # # ifelse(d1$fertilizer_type %in% c("Super D","Super d"),
+                                                 # # d1$mineral_fert_amount * 0.01,NA))))
+  
+  # d1$P_fertilizer <- ifelse(d1$fertilizer_type == "TSP", d1$mineral_fert_amount * 0.46*((2*31)/(2*31+5*16)),
+                     # ifelse(d1$fertilizer_type == "sympal", d1$mineral_fert_amount * 0.23*((2*31)/(2*31+5*16)),
+                     # ifelse(d1$fertilizer_type %in% c("urea","unknown","S compound"), d1$mineral_fert_amount * 0.21*((2*31)/(2*31+5*16)),
+                     # ifelse(d1$fertilizer_type == "D compound", d1$mineral_fert_amount * 0.18*((2*31)/(2*31+5*16)),
+                     # ifelse(d1$fertilizer_type == "SSP", d1$mineral_fert_amount * 0.145, NA)))))
+                     # # ifelse(d1$fertilizer_type %in% c("Super D","Super d"), d1$mineral_fert_amount * 0.24*((2*31)/(2*31+5*16)),
+                     # # ifelse(d1$fertilizer_type %in% c("Single super phosphate", "Single super phosphate "," Single Super phosphate","Super phosphate"), d1$mineral_fert_amount * 0.145,NA)))))) # takes into account atomic weight of both P and O
+  
+  # d1$K_fertilizer <- ifelse(d1$fertilizer_type == "sympal", d1$mineral_fert_amount * 0.15,
+                     # ifelse(d1$mineral_fert_type == "S compound", d1$mineral_fert_amount * 0.07,
+                     # ifelse(d1$fertilizer_type == "D compound", d1$mineral_fert_amount * 0.20, NA)))
+  
+
+	dd$OM_applied <- as.numeric(dd$organic_fert_amount)
+	dd$OM_used <- dd$organic_fert_amount > 0
+	dd$OM_type <- dd$organic_fert_type
+	dd$OM_type[!dd$OM_used] <- "none"
+
 	dd$yield <- 10000 * dd$crop_1_weight_grain / dd$crop_1_area_harvested
 	
 	dd$inoculant_used[dd$inoculant_used == ""] <- NA
@@ -61,8 +109,7 @@ N2A_monitoring_2 <- function(ff) {
 	dd$rep <- dd$plot_no
  	
 ## to do: also deal with crop_2/variety_2 
-	dd <- dd[, c("farm_id", "rep", "crop", "variety", "inoculated", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "yield")]
-	
+	dd <- dd[, c("farm_id", "rep", "crop", "variety", "inoculated", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "yield", "OM_used", "OM_type", "OM_applied")]
 	
 	
 	#get the dates information
