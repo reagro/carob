@@ -31,11 +31,18 @@ The study was carried out by the International Institute of Tropical Agriculture
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, FALSE)
-	e <- mzfun(ff, TRUE)
-	d <- carobiner::bindr(d, e)
+	d <- mzfun(ff)
 	d$dataset_id <- dataset_id
 
+	i <- d$location == "Mlingano"
+	d$longitude[i] <- 38.879
+	d$latitude[i] <- -5.107
+
+#Tanzania Agricultural Research Institute TARI-IFAKARA (KATRIN). Ifakara. Morogoro-Tanzania. 
+	i <- d$location == "Katrin"
+	d$longitude[i] <- 36.684
+	d$latitude[i] <- -8.139
+	
 	carobiner::write_files(dset, d, path=path)
 
 }

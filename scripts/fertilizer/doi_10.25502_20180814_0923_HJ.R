@@ -23,16 +23,16 @@ carob_script <- function(path) {
 	group <- "fertilizer"
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		project=NA,
-		uri=uri,
+		dataset_id = dataset_id, 
+		group=group, 
+		project=NA, 
+		uri=uri, 
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
-		publication= NA,
-		data_institutions = "IITA",
-		carob_contributor="Cedric Ngakou",
-		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kasungu [Data set]. International Institute of Tropical Agriculture (IITA).  doi:10.25502/20180814/0923/HJ",
+		publication= NA, 
+		data_institutions = "IITA", 
+		carob_contributor="Cedric Ngakou", 
+		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kasungu [Data set]. International Institute of Tropical Agriculture (IITA).  doi:10.25502/20180814/0923/HJ", 
 		data_type="experiment"
     )
   
@@ -50,96 +50,86 @@ carob_script <- function(path) {
 	r1 <- read.csv(f1)
 	r2 <- read.csv(f2)
 	r3 <- read.csv(f3)
-	#r <- readxl::read_excel(f) |> as.data.frame()
-	
-	
+		
 	## process file(s)
-	d1<-r1[,c("Site","Flat","Flong","Village","Season","Soil.texture.class","TCrop","PCrop1","FType1","MType1")]
-	colnames(d1)<-c("site","latitude","longitude","location","season","soil_type","crop","previous_crop","fertilizer_type","OM_type")
-	d1$dataset_id<-dataset_id
-	d2<-r3[,c(8,10,20,27)]
-	colnames(d2)<-c("rep","treatment","residue_yield","yield")
-	d2$dataset_id<-dataset_id
+	d1 <- r1[, c("Site", "Cluster", "Field", "Flat", "Flong", "Village", "Season", "Soil.texture.class", "TCrop", "PCrop1", "FType1", "MType1")]
+	colnames(d1) <- c("site", "cluster", "field", "latitude", "longitude", "location", "season", "soil_type", "crop", "previous_crop", "fertilizer_type", "OM_type")
+
+	d2 <- r3[, c("Cluster", "Field", 'Rep', 'TrtDesc', 'Adj.StoverYld', 'Grn.yld.adj')]
+	colnames(d2) <- c("cluster", "field", "rep", "treatment", "residue_yield", "yield")
+
 	#merge d1 and d2
-	d<-merge(d1,d2,by="dataset_id")
-	d$yield<-d$yield*1000 # kg/ha
-	# Add columns
-	d$country<-"Malawi"
-	d$planting_date<-"2015-12-29"
-	d$harvest_date<-"2016-06-01"
-	d$trial_id<-paste0(d$dataset_id,"-",d$location)
-	d$crop<-"maize"
-	d$yield_part <- "grain"
-	
-	# fill whitespace 
-	d <- replace(d, d=='', NA)
-	#Add column
-	d$OM_used<-ifelse(d$OM_type=="NA",FALSE,TRUE)
-	# fix name 
-	p <- carobiner::fix_name(d$previous_crop)
-	p <- gsub("Sweetpotatoes","sweetpotato",p)
-	p <- gsub("SWEET POTATOES","sweetpotato",p)
-	p <- gsub("No","no crop",p)
-	p <- gsub("G/nuts","groundnut",p)
-	p <- gsub("Cassava","cassava",p)
-	p <- gsub("Maize","maize",p)
-	p <- gsub("Soyabean","soybean",p)
-	p <- gsub("Tobacco","tobacco",p)
-	d$previous_crop <- p
+	## this made no sense whatsoever 
+	## d <- merge(d1, d2, by="dataset_id")
+	d <- merge(d1, d2, by=c("cluster", "field"))
+	d$cluster <- d$field <- NULL
 	
 	# fix fertilizer_type name
-	d$fertilizer_type <- ifelse(d$fertilizer_type=="NPK+Urea","NPK; urea",
-					ifelse(d$fertilizer_type=="CAN-DAP+NPK","CAN; DAP; NPK",
-					ifelse(d$fertilizer_type=="NPK+CAN+Urea","CAN; urea; NPK",
-					ifelse(d$fertilizer_type=="D.Comp;NPK;Urea;CAN","D-compound; urea; CAN; NPK",
-					ifelse(d$fertilizer_type=="Urea+CAN","urea; CAN",
-					ifelse(d$fertilizer_type=="CAN+NPK", "CAN; NPK",
-					ifelse(d$fertilizer_type=="NPK+Urea+CAN","urea; CAN; NPK",
-					ifelse(d$fertilizer_type=="NPK++CAN","CAN; NPK",
-					ifelse(d$fertilizer_type=="NPK;D Compound;Urea&CAN","D-compound; urea; CAN; NPK",
-				"something went wrong")))))))))
-	#### about the data #####
-	## (TRUE/FALSE)
+	p <- d$fertilizer_type
+	p <- gsub("\\+\\+|\\+|-|&", "; ", p)
+	p <- gsub(";", "; ", p)
+	p <- gsub(";  ", "; ", p)
+	p <- gsub("D Compound|D.Comp", "D-compound", p)
+	p <- gsub("Urea", "urea", p)
+	p[p == ""] <- "none"
+	d$fertilizer_type <- p
+
+	d$OM_type[d$OM_type ==""] <- NA
+	d$OM_used <- !is.na(d$OM_type)
+
+	d$yield <- d$yield*1000 # kg/ha
+
+	# fix name 
+	p <- carobiner::fix_name(d$previous_crop)
+	p <- gsub("Sweetpotatoes", "sweetpotato", p)
+	p <- gsub("SWEET POTATOES", "sweetpotato", p)
+	p <- gsub("No", "no crop", p)
+	p <- gsub("G/nuts", "groundnut", p)
+	p <- gsub("Cassava", "cassava", p)
+	p <- gsub("Maize", "maize", p)
+	p <- gsub("Soyabean", "soybean", p)
+	p <- gsub("Tobacco", "tobacco", p)
+	d$previous_crop <- p
+
 	
 	d$dataset_id <- dataset_id
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
 	#d$elevation <- NA
-	##### Fertilizers #####
-	d$N_fertilizer<-ifelse(d$treatment=="Control",0,
-					ifelse(d$treatment=="PK",0,
-					ifelse(d$treatment=="0N40P60K",0,
-					ifelse(d$treatment=="45N40P60K",45,
-					ifelse(d$treatment=="90N40P60K",90,
-					ifelse(d$treatment=="120N40P60K",120,
-					ifelse(d$treatment=="150N40P60K",150,
-					ifelse(d$treatment=="120N0P60K",120,
-					ifelse(d$treatment=="120N15P60K",120,
-					ifelse(d$treatment=="120N30P60K",120,100))))))))))
-	d$K_fertilizer<-ifelse(d$treatment=="Control",0,
-					ifelse(d$treatment=="NP",0,60))
-							
-	d$P_fertilizer<-ifelse(d$treatment=="Control",0,
-					ifelse(d$treatment=="NK",0,
-					ifelse(d$treatment=="120N0P60K",0,
-					ifelse(d$treatment=="0N40P60K",40,
-					ifelse(d$treatment=="45N40P60K",40,
-					ifelse(d$treatment=="90N40P60K",40,
-					ifelse(d$treatment=="120N40P60K",40,
-					ifelse(d$treatment=="150N40P60K",40,
-					ifelse(d$treatment=="120N15P60K",15,30)))))))))
-							
-	d$Zn_fertilizer<-ifelse(d$treatment=="NPK+Mn",3,0)
-							
-	d$S_fertilizer<-ifelse(d$treatment=="NPK+Mn",5,0)
 	
- # data type and date format
-	d$planting_date <- as.character(as.Date( d$planting_date	))
-	d$harvest_date	<- as.character(as.Date( d$harvest_date	))
-	d$season	<- as.character(d$season) 
-	d$fertilizer_type <- as.character(d$fertilizer_type) 
+	##### Fertilizers #####
+# what is the source of the "defaults" of 100N 60K and 30P?
+
+	d$N_fertilizer <- 0
+	d$N_fertilizer[grepl("N", d$treatment)] <- 100 
+	d$N_fertilizer[grepl("45N", d$treatment)] <- 45 
+	d$N_fertilizer[grepl("90N", d$treatment)] <- 90 
+	d$N_fertilizer[grepl("120N", d$treatment)] <- 120 
+	d$N_fertilizer[grepl("150N", d$treatment)] <- 150
+
+	d$K_fertilizer <- 0
+	d$K_fertilizer[grepl("K", d$treatment)] <- 60 
+	
+	d$P_fertilizer <- 0
+	d$P_fertilizer[grepl("P", d$treatment)] <- 30
+	d$P_fertilizer[grepl("15P", d$treatment)] <- 15
+	d$P_fertilizer[grepl("40P", d$treatment)] <- 40
+							
+	d$Zn_fertilizer <- ifelse(d$treatment=="NPK+Mn", 3, 0)						
+	d$S_fertilizer <- ifelse(d$treatment=="NPK+Mn", 5, 0)
+
+	# can we find out what the amount of lime applied was?
+	d$lime <- ifelse(d$treatment=="NPK+Lime", -99, 0)						
+
+	d$country <- "Malawi"
 	d$location <- carobiner::fix_name(d$location, "title")
+	d$planting_date <- "2015-12-29"
+	d$harvest_date <- "2016-06-01"
+	d$season	 <-  as.character(d$season) 
+	d$trial_id <- paste0(d$dataset_id, "-", d$location)
+	d$crop <- "maize"
+	d$yield_part <- "grain"
 
 	# all scripts must end like this	
 	carobiner::write_files(dset, d, path=path)

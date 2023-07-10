@@ -30,9 +30,17 @@ The study was carried out by the International Institute of Tropical Agriculture
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, FALSE)
+	d <- mzfun(ff)
 	d$dataset_id <- dataset_id
+	
+	i <- d$location == "Boni"
+	d$longitude[i] <- -3.39
+	d$latitude[i] <- 11.56
 
+	i <- d$location == "Station De Di"
+	d$longitude[i] <- -3.4
+	d$latitude[i] <- 13.17
+	
 	carobiner::write_files(dset, d, path=path)
 
 }

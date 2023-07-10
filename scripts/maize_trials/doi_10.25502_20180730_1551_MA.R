@@ -33,9 +33,14 @@ This dataset contains output of the research for Zaire."
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, FALSE)
+	d <- mzfun(ff)
 	d$dataset_id <- dataset_id
 	d$country <- "Democratic Republic of the Congo"
+
+	i <- d$location == "Zaire" | is.na(d$location)
+	d$longitude[i] <- NA
+	d$latitude[i] <- NA
+
 	carobiner::write_files(dset, d, path=path)
 
 }

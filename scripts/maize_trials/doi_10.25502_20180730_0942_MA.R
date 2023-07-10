@@ -8,7 +8,7 @@ This is an international study that contains data on yield and other Agronomic t
 The study was carried out by the International Institute of Tropical Agriculture between 1989 and 2015 in over thirty African countries.
 
 This dataset contains output of the research for Kenya."
-				
+
 	uri <- "doi:10.25502/20180730/0942/MA"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "maize_trials"	
@@ -33,11 +33,15 @@ This dataset contains output of the research for Kenya."
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, FALSE)
-	e <- mzfun(ff, TRUE)
-	d <- carobiner::bindr(d, e)
+	d <- mzfun(ff)
 
 	d$dataset_id <- dataset_id
+
+	d$trial_name[d$trial_name == ""] <- "not specified"
+	
+	i <- d$location == "Alupe"
+	d$longitude[i] <- 34.13
+	
 	carobiner::write_files(dset, d, path=path)
 
 }

@@ -149,13 +149,14 @@ carob_script <- function(path){
   x <- carobiner::fix_name(sapply(strsplit(d2$action_site, "-"), \(i) i[1]), "title")
   m <- carobiner::fix_name(d2$mandate_area_name, "title")
   d2$location <- paste0(x, " (", m, ")")
-  d2$observation_date <- as.character(as.Date(paste(d2$date_checked_yyyy,d2$date_checked_mm,d2$date_checked_dd, sep = "-")))
+## observation of what?
+#  d2$observation_date <- as.character(as.Date(paste(d2$date_checked_yyyy, d2$date_checked_mm, d2$date_checked_dd, sep = "-")))
   d2$country <- "Kenya"
   d2$latitude <- d2$gps_latitude_dec
   d2$longitude <- d2$gps_longitude_dec
   d2$elevation <- as.numeric(d2$gps_altitude_dec)
   
-  d2 <- d2[,c("trial_id", "country","location","observation_date","latitude","longitude","elevation")]
+  d2 <- d2[,c("trial_id", "country","location","latitude","longitude","elevation")]
   
   # combining into 1 final dataset
   z <- Reduce(function(...) merge(..., all=T), list(d,d2))
@@ -190,7 +191,7 @@ carob_script <- function(path){
 	z <- z[!is.na(z$yield),] # dropping entries without yield output
 	#rearranging the data 
 	
-	z <- z[,c("dataset_id","trial_id","country","location","latitude","longitude","elevation","rep","treatment","crop","variety", "planting_date","harvest_date","observation_date","inoculated","grain_weight","biomass_roots","biomass_total","fertilizer_type","N_fertilizer","N_splits",
+	z <- z[,c("dataset_id","trial_id","country","location","latitude","longitude","elevation","rep","treatment","crop","variety", "planting_date","harvest_date","inoculated","grain_weight","biomass_roots","biomass_total","fertilizer_type","N_fertilizer","N_splits",
 	"P_fertilizer","K_fertilizer","residue_yield","yield","on_farm")] 
 	
 	z$yield_part <- "seed"

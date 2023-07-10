@@ -32,8 +32,12 @@ This dataset contains output of the research for Sierra Leone.
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, FALSE)
+	d <- mzfun(ff)
 	d$dataset_id <- dataset_id
+
+	i <- d$location == "Guatemala"
+	d$longitude[i] <- NA
+	d$latitude[i] <- NA
 
 	carobiner::write_files(dset, d, path=path)
 

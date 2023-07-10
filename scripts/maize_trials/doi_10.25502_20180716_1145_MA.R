@@ -23,16 +23,20 @@ The study was carried out by the International Institute of Tropical Agriculture
 	)
 
 	## download and read data 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
 	dset$license <- carobiner::get_license(js)
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, FALSE)
-	d$dataset_id <- dataset_id
-	d$description <- as.character(d$description)
-	d$country <- "Myanmar"
-	
+	d <- mzfun(ff)
+	d$dataset_id  <- dataset_id
+#	d$description <- as.character(d$description)
+
+	d$country   <- "Myanmar"
+	#Yezin
+	d$longitude <- 96.267
+	d$latitude  <- 19.832
+
 	carobiner::write_files(dset, d, path=path)
 }

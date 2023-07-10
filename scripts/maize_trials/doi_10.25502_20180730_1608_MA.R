@@ -31,20 +31,16 @@ This dataset contains output of the research for Zimbabwe.
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, TRUE)
+	d <- mzfun(ff)
 	d$dataset_id <- dataset_id
 	
-	e <- mzfun(ff)
-	e$dataset_id <- dataset_id
 
-	x <- carobiner::bindr(d, e)
-
-	x$location[x$location=='Harare1'] <- "Harare"
-	x$longitude[x$location=='Harare'] <- 31.05
-	x$latitude[x$location=='Harare'] <- -17.83
-	x$description <- as.character(x$description)
+	d$location[d$location=='Harare1'] <- "Harare"
+	d$longitude[d$location=='Harare'] <- 31.05
+	d$latitude[d$location=='Harare'] <- -17.83
+	d$description <- as.character(d$description)
 
 # all scripts must end like this
-	carobiner::write_files(dset, x, path=path)
+	carobiner::write_files(dset, d, path=path)
 }
 

@@ -33,7 +33,11 @@ This dataset contains output of the research for Mali."
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
-	d <- mzfun(ff, FALSE)
+	d <- mzfun(ff)
+	
+	# Dalabani is in Guinea
+	i <- d$location == "Dalabani"
+	d$country[i] <- "Guinea"
 
 	d$dataset_id <- dataset_id
 	carobiner::write_files(dset, d, path=path)
