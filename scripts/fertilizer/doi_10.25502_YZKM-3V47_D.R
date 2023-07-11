@@ -79,7 +79,7 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 	d$P_fertilizer[i] <- 20
 	d$K_fertilizer[i] <- 90
 	d$N_splits[i] <- 2L
-	d$fertilizer_type[i] <- "MOP; urea"
+	d$fertilizer_type[i] <- "KCl; urea"
 
 # year from communication with S Hauser. See publication 
 	s <- c(4, 6, 8)[d$planting_date]
