@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
@@ -17,7 +14,7 @@ carob_script <- function(path) {
 
 "
 
-	uri <- "https://doi.org/10.25502/2knk-y279"
+	uri <- "doi:10.25502/2knk-y279"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	## dataset level data 
@@ -31,7 +28,7 @@ carob_script <- function(path) {
 		## also add a RIS file in references folder (with matching doi)
 		publication= NA,
 		data_institutions = "IITA",
-   	data_type = "survey", # or, e.g. "on-farm experiment", "survey", "compilation"
+		data_type = "survey", # or, e.g. "on-farm experiment", "survey", "compilation"
 		carob_contributor = "Eduardo Garcia Bendito"  
 	)
 
@@ -41,125 +38,135 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
 
-
 	f1 <- ff[basename(ff) == "legumes_area_and_management.csv"]
 	f2 <- ff[basename(ff) == "general.csv"]
 
 	r1 <- read.csv(f1)
 	r2 <- read.csv(f2)
 	
-	
-## process file(s)
+## no point in using fields with area <= zero
+	r1 <- r1[r1$area > 0,]
+	r <- merge(r1, r2, "farm_id")
 
-## use a subset
-	d1 <- carobiner::change_names(r1, colnames(r1), colnames(r1))
-	d1 <- d1[d1$area > 0,]
-	d2 <- carobiner::change_names(r2, colnames(r2), colnames(r2))
-	d <- merge(d2,d1,"farm_id")
-
-	
-#### about the data #####
-## (TRUE/FALSE)
-
-	d$dataset_id <- dataset_id
-	d$on_farm <- as.logical(TRUE)
-	d$is_survey <- as.logical(TRUE)
-	d$irrigated <- as.logical(FALSE)
 
 ##### Location #####
 ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
 ## you can use carobiner::fix_name()
-	d$country <- trimws(d$country)
-	d$site <- trimws(d$village)
-	d$adm1 <- trimws(d$district_lga)
-	d$elevation <- d$gps_altitude
-## each site must have corresponding longitude and latitude
 
-	# # EGB: Extracting spatial coordinates:
+	d <- data.frame(
+		dataset_id = dataset_id,
+		trial_id = r$farm_id, 
+		on_farm = TRUE,
+		is_survey = TRUE,
+		irrigated = FALSE,
+		country = trimws(r$country),
+		site = carobiner::fix_name(r$village),
+		adm1 = carobiner::fix_name(r$district_lga),
+		elevation = r$gps_altitude
+	)
 	
-	# s <- unique(d[nchar(d$adm1) > 1,c("country", "adm1", "site")])
-	# s$latitude <- NA
-	# s$longitude <- NA
-	# s$longitude[s$site == "Chinamaringa"] <- 31.184
-	# s$latitude[s$site == "Chinamaringa"] <- -17.761
-	# s$longitude[s$site == c("Muzvuwe", "Muzuwe", "Muzuva")] <- 30.976
-	# s$latitude[s$site == c("Muzvuwe", "Muzuwe", "Muzuva")] <- -17.507
-	# s$longitude[s$site %in% c("Mutuugwazi", "Mutuungwazi", "Mutungwazi", "Mutugwasi", "Mutugwazi", "Mutungwasi")] <- 31.301
-	# s$latitude[s$site %in% c("Mutuugwazi", "Mutuungwazi", "Mutungwazi", "Mutugwasi", "Mutugwazi", "Mutungwasi")] <- -17.531
-	# s$longitude[s$site %in% c("Gwangwara")] <- 31.935
-	# s$latitude[s$site %in% c("Gwangwara")] <- -17.846
-	# s$longitude[s$site %in% c("Chinamasa")] <- 32.581
-	# s$latitude[s$site %in% c("Chinamasa")] <- -18.503
-	# s$longitude[s$site %in% c("Gumbodete")] <- 26.862 # https://www.google.com/maps/place/Dete,+Zimbabwe
-	# s$latitude[s$site %in% c("Gumbodete")] <- -18.620 # https://www.google.com/maps/place/Dete,+Zimbabwe
-	# s$longitude[s$site %in% c("Nyarire", "Nyariri")] <- 32.019 # https://www.google.com/maps/place/Nyadire,+Zimbabwe
-	# s$latitude[s$site %in% c("Nyarire", "Nyariri")] <- -17.425 # https://www.google.com/maps/place/Nyadire,+Zimbabwe
-	# s$longitude[s$site %in% c("Manyonga")] <- 31.578 # https://www.google.com/maps/place/Manyongo
-	# s$latitude[s$site %in% c("Manyonga")] <- -17.512 # https://www.google.com/maps/place/Manyongo
-	# s$longitude[s$site %in% c("Dzvete")] <- 31.594 # https://www.google.com/maps/place/Dzvete
-	# s$latitude[s$site %in% c("Dzvete")] <- -17.478 # https://www.google.com/maps/place/Dzvete
-	# s$longitude[s$site %in% c("Tongogara")] <- 31.600 # https://www.google.com/maps/place/Tongogara,+Zimbabwe
-	# s$latitude[s$site %in% c("Tongogara")] <- -16.940 # https://www.google.com/maps/place/Tongogara,+Zimbabwe
-	# s$longitude[s$site %in% c("Munyawiri")] <- 31.136 # https://www.google.com/maps/place/Munyawiri
-	# s$latitude[s$site %in% c("Munyawiri")] <- -17.509 # https://www.google.com/maps/place/Munyawiri
-	# s$longitude[s$site %in% c("Chinamhora")] <- 31.223 # https://www.google.com/maps/place/Chinamhora,+Zimbabwe
-	# s$latitude[s$site %in% c("Chinamhora")] <- -17.512 # https://www.google.com/maps/place/Chinamhora,+Zimbabwe
-	# s$longitude[s$site %in% c("Nyanyiwa")] <- 30.857 # https://www.google.com/maps/place/Nyanyiwa
-	# s$latitude[s$site %in% c("Nyanyiwa")] <- -18.340 # https://www.google.com/maps/place/Nyanyiwa
-	# s$longitude[s$site %in% c("Muponda")] <- 32.721 # https://www.google.com/maps/place/Muponda+primary+School
-	# s$latitude[s$site %in% c("Muponda")] <- -18.650 # https://www.google.com/maps/place/Muponda+primary+School
-	# s$adm1[s$adm1 == "Chegut"] <- "Chegutu"
-	# s$adm1[s$adm1 == "Makone"] <- "Makoni"
-	# s$adm1[s$adm1 == "Gormonzi"] <- "Goromonzi"
-	# for (i in 1:nrow(s)) {
-	#   if(is.na(s$latitude[i]) | is.na(s$longitude[i])){
-	#     ll <- carobiner::geocode(country = s$country[i], adm1 = s$adm1[i], location = s$site[i], service = "geonames", username = "efyrouwa")
-	#     ii <- unlist(jsonlite::fromJSON(ll))
-	#     c <- as.integer(ii["totalResultsCount"][[1]])
-	#     s$latitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lat"][1], ii["geonames.lat1"][1]))
-	#     s$longitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lng"][1], ii["geonames.lng1"][1]))
-	#   }
-	# }
-	# ss <- unique(s[nchar(s$adm1) > 1 & is.na(s$latitude), c("country", "adm1", "site")])
-	# ss$adm1[ss$adm1 == "Chegut"] <- "Chegutu"
-	# ss$adm1[ss$adm1 == "Makone"] <- "Makoni"
-	# ss$adm1[ss$adm1 == "Gormonzi"] <- "Goromonzi"
-	# for (i in 1:nrow(ss)) {
-	#   ll <- carobiner::geocode(country = ss$country[i], adm1 = ss$adm1[i], location = ss$adm1[i], service = "geonames", username = "efyrouwa")
-	#   ii <- unlist(jsonlite::fromJSON(ll))
-	#   c <- as.integer(ii["totalResultsCount"][[1]])
-	#   ss$latitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lat"][1], ii["geonames.lat1"][1]))
-	#   ss$longitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lng"][1], ii["geonames.lng1"][1]))
-	# }
-	# sss <- s
-	# for (i in 1:nrow(sss)) {
-	#   if(is.na(sss$latitude[i]) & is.na(sss$longitude[i])){
-	#     sss$latitude[i] <- ss$latitude[ss$country == sss$country[i] & ss$adm1 == sss$adm1[i] & ss$site == sss$site[i]][1]
-	#     sss$longitude[i] <- ss$longitude[ss$country == sss$country[i] & ss$adm1 == sss$adm1[i] & ss$site == sss$site[i]][1]
-	#   }
-	# }
-	# sss <- dput(sss)
+##### Crop #####
+	d$crop[r$type_legume_variety %in%
+		c("Common beans", "Climbing Beans", "Bush Beans", "Sugarbeans")] <- "common bean"	
+	d$crop[r$type_legume_variety %in% c("Groundnuts", "groundnuts")] <- "groundnut"
+	d$crop[r$type_legume_variety == "Cowpeas"] <- "cowpea"
+	d$crop[r$type_legume_variety %in% c("Soybeans", "Soyabeans")] <- "soybean"
+	d$crop[r$type_legume_variety %in% c("Bambara nuts")] <- "bambara groundnut"
+
+	d$variety_type <- NA
+	d$variety_type[r$type_legume_variety == "Bush Beans"] <- "bush bean"
+	d$variety_type[r$type_legume_variety == "Climbing Beans"] <- "climbing bean"
+
+## EGB: Add intercropping
+	d$intercrops <- NA	
+	r$with_which_crops <- tolower(trimws(r$with_which_crops))
+	d$intercrops[r$with_which_crops %in% c("cowpea and maize", "maize and cowpeas", "cowpea :maize")] <- "maize; cowpea"
+	d$intercrops[r$with_which_crops == "maixe and sugar beans"] <- "maize; common bean"
+	d$intercrops[r$with_which_crops == "groundnuts"] <- "groundnut"
+	d$intercrops[r$with_which_crops == "cowpeas"] <- "cowpea"
+	d$intercrops[r$with_which_crops == "maize"] <- "maize"
+
+##### Time #####
+## time can be year (four characters), year-month (7 characters) or date (10 characters).
+## use 	as.character(as.Date()) for dates to assure the correct format.
+	d$planting_date <- "2011"
+	d$harvest_date <- "2012"
+	d$season <- as.character(r$season)
 	
-	# # Formatting coordinates into the dataset
+
+##### Fertilizers #####
+## note that we use P and K, not P2O5 and K2O
+	# for readability
+	p <- tolower(trimws(r$synthetic_fert_types))
+	k <- rep(NA, length(p))
+	# Fertilizer type
+	k[p %in% c("ssp, lime", "ssp and lime", "lime, ssp", "lime and ssp", "ssp. lime")] <- "SSP; lime"
+	k[p %in% c("compound d", "compund d")] <- "D-compound"
+	k[p %in% c("ammonium nitrate", "an", "amonium nitrate", "an applied in maize")] <- "AN"
+	k[p %in% c("ammonium nitrate, compound d", "compound d, an", "compound d and amonium nitrate", "an and compund d", "compound d and an", "compound d, ammonium nitrate", "compound d, an in the maize crop")] <- "D-compound; AN"
+	k[p %in% c("compound d and gypsum")] <- "D-compound; gypsum"
+	k[p == c("ssp, gypsum")] <- "SSP; gypsum"
+	k[p == "gypsum"] <- "gypsum"
+	k[p == "ssp"] <- "SSP"
+	k[p == "lime"] <- "lime"
+	d$fertilizer_type <- k
+
+	ftab <- carobiner::get_accepted_values("fertilizer_type", path)[, c("name", "N", "P", "K", "S")]
+	ftab <- ftab[ftab$name %in% c("SSP", "D-compound", "AN"), ]
+	fmat <- as.matrix(ftab[,-1])
+	fr <- matrix(0, ncol=4, nrow=nrow(d))
+	colnames(fr) <- c("N_fertilizer", "P_fertilizer", "K_fertilizer", "S_fertilizer")
+	i <- grep("SSP", k)
+	fr[i, ] <- rep(fmat[ftab$name=="SSP", ] , each=length(i))
+	i <- grep("AN", k)
+	fr[i, ] <- fr[i, ] + rep(fmat[ftab$name=="AN", ] , each=length(i))
+	i <- grep("D-comp", k)
+	fr[i, ] <- fr[i, ] + rep(fmat[ftab$name=="D-compound", ], each=length(i))
+
+	famount <- 10 * r$amount_fert_kg / r$area  # From g/m2 to kg/ha
+	d <- cbind(d, fr * famount)
+
+	# # EGB: Lime and Gypsum can be captured, but the amount is not indicated
+	# d$lime[grep("lime", d$fertilizer_type)] <- 99
+	# d$gypsum[grep("gypsum", d$fertilizer_type)] <- 99
+	
+##RH I really want to capture lime. We should ask them about it 
+	message("to do: lime & gypsum")
+
+	# Treatment code	
+	d$treatment <- paste0("N", round(d$N_fertilizer),
+	                      "P", round(d$P_fertilizer),
+	                      "K", round(d$K_fertilizer))
+	
+	d$OM_used <- r$organic_fert_applied == "Y"
+	d$OM_used[r$organic_fert_applied == ""] <- NA
+
+# # EGB: Add inoculation
+	d$inoculated <- r$inoculant_applied == "Y"
+   # # EGB: Inoculant is not specified. Only providers.
+   
+##### Yield #####
+  # # EGB: No biomass
+	d$yield <- 10 * r$production_field_kg / r$area # From g/m2 to kg/ha
+
+#RH: I am under the impression that N2Africa measure peanut seed, not pods. 
+	#what plant part does yield refer to?
+	d$yield_part <- ifelse(d$crop == "peanut", "pod", "grain")
+
+
+#RH I moved this to the bottom because "merge" changes the order of the data. 
+# So that is a downside of the method that I prefer. I prefer to avoid subsetting at then end. 
+# You can also add add "record_ID" before merge and then sort. 
+
+## some of the coordinates refer to the site, others to the adm1. 
+## it would be clearer, and less verbose, to separate that and do this in two steps 
+## first for the cases where the site is used. Then for the cases where only the adm1 is used.
+## then it is also clear where improvements would be most useful. 
+## before using dput I would round to 3 decimals (that is already ~100 m precision)
+
+## see below for georeferencing documentation (bc it is so much, which is great)
 	sss <- data.frame(
-	  country = c("Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", 
-	            "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe"),
+	  country = "Zimbabwe", 
 	  adm1 = c("Murehwa", "Murehwa", "Murehwa", "Murehwa", "Murehwa", "Murehwa", "Murehwa", 
 	           "Murehwa", "Chegutu", "Chegutu", "Chegutu", "Chegutu", "Chegutu", 
 	           "Chegutu", "Chegutu", "Chegutu", "Chegutu", "Chegutu", "Chegutu", 
@@ -228,102 +235,82 @@ carob_script <- function(path) {
 	                31.223, 31.36372, 31.83083, 31.83083, 30.857, 30.14074, 30.14074, 
 	                32.721))
 	
-	d <- merge(d, sss, by = c("country", "adm1", "site"))
-	
-##### Crop #####
-## normalize variety names
-## see carobiner::fix_name
-	d$crop <- NA
-	d$crop[d$type_legume_variety %in% c("Common beans", "Climbing Beans", "Bush Beans", "Sugarbeans")] <- "common bean"
-	d$crop[d$type_legume_variety %in% c("Groundnuts", "groundnuts")] <- "groundnut"
-	d$crop[d$type_legume_variety %in% c("Cowpeas")] <- "cowpea"
-	d$crop[d$type_legume_variety %in% c("Soybeans", "Soyabeans")] <- "soybean"
-	d$crop[d$type_legume_variety %in% c("Bambara nuts")] <- "bambara groundnut"
-
-# # EGB: Add intercropping
-	d$inoculated <- as.logical(FALSE)
-	d$inoculated[d$inoculant_applied == "Y"] <- as.logical(TRUE)
-	d$intercrops <- NA
-	d$intercrops[tolower(trimws(d$with_which_crops)) %in% c("cowpea and maize", "maize and cowpeas", "cowpea :maize")] <- "maize; cowpea"
-	d$intercrops[tolower(trimws(d$with_which_crops)) %in% c("maixe and sugar beans")] <- "maize; common bean"
-	d$intercrops[tolower(trimws(d$with_which_crops)) %in% c("groundnuts")] <- "groundnut"
-	d$intercrops[tolower(trimws(d$with_which_crops)) %in% c("cowpeas")] <- "cowpea"
-	d$intercrops[tolower(trimws(d$with_which_crops)) %in% c("maize")] <- "maize"
-
-##### Time #####
-## time can be year (four characters), year-month (7 characters) or date (10 characters).
-## use 	as.character(as.Date()) for dates to assure the correct format.
-	d$start_date <- as.character(format(as.Date("2011-01-01"), "%Y"))
-	d$end_date  <- as.character(format(as.Date("2012-01-01"), "%Y"))
-	d$season <- as.character(d$season)
-	
-
-##### Fertilizers #####
-## note that we use P and K, not P2O5 and K2O
-	d$fert <- (d$amount_fert_kg)/((d$area)/10000) # From kg/m2 to kg/ha
-	d$synthetic_fert_types <- tolower(trimws(d$synthetic_fert_types))
-	# Fertilizer type
-	d$fertilizer_type <- NA
-	d$fertilizer_type[d$synthetic_fert_types %in% c("ssp, lime", "ssp and lime", "lime, ssp", "lime and ssp", "ssp. lime")] <- "SSP; lime"
-	d$fertilizer_type[d$synthetic_fert_types %in% c("compound d", "compund d")] <- "D-compound"
-	d$fertilizer_type[d$synthetic_fert_types %in% c("ammonium nitrate", "an", "amonium nitrate", "an applied in maize")] <- "AN"
-	d$fertilizer_type[d$synthetic_fert_types %in% c("ammonium nitrate, compound d", "compound d, an", "compound d and amonium nitrate", "an and compund d", "compound d and an", "compound d, ammonium nitrate", "compound d, an in the maize crop")] <- "D-compound; AN"
-	d$fertilizer_type[d$synthetic_fert_types %in% c("compound d and gypsum")] <- "D-compound; gypsum"
-	d$fertilizer_type[d$synthetic_fert_types %in% c("ssp, gypsum")] <- "SSP; gypsum"
-	d$fertilizer_type[d$synthetic_fert_types %in% c("gypsum")] <- "gypsum"
-	d$fertilizer_type[d$synthetic_fert_types %in% c("ssp")] <- "SSP"
-	d$fertilizer_type[d$synthetic_fert_types %in% c("lime")] <- "lime"
-	# Fertilizer amounts
-	d$N_fertilizer <- 0
-	d$N_fertilizer[d$fertilizer_type %in% c("D-compound", "D-compound; gypsum")] <- d$fert[d$fertilizer_type %in% c("D-compound", "D-compound; gypsum")] * 0.1
-	d$N_fertilizer[d$fertilizer_type %in% c("AN")] <- d$fert[d$fertilizer_type %in% c("AN")] * 0.34
-	d$N_fertilizer[d$fertilizer_type %in% c("D-compound; AN")] <- d$fert[d$fertilizer_type %in% c("D-compound; AN")] * 0.2
-	d$P_fertilizer <- 0
-	d$P_fertilizer[d$fertilizer_type %in% c("SSP", "SSP; gypsum", "SSP; lime")] <- d$fert[d$fertilizer_type %in% c("SSP", "SSP; gypsum", "SSP; lime")] * 0.0874
-	d$P_fertilizer[d$fertilizer_type %in% c("D-compound", "D-compound; gypsum", "D-compound; AN")] <- d$fert[d$fertilizer_type %in% c("D-compound", "D-compound; gypsum", "D-compound; AN")] * 0.2
-	d$K_fertilizer <- 0
-	d$K_fertilizer[d$fertilizer_type %in% c("D-compound", "D-compound; gypsum", "D-compound; AN")] <- d$fert[d$fertilizer_type %in% c("D-compound", "D-compound; gypsum", "D-compound; AN")] * 0.1
-	d$S_fertilizer <- 0
-	d$S_fertilizer[d$fertilizer_type %in% c("D-compound", "D-compound; AN")] <- d$fert[d$fertilizer_type %in% c("D-compound", "D-compound; AN")] * 0.09
-	d$S_fertilizer[d$fertilizer_type %in% c("D-compound; gypsum")] <- d$fert[d$fertilizer_type %in% c("D-compound; gypsum")] * 0.135
-	d$Ca_fertilizer <- 0
-	d$Ca_fertilizer[d$fertilizer_type %in% c("lime", "SSP; lime")] <- d$fert[d$fertilizer_type %in% c("lime", "SSP; lime")] * 0.35
-	d$Ca_fertilizer[d$fertilizer_type %in% c("gypsum", "SSP; gypsum", "D-compound; gypsum")] <- d$fert[d$fertilizer_type %in% c("gypsum", "SSP; gypsum", "D-compound; gypsum")] * 0.23
-	# # EGB: Lime and Gypsum can be captured, but the amount is not indicated
-	# d$lime[d$fertilizer_type %in% c("lime", "ssp, lime", "ssp and lime", "lime, ssp", "lime and ssp", "ssp. lime")] <- d$fert
-	# d$gypsum[d$fertilizer_type %in% c("gypsum", "ssp, gypsum", "compound d and gypsum")] <- d$fert
-
-	# Treatment code	
-	d$treatment <- paste0("N", as.character(ifelse(!is.na(d$N_fertilizer), round(d$N_fertilizer,0), 0)),
-	                      "P", as.character(ifelse(!is.na(d$P_fertilizer), round(d$P_fertilizer,0), 0)),
-	                      "K", as.character(ifelse(!is.na(d$K_fertilizer), round(d$K_fertilizer,0), 0)))
-	
-	d$OM_used <- NA
-	d$OM_used[d$organic_fert_applied == "Y"] <- as.logical(TRUE)
-	d$OM_used[trimws(d$organic_fert_applied) == "N"] <- as.logical(FALSE)
-# # EGB: Add inoculation
-   d$inoculated <- as.logical(FALSE)
-   d$inoculated[d$inoculant_applied == "Y"] <- as.logical(TRUE)
-   # # EGB: Inoculant is not specified. Only providers.
-   # d$inoculant <- NA
-   # d$inoculant[isTRUE(d$inoculated)] <- as.character(d$inoculant_source)
-   
-##### Yield #####
-  # # EGB: No biomass
-	# d$biomass_total <- 
-
-  d$yield <- (d$production_field_kg)/((d$area)/10000) # From kg/m2 to kg/ha
-	#what plant part does yield refer to?
-	d$yield_part <- "pod"
-
-	# # EGB: subsetting dataset	
-	dd <- d[, c("dataset_id", "on_farm", "is_survey",
-	           "country", "adm1", "site", "latitude", "longitude", "elevation",
-	           "crop", "intercrops", "treatment",
-	           "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "S_fertilizer", "Ca_fertilizer", "OM_used",
-	           "yield", "yield_part",
-	           "irrigated", "inoculated")]
+	# all.x=TRUE
+	d <- merge(d, sss, by = c("country", "adm1", "site"), all.x=TRUE)
 
 # all scripts must end like this
-	carobiner::write_files(dset, dd, path=path)
+	carobiner::write_files(dset, d, path=path)
 }
+
+
+
+## Georeferencing documentation 
+##
+## each site must have corresponding longitude and latitude
+	# # EGB: Extracting spatial coordinates:
+	
+	# s <- unique(d[nchar(d$adm1) > 1,c("country", "adm1", "site")])
+	# s$latitude <- NA
+	# s$longitude <- NA
+	# s$longitude[s$site == "Chinamaringa"] <- 31.184
+	# s$latitude[s$site == "Chinamaringa"] <- -17.761
+	# s$longitude[s$site == c("Muzvuwe", "Muzuwe", "Muzuva")] <- 30.976
+	# s$latitude[s$site == c("Muzvuwe", "Muzuwe", "Muzuva")] <- -17.507
+	# s$longitude[s$site %in% c("Mutuugwazi", "Mutuungwazi", "Mutungwazi", "Mutugwasi", "Mutugwazi", "Mutungwasi")] <- 31.301
+	# s$latitude[s$site %in% c("Mutuugwazi", "Mutuungwazi", "Mutungwazi", "Mutugwasi", "Mutugwazi", "Mutungwasi")] <- -17.531
+	# s$longitude[s$site == c("Gwangwara")] <- 31.935
+	# s$latitude[s$site == c("Gwangwara")] <- -17.846
+	# s$longitude[s$site == c("Chinamasa")] <- 32.581
+	# s$latitude[s$site == c("Chinamasa")] <- -18.503
+	# s$longitude[s$site == c("Gumbodete")] <- 26.862 # https://www.google.com/maps/place/Dete,+Zimbabwe
+	# s$latitude[s$site == c("Gumbodete")] <- -18.620 # https://www.google.com/maps/place/Dete,+Zimbabwe
+	# s$longitude[s$site %in% c("Nyarire", "Nyariri")] <- 32.019 # https://www.google.com/maps/place/Nyadire,+Zimbabwe
+	# s$latitude[s$site %in% c("Nyarire", "Nyariri")] <- -17.425 # https://www.google.com/maps/place/Nyadire,+Zimbabwe
+	# s$longitude[s$site == c("Manyonga")] <- 31.578 # https://www.google.com/maps/place/Manyongo
+	# s$latitude[s$site == c("Manyonga")] <- -17.512 # https://www.google.com/maps/place/Manyongo
+	# s$longitude[s$site == c("Dzvete")] <- 31.594 # https://www.google.com/maps/place/Dzvete
+	# s$latitude[s$site == c("Dzvete")] <- -17.478 # https://www.google.com/maps/place/Dzvete
+	# s$longitude[s$site == c("Tongogara")] <- 31.600 # https://www.google.com/maps/place/Tongogara,+Zimbabwe
+	# s$latitude[s$site == c("Tongogara")] <- -16.940 # https://www.google.com/maps/place/Tongogara,+Zimbabwe
+	# s$longitude[s$site == c("Munyawiri")] <- 31.136 # https://www.google.com/maps/place/Munyawiri
+	# s$latitude[s$site == c("Munyawiri")] <- -17.509 # https://www.google.com/maps/place/Munyawiri
+	# s$longitude[s$site == c("Chinamhora")] <- 31.223 # https://www.google.com/maps/place/Chinamhora,+Zimbabwe
+	# s$latitude[s$site == c("Chinamhora")] <- -17.512 # https://www.google.com/maps/place/Chinamhora,+Zimbabwe
+	# s$longitude[s$site == c("Nyanyiwa")] <- 30.857 # https://www.google.com/maps/place/Nyanyiwa
+	# s$latitude[s$site == c("Nyanyiwa")] <- -18.340 # https://www.google.com/maps/place/Nyanyiwa
+	# s$longitude[s$site == c("Muponda")] <- 32.721 # https://www.google.com/maps/place/Muponda+primary+School
+	# s$latitude[s$site == c("Muponda")] <- -18.650 # https://www.google.com/maps/place/Muponda+primary+School
+	# s$adm1[s$adm1 == "Chegut"] <- "Chegutu"
+	# s$adm1[s$adm1 == "Makone"] <- "Makoni"
+	# s$adm1[s$adm1 == "Gormonzi"] <- "Goromonzi"
+	# for (i in 1:nrow(s)) {
+	#   if(is.na(s$latitude[i]) | is.na(s$longitude[i])){
+	#     ll <- carobiner::geocode(country = s$country[i], adm1 = s$adm1[i], location = s$site[i], service = "geonames", username = "efyrouwa")
+	#     ii <- unlist(jsonlite::fromJSON(ll))
+	#     c <- as.integer(ii["totalResultsCount"][[1]])
+	#     s$latitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lat"][1], ii["geonames.lat1"][1]))
+	#     s$longitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lng"][1], ii["geonames.lng1"][1]))
+	#   }
+	# }
+	# ss <- unique(s[nchar(s$adm1) > 1 & is.na(s$latitude), c("country", "adm1", "site")])
+	# ss$adm1[ss$adm1 == "Chegut"] <- "Chegutu"
+	# ss$adm1[ss$adm1 == "Makone"] <- "Makoni"
+	# ss$adm1[ss$adm1 == "Gormonzi"] <- "Goromonzi"
+	# for (i in 1:nrow(ss)) {
+	#   ll <- carobiner::geocode(country = ss$country[i], adm1 = ss$adm1[i], location = ss$adm1[i], service = "geonames", username = "efyrouwa")
+	#   ii <- unlist(jsonlite::fromJSON(ll))
+	#   c <- as.integer(ii["totalResultsCount"][[1]])
+	#   ss$latitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lat"][1], ii["geonames.lat1"][1]))
+	#   ss$longitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lng"][1], ii["geonames.lng1"][1]))
+	# }
+	# sss <- s
+	# for (i in 1:nrow(sss)) {
+	#   if(is.na(sss$latitude[i]) & is.na(sss$longitude[i])){
+	#     sss$latitude[i] <- ss$latitude[ss$country == sss$country[i] & ss$adm1 == sss$adm1[i] & ss$site == sss$site[i]][1]
+	#     sss$longitude[i] <- ss$longitude[ss$country == sss$country[i] & ss$adm1 == sss$adm1[i] & ss$site == sss$site[i]][1]
+	#   }
+	# }
+	# sss <- dput(sss)
+	
+	# # Formatting coordinates into the dataset
+
