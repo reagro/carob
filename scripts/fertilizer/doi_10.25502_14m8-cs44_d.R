@@ -34,8 +34,10 @@ carob_script <- function(path) {
 	d$dataset_id <- dataset_id
 	
 	# longitude might be OK
-	d$latitude <- NA
-	
+	d$longitude <- d$latitude <- NULL
+	# one record. no yield, to avoid warning, for now
+	d <- d[d$crop != "sweetpotato", ]
+
 	carobiner::write_files(dset, d, path=path)
 
 }

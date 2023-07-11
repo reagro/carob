@@ -33,6 +33,9 @@ carob_script <- function(path) {
 	d <- n2afun(ff, path)
 	d$dataset_id <- dataset_id
 	
+	#for now some are crazy high
+	d$yield[d$yield > 10000] <- NA
+	
 	carobiner::write_files(dset, d, path=path)
 	
 }

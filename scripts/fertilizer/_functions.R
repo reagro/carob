@@ -3,11 +3,14 @@
 N2A_monitoring_2 <- function(ff, path) {	
 
 	fix_crop <- function(p) {
+	
+	
 		p[grep("^grou", p, ignore.case=TRUE)] <- "groundnut"	
 		p[grep("soy", p, ignore.case=TRUE)] <- "soybean"	
 		p[grep("sweet p", p, ignore.case=TRUE)] <- "sweetpotato"	
 		p[grep("sweetpot", p, ignore.case=TRUE)] <- "sweetpotato"	
 		p[grep("swetpot", p, ignore.case=TRUE)] <- "sweetpotato"	
+		p <- gsub("n/a", NA, p)
 		p <- gsub("tobaco", "tobacco", p)
 		p <- gsub("beans", "common bean", p)
 		p <- gsub("pumpkins", "pumpkin", p)
@@ -15,6 +18,8 @@ N2A_monitoring_2 <- function(ff, path) {
 		p <- gsub("irish potato", "potato", p)
 		p <- gsub(" ma$", " maize", p)
 		p <- gsub(", ", "; ", p)
+		p <- gsub(" ;", ";", p)
+		p <- gsub(" and ", "; ", p)
 		p <- gsub("\\+|/| &|&|,", "; ", p)
 		p <- gsub("maize; bean", "maize; common bean", p)
 		p <- gsub("farrow", "no crop", p)
@@ -22,7 +27,21 @@ N2A_monitoring_2 <- function(ff, path) {
 		p <- gsub("pegion pea", "pigeon pea", p)
 		p <- gsub("groundnuts", "groundnut", p)
 		p <- gsub("local maize", "groundnut", p)
-		p
+		p <- gsub("fingermillet", "finger millet", p)
+		p <- gsub("amaranthas", "amaranth", p)
+		p <- gsub("amaranthus", "amaranth", p)
+		p <- gsub("tomatoes", "tomato", p)
+		p <- gsub("green amarantha", "amaranth", p)
+		p <- gsub("rice upland", "rice", p)
+		p <- gsub("kales", "kale", p)
+		p <- gsub(" intercrop", "", p)
+		p <- gsub("cowpeas", "cowpea", p)
+		p <- gsub("simsim", "sesame", p)
+		p <- gsub("sugar cane", "sugarcane", p)
+		p <- gsub(" ;", ";", p)
+		p <- gsub("  ", " ", p)
+		trimws(p)
+
 	}
 	
 	# read the data
@@ -78,9 +97,9 @@ N2A_monitoring_2 <- function(ff, path) {
 ##  what are codes 0, 1, 2?
 ##  perhaps one of the codebooks explains that?
 
-	#dd$P_fertilizer <- as.numeric(NA)
-	#dd$N_fertilizer <- as.numeric(NA)
-	#dd$K_fertilizer <- as.numeric(NA)
+	dd$P_fertilizer <- as.numeric(NA)
+	dd$N_fertilizer <- as.numeric(NA)
+	dd$K_fertilizer <- as.numeric(NA)
 
 ## from old script that _may_ be useful but 
 ## needs to be rewritten to be readable
@@ -130,10 +149,15 @@ N2A_monitoring_2 <- function(ff, path) {
 	dd$inoculated <- dd$inoculant_used == "Y"
 	
 	#standardizing the crops and variety
+	dd$variety_type <- NA
 	dd$crop <- fix_crop(dd$crop_1)
 	i <- dd$crop == "bush bean"
 	dd$crop[i] <- "common bean"
-	dd$variety_type <- "bush bean"
+	dd$variety_type[i] <- "bush bean"
+	i <- dd$crop == "climbing bean"
+	dd$crop[i] <- "common bean"
+	dd$variety_type[i] <- "climbing bean"
+
 	dd$variety <- carobiner::fix_name(dd$variety_1, "title")
 	dd$rep <- dd$plot_no
  	
