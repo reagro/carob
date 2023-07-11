@@ -20,7 +20,7 @@ ACAI is a 5 year Bill & Melinda Gates Foundation funded project in 5 countries i
 	   publication= NA,
 	   data_institutions = "IITA",
 	   carob_contributor="Robert Hijmans",
-	   data_type="experiment"
+	   data_type="on-farm experiment"
 	)
 
 ## download and read data 

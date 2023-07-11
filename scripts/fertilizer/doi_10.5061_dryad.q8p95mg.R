@@ -8,7 +8,7 @@ Title: Bean yield and economic response to fertilizer in eastern and southern Af
 Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for human dietary protein. Low yields are attributed to biotic and abiotic constraints including inadequate nutrient availability. Research was conducted to determine nutrient response functions for bean production areas of Kenya, Mozambique, Rwanda, Tanzania, and Zambia.
 "
 
-	uri <- "doi.org/10.5061/dryad.q8p95mg"
+	uri <- "doi:10.5061/dryad.q8p95mg"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
   
@@ -17,7 +17,7 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 		dataset_id = dataset_id, 
 		group=group, 
 		uri=uri, 
-		publication= "https://doi.org/10.1007/s10705-018-9915-9", 
+		publication= "doi:10.1007/s10705-018-9915-9", 
 		project="Optimizing Fertilizer Use in Africa", 
 		data_citation = "Kaizzi, K. C. et al. (2018), Data from: Bean yield and economic response to fertilizer in eastern and southern Africa, Dryad, Dataset, https://doi.org/10.5061/dryad.q8p95mg", 
 		data_institutions = "University of Nebraska - Lincoln", 
