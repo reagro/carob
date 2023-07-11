@@ -346,12 +346,14 @@ carob_script <- function(path) {
 	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
 	xy <- uxy[is.na(uxy$longitude),]
 
-	d$soil_pH[d$soil_pH < 3.5 | d$soil_pH > 8.5] <- NA
 
 	d$yield_part <- "grain"
 	d$yield_part[d$crop %in% c("pea", "common bean", "chickpea", "faba bean", "rapeseed")] <- "seed" 
 	d$yield_part[d$crop == "gomenzer"] <- "leaves" 
 	d$yield_part[d$crop == "potato"] <- "tubers" 
+
+	d$soil_pH[d$soil_pH < 3.5 | d$soil_pH > 8.5] <- NA
+	d$soil_P_available[d$soil_P_available > 500] <- NA
 
 	carobiner::write_files(dset, d, path=path)
 }

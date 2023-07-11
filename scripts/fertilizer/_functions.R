@@ -1,22 +1,47 @@
 
 
-N2A_monitoring_2 <- function(ff) {	
+N2A_monitoring_2 <- function(ff, path) {	
 
 	fix_crop <- function(p) {
+	
+	
 		p[grep("^grou", p, ignore.case=TRUE)] <- "groundnut"	
 		p[grep("soy", p, ignore.case=TRUE)] <- "soybean"	
 		p[grep("sweet p", p, ignore.case=TRUE)] <- "sweetpotato"	
 		p[grep("sweetpot", p, ignore.case=TRUE)] <- "sweetpotato"	
+		p[grep("swetpot", p, ignore.case=TRUE)] <- "sweetpotato"	
+		p <- gsub("n/a", NA, p)
 		p <- gsub("tobaco", "tobacco", p)
 		p <- gsub("beans", "common bean", p)
 		p <- gsub("pumpkins", "pumpkin", p)
 		p <- gsub("irish potatoes", "potato", p)
+		p <- gsub("irish potato", "potato", p)
 		p <- gsub(" ma$", " maize", p)
 		p <- gsub(", ", "; ", p)
+		p <- gsub(" ;", ";", p)
+		p <- gsub(" and ", "; ", p)
 		p <- gsub("\\+|/| &|&|,", "; ", p)
 		p <- gsub("maize; bean", "maize; common bean", p)
+		p <- gsub("farrow", "no crop", p)
 		p <- gsub("fallow", "no crop", p)
-		p
+		p <- gsub("pegion pea", "pigeon pea", p)
+		p <- gsub("groundnuts", "groundnut", p)
+		p <- gsub("local maize", "groundnut", p)
+		p <- gsub("fingermillet", "finger millet", p)
+		p <- gsub("amaranthas", "amaranth", p)
+		p <- gsub("amaranthus", "amaranth", p)
+		p <- gsub("tomatoes", "tomato", p)
+		p <- gsub("green amarantha", "amaranth", p)
+		p <- gsub("rice upland", "rice", p)
+		p <- gsub("kales", "kale", p)
+		p <- gsub(" intercrop", "", p)
+		p <- gsub("cowpeas", "cowpea", p)
+		p <- gsub("simsim", "sesame", p)
+		p <- gsub("sugar cane", "sugarcane", p)
+		p <- gsub(" ;", ";", p)
+		p <- gsub("  ", " ", p)
+		trimws(p)
+
 	}
 	
 	# read the data
@@ -62,6 +87,9 @@ N2A_monitoring_2 <- function(ff) {
 	p[grepl("SINGLE SUPER PHOSPHATE", p)] <- "SSP"
 	p[p == "SUPER PHOSPHATE"] <- "SSP"
 	p[p %in% c("NONE", "NOON", "NON", "NO")] <- "none"
+	p[p == "FERTILIZER"] <- NA
+	p[p == "23:21:0+4S"] <- NA
+	p[p == "0.972916667"] <- NA
 	
 	dd$fertilizer_type <- p
 	
@@ -69,13 +97,26 @@ N2A_monitoring_2 <- function(ff) {
 ##  what are codes 0, 1, 2?
 ##  perhaps one of the codebooks explains that?
 
-	dd$P_fertilizer <- NA
-	dd$N_fertilizer <- NA
-	dd$K_fertilizer <- NA
+	dd$P_fertilizer <- as.numeric(NA)
+	dd$N_fertilizer <- as.numeric(NA)
+	dd$K_fertilizer <- as.numeric(NA)
 
 ## from old script that _may_ be useful but 
 ## needs to be rewritten to be readable
 ## too much use of nested ifelse. Instead make a data.frame with type and content
+  
+
+#	fert <- data.frame(
+#		fertilizer_type = c("urea", "D-compound"),
+#		N = c(0.46, 0.08),
+#		P = c(0, 0),
+#		K = c(0, 0)
+#	)
+
+# in fact we should be able to use this
+
+	fert <- carobiner::get_accepted_values("fertilizer_type", path)
+
   
   # # Adjusting NPK amounts
   # d1$N_fertilizer <- ifelse(d1$fertilizer_type %in% c("urea"), d1$mineral_fert_amount * 0.46,  # assumption is that mineral fert amount is in kg
@@ -99,7 +140,7 @@ N2A_monitoring_2 <- function(ff) {
 
 	dd$OM_applied <- as.numeric(dd$organic_fert_amount)
 	dd$OM_used <- dd$organic_fert_amount > 0
-	dd$OM_type <- dd$organic_fert_type
+	dd$OM_type <- carobiner::fix_name(dd$organic_fert_type, "tolower")
 	dd$OM_type[!dd$OM_used] <- "none"
 
 	dd$yield <- 10000 * dd$crop_1_weight_grain / dd$crop_1_area_harvested
@@ -108,13 +149,20 @@ N2A_monitoring_2 <- function(ff) {
 	dd$inoculated <- dd$inoculant_used == "Y"
 	
 	#standardizing the crops and variety
+	dd$variety_type <- NA
 	dd$crop <- fix_crop(dd$crop_1)
+	i <- dd$crop == "bush bean"
+	dd$crop[i] <- "common bean"
+	dd$variety_type[i] <- "bush bean"
+	i <- dd$crop == "climbing bean"
+	dd$crop[i] <- "common bean"
+	dd$variety_type[i] <- "climbing bean"
+
 	dd$variety <- carobiner::fix_name(dd$variety_1, "title")
 	dd$rep <- dd$plot_no
  	
 ## to do: also deal with crop_2/variety_2 
 	dd <- dd[, c("farm_id", "rep", "crop", "variety", "inoculated", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "yield", "OM_used", "OM_type", "OM_applied")]
-	
 	
 	#get the dates information
 	dd4 <- d4[, "farm_id", drop=FALSE]	
@@ -137,7 +185,7 @@ N2A_monitoring_2 <- function(ff) {
 	dd5$previous_crop <- fix_crop(carobiner::fix_name(d5$main_crop_last_season, "lower"))
 	
 	#merge the data sets
-	z <- merge(d, dd, by = "farm_id", all.x=TRUE)
+	z <- merge(dd, d, by = "farm_id", all.x=TRUE)
 	#z <- merge(z, d3, by = "farm_id", all.x=TRUE)
 	z <- merge(z, dd4, by = "farm_id", all.x=TRUE)
 	z <- merge(z, dd5, by = "farm_id", all.x=TRUE)

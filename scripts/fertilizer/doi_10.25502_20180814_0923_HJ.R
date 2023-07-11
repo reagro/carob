@@ -1,23 +1,12 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
-
 carob_script <- function(path) {
   
-  "
-	Description:
+"Description:
 
-  The AFSIS project aimed to establish an Africa Soil Information 
-  system. Data was collected in sentinel sites across sub-Saharan 
-  Africa using the Land Degradation Surveillance framework and 
-  included also multi-location diagnostic trials in selected sentinel
-  sites to determine nutrient limitations and response to improved soil management 
-  practices (soil amendments).
+The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments).
 
-"
-  
+" 
 	uri <- "doi:10.25502/20180814/0923/HJ"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
@@ -25,11 +14,11 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		dataset_id = dataset_id, 
 		group=group, 
-		project=NA, 
+		project=NA, #carobiner::write_files(dset, d, path=path)
 		uri=uri, 
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
-		publication= NA, 
+		publication= "doi:10.1016/j.agee.2016.05.012",
 		data_institutions = "IITA", 
 		carob_contributor="Cedric Ngakou", 
 		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kasungu [Data set]. International Institute of Tropical Agriculture (IITA).  doi:10.25502/20180814/0923/HJ", 
@@ -59,9 +48,8 @@ carob_script <- function(path) {
 	colnames(d2) <- c("cluster", "field", "rep", "treatment", "residue_yield", "yield")
 
 	#merge d1 and d2
-	## this made no sense whatsoever 
-	## d <- merge(d1, d2, by="dataset_id")
 	d <- merge(d1, d2, by=c("cluster", "field"))
+	d$trial_id <- paste0(d$location, "-", d$cluster)
 	d$cluster <- d$field <- NULL
 	
 	# fix fertilizer_type name
@@ -99,7 +87,7 @@ carob_script <- function(path) {
 	#d$elevation <- NA
 	
 	##### Fertilizers #####
-# what is the source of the "defaults" of 100N 60K and 30P?
+	# fertilizer application partly extracted from 10.1016/j.agee.2016.05.012 
 
 	d$N_fertilizer <- 0
 	d$N_fertilizer[grepl("N", d$treatment)] <- 100 
@@ -119,15 +107,13 @@ carob_script <- function(path) {
 	d$Zn_fertilizer <- ifelse(d$treatment=="NPK+Mn", 3, 0)						
 	d$S_fertilizer <- ifelse(d$treatment=="NPK+Mn", 5, 0)
 
-	# can we find out what the amount of lime applied was?
-	d$lime <- ifelse(d$treatment=="NPK+Lime", -99, 0)						
-
+	d$lime <- ifelse(d$treatment=="NPK+Lime", 500, 0)						
+   
 	d$country <- "Malawi"
 	d$location <- carobiner::fix_name(d$location, "title")
 	d$planting_date <- "2015-12-29"
 	d$harvest_date <- "2016-06-01"
-	d$season	 <-  as.character(d$season) 
-	d$trial_id <- paste0(d$dataset_id, "-", d$location)
+	d$season <- as.character(d$season) 
 	d$crop <- "maize"
 	d$yield_part <- "grain"
 
