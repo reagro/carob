@@ -91,7 +91,7 @@ carob_script <- function(path) {
 ## use 	as.character(as.Date()) for dates to assure the correct format.
 	d$planting_date <- "2011"
 	d$harvest_date <- "2012"
-	d$season <- as.character(r$season)
+	d$season <- trimws(r$season)
 	
 
 ##### Fertilizers #####
@@ -113,7 +113,7 @@ carob_script <- function(path) {
 
 	ftab <- carobiner::get_accepted_values("fertilizer_type", path)[, c("name", "N", "P", "K", "S")]
 	ftab <- ftab[ftab$name %in% c("SSP", "D-compound", "AN"), ]
-	fmat <- as.matrix(ftab[,-1])
+	fmat <- as.matrix(ftab[,-1]) / 100
 	fr <- matrix(0, ncol=4, nrow=nrow(d))
 	colnames(fr) <- c("N_fertilizer", "P_fertilizer", "K_fertilizer", "S_fertilizer")
 	i <- grep("SSP", k)
@@ -123,7 +123,7 @@ carob_script <- function(path) {
 	i <- grep("D-comp", k)
 	fr[i, ] <- fr[i, ] + rep(fmat[ftab$name=="D-compound", ], each=length(i))
 
-	famount <- 10 * r$amount_fert_kg / r$area  # From g/m2 to kg/ha
+	famount <- 10000 * r$amount_fert_kg / r$area  # From kg/m2 to kg/ha
 	d <- cbind(d, fr * famount)
 
 	# # EGB: Lime and Gypsum can be captured, but the amount is not indicated
@@ -147,7 +147,7 @@ carob_script <- function(path) {
    
 ##### Yield #####
   # # EGB: No biomass
-	d$yield <- 10 * r$production_field_kg / r$area # From g/m2 to kg/ha
+	d$yield <- 10000 * r$production_field_kg / r$area # From kg/m2 to kg/ha
 
 #RH: I am under the impression that N2Africa measure peanut seed, not pods. 
 	#what plant part does yield refer to?
