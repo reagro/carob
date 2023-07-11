@@ -7,15 +7,21 @@ N2A_monitoring_2 <- function(ff, path) {
 		p[grep("soy", p, ignore.case=TRUE)] <- "soybean"	
 		p[grep("sweet p", p, ignore.case=TRUE)] <- "sweetpotato"	
 		p[grep("sweetpot", p, ignore.case=TRUE)] <- "sweetpotato"	
+		p[grep("swetpot", p, ignore.case=TRUE)] <- "sweetpotato"	
 		p <- gsub("tobaco", "tobacco", p)
 		p <- gsub("beans", "common bean", p)
 		p <- gsub("pumpkins", "pumpkin", p)
 		p <- gsub("irish potatoes", "potato", p)
+		p <- gsub("irish potato", "potato", p)
 		p <- gsub(" ma$", " maize", p)
 		p <- gsub(", ", "; ", p)
 		p <- gsub("\\+|/| &|&|,", "; ", p)
 		p <- gsub("maize; bean", "maize; common bean", p)
+		p <- gsub("farrow", "no crop", p)
 		p <- gsub("fallow", "no crop", p)
+		p <- gsub("pegion pea", "pigeon pea", p)
+		p <- gsub("groundnuts", "groundnut", p)
+		p <- gsub("local maize", "groundnut", p)
 		p
 	}
 	
@@ -62,6 +68,9 @@ N2A_monitoring_2 <- function(ff, path) {
 	p[grepl("SINGLE SUPER PHOSPHATE", p)] <- "SSP"
 	p[p == "SUPER PHOSPHATE"] <- "SSP"
 	p[p %in% c("NONE", "NOON", "NON", "NO")] <- "none"
+	p[p == "FERTILIZER"] <- NA
+	p[p == "23:21:0+4S"] <- NA
+	p[p == "0.972916667"] <- NA
 	
 	dd$fertilizer_type <- p
 	
@@ -69,9 +78,9 @@ N2A_monitoring_2 <- function(ff, path) {
 ##  what are codes 0, 1, 2?
 ##  perhaps one of the codebooks explains that?
 
-	dd$P_fertilizer <- NA
-	dd$N_fertilizer <- NA
-	dd$K_fertilizer <- NA
+	#dd$P_fertilizer <- as.numeric(NA)
+	#dd$N_fertilizer <- as.numeric(NA)
+	#dd$K_fertilizer <- as.numeric(NA)
 
 ## from old script that _may_ be useful but 
 ## needs to be rewritten to be readable
@@ -112,7 +121,7 @@ N2A_monitoring_2 <- function(ff, path) {
 
 	dd$OM_applied <- as.numeric(dd$organic_fert_amount)
 	dd$OM_used <- dd$organic_fert_amount > 0
-	dd$OM_type <- dd$organic_fert_type
+	dd$OM_type <- carobiner::fix_name(dd$organic_fert_type, "tolower")
 	dd$OM_type[!dd$OM_used] <- "none"
 
 	dd$yield <- 10000 * dd$crop_1_weight_grain / dd$crop_1_area_harvested
@@ -122,12 +131,14 @@ N2A_monitoring_2 <- function(ff, path) {
 	
 	#standardizing the crops and variety
 	dd$crop <- fix_crop(dd$crop_1)
+	i <- dd$crop == "bush bean"
+	dd$crop[i] <- "common bean"
+	dd$variety_type <- "bush bean"
 	dd$variety <- carobiner::fix_name(dd$variety_1, "title")
 	dd$rep <- dd$plot_no
  	
 ## to do: also deal with crop_2/variety_2 
 	dd <- dd[, c("farm_id", "rep", "crop", "variety", "inoculated", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "yield", "OM_used", "OM_type", "OM_applied")]
-	
 	
 	#get the dates information
 	dd4 <- d4[, "farm_id", drop=FALSE]	
@@ -150,7 +161,7 @@ N2A_monitoring_2 <- function(ff, path) {
 	dd5$previous_crop <- fix_crop(carobiner::fix_name(d5$main_crop_last_season, "lower"))
 	
 	#merge the data sets
-	z <- merge(d, dd, by = "farm_id", all.x=TRUE)
+	z <- merge(dd, d, by = "farm_id", all.x=TRUE)
 	#z <- merge(z, d3, by = "farm_id", all.x=TRUE)
 	z <- merge(z, dd4, by = "farm_id", all.x=TRUE)
 	z <- merge(z, dd5, by = "farm_id", all.x=TRUE)

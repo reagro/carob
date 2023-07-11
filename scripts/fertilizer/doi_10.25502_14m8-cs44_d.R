@@ -33,6 +33,9 @@ carob_script <- function(path) {
 	d <- n2afun(ff, path)
 	d$dataset_id <- dataset_id
 	
+	# longitude might be OK
+	d$latitude <- NA
+	
 	carobiner::write_files(dset, d, path=path)
 
 }
