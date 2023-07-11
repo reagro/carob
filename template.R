@@ -83,8 +83,8 @@ carob_script <- function(path) {
 ##### Time #####
 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
 ## use 	as.character(as.Date()) for dates to assure the correct format.
-	d$start_date <- as.character(as.Date(   ))
-	d$end_date  <- as.character(as.Date(    ))
+	d$planting_date <- as.character(as.Date(   ))
+	d$harvest_date  <- as.character(as.Date(    ))
 
 ##### Fertilizers #####
 ## note that we use P and K, not P2O5 and K2O
@@ -93,6 +93,8 @@ carob_script <- function(path) {
    d$P_fertilizer <- 
    d$K_fertilizer <-
    d$N_fertilizer <- 
+   d$S_fertilizer <- 
+   d$lime <- 
 ## normalize names 
    d$fertlizer_type <- 
    d$inoculated <- TRUE/FALSE
