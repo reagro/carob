@@ -2,7 +2,7 @@
 get_elements_from_product <- function(fertab, products) {
 	used <- unique(products) |> strsplit("; ") |> unlist() |> na.omit() |> unique() 	
 	stopifnot(!all(fertab$name %in% used))
-	fertab <- fertab[fertab$name %in% used, ]
+	fertab <- fertab[fertab$name %in% used, c("name", "N", "P", "K", "S")]
 	fmat <- as.matrix(fertab[,-1]) / 100
 	fr <- matrix(0, ncol=4, nrow=nrow(d), 
 		dimnames=list(NULL, paste0(c("N", "P", "K", "S"), "_fertilizer")))

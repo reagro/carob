@@ -17,7 +17,7 @@ carob_script <- function(path) {
 
 "
 
-	uri <- "https://doi.org/10.25502/drr6-d275"
+	uri <- "doi:10.25502/drr6-d275"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	## dataset level data 
@@ -119,9 +119,11 @@ carob_script <- function(path) {
 
 	d$fertilizer_type <- k
 
-	ftab <- carobiner::get_accepted_values("fertilizer_type", path)[, c("name", "N", "P", "K", "S")]
+	ftab <- carobiner::get_accepted_values("fertilizer_type", path)
 ## NPK is undefined (there are many different mixtures) so you need to add that here.
-	ftab[ftab$name=="NPK", c(2:5)] <- c(20, 20, 20,0)	
+## E.g. 
+	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(20, 20, 20, 0)	
+# if this is not known, we could use typical values for the country / region. 
 
 	get_elements <- carobiner::get_function("get_elements_from_product", path, group)
 	elements <- get_elements(ftab, k)
