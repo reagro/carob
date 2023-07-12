@@ -60,7 +60,7 @@ ACAI is a 5 year Bill & Melinda Gates Foundation funded project in 5 countries i
 		S_fertilizer =  c(0, 0, 0, 0, 0, 17, 0), 
 		Zn_fertilizer = c(0, 0, 0, 0, 0,  5, 0), 
 		B_fertilizer =  c(0, 0, 0, 0, 0,  1, 0), 
-		fertilizer_type = c("none", "urea; TSP; KCl", "urea; KCl", "urea; TSP", "urea; TSP; KCl", "urea; TSP; KCl; CaCO3; MgSO4; ZSO; H3BO3", "TSP; KCl")
+		fertilizer_type = c("none", "urea; TSP; KCl", "urea; KCl", "urea; TSP", "urea; TSP; KCl", "urea; TSP; KCl; CaCO3; MgSO4; ZnSO4; H3BO3", "TSP; KCl")
 	)
 	
 	d <- merge(d, x, all.x=TRUE, by="treatment")
