@@ -31,59 +31,77 @@
   
   
   f <- ff[basename(ff) == "Canon data.csv"]
-  d <- read.csv(f)
-  f <- ff[basename(ff) == "Biomass Analysis.csv"]
   d1 <- read.csv(f)
+  f <- ff[basename(ff) == "Biomass Analysis.csv"]
+  d2 <- read.csv(f)
   
 
-  d <- carobiner::change_names(d,c("Country","Loc","Treatment","Variety","pH_value","Nitrogen","Rep","Yld_FW_kg_ha","Harvested_Biomass_kg_ha","Days_to_Flowering_R1","Season"),  c("country","adm1","treatment","variety","P_fertilizer","N_fertilizer","rep","yield","residue_yield","flowering","season"))
-  d$crop <- "soybean"
-  d$K_fertilizer <- 0
-  d$inoculated <- ifelse(d$Inoculant == "Yes",TRUE,FALSE)
-  d$grain_weight <- (1000/d$Seeds_sqm)*d$Seed_Weiht_sqm_g #to get for 1000seeds
-  d$plant_density <- 10000*d$PLST #to get plant population/ha
-  d$on_farm <- TRUE
-  d$is_survey <- FALSE
-  d <- d[,c("country","adm1","treatment","crop","variety","N_fertilizer","P_fertilizer","K_fertilizer","inoculated","rep","yield","residue_yield","flowering","grain_weight","plant_density","on_farm","is_survey","season")]
-  
-  # second data set
-  d1 <- carobiner::change_names(d1, c("Country","Loc","Treatment","Variety","pH_value","Nitrogen","Rep","Yld_FW_kg_ha","Harvested_Biomass_kg_ha","NOD_WT","Season"), c("country","adm1","treatment","variety","P_fertilizer","N_fertilizer","rep","yield","residue_yield","nodule_weight","season"))
+  d1 <- carobiner::change_names(d1, 
+	c("Country","Loc","Treatment","Variety","pH_value","Nitrogen","Rep","Yld_FW_kg_ha","Harvested_Biomass_kg_ha","Days_to_Flowering_R1","Season"),  
+	c("country","adm1","treatment","variety","P_fertilizer","N_fertilizer","rep","yield","residue_yield","flowering","season"))
   d1$crop <- "soybean"
   d1$K_fertilizer <- 0
-  d1$nodule_weight <- d1$nodule_weight
-  d1$plant_density <- 10000*d1$PLST
+  d1$inoculated <- ifelse(d1$Inoculant == "Yes",TRUE,FALSE)
+  d1$grain_weight <- (1000/d1$Seeds_sqm) * d1$Seed_Weiht_sqm_g #to get for 1000seeds
+  d1$plant_density <- 10000*d1$PLST #to get plant population/ha
   d1$on_farm <- TRUE
   d1$is_survey <- FALSE
+  d1 <- d1[,c("country","adm1","treatment","crop","variety","N_fertilizer","P_fertilizer","K_fertilizer","inoculated","rep","yield","residue_yield","flowering","grain_weight","plant_density","on_farm","is_survey","season")]
+  
+  # second data set
+  d2 <- carobiner::change_names(d2, 
+	c("Country","Loc","Treatment","Variety","pH_value","Nitrogen","Rep","Yld_FW_kg_ha","Harvested_Biomass_kg_ha","NOD_WT","Season"), 
+	c("country","adm1","treatment","variety","P_fertilizer","N_fertilizer","rep","yield","residue_yield","nodule_weight","season"))
+  d2$crop <- "soybean"
+  d2$K_fertilizer <- 0
+  d2$nodule_weight <- d2$nodule_weight
+  d2$plant_density <- 10000*d2$PLST
+  d2$on_farm <- TRUE
+  d2$is_survey <- FALSE
  
-  common_colnames <- intersect(colnames(d), colnames(d1))
-  dd1 <- merge(d, d1, by = common_colnames, all = TRUE, sort = FALSE)
+## it makes no sense to use "merge" here. 
+## the datasets are not for the same records.
+## they have different records for different countries and need to be rbind-ed 
+##  common_colnames <- intersect(colnames(d1), colnames(d2))
+## dd1 <- merge(d1, d2, by = common_colnames, all = TRUE, sort = FALSE)
+
+# but d2 is not ready for rbind
+  dd <- rbind(d1, d2)
   
   # filling in the longitude and latitude 
   
   u <- unique(dd1[, c("country", "adm1")])
-  g <- carobiner::geocode(country = u$country, location = u$adm1,service = "nominatim")
+  ## g <- carobiner::geocode(country = u$country, location = u$adm1,service = "nominatim")
+  ## you cannot have carobiner::geocode in a script. 
+  ## you need to run this and then use dput on the data.frame with coordinates
+  ## and add that to the script.
+  
   g <- data.frame(g$df)
   g <- carobiner::change_names(g,c("location","lon","lat"),c("adm1","longitude","latitude"))
-  common_colnames <- intersect(colnames(dd1), colnames(g))
-  dd1 <- merge(dd1, g, by = common_colnames, all = TRUE, sort = FALSE)
-  i <- which(dd1$adm1 == "Namarripe")
-  dd1$latitude[i] <- -15.23056
-  dd1$longitude[i] <- 38.92
   
-  dd1 <- dd1[, c("country","adm1","treatment","crop","variety","N_fertilizer","P_fertilizer","K_fertilizer","rep","yield","plant_density","residue_yield","on_farm","is_survey","season","inoculated","flowering",
+  #common_colnames <- intersect(colnames(dd1), colnames(g))
+  # it is better to just spell out what the variables are
+  dd <- merge(dd, g, by = common_colnames, all.x = TRUE, sort = FALSE)
+  i <- which(dd1$adm1 == "Namarripe")
+  dd$latitude[i] <- -15.23056
+  dd$longitude[i] <- 38.92
+  
+  dd <- dd[, c("country","adm1","treatment","crop","variety","N_fertilizer","P_fertilizer","K_fertilizer","rep","yield","plant_density","residue_yield","on_farm","is_survey","season","inoculated","flowering",
                  "grain_weight","nodule_weight","longitude","latitude")]
                                                                                                                                                                                                                   
  #start and end date info obtained from the dictonary 
-  dd1$planting_date <- as.character(ifelse(dd1$season =="Y1617S","2016","2017"))
-  dd1$harvest_date  <- as.character(ifelse(dd1$season =="Y1617S","2017","2018"))
-  dd1$yield_part <- "seed"
-  dd1$dataset_id <- dataset_id
-  dd1$trial_id <- paste(dd1$dataset_id,dd1$treatment, sep = "_")
+  dd$planting_date <- ifelse(dd$season =="Y1617S", "2016", "2017")
+  dd$harvest_date  <- ifelse(dd$season =="Y1617S", "2017", "2018")
+  dd$yield_part <- "seed"
+  dd$dataset_id <- dataset_id
+  dd$trial_id <- paste(dd$dataset_id, dd$treatment, sep = "_")
   
-  message("add to records: nodule_weight")
-    
+#  message("add to records: nodule_weight") = done
+#  what is the nodule_weight unit you are using?
     # all scripts must end like this
+
     carobiner::write_files(dset, dd1, path=path)
+
 }
   
    
