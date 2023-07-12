@@ -111,20 +111,12 @@ carob_script <- function(path) {
 	k[p == "lime"] <- "lime"
 	d$fertilizer_type <- k
 
-	ftab <- carobiner::get_accepted_values("fertilizer_type", path)[, c("name", "N", "P", "K", "S")]
-	ftab <- ftab[ftab$name %in% c("SSP", "D-compound", "AN"), ]
-	fmat <- as.matrix(ftab[,-1]) / 100
-	fr <- matrix(0, ncol=4, nrow=nrow(d))
-	colnames(fr) <- c("N_fertilizer", "P_fertilizer", "K_fertilizer", "S_fertilizer")
-	i <- grep("SSP", k)
-	fr[i, ] <- rep(fmat[ftab$name=="SSP", ] , each=length(i))
-	i <- grep("AN", k)
-	fr[i, ] <- fr[i, ] + rep(fmat[ftab$name=="AN", ] , each=length(i))
-	i <- grep("D-comp", k)
-	fr[i, ] <- fr[i, ] + rep(fmat[ftab$name=="D-compound", ], each=length(i))
+	ftab <- carobiner::get_accepted_values("fertilizer_type", path)
+	get_elements <- carobiner::get_function("get_elements_from_product", path, group)
+	elements <- get_elements(ftab, k)
 
 	famount <- 10000 * r$amount_fert_kg / r$area  # From kg/m2 to kg/ha
-	d <- cbind(d, fr * famount)
+	d <- cbind(d, elements * famount)
 
 	# # EGB: Lime and Gypsum can be captured, but the amount is not indicated
 	# d$lime[grep("lime", d$fertilizer_type)] <- 99
