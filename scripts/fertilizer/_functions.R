@@ -4,16 +4,16 @@ get_elements_from_product <- function(fertab, products) {
 	stopifnot(!all(fertab$name %in% used))
 	fertab <- fertab[fertab$name %in% used, c("name", "N", "P", "K", "S")]
 	fmat <- as.matrix(fertab[,-1]) / 100
-	fr <- matrix(0, ncol=4, nrow=nrow(d), 
-		dimnames=list(NULL, paste0(c("N", "P", "K", "S"), "_fertilizer")))
+	out <- matrix(0, ncol=4, nrow=length(products))
+	colnames(out) <- paste0(c("N", "P", "K", "S"), "_fertilizer")
 	for (fertilizer in used) {
-		ffrac <- fmat[fertab$name==fertilizer, ]		
-		stopifnot(!any(is.na(ffrac)))
-		i <- grep(fertilizer, products);
-		fr[i, ] <- fr[i, ] + rep(ffrac, each=length(i))
+		f <- fmat[fertab$name==fertilizer, ]		
+		stopifnot(!any(is.na(f)))
+		i <- grep(fertilizer, products)
+		out[i, ] <- out[i, ] + rep(f, each=length(i))
 	}
-	fr[is.na(products)] <- NA
-	fr
+	out[is.na(products)] <- NA
+	out
 }
 
 

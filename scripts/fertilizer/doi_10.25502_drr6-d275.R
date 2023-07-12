@@ -119,6 +119,12 @@ carob_script <- function(path) {
 
 	d$fertilizer_type <- k
 
+
+## is this correct for "DAP; urea" and "DAP; NPK"? That is, the below assumes that 
+## r$amount_fert_kg was applied of both these products. Is that correct?
+## if that is not correct, what would the proportions be? (and the function would need to be able 
+## to address that.
+
 	ftab <- carobiner::get_accepted_values("fertilizer_type", path)
 ## NPK is undefined (there are many different mixtures) so you need to add that here.
 ## E.g. 

@@ -33,8 +33,9 @@ carob_script <- function(path) {
 	d <- n2afun(ff, path)
 	d$dataset_id <- dataset_id
 	
-	#for now some are crazy high
+	#for now some are crazy high, perhaps different unit?
 	d$yield[d$yield > 10000] <- NA
+	d <- d[!is.na(d$yield),]
 	
 	carobiner::write_files(dset, d, path=path)
 	

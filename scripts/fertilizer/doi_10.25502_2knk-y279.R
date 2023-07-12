@@ -115,6 +115,9 @@ carob_script <- function(path) {
 	get_elements <- carobiner::get_function("get_elements_from_product", path, group)
 	elements <- get_elements(ftab, k)
 
+## is this correct for "D-compound; AN"? That is, the below (and above) assumes that 
+## r$amount_fert_kg was applied of D-compound AND the same amount of AN. Is that correct?
+
 	famount <- 10000 * r$amount_fert_kg / r$area  # From kg/m2 to kg/ha
 	d <- cbind(d, elements * famount)
 
