@@ -1,4 +1,22 @@
 
+get_elements_from_product <- function(fertab, products) {
+	used <- unique(products) |> strsplit("; ") |> unlist() |> na.omit() |> unique() 	
+	stopifnot(!all(fertab$name %in% used))
+	fertab <- fertab[fertab$name %in% used, ]
+	fmat <- as.matrix(fertab[,-1]) / 100
+	fr <- matrix(0, ncol=4, nrow=nrow(d), 
+		dimnames=list(NULL, paste0(c("N", "P", "K", "S"), "_fertilizer")))
+	for (fertilizer in used) {
+		ffrac <- fmat[fertab$name==fertilizer, ]		
+		stopifnot(!any(is.na(ffrac)))
+		i <- grep(fertilizer, products);
+		fr[i, ] <- fr[i, ] + rep(ffrac, each=length(i))
+	}
+	fr[is.na(products)] <- NA
+	fr
+}
+
+
 
 N2A_monitoring_2 <- function(ff, path) {	
 
@@ -93,7 +111,7 @@ N2A_monitoring_2 <- function(ff, path) {
 	
 	dd$fertilizer_type <- p
 	
-##	mineral_fert_amount uses codes 
+##	dd$mineral_fert_amount uses codes 
 ##  what are codes 0, 1, 2?
 ##  perhaps one of the codebooks explains that?
 
@@ -115,14 +133,15 @@ N2A_monitoring_2 <- function(ff, path) {
 
 # in fact we should be able to use this
 
-	fert <- carobiner::get_accepted_values("fertilizer_type", path)
+	fert <- carobiner::get_accepted_values("fertilizer_type", path)[, c("name", "N", "P", "K", "S")]
 
   
   # # Adjusting NPK amounts
-  # d1$N_fertilizer <- ifelse(d1$fertilizer_type %in% c("urea"), d1$mineral_fert_amount * 0.46,  # assumption is that mineral fert amount is in kg
-                     # ifelse(d1$fertilizer_type == "23:21:0+4S", d1$mineral_fert_amount * 0.23,
-                     # ifelse(d1$fertilizer_type %in% c("D compound", "S compound"), d1$mineral_fert_amount * 0.08, NA)))
-                     # # ifelse(d1$fertilizer_type %in% c("Super D","Super d"),
+  # d1$N_fertilizer <- ifelse(d1$fertilizer_type %in% c("urea"), d1$mineral_fert_amount * 0.46,  
+  # assumption is that mineral fert amount is in kg
+     # ifelse(d1$fertilizer_type == "23:21:0+4S", d1$mineral_fert_amount * 0.23,
+     # ifelse(d1$fertilizer_type %in% c("D compound", "S compound"), d1$mineral_fert_amount * 0.08, NA)))
+     # # ifelse(d1$fertilizer_type %in% c("Super D","Super d"),
                                                  # # d1$mineral_fert_amount * 0.01,NA))))
   
   # d1$P_fertilizer <- ifelse(d1$fertilizer_type == "TSP", d1$mineral_fert_amount * 0.46*((2*31)/(2*31+5*16)),

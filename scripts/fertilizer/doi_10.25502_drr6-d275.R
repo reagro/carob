@@ -31,9 +31,10 @@ carob_script <- function(path) {
 		## also add a RIS file in references folder (with matching doi)
 		publication= NA,
 		data_institutions = "IITA",
-   	data_type = "survey", # or, e.g. "on-farm experiment", "survey", "compilation"
+		data_type = "survey", # or, e.g. "on-farm experiment", "survey", "compilation"
 		carob_contributor = "Eduardo Garcia Bendito"  
 	)
+
 
 ## download and read data 
 
@@ -81,28 +82,19 @@ carob_script <- function(path) {
 	d$variety_type[r$type_legume_variety == "Climbing Beans"] <- "climbing bean"
 	
 ## EGB: Add intercropping
-	d$intercrops <- NA	
-	r$with_which_crops <- tolower(trimws(r$with_which_crops))
-	d$intercrops[r$with_which_crops %in% c("bean with different varieties")] <- "common bean"
-	d$intercrops[r$with_which_crops == "cassava"] <- "cassava"
-	d$intercrops[r$with_which_crops == "peas"] <- "pea"
-	d$intercrops[r$with_which_crops %in% c("maize", "corn")] <- "maize"
-	d$intercrops[r$with_which_crops %in% c("potatoes", "irish crop")] <- "potato"
-	d$intercrops[r$with_which_crops %in% c("sweet potato", "sweet potatoes")] <- "sweetpotato"
-	d$intercrops[r$with_which_crops %in% c("banana")] <- "banana"
-	d$intercrops[r$with_which_crops %in% c("ananas")] <- "pineapple"
-	d$intercrops[r$with_which_crops %in% c("coffee")] <- "coffee"
-	d$intercrops[r$with_which_crops %in% c("taro")] <- "taro"
-	d$intercrops[r$with_which_crops %in% c("maize and cassava", "cassava and maize", "corn and cassava")] <- "maize; cassava"
-	d$intercrops[r$with_which_crops %in% c("sweet potatoes, coffee")] <- "sweetpotato; coffee"
-	d$intercrops[r$with_which_crops %in% c("maize,sweet potatoes")] <- "maize; sweetpotato"
-	d$intercrops[r$with_which_crops %in% c("maize,pineapple")] <- "maize; pineapple"
-	d$intercrops[r$with_which_crops %in% c("banana,cassava,maize,potatoes")] <- "maize; cassava; banana; potato"
-	d$intercrops[r$with_which_crops %in% c("maize,peas", "peas  and maize")] <- "maize; pea"
-	d$intercrops[r$with_which_crops %in% c("maize,sweet potatoes,cassava")] <- "maize; sweetpotato; cassava"
-	d$intercrops[r$with_which_crops %in% c("cassava,sweet potatoes")] <- "sweetpotato; cassava"
-	d$intercrops[r$with_which_crops %in% c("cassava,sweet potatoes,banana")] <- "sweetpotato; cassava; banana"
-	d$intercrops[r$with_which_crops %in% c("cassava,and irish potatoes")] <- "cassava; potato"
+## more consie a	
+	x <- tolower(trimws(r$with_which_crops))
+	x <- gsub(",|, |  and | and |,and ", "; ", x)
+	x <- gsub("irish potatoes|potatoes|irish crop", "potato", x)
+	x <- gsub("sweet potato", "sweetpotato", x)
+	x <- gsub("corn", "maize", x)
+	x <- gsub("ananas", "pineapple", x)
+	x <- gsub("peas", "pea", x)
+	x <- gsub("pea; maize", "maize; pea", x)
+	x <- gsub("bean with different varieties", "common bean", x) 
+	x[x == ""] <- NA
+	
+	d$intercrops <- x
 	
 ##### Time #####
 	## time can be year (four characters), year-month (7 characters) or date (10 characters).
@@ -117,23 +109,22 @@ carob_script <- function(path) {
 	p <- tolower(trimws(r$synthetic_fert_types))
 	k <- rep(NA, length(p))
 	# Fertilizer type
-	k[p %in% c("dap")] <- "DAP"
-	k[p %in% c("npk")] <- "NPK"
+	k[p == c("dap")] <- "DAP"
+	k[p == c("npk")] <- "NPK"
 	k[p %in% c("dap,urea", "dap(50kg) and urea(25kg)")] <- "DAP; urea"
-	k[p %in% c("dap and npk")] <- "DAP; NPK"
+	k[p == c("dap and npk")] <- "DAP; NPK"
+
+##RH is this appropriate 
+	#k[is.na(k)] <- "none"
+
 	d$fertilizer_type <- k
-	
+
 	ftab <- carobiner::get_accepted_values("fertilizer_type", path)[, c("name", "N", "P", "K", "S")]
-	ftab <- ftab[ftab$name %in% c("DAP", "urea", "NPK"), ]
-	fmat <- as.matrix(ftab[,-1]) / 100
-	fr <- matrix(0, ncol=4, nrow=nrow(d))
-	colnames(fr) <- c("N_fertilizer", "P_fertilizer", "K_fertilizer", "S_fertilizer")
-	i <- grep("DAP", k)
-	fr[i, ] <- rep(fmat[ftab$name=="DAP", ] , each=length(i))
-	i <- grep("NPK", k)
-	fr[i, ] <- fr[i, ] + rep(fmat[ftab$name=="NPK", ] , each=length(i))
-	i <- grep("urea", k)
-	fr[i, ] <- fr[i, ] + rep(fmat[ftab$name=="urea", ], each=length(i))
+## NPK is undefined (there are many different mixtures) so you need to add that here.
+	ftab[ftab$name=="NPK", c(2:5)] <- c(20, 20, 20,0)	
+
+	get_elements <- carobiner::get_function("get_elements_from_product", path, group)
+	elements <- get_elements(ftab, k)
 	
 	famount <- 10000 * r$amount_fert_kg / r$area  # From kg/m2 to kg/ha
 	d <- cbind(d, fr * famount)
@@ -159,60 +150,60 @@ carob_script <- function(path) {
 	
 	# # Formatting coordinates into the dataset
 	sss <- data.frame(country = "Rwanda",
-	                  adm1 = c("Bugesera", "Bugesera", "Bugesera", "Bugesera", "Bugesera",
-	                           "Bugesera", "Bugesera", "Bugesera", "Bugesera", "Bugesera",
-	                           "Bugesera", "Bugesera", "Burera", "Burera", "Burera", "Burera",
-	                           "Gakenke", "Gakenke", "Gakenke", "Gakenke", "Gakenke", "Gakenke",
-	                           "Gakenke", "Gakenke", "Gakenke", "Gakenke", "Gakenke", 
-	                           "Gakenke", "Gakenke", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", 
-	                           "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", 
-	                           "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", 
-	                           "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", 
-	                           "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kayonza", 
-	                           "Kayonza", "Kayonza", "Kayonza", "Kayonza", "Kayonza", "Kayonza", 
-	                           "Kayonza", "Kayonza", "Kayonza", "Kayonza", "Kayonza", "Kayonza", 
-	                           "Kayonza", "Kayonza", "Kayonza", "Kayonza", "Kayonza", "Kayonza", 
-	                           "Kayonza"),
-	                  site = c("Nyarugati ", "Gitovu", "Nyarugati", "Kagirazina", 
-	                           "Rusenyi", "Nyamigisha", "Karwana", "Kabere", "Gitwa", "Nyakajuru", 
-	                           "Gitagata", "Nyakajuri", "Kanoni", "bugeyo", "Bugeyo", "Kagesera", 
-	                           "Kabuga", "Busana", "Butaraga", "Rwamigumbe", "Rwamigimbu", "Rumba", 
-	                           "Rwamugimbu", "Butarago", "Nturo", "Bushoka", "Kamwumba", "Mugali", 
-	                           "Kabuhoma", "Buhunga", "Gihembe", "Gihwogwe", "Gihogwe", "Gacaca", 
-	                           NA, "Rugwiro", "Tare", "Kigarama", "Mugereke", "Gaserege", "Gitega", 
-	                           "Gitare/Mugereke", "Nyabitare", "Rwezamenyo", "Rugarama", "Nyarubuye", 
-	                           "Murehe", "Bumbogo", "Umugarama", "Buye", "Ruvugizo", "Mukuyo", 
-	                           "Kigwene", "Ruhuha", "Kabungo", "Rwinanka", "Gasogi", "Rugoyi", 
-	                           "Rugagi", "Rugayi", "Rwangabarezi", "Ruvumu", "gasogi", "Kacyiru", 
-	                           "Nkondo", "Gasabo", "Kidogo", "Karama", "Karambo ", "Gakenyeli", 
-	                           "Nyarutunga ", "Nyarutunga", "Butimba", "Karambo", "Mutimba", 
-	                           "Nyarututunga "),
-	                  latitude = c(-2.1607, -1.43, -2.1607, -2.1623, 
-	                               -2.149, -2.23456, -2.2562, -2.2362, -2.244, -2.23456, -2.2182, 
-	                               -2.2024, -1.47394, -1.4266, -1.4266, -1.5678, -1.6367, -1.626, 
-	                               -1.6981, -1.6981, -1.6981, -1.6981, -1.6981, -1.6981, -1.5892, 
-	                               -1.5963, -1.5923, -1.5982, -1.5854, -2.065, -2.0202, -2, -2, 
-	                               -1.505, -2.00521, -2.00521, -2.0773, -2.0058, -1.605, -2.0913, 
-	                               -2.0792, -1.605, -1.947, -1.8711, -2.048, -2.0547, -1.9312, -2.07, 
-	                               -2.00521, -2.0588, -2.0684, -2.00521, -2.0756, -2.0789, -2.077, 
-	                               -2.1057, -1.9434, -1.85101, -1.85101, -1.85101, -1.85101, -1.85101, 
-	                               -1.9434, -1.937, -1.93835, -1.883, -1.8032, -1.5244, -1.8237, 
-	                               -1.8141, -1.7879, -1.7879, -1.8225, -1.8237, -1.85101, -1.85101),
-	                  longitude = c(30.067, 30.025, 30.067, 30.0576, 30.071, 30.14825, 
-	                                30.0525, 30.0299, 29.684, 30.14825, 30.084, 30.0812, 29.83468, 
-	                                29.7328, 29.7328, 29.8552, 29.7133, 29.878, 29.78543, 29.78543, 
-	                                29.78543, 29.78543, 29.78543, 29.78543, 29.7347, 29.7448, 29.7434, 
-	                                29.7253, 29.7456, 29.8181, 29.8497, 29.8475, 29.8475, 29.666, 
-	                                29.89817, 29.89817, 29.8168, 29.9294, 29.926, 29.8364, 29.8269, 
-	                                29.926, 29.9744, 29.8954, 29.9221, 29.96767, 29.93831, 29.8942, 
-	                                29.89817, 29.8694, 29.8767, 29.89817, 29.865, 29.8523, 29.8784, 
-	                                29.831, 30.48708, 30.65102, 30.65102, 30.65102, 30.65102, 30.65102, 
-	                                30.48708, 30.078, 30.62019, 29.977, 30.4604, 30.3873, 30.4698, 
-	                                30.4467, 30.4713, 30.4713, 30.4627, 30.4698, 30.65102, 30.65102))
+         adm1 = c("Bugesera", "Bugesera", "Bugesera", "Bugesera", "Bugesera",
+                  "Bugesera", "Bugesera", "Bugesera", "Bugesera", "Bugesera",
+                  "Bugesera", "Bugesera", "Burera", "Burera", "Burera", "Burera",
+                  "Gakenke", "Gakenke", "Gakenke", "Gakenke", "Gakenke", "Gakenke",
+                  "Gakenke", "Gakenke", "Gakenke", "Gakenke", "Gakenke", 
+                  "Gakenke", "Gakenke", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", 
+                  "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", 
+                  "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", 
+                  "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", 
+                  "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kamonyi", "Kayonza", 
+                  "Kayonza", "Kayonza", "Kayonza", "Kayonza", "Kayonza", "Kayonza", 
+                  "Kayonza", "Kayonza", "Kayonza", "Kayonza", "Kayonza", "Kayonza", 
+                  "Kayonza", "Kayonza", "Kayonza", "Kayonza", "Kayonza", "Kayonza", 
+                  "Kayonza"),
+         site = c("Nyarugati ", "Gitovu", "Nyarugati", "Kagirazina", 
+                  "Rusenyi", "Nyamigisha", "Karwana", "Kabere", "Gitwa", "Nyakajuru", 
+                  "Gitagata", "Nyakajuri", "Kanoni", "bugeyo", "Bugeyo", "Kagesera", 
+                  "Kabuga", "Busana", "Butaraga", "Rwamigumbe", "Rwamigimbu", "Rumba", 
+                  "Rwamugimbu", "Butarago", "Nturo", "Bushoka", "Kamwumba", "Mugali", 
+                  "Kabuhoma", "Buhunga", "Gihembe", "Gihwogwe", "Gihogwe", "Gacaca", 
+                  NA, "Rugwiro", "Tare", "Kigarama", "Mugereke", "Gaserege", "Gitega", 
+                  "Gitare/Mugereke", "Nyabitare", "Rwezamenyo", "Rugarama", "Nyarubuye", 
+                  "Murehe", "Bumbogo", "Umugarama", "Buye", "Ruvugizo", "Mukuyo", 
+                  "Kigwene", "Ruhuha", "Kabungo", "Rwinanka", "Gasogi", "Rugoyi", 
+                  "Rugagi", "Rugayi", "Rwangabarezi", "Ruvumu", "gasogi", "Kacyiru", 
+                  "Nkondo", "Gasabo", "Kidogo", "Karama", "Karambo ", "Gakenyeli", 
+                  "Nyarutunga ", "Nyarutunga", "Butimba", "Karambo", "Mutimba", 
+                  "Nyarututunga "),
+         latitude = c(-2.1607, -1.43, -2.1607, -2.1623, 
+                      -2.149, -2.23456, -2.2562, -2.2362, -2.244, -2.23456, -2.2182, 
+                      -2.2024, -1.47394, -1.4266, -1.4266, -1.5678, -1.6367, -1.626, 
+                      -1.6981, -1.6981, -1.6981, -1.6981, -1.6981, -1.6981, -1.5892, 
+                      -1.5963, -1.5923, -1.5982, -1.5854, -2.065, -2.0202, -2, -2, 
+                      -1.505, -2.00521, -2.00521, -2.0773, -2.0058, -1.605, -2.0913, 
+                      -2.0792, -1.605, -1.947, -1.8711, -2.048, -2.0547, -1.9312, -2.07, 
+                      -2.00521, -2.0588, -2.0684, -2.00521, -2.0756, -2.0789, -2.077, 
+                      -2.1057, -1.9434, -1.85101, -1.85101, -1.85101, -1.85101, -1.85101, 
+                      -1.9434, -1.937, -1.93835, -1.883, -1.8032, -1.5244, -1.8237, 
+                      -1.8141, -1.7879, -1.7879, -1.8225, -1.8237, -1.85101, -1.85101),
+         longitude = c(30.067, 30.025, 30.067, 30.0576, 30.071, 30.14825, 
+                       30.0525, 30.0299, 29.684, 30.14825, 30.084, 30.0812, 29.83468, 
+                       29.7328, 29.7328, 29.8552, 29.7133, 29.878, 29.78543, 29.78543, 
+                       29.78543, 29.78543, 29.78543, 29.78543, 29.7347, 29.7448, 29.7434, 
+                       29.7253, 29.7456, 29.8181, 29.8497, 29.8475, 29.8475, 29.666, 
+                       29.89817, 29.89817, 29.8168, 29.9294, 29.926, 29.8364, 29.8269, 
+                       29.926, 29.9744, 29.8954, 29.9221, 29.96767, 29.93831, 29.8942, 
+                       29.89817, 29.8694, 29.8767, 29.89817, 29.865, 29.8523, 29.8784, 
+                       29.831, 30.48708, 30.65102, 30.65102, 30.65102, 30.65102, 30.65102, 
+                       30.48708, 30.078, 30.62019, 29.977, 30.4604, 30.3873, 30.4698, 
+                       30.4467, 30.4713, 30.4713, 30.4627, 30.4698, 30.65102, 30.65102))
 
 	d <- merge(d, sss, by = c("country", "adm1", "site"), all.x=TRUE)
 # all scripts must end like this
-	carobiner::write_files(dset, dd, path=path)
+	carobiner::write_files(dset, d, path=path)
 }
 
 # # # EGB: Extracting spatial coordinates:
