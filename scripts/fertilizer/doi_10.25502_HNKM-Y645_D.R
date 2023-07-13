@@ -53,21 +53,18 @@ carob_script <- function(path) {
 	# second data set
 	## note that P-fertilizer was labeled as pH_value
 	from2 <- c("Country", "Loc", "Treatment", "Variety", "pH_value", "Nitrogen", "Rep", "Yld_FW_kg_ha", "Harvested_Biomass_kg_ha", "NOD_WT", "Season")
-	d2 <- carobiner::change_names(d2[ from2], from, 
+	d2 <- carobiner::change_names(r2[ from2], from2, 
 		c("country", "adm1", "treatment", "variety", "P_fertilizer", "N_fertilizer", "rep", "yield", "residue_yield", "nodule_weight", "season"))
-	d2$plant_density <- 10000*d2$PLST
+	d2$plant_density <- 10000 * r2$PLST
 	d2$trial_id <- paste(1:nrow(d2), d2$adm1, d2$treatment, sep = "_")
-	d2 <- d2[, c("country", "adm1", "treatment", "variety", "N_fertilizer", "P_fertilizer", "rep", "yield", "residue_yield", "plant_density", "trial_id", "season", "nodule_weight")]
-
-
-## this is much clearer and less error-prone approach
-
-#RH: is this correct (are these truly missing)	
-	d1$nodule_weight <- NA
-	d2$flowering <- d2$grain_weight <- NA
 
 # this was not missing 	
 	d2$inoculated <- grepl("Inoc", d2$treatment)
+
+## this is much clearer and less error-prone approach
+
+	d1$nodule_weight <- NA
+	d2$flowering <- d2$grain_weight <- d2$plant_height <- d2$maturity <- d2$harvest <- NA
 	
 	dd <- rbind(d1, d2)		
 	
