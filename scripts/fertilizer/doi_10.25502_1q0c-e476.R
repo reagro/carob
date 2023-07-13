@@ -113,6 +113,7 @@ carob_script <- function(path) {
 	                      "K", round(d$K_fertilizer))
 	
 	d$OM_used <- r$organic_fert_applied == "Y"
+	d$OM_used[r$organic_fert_applied == "N"] <- FALSE
 	d$OM_used[r$organic_fert_applied == ""] <- NA
 
 	# # EGB: Add inoculation
