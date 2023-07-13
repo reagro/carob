@@ -1,3 +1,6 @@
+
+carob_script <- function(path) {
+
   "
   	The project proposes to use win-win public-private partnership approaches to disseminate improved
   	legume seeds and complementary crop management practices developed under PARTI collaboration over 
@@ -22,6 +25,8 @@
     carob_contributor="Effie Ochieng'",
     data_type="on-farm experiments"
   )
+
+	return(FALSE)
   
   ## download and read data 
   

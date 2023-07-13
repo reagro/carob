@@ -135,7 +135,7 @@ carob_script <- function(path) {
 	elements <- get_elements(ftab, k)
 	
 	famount <- 10000 * r$amount_fert_kg / r$area  # From kg/m2 to kg/ha
-	d <- cbind(d, fr * famount)
+	d <- cbind(d, elements * famount)
 	
 	# Treatment code	
 	d$treatment <- paste0("N", round(d$N_fertilizer),
