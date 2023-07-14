@@ -22,11 +22,17 @@ N2A_monitoring_2 <- function(ff, path) {
 
 	fix_crop <- function(p) {
 	
+		p[p=="busbean"] <- "bush bean"	
+		p[p=="bushbean"] <- "bush bean"	
+		p[p=="oignon"] <- "onion"	
 	
 		p[grep("^grou", p, ignore.case=TRUE)] <- "groundnut"	
+		p[p=="grundnut"] <- "groundnut"	
+		p[p=="grungnut"] <- "groundnut"	
+		p[grep("soja", p, ignore.case=TRUE)] <- "soybean"	
 		p[grep("soy", p, ignore.case=TRUE)] <- "soybean"	
 		p[grep("sweet p", p, ignore.case=TRUE)] <- "sweetpotato"	
-		p[grep("sweetpot", p, ignore.case=TRUE)] <- "sweetpotato"	
+		p[grep("sweetp", p, ignore.case=TRUE)] <- "sweetpotato"	
 		p[grep("swetpot", p, ignore.case=TRUE)] <- "sweetpotato"	
 		p <- gsub("n/a", NA, p)
 		p <- gsub("tobaco", "tobacco", p)
@@ -34,6 +40,8 @@ N2A_monitoring_2 <- function(ff, path) {
 		p <- gsub("pumpkins", "pumpkin", p)
 		p <- gsub("irish potatoes", "potato", p)
 		p <- gsub("irish potato", "potato", p)
+		p <- gsub("patatoe", "potato", p)
+		p <- gsub("patato", "potato", p)
 		p <- gsub(" ma$", " maize", p)
 		p <- gsub(", ", "; ", p)
 		p <- gsub(" ;", ";", p)
@@ -64,34 +72,33 @@ N2A_monitoring_2 <- function(ff, path) {
 	
 	# read the data
 	bn <- basename(ff)
-	d0 <- read.csv(ff[bn == "a_general.csv"])
-	d1 <- read.csv(ff[bn == "c_use_of_package_2.csv"])
-	d1$id <- d1$SN <- d1$instanceid <- NULL
-	d2 <- read.csv(ff[bn == "e_harvest.csv"])
-	d2$id <- d2$SN <- d2$instanceid <- NULL
+	r0 <- read.csv(ff[bn == "a_general.csv"])
+	r1 <- read.csv(ff[bn == "c_use_of_package_2.csv"])
+	r1$SN <- d1$instanceid <- NULL
+	r2 <- read.csv(ff[bn == "e_harvest.csv"])
+	r2$SN <- d2$instanceid <- NULL
 	#f3 <- ff[bn == "c_use_of_package_3.csv"]
-	#d3 <- read.csv(f3) 
-	d4 <- read.csv(ff[bn == "d_cropping_calendar.csv"])
-	d5 <- read.csv(ff[bn == "b_info_site_2.csv"])
+	#r3 <- read.csv(f3) 
+	r4 <- read.csv(ff[bn == "d_cropping_calendar.csv"])
+	r5 <- read.csv(ff[bn == "b_info_site_2.csv"])
 	
 	#start processing the 1st data
 	d <- data.frame(
-		country = d0$country, 
-		adm2 = carobiner::fix_name(d0$district, "title"), 
-		adm3 = carobiner::fix_name(d0$sector_ward, "title"), 
-		location = carobiner::fix_name(d0$vilage, "title"), 
-		latitude = d0$gps_latitude, 
-		longitude = d0$gps_latitude, 
-		season = d0$season, 
-		farm_id = d0$farm_id
+		country = r0$country, 
+		adm2 = carobiner::fix_name(r0$district, "title"), 
+		adm3 = carobiner::fix_name(r0$sector_ward, "title"), 
+		location = carobiner::fix_name(r0$vilage, "title"), 
+		latitude = r0$gps_latitude, 
+		longitude = r0$gps_latitude, 
+		season = r0$season, 
+		farm_id = r0$farm_id
 	)
 
-	#subset the variables of interest in d1 and d2	
-	dd <- merge(d1, d2, by = c("farm_id", "plot_no"), all.x = TRUE )
 
-	# working on fertilizer types
-# Super D and D Compound seem to be the same blend (https://agra.org/wp-content/uploads/2020/08/Malawi-Report_Assessment-of-Fertilizer-Distribution-Systems-and-Opportunities-for-Developing-Fertilizer-Blends.pdf)
-# Sympal: https://www.researchgate.net/profile/Charlotte-Schilt/publication/283304707_N2Africa_Final_Report_of_the_first_Phase_-_2009_-_2013/links/5d77729c4585151ee4ab2639/N2Africa-Final-Report-of-the-first-Phase-2009-2013.pdf
+
+#farm_id plot_no crop_1_area_harvested crop_1_plants_no crop_1_weight_stover crop_1_weight_grain crop_1_grain_unshelled
+
+	dd <- merge(r1, r2, by = c("id", "farm_id", "plot_no"), all.x = TRUE )
 
 	p <- carobiner::fix_name(dd$mineral_fert_type, "upper")
 	p[grepl("UREA", p)] <- "urea"
@@ -110,53 +117,17 @@ N2A_monitoring_2 <- function(ff, path) {
 	p[p == "0.972916667"] <- NA
 	
 	dd$fertilizer_type <- p
+
+## it is not clear what the quantities refer to if there are multiple products 
+## that much of each?	
+	ftab <- carobiner::get_accepted_values("fertilizer_type", path)
+## NPK is undefined need to check of 20-20-20 is a good guess
+	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(20, 20, 20, 0)	
+	get_elements <- carobiner::get_function("get_elements_from_product", path, group)
+	elements <- get_elements(ftab, p)
 	
-##	dd$mineral_fert_amount uses codes 
-##  what are codes 0, 1, 2?
-##  perhaps one of the codebooks explains that?
-
-	dd$P_fertilizer <- as.numeric(NA)
-	dd$N_fertilizer <- as.numeric(NA)
-	dd$K_fertilizer <- as.numeric(NA)
-
-## from old script that _may_ be useful but 
-## needs to be rewritten to be readable
-## too much use of nested ifelse. Instead make a data.frame with type and content
+	dd <- cbind(dd, elements)
   
-
-#	fert <- data.frame(
-#		fertilizer_type = c("urea", "D-compound"),
-#		N = c(0.46, 0.08),
-#		P = c(0, 0),
-#		K = c(0, 0)
-#	)
-
-# in fact we should be able to use this
-
-	fert <- carobiner::get_accepted_values("fertilizer_type", path)[, c("name", "N", "P", "K", "S")]
-
-  
-  # # Adjusting NPK amounts
-  # d1$N_fertilizer <- ifelse(d1$fertilizer_type %in% c("urea"), d1$mineral_fert_amount * 0.46,  
-  # assumption is that mineral fert amount is in kg
-     # ifelse(d1$fertilizer_type == "23:21:0+4S", d1$mineral_fert_amount * 0.23,
-     # ifelse(d1$fertilizer_type %in% c("D compound", "S compound"), d1$mineral_fert_amount * 0.08, NA)))
-     # # ifelse(d1$fertilizer_type %in% c("Super D","Super d"),
-                                                 # # d1$mineral_fert_amount * 0.01,NA))))
-  
-  # d1$P_fertilizer <- ifelse(d1$fertilizer_type == "TSP", d1$mineral_fert_amount * 0.46*((2*31)/(2*31+5*16)),
-                     # ifelse(d1$fertilizer_type == "sympal", d1$mineral_fert_amount * 0.23*((2*31)/(2*31+5*16)),
-                     # ifelse(d1$fertilizer_type %in% c("urea","unknown","S compound"), d1$mineral_fert_amount * 0.21*((2*31)/(2*31+5*16)),
-                     # ifelse(d1$fertilizer_type == "D compound", d1$mineral_fert_amount * 0.18*((2*31)/(2*31+5*16)),
-                     # ifelse(d1$fertilizer_type == "SSP", d1$mineral_fert_amount * 0.145, NA)))))
-                     # # ifelse(d1$fertilizer_type %in% c("Super D","Super d"), d1$mineral_fert_amount * 0.24*((2*31)/(2*31+5*16)),
-                     # # ifelse(d1$fertilizer_type %in% c("Single super phosphate", "Single super phosphate "," Single Super phosphate","Super phosphate"), d1$mineral_fert_amount * 0.145,NA)))))) # takes into account atomic weight of both P and O
-  
-  # d1$K_fertilizer <- ifelse(d1$fertilizer_type == "sympal", d1$mineral_fert_amount * 0.15,
-                     # ifelse(d1$mineral_fert_type == "S compound", d1$mineral_fert_amount * 0.07,
-                     # ifelse(d1$fertilizer_type == "D compound", d1$mineral_fert_amount * 0.20, NA)))
-  
-
 	dd$OM_applied <- as.numeric(dd$organic_fert_amount)
 	dd$OM_used <- dd$organic_fert_amount > 0
 	dd$OM_type <- carobiner::fix_name(dd$organic_fert_type, "tolower")
@@ -181,22 +152,29 @@ N2A_monitoring_2 <- function(ff, path) {
 	dd$rep <- dd$plot_no
  	
 ## to do: also deal with crop_2/variety_2 
-	dd <- dd[, c("farm_id", "rep", "crop", "variety", "inoculated", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "yield", "OM_used", "OM_type", "OM_applied")]
+	dd <- dd[, c("id", "farm_id", "rep", "crop", "variety", "inoculated", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "yield", "OM_used", "OM_type", "OM_applied")]
 	
 	#get the dates information
-	dd4 <- d4[, "farm_id", drop=FALSE]	
+	if (!is.null(r4$date_planting_yyyy)) {
+		dd4 <- r4[, "farm_id", drop=FALSE]	
+		p <- apply(r4[, c("date_planting_yyyy", "date_planting_mm", "date_planting_dd")], 1, paste, collapse="-")
+		dd4$planting_date <- as.character(as.Date(p))
 
-	p <- apply(d4[, c("date_planting_yyyy", "date_planting_mm", "date_planting_dd")], 1, paste, collapse="-")
-	dd4$planting_date <- as.character(as.Date(p))
+		i <- r4$date_harvest_dd == 0
+		j <- r4$date_harvest_yy == 0
+		r4$date_harvest_dd[i] <- 15
+		h <- apply(r4[, c("date_harvest_yyyy", "date_harvest_mm", "date_harvest_dd")], 1, paste, collapse="-")
+		h[j] <- NA
 
-	i <- d4$date_harvest_dd == 0
-	j <- d4$date_harvest_yy == 0
-	d4$date_harvest_dd[i] <- 15
-	h <- apply(d4[, c("date_harvest_yyyy", "date_harvest_mm", "date_harvest_dd")], 1, paste, collapse="-")
-	h[j] <- NA
-
-	dd4$harvest_date <- as.character(as.Date(h))
-
+		dd4$harvest_date <- as.character(as.Date(h))
+	} else {
+#		pd <- r4[r4$activity == 'Date of planting', ]
+#		pd$planting_date <- apply(pd[, c("yyyy", "mm", "dd")], 1, paste, collapse="_")
+#		hd <- r4[r4$activity == 'Date of harvest', ]
+#		hd$harvest_date <- apply(hd[, c("yyyy", "mm", "dd")], 1, paste, collapse="_")
+#		v <- c("id", "farm_id")
+#		m <- merge(pd[,c(v, "planting_date")], hd[,c(v, "harvest_date")], by=v)
+	}
 
 	#standardizing the previous crop variable
 
@@ -237,7 +215,7 @@ N2A_monitoring_1 <- function(ff) {
 	# read the data
 	bn <- basename(ff)
 	f0 <- ff[bn == "a_general.csv"]
-	d0 <- read.csv(f0)
+	r0 <- read.csv(f0)
 	
 	f1 <- ff[bn == "c_use_of_package_1.csv"]
 	d1 <- read.csv(f1)
@@ -249,21 +227,21 @@ N2A_monitoring_1 <- function(ff) {
 	d3 <- read.csv(f3) 
 
 	f4 <- ff[bn == "d_cropping_calendar.csv"]
-	d4 <- read.csv(f4)
+	r4 <- read.csv(f4)
 	
 	f5 <- ff[bn == "b_info_site_2.csv"]
 	d5 <- read.csv(f5)
 	
 	#start processing the 1st data
 	d <- data.frame(
-		country = d0$country, 
-		adm2 = carobiner::fix_name(d0$action_site, "Title"), 
-		adm3 = carobiner::fix_name(d0$sector_ward, "Title"), 
-		location = carobiner::fix_name(d0$vilage, "Title"), 
-		latitude = d0$gps_latitude, 
-		longitude = d0$gps_latitude, 
-		season = d0$season, 
-		farm_id= d0$farm_id
+		country = r0$country, 
+		adm2 = carobiner::fix_name(r0$action_site, "Title"), 
+		adm3 = carobiner::fix_name(r0$sector_ward, "Title"), 
+		location = carobiner::fix_name(r0$vilage, "Title"), 
+		latitude = r0$gps_latitude, 
+		longitude = r0$gps_latitude, 
+		season = r0$season, 
+		farm_id= r0$farm_id
 	)
 
 	#subset the variables of interest in d1 and d2	
@@ -320,9 +298,9 @@ N2A_monitoring_1 <- function(ff) {
 	dd3$plant_spacing <- as.numeric(d3$crop_1_spacing_plant_to_plant)
 	dd3 <- unique(dd3)
 	
-	dd4 <- unique(d4[, "farm_id", drop=FALSE])
-	p <- d4[grepl("planting", d4$activity), ]
-	h <- d4[grepl("harvest", d4$activity), ]
+	dd4 <- unique(r4[, "farm_id", drop=FALSE])
+	p <- r4[grepl("planting", r4$activity), ]
+	h <- r4[grepl("harvest", r4$activity), ]
 	p$planting_date <- with(p, paste(date_planting_yyyy, date_planting_mm, date_planting_dd, sep = "-"))
 	h$harvest_date <- with(h, paste(date_planting_yyyy, date_planting_mm, date_planting_dd, sep = "-"))
 	p$planting_date[p$date_planting_yyyy == 0] <- NA
