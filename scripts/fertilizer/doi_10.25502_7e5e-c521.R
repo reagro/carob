@@ -9,7 +9,7 @@ carob_script <- function(path) {
   
 "
   
-  uri <- "doi.org/10.25502/7e5e-c521"
+  uri <- "doi:10.25502/7e5e-c521"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ## dataset level data 
@@ -50,9 +50,7 @@ carob_script <- function(path) {
   d$latitude <- d$latitude1
   d$longitude <- d$longitude1
   
-  oldnms <- c("id", "lga_district_woreda", "country", "row_spacing_crop_1_plot_X.cm" , "plant_spacing_crop_1_plot_X.cm", "grain_weight_crop_1_plot_X.kg", "pod_weight_groundnut_crop_1_plot_X.kg", "width_of_harvested_plot_crop_1_plot_X.m", "no_plants_hole_crop_1_plot_X.nr", "number_of_rows_crop_1_plot_X.nr","date_of_planting_X.date")
-  
-  
+  oldnms <- c("id", "lga_district_woreda", "country", "row_spacing_crop_1_plot_X.cm" , "plant_spacing_crop_1_plot_X.cm", "grain_weight_crop_1_plot_X.kg", "pod_weight_groundnut_crop_1_plot_X.kg", "width_of_harvested_plot_crop_1_plot_X.m", "no_plants_hole_crop_1_plot_X.nr", "number_of_rows_crop_1_plot_X.nr","date_of_planting_X.date")  
   
   newnms <- c("trial_id", "location", "country", "row_spacing", "plant_spacing", "yield1", "yield2", "width_size_plot", "number_plant", "number_row","planting_date")
   
@@ -61,7 +59,7 @@ carob_script <- function(path) {
   r$date_of_planting_3.date<- NA # missing variable
   
   lst <- list()
-  i<-c(1,3)  # c(1, 3)  because number_of_rows_crop1_plot_2.nr  is missing Therefore we can can't have plot area and then yield
+  i <- c(1,3)  # c(1, 3)  because number_of_rows_crop1_plot_2.nr  is missing Therefore we can can't have plot area and then yield
   for (j in i) {
     inms <- gsub("X", j, oldnms)
     ri <- r[, inms] 
