@@ -185,6 +185,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$yield[d$crop=="cowpea" & d$k>6500]<- NA
   d$yield[d$crop=="groundnut" & d$k> 8500]<- NA
   d$yield[d$crop=="soybean" & d$k>15000]<- NA
+  message("crop yield: NA values introduced due to extreme values. Should these be removed?")
   d<-subset(d,select = -k)
   # fix data
   for (i in 1:12) {
