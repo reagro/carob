@@ -175,8 +175,47 @@ carob_script <- function(path){
   z$location[z$location == "Epdra Saboba"] <- "Saboba"
   
   # extracting coordinates from geocode
-  coords(z)
-  z <- hh[,1:30]
+  # coords(z)
+  # z <- hh[,1:30]
+  # Adding the processed coordinates
+  zz <- data.frame(country = c("Nigeria", "Malawi", "Kenya", "Kenya", 
+                               "Uganda", "Tanzania", "Uganda", "Uganda", "Uganda", "Uganda", 
+                               "Tanzania", "Tanzania", "Tanzania", "Nigeria", "Nigeria", "Tanzania", 
+                               "Nigeria", "Nigeria", "Ghana", "Ghana", "Nigeria", "Nigeria", 
+                               "Nigeria", "Tanzania", "Nigeria", "Nigeria", "Nigeria", "Uganda", 
+                               "Uganda", "Uganda", "Tanzania", "Uganda", "Uganda", "Uganda", 
+                               "Uganda", "Uganda", "Uganda", "Ghana", "Ghana", "Ghana", "Ghana", 
+                               "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ethiopia", 
+                               "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia"),
+                   adm2 = c("Makurdi", 
+                            "Dedza", "Matayos", "Bungoma Central", "Kanungu", "Lushoto", 
+                            "Kapchorwa", "Bugiri", "Kapchorwa", "Kibaale", "Mvomero", "Moshi", 
+                            "Rombo", "Hawul", "Kwaya Kusar", "Gairo", "Soba", "Biu", "Yendi", 
+                            "Savelugu", "Mokwa", "Bayo", "Bwari", "Kilosa", "Kauru", "Chikun", 
+                            "Paikoro", "Bukedea", "Arua", "Kumi", "Kongwa", "Yumbe", "Gulu", 
+                            "Zombo", "Lira", "Kisoro", "Nebbi", "Chereponi", "Chereponi", 
+                            "Chereponi", "Chereponi", "Chereponi", "Chereponi", "Chereponi", 
+                            "Chereponi", "Chereponi", "Chereponi", "Damot Gale", "Halaba", 
+                            "Soddo", "Pawe", "Boricha"),
+                   lat = c(7.73375, -14.3779, 
+                           0.35958, 0.78007, -0.75, -4.54528, 1.3333, 0.5333, 1.3333, 1.42123, 
+                           -6.3, -3.35, -3.09292, 10.4331, 10.44317, -6.13841, 10.87005, 
+                           10.61285, 9.44272, 9.62441, 9.2, 10.42254, 9.218, -6.83333, 10.22988, 
+                           10.315, 9.4681, 1.36667, 3.02013, 1.5, -6.2, 3.52354, 2.77457, 
+                           2.52031, 2.2499, -1.28538, 2.47826, 10.13417, 10.13417, 10.13417, 
+                           10.13417, 10.13417, 10.13417, 10.13417, 10.13417, 10.13417, 10.13417, 
+                           7, 7.45, 8.7, 11.3333, 8.361),
+                   lon = c(8.52139, 34.33322, 
+                           34.17005, 34.5528, 29.73, 38.43927, 34.42, 33.79, 34.42, 31.51593, 
+                           37.45, 37.33333, 37.45626, 12.24682, 11.99089, 36.88079, 7.96443, 
+                           12.19458, -0.00991, -0.8253, 5.33333, 11.70624, 7.408, 36.98333, 
+                           8.29422, 7.274, 6.85565, 34.13333, 30.91105, 33.95, 36.417, 31.28243, 
+                           32.29899, 30.88824, 32.89985, 29.68497, 31.08893, 0.28806, 0.28806, 
+                           0.28806, 0.28806, 0.28806, 0.28806, 0.28806, 0.28806, 0.28806, 
+                           0.28806, 37.83333, 38.052, 38.38333, 36.3333, 36.647))
+  z <- merge(z, zz, by = c("country", "adm2"))
+  z$latitude <- ifelse(is.na(z$latitude), z$lat, z$latitude)
+  z$longitude <- ifelse(is.na(z$longitude), z$lon, z$longitude)
   
   # final dataset
   z <- z[,c("dataset_id","trial_id","country","adm1","adm2","adm3","location","site","latitude","longitude","elevation",
@@ -188,81 +227,98 @@ carob_script <- function(path){
   # resulting error is from pigeon pea's yield. It's low amount could result from lack of proper yield units due to unknown plot size .
 }
 
-
-## USING GEOCODE TO EXTRACT COORDINATES
-coords <- function(z){
-
-# Extracting NA coordinates from adm2 geocode coordinates
-v <- z
-p <- complete.cases(v[,c("country","adm2")])
-vv <- v[p,]
-v1 <- unique(vv[,c("country","adm2")])
-gg <- carobiner::geocode(country = v1$country,location = v1$adm2,service = "nominatim")
-gg1 <- gg[[1]]
-names(gg1)[2] <- "adm2"
-
-b <- merge(v,gg1,by = c("country","adm2"),all.x = TRUE)
-b$latitude <- b$lat
-b$longitude <- b$lon
-
-# Extracting remaining NA coordinates from site geocode coordinates
-pp <- b[is.na(b$latitude),]
-
-b0 <- pp
-p <- complete.cases(b0[,c("country","site")])
-v1 <- unique(b0[p,c("country","site")])
-gg <- carobiner::geocode(country = v1$country,location = v1$site,service = "nominatim")
-gg1 <- gg[[1]]
-names(gg1)[2] <- "site"
-
-b1 <- merge(b[,1:30],gg1,by = c("country","site"),all.x = TRUE)
-
-i <- is.na(b1$latitude)
-j <- is.na(b1$longitude)
-
-replacement_values <- b1$lat[i]
-b1$latitude[i] <- replacement_values
-
-replacement_values <- b1$lon[j]
-b1$longitude[j] <- replacement_values
-
-# Extracting remaining NA coordinates from location geocode coordinates
-pp <- b1[is.na(b1$latitude),]
-
-b2 <- pp
-p <- complete.cases(b2[,c("country","location")])
-v1 <- unique(b2[p,c("country","location")])
-gg <- carobiner::geocode(country = v1$country,location = v1$location,service = "nominatim")
-gg1 <- gg[[1]]
-names(gg1)[2] <- "location"
-
-bb <- merge(b1[,1:30],gg1,by = c("country","location"),all.x = TRUE)
-
-i <- is.na(bb$latitude)
-j <- is.na(bb$longitude)
-
-replacement_values <- bb$lat[i]
-bb$latitude[i] <- replacement_values
-
-replacement_values <- bb$lon[j]
-bb$longitude[j] <- replacement_values
-
-# Extracting remaining NA coordinates from country geocode coordinates
-tt <- bb[is.na(bb$latitude),]
-v1 <- unique(tt[,"country"])
-gg <- carobiner::geocode(country = v1,location = v1,service = "nominatim")
-gg1 <- gg[[1]]
-gg1 <- gg1[,c("country","lat","lon")]
-
-hh <- merge(bb[,1:30],gg1,by = "country",all.x = TRUE)
-
-i <- is.na(hh$latitude)
-j <- is.na(hh$longitude)
-
-replacement_values <- hh$lat[i]
-hh$latitude[i] <- replacement_values
-
-replacement_values <- hh$lon[j]
-hh$longitude[j] <- replacement_values
-}
+## EGB: Updating the geocoding process
+  ## USING GEOCODE TO EXTRACT COORDINATES
+# v <- z
+# p <- complete.cases(v[,c("country","adm2")])
+# vv <- v[p,]
+# v1 <- unique(vv[is.na(vv$latitude) | is.na(vv$longitude), c("country","adm2", "latitude", "longitude")])
+# for (i in 1:nrow(v1)) {
+#   ll <- carobiner::geocode(country = v1$country[i], adm1 = v1$adm2[i], location = v1$adm2[i], service = "geonames", username = "efyrouwa")
+#   ii <- unlist(jsonlite::fromJSON(ll))
+#   c <- as.integer(ii["totalResultsCount"][[1]])
+#   v1$latitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lat"][1], ii["geonames.lat1"][1]))
+#   v1$longitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lng"][1], ii["geonames.lng1"][1]))
+# }
+# v1$latitude[v1$adm2 == "Halaba"] <- 7.450 # https://www.google.com/maps/place/Halaba,+Ethiopia
+# v1$longitude[v1$adm2 == "Halaba"] <- 38.052 # https://www.google.com/maps/place/Halaba,+Ethiopia
+# v1$latitude[v1$adm2 == "Boricha"] <- 8.361 # https://www.google.com/maps/place/%E1%89%A6%E1%88%AD%E1%89%BB,+Ethiopia
+# v1$longitude[v1$adm2 == "Boricha"] <- 36.647 # https://www.google.com/maps/place/%E1%89%A6%E1%88%AD%E1%89%BB,+Ethiopia
+# sss <- dput(v1)
+# 
+# # Additional coordinate extraction from RM
+# # coords <- function(z){
+# # # Extracting NA coordinates from adm2 geocode coordinates
+# # v <- z
+# # p <- complete.cases(v[,c("country","adm2")])
+# # vv <- v[p,]
+# # v1 <- unique(vv[,c("country","adm2")])
+# # gg <- carobiner::geocode(country = v1$country,location = v1$adm2,service = "nominatim")
+# # gg1 <- gg[[1]]
+# # names(gg1)[2] <- "adm2"
+# # 
+# # b <- merge(v,gg1,by = c("country","adm2"),all.x = TRUE)
+# # b$latitude <- b$lat
+# # b$longitude <- b$lon
+# # 
+# # # Extracting remaining NA coordinates from site geocode coordinates
+# # pp <- b[is.na(b$latitude),]
+# # 
+# # b0 <- pp
+# # p <- complete.cases(b0[,c("country","site")])
+# # v1 <- unique(b0[p,c("country","site")])
+# # gg <- carobiner::geocode(country = v1$country,location = v1$site,service = "nominatim")
+# # gg1 <- gg[[1]]
+# # names(gg1)[2] <- "site"
+# # 
+# # b1 <- merge(b[,1:30],gg1,by = c("country","site"),all.x = TRUE)
+# # 
+# # i <- is.na(b1$latitude)
+# # j <- is.na(b1$longitude)
+# # 
+# # replacement_values <- b1$lat[i]
+# # b1$latitude[i] <- replacement_values
+# # 
+# # replacement_values <- b1$lon[j]
+# # b1$longitude[j] <- replacement_values
+# # 
+# # # Extracting remaining NA coordinates from location geocode coordinates
+# # pp <- b1[is.na(b1$latitude),]
+# # 
+# # b2 <- pp
+# # p <- complete.cases(b2[,c("country","location")])
+# # v1 <- unique(b2[p,c("country","location")])
+# # gg <- carobiner::geocode(country = v1$country,location = v1$location,service = "nominatim")
+# # gg1 <- gg[[1]]
+# # names(gg1)[2] <- "location"
+# # 
+# # bb <- merge(b1[,1:30],gg1,by = c("country","location"),all.x = TRUE)
+# # 
+# # i <- is.na(bb$latitude)
+# # j <- is.na(bb$longitude)
+# # 
+# # replacement_values <- bb$lat[i]
+# # bb$latitude[i] <- replacement_values
+# # 
+# # replacement_values <- bb$lon[j]
+# # bb$longitude[j] <- replacement_values
+# # 
+# # # Extracting remaining NA coordinates from country geocode coordinates
+# # tt <- bb[is.na(bb$latitude),]
+# # v1 <- unique(tt[,"country"])
+# # gg <- carobiner::geocode(country = v1,location = v1,service = "nominatim")
+# # gg1 <- gg[[1]]
+# # gg1 <- gg1[,c("country","lat","lon")]
+# # 
+# # hh <- merge(bb[,1:30],gg1,by = "country",all.x = TRUE)
+# # 
+# # i <- is.na(hh$latitude)
+# # j <- is.na(hh$longitude)
+# # 
+# # replacement_values <- hh$lat[i]
+# # hh$latitude[i] <- replacement_values
+# # 
+# # replacement_values <- hh$lon[j]
+# # hh$longitude[j] <- replacement_values
+# # }
 
