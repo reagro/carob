@@ -146,11 +146,13 @@ h_year <- 2014 # harvest year
 	d0_trt$SN <- rep(d0$SN,8)
 
 	# add plot no for the d0_trt
-	plot <- NULL
-	for (i in 1:8){
-	ploti <- rep(i,70)
-	plot <- c(plot, ploti)
-	}
+	# plot <- NULL
+	# for (i in 1:8){
+	#   ploti <- rep(i,70)
+	#   plot <- c(plot, ploti)
+	# }
+	# EGB:
+	plot <- rep(1:8, each = 70)
 	d0_trt <- cbind(d0_trt, plot)
 	d0_trt$ssid <- paste(d0_trt$farm_id,'.',d0_trt$SN, '.', d0_trt$plot)
 	
@@ -180,11 +182,13 @@ h_year <- 2014 # harvest year
 	'above_ground_biomass_weight_husks_stover_res_crop_1_plot_2.kg'
 	)
 	
-	plots <- NULL
-	for(i in 1:8){
-	  plot <- rep(i,70)
-	  plots <- c(plots, plot)
-	}
+	# plots <- NULL
+	# for(i in 1:8){
+	#   plot <- rep(i,70)
+	#   plots <- c(plots, plot)
+	# }
+	# EGB:
+	plots <- rep(1:8, each = 70)
 	
 	# SN <- NULL
 	# for(i in 1:16){
@@ -235,11 +239,14 @@ h_year <- 2014 # harvest year
           'above_ground_biomass_weight_husks_stover_res_crop_1_plot_2.kg'
   )
   
-  plots <- NULL
-  for(i in 1:8){
-    plot <- rep(i,16)
-    plots <- c(plots, plot)
-  }
+  # plots <- NULL
+  # for(i in 1:8){
+  #   plot <- rep(i,16)
+  #   plots <- c(plots, plot)
+  # }
+  # EGB:
+  plots <- rep(1:8, each = 70)
+  
   dabia_crop2 <- cbind(d0$farm_id,plots, dabia)
   
   hd <- gsub("plot_2_", '', hd)
@@ -355,11 +362,18 @@ h_year <- 2014 # harvest year
 	d$crop = "soybean"
 	d$yield_part <- "seed"
 	d$dataset_id <- dataset_id
+	
+	# EGB: Fix country names
+	d$country <- carobiner::fix_name(d$country, case = "title")
+	
+	# EGB: Remove missing LatLon entries
+	d <- d[!is.na(d$latitude) | !is.na(d$longitude),]
+	
+	# EGB: This script needs to be reviewed as Yield is sometimes higher than biomass... Also need to fix treatments
+	message("\tReview Yield and Biomass values. Also fix treatment")
+	
 	# all scripts should end like this
 	
 	# yield is in kg/ha
 	carobiner::write_files(dset, d, path=path)
 }
-
-
-
