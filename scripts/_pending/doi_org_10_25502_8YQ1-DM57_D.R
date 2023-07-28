@@ -1,12 +1,7 @@
-# R script for "carob"
-
-remotes::install_github("reagro/carobiner")
-
 ## ISSUES
 ##P_fertilizer data is in integers meaning it maybe a code for certain amount. This needs to be checked.
 ##Yield and biomass data is recorded as per area but its not clear what area we are working with.We assumed area is 200 m2 but this needs to be re-looked at once we get more feedback from Joost. 
 
-path<-"D:/OneDrive - CGIAR/EiA/siycarob"
 carob_script <- function(path) {
 
 "Description
@@ -29,7 +24,7 @@ Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda,
 Mozambique, Kenya & Zimbabwe) as tier one countries.
 "
 	## Process 
-	uri <- "doi.org/10.25502/8YQ1-DM57/D"
+	uri <- "doi:10.25502/8YQ1-DM57/D"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	dset <- data.frame(
@@ -58,7 +53,7 @@ Mozambique, Kenya & Zimbabwe) as tier one countries.
 
 	b<- ff[basename(ff) == "c_use_of_package_2.csv"] 
 	# e<- read_csv("data/raw/fertilizer/doi_10.25502_8YQ1-DM57_D/c_use_of_package_2.csv")
-	b<- read_csv(b)
+	b<- read.csv(b)
   b<-b[,c(3,4,5,6,9,12,13)]
   names(b)
   names(b)<-c('farm_id','rep','crop','variety','inoculated','fertilizer_type','P_fertilizer')
@@ -66,7 +61,7 @@ Mozambique, Kenya & Zimbabwe) as tier one countries.
 	
 	# k<- read_csv("data/raw/fertilizer/doi_10.25502_8YQ1-DM57_D/d_cropping_calendar.csv")
 	k<- ff[basename(ff) == "d_cropping_calendar.csv"] 
-	k<- read_csv(k)
+	k<- read.csv(k)
 	k<-as.data.frame(k[,c(3,4,5,6,22,23,24)])
 	p<-k[,2]
 	q<-k[,3]
@@ -83,7 +78,7 @@ Mozambique, Kenya & Zimbabwe) as tier one countries.
   names(k)<-c('farm_id',"planting_date", "harvest_date")
 
 	n<- ff[basename(ff) == "e_harvest.csv"] 
-	n<- read_csv(n)
+	n<- read.csv(n)
 	n<-n[,c(3,4,7,8)]
 	names(n)
 	names(n)<-c('farm_id',"rep", "biomass_total", "yield")
