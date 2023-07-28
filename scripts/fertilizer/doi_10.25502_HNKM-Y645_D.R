@@ -38,7 +38,7 @@ carob_script <- function(path) {
 	r2 <- read.csv(f)
 		
 	from1 <- c("Country", "Loc", "Treatment", "Variety", "pH_value", "Nitrogen", "Rep", "Yld_FW_kg_ha", "Harvested_Biomass_kg_ha", "Days_to_Flowering_R1", "Days_to_Full_Maturity_R8", "Days_to_Harvest", "Season")
-	d1 <- carobiner::change_names(r1[,from], from1,
+	d1 <- carobiner::change_names(r1[,from1], from1,
 		c("country", "adm1", "treatment", "variety", "P_fertilizer", "N_fertilizer", "rep", "yield", "residue_yield", "flowering", "maturity", "harvest", "season"))
 	
 	#d1$inoculated <- ifelse(d1$Inoculant == "Yes", TRUE, FALSE)
@@ -48,7 +48,7 @@ carob_script <- function(path) {
 	d1$plant_density <- 10000 * r1$PLST #to get plant population/ha
 	d1$plant_height <- r1$Avg_plant_height_cm / 100
 	
-	d1$trial_id <- paste(1:nrow(d1), d1$adm1, d$treatment, sep = "_")
+	d1$trial_id <- paste(1:nrow(d1), d1$adm1, d1$treatment, sep = "_")
 	
 	# second data set
 	## note that P-fertilizer was labeled as pH_value
