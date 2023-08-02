@@ -24,7 +24,7 @@ carob_script <- function(path) {
 		data_citation='Thierfelder, Christian; Blessing Mhlanga, 2016, "Monitoring and evaluation of the effects over time of conservation agriculture practices on crop yield, soil quality, weeds, pests and diseases., https://hdl.handle.net/11529/10842, CIMMYT Research Data & Software Repository Network, V1"',
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
-		publication= "2016-12-20",
+		publication= NA,
 		data_institutions = "CIMMYT",
    		data_type="experimental data", # or, e.g. "on-farm experiment", "survey", "compilation"
 		carob_contributor="Shumirai Manzvera" 
@@ -56,7 +56,6 @@ carob_script <- function(path) {
 	d1$dataset_id <- dataset_id
 	d1$on_farm <- TRUE
 	d1$is_survey <- FALSE
-	d1$is_experiment <- TRUE
 	d1$irrigated <- FALSE
 ## the treatment code	
 	d1$treatment <- NA
@@ -82,55 +81,47 @@ carob_script <- function(path) {
 	d$elevation <- NA
 ## each site must have corresponding longitude and latitude
 ## see carobiner::geocode
-	d$longitude <- 
-	d$latitude <- 
+	d1$longitude <-  31.17505
+	d1$latitude <- -17.60859
+	
+#trial 
+	d1$trial_id<- "longterm"
 
 ##### Crop #####
 ## normalize variety names
 ## see carobiner::fix_name
-	d$crop <-
 	d1$crop <- NA
-	d1$crop[d1$Crop=="Maize"]<-"Maize"
-	d1$crop[d1$Crop=="MAIZE"]<-"Maize"
-	d1$crop[d1$Crop=="Maize/Ppea"]<-"Maize+Ppea"
-	d1$crop[d1$Crop=="MAIZE+Cowpea"]<-"Maize+Cowpea"
+	d1$crop[d1$Crop=="Maize"]<-"maize"
+	d1$crop[d1$Crop=="MAIZE"]<-"maize"
+	d1$crop[d1$Crop=="Maize/Ppea"]<-"maize"
+	d1$crop[d1$Crop=="MAIZE+Cowpea"]<-"maize"
 
-	d$variety <- 
 
-##### Time #####
-## time can be year (four characters), year-month (7 characters) or date (10 characters).
-## use 	as.character(as.Date()) for dates to assure the correct format.
-	d$planting_date <- as.character(as.Date(   ))
-	d$harvest_date  <- as.character(as.Date(    ))
-
-##### Fertilizers #####
-## note that we use P and K, not P2O5 and K2O
-## P <- P2O5 / 2.29
-## K <- K2O / 1.2051
-   d$P_fertilizer <- 
-   d$K_fertilizer <-
-   d$N_fertilizer <- 
-   d$S_fertilizer <- 
-   d$lime <- 
-## normalize names 
-   d$fertlizer_type <- 
-   d$inoculated <- TRUE/FALSE
-   d$inoculant <- 
-   
-##### in general, add comments to your script if computations are
-##### based on information gleaned from metadata, a publication, 
-##### or when they are not immediately obvious for other reasons
 
 ##### Yield #####
 	d1$biomass_total <- d$`Biomass yield (kg/ha)`
-	d$yield <- 
 	#what plant part does yield refer to?
-	d1$yield_part <- d$`Grain/cotton yield (kg/ha)`
+	d1$yield_part <- "grain"
+	d1$yield <- d1$`Grain/cotton yield (kg/ha)`
 	
+	#farming type 
+	d1$intercrops <- NA
+	d1$intercrops[d1$Crop=="Maize"]<-NA
+	d1$intercrops[d1$Crop=="Maize/Ppea"]<-"pigeon pea"
+	d1$intercrops[d1$Crop=="MAIZE+Cowpea"]<-"cowpea"
+	d1$intercrops[d1$Crop=="MAIZE"]<-NA
+	
+	#replication times
+
+	d1$rep[d1$Rep==1]<-1
+	d1$rep[d1$Rep==2]<-2
+	d1$rep[d1$Rep==3]<-3
+	d1$rep[d1$Rep==4]<-4
+	
+	d <- d1[,13:26]
 # all scripts must end like this
-	carobiner::write_files(dset, d, path=path)}
+	carobiner::write_files(dset, d, path=path)
+}
 
 ## now test your function in a clean R environment 
-# path <- _____
-# carob_script(path)
-
+carob_script(path)
