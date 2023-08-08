@@ -1,0 +1,18 @@
+Parameter,type,unit,required,valid_min,valid_max,description,note
+crop_part,character,,,,,,biofortification records
+nitrogen_content,numeric,%,no,,,Content of nitrogen,biofortification records
+potassium_content,numeric,%,no,,,Content of potassium,biofortification records
+phosphorous_content,numeric,%,no,,,Content of phosphorous,biofortification records
+sulphur_content,numeric,%,no,,,Content of sulphur,biofortification records
+magnesium_content,numeric,%,no,,,Content of calcium,biofortification records
+calcium_content,numeric,%,no,,,Content of iron,biofortification records
+iron_content,numeric,mg kg-1,no,,,Content of zinc,biofortification records
+zinc_content,numeric,mg kg-1,no,,,Content of zinc,biofortification records
+copper_content,numeric,mg kg-1,no,,,Content of copper,biofortification records
+manganese_content,numeric,mg kg-1,no,,,Content of manganese,biofortification records
+boron_content,numeric,mg kg-1,no,,,Content of boron,biofortification records
+aluminium_content,numeric,mg kg-1,no,,,Content of aluminium,biofortification records
+yield,numeric,kg/ha,no,,,Total yield,biofortification records
+zinc_concentration,numeric,mg kg-1,no,,,Concentration of zinc,biofortification records
+zinc_uptake,numeric,g/ha,no,,,Uptake of zinc,biofortification records
+zn_harvest_index,numeric,%,no,,,Harvest index of zinc,biofortification records
