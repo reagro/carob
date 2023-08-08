@@ -54,19 +54,30 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d<- r[, c("farm_id","country","lga_district_woreda","gps_latitude_hh.decimal_degrees","gps_longitude_hh.decimal_degrees")] 
   
   colnames(d) <- c("trial_id", "country","location","latitude","longitude")
-
+  
   d1 <- r1[, c("farm_id", "legume_planted_on_the_n2a_plot")] 
   
   colnames(d1) <- c("trial_id", "crop")
   
-#merge d1 and d
-d<-merge(d1,d,by="trial_id")  
-
+  # # EGB: Add area info
+  d2 <- r4[, c("farm_id", "area_field_1", "area_field_1_unit.ha", "area_harvested_most_important_crop_field_1")]
+  colnames(d2) <- c("trial_id", "area", "area_units", "area_harvest")
+  d2$area_ha <- NA
+  d2$area_ha[grep("acre", d2$area_units)] <- d2$area_harvest[grep("acre", d2$area_units)] * 0.405 # 1 acre = 0.40486 Ha
+  d2$area_ha[grep("meter_squared", d2$area_units)] <- d2$area_harvest[grep("meter_squared", d2$area_units)] * 10000
+  d2$area_ha[grep("hectare", d2$area_units)] <- d2$area_harvest[grep("hectare", d2$area_units)]
+  d2 <- d2[,c("trial_id", "area_ha")]
+  
+  #merge d1 and d
+  d<-merge(d,d1,by="trial_id")
+  
+  # # EGB: Merge d and d2
+  d<-merge(d,d2,by="trial_id")
   
   oldnms <- c("farm_id", "grain_weight_kg_shelled_grain_crop_1_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_X.kg","date_of_planting_X","date_of_final_harvest_X","type_of_fertilizer_used_n2africa_plot")  
   
   newnms <- c("trial_id", "yield1", "yield2","planting_date","harvest_date","fertilizer_type")
-    
+  
   lst <- list()
   i <- c(1,3)  
   for (j in i) {
@@ -83,8 +94,9 @@ d<-merge(d1,d,by="trial_id")
   i <- is.na(d2$yield1)
   d2$yield1[i] <- d2$yield2[i]
   
-  
-  d2$yield <- d2$yield1 # in kg
+  #EGB: Calculate yield in kg/ha
+  d2 <- merge(d2, d[,c("trial_id", "area_ha")], by = "trial_id")
+  d2$yield <- d2$yield1/d2$area_ha
   
   # merge d and d2
   d <- merge(d,d2,bx="trial_id", all.y = T)
@@ -130,10 +142,14 @@ d<-merge(d1,d,by="trial_id")
   d$k<-d$yield
   d$yield[d$crop=="common bean" & d$k>9000]<- NA
   d<-subset(d,select = -k)
-  # fix data
+  
+  # # EGB: Fix dates
+  
   
   d$planting_date<- as.character(as.Date(d$planting_date,format='%d/%m/%Y'),'%Y-%m-%d')
+  d$planting_date <- ifelse(d$planting_date<as.Date("2015-01-01"), paste0(as.integer(format(as.Date(d$planting_date), "%Y"))+16, "-", format(as.Date(d$planting_date), "%m-%d")), d$planting_date)
   d$harvest_date<- as.character(as.Date(d$harvest_date,format='%d/%m/%Y'),'%Y-%m-%d')
+  d$harvest_date <- ifelse(d$harvest_date<as.Date("2015-01-01"), paste0(as.integer(format(as.Date(d$harvest_date), "%Y"))+16, "-", format(as.Date(d$harvest_date), "%m-%d")), d$harvest_date)
   
   # fix whitespace in variable: location, harvest_date
   d$location[d$location==""]<-NA
