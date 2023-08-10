@@ -25,7 +25,6 @@ carob_script <- function(path) {
     Crop system: intercropped with banana vs. sole
   
 "
-  path<-'/home/jovyan/carob' ###########Should we add this path? script can't read the csv file without it
   uri <- "doi.org/10.25502/6h5e-q472"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
@@ -115,7 +114,7 @@ carob_script <- function(path) {
   d1$adm3 [d1$adm4=="Mpungu"]<- "Kinkizi West"
   
   # converting the farm size to ha....#issue: the results of some rows are not correct!
-  d1$farm_size_ha [d1$farm_size_unit=="acre"]<-  as.numeric(d1$farm_size_ha*0.4) 
+  d1$farm_size_ha[d1$farm_size_unit=="acre"] <- as.numeric(d1$farm_size_ha[d1$farm_size_unit=="acre"]*0.4) 
   
   #correct the crop name
   d1$crop<-"climbing beans"
@@ -209,16 +208,87 @@ carob_script <- function(path) {
   d3 <- subset( d3, select = -c(other,`dy1$plot_number`))
   colnames(d3)[68]<-"yield"
   
-  carobiner::write_files (dset, d3, path=path)
+  # # EGB: Fixing and adding
+  d3$dataset_id <- dataset_id
+  d3$on_farm <- TRUE
+  d3$is_survey <- TRUE
+  d3$variety_type <- "climbing"
+  d3$yield_part <- "seed"
+  # Add dates
+  d3$planting_date <- as.character(as.Date(as.character(d3$planting_date), format = "%d-%b-%y"))
+  d3$flowering <- as.integer(difftime(as.Date(as.character(d3$flowering_date), format = "%d-%b-%y"),
+                                      as.Date(as.character(d3$planting_date), format = "%Y-%m-%d"),
+                                      units = "days"))
+  d3$maturity <- as.integer(difftime(as.Date(as.character(d3$maturity), format = "%d-%b-%y"),
+                                     as.Date(as.character(d3$planting_date), format = "%Y-%m-%d"),
+                                     units = "days"))
+  d3$maturity <- ifelse(d3$maturity < 0, 365 + d3$maturity, d3$maturity) # Due to negative erroneous values (?)
+  d3$harvest <- as.integer(difftime(as.Date(as.character(d3$harvest_date_date), format = "%d-%b-%y"),
+                                    as.Date(as.character(d3$planting_date), format = "%Y-%m-%d"),
+                                    units = "days"))
+  d3$harvest <- ifelse(d3$harvest < 0, 365 + d3$harvest, d3$harvest) # Due to negative erroneous values (?)
+  d3$harvest_date <- as.character(as.Date(as.character(d3$harvest_date_date), format = "%d-%b-%y"))
+  # Add treatments and fertilizers
+  d3$treatment <- NA
+  d3$treatment[d3$treatments_code %in% c("treatment1", "treatment2")] <- "N0P0K0"
+  d3$N_fertilizer <- 0
+  d3$P_fertilizer <- 0
+  d3$P_fertilizer[d3$treatments_code %in% c("treatment3","treatment4","treatment5","treatment6")] <- 10 * 0.1923 # Following protocol and P content in TSP
+  d3$K_fertilizer <- 0
+  d3$K_fertilizer[d3$treatments_code %in% c("treatment4","treatment5","treatment6")] <- 30 * 0.498 # Following protocol and K content in KCl
+  d3$Zn_fertilizer <- 0
+  d3$Zn_fertilizer[d3$treatments_code %in% c("treatment5","treatment6")] <- 5 * 0.365 # Following protocol and Zn content in ZnSO4
+  d3$B_fertilizer <- 0
+  d3$B_fertilizer[d3$treatments_code %in% c("treatment5","treatment6")] <- 5 * 0.11 # Following protocol and K content in Borax
+  d3$treatment[d3$treatments_code %in% c("treatment3")] <- paste0("N0", "P", round(d3$P_fertilizer[d3$treatments_code %in% c("treatment4")], 0), "K0")
+  d3$treatment[d3$treatments_code %in% c("treatment4", "treatment5", "treatment6")] <- paste0("N0",
+                                                                                              "P", round(d3$P_fertilizer[d3$treatments_code %in% c("treatment4", "treatment5", "treatment6")], 0),
+                                                                                              "K", round(d3$K_fertilizer[d3$treatments_code %in% c("treatment4", "treatment5", "treatment6")], 0))
+  # # EGB: Process OM
+  d3$OM_used <- TRUE
+  d3$OM_used[d3$treatments_code == "treatment1"] <- FALSE # Assumed to be control in protocol
+  d3$OM_type <- NA
+  d3$OM_type[d3$treatments_code != "treatment1"] <- "farmyard manure"
+  d3$OM_applied[d3$treatments_code != "treatment1"] <- 2 * 1000 # According to protocol
+  # # EGB: Standardizing pathogen names
+  # # Need to add pathogens/diseases to the vocabulary
+  # d3$pathogen <- d3$type_of_disease
+  
+  d4 <- d3[,c("dataset_id", "trial_id", "on_farm", "is_survey",
+              "country", "adm1", "adm2", "adm3", "adm4", "adm5", "location", "site", "elevation",
+              "crop", "variety", "variety_type", "previous_crop",
+              "planting_date", "flowering", "maturity", "harvest", "harvest_date",
+              "treatment", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", 
+              "OM_used", "OM_type", "OM_applied",
+              "yield", "yield_part",
+              # "pathogen",
+              "row_spacing", "plant_spacing")]
+  
+  # # EGB: Improved georeferencing
+  s <- data.frame(adm1 = c("Western", "Western"),
+                  adm2 = c("Kanungu", "Kanungu"),
+                  adm4 = c("Mpungu", "Rutenga"),
+                  latitude = c(-0.99308, -0.99617),
+                  longitude = c(29.72256, 29.84895))
+  d5 <- merge(d4, s, by = c("adm1", "adm2", "adm4"), all.x=TRUE)
+  d5$country <- "Uganda"
+  d5$crop <- "common bean"
+  
+  carobiner::write_files (dset, d5, path=path)
   
 }
- 
- 
- 
 
-  
- 
-  
-  
-  
-  
+# # EGB: Georeferencing
+# s <- unique(d3[,c("country", "adm1", "adm2", "adm4")])
+# s$latitude <- NA
+# s$longitude <- NA
+# for (i in 1:nrow(s)) {
+#   if(is.na(s$latitude[i]) | is.na(s$longitude[i])){
+#     ll <- carobiner::geocode(country = s$country[i], adm1 = s$adm1[i], adm2 = s$adm2[i], location = s$adm4[i], service = "geonames", username = "efyrouwa")
+#     ii <- unlist(jsonlite::fromJSON(ll))
+#     c <- as.integer(ii["totalResultsCount"][[1]])
+#     s$latitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lat"][1], ii["geonames.lat1"][1]))
+#     s$longitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lng"][1], ii["geonames.lng1"][1]))
+#   }
+# }
+# s <- dput(s)
