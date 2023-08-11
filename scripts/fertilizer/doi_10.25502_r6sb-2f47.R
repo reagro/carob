@@ -45,9 +45,9 @@ carob_script <- function(path) {
   f <- ff[basename(ff) == "data_table.csv"]
   r <- read.csv(f)
   
-  from1 <- c("lga_district_woreda","sector_ward","package_legume","package_variety","inputs_used_on_plot_master_group_plot_id_repeat","date_hhsurvey_1.date","crop1_grain_weigth_plot_kg_master_group_yield_repeat","crop1_pod_weigth_plot_kg_master_group_yield_repeat","width_plot_m_master_group_plot_char_repeat","length_plot_m_master_group_plot_char_repeat")
+  from1 <- c("lga_district_woreda","sector_ward","package_legume","package_variety","inputs_used_on_plot_master_group_plot_id_repeat","date_hhsurvey_1.date","crop1_grain_weigth_plot_kg_master_group_yield_repeat","crop1_pod_weigth_plot_kg_master_group_yield_repeat","width_plot_m_master_group_plot_char_repeat","length_plot_m_master_group_plot_char_repeat", "other_crops_previous_season")
   d <- carobiner::change_names(r[,from1], from1, 
-                               c("adm1","location","crop","variety","treatment","date","yield1","yield2","width","length"))
+                               c("adm1","location","crop","variety","treatment","date","yield1","yield2","width","length", "crop_rotation"))
   d$country <- carobiner::fix_name(r$country, case = "title") 
   d$adm1 <- carobiner::fix_name(d$adm1, case = "title")
   d$date <- format(as.Date(d$date, format = "%d-%b-%y", locale = "C"), "%Y-%m-%d")
@@ -60,7 +60,17 @@ carob_script <- function(path) {
   d$variety <- r$package_variety
   d$location <- r$sector_ward
   d$crop <- carobiner::replace_values(d$crop,c("soya_bean","faba_bean","bush_bean","climbing_bean"), c("soybean","faba bean","common bean","common bean"))
-  
+  # # EGB: Try to include crop rotation since information is available
+  rotations <- data.frame(str_split_fixed(d$crop_rotation, " ", 5))
+  rotations[rotations==""] <- NA
+  for (col in 1:ncol(rotations)) {
+    # # EGB: Removing fallow, other, vegetables, and khat from rotation
+    rotations[,col] <- ifelse(rotations[,col] %in% c("other", "fallow", "khat", "vegetables yam cowpea groundnut soyabean"), NA, rotations[,col])
+    rotations[,col] <- carobiner::replace_values(rotations[,col],c("irish_potato","climbing_bean","sweet_potato","bush_bean", "soyabean","pigeon_pea","faba_bean","bambara_bean"), c("potato","common bean","sweetpotato","common bean", "soybean","pigeon pea", "faba bean","bambara groundnut"), must_have = FALSE)
+  }
+  d$crop_rotation <- gsub('^;|;$', '', gsub("NA", "",paste(rotations[,1], rotations[,2], sep = ";")))
+  d$crop_rotation <- ifelse(d$crop_rotation == "", NA, d$crop_rotation)
+
   # efyrouwa: some widths and lengths are either too small or too large,
   ##looking at the protocol I decided on the following cutoff points 
   d$width[d$width < 6 | d$width > 20] <- NA
@@ -148,7 +158,7 @@ carob_script <- function(path) {
   d <- d[,c("dataset_id","trial_id","on_farm","is_survey","country","adm1","location","latitude","longitude","crop","variety","treatment","inoculated","fertilizer_type","OM_used","N_fertilizer","P_fertilizer","K_fertilizer","date","yield","yield_part")]
   
   message("efyrouwa :lat and lon for 277 locations to be filled,some points are not accurate, NPK rates to be filled, find out plot lengths and widths")
-  
+
   # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
 }
