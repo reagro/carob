@@ -6,6 +6,7 @@
 
 carob_script <- function(path) {
   
+  
   "N2Africa is to contribute to increasing biological nitrogen fixation and 
   productivity of grain legumes among African smallholder farmers which will 
   contribute to enhancing soil fertility, improving household nutrition and increasing
@@ -44,33 +45,29 @@ carob_script <- function(path) {
   f <- ff[basename(ff) == "data_table.csv"]
   r <- read.csv(f)
   
-  from1 <- c("lga_district_woreda","sector_ward","package_legume","package_variety","inputs_used_on_plot_master_group_plot_id_repeat","other_crops_previous_season","date_hhsurvey_1.date","crop1_grain_weigth_plot_kg_master_group_yield_repeat","crop1_pod_weigth_plot_kg_master_group_yield_repeat","width_plot_m_master_group_plot_char_repeat","length_plot_m_master_group_plot_char_repeat")
+  from1 <- c("lga_district_woreda","sector_ward","package_legume","package_variety","inputs_used_on_plot_master_group_plot_id_repeat","date_hhsurvey_1.date","crop1_grain_weigth_plot_kg_master_group_yield_repeat","crop1_pod_weigth_plot_kg_master_group_yield_repeat","width_plot_m_master_group_plot_char_repeat","length_plot_m_master_group_plot_char_repeat")
   d <- carobiner::change_names(r[,from1], from1, 
-                               c("adm1","location","crop","variety","treatment","crop_rotation","date","yield1","yield2","width","length"))
+                               c("adm1","location","crop","variety","treatment","date","yield1","yield2","width","length"))
   d$country <- carobiner::fix_name(r$country, case = "title") 
   d$adm1 <- carobiner::fix_name(d$adm1, case = "title")
+  d$date <- format(as.Date(d$date, format = "%d-%b-%y", locale = "C"), "%Y-%m-%d")
   d$trial_id <-paste(r$id,r$farm_id, sep = "_")
   d$dataset_id <- dataset_id
   d$on_farm <- FALSE
   d$is_survey <- TRUE
-  d$yield_part <- "seeds"
+  d$yield_part <- "seed"
   d$inoculated <- grepl("inoculant",d$treatment)
   d$variety <- r$package_variety
   d$location <- r$sector_ward
-  d$crop <- carobiner::replace_values(d$crop,c("soya_bean","faba_bean"), c("soybean","faba bean"))
+  d$crop <- carobiner::replace_values(d$crop,c("soya_bean","faba_bean","bush_bean","climbing_bean"), c("soybean","faba bean","common bean","common bean"))
   
-  # information obtained from country protocols 2017
-  d1 <- data.frame(country = c("Tanzania","Tanzania","Uganda","Uganda","Uganda","Ghana","Ghana","Ghana"),
-                   crop = c("cowpea","bush_bean","climbing_bean","bush_bean","soy_bean","groundnut","soy_bean","cowpea"),
-                   plot_length = c(10,6,6,10,10,10,10,10),
-                   plot_width = c(10,6,6,10,10,10,12,10),
-                   row_spacing_cm = c(75,50,50,50,50,50,50,NA),
-                   plant_spacing_cm = c(20,20,25,10,6,20,10,NA))
-  d <- merge(d,d1, by = c("country", "crop"), all.x = TRUE) 
+  # efyrouwa: some widths and lengths are either too small or too large,
+  ##looking at the protocol I decided on the following cutoff points 
+  d$width[d$width < 6 | d$width > 20] <- NA
+  d$length[d$length < 10| d$length > 20] <- NA
   
-  # Combine columns and calculate yield kg/ha
-  d$yield <- 10000 / (d$plot_length * d$width) * ifelse(is.na(d$yield1), d$yield2, d$yield1)
-  d$date <- format(as.Date(d$date, format = "%d-%b-%y", locale = "C"), "%Y-%m-%d")
+  # calculating the yield, yield 2 was the unshelled yield
+  d$yield <- 10000 / (d$length * d$width) * ifelse(is.na(d$yield1), d$yield2, d$yield1)   # Combine columns and calculate yield kg/ha
   d$fertilizer_type <- "none"
   d$fertilizer_type[grep("DAP",d$treatment)] <- "DAP"
   d$fertilizer_type[grep("NPK",d$treatment)] <- "NPK"
@@ -78,20 +75,12 @@ carob_script <- function(path) {
   d$fertilizer_type[grep("SSP",d$treatment)] <- "SSP"
   d$fertilizer_type[grep("other_mineral_fertilizer",d$treatment)]<- "unknown"
   d$OM_used <- grepl("organic_fertilizer",d$treatment)
-  d$treatment2 <- r$inputs_used_on_plot_master_group_plot_id_repeat # This also looks like it would pass for the treatments???
-  
-  
-  # getting the fertilizer type info
-  d1 <- data.frame(country = c("Tanzania","Tanzania","Uganda","Uganda","Uganda","Ghana","Ghana","Ghana"),
-                   crop = c("cowpea","bush_bean","climbing_bean","bush_bean","soy_bean","groundnut","soy_bean","cowpea"),
-                   fertilizer_type = c("DAP(18% N; 46% P2O5","NPK (18:23:10):MKP","TSP","TSP","TSP","TSP","TSP","unknown"),
-                   dataset_id = dataset_id)
-  
-  d <- merge(d,d1, by = c("country","crop","fertilizer_type","dataset_id"), all = T)
-  
-  
+  d$treatment2 <- r$inputs_used_on_plot_master_group_plot_id_repeat# This also looks like it would pass for the treatments???
+  d$N_fertilizer <- 0
+  d$P_fertilizer <- 0
+  d$K_fertilizer <- 0
   # filling in the lats and lon 
-  ## efyrouwa: still 277 lats and lon to be info to be filled, 
+  ## efyrouwa: still 277 lats and lon info to be filled, 
   ## u <- unique(d[complete.cases(d$location), c("country","location")])
   ## g <- carobiner::geocode(country = u$country,  location = u$location, service = "nominatim")
   ## run g$put to get the information making the data frame below
@@ -156,54 +145,9 @@ carob_script <- function(path) {
     }
   }
   
-  d <- d[,c("trial_id","dataset_id","country","adm1","location","latitude","longitude","crop","variety","treatment","treatment2","inoculated","OM_used","plant_spacing_cm","row_spacing_cm","plot_length","plot_width","yield_part","yield","crop_rotation","on_farm","is_survey","date")]
-  d$crop <- carobiner::replace_values(d$crop,c("soy_bean", "bush_bean", "climbing_bean"), c("soybean", "common bean", "common bean"))
-  d$crop_rotation <- carobiner::replace_values(d$crop,c("soy_bean", "bush_bean", "climbing_bean"), c("soybean", "common bean", "common bean"))
+  d <- d[,c("dataset_id","trial_id","on_farm","is_survey","country","adm1","location","latitude","longitude","crop","variety","treatment","inoculated","fertilizer_type","OM_used","N_fertilizer","P_fertilizer","K_fertilizer","date","yield","yield_part")]
   
-  
-  
-  
-  
-  
-  # efyrouwa: info obtained from protocols
-  ## Tz cow pea plot size 10m*10m = 100 m2 per plot,Spacing cowpea: 75 cm between rows by 20 cm within row by putting ,two seeds per hole. Each plot 13 rows 
-  ## fertilizer : -	Fertilizer rates: DAP ((18% N; 46% P2O5) will be applied at to supply P at a recommended rate of 20 kg/ha. A plot of 10x 10 m will require 1.0 kg of DAP 
-  ## Tz bush_bean :- Plot size: 6*6 = 36m2 per plot. - Spacing beans: 50 cm between rows by 20 cm within row. Plant two seeds per hole at planting. Each plot  12 rows.
-  ## Uganda climbing bean :- Plot size: 6*6 = 36m2 per plot  Spacing beans: 50 cm between rows by 25 cm within row. seeds per hole at planting. Each plot should accommodate 12 lines 
-  ## Fertilizer rates: TSP will be applied using a rate of 15 kg P per hectare;  Cattle manure  2 t/ha this will be banded within planting furrows before seed placement. 
-  ## Uganda bush bean :- plot size 10*10= 100m2. 	Spacing beans: 50 cm between rows by 10 cm within row. Apply one seed per hole at planting. Each plot should accommodate 20 rows or lines 
-  ##  	Fertilizer rates: TSP will be applied using a rate of 15 kg per hectare. Use five glass soda tops of TSP per row, which should be applied in the furrows. cattle manure at a moderate rate of 2 t/ha. 
-  ## Uganda soybean :plot size 10m*10m, spacing 50cm*6cm,plant 1 seed per hill, 16 lines per plot, TSP applied at P= 15kg/ha
-  ## Ghana groundnut :2.	Plot size is 10 m x 10 m ,plant spacing 50 cm x 20 cm ,2 seeds per hole,20 rows per ploy, TSP rate 1.48kg/plot
-  ## Ghana soybean : plot size,10m *12m, plant spacing 50cm*10cm, 2seeds/hole,20 rows/plot, TSP = 1.78kg/plot
-  ## Ghana cow pea : plot size 10m*10m ,plant spacing unknown, 2 seeds/hole,   
-  ## protocol info for Nigeria and Ethiopia missing
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  message("efyrouwa :lat and lon for 277 locations to be filled,some points are not accurate, NPK rates to be filled, find out plot lengths and widths")
   
   # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
