@@ -142,14 +142,32 @@ carob_script <- function(path){
   b3$row_spacing <- as.numeric(b3$row_spacing)
   b3$plant_spacing <- as.numeric(b3$plant_spacing)
   
+  # # EGB: add plot size using country protocols
+  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  # !!!!!!!!!!!! Please Review !!!!!!!!!!!!!
+  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  b3$plotsize <- NA
+  b3$plotsize[b3$country == "Nigeria" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2014] <- 0.01 # In protocol (2014) plot size is indicated 10m*10m = 100m2 = 0.01ha
+  b3$plotsize[b3$country == "Nigeria" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2015 & b3$crop %in% c("cowpea", "groundnut")] <- 0.375 # In protocol (2015) plot size is indicated 75m*50m = 3750m2 = 0.375ha
+  b3$plotsize[b3$country == "Nigeria" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2015 & b3$crop %in% c("soybean")] <- 0.125 # In protocol (2015) plot size is indicated 50m*25m = 1250m2 = 0.125ha
+  b3$plotsize[b3$country == "Nigeria" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2016 & b3$crop %in% c("soybean")] <- 0.01 # In protocol (2016) plot size is indicated 10m*10m = 100m2 = 0.01ha
+  b3$plotsize[b3$country == "Uganda" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2014] <- 0.0025 # In protocol plot size is indicated 5m*5m = 25m2 = 0.0025ha
+  b3$plotsize[b3$country == "Uganda" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2017 & b3$crop %in% c("common bean")] <- 0.0036 # In protocol plot size is indicated 6m*6m = 36m2 = 0.0036ha
+  b3$plotsize[b3$country == "Uganda" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2017 & b3$crop %in% c("soybean")] <- 0.01 # In protocol plot size is indicated 10m*10m = 100m2 = 0.01ha
+  b3$plotsize[b3$country == "Ghana" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2017] <- 0.01 # In protocol (2017) plot size is indicated 10m105m = 100m2 = 0.01ha
+  b3$plotsize[b3$country == "Ghana" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2015] <- 0.012 # In protocol (2015) plot size is indicated 12m*10m = 120m2 = 0.012ha
+  b3$plotsize[b3$country == "Ethiopia" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2015] <- 0.01 # In protocol (2015) plot size is indicated 10m*10m = 100m2 = 0.01ha
+  b3$plotsize[b3$country == "Tanzania" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2015 & b3$crop %in% c("common bean")] <- 0.0036 # In protocol (2015) plot size is indicated 6m*6m = 36m2 = 0.0036ha
+  b3$plotsize[b3$country == "Tanzania" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2015 & b3$crop %in% c("groundnut")] <- 0.01 # In protocol (2015) plot size is indicated 10m*10m = 36m2 = 0.01ha
+  
   # Grain weight is used as yield. It is in kg/plot. Plot size is unknown hence yield value in kg/ha can't be extrapolated.
   
-  b3$yield <- as.numeric(b3$grain_weight_kg) 
+  b3$yield <- as.numeric(b3$grain_weight_kg)/b3$plotsize
   
   # Above ground biomass is assumed to be wet and not dry, hence used as residue yield. It is in kg/plot. 
   # Plot size is unknown hence residue yield value in kg/ha can't be extrapolated.
   
-  b3$residue_yield <- as.numeric(b3$`above_ground_biomass_kg/plot`)
+  b3$residue_yield <- as.numeric(b3$`above_ground_biomass_kg/plot`)/b3$plotsize
   b3$dataset_id <- dataset_id
   b3$previous_crop[b3$previous_crop == "other"] <- NA
 
