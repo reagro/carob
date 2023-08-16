@@ -1,18 +1,16 @@
 
-###########################################################################################################
-# N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among 
-# African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition
-# and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable,
-# long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain
-# legumes through effective production technologies including inoculants and fertilizers adapted to local settings.
-# A strong national expertise in grain legume production and N2-fixation research and development will be the legacy
-# of the project.
-# The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other 
-# countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
-###########################################################################################################
 
-# Notes
-# Note1: Where trial_id is labelled as "" it is replaced with the preceding value.
+"N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among
+African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition
+and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable,
+long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain
+legumes through effective production technologies including inoculants and fertilizers adapted to local settings.
+A strong national expertise in grain legume production and N2-fixation research and development will be the legacy
+of the project.
+The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other
+countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
+"
+
 
 
 carob_script <- function(path){
@@ -35,9 +33,6 @@ carob_script <- function(path){
 		data_institutions="IITA"
 	)
 
-p_year <- 2014 #planting year
-h_year <- 2014 # harvest year
-
 ## download and read data 
 	ff <- carobiner::get_data(uri,path,group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
@@ -48,51 +43,44 @@ h_year <- 2014 # harvest year
 	r2 <- read.csv(f0)
 	
 	f1 <- ff[basename(ff) == "general.csv"]
-	d1 <- read.csv(f1)
+	r1 <- read.csv(f1)
 	
 	
 	f5 <- ff[basename(ff) == "production.csv"]
-	d5 <- read.csv(f5)
+	r3 <- read.csv(f5)
 	
 
   #assemble everything for crop 1 
-	##efyrouwa: unable to pull for "width_of_harvested_plot_crop_1_plot_1","pod_weight_unshelled_grain_groundnut_crop_1_plot_2.kg" 
-	##because they are structured differently, will come to it later
-	
-	oldnames <- c("name_treatment_X", "description_treatment_X","width_of_harvested_plot_crop_1_plot_X.m","pod_weight_unshelled_grain_groundnut_crop_1_plot_2.kg","width_of_harvested_plot_crop_1_plot_X","depth_of_harvested_plot_perpen_dicular_to_rows_crop_1_plot_X.m","number_of_rows_in_plot_crop_1_plot_X","grain_weight_kg_shelled_grain_crop_1_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_X.kg","above_ground_biomass_weight_husks_stover_res_crop_1_plot_X.kg") 
-	newnames <- c("treatment","description","width","length","row_count","grain_weight","pod_weight","residue_yield")	
 
-	olnm1 <- gsub("pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_X.kg","pod_weight_unshelled_grain_groundnut_crop_1_plot_2.kg", oldnames)
-	olnm2 <- gsub("width_of_harvested_plot_crop_1_plot_X.m","width_of_harvested_plot_crop_1_plot_1",oldnames)
+	colnames(r2)[colnames(r2) %in% c("width_of_harvested_plot_crop_1_plot_1", "pod_weight_unshelled_grain_groundnut_crop_1_plot_2.kg")] <- c("width_of_harvested_plot_crop_1_plot_1.m", "pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_2.kg")
 	
-	lst <- lapply(1:10, function(i) {
-	  if (i == 2) {
-	    di <- r2[, gsub("X", i, olnm1)]
-	  } else if (i ==1) {
-	    di <- r2[, gsub("X", i, olnm2)]
-	  } else {
-	    di <- r2[, gsub("X", i, oldnames)]
-	  }
-	  colnames(di) <- newnames
-	  di
-	})
+	t <- c("name_treatment_X", "description_treatment_X","width_of_harvested_plot_crop_1_plot_X.m","depth_of_harvested_plot_perpen_dicular_to_rows_crop_1_plot_X.m","number_of_rows_in_plot_crop_1_plot_X","grain_weight_kg_shelled_grain_crop_1_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_X.kg","above_ground_biomass_weight_husks_stover_res_crop_1_plot_X.kg") 
+	x <- c("treatment","description","width","length","row_count","grain_weight","pod_weight","residue_yield")	
+
+	lst <- list()
+	for (i in 1:8) {
+	  inms <- gsub("X", i, t)
+	  ri <- r2[, inms] 
+	  colnames(ri) <- x
+	  lst[[i]] <- ri
+	}	
 	
 	dd <- do.call(rbind, lst)
 	dd$trial_id <- r2$farm_id
 	dd$crop <- carobiner::replace_values(r2$experimental_treatments_crop_1, c("","Groundnut","Soya bean","soya bean","Cowpea","Maize","SOYABEANS","SOYBEAN","COWPEA","SOYA BEAN","G per NUT"),c(NA,"groundnut","soybean","soybean","cowpea","maize","soybean","soybean","cowpea","soybean","groundnut"))
 	dd$variety <- carobiner::fix_name(r2$experimental_treatments_variety_crop_1)
 	dd$trial_id <- r2$farm_id
-
+ 
 	
 	# assembling everything for crop 2
-	oldnames <- c("name_treatment_X", "description_treatment_X","width_of_harvested_plot_crop_2_plot_X.m","depth_of_harvested_plot_perpen_dicular_to_rows_crop_2_plot_X.m","number_of_rows_in_plot_crop_2_plot_X","grain_weight_kg_shelled_grain_crop_2_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_2_plot_X.kg","above_ground_biomass_weight_husks_stover_res_crop_2_plot_X.kg")
-	newnames <- c("treatment","description","width","length","row_count","grain_weight","pod_weight","residue_yield")
+	t <- c("name_treatment_X", "description_treatment_X","width_of_harvested_plot_crop_2_plot_X.m","depth_of_harvested_plot_perpen_dicular_to_rows_crop_2_plot_X.m","number_of_rows_in_plot_crop_2_plot_X","grain_weight_kg_shelled_grain_crop_2_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_2_plot_X.kg","above_ground_biomass_weight_husks_stover_res_crop_2_plot_X.kg")
+	x <- c("treatment","description","width","length","row_count","grain_weight","pod_weight","residue_yield")
 	
 	lst <- list()
 	for (i in 1:8) {
-	  inms <- gsub("X", i, oldnames)
+	  inms <- gsub("X", i, t)
 	  ri <- r2[, inms] 
-	  colnames(ri) <- newnames
+	  colnames(ri) <- x
 	  lst[[i]] <- ri
 	}	
 	
@@ -108,7 +96,7 @@ h_year <- 2014 # harvest year
   #filling in the inoculated 
 	d0$treatment <- gsub("\\s*([+-])\\s*", "\\1", d0$treatment) # removing spaces between + or - 
 	d0$description <- gsub("\\s*([+-])\\s*I\\s*", "\\1I", d0$description)# removing spaces between + or - 
-	d0$innoculated <- ifelse(grepl("\\+i", d0$treatment), TRUE, FALSE)
+	d0$inoculated <- ifelse(grepl("\\+i", d0$treatment), TRUE, FALSE)
 	
 	
 	#filling in the varieties
@@ -123,81 +111,53 @@ h_year <- 2014 # harvest year
 	d0$crop[grepl("\\s*samnut \\d{2}", d0$treatment) & is.na(d0$crop)] <- "groundnut"
 	d0$crop[(grepl("evdt\\s*\\S+|cereal|maize|evdt", d0$treatment)) & is.na(d0$crop)] <- "maize"
 	
-	
-	#removing all the rows with no entries 
-	i <- c("treatment","width","length","row_count","grain_weight","pod_weight")
-	d0 <- d0[apply(d0[i], 1, function(row) any(!is.na(row) & row != "")), ]
-	
+
 	# efyrouwa: what should be used to calculate yield?, grain_weight or pod_weight?, 
 	##  I used grain_weight, in cases there's no grain_weight, I used pod_weight
-	d0$width <- as.numeric(d0$width)
-	d0$yield <- 10000 / (d0$width*d0$length) * ifelse(is.na(d0$grain_weight), d0$grain_weight, d0$pod_weight)
 	
-	# consolidating info for fertilizers 1 for all the 8 plots
-	oldnames <- c("name_treatment_X", "description_treatment_X","experimental_treatments_fertilizer_1","fert_1_kg_plot_plot_X.kg_per_plot")
-	newnames <- c("treatment","description","fert_type","fert_amount_kg_per_plot")
+	d0$length[d0$length == 0.75] <- 10 #to change that one entry with 0.75 as the length
+	d0$yield <- 10000 / as.numeric(d0$width*d0$length) * ifelse(is.na(d0$grain_weight),d0$pod_weight , d0$grain_weight)
+	d0$residue_yield <- 10000 / as.numeric(d0$width * d0$width) * d0$residue_yield
+	d0$fertilizer_type[grepl("\\+p|\\+ p", d0$treatment, perl = TRUE)] <- "SSP"
+	d0$SSP_amt_per_plot[grepl("SSP",d0$fertilizer_type)] <- 2
 	
-	lst <- list()
-	for (i in 1:8) {
-	  inms <- gsub("X", i, oldnames)
-	  ri <- r2[, inms] 
-	  colnames(ri) <- newnames
-	  lst[[i]] <- ri
-	}	
+	#calculating the fertilizer different
+	d0$P_fertilizer <- (0.0874* d0$SSP_amt_per_plot / (as.numeric(d0$width * d0$length) / 10000)) #p in SSP taken as 8.74
+	d0$P_fertilizer[is.na(d0$P_fertilizer)]<- 0
+	d0$N_fertilizer <- 0
+	d0$K_fertilizer <- 0
+	d0 <- d0[!duplicated(d0), ]
+	d0$treatment <- carobiner::fix_name(d0$treatment)
+	d0 <- d0[, c("trial_id","treatment","fertilizer_type","inoculated","N_fertilizer","P_fertilizer","K_fertilizer","crop","yield", "residue_yield")]
+  
+	#the next dataset 
+	d1 <- carobiner::change_names(r1,c("district","sector_ward","village"),c("adm1","adm2","location"))
+	d1$country <- carobiner::fix_name(d1$country, "title")
+	d1$adm1[ d1$adm1 %in% c("Kaduna State", "Kaduna", "KADUNA", "KADUNA per  ZANGON AYA") ] <- "Kaduna"
+	d1$adm1 <- carobiner::replace_values(d1$adm1,c("Kano State","Niger State"), c("Kano","Niger"))
+	d1$is_survey <- TRUE
+	d1$on_farm <- FALSE
+	d1$trial_id <- r1$farm_id
+	d1$date <- as.character(as.Date(paste(r1$date_hhsurvey_dd.days, r1$date_hhsurvey_mm.months, r1$date_hhsurvey_yyyy.years, sep = "-"), format = "%d-%B-%Y"))
+	d1$harvest_date <- as.character(as.Date(paste(r1$date_harvest_dd_technician_1, r1$date_harvest_mm_technician_1, r1$date_harvest_yyyy_technician_1, sep = "-"), format = "%d-%B-%Y"))
+	d1$latitude <- r1$gps_latitude_hh.decimal_degrees
+	d1$longitude <- r1$gps_longitude_hh.decimal_degrees
 	
-	dd1 <- do.call(rbind, lst)
-	dd1$trial_id <- d0$farm_id
 	
+	d1 <- d1[,c("trial_id","country","latitude","longitude","adm1","adm2","location","date","harvest_date","is_survey","on_farm")]	
 	
-	# consolidating info for fertilizers 2 for all the 8 plots
-	oldnames <- c("name_treatment_X", "description_treatment_X","experimental_treatments_fertilizer_2","fert_2_kg_plot_plot_X.kg_per_plot")
-	newnames <- c("treatment","description","fert_type","fert_amount_kg_per_plot")
+	df <- merge(d1, d0, by = "trial_id", all = TRUE)
+	df$dataset_id <- dataset_id
+	df$yield_part <- "seed"
 	
-	lst <- list()
-	for (i in 1:8) {
-	  inms <- gsub("X", i, oldnames)
-	  ri <- r2[, inms] 
-	  colnames(ri) <- newnames
-	  lst[[i]] <- ri
-	}	
-	
-	dd2 <- do.call(rbind, lst)
-	dd2$trial_id <- d0$farm_id
-	
-	  
-	# consolidating info for fertilizers 3 for all the 8 plots
-	oldnames <- c("name_treatment_X", "description_treatment_X","experimental_treatments_fertilizer_3","fert_3_kg_plot_plot_X.kg_per_plot")
-	newnames <- c("treatment","description","fert_type","fert_amount_kg_per_plot")
-	
-	lst <- list()
-	for (i in 1:8) {
-	  inms <- gsub("X", i, oldnames)
-	  ri <- r2[, inms] 
-	  colnames(ri) <- newnames
-	  lst[[i]] <- ri
-	}	
-	
-	dd3 <- do.call(rbind, lst)
-	dd3$trial_id <- d0$farm_id
-	
-	# Combine data frames
-	ddd1 <- rbind(dd1, dd2,dd3)
-	
-	#efyrouwa: is this correct? remove rows with no info fertilizer info
-	i <- c("fert_type", "fert_amount_kg_per_plot")
-	ddd1 <- ddd1[apply(ddd1[i], 1, function(row) any(!is.na(row) & row != "")), ]
-	
-	ddd1$N_fertilizer <- 0
-	ddd1$K_fertilizer <- 0
-
  
-	##efyrouwa: points of action
-	## 1) ensure crop 1 info is working properly
-	## 2) merge the fertilizer datasets with the crop datasets
-	## 3) process the remaining two datasets
 	
+	##efyrouwa: How can we incooperate r3 with df??
+	##there's a message that the yield is too low
+	
+
 
 	# all scripts should end like this
 
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(dset, df, path=path)
 }
