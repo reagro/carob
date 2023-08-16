@@ -41,9 +41,9 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   ## process file(s)
   
   
-  d <- r[, c("country", "id", "lga_district_woreda", "sector_ward", "gps_field_device_latitude.decimal_degrees", "gps_latitude_field.decimal_degrees", "gps_field_device_longitude.decimal_degrees", "gps_field_device_longitude.decimal_degrees", "crop_1_previous_season", "inoculation_n2africa_field","pack_species","pack_variety","pack_mineral_fertilizer_type")] 
+  d <- r[, c("country", "id", "lga_district_woreda", "sector_ward", "gps_field_device_latitude.decimal_degrees", "gps_latitude_field.decimal_degrees", "gps_field_device_longitude.decimal_degrees", "gps_field_device_longitude.decimal_degrees", "crop_1_previous_season", "inoculation_n2africa_field","pack_species","pack_variety","pack_mineral_fertilizer_type","farm_size.ha","farm_size_unit")] 
   
-  colnames(d) <- c("country", "trial_id", "location", "site", "latitude1", "latitude2", "longitude1", "longitude2","previous_crop", "inoculated","crop","variety","fertilizer_type")
+  colnames(d) <- c("country", "trial_id", "location", "site", "latitude1", "latitude2", "longitude1", "longitude2","previous_crop", "inoculated","crop","variety","fertilizer_type","farm_size","farm_size_unit")
   
   # Fix long and lat columns 
   i <- is.na(d$latitude1)
@@ -54,9 +54,9 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$latitude <- d$latitude1
   d$longitude <- d$longitude1
   
-  oldnms <- c("id", "lga_district_woreda", "country", "row_spacing_crop_1_plot_X.cm" , "plant_spacing_crop_1_plot_X.cm", "grain_weight_crop_1_plot_X.kg", "pod_weight_groundnut_crop_1_plot_X.kg", "width_of_harvested_plot_crop_1_plot_X.m", "no_plants_hole_crop_1_plot_X.nr", "date_of_planting_X.date","no_plants_plot_crop_1_plot_X")  
+  oldnms <- c("id", "lga_district_woreda", "country", "row_spacing_crop_1_plot_X.cm" , "plant_spacing_crop_1_plot_X.cm", "grain_weight_crop_1_plot_X.kg", "pod_weight_groundnut_crop_1_plot_X.kg", "width_of_harvested_plot_crop_1_plot_X.m", "no_plants_hole_crop_1_plot_X.nr", "date_of_planting_X.date","no_plants_plot_crop_1_plot_X","area_field_X")  
   
-  newnms <- c("trial_id", "location", "country", "row_spacing", "plant_spacing", "yield1", "yield2", "width_size_plot", "number_plant_hole","planting_date","number_plant")
+  newnms <- c("trial_id", "location", "country", "row_spacing", "plant_spacing", "yield1", "yield2", "width_size_plot", "number_plant_hole","planting_date","number_plant","area_field")
   
   r$no_plants_plot_crop_1_plot_2 <- NA ##
   
@@ -83,13 +83,30 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   #d1$number_row<- d1$number_plant/((d1$plant_spacing +1)*d1$number_plant_hole)
   # calculate the area 
   #d1$area <- d1$width_size_plot * d1$number_row * d1$row_spacing / 100 # in m2
-  d1$yield <- d1$yield1 #/ d1$area #kg/ha
-
+ # d1$yield <- ifelse(d1$area_field!=0, d1$yield1 / d1$area_field,d1$yield1) #kg/ha
+  
   # merge d and d1
   d <- merge(d,d1,by=c("trial_id", "location", "country"),all.x = T)
   
+  # fix crop name 
+  P<-carobiner::fix_name(d$crop,"lower")
+  P<-gsub("soya_bean","soybean",P)
+  P<-gsub("bush_bean","common bean",P)
+  P<-gsub("climbing_bean","common bean",P)
+  d$crop<-P
+  
+  d$yield <- ifelse((d$crop!="common bean"|d$crop!="cowpea") & d$farm_size_unit=="hectare", d$yield1 / d$farm_size,
+                    ifelse((d$crop!="common bean"|d$crop!="cowpea") & d$farm_size_unit=="acre",d$yield1 / d$farm_size*0.4046,
+                           ifelse((d$crop!="common bean"|d$crop!="cowpea") & d$farm_size_unit=="meter_squared",d$yield1 / (d$farm_size/10000),d$yield1))) #kg/ha
+  # fix crop yield unit in Tanzania base on information from protocol 
+  i<-grepl("cowpea",d$crop)
+  d$yield[i]<- d$yield1[i]/0.01
+  
+  i<-grepl("common bean",d$crop)
+  d$yield[i]<- d$yield1[i]/0.01
+  
   d <- d[, c("country", "trial_id", "location", "site", "longitude", "latitude", "planting_date"
-             , "crop", "previous_crop", "variety", "inoculated","row_spacing", "plant_spacing", "yield","fertilizer_type")]
+             , "crop", "previous_crop", "variety", "inoculated","row_spacing", "plant_spacing","yield","fertilizer_type")]
   # Add columns
   d$dataset_id <- dataset_id
   d$on_farm <- TRUE
@@ -156,12 +173,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   #fix country name
   dd<-carobiner::fix_name(d$country,"title")
   d$country<-dd
-  # fix crop name 
-  P<-carobiner::fix_name(d$crop,"lower")
-  P<-gsub("soya_bean","soybean",P)
-  P<-gsub("bush_bean","common bean",P)
-  P<-gsub("climbing_bean","common bean",P)
-  d$crop<-P
+  
   
   #fix previous crop name
   P1<-carobiner::fix_name(d$previous_crop,"lower")
@@ -195,7 +207,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$planting_date<- as.character( as.Date(d$planting_date,'%d-%m-%y'))
   d$planting_date[d$planting_date=="2026-04-16"]<-"2016-04-16"
   d$planting_date[d$planting_date=="2026-03-24"]<-"2016-03-24"
-  
+   
   # data type
   d$inoculated<- as.logical(d$inoculated)
   
