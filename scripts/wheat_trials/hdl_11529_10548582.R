@@ -18,8 +18,8 @@ carob_script <- function(path) {
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
-		group=NA,
-		project=NA,
+		group=group,
+		project=project,
 		uri=uri,
 		data_citation="Provider: CIMMYT Research Data & Software Repository Network,
 Content: text/plain; charset=utf-8
@@ -70,9 +70,6 @@ PB  - CIMMYT Research Data & Software Repository Network",
                                   +     sheet = "Wheat")
   View(DAT_PUB_214DrySow)
 	d <- DAT_PUB_214DrySow
-	
-	
-
 	
 ## process file(s)
 
@@ -128,8 +125,7 @@ PB  - CIMMYT Research Data & Software Repository Network",
 	d$yield_part <- "grain"
 	
 	
-	d <- d[, c("country","adm1","adm2","site","latitude","longitude","elevation","harvest_date","crop","variety","yield_part","rep","irrigated","N_fertiliser","plant_density","grain_weight","flowering","yield","biomass_total","residue_yield")]
-	
+	d <- d[, c("country","adm1","adm2","site","latitude","longitude","elevation","harvest_date","on_farm","is_experiment","crop","variety","yield_part","rep","irrigated","N_fertiliser","plant_density","grain_weight","flowering","yield","biomass_total","residue_yield")]
 	
 	
 # all scripts must end like this
