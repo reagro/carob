@@ -117,7 +117,7 @@ library("readxl")
 ##### or when they are not immediately obvious for other reasons
 
 ##### Yield #####
-	d$biomass_total <- d$Biomass
+	d$biomass_total <-d$Biomass
 
 	d$yield <- d$Grain
 	#what plant part does yield refer to?
