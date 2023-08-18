@@ -155,6 +155,9 @@ carob_script <- function(path) {
 	
 	# the locations for Rakshaskhali, India that are flagged as not on land
 	# are OK, not in the ocean (needs to be fixed in GADM)
+  
+    # EGB:
+    message("1492 records are missing yield. Should it be removed?")
 
 	# all scripts must end like this
 	carobiner::write_files(dset, x, path=path)
