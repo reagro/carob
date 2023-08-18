@@ -63,6 +63,8 @@ carob_script <- function(path) {
 	# process file(s)
 	d <- d[,c("country", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "crop", "yield_part", "yield")]
 	d$dataset_id <- dataset_id
+    # EGB: Drop records without LatLon
+    d <- d[!is.na(d$longitude) & !is.na(d$latitude),]
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
