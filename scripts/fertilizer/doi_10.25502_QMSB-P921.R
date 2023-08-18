@@ -139,7 +139,7 @@ carob_script <- function(path){
   
   b3$OM_applied <- b3$`manure_amtkg/plot`/b3$plot_size_ha
   
-  b3$OM_used[bb$OM_applied > 0 & !is.na(bb$OM_applied)] <- TRUE
+  b3$OM_used[b3$OM_applied > 0 & !is.na(b3$OM_applied)] <- TRUE
   
   b3$yield <- b3$`grain_weight_shelledcrop1_kg/plot`/b3$plot_size_ha
   b3$residue_yield <- b3$`above_ground_biomass_husksstover_kg/plot`/b3$plot_size_ha
