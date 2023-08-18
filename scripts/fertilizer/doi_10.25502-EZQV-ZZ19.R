@@ -1,6 +1,7 @@
 
-
-"N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among
+carob_script <- function(path){
+  
+  "N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among
 African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition
 and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable,
 long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain
@@ -10,10 +11,7 @@ of the project.
 The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other
 countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 "
-
-
-
-carob_script <- function(path){
+  
 
 	uri <- "doi.org/10.25502/EZQV-ZZ19"
 	dataset_id <- carobiner::simple_uri(uri)
@@ -52,7 +50,7 @@ carob_script <- function(path){
 
   #assemble everything for crop 1 
 
-	colnames(r2)[colnames(r2) %in% c("width_of_harvested_plot_crop_1_plot_1", "pod_weight_unshelled_grain_groundnut_crop_1_plot_2.kg")] <- c("width_of_harvested_plot_crop_1_plot_1.m", "pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_2.kg")
+	colnames(r2)[colnames(r2) %in% c("width_of_harvested_plot_crop_1_plot_1", "pod_weight_unshelled_grain_groundnut_crop_1_plot_2.kg","grain_weight_shelled_grain_crop_1_plot_2.kg")] <- c("width_of_harvested_plot_crop_1_plot_1.m", "pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_2.kg","grain_weight_kg_shelled_grain_crop_1_plot_2.kg")
 	
 	t <- c("name_treatment_X", "description_treatment_X","width_of_harvested_plot_crop_1_plot_X.m","depth_of_harvested_plot_perpen_dicular_to_rows_crop_1_plot_X.m","number_of_rows_in_plot_crop_1_plot_X","grain_weight_kg_shelled_grain_crop_1_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_X.kg","above_ground_biomass_weight_husks_stover_res_crop_1_plot_X.kg") 
 	x <- c("treatment","description","width","length","row_count","grain_weight","pod_weight","residue_yield")	
@@ -60,10 +58,10 @@ carob_script <- function(path){
 	lst <- list()
 	for (i in 1:8) {
 	  inms <- gsub("X", i, t)
-	  ri <- r2[, inms] 
+	  ri <- r2[, inms]
 	  colnames(ri) <- x
 	  lst[[i]] <- ri
-	}	
+	}
 	
 	dd <- do.call(rbind, lst)
 	dd$trial_id <- r2$farm_id
@@ -79,10 +77,10 @@ carob_script <- function(path){
 	lst <- list()
 	for (i in 1:8) {
 	  inms <- gsub("X", i, t)
-	  ri <- r2[, inms] 
+	  ri <- r2[, inms]
 	  colnames(ri) <- x
 	  lst[[i]] <- ri
-	}	
+	}
 	
 	ddd <- do.call(rbind, lst)
 	ddd$trial_id <- r2$farm_id
@@ -161,3 +159,4 @@ carob_script <- function(path){
 
 	carobiner::write_files(dset, df, path=path)
 }
+
