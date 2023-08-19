@@ -138,9 +138,10 @@ carob_script <- function(path) {
 	d <- cbind(d, elements * famount)
 	
 	# Treatment code	
-	d$treatment <- paste0("N", round(d$N_fertilizer),
-	                      "P", round(d$P_fertilizer),
-	                      "K", round(d$K_fertilizer))
+	d$treatment <- paste0("N", ifelse(!is.na(d$N_fertilizer), round(d$N_fertilizer), 0),
+	                      "P", ifelse(!is.na(d$P_fertilizer), round(d$P_fertilizer), 0),
+	                      "K", ifelse(!is.na(d$K_fertilizer), round(d$K_fertilizer), 0))
+    message("review: fertilizers, many NAs")
 	
 	d$OM_used <- r$organic_fert_applied == "Y"
 	d$OM_used[r$organic_fert_applied == ""] <- NA
