@@ -56,6 +56,11 @@ carob_script <- function(path) {
   colnames(d1)[c(3,4,5,6,8,9)] <- c("trial_id", "obs_day", "obs_month", "obs_year", "adm1", "adm2")
   colnames(d1)[c(59,60,61)] <- c("harvest_date_day", "harvest_date_month", "harvest_date_year")
   d1 <- d1[,c("trial_id", "obs_day", "obs_month", "obs_year", "adm1", "adm2","harvest_date_day", "harvest_date_month", "harvest_date_year")]
+  d1$country <- "Tanzania"
+  d1$adm1 <- trimws(tools::toTitleCase(tolower(d1$adm1)))
+  d1$adm2 <- trimws(tools::toTitleCase(tolower(d1$adm2)))
+  d1$adm1[grep("Moshi", d1$adm1, value = F)] <- "Moshi Rural"
+  d1$adm2[grep("Mwika", d1$adm2, value = F)] <- "Mwika South"
   # # Subset d2
   # d2 <- d2[,c(3:8,13:16,49:52,65:81,133:138)]
   # colnames(d2) <- c("trial_id", "area_field1", "area_field2", "area_field2", "area_field3", "area_field4", "area_field_unit",
@@ -114,21 +119,21 @@ carob_script <- function(path) {
   d$on_farm <- TRUE
   d$is_survey <- TRUE
   # d$treatment <- 
-  d$crop <- ifelse(d$experimental_treatments_crop_1 == trimws("bush bean"), "common bean", NA)
-  d$variety <- trimws(d$experimental_treatments_variety_crop_1)
+  d$crop <- "common bean"
+  d$variety <- 'Lyamungo 90'
   
   # Fertilizer part
   d$fertilizer_type <- 'none'
-  d$fertilizer_type[grepl('\\+', d$treatment)] <- "PK"
-  d$fertilizer_type[grep('pk', d$treatment)] <- "PK"
+  d$fertilizer_type[grepl('\\+', d$treatment)] <- "PKS"
+  d$fertilizer_type[grep('pk', d$treatment)] <- "PKS"
   d$fertilizer_type[grep('npk', d$treatment)] <- "NPK"
   d$fertilizer_type[grepl('mpal', d$treatment)] <- "sympal"
   d$N_fertilizer <- 0
   d$N_fertilizer <- ifelse(d$fertilizer_type == "NPK",
                            ((as.numeric(d$fert_1_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.1, # Assumed to be NPK (10:18:24)
                            d$N_fertilizer)
-  d$N_fertilizer <- ifelse(d$fertilizer_type == "PK",
-                           ((as.numeric(d$fert_2_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.1, # Assumed to be NPK (10:18:24)
+  d$N_fertilizer <- ifelse(d$fertilizer_type == "PKS",
+                           ((as.numeric(d$fert_2_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0, # PK has 0 % N
                            d$N_fertilizer)
   d$N_fertilizer <- ifelse(d$fertilizer_type == "sympal",
                            ((as.numeric(d$fert_3_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0, # Sympal has 0 % N
@@ -137,8 +142,8 @@ carob_script <- function(path) {
   d$P_fertilizer <- ifelse(d$fertilizer_type == "NPK",
                            ((as.numeric(d$fert_1_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.18, # Assumed to be NPK (10:18:24)
                            d$P_fertilizer)
-  d$P_fertilizer <- ifelse(d$fertilizer_type == "PK",
-                           ((as.numeric(d$fert_2_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.18, # Assumed to be NPK (10:18:24)
+  d$P_fertilizer <- ifelse(d$fertilizer_type == "PKS",
+                           ((as.numeric(d$fert_2_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.18, # Assumed to be PK (18:24)
                            d$P_fertilizer)
   d$P_fertilizer <- ifelse(d$fertilizer_type == "sympal",
                            ((as.numeric(d$fert_3_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.23, # Sympal has 0 % N
@@ -147,12 +152,15 @@ carob_script <- function(path) {
   d$K_fertilizer <- ifelse(d$fertilizer_type == "NPK",
                            ((as.numeric(d$fert_1_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.24, # Assumed to be NPK (10:18:24)
                            d$K_fertilizer)
-  d$K_fertilizer <- ifelse(d$fertilizer_type == "PK",
-                           ((as.numeric(d$fert_2_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.24, # Assumed to be NPK (10:18:24)
+  d$K_fertilizer <- ifelse(d$fertilizer_type == "PKS",
+                           ((as.numeric(d$fert_2_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.24, # Assumed to be PK (18:24)
                            d$K_fertilizer)
   d$K_fertilizer <- ifelse(d$fertilizer_type == "sympal",
                            ((as.numeric(d$fert_3_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.15, # Sympal has 0 % N
                            d$K_fertilizer)
+  d$N_fertilizer[which(is.na(d$N_fertilizer))] <- 0
+  d$P_fertilizer[which(is.na(d$P_fertilizer))] <- 0
+  d$K_fertilizer[which(is.na(d$K_fertilizer))] <- 0
   d$OM_used <- NA
   d$OM_used[grepl('\\+', d$treatment)] <- TRUE
   d$OM_type <- ifelse(d$OM_used == TRUE, "farmyard manure", NA)
@@ -161,7 +169,7 @@ carob_script <- function(path) {
                          NA)
   # Yield
   d$yield <- (as.numeric(d$yield) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000 # kg/ha
-  d$yield_part <- "grain"
+  d$yield_part <- "seed"
   d$residue_yield <- (as.numeric(d$residue) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000 # kg/ha
   d$biomass_total <- (as.numeric(d$biomass_total) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000 # kg/ha
   
@@ -175,9 +183,20 @@ carob_script <- function(path) {
   # # EGB:
   # # There is info on herbicide
   
+  # Add geo
+  s <- data.frame(country = c("Tanzania", "Tanzania", "Tanzania","Tanzania", "Tanzania", "Tanzania", "Tanzania", "Tanzania", "Tanzania", "Tanzania"),
+                  adm1 = c("Lushoto", "Lushoto", "Lushoto", "Lushoto", "Lushoto", "Lushoto", "Lushoto", "Moshi Rural", "Moshi Rural", "Moshi Rural"),
+                  adm2 = c("Lushoto", "Kwemashai", "Shume", "Migambo", "Manoro", "Mwangoi", "Dule m", "Makuyuni", "Marangu East", "Mwika South"),
+                  latitude = c(-4.545, -4.806, -4.7, -4.545, -4.545, -4.603, -4.545, -3.402, -3.283, -3.283),
+                  longitude = c(38.439, 38.328, 38.216, 38.439, 38.439, 38.313, 38.439, 37.57, 37.516, 37.583))
+  d <- merge(d,s, by = c("country", "adm1", "adm2"))
+  
   # Subset final
-  d <- d[,c('trial_id','treatment','country','date','on_farm','is_survey','crop','variety','fertilizer_type','N_fertilizer','P_fertilizer','K_fertilizer',
-            'OM_used', 'OM_type', 'OM_applied', 'yield', 'yield_part', 'residue_yield', 'biomass_total', 'irrigated', 'row_spacing', 'plant_spacing', 'plant_density')]
+  d <- d[,c('trial_id','treatment','country','adm1','adm2','longitude','latitude',
+            'date','on_farm','is_survey','crop','variety',
+            'fertilizer_type','N_fertilizer','P_fertilizer','K_fertilizer','OM_used','OM_type','OM_applied',
+            'yield', 'yield_part', 'residue_yield', 'biomass_total',
+            'irrigated', 'row_spacing', 'plant_spacing', 'plant_density')]
   d$dataset_id <- dataset_id
   
   carobiner::write_files (dset, d, path=path)
@@ -185,16 +204,25 @@ carob_script <- function(path) {
 }
 
 # # EGB: Georeferencing
-# s <- unique(d3[,c("country", "adm1", "adm2", "adm4")])
+# s <- unique(d1[,c("country", "adm1", "adm2")])
 # s$latitude <- NA
 # s$longitude <- NA
-# for (i in 1:nrow(s)) {
-#   if(is.na(s$latitude[i]) | is.na(s$longitude[i])){
-#     ll <- carobiner::geocode(country = s$country[i], adm1 = s$adm1[i], adm2 = s$adm2[i], location = s$adm4[i], service = "geonames", username = "efyrouwa")
-#     ii <- unlist(jsonlite::fromJSON(ll))
-#     c <- as.integer(ii["totalResultsCount"][[1]])
-#     s$latitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lat"][1], ii["geonames.lat1"][1]))
-#     s$longitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lng"][1], ii["geonames.lng1"][1]))
-#   }
-# }
+# s$latitude[grep("Lushoto", s$adm1)] <- -4.545 # https://www.geonames.org/155568/lushoto.html
+# s$longitude[grep("Lushoto", s$adm1)] <- 38.439 # https://www.geonames.org/155568/lushoto.html
+# s$latitude[grepl("Moshi", s$adm1)] <- -3.362 # https://www.geonames.org/7840035/moshi-rural-district.html
+# s$longitude[grepl("Moshi", s$adm1)] <- 37.459 # https://www.geonames.org/7840035/moshi-rural-district.html
+# s$latitude[grep("Mwika South", s$adm2)] <- -3.283 # https://www.geonames.org/152120/mwika.html
+# s$longitude[grep("Mwika South", s$adm2)] <- 37.583 # https://www.geonames.org/152120/mwika.html
+# s$latitude[grep("Marangu East", s$adm2)] <- -3.283 # https://www.geonames.org/154777/marangu.html
+# s$longitude[grep("Marangu East", s$adm2)] <- 37.516 # https://www.geonames.org/154777/marangu.html
+# s$latitude[grep("Makuyuni", s$adm2)] <- -3.402 # https://www.geonames.org/11004800/makuyuni.html
+# s$longitude[grep("Makuyuni", s$adm2)] <- 37.57 # https://www.geonames.org/11004800/makuyuni.html
+# s$latitude[grep("Dule M", s$adm2)] <- -4.563 # https://www.geonames.org/11006908/dule-m.html
+# s$longitude[grep("Dule M", s$adm2)] <- 38.309 # https://www.geonames.org/11006908/dule-m.html
+# s$latitude[grep("Mwangoi", s$adm2)] <- -4.603 # https://www.geonames.org/11007048/mwangoi.html
+# s$longitude[grep("Mwangoi", s$adm2)] <- 38.313 # https://www.geonames.org/11007048/mwangoi.html
+# s$latitude[grep("Shume", s$adm2)] <- -4.7 # https://www.geonames.org/149973/shume.html
+# s$longitude[grep("Shume", s$adm2)] <- 38.216 # https://www.geonames.org/149973/shume.html
+# s$latitude[grep("Kwemashai", s$adm2)] <- -4.806 # https://www.geonames.org/11006961/kwemashai.html
+# s$longitude[grep("Kwemashai", s$adm2)] <- 38.328 # https://www.geonames.org/11006961/kwemashai.html
 # s <- dput(s)
