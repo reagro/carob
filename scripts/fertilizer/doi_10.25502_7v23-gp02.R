@@ -19,11 +19,7 @@ carob_script <- function(path) {
     technologies including inoculants and fertilizers adapted to local settings. 
     A strong national expertise in grain legume production and N2-fixation research 
     and development will be the legacy of the project.
-    
-    %%%%%%%%%%The dataset is N2Africa agronomy trials - Uganda, 2016, I%%%%%%%%%%%%
-    Crop: Climbing bean
-    Crop system: intercropped with banana vs. sole
-  
+      
 "
   uri <- "doi.org/10.25502/7v23-gp02"
   dataset_id <- carobiner::simple_uri(uri)
@@ -38,7 +34,7 @@ carob_script <- function(path) {
     publication=NA,
     data_citation = 'Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Uganda, 2016, I [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/6H5E-Q472',
     data_institutions = "IITA",
-    carob_contributor="Samar Attaher",
+    carob_contributor="Eduardo Garcia Bendito",
     data_type="experiment"
   )
   
@@ -73,14 +69,118 @@ carob_script <- function(path) {
   # Subset d3
   d3 <- d3[,c(3,5:12,86:297)]
   d3 <- cbind(d3[,c(1:7)],
-              d3[,c(grep(paste0("plot_",1:6, collapse = "|"), colnames(d3[10:ncol(d3)]), value = T))])
+              d3[,c(grep(paste0("plot_",1:6, collapse = "|"), colnames(d3[10:ncol(d3)]), value = T))],
+              d3[,c(grep("experimental_treatments_", colnames(d3[10:ncol(d3)]), value = T))])
   # reshape d3
-  rr <- reshape(d3, direction='long', 
-              varying=grep("plot_1", colnames(d3[8:ncol(d3)]), value = T),
-              times=)
+  rr <- reshape(d3,
+              direction='long', 
+              varying=list(names(d3)[8:ncol(d3)]),
+              v.names = "value",
+              idvar = "farm_id",
+              timevar = "var",
+              times = colnames(d3)[8:ncol(d3)])
+  rownames(rr) <- 1:nrow(rr)
+  for(i in 1:6){
+    rrr <- reshape(rr[rr$var %in% grep(paste0(paste0("plot_",i), "|experimental_treatments_"), rr$var, value = T),
+                      c("farm_id", paste0("name_treatment_",i), "var", "value")],
+           idvar = c("farm_id", paste0("name_treatment_",i)), timevar = "var",
+           direction='wide')
+    rrr$plot <- i
+    colnames(rrr) <- gsub("value.", "", colnames(rrr))
+    colnames(rrr) <- gsub(paste0("_plot_",i), "", colnames(rrr))
+    colnames(rrr)[1:2] <- c("trial_id", "treatment")
+    colnames(rrr) <- gsub("\\..*", "", colnames(rrr))
+    colnames(rrr)[c(3,4,6,7,8)] <- c("plot_width", "plot_length", "yield", "residue", "biomass_total")
+    if(i == 1){d <- rrr}
+    else{d <- rbind(d,rrr)}
+  }
   
+  # Merge site info and agronomy info
+  d <- merge(d, d1, by = "trial_id")
   
-  carobiner::write_files (dset, d5, path=path)
+  # Standardization
+  d$trial_id <- paste(d$trial_id, d$plot, sep = "_")
+  d$country <- "Tanzania"
+  d$date <- paste(as.integer(d$obs_year),
+                  ifelse(d$obs_month == 'December', as.integer(12), as.integer(11)),
+                  sprintf('%02d', d$obs_day),
+                  sep = "-")
+  # # EGB:
+  # # This is not included because how can harvest date be after the survey?
+  # d$harvest_date <- paste(as.integer(d$harvest_date_year),
+  #                         ifelse(d$harvest_date_month == 'January', '01', '02'),
+  #                         sprintf('%02d', d$harvest_date_day),
+  #                         sep = "-")
+  d$on_farm <- TRUE
+  d$is_survey <- TRUE
+  # d$treatment <- 
+  d$crop <- ifelse(d$experimental_treatments_crop_1 == trimws("bush bean"), "common bean", NA)
+  d$variety <- trimws(d$experimental_treatments_variety_crop_1)
+  
+  # Fertilizer part
+  d$fertilizer_type <- 'none'
+  d$fertilizer_type[grepl('\\+', d$treatment)] <- "PK"
+  d$fertilizer_type[grep('pk', d$treatment)] <- "PK"
+  d$fertilizer_type[grep('npk', d$treatment)] <- "NPK"
+  d$fertilizer_type[grepl('mpal', d$treatment)] <- "sympal"
+  d$N_fertilizer <- 0
+  d$N_fertilizer <- ifelse(d$fertilizer_type == "NPK",
+                           ((as.numeric(d$fert_1_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.1, # Assumed to be NPK (10:18:24)
+                           d$N_fertilizer)
+  d$N_fertilizer <- ifelse(d$fertilizer_type == "PK",
+                           ((as.numeric(d$fert_2_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.1, # Assumed to be NPK (10:18:24)
+                           d$N_fertilizer)
+  d$N_fertilizer <- ifelse(d$fertilizer_type == "sympal",
+                           ((as.numeric(d$fert_3_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0, # Sympal has 0 % N
+                           d$N_fertilizer)
+  d$P_fertilizer <- 0
+  d$P_fertilizer <- ifelse(d$fertilizer_type == "NPK",
+                           ((as.numeric(d$fert_1_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.18, # Assumed to be NPK (10:18:24)
+                           d$P_fertilizer)
+  d$P_fertilizer <- ifelse(d$fertilizer_type == "PK",
+                           ((as.numeric(d$fert_2_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.18, # Assumed to be NPK (10:18:24)
+                           d$P_fertilizer)
+  d$P_fertilizer <- ifelse(d$fertilizer_type == "sympal",
+                           ((as.numeric(d$fert_3_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.23, # Sympal has 0 % N
+                           d$P_fertilizer)
+  d$K_fertilizer <- 0
+  d$K_fertilizer <- ifelse(d$fertilizer_type == "NPK",
+                           ((as.numeric(d$fert_1_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.24, # Assumed to be NPK (10:18:24)
+                           d$K_fertilizer)
+  d$K_fertilizer <- ifelse(d$fertilizer_type == "PK",
+                           ((as.numeric(d$fert_2_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.24, # Assumed to be NPK (10:18:24)
+                           d$K_fertilizer)
+  d$K_fertilizer <- ifelse(d$fertilizer_type == "sympal",
+                           ((as.numeric(d$fert_3_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000) * 0.15, # Sympal has 0 % N
+                           d$K_fertilizer)
+  d$OM_used <- NA
+  d$OM_used[grepl('\\+', d$treatment)] <- TRUE
+  d$OM_type <- ifelse(d$OM_used == TRUE, "farmyard manure", NA)
+  d$OM_applied <- ifelse(d$OM_used == TRUE,
+                         ((as.numeric(d$manure_kg_plot) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000),
+                         NA)
+  # Yield
+  d$yield <- (as.numeric(d$yield) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000 # kg/ha
+  d$yield_part <- "grain"
+  d$residue_yield <- (as.numeric(d$residue) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000 # kg/ha
+  d$biomass_total <- (as.numeric(d$biomass_total) / (as.numeric(d$plot_width)*as.numeric(d$plot_length))) * 10000 # kg/ha
+  
+  # Other
+  d$irrigated <- FALSE
+  d$row_spacing <- as.numeric(d$experimental_treatments_density_1_row_spacing)
+  d$plant_spacing <- as.numeric(d$experimental_treatments_density_1_plant_spacing)
+  d$plant_density <- (as.numeric(d$plot_width)/(as.numeric(d$row_spacing)/100)) * (as.numeric(d$plot_length)/(as.numeric(d$plant_spacing)/100)) # plants/plot
+  d$plant_density <- (as.numeric(d$plant_density) / (as.numeric(d$plot_width)*as.numeric(d$plot_length)) * 10000) # plants/ha
+  
+  # # EGB:
+  # # There is info on herbicide
+  
+  # Subset final
+  d <- d[,c('trial_id','treatment','country','date','on_farm','is_survey','crop','variety','fertilizer_type','N_fertilizer','P_fertilizer','K_fertilizer',
+            'OM_used', 'OM_type', 'OM_applied', 'yield', 'yield_part', 'residue_yield', 'biomass_total', 'irrigated', 'row_spacing', 'plant_spacing', 'plant_density')]
+  d$dataset_id <- dataset_id
+  
+  carobiner::write_files (dset, d, path=path)
   
 }
 
