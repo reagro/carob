@@ -1,7 +1,6 @@
 
 carob_script <- function(path){
   
-  ### yield is given in kg/plot with unknown plot sizes hence can't be assumed to be in kg/ha
   "
  Title: N2Africa demonstration trial, 2012 - 2019
  
@@ -142,10 +141,6 @@ carob_script <- function(path){
   b3$row_spacing <- as.numeric(b3$row_spacing)
   b3$plant_spacing <- as.numeric(b3$plant_spacing)
   
-  # # EGB: add plot size using country protocols
-  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  # !!!!!!!!!!!! Please Review !!!!!!!!!!!!!
-  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   b3$plotsize <- NA
   b3$plotsize[b3$country == "Nigeria" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2014] <- 0.01 # In protocol (2014) plot size is indicated 10m*10m = 100m2 = 0.01ha
   b3$plotsize[b3$country == "Nigeria" & format(as.Date(b3$planting_date, "%Y-%m-%d"), "%Y") == 2015 & b3$crop %in% c("cowpea", "groundnut")] <- 0.375 # In protocol (2015) plot size is indicated 75m*50m = 3750m2 = 0.375ha
@@ -192,49 +187,80 @@ carob_script <- function(path){
   z$adm2[z$adm2 == "Bwari Area Council"] <- "Bwari"
   z$location[z$location == "Epdra Saboba"] <- "Saboba"
   
-  # extracting coordinates from geocode
-  # coords(z)
-  # z <- hh[,1:30]
-  # Adding the processed coordinates
-  zz <- data.frame(country = c("Nigeria", "Malawi", "Kenya", "Kenya", 
-                               "Uganda", "Tanzania", "Uganda", "Uganda", "Uganda", "Uganda", 
-                               "Tanzania", "Tanzania", "Tanzania", "Nigeria", "Nigeria", "Tanzania", 
-                               "Nigeria", "Nigeria", "Ghana", "Ghana", "Nigeria", "Nigeria", 
-                               "Nigeria", "Tanzania", "Nigeria", "Nigeria", "Nigeria", "Uganda", 
-                               "Uganda", "Uganda", "Tanzania", "Uganda", "Uganda", "Uganda", 
-                               "Uganda", "Uganda", "Uganda", "Ghana", "Ghana", "Ghana", "Ghana", 
-                               "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ethiopia", 
-                               "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia"),
-                   adm2 = c("Makurdi", 
-                            "Dedza", "Matayos", "Bungoma Central", "Kanungu", "Lushoto", 
-                            "Kapchorwa", "Bugiri", "Kapchorwa", "Kibaale", "Mvomero", "Moshi", 
-                            "Rombo", "Hawul", "Kwaya Kusar", "Gairo", "Soba", "Biu", "Yendi", 
-                            "Savelugu", "Mokwa", "Bayo", "Bwari", "Kilosa", "Kauru", "Chikun", 
-                            "Paikoro", "Bukedea", "Arua", "Kumi", "Kongwa", "Yumbe", "Gulu", 
-                            "Zombo", "Lira", "Kisoro", "Nebbi", "Chereponi", "Chereponi", 
-                            "Chereponi", "Chereponi", "Chereponi", "Chereponi", "Chereponi", 
-                            "Chereponi", "Chereponi", "Chereponi", "Damot Gale", "Halaba", 
-                            "Soddo", "Pawe", "Boricha"),
-                   lat = c(7.73375, -14.3779, 
-                           0.35958, 0.78007, -0.75, -4.54528, 1.3333, 0.5333, 1.3333, 1.42123, 
-                           -6.3, -3.35, -3.09292, 10.4331, 10.44317, -6.13841, 10.87005, 
-                           10.61285, 9.44272, 9.62441, 9.2, 10.42254, 9.218, -6.83333, 10.22988, 
-                           10.315, 9.4681, 1.36667, 3.02013, 1.5, -6.2, 3.52354, 2.77457, 
-                           2.52031, 2.2499, -1.28538, 2.47826, 10.13417, 10.13417, 10.13417, 
-                           10.13417, 10.13417, 10.13417, 10.13417, 10.13417, 10.13417, 10.13417, 
-                           7, 7.45, 8.7, 11.3333, 8.361),
-                   lon = c(8.52139, 34.33322, 
-                           34.17005, 34.5528, 29.73, 38.43927, 34.42, 33.79, 34.42, 31.51593, 
-                           37.45, 37.33333, 37.45626, 12.24682, 11.99089, 36.88079, 7.96443, 
-                           12.19458, -0.00991, -0.8253, 5.33333, 11.70624, 7.408, 36.98333, 
-                           8.29422, 7.274, 6.85565, 34.13333, 30.91105, 33.95, 36.417, 31.28243, 
-                           32.29899, 30.88824, 32.89985, 29.68497, 31.08893, 0.28806, 0.28806, 
-                           0.28806, 0.28806, 0.28806, 0.28806, 0.28806, 0.28806, 0.28806, 
-                           0.28806, 37.83333, 38.052, 38.38333, 36.3333, 36.647))
-  z <- merge(z, zz, by = c("country", "adm2"))
+  # assigning lon and lat NAs in order to extract correct coordinates and get rid of mismatching country-coordinates 
+  z$latitude <- NA
+  z$longitude <- NA
+  
+  # filling NA coordinates using adm2
+
+  zz <- data.frame(country = c("Ghana", "Nigeria", "Tanzania", "Ghana", 
+                               "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", "Tanzania", "Ethiopia", 
+                               "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", 
+                               "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", 
+                               "Ethiopia", "Ghana", "Uganda", "Uganda", "Uganda", "Uganda", 
+                               "Uganda", "Uganda", "Ghana", "Uganda", "Uganda", "Uganda", "Uganda", 
+                               "Uganda", "Uganda", "Uganda", "Uganda", "Uganda", "Ghana", "Ghana", 
+                               "Uganda", "Uganda", "Uganda", "Ghana", "Uganda", "Uganda", "Uganda", 
+                               "Uganda", "Nigeria", "Nigeria", "Tanzania"), 
+                   adm2 = c("Binduri","Makurdi", "Moshi", "Nadowli", "Damot Gale", "Halaba", "Shala",
+                            "Ada'a", "Lushoto", "Gimbichu", "Soddo", "Enemay", "Farta", "Goba",
+                            "Boricha", "Yilmana Densa", "Sinana", "Agarfa", "Mandura", "Kersa", 
+                            "Pawe", "Dibate", "Tiroafeta", "Yendi", "Bugiri", "Kabale", "Kanungu", 
+                            "Kisoro", "Rakai", "Manafwa", "Bawku Municipal", "Kiryandongo", 
+                            "Bukedea", "Lira", "Kapchorwa", "Kumi", "Apac", "Bulambuli", 
+                            "Arua", "Oyam", "Wa-West", "Savelugu", "Adjumani", "Moyo", "Gulu", 
+                            "Bawku West", "Yumbe", "Koboko", "Zombo", "Nebbi", "Hawul", "Biu","Kongwa"), 
+                   lat = c(10.97214, 7.73375, -3.35, 10.28835, 7, 7.45, 7.48333, 8.58333, -4.54528, 9.0679, 
+                           8.7, 10.66667, 12,7.01667, 8.361, 11.5, 7.08333, 7.28333, 11, 9.32314, 11.3333, 
+                           10.65, 7.9167, 9.44272, 0.5333, -1.24857, -0.75, -1.28538, -0.7093, 
+                            0.88333, 11.0616, 2.01568, 1.36667, 2.2499, 1.3333, 1.5, 1.97556, 
+                           1.32055, 3.02013, 2.38129, 10.06069, 9.62441, 3.37786, 3.6444, 
+                           2.77457, 10.91667, 3.52354, 3.5, 2.52031, 2.47826, 10.4331, 10.61285,-6.2), 
+                   lon = c(-0.30837, 8.52139, 37.33333, -2.60889, 37.83333, 
+                           38.052, 38.53333, 38.91667, 38.43927, 39.25945, 38.38333, 38, 
+                           38, 39.98333, 36.647, 37.33333, 40.2, 39.81667, 36.25, 39.46395, 
+                           36.3333, 36.21667, 37.3333, -0.00991, 33.79, 29.98993, 29.73, 
+                           29.68497, 31.41309, 34.33333, -0.24169, 32.07034, 34.13333, 32.89985,
+                           34.42, 33.95, 32.53861, 34.28062, 30.91105, 32.50071, -2.50192, 
+                           -0.8253, 31.7909, 31.76276, 32.29899, -0.51667, 31.28243, 31, 
+                           30.88824, 31.08893, 12.24682, 12.19458, 36.417))
+  
+  z <- merge(z, zz, by = c("country", "adm2"),all.x = TRUE)
+
   z$latitude <- ifelse(is.na(z$latitude), z$lat, z$latitude)
   z$longitude <- ifelse(is.na(z$longitude), z$lon, z$longitude)
   
+  # filling NAs using location
+  
+  zzz <- data.frame(country = c("Ghana", "Ghana", "Uganda", "Uganda"), 
+                    location = c("Kumbungu", "Karaga", "Nebbi", "Adjumani"), 
+                    lat = c(9.43333, 9.90568, 2.47826, 3.37786), 
+                    lon = c(-1.06667, -0.53521,31.08893, 31.7909))
+  
+  z <- merge(z[,1:30], zzz, by = c("country", "location"),all.x = TRUE)
+  
+  z$latitude <- ifelse(is.na(z$latitude), z$lat, z$latitude)
+  z$longitude <- ifelse(is.na(z$longitude), z$lon, z$longitude)
+  
+  z$latitude[is.na(z$latitude) & z$site == "Logshegu"] <-	9.43341645
+  z$longitude[is.na(z$longitude) & z$site == "Logshegu"] <- -0.889753797926527 
+  
+  z$latitude[is.na(z$latitude) & z$site == "Zangbanllung-Kukuo"] <-	8.8493897
+  z$longitude[is.na(z$longitude) & z$site == "Zangbanllung-Kukuo"] <- 0.1586035 
+  
+  
+  # filling NAs using country
+  z$latitude[is.na(z$latitude) & z$country == "Ghana"] <- 8.0300284
+  z$longitude[is.na(z$longitude) & z$country == "Ghana"] <- -1.0800271
+  
+  z$latitude[is.na(z$latitude) & z$country == "Nigeria" & z$site == "Naka"] <-  7.582744
+  z$longitude[is.na(z$longitude) & z$country == "Nigeria" & z$site == "Naka"] <- 8.204895
+
+  # assigning NAs to yield and residue yield that is above carob's maximum threshold
+  z$yield[(z$crop == "common bean" & z$yield > 9000)] <- NA
+  z$yield[(z$crop == "faba bean" & z$yield > 6500)] <- NA
+  z$residue_yield[z$residue_yield > 60000] <- NA
+
   # final dataset
   z <- z[,c("dataset_id","trial_id","country","adm1","adm2","adm3","location","site","latitude","longitude","elevation",
              "crop","variety","variety_type","treatment","planting_date","harvest_date","inoculated",
@@ -242,101 +268,4 @@ carob_script <- function(path){
              "K_fertilizer","residue_yield","yield_part","yield","on_farm","is_survey")]
   
   carobiner::write_files(dset, z, path=path)
-  # resulting error is from pigeon pea's yield. It's low amount could result from lack of proper yield units due to unknown plot size .
 }
-
-## EGB: Updating the geocoding process
-  ## USING GEOCODE TO EXTRACT COORDINATES
-# v <- z
-# p <- complete.cases(v[,c("country","adm2")])
-# vv <- v[p,]
-# v1 <- unique(vv[is.na(vv$latitude) | is.na(vv$longitude), c("country","adm2", "latitude", "longitude")])
-# for (i in 1:nrow(v1)) {
-#   ll <- carobiner::geocode(country = v1$country[i], adm1 = v1$adm2[i], location = v1$adm2[i], service = "geonames", username = "efyrouwa")
-#   ii <- unlist(jsonlite::fromJSON(ll))
-#   c <- as.integer(ii["totalResultsCount"][[1]])
-#   v1$latitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lat"][1], ii["geonames.lat1"][1]))
-#   v1$longitude[i] <- as.numeric(ifelse(c == 1, ii["geonames.lng"][1], ii["geonames.lng1"][1]))
-# }
-# v1$latitude[v1$adm2 == "Halaba"] <- 7.450 # https://www.google.com/maps/place/Halaba,+Ethiopia
-# v1$longitude[v1$adm2 == "Halaba"] <- 38.052 # https://www.google.com/maps/place/Halaba,+Ethiopia
-# v1$latitude[v1$adm2 == "Boricha"] <- 8.361 # https://www.google.com/maps/place/%E1%89%A6%E1%88%AD%E1%89%BB,+Ethiopia
-# v1$longitude[v1$adm2 == "Boricha"] <- 36.647 # https://www.google.com/maps/place/%E1%89%A6%E1%88%AD%E1%89%BB,+Ethiopia
-# sss <- dput(v1)
-# 
-# # Additional coordinate extraction from RM
-# # coords <- function(z){
-# # # Extracting NA coordinates from adm2 geocode coordinates
-# # v <- z
-# # p <- complete.cases(v[,c("country","adm2")])
-# # vv <- v[p,]
-# # v1 <- unique(vv[,c("country","adm2")])
-# # gg <- carobiner::geocode(country = v1$country,location = v1$adm2,service = "nominatim")
-# # gg1 <- gg[[1]]
-# # names(gg1)[2] <- "adm2"
-# # 
-# # b <- merge(v,gg1,by = c("country","adm2"),all.x = TRUE)
-# # b$latitude <- b$lat
-# # b$longitude <- b$lon
-# # 
-# # # Extracting remaining NA coordinates from site geocode coordinates
-# # pp <- b[is.na(b$latitude),]
-# # 
-# # b0 <- pp
-# # p <- complete.cases(b0[,c("country","site")])
-# # v1 <- unique(b0[p,c("country","site")])
-# # gg <- carobiner::geocode(country = v1$country,location = v1$site,service = "nominatim")
-# # gg1 <- gg[[1]]
-# # names(gg1)[2] <- "site"
-# # 
-# # b1 <- merge(b[,1:30],gg1,by = c("country","site"),all.x = TRUE)
-# # 
-# # i <- is.na(b1$latitude)
-# # j <- is.na(b1$longitude)
-# # 
-# # replacement_values <- b1$lat[i]
-# # b1$latitude[i] <- replacement_values
-# # 
-# # replacement_values <- b1$lon[j]
-# # b1$longitude[j] <- replacement_values
-# # 
-# # # Extracting remaining NA coordinates from location geocode coordinates
-# # pp <- b1[is.na(b1$latitude),]
-# # 
-# # b2 <- pp
-# # p <- complete.cases(b2[,c("country","location")])
-# # v1 <- unique(b2[p,c("country","location")])
-# # gg <- carobiner::geocode(country = v1$country,location = v1$location,service = "nominatim")
-# # gg1 <- gg[[1]]
-# # names(gg1)[2] <- "location"
-# # 
-# # bb <- merge(b1[,1:30],gg1,by = c("country","location"),all.x = TRUE)
-# # 
-# # i <- is.na(bb$latitude)
-# # j <- is.na(bb$longitude)
-# # 
-# # replacement_values <- bb$lat[i]
-# # bb$latitude[i] <- replacement_values
-# # 
-# # replacement_values <- bb$lon[j]
-# # bb$longitude[j] <- replacement_values
-# # 
-# # # Extracting remaining NA coordinates from country geocode coordinates
-# # tt <- bb[is.na(bb$latitude),]
-# # v1 <- unique(tt[,"country"])
-# # gg <- carobiner::geocode(country = v1,location = v1,service = "nominatim")
-# # gg1 <- gg[[1]]
-# # gg1 <- gg1[,c("country","lat","lon")]
-# # 
-# # hh <- merge(bb[,1:30],gg1,by = "country",all.x = TRUE)
-# # 
-# # i <- is.na(hh$latitude)
-# # j <- is.na(hh$longitude)
-# # 
-# # replacement_values <- hh$lat[i]
-# # hh$latitude[i] <- replacement_values
-# # 
-# # replacement_values <- hh$lon[j]
-# # hh$longitude[j] <- replacement_values
-# # }
-
