@@ -51,14 +51,6 @@ carob_script <- function(path) {
   #r <- readxl::read_excel(f,sheet = 5) |> as.data.frame() ''alternative to read excel''
   
   
-  
-  ## process file(s)
-  
-  ## use a subset
-  
-  #d <- carobiner::change_names(r, from=from, to=to)
-  
-  
   #### about the data #####
   ## (TRUE/FALSE)
   
@@ -113,10 +105,11 @@ carob_script <- function(path) {
     geocodes1$lon[geocodes1$location=="Tiro Afeta"] <- 37.33333
     geocodes1$lat[geocodes1$location=="Tiro Afeta"] <- 7.91667
     
-    
+    # rename columns
     geocodes2 <- geocodes1 %>%
       rename(longitude=lon,latitude = lat,adm2=location)
-
+    
+    # Merge dataframes
     mergeddf <- merge(d,geocodes2,by=c("country","adm2"),all.x=TRUE)
 
  
