@@ -26,7 +26,7 @@ carob_script <- function(path) {
 		publication= "Maize experiment with increasing rates of nitrogen to develop a calibration for the GreenSeeker in Yaqui Valley",
 		data_institutions = "CIMMYT",
    		data_type="experiment",
-		carob_contributor="Blessing Dzuda"
+		carob_contributor="Blessing Dzuda" 
 	)
 
 ## download and read data 
