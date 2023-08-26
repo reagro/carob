@@ -74,7 +74,7 @@ carob_script <- function(path) {
 	a1$site <- a1$SITE
   a$harvest_date <- a$Season
   a1$harvest_date <- a1$Season
-  a$yield <- a$`Grain yield (t/ha)`
+  a$yield <- a$`Grain yield (t/ha)` 
   a1$yield <- a1$`Grain yield (t/ha)`
   
 ##### Location #####
