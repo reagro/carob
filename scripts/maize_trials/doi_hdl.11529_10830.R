@@ -152,7 +152,7 @@ Description:
    b <- b[, c("country","adm2","adm3","adm4","latitude","longitude","crop","tilage","harvest_date","variety","plant_popilation","yield_part","residue_yield","yield")]
 	
 # all scripts must end like this
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(dset, b, path=path)
 }
 
 ## now test your function in a clean R environment 
