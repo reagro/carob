@@ -192,6 +192,12 @@ carob_script <- function(path) {
 	w <- w[,c("dataset_id","trial_id","country","adm2","location","latitude", "longitude","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","grain_weight","biomass_total","residue_yield","yield","fertilizer_type", "N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH","soil_sand","soil_clay","soil_silt","soil_N", "soil_K","soil_SOC", "on_farm")]
 
 	w$yield_part <- "seed"
+  w$N_fertilizer[is.na(w$N_fertilizer)] <- 0
+  
+	w$soil_pH[w$soil_pH < 3] <- NA
+	w$soil_N[w$soil_N < 1] <- NA
+	w$soil_K[w$soil_K < 1] <- NA
+	
 	# all scripts must end like this
 	carobiner::write_files(dset, w, path=path)
 }
