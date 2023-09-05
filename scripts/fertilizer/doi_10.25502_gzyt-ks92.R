@@ -29,7 +29,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   
   ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- carobiner::get_license(js)
   
@@ -51,12 +51,9 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   r6 <- read.csv(f6)
   
   ## process file(s)
-  d<- r[, c("farm_id","country","lga_district_woreda","gps_latitude_hh.decimal_degrees","gps_longitude_hh.decimal_degrees")] 
-  
+  d <- r[, c("farm_id","country","lga_district_woreda","gps_latitude_hh.decimal_degrees","gps_longitude_hh.decimal_degrees")] 
   colnames(d) <- c("trial_id", "country","location","latitude","longitude")
-  
-  d1 <- r1[, c("farm_id", "legume_planted_on_the_n2a_plot")] 
-  
+  d1 <- r1[, c("farm_id", "legume_planted_on_the_n2a_plot")]   
   colnames(d1) <- c("trial_id", "crop")
   
   # # EGB: Add area info
@@ -69,10 +66,10 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d2 <- d2[,c("trial_id", "area_ha")]
   
   #merge d1 and d
-  d<-merge(d,d1,by="trial_id")
+  d <- merge(d,d1,by="trial_id")
   
   # # EGB: Merge d and d2
-  d<-merge(d,d2,by="trial_id")
+  d <- merge(d,d2,by="trial_id")
   
   oldnms <- c("farm_id", "grain_weight_kg_shelled_grain_crop_1_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_X.kg","date_of_planting_X","date_of_final_harvest_X","type_of_fertilizer_used_n2africa_plot")  
   
@@ -121,43 +118,39 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$N_fertilizer <- 0
   d$P_fertilizer <- 0
   d$K_fertilizer <- 0
-  d$P_fertilizer[grepl("NPK",d$fertilizer_type)]<-30
-  d$P_fertilizer[grepl("TSP",d$fertilizer_type)]<-30
-  d$P_fertilizer[grepl("DAP",d$fertilizer_type)]<-30*0.46/2.29 
-  d$K_fertilizer[grepl("NPK",d$fertilizer_type)]<-20
+  d$P_fertilizer[grepl("NPK",d$fertilizer_type)] <- 30
+  d$P_fertilizer[grepl("TSP",d$fertilizer_type)] <- 30
+  d$P_fertilizer[grepl("DAP",d$fertilizer_type)] <- 30*0.46/2.29 
+  d$K_fertilizer[grepl("NPK",d$fertilizer_type)] <- 20
   d$N_fertilizer[grepl("DAP",d$fertilizer_type)] <- 30*0.18
   d$N_fertilizer[grepl("Urea",d$fertilizer_type)] <- 60
   #fix country name
-  dd<-carobiner::fix_name(d$country,"title")
-  d$country<-dd
+  dd <- carobiner::fix_name(d$country,"title")
+  d$country <- dd
   # fix crop name 
-  P<-carobiner::fix_name(d$crop,"lower")
-  P<-gsub("climbing_bean","common bean",P)
-  d$crop<-P
+  P <- carobiner::fix_name(d$crop,"lower")
+  d$crop <- gsub("climbing_bean","common bean",P)
   
   # fix fertilize type
-  d$fertilizer_type[d$fertilizer_type==""]<-"none"
-  d$fertilizer_type[d$fertilizer_type=="Urea"]<-"urea"
+  d$fertilizer_type[d$fertilizer_type==""] <- "none"
+  d$fertilizer_type[d$fertilizer_type=="Urea"] <- "urea"
   #fix crop yield limit by crop
-  d$k<-d$yield
-  d$yield[d$crop=="common bean" & d$k>9000]<- NA
-  d<-subset(d,select = -k)
+  d$k <- d$yield
+  d$yield[d$crop=="common bean" & d$k>9000] <- NA
+  d <- subset(d,select = -k)
   
-  # # EGB: Fix dates
-  
-  
-  d$planting_date<- as.character(as.Date(d$planting_date,format='%d/%m/%Y'),'%Y-%m-%d')
-  d$planting_date <- ifelse(d$planting_date<as.Date("2015-01-01"), paste0(as.integer(format(as.Date(d$planting_date), "%Y"))+16, "-", format(as.Date(d$planting_date), "%m-%d")), d$planting_date)
-  d$harvest_date<- as.character(as.Date(d$harvest_date,format='%d/%m/%Y'),'%Y-%m-%d')
-  d$harvest_date <- ifelse(d$harvest_date<as.Date("2015-01-01"), paste0(as.integer(format(as.Date(d$harvest_date), "%Y"))+16, "-", format(as.Date(d$harvest_date), "%m-%d")), d$harvest_date)
-  
+  d$planting_date <- as.character(as.Date(d$planting_date,format='%d/%m/%Y'))
+  d$planting_date <- gsub("1999", "2015", d$planting_date)
+
+  d$harvest_date <- as.character(as.Date(d$harvest_date,format='%d/%m/%Y'))
+  d$harvest_date <- gsub("1999", "2015", d$harvest_date)
+ 
   # fix whitespace in variable: location, harvest_date
-  d$location[d$location==""]<-NA
-  d$harvest_date[d$harvest_date==""]<-NA
+  d$location[d$location==""] <- NA
   # data type
   
-  d$yield_part<-"seed"
-  d$yield_part[grepl("groundnut",d$crop)]<-"pod"
+  d$yield_part <- "seed"
+  d$yield_part[grepl("groundnut",d$crop)] <- "pod"
   
   # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
