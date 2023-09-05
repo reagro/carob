@@ -20,7 +20,11 @@ proc_wheat <- function(ff) {
 
 	if (carobiner::is_excel(floc)) {
 		loc <- carobiner::read.excel(floc)
-		raw <- carobiner::read.excel(fraw, na="-")
+		if (basename(fraw) %in% c("4TH HTWYT_RawData.xlsx", "5TH HTWYT_RawData.xlsx")) {
+			suppressWarnings(raw <- carobiner::read.excel(fraw, na=c("", "-")))
+		} else {
+			raw <- carobiner::read.excel(fraw, na=c("", "-", "."))
+		}
 		env <- carobiner::read.excel(fenv)
 		colnames(raw) <- gsub(" ", ".", colnames(raw))
 		colnames(env) <- gsub(" ", ".", colnames(env))

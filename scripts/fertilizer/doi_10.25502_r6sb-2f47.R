@@ -157,7 +157,7 @@ carob_script <- function(path) {
   
   d <- d[,c("dataset_id","trial_id","on_farm","is_survey","country","adm1","location","latitude","longitude","crop","variety","treatment","inoculated","fertilizer_type","OM_used","N_fertilizer","P_fertilizer","K_fertilizer","date","yield","yield_part")]
   
-  cat("\nefyrouwa :lat and lon for 277 locations to be filled\n,some points are not accurate\nNPK rates to be filled\nfindplot lengths and widths\n")
+  cat("efyrouwa: lat and lon for 277 locations to be filled \n    some points are not accurate\n    NPK rates to be filled\n    find plot lengths and widths\n")
 
   # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
