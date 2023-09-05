@@ -20,7 +20,11 @@ proc_wheat <- function(ff) {
 
 	if (carobiner::is_excel(floc)) {
 		loc <- carobiner::read.excel(floc)
-		raw <- carobiner::read.excel(fraw, na="-")
+		if (basename(fraw) %in% c("4TH HTWYT_RawData.xlsx", "5TH HTWYT_RawData.xlsx")) {
+			suppressWarnings(raw <- carobiner::read.excel(fraw, na=c("", "-")))
+		} else {
+			raw <- carobiner::read.excel(fraw, na=c("", "-", "."))
+		}
 		env <- carobiner::read.excel(fenv)
 		colnames(raw) <- gsub(" ", ".", colnames(raw))
 		colnames(env) <- gsub(" ", ".", colnames(env))
@@ -109,6 +113,7 @@ proc_wheat <- function(ff) {
 		"AMAN RICE", "rice",
 		"AMAN RCIE", "rice",
 		"AMARANTO", "amaranth",
+		"ARVEJA", "pea",
 		"AVENA+VICI", "oats; vetch", 
 		"AVENA+VICIA", "oats; vetch", 
 		"AVENA + VICIA", "oats; vetch", 
@@ -163,6 +168,8 @@ proc_wheat <- function(ff) {
 		"CROTOTERIA", "crotalaria",
 		"DEHNEHA", NA,
 		"DURUM  WHEAT", "wheat",
+		"BREAD WHEAT", "wheat",
+		"TRIGO HARI", "wheat",
 		"FALLOW", "no crop",		
 		"FALLOWED", "no crop",
 		"FABABEAN", "faba bean",
@@ -170,6 +177,7 @@ proc_wheat <- function(ff) {
 		"FABA  BEAN", "faba bean",
 		"FABA VULGARIS", "faba bean",
 		"FABACEAE", "faba bean",
+		"VICIA FABA", "faba bean",
 		"FEET FOLLOWED BY MU", NA,
 		"FIELD PEAS", "pea",
 		"FIELD BEANS", "lablab",
@@ -208,11 +216,14 @@ proc_wheat <- function(ff) {
 		"LUPINO", "white lupin", #?
 		"GRAMINEAE", "maize; rice",
 		"AREEN  MANURE", "green manure", 
+		"GREEN MANUDE", "green manure", 
+		"GREEN MANEME", "green manure", 
 		"GREEN  MANURE", "green manure", 
 		"GREEM  MANURE", "green manure", 
 		"GREEN  MANWE", "green manure", 
 		"GREEN  MANWERE", "green manure",
 		"GREEN MAMURE", "green manure", 		
+		"GREEN MAMUDE", "green manure", 		
 		"GREEN GRAIN", "mung bean",
 		"GRUNDNUT", "groundnut",
 		"HELIANTHUS ANNUUS", "sunflower",
@@ -235,6 +246,7 @@ proc_wheat <- function(ff) {
 		"MUNG- PULSE", "mung bean",
 		"MAIN BAEN", "mung bean", 
 		"MAIN BEAN", "mung bean", 
+		"MUNG BEANS", "mung bean", 
 		"MUNG BAEN", "mung bean", 
 		"MUNG BEEN", "mung bean", 
 		"MUNG", "mung bean",
@@ -279,6 +291,7 @@ proc_wheat <- function(ff) {
 		"PEAS", "pea",
 		"PERCO", NA,
 		"PEAEL MILLELE", "pearl millet",
+		"PEARL MILL", "pearl millet",
 		"PEARL  MILLET", "pearl millet",
 		"PEARLI MILLER", "pearl millet",
 		"PHACELIA TANACETIFOLIA", 'phacelia',
@@ -297,6 +310,8 @@ proc_wheat <- function(ff) {
 		"RAPHANUS SPP.", "radish", 
 		"RAPHA NUS SPP", "radish",
 		"RAPHANUS SATIRUS L", "radish",
+		"UPLAND RIC", "rice",
+		"LOWLAND RICE", "rice",
 		"RIC", "rice",
 		"RICE (CEREALS)", "rice",
 		"RICE-CEREAL", "rice",
@@ -306,6 +321,7 @@ proc_wheat <- function(ff) {
 		"RICE/GRAIMINEAE", "rice",
 		"RICE WHEAT", "rice; wheat",		
 		"ROOT", "root crop", 
+		"SAF FLOWER", "safflower", 
 		"SESBANIA SP.", "sesbania",
 		"SESBANIA\\", "sesbania",
 		"SEED PRODUCTION", NA,
@@ -314,6 +330,7 @@ proc_wheat <- function(ff) {
 		"SOGO", "sorghum",
 		"SORGO", "sorghum", 
 		"SORGO FORR", "sorghum", 
+		"SOJA BEANS", "soybean", 
 		"SOYBEAN JS-335", "soybean", 
 		"SOYBEAN-JS 335", "soybean", 
 		"SOY BEAN", "soybean", 
@@ -325,6 +342,7 @@ proc_wheat <- function(ff) {
 		"SOYA BEAN", "soybean",
 		"SOYASEAN", "soybean",
 		"SOY  BEAN", "soybean",
+		"SUGAR CANE", "sugarcane",
 		"SUGAR CAME", "sugarcane",
 		"SUGAR BEET-MAIZE", "sugar beet; maize",
 		"SUGAR  BEET", "sugar beet",
@@ -334,8 +352,10 @@ proc_wheat <- function(ff) {
 		"SOJA", "soybean",
 		"SOJA CICLO CORTO", "soybean",
 		"SOYA", "soybean",
+		"SOYBEN", "soybean",
 		"SOYA-OIL SEED", "soybean",
 		"SOYA- OIL SEED", "soybean",
+		"SUNHEMO", "sunn hemp",
 		"SRUNHEMP", "sunn hemp",
 		"SUNFLOVER", "sunflower",
 		"SUNFLOWER (HELIANTHUS ANNUUS L)", "sunflower",
@@ -350,6 +370,7 @@ proc_wheat <- function(ff) {
 		"SUNHIMP", "sunn hemp", 
 		"SUNHAMP", "sunn hemp",
 		"SUNHEMP", "sunn hemp",
+		"SUNHEOP", "sunn hemp",
 		"SUMHEMP", "sunn hemp",
 		"SUNHEAD", "sunn hemp",
 		"SUN HEUF", "sunn hemp",
