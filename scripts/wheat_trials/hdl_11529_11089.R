@@ -39,7 +39,6 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 
 	d <- vector("list", length(sets))
 	for (i in seq_along(sets)) {
-	print(i); flush.console()
 		fs <- grep(sets[i], ff, value=TRUE)
 		d[[i]] <- proc_wheat(fs)
 	}
