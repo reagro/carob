@@ -111,7 +111,9 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 
 	# efyrouwa: what should be used to calculate yield?, grain_weight or pod_weight?, 
 	##  I used grain_weight, in cases there's no grain_weight, I used pod_weight
-	
+
+    ##RH: as long as you specify that in yield_part!
+		
 	d0$length[d0$length == 0.75] <- 10 #to change that one entry with 0.75 as the length
 	d0$yield <- 10000 / as.numeric(d0$width*d0$length) * ifelse(is.na(d0$grain_weight),d0$pod_weight , d0$grain_weight)
 	d0$residue_yield <- 10000 / as.numeric(d0$width * d0$width) * d0$residue_yield
@@ -147,8 +149,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	df$dataset_id <- dataset_id
 	df$yield_part <- "seed"
 	
-	##efyrouwa: How can we incooperate r3 with df??
-	##there's a message that the yield is too low
+	##efyrouwa: How can we incorporate r3 with df??
 	
 	# all scripts should end like this
 
