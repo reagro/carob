@@ -1,15 +1,13 @@
 
 carob_script <- function(path){
   
-  "N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among
+"N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among
 African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition
 and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable,
 long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain
 legumes through effective production technologies including inoculants and fertilizers adapted to local settings.
-A strong national expertise in grain legume production and N2-fixation research and development will be the legacy
-of the project.
-The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other
-countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
+A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project.
+The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 "
   
 
@@ -84,7 +82,8 @@ countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one c
 	
 	ddd <- do.call(rbind, lst)
 	ddd$trial_id <- r2$farm_id
-	ddd$crop <- carobiner::replace_values(r2$experimental_treatments_crop_2,c("","Groundnut","Soya bean","Farmer local variety","Maize","soya bean","Cowpea","SOYBEAN","MAIZE","G per NUT","SOYABEANS"),c(NA,"groundnut","soybean","local","maize","soybean","cowpea","soybean","maize","groundnut","soybean"))         
+	ddd$crop <- carobiner::replace_values(r2$experimental_treatments_crop_2,c("","Groundnut","Soya bean","Farmer local variety","Maize","soya bean","Cowpea","SOYBEAN","MAIZE","G per NUT","SOYABEANS"),c(NA,"groundnut","soybean","groundnut","maize","soybean","cowpea","soybean","maize","groundnut","soybean"))
+
 	ddd$variety <- carobiner::fix_name(r2$experimental_treatments_variety_crop_2)
 	ddd$trial_id <- r2$farm_id
 
@@ -112,7 +111,9 @@ countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one c
 
 	# efyrouwa: what should be used to calculate yield?, grain_weight or pod_weight?, 
 	##  I used grain_weight, in cases there's no grain_weight, I used pod_weight
-	
+
+    ##RH: as long as you specify that in yield_part!
+		
 	d0$length[d0$length == 0.75] <- 10 #to change that one entry with 0.75 as the length
 	d0$yield <- 10000 / as.numeric(d0$width*d0$length) * ifelse(is.na(d0$grain_weight),d0$pod_weight , d0$grain_weight)
 	d0$residue_yield <- 10000 / as.numeric(d0$width * d0$width) * d0$residue_yield
@@ -148,15 +149,11 @@ countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one c
 	df$dataset_id <- dataset_id
 	df$yield_part <- "seed"
 	
- 
+	##efyrouwa: How can we incorporate r3 with df??
 	
-	##efyrouwa: How can we incooperate r3 with df??
-	##there's a message that the yield is too low
-	
-
-
 	# all scripts should end like this
 
+	df <- df[!is.na(df$crop), ]
 	carobiner::write_files(dset, df, path=path)
 }
 
