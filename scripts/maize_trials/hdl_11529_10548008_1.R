@@ -14,7 +14,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 
 	uri <- "hdl:11529/10548008"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "maize_trial"
+	group <- "maize_trials"
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
