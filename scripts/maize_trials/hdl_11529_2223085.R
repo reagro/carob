@@ -148,7 +148,7 @@ carob_script <- function(path) {
   # renaming columns
   geocodes1 <- geocodes1 %>%
     rename(longitude=lon,latitude = lat,site=location)
-  
+  # Assign geo cordinates which were not found using carobiner function 
   lattitude_mapping <- list("ISPM Chimoio"=c(-19.08114,33.39414) ,"Melkassa"=c(8.4, 39.33333),
                             "ARI-Ilonga"=c(-9.06667,36.85),"SARI"=c(-6,35))
   
@@ -166,8 +166,6 @@ carob_script <- function(path) {
   
   
  
-  
-  
   
   
   # all scripts must end like this
