@@ -74,9 +74,9 @@ N2A_monitoring_2 <- function(ff, path) {
 	bn <- basename(ff)
 	r0 <- read.csv(ff[bn == "a_general.csv"])
 	r1 <- read.csv(ff[bn == "c_use_of_package_2.csv"])
-	r1$SN <- d1$instanceid <- NULL
+	r1$SN <- r1$instanceid <- NULL
 	r2 <- read.csv(ff[bn == "e_harvest.csv"])
-	r2$SN <- d2$instanceid <- NULL
+	r2$SN <- r2$instanceid <- NULL
 	#f3 <- ff[bn == "c_use_of_package_3.csv"]
 	#r3 <- read.csv(f3) 
 	r4 <- read.csv(ff[bn == "d_cropping_calendar.csv"])
@@ -168,18 +168,20 @@ N2A_monitoring_2 <- function(ff, path) {
 
 		dd4$harvest_date <- as.character(as.Date(h))
 	} else {
+	## cannot merge without plot_id!!
 #		pd <- r4[r4$activity == 'Date of planting', ]
 #		pd$planting_date <- apply(pd[, c("yyyy", "mm", "dd")], 1, paste, collapse="_")
 #		hd <- r4[r4$activity == 'Date of harvest', ]
 #		hd$harvest_date <- apply(hd[, c("yyyy", "mm", "dd")], 1, paste, collapse="_")
 #		v <- c("id", "farm_id")
 #		m <- merge(pd[,c(v, "planting_date")], hd[,c(v, "harvest_date")], by=v)
+		dd4 <- NULL
 	}
 
 	#standardizing the previous crop variable
 
-	dd5 <- d5[, "farm_id", drop=FALSE]	
-	dd5$previous_crop <- fix_crop(carobiner::fix_name(d5$main_crop_last_season, "lower"))
+	dd5 <- r5[, "farm_id", drop=FALSE]	
+	dd5$previous_crop <- fix_crop(carobiner::fix_name(r5$main_crop_last_season, "lower"))
 	
 	#merge the data sets
 	z <- merge(dd, d, by = "farm_id", all.x=TRUE)
@@ -190,6 +192,7 @@ N2A_monitoring_2 <- function(ff, path) {
 	z$yield_part <- "seed"
 	z$trial_id <- z$farm_id
 	z$farm_id <- NULL
+	z$id <- NULL
 	
 	z
 }
