@@ -28,7 +28,7 @@ carob_script <- function(path){
   monitoring - Mozambique, 2011 - 2012 [Data set]. International 
   Institute of Tropical Agriculture (IITA). 
   https://doi.org/10.25502/JHRJ-9423",
-    carob_contributor = "Effie Ochieng",
+    carob_contributor = "Effie Ochieng'",
     data_type = "variety_performance"
     )
   

@@ -30,7 +30,7 @@ carob_script <- function(path){
 		publication="doi:10.21955/gatesopenres.1115299.1",
 		data_citation = "Vanlauwe, B. et al. (2020) ‘N2Africa agronomy trials - Kenya, 2011’. International Institute of Tropical Agriculture (IITA). doi:10.25502/VMVB-SN23/D.",
 		data_institutions = "IITA",
-		carob_contributor="Rachel Mukami and Effie Ochieng",
+		carob_contributor="Rachel Mukami and Effie Ochieng'",
 		data_type = "on-farm experiment"
 	)
   
