@@ -161,7 +161,6 @@ carob_script <- function(path) {
   geocodes1$longitude[is.na(geocodes1$longitude)] <- unlist(lapply(geocodes1$site, function(loc) lattitude_mapping[[loc]][2]))
   
   # merge dataset to get geocoordinates
-  #d1 <- merge(d1,geocodes1,by=c("country","site"))
   d1<- left_join(d1,geocodes1,by=c("country","site"))
   
   
