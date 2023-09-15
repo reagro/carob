@@ -62,7 +62,7 @@ carob_script <- function(path) {
 	c$harvest_year <- c$Year
 	c$crop <- c$Crop
   c$rep <- c$Replicate
-  c$biomass_total <- c$Biomass
+  c$biomass_total <- c$Biomass 
   c$yield <- c$Grain
 ##### Location #####
 ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
