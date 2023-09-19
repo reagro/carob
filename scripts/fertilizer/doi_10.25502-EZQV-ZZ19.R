@@ -1,21 +1,15 @@
 
-###########################################################################################################
-# N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among 
-# African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition
-# and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable,
-# long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain
-# legumes through effective production technologies including inoculants and fertilizers adapted to local settings.
-# A strong national expertise in grain legume production and N2-fixation research and development will be the legacy
-# of the project.
-# The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other 
-# countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
-###########################################################################################################
-
-# Notes
-# Note1: Where trial_id is labelled as "" it is replaced with the preceding value.
-
-
 carob_script <- function(path){
+  
+"N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among
+African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition
+and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable,
+long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain
+legumes through effective production technologies including inoculants and fertilizers adapted to local settings.
+A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project.
+The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
+"
+  
 
 	uri <- "doi.org/10.25502/EZQV-ZZ19"
 	dataset_id <- carobiner::simple_uri(uri)
@@ -35,9 +29,6 @@ carob_script <- function(path){
 		data_institutions="IITA"
 	)
 
-p_year <- 2014 #planting year
-h_year <- 2014 # harvest year
-
 ## download and read data 
 	ff <- carobiner::get_data(uri,path,group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
@@ -45,335 +36,124 @@ h_year <- 2014 # harvest year
 	
 	# read the experiment data table
 	f0 <- ff[basename(ff) == "experiment.csv"]
-	d0 <- data.frame(read.csv2(f0, sep = ","))
+	r2 <- read.csv(f0)
 	
 	f1 <- ff[basename(ff) == "general.csv"]
-	d1 <- data.frame(read.csv2(f1, sep = ","))
+	r1 <- read.csv(f1)
 	
-	f2 <- ff[basename(ff) == "labour_income_and_assets.csv"]
-	d2 <- data.frame(read.csv2(f2, sep = ","))
-	
-	f3 <- ff[basename(ff) == "land_crops_and_livestock.csv"]
-	d3 <- data.frame(read.csv2(f3, sep = ","))
-	
-	f4 <- ff[basename(ff) == "nutrition.csv"]
-	d4 <- data.frame(read.csv2(f4, sep = ","))
 	
 	f5 <- ff[basename(ff) == "production.csv"]
-	d5 <- data.frame(read.csv2(f5, sep = ","))
+	r3 <- read.csv(f5)
 	
-	f6 <- ff[basename(ff) == "variable_definitions.csv"]
-	d6 <- data.frame(read.csv2(f6, sep = ","))
 
-	# d <- d0, d1, d3, d4, d5
+  #assemble everything for crop 1 
+
+	colnames(r2)[colnames(r2) %in% c("width_of_harvested_plot_crop_1_plot_1", "pod_weight_unshelled_grain_groundnut_crop_1_plot_2.kg","grain_weight_shelled_grain_crop_1_plot_2.kg")] <- c("width_of_harvested_plot_crop_1_plot_1.m", "pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_2.kg","grain_weight_kg_shelled_grain_crop_1_plot_2.kg")
 	
-	d0$trial_id <- d0$experiment_id
-	
-	# fill in the missing trial_ids
-	d0$trialid <- NA
-	for(e in 1:nrow(d0)){
-	  d0$trialid[e] <- ifelse(d0$trial_id[e] == "",d0$trialid[(e-1)], d0$trial_id[e])
+	t <- c("name_treatment_X", "description_treatment_X","width_of_harvested_plot_crop_1_plot_X.m","depth_of_harvested_plot_perpen_dicular_to_rows_crop_1_plot_X.m","number_of_rows_in_plot_crop_1_plot_X","grain_weight_kg_shelled_grain_crop_1_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_X.kg","above_ground_biomass_weight_husks_stover_res_crop_1_plot_X.kg") 
+	x <- c("treatment","description","width","length","row_count","grain_weight","pod_weight","residue_yield")	
+
+	lst <- list()
+	for (i in 1:8) {
+	  inms <- gsub("X", i, t)
+	  ri <- r2[, inms]
+	  colnames(ri) <- x
+	  lst[[i]] <- ri
 	}
 	
-	d0$trial_id <- d0$trialid
+	dd <- do.call(rbind, lst)
+	dd$trial_id <- r2$farm_id
+	dd$crop <- carobiner::replace_values(r2$experimental_treatments_crop_1, c("","Groundnut","Soya bean","soya bean","Cowpea","Maize","SOYABEANS","SOYBEAN","COWPEA","SOYA BEAN","G per NUT"),c(NA,"groundnut","soybean","soybean","cowpea","maize","soybean","soybean","cowpea","soybean","groundnut"))
+	dd$variety <- carobiner::fix_name(r2$experimental_treatments_variety_crop_1)
+	dd$trial_id <- r2$farm_id
+ 
 	
-	# Get experiment treatments from d0 table
-	trts <- grep("name_treatment_", colnames(d0), perl = TRUE)
-	# Extracts for all the eight experiment plots
-	d0_trt <- d0[,trts[1:8]] 
-	d0_trt <- cbind(d0$farm_id, d0_trt,d0$trial_id)
-	colnames(d0_trt) <- c("farm_id", colnames(d0_trt[-1]))
-	treatment <- c(d0_trt[,2],d0_trt[,3],d0_trt[,4],d0_trt[,5],d0_trt[,6], d0_trt[,7],d0_trt[,8],d0_trt[,9])
-	farm_id <- rep(d0_trt[,1],8)
-	trial_id <- rep(d0_trt[,10],8)
-	d0_trt <- cbind(farm_id, treatment, trial_id)
-	names(d0_trt) <- c('farm_id', 'treatment', 'trial_id')
-	d0_trt <- as.data.frame(d0_trt)
+	# assembling everything for crop 2
+	t <- c("name_treatment_X", "description_treatment_X","width_of_harvested_plot_crop_2_plot_X.m","depth_of_harvested_plot_perpen_dicular_to_rows_crop_2_plot_X.m","number_of_rows_in_plot_crop_2_plot_X","grain_weight_kg_shelled_grain_crop_2_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_2_plot_X.kg","above_ground_biomass_weight_husks_stover_res_crop_2_plot_X.kg")
+	x <- c("treatment","description","width","length","row_count","grain_weight","pod_weight","residue_yield")
 	
-	# d0_trt$treatment <-  gsub(" fertilizer", "", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("fertiliser", "", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub(" only", "", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub(" phosphorus and inoculant ", "phosphorus + inoculant ", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("phosphorus and inoculant ", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("phosphorus + inoculant ", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("p + inoculant", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("inoculant and phosphorus", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("inoculant and p-", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("inoculant and phosphorus ", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("p + inoculant", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("inoculant + p-", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("phosphorus and inoculant", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("phosphorus + inoculant", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("p + inoculant", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("phosphorus + inoculant ", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("inoculant + p-", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("phosphorus + inoculant  ", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("p + inoculant", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("inoculant + p-", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("phosphorus + inoculant ", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("p + inoculant", "phosphorus + inoculant", d0_trt$treatment)
-	# d0_trt$treatment <-  gsub("inoculant + p-", "phosphorus + inoculant", d0_trt$treatment)
-	# 
-	# p <- which(d0_trt$treatment == 'p + inoculant' | d0_trt$treatment == 'inoculant + p-' | d0_trt$treatment=='phosphorus + inoculant ')
-	# d0_trt$treatment[p] <- "phosphorus + inoculant"
-	# 
-	# p <- which(d0_trt$treatment == 'p-' | d0_trt$treatment == ' phosphorus' | d0_trt$treatment=='phosphorus '| d0_trt$treatment=='p'| d0_trt$treatment=='p-' |d0_trt$treatment == "p- ")
-	# d0_trt$treatment[p] <- "phosphorus"
-	# 
-	# p <- which(d0_trt$treatment == 'inoculant ' | d0_trt$treatment == 'i-' | d0_trt$treatment == ' inoculant')
-	# d0_trt$treatment[p] <- "inoculant"
-	# 
-	# p <- which(d0_trt$treatment == 'control ')
-	# d0_trt$treatment[p] <- "control"
-	# 
-	# p <- which(d0_trt$treatment == 'farmers practice')
-	# d0_trt$treatment[p] <- "farmer practice"
-	
-	unique(d0_trt$treatment)
-	
-	d0_trt$fertilizer <- rep(NA, nrow(d0_trt))
-	d0_trt$P_fertilizer <- rep(0, nrow(d0_trt))
-	d0_trt$N_fertilizer <- rep(0, nrow(d0_trt))
-	d0_trt$K_fertilizer <- rep(0, nrow(d0_trt))
-	phosphorus <- grep("+p",d0_trt$treatment)
-	d0_trt$fertilizer[phosphorus] <- 'SSP'
-	d0_trt$P_fertilizer[phosphorus] <- '19.23'
-	
-	# Include a field for whether inoculated or not
-	ino <- grep("+ i",d0_trt$treatment)
-	d0_trt$inoculated <- rep('no', nrow(d0_trt))
-	d0_trt$inoculated[ino] <- 'yes'
-	d0_trt$SN <- rep(d0$SN,8)
-
-	# add plot no for the d0_trt
-	# plot <- NULL
-	# for (i in 1:8){
-	#   ploti <- rep(i,70)
-	#   plot <- c(plot, ploti)
-	# }
-	# EGB:
-	plot <- rep(1:8, each = 70)
-	d0_trt <- cbind(d0_trt, plot)
-	d0_trt$ssid <- paste(d0_trt$farm_id,'.',d0_trt$SN, '.', d0_trt$plot)
-	
-	
-	# reporting table1 : d0_trt
-	
-	
-	# Crop 1
-	a <- which(colnames(d0) == 'width_of_harvested_plot_crop_1_plot_1')
-	b <- which(colnames(d0) == 'above_ground_biomass_weight_husks_stover_res_crop_1_plot_8.kg')
-
-		dab <-  d0[,a:b]
-	
-	 dabia <- NULL
-
-		for (i in 0:7){
-	  dabi <- dab[,(c(6*i)+1):(c(6*i)+6)]
-	  colnames(dabi) <-  letters[1:6]
-	  dabia <- rbind(dabia,dabi)
+	lst <- list()
+	for (i in 1:8) {
+	  inms <- gsub("X", i, t)
+	  ri <- r2[, inms]
+	  colnames(ri) <- x
+	  lst[[i]] <- ri
 	}
 	
-	hd <- c('width_of_harvested_plot_crop_1_plot_2.m',                      
-	'depth_of_harvested_plot_perpen_dicular_to_rows_crop_1_plot_2.m',
-	'number_of_rows_in_plot_crop_1_plot_2',
-	'grain_weight_kg_shelled_grain_crop_1_plot_2.kg',
-	'pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_2.kg',
-	'above_ground_biomass_weight_husks_stover_res_crop_1_plot_2.kg'
-	)
-	
-	# plots <- NULL
-	# for(i in 1:8){
-	#   plot <- rep(i,70)
-	#   plots <- c(plots, plot)
-	# }
-	# EGB:
-	plots <- rep(1:8, each = 70)
-	
-	# SN <- NULL
-	# for(i in 1:16){
-	#   SNi <- rep(i,8)
-	#   SN <- c(SN, SNi)
-	# }
-	SN <- rep(1:70,8)
-  dabia_crop1 <- cbind(d0$farm_id,plots, SN, dabia)
-  
-  hd <- gsub("_plot_2", '', hd)
-  hd <- gsub("_crop_1", '', hd)
-  
-  colnames(dabia_crop1) <- c('farm_id', 'plot', 'SN', hd)
-  
-  dabia_crop1$ssid <- paste(dabia_crop1$farm_id,'.',dabia_crop1$SN, '.', dabia_crop1$plot )
+	ddd <- do.call(rbind, lst)
+	ddd$trial_id <- r2$farm_id
+	ddd$crop <- carobiner::replace_values(r2$experimental_treatments_crop_2,c("","Groundnut","Soya bean","Farmer local variety","Maize","soya bean","Cowpea","SOYBEAN","MAIZE","G per NUT","SOYABEANS"),c(NA,"groundnut","soybean","groundnut","maize","soybean","cowpea","soybean","maize","groundnut","soybean"))
 
-  
-  dabia_crop1$plot_size <- as.numeric(dabia_crop1$width_of_harvested_plot.m) * as.numeric(dabia_crop1$depth_of_harvested_plot_perpen_dicular_to_rows.m)
-  
-  # get the grain and biomass yield/ha
-  dabia_crop1$yield <- round(10000 * as.numeric(dabia_crop1$grain_weight_kg_shelled_grain.kg) / dabia_crop1$plot_size,3)
-  dabia_crop1$biomass_total <- round(10000 * as.numeric(dabia_crop1$above_ground_biomass_weight_husks_stover_res.kg) / dabia_crop1$plot_size,3)
-  
-  dabia_crop1 <- dabia_crop1[,c('ssid','farm_id','plot','yield', 'biomass_total')]
-  
-  #dabia_crop1$SN <- rep(d0$SN,8)
-  
-  
-  #2  reporting table 2: dabia_crop1
-  
-  # Repeat for crop_2
-  a <- which(colnames(d0) == 'width_of_harvested_plot_crop_2_plot_1.m')
-  b <- which(colnames(d0) == 'above_ground_biomass_weight_husks_stover_res_crop_2_plot_8.kg')
-  dab <-  d0[,a:b]
-  dabia <- NULL
-  
-  for (i in 0:7){
-    dabi <- dab[,(c(6*i)+1):(c(6*i)+6)]
-    colnames(dabi) <-  letters[1:6]
-    dabia <- rbind(dabia,dabi)
-  }
-  
-  hd <- c('width_of_harvested_plot_crop_1_plot_2.m',                      
-          'depth_of_harvested_plot_perpen_dicular_to_rows_crop_1_plot_2.m',
-          'number_of_rows_in_plot_crop_1_plot_2',
-          'grain_weight_kg_shelled_grain_crop_1_plot_2.kg',
-          'pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_2.kg',
-          'above_ground_biomass_weight_husks_stover_res_crop_1_plot_2.kg'
-  )
-  
-  # plots <- NULL
-  # for(i in 1:8){
-  #   plot <- rep(i,16)
-  #   plots <- c(plots, plot)
-  # }
-  # EGB:
-  plots <- rep(1:8, each = 70)
-  
-  dabia_crop2 <- cbind(d0$farm_id,plots, dabia)
-  
-  hd <- gsub("plot_2_", '', hd)
-  hd <- gsub("crop_1_", '', hd)
-  
-  colnames(dabia_crop2) <- c('farm_id', 'plot', hd)
-  
-  #No data to report for dabia_crop2
-  
-  # Get shelled_grain_crop_weight
-  z <- grep('shelled_grain_crop',colnames(d0))
-  t(d0[1:6,z])
-  
-  # Get shelled_grain_crop_weight
-  z <- grep('crop',colnames(d0))
-  t(d0[1:6,z])
-  
-  # Get stover weight
-  z <- grep('stover_res_crop',colnames(d0))
-  t(d0[1:6,z])
-  
-  # Get experimental_treatment
-  z <- grep('experimental_treatments_',colnames(d0))
-  t(d0[1:6,z])
-  
-  a <- which(colnames(d0) == 'grain_weight_kg_shelled_grain_crop_1_plot_1')
-  b <- which(colnames(d0) == 'above_ground_biomass_weight_husks_stover_res_crop_1_plot_8.kg')
-  
-	d1$country <- d1$country
-	d1$adm2 <- d1$district
-	d1$adm3 <- d1$sector_ward
-	d1$adm3 <- carobiner::fix_name(d1$adm3)
-	d1$site <- d1$village
-	d1$latitude <- d1$gps_latitude_field
-	d1$longitude <- d1$gps_longitude_field
+	ddd$variety <- carobiner::fix_name(r2$experimental_treatments_variety_crop_2)
+	ddd$trial_id <- r2$farm_id
 
-	d1 <- d1[,c("SN","farm_id", "country", "adm2", "site", "latitude", "longitude")]
 	
-	# Go to table 3 from land_crops_and_livestock.csv file
+	d0 <- carobiner::bindr(dd,ddd)
 	
-	d3a <- d3[,c("SN",'farm_id', 'main_crop_1', 'yield_main_crop_1', 'yield_main_crop_1_unit', 'area_main_crop_1', 'area_main_crop_1_unit.ha')]
-	d3b <- d3[,c("SN",'farm_id', 'main_crop_2', 'yield_main_crop_2', 'yield_main_crop_2_unit.kg_per_ha', 'area_main_crop_2', 'area_main_crop_2_unit.ha')]
-	d3c <- d3[,c("SN",'farm_id', 'main_crop_3', 'yield_main_crop_3', 'yield_main_crop_3_unit.kg_per_ha', 'area_main_crop_3', 'area_main_crop_3_unit.ha')]
+  #filling in the inoculated 
+	d0$treatment <- gsub("\\s*([+-])\\s*", "\\1", d0$treatment) # removing spaces between + or - 
+	d0$description <- gsub("\\s*([+-])\\s*I\\s*", "\\1I", d0$description)# removing spaces between + or - 
+	d0$inoculated <- ifelse(grepl("\\+i", d0$treatment), TRUE, FALSE)
 	
-	# Rename main crop units
-	d3a$yield_main_crop_1_unit[7] = 'kg'
-	d3b$yield_main_crop_2_unit[7] = 'kg'
-	d3c$yield_main_crop_3_unit[7] = 'kg'
 	
-	# Rename column names for d3a-c and rbind
-	colnames(d3a) <-  gsub("_1","", colnames(d3a))
-	colnames(d3b) <-  colnames(d3a)
-	colnames(d3c) <-  colnames(d3a)
+	#filling in the varieties
+	i <- grepl("samnut \\d{2}", d0$treatment) | grepl("evdt 2009", d0$treatment)| grepl("tgx\\d{4}-\\d[a-zA-Z]", d0$treatment)|grepl("tgx\\d{4}", d0$treatment)|grepl("^it \\S+", d0$treatment)
+	t <- is.na(d0$variety)
+	d0$variety[i & t] <- gsub(".*(samnut \\d{2}|evdt 2009|tgx\\d{4}-\\d[a-zA-Z]|tgx\\d{4}|^it \\S+).*", "\\1", d0$treatment[i & t])
 	
-	d3 <- rbind(d3a, d3b[,1:7], d3c[,1:7])
 	
-	d3$main_crop <- tolower(carobiner::fix_name(d3$main_crop))
+	#fill in the crops
+	d0$crop[grepl("[+-]i", d0$treatment)|grepl("[+-]I", d0$description) & is.na(d0$crop)] <- "soybean"
+	d0$crop[(grepl("^it\\s*\\S*|cowpea|^uam\\s*\\S*", d0$treatment) | grepl("^it\\s*\\S*", d0$description) | grepl("(?i)^uam", d0$description)) & is.na(d0$crop)] <- "cowpea"
+	d0$crop[grepl("\\s*samnut \\d{2}", d0$treatment) & is.na(d0$crop)] <- "groundnut"
+	d0$crop[(grepl("evdt\\s*\\S+|cereal|maize|evdt", d0$treatment)) & is.na(d0$crop)] <- "maize"
 	
-	# adding the fertilizer information
+
+	# efyrouwa: what should be used to calculate yield?, grain_weight or pod_weight?, 
+	##  I used grain_weight, in cases there's no grain_weight, I used pod_weight
+
+    ##RH: as long as you specify that in yield_part!
+		
+	d0$length[d0$length == 0.75] <- 10 #to change that one entry with 0.75 as the length
+	d0$yield <- 10000 / as.numeric(d0$width*d0$length) * ifelse(is.na(d0$grain_weight),d0$pod_weight , d0$grain_weight)
+	d0$residue_yield <- 10000 / as.numeric(d0$width * d0$width) * d0$residue_yield
+	d0$fertilizer_type[grepl("\\+p|\\+ p", d0$treatment, perl = TRUE)] <- "SSP"
+	d0$SSP_amt_per_plot[grepl("SSP",d0$fertilizer_type)] <- 2
+	
+	#calculating the fertilizer different
+	d0$P_fertilizer <- (0.0874* d0$SSP_amt_per_plot / (as.numeric(d0$width * d0$length) / 10000)) #p in SSP taken as 8.74
+	d0$P_fertilizer[is.na(d0$P_fertilizer)]<- 0
 	d0$N_fertilizer <- 0
-	d0$P_fertilizer <- 0
 	d0$K_fertilizer <- 0
-	# get fields 1 to 5 data from d5
-	
-	planting_date <- paste0(d5$date_of_planting_dd,'/', d5$date_of_planting_mm)
-	
-	harvest_date <- paste0(d5$date_of_final_harvest_dd,'/', d5$date_of_final_harvest_mm)
-	
-	planting_date <- as.Date(strptime(ifelse(planting_date == 'NA', NA, paste0(planting_date, '/', p_year)), "%d/%B/%Y"))
-	
-	
-	harvest_date <- as.Date(strptime(ifelse(harvest_date == 'NA', NA, paste0(harvest_date, '/', h_year)), "%d/%B/%Y"))
-	
-	
-	farm_id <- d5$farm_id
-	
-	SN <- d5$SN
-	
-	# 4 reporting table:
-	
-	p_date <- cbind(as.vector(SN),as.vector(farm_id), as.character(planting_date), as.character(harvest_date))
-	colnames(p_date) <- c('SN', 'farm_id', 'planting_date', 'harvest_date')
-	
-	# Finally reporting with planting and harvesting dates
-	
-	d <- merge(dabia_crop1, d0_trt[,-c(1,10)], by = "ssid")
-	
-	# Merge with latlon
-	
-	d <- merge(d,d1[,-2], by = 'SN', all.x = TRUE)
-	
-
-	# Add planting and harvest dates
-	d <- merge(d,p_date[,-2], by = 'SN', all.x = TRUE)
-	
-	# we can not merge d3 with main crop due so it has been left out.
+	d0 <- d0[!duplicated(d0), ]
+	d0$treatment <- carobiner::fix_name(d0$treatment)
+	d0 <- d0[, c("trial_id","treatment","fertilizer_type","inoculated","N_fertilizer","P_fertilizer","K_fertilizer","crop","yield", "residue_yield")]
+  
+	#the next dataset 
+	d1 <- carobiner::change_names(r1,c("district","sector_ward","village"),c("adm1","adm2","location"))
+	d1$country <- carobiner::fix_name(d1$country, "title")
+	d1$adm1[ d1$adm1 %in% c("Kaduna State", "Kaduna", "KADUNA", "KADUNA per  ZANGON AYA") ] <- "Kaduna"
+	d1$adm1 <- carobiner::replace_values(d1$adm1,c("Kano State","Niger State"), c("Kano","Niger"))
+	d1$is_survey <- TRUE
+	d1$on_farm <- FALSE
+	d1$trial_id <- r1$farm_id
+	d1$date <- as.character(as.Date(paste(r1$date_hhsurvey_dd.days, r1$date_hhsurvey_mm.months, r1$date_hhsurvey_yyyy.years, sep = "-"), format = "%d-%B-%Y"))
+	d1$harvest_date <- as.character(as.Date(paste(r1$date_harvest_dd_technician_1, r1$date_harvest_mm_technician_1, r1$date_harvest_yyyy_technician_1, sep = "-"), format = "%d-%B-%Y"))
+	d1$latitude <- r1$gps_latitude_hh.decimal_degrees
+	d1$longitude <- r1$gps_longitude_hh.decimal_degrees
 	
 	
-	# Finally select the fields to be included
-	#d <- d[, c("trial_id","on_farm","treatment","crop", "planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","yield","grain_weight","residue_yield","biomass_total")]
+	d1 <- d1[,c("trial_id","country","latitude","longitude","adm1","adm2","location","date","harvest_date","is_survey","on_farm")]	
 	
-	d$treatment[c(65,75)] <- NA
-	d$P_fertilizer <- as.numeric(d$P_fertilizer)
-	d$inoculated <- as.logical(d$inoculated)
-	d$latitude <- as.numeric(d$latitude)
-	d$longitude <- as.numeric(d$longitude)
-	omit <- which(colnames(d) %in% c('SN', 'ssid', 'farm_id', 'plot', 'fertilizer'))
-	d <- d[,-omit]
+	df <- merge(d1, d0, by = "trial_id", all = TRUE)
+	df$dataset_id <- dataset_id
+	df$yield_part <- "seed"
 	
-	# remove whitespace in trial_id
-	#d$trial_id <- gsub("[[:space:]]", "", d$trial_id)
-	d$trial_id <- ifelse (d$trial_id == "",NA, d$trial_id)
-	d$crop = "soybean"
-	d$yield_part <- "seed"
-	d$dataset_id <- dataset_id
-	
-	# EGB: Fix country names
-	d$country <- carobiner::fix_name(d$country, case = "title")
-	
-	# EGB: Remove missing LatLon entries
-	d <- d[!is.na(d$latitude) | !is.na(d$longitude),]
-	
-	# EGB: This script needs to be reviewed as Yield is sometimes higher than biomass... Also need to fix treatments
-	message("\tReview Yield and Biomass values. Also fix treatment")
+	##efyrouwa: How can we incorporate r3 with df??
 	
 	# all scripts should end like this
-	
-	# yield is in kg/ha
-	carobiner::write_files(dset, d, path=path)
+
+	df <- df[!is.na(df$crop), ]
+	carobiner::write_files(dset, df, path=path)
 }
+

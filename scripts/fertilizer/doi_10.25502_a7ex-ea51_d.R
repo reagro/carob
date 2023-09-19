@@ -20,7 +20,7 @@ carob_script <- function(path){
 		uri = uri,
 		publication = "doi:10.1016/j.agee.2017.08.015",
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Rwanda, 2012 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/A7EX-EA51/D",
-		carob_contributor = "Effie Ochieng",
+		carob_contributor = "Effie Ochieng'",
 		data_type = "on farm experiment",
 		data_institutions="IITA"
 	)
@@ -104,7 +104,7 @@ carob_script <- function(path){
 	d$yield <- (10000/d$plot_area_harvest) * d$dry_weight_sub_grains_sep_husks
 
 	#RH removing fiels with zero area. Please check if this is necessary.
-	message("    Effie Ochieng, please check")
+	message("    Effie Ochieng', please check")
 	i <- d$plot_area_harvest == 0
 	d$residue_yield[i] <- NA
 	d$yield[i] <- NA
