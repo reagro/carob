@@ -17,7 +17,7 @@ carob_script <- function(path) {
 
   uri<- "hdl :11529/11020"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "crop_cuts"
+  group <-  "crop_cuts"
   ## dataset level data 
   dset <- data.frame(
     dataset_id = dataset_id,
@@ -111,7 +111,7 @@ carob_script <- function(path) {
     
     d$yield <- d$`Average yield kg/ha or (Q1+Q2)/2`
   #what plant part does yield refer to?
-  d$yield_part <- d$`Dry wt of cobs in (4mX4m) Q1`+d$`Dry wt of cobs /Q2`
+  d$yield_part <-  d$`Dry wt of cobs in (4mX4m) Q1`+d$`Dry wt of cobs /Q2`
   
   
   # all scripts must end like this
