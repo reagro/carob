@@ -112,10 +112,10 @@ carob_script <- function(path) {
 ## see carobiner::fix_name
 	d$crop <- "wheat"
 
-
+ 
 ##### Yield #####
 
-	d$yield <- d$YLD
+	d$yield <- d$YLD 
 
 	#####replication###
 	d$rep<-d$Rep
