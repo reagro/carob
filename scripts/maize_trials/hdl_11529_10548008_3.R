@@ -86,7 +86,7 @@ carob_script <- function(path) {
   ## see carobiner::fix_name
   d9$crop <- d9$`Types of Trial`
     d9$variety <- d9$Variety 
-    d9$trial_id <- d9$Trial code
+    d9$trial_id <- d9$`Trial Code`
     
     ##### Time #####
   ## time can be year (four characters), year-month (7 characters) or date (10 characters).
@@ -125,7 +125,7 @@ carob_script <- function(path) {
     #what plant part does yield refer to?
     d9$yield_part <- NA 
     
-  d9 <- d9[,c("dataset_id","on_farm","is_survey","is_experiment","irrigated","season","country","site","adm1", "longitude","latitude","crop","variety","planting_date","harvest_date","emergence","flowering","maturity","harvest")]
+  d9 <- d9[,c("dataset_id","on_farm","is_survey","is_experiment","irrigated","season","country","site","adm1", "longitude","latitude","crop","variety","trial_id","planting_date","harvest_date","emergence","flowering","maturity","harvest")]
     
 #######################################END OF 4- Stand counts & Phenology #####################################################################
   
@@ -311,46 +311,64 @@ carob_script <- function(path) {
     d12$elevation <- NA
   ## each site must have corresponding longitude and latitude
   ## see carobiner::geocode
-  d$longitude <- 
-    d$latitude <- 
-    
+    d12$longitude[d12$adm1=="Kolkondo"] <- 89.7873
+    d12$latitude[d12$adm1=="Kolkondo"] <- 25.9318 
+    d12$longitude[d12$adm1=="Mohanpur"] <- 86.0106
+    d12$latitude[d12$adm1=="Mohanpur"] <- 25.7196
+    d12$longitude[d12$adm1=="Lakkhhitari"] <- 89.2611
+    d12$latitude[d12$adm1=="Lakkhhitari"] <- 25.7494
+  
     ##### Crop #####
   ## normalize variety names
   ## see carobiner::fix_name
-  d$crop <- 
-    d$variety <- 
+  d12$crop <- d12$`Types of Trial`
+    d12$variety <- NA
+    d12$trial_id <- d12$`Trial Code`
     
     ##### Time #####
   ## time can be year (four characters), year-month (7 characters) or date (10 characters).
   ## use 	as.character(as.Date()) for dates to assure the correct format.
-  d$planting_date <- as.character(as.Date(   ))
-  d$harvest_date  <- as.character(as.Date(    ))
+  d12$planting_date <- NA
+  d12$harvest_date  <- NA
   
   ##### Fertilizers #####
   ## note that we use P and K, not P2O5 and K2O
   ## P <- P2O5 / 2.29
   ## K <- K2O / 1.2051
-  d$P_fertilizer <- 
-    d$K_fertilizer <-
-    d$N_fertilizer <- 
-    d$S_fertilizer <- 
-    d$lime <- 
+  #MOP-Murate of Potash
+  #TSP-Tripple Super Phosphate
+  d12$P_fertilizer <- d12$`TSP (kg/ha)`
+  d12$K_fertilizer <- d12$`K    (kg/ha)`
+  d12$N_fertilizer <- d12$`N    (kg/ha)`
+  d12$S_fertilizer <- d12$`S   (kg/ha)` 
+  d12$lime <- NA
+  d12$Zn_fertilizer <- d12$`Zn (kg/ha)`
+  
     ## normalize names 
-    d$fertlizer_type <- 
-    d$inoculated <- TRUE/FALSE
-  d$inoculant <- 
+  
+  
+  d12$fertlizer_type_1 <- d12$ `Product used...12`
+  d12$fertlizer_type_2 <- d12$`Product used...19`
+  d12$fertlizer_type_3 <- d12$`Product used...26`
+  d12$fertlizer_type_4 <- d12$`Product used...33`
+  d12$fertlizer_type_5 <- d12$`Product used...40`
+
+    d12$inoculated <- TRUE/FALSE
+  d12$inoculant <- NA 
     
     ##### in general, add comments to your script if computations are
     ##### based on information gleaned from metadata, a publication, 
     ##### or when they are not immediately obvious for other reasons
     
     ##### Yield #####
-  d$biomass_total <- 
+  d12$biomass_total <- NA
     
-    d$yield <- 
+    d12$yield <- NA
     #what plant part does yield refer to?
-    d$yield_part <- 
+    d12$yield_part <- NA
  
+    d12 <- d12[,c("dataset_id","is_survey","on_farm","is_experiment","irrigated","country","site","adm1","longitude","latitude","treatment","crop","trial_id","P_fertilizer","N_fertilizer","K_fertilizer","S_fertilizer","Zn_fertilizer","fertlizer_type_1","fertlizer_type_2","fertlizer_type_3","fertlizer_type_4","fertlizer_type_5","Urea (kg/ha)","MOP(kg/ha)","TSP (kg/ha)","Gypsum(Kg/ha)","ZnSO4 (kg/ha)")]
+    
 #######################################END OF 6 - Fertilizer amounts #################################################################################       
     
     # all scripts must end like this
