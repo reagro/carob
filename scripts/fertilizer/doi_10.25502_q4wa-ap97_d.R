@@ -20,7 +20,7 @@ carob_script <- function(path){
 		uri = uri,
 		publication = NA,
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Rwanda, 2011 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/Q4WA-AP97/D",
-		carob_contributor = "Effie Ochieng",
+		carob_contributor = "Effie Ochieng'",
 		data_type = "fertilizer",
 		data_institutions="IITA"
 	)

@@ -22,7 +22,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 		publication = NA,
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, 
 		F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa farm monitoring - Mozambique, 2012 - 2013 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/HWDB-P578",
-		carob_contributor = "Effie Ochieng",
+		carob_contributor = "Effie Ochieng'",
 		data_type = "on-farm experiment",
 		data_institutions="IITA"
 	)
@@ -109,7 +109,7 @@ old_carob_script <- function(path){
 		publication = NA,
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, 
 		F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa farm monitoring - Mozambique, 2012 - 2013 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/HWDB-P578",
-		carob_contributor = "Effie Ochieng",
+		carob_contributor = "Effie Ochieng'",
 		data_type = "on-farm experiment",
 		data_institutions="IITA"
 	)
