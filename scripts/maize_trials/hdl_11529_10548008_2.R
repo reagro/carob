@@ -118,7 +118,7 @@ carob_script <- function(path) {
     #what plant part does yield refer to?
     d5$yield_part <- NA 
     
-    d5 <- d5[,c("dataset_id","on_farm","is_survey","is_experiment","irrigated","country","site","adm1","longitude","latitude","season","treatment","trial_id","crop","variety","planting_date","harvest_date","inoculated","inoculant","emergence","flowering","maturity","harvest")]
+    d5 <- d5[,c("dataset_id","on_farm","is_survey","is_experiment","irrigated","country","site","adm1","longitude","latitude","season","treatment","trial_id","crop","variety","planting_date","harvest_date","inoculated","inoculant","biomass_total","emergence","flowering","maturity","harvest")]
 
 ################################################END OF 4- stand counts & Phenology############################################################################################################################################################################################
     
