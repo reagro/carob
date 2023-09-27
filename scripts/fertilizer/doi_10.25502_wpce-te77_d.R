@@ -40,8 +40,8 @@ carob_script <- function(path) {
    
    ### process file()
    
-   d <- r[,c("ID","Country","City","REP_NO","YIELD","BIOM","PLHT","SWT100","DM")]
-    colnames(d) <- c("ID","country","location","rep","yield","biomass_total","plant_height","grain_weight","maturity")
+   d <- r[,c("ID","Country","City","REP_NO","DESIGNATION","YIELD","BIOM","PLHT","SWT100","DM","HARVEST")]
+    colnames(d) <- c("ID","country","location","rep","variety","yield","biomass_total","plant_height","grain_weight","maturity","harvest")
    
     # add columns
     d$crop <- "soybean" 
@@ -59,6 +59,7 @@ carob_script <- function(path) {
    d$longitude[d$location=="NAMPULA"] <- 39.2707752
    d$latitude[d$location=="NAMPULA"] <- -14.966969
    d$country <- carobiner::fix_name(d$country,"title") 
+   d$harvest[d$harvest< 45]<- NA
    d$yield_part<- "seed" 
    
     # all scripts must end like this
