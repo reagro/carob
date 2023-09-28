@@ -35,8 +35,8 @@ carob_script <- function(path) {
   f <- ff[basename(ff) == "CSISA_OD_RiceCropCut_AllYearRawDataFinal.csv"]
   d <- read.csv(f)
   
-  d$trial_id <- paste(1:nrow(r),r$FID, sep = "_")
-  d <- carobiner::change_names(r,c("Year","Season","District_Name","CEM","VAR","DOS","DOT","DOH","Latitude","Longitude"),c("year","season","adm2","treatment","variety","planting_date","transplanting_date","harvest_date","latitude","longitude"))
+  d$trial_id <- paste(1:nrow(d),d$FID, sep = "_")
+  d <- carobiner::change_names(d,c("Year","Season","District_Name","CEM","VAR","DOS","DOT","DOH","Latitude","Longitude"),c("year","season","adm2","treatment","variety","planting_date","transplanting_date","harvest_date","latitude","longitude"))
   d$country <- "India"
   d$adm1 <- "Odisha"
   d$crop <- "rice"
