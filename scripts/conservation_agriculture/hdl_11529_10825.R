@@ -86,16 +86,17 @@ On-farm demonstration plots were set in Zambia to demonstrate the effects of con
   
   # Pick unique coordinates of the location
   locs <- unique(d[,c("country","location","adm1")])
-  
+ 
+##RH do not run carobiner::geocode in the script!
+## use the most detailed info for geocoding and add the output to the script
+ 
   # Get the geo coordinates of the location
   #geocodes <- carobiner::geocode(country=locs$country,location=locs$location,adm1=locs$adm1)
-  geocodes <- carobiner::geocode(country=locs$country,location=locs$adm1)
-  geocodes1 <- geocodes$df
+#  geocodes <- carobiner::geocode(country=locs$country,location=locs$adm1)
+#  geocodes1 <- geocodes$df
   
-  geocodes2 <- geocodes1 %>%
-    rename(longitude=lon,latitude = lat,adm1=location)
   
-  mergeddf <- merge(d,geocodes2,by=c("country","adm1"))
+#  mergeddf <- merge(d,geocodes2,by=c("country","adm1"))
   
     
     # all scripts must end like this
