@@ -1,14 +1,7 @@
 # R script for "carob"
 
-path<-getwd()
-# install.packages("remotes")
-# install.packages("httr")
-# 
-# 
-# remotes::install_github("reagro/carobiner")
 # ## ISSUES
 # ....
-
 
 carob_script <- function(path) {
   
@@ -46,16 +39,19 @@ carob_script <- function(path) {
   f <- ff[basename(ff) == "TAMASA_ET_CC_2016F.xlsx"]
   
   # Select sheeet with revised data from the excel file 
-  d <- carobiner::read.excel(f, sheet = "Revised_Data")
-  
-  #r <- readxl::read_excel(f,sheet = 5) |> as.data.frame() ''alternative to read excel''
-  
+  r <- carobiner::read.excel(f, sheet = "Revised_Data")
   
   #### about the data #####
-  ## (TRUE/FALSE)
-  
-  d$dataset_id <- dataset_id
-  d$on_farm <- TRUE
+
+    # selecting columns of interest which match the carob standard format#
+#    d <- d[,c("dataset_id","rep","date","on_farm","adm1","adm2","is_survey","is_experiment","irrigated","yield","crop","location","site","country","yield_part","row_spacing","plant_spacing")]
+
+    
+    #d$trial_id <- d$`HH-ID`
+	d <- data.frame(adm1=r$Zone, adm2=r$Districts, location=r$Kebele, site=r$Community)
+	d$country <- "Ethiopia"
+	d$dataset_id <- dataset_id
+	d$on_farm <- TRUE
     d$is_survey <- TRUE
     d$is_experiment <- FALSE
     d$irrigated <- FALSE
@@ -66,14 +62,6 @@ carob_script <- function(path) {
     ##### Location #####
   ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
   ## you can use carobiner::fix_name()
-  d$country <- "Ethiopia"
-    
-    #d$trial_id <- d$`HH-ID`
-    d$adm1 <- d$Zone
-    d$adm2 <- d$Districts
-    d$location <- d$Kebele
-    d$site <- d$Community
-    d$date <- as.character(d$Date)
     d$on_farm <- TRUE
     d$row_spacing <- d$`Row Distance (cm)`
     d$plant_spacing <- d$`Plant Distance (cm)`
@@ -82,45 +70,39 @@ carob_script <- function(path) {
     d$rep <- d$`Quadrant no.`
     d$yield <- d$`Grain yield (kg/ha)`
 
-    # selecting columns of interest which match the carob standard format
-    d <- d[,c("dataset_id","rep","date","on_farm","adm1","adm2","is_survey","is_experiment","irrigated","yield",
-              "crop","location","site","country","yield_part","row_spacing","plant_spacing")]
     
-    
-    
+	d$date=as.character(as.Date(r$Date, "%d/%m/%Y"))
+        
     # Pick unique coordinates of the location
+	## should use this:
+    locs <- unique(d[,c("country","adm2", "location", "site")]) 
    
-    locs <- unique(d[,c("country","adm2")]) # adm2 is the district
-    locs <- na.omit(locs)# remove null values
-
+   
+#    locs <- unique(d[,c("country","adm2")]) # adm2 is the district
+#    locs <- na.omit(locs)# remove null values
     # Get the geo coordinates of the location
-    
-    geocodes <- carobiner::geocode(country=locs$country,location=locs$adm2) # we use district level as the location
-    geocodes1 <- geocodes$df
+    # we use district level as the location
+## RH that is not OK. Use the best information you have
+
+## RH do not run carobiner::geocode in the script. 
+## Run it once and store the output in the script
+#    geocodes <- carobiner::geocode(country=locs$country,location=locs$adm2) 
+#    geocodes1 <- geocodes$df
     
     # use this link to get gps coordinates https://www.gps-coordinates.net/
-    geocodes1$lon[geocodes1$location=="Gobu sayo"] <- 35
-    geocodes1$lat[geocodes1$location=="Gobu sayo"] <- 8.83333
+#    geocodes1$lon[geocodes1$location=="Gobu sayo"] <- 35
+#    geocodes1$lat[geocodes1$location=="Gobu sayo"] <- 8.83333
     
-    geocodes1$lon[geocodes1$location=="Tiro Afeta"] <- 37.33333
-    geocodes1$lat[geocodes1$location=="Tiro Afeta"] <- 7.91667
+#    geocodes1$lon[geocodes1$location=="Tiro Afeta"] <- 37.33333
+#    geocodes1$lat[geocodes1$location=="Tiro Afeta"] <- 7.91667
     
-    # rename columns
-    geocodes2 <- geocodes1 %>%
-      rename(longitude=lon,latitude = lat,adm2=location)
-    
+#    geocodes1 <- change_names(geocodes1, c("lon", "lat"), c("longitude", "latitude")
+
     # Merge dataframes
-    mergeddf <- merge(d,geocodes2,by=c("country","adm2"),all.x=TRUE)
+#    mergeddf <- merge(d, geocodes2, by=c("country","adm2"),all.x=TRUE)
 
- 
-
- 
     
     # all scripts must end like this
    carobiner::write_files(dset, d, path=path)
 }
-
-## now test your function in a clean R environment 
-#path <- getwd()
-#carob_script(path)
 
