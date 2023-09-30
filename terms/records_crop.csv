@@ -1,7 +1,7 @@
 name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes,obo
 planting_date,character,,yes,,no,,,yes,"Planting date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,http://purl.obolibrary.org/obo/AGRO_00010099
 transplanting_date,character,,no,,no,,,yes,"Transplanting date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
-harvest_date,character,,yes,,no,,,yes,"Harvest date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
+harvest_date,character,,no,,no,,,yes,"Harvest date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
 season,character,,no,,no,,,yes,Season name,,
 on_farm,logical,,no,,no,,,yes,Is this observation on farm (not on station),,http://purl.obolibrary.org/obo/AGRO_00000601
 is_survey,logical,,no,,no,,,yes,Is this observation from a survey (not an experiment),,
