@@ -3,6 +3,7 @@
 # ## ISSUES
 # ....
 
+
 carob_script <- function(path) {
   
   "Description:
@@ -42,10 +43,6 @@ carob_script <- function(path) {
   r <- carobiner::read.excel(f, sheet = "Revised_Data")
   
   #### about the data #####
-
-    # selecting columns of interest which match the carob standard format#
-#    d <- d[,c("dataset_id","rep","date","on_farm","adm1","adm2","is_survey","is_experiment","irrigated","yield","crop","location","site","country","yield_part","row_spacing","plant_spacing")]
-
     
     #d$trial_id <- d$`HH-ID`
 	d <- data.frame(adm1=r$Zone, adm2=r$Districts, location=r$Kebele, site=r$Community)
