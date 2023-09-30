@@ -1,6 +1,5 @@
 # R script for "carob"
 
-# remotes::install_github("reagro/carobiner")
 # ## ISSUES 
 
 #RH: this is 
@@ -38,32 +37,33 @@ carob_script <- function(path) {
   
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  dset$license <- carobiner::get_license(js)
+  dset$license <- "not specified" #carobiner::get_license(js)
   
   
   f <- ff[basename(ff) == "APSIM-IrrXN- rabi maize 2015-16-SRFSI-OFRD-Rangpur.xlsx"]
   
   # Select sheet with revised data from the excel file 
-  d <- carobiner::read.excel(f, sheet = "Stat")
+  r <- carobiner::read.excel(f, sheet = "Stat")
    
   #### about the data #####
   ## (TRUE/FALSE)
   
+  d <- data.frame(plant_height = r$`Plant height`, yield = r$`Grain Yield`*1000)
+
   d$dataset_id <- dataset_id
   d$on_farm <- FALSE
   d$is_survey <- FALSE
-  d$is_experiment <- FALSE
-  d$irrigated <- ifelse(d$Irrigation=="I1",FALSE,TRUE)
+  d$irrigated <- r$Irrigation=="I1"
   ## the treatment code	
 
 	d$treatment <- 
-		ifelse(d$Irrigation == "I5",
+		ifelse(r$Irrigation == "I5",
              "CT Maize (6 irrigations) (irrig at V4, V8, V12, tasseling, milking, soft-dough)",
-        ifelse(d$Irrigation == "I4",
+        ifelse(r$Irrigation == "I4",
              "ST Maize (6 irrigations) (irrig at V4, V8, V12, tasseling, milking, soft-dough)",
-        ifelse(d$Irrigation == "I3",
+        ifelse(r$Irrigation == "I3",
              "ST Maize (4 irrigations) (irrig at V6, V10, tasseling, soft-dough)",
-        ifelse(d$Irrigation == "I2",
+        ifelse(r$Irrigation == "I2",
               "ST Maize (2 irrigations) (irrig at V6, tasseling)",
               "ST Maize (0 irrigations)"
          )))
@@ -77,18 +77,14 @@ carob_script <- function(path) {
   #d$trial_id <- d$`HH-ID`
   d$latitude <- 25.72093 # Gps are available from General and Phenology sheet
   d$longitude <- 89.26442
-  d$planting_date <- as.Date("23/11/2015", format = "%d/%m/%Y")
+  d$planting_date <- "2015-11-23"
   d$yield_part <- "grain"
-  d$plant_height <- d$`Plant height`
   d$variety <-  "Kavery25K60"
   d$crop <-"maize"
-  d$yield <- d$`Grain Yield`*1000
-  
-  # selecting columns of interest which match the carob standard format
-  d <- d[,c("dataset_id","planting_date","on_farm","is_survey","is_experiment","irrigated","yield","latitude",
-            "longitude","crop","country","yield_part","plant_height","variety","plant_spacing","treatment")]
 
-  
+
+print("many more variables need to be included")  
+ 
   # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
 }

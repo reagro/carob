@@ -1,5 +1,4 @@
 
-# setwd("~/CIMMYT_Geonutrition/carob")
 carob_script <- function(path) {
   
   "Physical topsoil properties in Murugusi, Western Kenya"
@@ -22,44 +21,29 @@ carob_script <- function(path) {
   )
   
   ## download data from the uri provided
-  ff<- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=4)
   
   # No need to read the table with MIR data
-  f0 <- ff[basename(ff) == "02 soil_samples-data.xlsx"]
-  d0 <- data.frame(carobiner::read.excel(f0))
-  
+  f <- ff[basename(ff) == "02 soil_samples-data.xlsx"]
+  r <- data.frame(carobiner::read.excel(f))
 
-  # Define the UTM zone (Zone 36N in this case)
-  utm_zone <- "+proj=utm +zone=36 +datum=WGS84"
-  
-  # Convert UTM to geographic (latitude and longitude) coordinates
-  utm_data_sp <- sp::SpatialPoints(data.frame(d0$POINT_X_utm36N,d0$POINT_Y_utm36N), proj4string = sp::CRS(utm_zone))
-  latlong_data <- sp::spTransform(utm_data_sp, sp::CRS("+proj=longlat +datum=WGS84"))
-  
+  d <- carobiner::change_names(r[, -c(2:3)], c("Lab_id", "bd_020","TC_020", "clay_020", "sand_020"), 
+			c('trial_id', 'soil_bd','soil_total_carbon', 'soil_clay', 'soil_sand'))
+					
+    v <- terra::vect(as.matrix(r[, c("POINT_X_utm36N", "POINT_Y_utm36N")]), 
+							crs="+proj=utm +zone=36")
+	v <- terra::project(v, "+proj=longlat") |> terra::crds()
   # Extract latitude and longitude values
-  d0$latitude <- sp::coordinates(latlong_data)[, 2]
-  d0$longitude <- sp::coordinates(latlong_data)[, 1]
+	d$latitude <- v[,2]
+	d$longitude <- v[,1]
   
-
-	# drop columns nitrogen_acid, exna, exbas, ESR, ESP, CaMg
-  rd <- which(colnames(d0) %in% c("Lab_id", "POINT_X_utm36N", 'POINT_Y_utm36N'))
-  
-  d0 <- d0[,-rd]
-  
-	hd <- c('soil_bd','soil_total_carbon', 'soil_clay', 'soil_sand','latitude','longitude')
+	d$country <-  'Kenya'
 	
-	colnames(d0) <- hd
+	d$soil_sample_depth_top <- 0
+	d$soil_sample_depth_bottom <- 20
 	
-	d0$country <-  'Kenya'
-	
-	d0$soil_top <- 0
-	
-	d0$soil_bottom <- 20
-	
-	d0 <- d0[,c('longitude', 'latitude', 'country', 'soil_top', 'soil_bottom', 'soil_bd', 'soil_total_carbon', 'soil_clay', 'soil_sand')]
-
-	carobiner::write_files(dset, d0, path=path)
+	carobiner::write_files(dset, d, path=path)
 }
 
 

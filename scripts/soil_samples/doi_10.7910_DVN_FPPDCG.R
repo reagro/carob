@@ -21,9 +21,11 @@ carob_script <- function(path) {
   )
   
   ## download data from the uri provided
-  ff<- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-  
+  dset$license <- carobiner::get_license(js)$name
+ 
+  ##RH why not?
   # No need to read the table with MIR data
   #f0 <- ff[basename(ff) == "Infrared MIR.csv"]
   #d0 <- data.frame(read.csv2(f0, sep = ","))
@@ -46,7 +48,7 @@ carob_script <- function(path) {
 	colnames(d1) <- c('SSN', hd)
 	
 	# Select from d2 , records from cluster 1 and plot 1 which were analyzed for wet chemistry
-	d2 <- d2 |> subset(Plot == '1')
+	d2 <- subset(d2, Plot == '1')
 	# merge d1 and d2 tables
 	# d <- merge(d2,d1, by = 'SSN')
 	# 
@@ -73,6 +75,8 @@ carob_script <- function(path) {
 	# # Drop id, original_id, year and district columns from d
 	# k <- which(colnames(d) %in% c("id", "original_id", "year", "district"))
 	# carobiner::write_files(dset, d[,-k], path=path)
+	
+	carobiner::write_files(dset, d1, path=path)
 }
 
 

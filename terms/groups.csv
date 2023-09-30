@@ -6,5 +6,6 @@ rice_trials,crop; soil,rice variety trials
 wheat_trials,crop; soil,wheat variety trials
 lateblight,crop; soil,potato lateblight trials
 biofortification,crop; soil,agronomic biofortification trials
-soil_samples,,soil sampling data
+soil_samples,soil,soil sampling data
 conservation_agriculture,crop; soil,conservation agriculture trials
+simulation,crop; soil,crop simulation trials

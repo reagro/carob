@@ -8,7 +8,7 @@ adm2,character,,no,,no,,,yes,Second level administrative subdivision (within the
 adm3,character,,no,,no,,,yes,Third level administrative subdivision (within the second level subdivision),follow GADM,http://purl.obolibrary.org/obo/ENVO_00000007
 adm4,character,,no,,no,,,yes,Fourth level administrative subdivision (within the third level subdivision),follow GADM,http://purl.obolibrary.org/obo/ENVO_00000008
 adm5,character,,no,,no,,,yes,Fifth level administrative subdivision (within the fourth level subdivision),follow GADM,
-location,character,,yes,,no,,,yes,"Name of the location where the location was made. E.g., a place name or locality description.",,http://purl.obolibrary.org/obo/ENVO_00000114
+location,character,,no,,no,,,yes,"Name of the location where the location was made. E.g., a place name or locality description.",,http://purl.obolibrary.org/obo/ENVO_00000114
 site,character,,no,,no,,,yes,Name of the sub-location where the observation was made,,
 reference,character,,no,,no,,,yes,Reference to source if the data set is a compilation,,
 longitude,numeric,degrees,yes,,no,-180,180,no,Longitude of the location where the observation was made (in decimal notation),,
