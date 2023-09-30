@@ -1,5 +1,4 @@
 
-# setwd("~/CIMMYT_Geonutrition/carob")
 carob_script <- function(path) {
   
 " Description:
@@ -7,7 +6,7 @@ Dataset for: Agronomic log of small potato farmers during the 2021-2022 campaign
   
 	uri <- "hdl:11529/10548646"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "soil"
+	group <- "soil_samples"
   
 	## data set level data 
 	dset <- data.frame(

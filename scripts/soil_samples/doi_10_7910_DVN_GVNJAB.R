@@ -6,7 +6,7 @@ carob_script <- function(path) {
   
   uri <- "doi:10.7910/DVN/GVNJAB"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "soil"
+  group <- "soil_samples"
   dset <- data.frame(
     dataset_id =dataset_id,
     group=group,

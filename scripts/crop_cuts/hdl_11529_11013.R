@@ -50,7 +50,7 @@ carob_script <- function(path) {
 	d$dataset_id <- dataset_id
 	d$on_farm <- TRUE
     d$is_survey <- TRUE
-    d$is_experiment <- FALSE
+    #d$is_experiment <- FALSE
     d$irrigated <- FALSE
     ## the treatment code	
     #d$treatment <- 
