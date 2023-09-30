@@ -16,13 +16,14 @@ carob_script <- function(path) {
     ## also add a RIS file in references folder (with matching doi)
     publication= NA,
     data_institutions = "CIAT",
-    data_type="on-farm experiment", 
+    data_type = "soil properties", 
     carob_contributor="Andrew M. Sila"  
   )
   
   ## download data from the uri provided
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=4)
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=4)
+	dset$license <- carobiner::get_license(js)
   
   # No need to read the table with MIR data
   f <- ff[basename(ff) == "02 soil_samples-data.xlsx"]
@@ -39,6 +40,7 @@ carob_script <- function(path) {
 	d$longitude <- v[,1]
   
 	d$country <-  'Kenya'
+    d$dataset_id =dataset_id
 	
 	d$soil_sample_depth_top <- 0
 	d$soil_sample_depth_bottom <- 20
