@@ -1,12 +1,10 @@
 # R script for "carob"
 
-path<-getwd()
-# install.packages("remotes")
-# install.packages("httr")
-# 
-# 
 # remotes::install_github("reagro/carobiner")
 # ## ISSUES 
+
+#RH: this is 
+
 
 # ....
 
@@ -20,17 +18,14 @@ carob_script <- function(path) {
   
   uri <- "hdl:11529/10548052"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "maize_trials"
+  group <- "simulation"
   ## dataset level data 
   dset <- data.frame(
     dataset_id = dataset_id,
     group=group,
     project=NA,
     uri=uri,
-    data_citation="Gaydon, Don (CSIRO-Australia) - ORCID: 0000-0002-0078-4154
-                  Laing, Alison (CSIRO-Australia) - ORCID: 0000-0001-8984-7029
-                 Poulton, Perry (CSIRO-Australia) - ORCID: 0000-0003-1341-5056
-                 SRFSI team",
+    data_citation="Gaydon, Don; Laing, Alison; Poulton, Perry; SRFSI team, 2018. 7.2-APSIM-BARI OFRD-Rangpur-on-station research trials-SRFSI Project-ACIAR-CIMMYT, https://hdl.handle.net/11529/10548052, CIMMYT Research Data & Software Repository Network, V2",
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)
     publication= NA,
@@ -48,12 +43,9 @@ carob_script <- function(path) {
   
   f <- ff[basename(ff) == "APSIM-IrrXN- rabi maize 2015-16-SRFSI-OFRD-Rangpur.xlsx"]
   
-  # Select sheeet with revised data from the excel file 
+  # Select sheet with revised data from the excel file 
   d <- carobiner::read.excel(f, sheet = "Stat")
-  
-  #r <- readxl::read_excel(f,sheet = 5) |> as.data.frame() ''alternative to read excel''
-  
-  
+   
   #### about the data #####
   ## (TRUE/FALSE)
   
@@ -64,25 +56,20 @@ carob_script <- function(path) {
   d$irrigated <- ifelse(d$Irrigation=="I1",FALSE,TRUE)
   ## the treatment code	
 
-d$treatment <- ifelse(d$Irrigation == "I5",
-                      "CT Maize (6 irrigations) (irrig at V4, V8, V12, tasseling, milking, soft-dough)",
-                      ifelse(d$Irrigation == "I4",
-                             "ST Maize (6 irrigations) (irrig at V4, V8, V12, tasseling, milking, soft-dough)",
-                             ifelse(d$Irrigation == "I3",
-                                    "ST Maize (4 irrigations) (irrig at V6, V10, tasseling, soft-dough)",
-                                    ifelse(d$Irrigation == "I2",
-                                           "ST Maize (2 irrigations) (irrig at V6, tasseling)",
-                                           "ST Maize (0 irrigations)"
-                                    )
-                             )
-                      )
-)
+	d$treatment <- 
+		ifelse(d$Irrigation == "I5",
+             "CT Maize (6 irrigations) (irrig at V4, V8, V12, tasseling, milking, soft-dough)",
+        ifelse(d$Irrigation == "I4",
+             "ST Maize (6 irrigations) (irrig at V4, V8, V12, tasseling, milking, soft-dough)",
+        ifelse(d$Irrigation == "I3",
+             "ST Maize (4 irrigations) (irrig at V6, V10, tasseling, soft-dough)",
+        ifelse(d$Irrigation == "I2",
+              "ST Maize (2 irrigations) (irrig at V6, tasseling)",
+              "ST Maize (0 irrigations)"
+         )))
+	)
 
-
-
-
-  
-  ##### Location #####
+   ##### Location #####
   ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
   ## you can use carobiner::fix_name()
   d$country <- "Bangladesh"
@@ -103,10 +90,5 @@ d$treatment <- ifelse(d$Irrigation == "I5",
 
   
   # all scripts must end like this
-  #carobiner::write_files(dset, d, path=path)
+  carobiner::write_files(dset, d, path=path)
 }
-
-## now test your function in a clean R environment 
-#path <- getwd()
-carob_script(path)
-

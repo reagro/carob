@@ -6,7 +6,6 @@
 
 "
 
-path <- getwd()
 carob_script <- function(path) {
   
   "Description:

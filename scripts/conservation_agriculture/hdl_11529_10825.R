@@ -8,8 +8,7 @@ carob_script <- function(path) {
   
   "Description:
   
-
-    [copy the abstract from the repo]
+On-farm demonstration plots were set in Zambia to demonstrate the effects of conservation agriculture (CA) technologies as compared to the traditional farmers practice (ploughing with a mouldboard plough). The CA treatments included basins (BA), ripping (RI) and direct seeding with a direct seeder (DS) and direct seeding with a jab planter (JP). Also superimposed to the treatments are rotations and intercropping of maize with a grain legume (either soyabean or cowpea) and these are compared with continuous maize planting. The study is carried out in various communities of Zambia. Thus, the data set presents yields for maize and the legumes from these sites over 9 seasons (2006-2015). (2016-12-08)
 
 "
   
@@ -22,7 +21,7 @@ carob_script <- function(path) {
     group=group,
     project=NA,
     uri=uri,
-    data_citation="Thierfelder, Christian; (CIMMYT, Zimbabwe); ORCID; 0000-0002-6306-7670",
+    data_citation="Thierfelder, Christian, 2016. Facilitating the widespread adoption of conservation agriculture in maize-based systems in Zambia. https://hdl.handle.net/11529/10825, CIMMYT Research Data & Software Repository Network, V3",
     publication=NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
@@ -40,10 +39,10 @@ carob_script <- function(path) {
   f <- ff[basename(ff) == "Summary Zambia On-farm Demonstration 2006-2015.xls"]
   
   #r <- read.csv(f)
-  r <- readxl::read_excel(f,sheet = 1) |> as.data.frame()
-  r1 <- readxl::read_excel(f,sheet = 2) |> as.data.frame()
+  r <- carobiner::read.excel(f, sheet = "Zambia all sites all maize")
+  r1 <- carobiner::read.excel(f, sheet = "Zambia all legume all years")
   
-  
+    
   ## process file(s)
   
   
@@ -75,8 +74,7 @@ carob_script <- function(path) {
   d$borer_trial <- FALSE
   d$striga_infected <- FALSE
   #d$trial_id <- 
-  d <- d %>%
-    mutate(trial_id = as.character("treatment"))
+  d$trial_id = as.character(d$treatment)
   
   d <- d[,c("dataset_id","trial_id","harvest_date","on_farm","adm1","is_survey","irrigated","treatment","yield","residue_yield",
             "crop","rep","location","country","yield_part","striga_trial","borer_trial","striga_infected")]
