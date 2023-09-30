@@ -1,9 +1,10 @@
-name,description
-fertilizer,crop fertilizer trials
-crop_cuts,crop cut data
-maize_trials,maize variety trials
-rice_trials,rice variety trials
-wheat_trials,wheat variety trials
-lateblight,potato lateblight trials
-biofortification,agronomic biofortification data
-soil,soil data
+name,include,description
+fertilizer,crop,crop fertilizer trials
+crop_cuts,crop,crop cut data
+maize_trials,crop,maize variety trials
+rice_trials,crop,rice variety trials
+wheat_trials,crop,wheat variety trials
+lateblight,crop,potato lateblight trials
+biofortification,crop,agronomic biofortification trials
+soil,,soil sampling data
+conservation_agriculture,crop,conservation agriculture trials

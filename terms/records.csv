@@ -3,104 +3,15 @@ dataset_id,character,,yes,,no,,,no,"dataset identifier (normalized URI, that is:
 trial_id,character,,yes,,no,,,yes,Identifier of a single trial (that may have treatments and replicates); should be unique within dataset_id,,
 record_id,integer,,no,,no,,,no,Unique identifier for each records in a dataset (sequence from 1 to n),,
 country,character,,yes,country,no,,,no,Country name,,http://purl.obolibrary.org/obo/ENVO_00000009 
-adm1,character,,no,,no,,,yes,First level administrative subdivision,follow GADM,http://purl.obolibrary.org/obo/ENVO_00000005
+adm1,character,,yes,,no,,,yes,First level administrative subdivision,follow GADM,http://purl.obolibrary.org/obo/ENVO_00000005
 adm2,character,,no,,no,,,yes,Second level administrative subdivision (within the first level subdivision),follow GADM,http://purl.obolibrary.org/obo/ENVO_00000006
 adm3,character,,no,,no,,,yes,Third level administrative subdivision (within the second level subdivision),follow GADM,http://purl.obolibrary.org/obo/ENVO_00000007
 adm4,character,,no,,no,,,yes,Fourth level administrative subdivision (within the third level subdivision),follow GADM,http://purl.obolibrary.org/obo/ENVO_00000008
 adm5,character,,no,,no,,,yes,Fifth level administrative subdivision (within the fourth level subdivision),follow GADM,
-location,character,,no,,no,,,yes,"Name of the location where the location was made. E.g., a place name or locality description.",,http://purl.obolibrary.org/obo/ENVO_00000114
-site,character,,no,,no,,,yes,Name of the sub-location where the observation was made,,term asked in ENVO.
+location,character,,yes,,no,,,yes,"Name of the location where the location was made. E.g., a place name or locality description.",,http://purl.obolibrary.org/obo/ENVO_00000114
+site,character,,no,,no,,,yes,Name of the sub-location where the observation was made,,
 reference,character,,no,,no,,,yes,Reference to source if the data set is a compilation,,
 longitude,numeric,degrees,yes,,no,-180,180,no,Longitude of the location where the observation was made (in decimal notation),,
 latitude,numeric,degrees,yes,,no,-60,60,no,Latitude of the location where the observation was made (in decimal notation),,
 elevation,numeric,meter,no,,no,,,yes,Elevation above sea level,,
 date,character,,no,,no,,,yes,"Observation date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
-planting_date,character,,no,,no,,,yes,"Planting date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,http://purl.obolibrary.org/obo/AGRO_00010099
-transplanting_date,character,,no,,no,,,yes,"Transplanting date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
-harvest_date,character,,no,,no,,,yes,"Harvest date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
-season,character,,no,,no,,,yes,Season name,,
-on_farm,logical,,no,,no,,,yes,Is this observation on farm (not on station),,http://purl.obolibrary.org/obo/AGRO_00000601
-is_survey,logical,,no,,no,,,yes,Is this observation from a survey (not an experiment),,
-treatment,character,,no,,no,,,yes,Description of the treatment,,http://purl.obolibrary.org/obo/AGRO_00000370
-rep,integer,,no,,no,,,yes,"Replication number (1, 2, 3, ...) For this specific observation",,http://purl.obolibrary.org/obo/AGRO_00000318
-crop,character,,yes,crop,no,,,yes,Crop name(s),,http://purl.obolibrary.org/obo/AGRO_00000325
-variety,character,,no,,no,,,yes,Variety name,,
-variety_code,character,,no,,no,,,yes,Variety code (used by breeders),,
-variety_type,character,,no,,no,,,yes,variety grouping (e.g. climbing/bush),,
-intercrops,character,,no,crop,yes,,,yes,Other crop grown together with the main crop,,
-previous_crop,character,,no,crop,yes,,,yes,Crop grown on this plot in the prior season,,
-crop_rotation,character,,no,crop,yes,,,yes,Crops grown in rotation on this plot,,
-biomass_roots,numeric,kg/ha,no,,no,0,5000,yes,Dry-weight biomass of fine roots per unit area,,http://purl.obolibrary.org/obo/PO_0009005 
-biomass_stems,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of stems per unit area,,http://purl.obolibrary.org/obo/PO_0009047 
-biomass_leaves,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of leaves per unit area,,http://purl.obolibrary.org/obo/TO_0000870 
-biomass_storage,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of storage organs per unit area,,
-biomass_total,numeric,kg/ha,no,,no,0,50000,yes,Dry-weight total biomass per unit area,,http://purl.obolibrary.org/obo/PO_0000003
-yield_part,character,,yes,yield_part,no,,,no,"The part of the crop that ""yield"" refer to (e.g. grain, tubers, roots, leaves, fruit)",,
-yield,numeric,kg/ha,yes,,no,0,150000,yes,"Fresh weight biomass of the main harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000176 
-residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight biomass of the above ground biomass except for the harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000164 
-grain_weight,numeric,g,no,,no,0,1000,yes,1000 grain weight,,http://purl.obolibrary.org/obo/TO_0000382
-fertilizer_type,character,,no,fertilizer_type,yes,,,yes,Name of fertilizer used,,http://purl.obolibrary.org/obo/CHEBI_33287
-N_fertilizer,numeric,kg/ha,fertilizer,,no,0,600,no,N applied in inorganic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000158
-N_splits,integer,,no,,no,0,5,yes,Number of splits in the N_fertilizer application,,
-P_fertilizer,numeric,kg/ha,fertilizer,,no,0,250,no,"P applied in inorganic fertilizer (as P, not P2O5)",,http://purl.obolibrary.org/obo/AGRO_00000160 
-K_fertilizer,numeric,kg/ha,fertilizer,,no,0,300,no,"K applied in inorganic fertilizer (as K, not K2O)",,http://purl.obolibrary.org/obo/AGRO_00000201
-Zn_fertilizer,numeric,kg/ha,no,,no,0,100,yes,Zn applied in inorganic fertilizer,,
-S_fertilizer,numeric,kg/ha,no,,no,0,250,yes,S applied in inorganic fertilizer,,http://purl.obolibrary.org/obo/TO_0000658
-B_fertilizer,numeric,kg/ha,no,,no,0,100,yes,B applied in inorganic fertilizer,,
-Ca_fertilizer,numeric,kg/ha,no,,no,0,250,yes,Ca applied in inorganic fertilizer,,
-Mg_fertilizer,numeric,kg/ha,no,,no,0,250,yes,Mg applied in inorganic fertilizer,,
-lime,numeric,kg/ha,no,,no,0,10000,yes,lime applied,,
-gypsum,numeric,kg/ha,no,,no,0,10000,yes,gypsum applied,,
-OM_used,logical,,no,,no,,,yes,Organic fertilizer applied,,http://purl.obolibrary.org/obo/AGRO_00002039
-OM_type,character,,no,,yes,,,yes,Type of organic fertilzer applied,,http://purl.obolibrary.org/obo/AGRO_00002039
-OM_applied,numeric,kg/ha,no,,no,0,,yes,Amount of organic fertilizer applied,,http://purl.obolibrary.org/obo/AGRO_00010008
-OM_N,numeric,kg/ha,no,,no,0,,yes,N applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000158
-OM_P,numeric,kg/ha,no,,no,0,,yes,P applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000160
-OM_K,numeric,kg/ha,no,,no,0,,yes,K applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000201
-inoculated,logical,,no,,no,,,yes,Was the field inoculated (with Rhizobium),,
-inoculant,character,,no,,no,,,yes,Name of the inoculant product,,
-soil_type,character,,no,,yes,,,yes,Soil name or description,,http://purl.obolibrary.org/obo/AGRO_00010099
-soil_pH,numeric,,no,,no,3,9,yes,Soil pH (H2O),,http://purl.obolibrary.org/obo/ENVO_09200010
-soil_pH_KCl,numeric,,no,,no,3,9,yes,Soil pH (KCl),,http://purl.obolibrary.org/obo/ENVO_09200010
-soil_pH_CaCl2,numeric,,no,,no,3,10,yes,Soil pH (KCl),,http://purl.obolibrary.org/obo/ENVO_09200010
-soil_SOC,numeric,%,no,,no,0,20,yes,Soil organic carbon,,
-soil_sand,numeric,%,no,,no,0,100,yes,Soil sand content (excluding gravel),,
-soil_clay,numeric,%,no,,no,0,100,yes,Soil clay content (excluding gravel),,http://purl.obolibrary.org/obo/ENVO_00002982
-soil_silt,numeric,%,no,,no,0,100,yes,Soil silt content (excluding gravel),,
-soil_N,numeric,mg/kg,no,,no,1,10000,yes,Soil N content,,http://purl.obolibrary.org/obo/ENVO_09000017
-soil_K,numeric,mg/kg,no,,no,1,10000,yes,Soil K content,,
-soil_P_total,numeric,mg/kg,no,,no,1,1000,yes,Soil P (total) ,,
-soil_P_available,numeric,mg/kg,no,,no,0.01,200,yes,Soil P (plant available) ,,
-soil_Ca,numeric,mg/kg,no,,no,1,10000,yes,Soil Ca content,,
-soil_Mg,numeric,mg/kg,no,,no,1,10000,yes,Soil Mg content,,
-soil_B,numeric,mg/kg,no,,no,0,500,yes,Soil B content,,
-soil_Cu,numeric,mg/kg,no,,no,0,500,yes,Soil Cu content,,
-soil_Mn,numeric,mg/kg,no,,no,0,3000,yes,Soil Mn content,,
-soil_Fe,numeric,mg/kg,no,,no,0,20000,yes,Soil Fe content,,
-soil_S,numeric,mg/kg,no,,no,0,500,yes,Soil S content,,
-soil_Zn,numeric,mg/kg,no,,no,0,200,yes,Soil Zn content,,
-soil_total_carbon,numeric,%,no,,no,0,20,yes,Soil total carbon,,
-soil_EC,numeric,mS/cm,no,,no,0,20,yes,Soil electric conductivity,,
-soil_bd,numeric,g/cm^-3,no,,no,0,20,yes,Soil bulk density,,
-soil_top,numeric,cm,no,,no,0,200,yes,Soil top layer,,
-soil_bottom,numeric,cm,no,,no,0,200,yes,Soil bottom layer,,
-irrigated,logical,,no,,no,,,yes,Was the plot irrigated?,,http://purl.obolibrary.org/obo/AGRO_00000006
-tillage,character,,no,,no,,,yes,Tillage used,,http://purl.obolibrary.org/obo/AGRO_00000322
-uncertainty,numeric,,no,,no,0,,yes,Measure of noise in data ,,
-uncertainty_type,character,,no,,no,,,yes,Type of noise measure,,
-row_spacing,numeric,cm,no,,no,0,150,yes,Distance between rows,,
-plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,http://purl.obolibrary.org/obo/AGRO_00000316
-plant_density,numeric,plants/ha,no,,no,1000,3100000,yes,Number of plants per ha,,http://purl.obolibrary.org/obo/PCO_0000079
-rain,numeric,mm,no,,no,0,3000,yes,Total rainfall between planting and harvest,,http://purl.obolibrary.org/obo/ENVO_01000830
-emergence,numeric,,no,,no,3,30,yes,Days to emergence (after planting),,
-heading,numeric,,no,,no,25,300,yes,Days to heading (after planting),,
-flowering,numeric,,no,,no,15,250,yes,Days to flowering (after planting),,http://purl.obolibrary.org/obo/TO_0000344
-silking,numeric,,no,,no,30,125,yes,Days to silking (after planting),,
-maturity,numeric,,no,,no,45,300,yes,Days to maturity (after planting),,
-harvest,numeric,,no,,no,45,300,yes,Days to harvest (after planting),,
-plant_height,numeric,cm,no,,no,10,250,yes,Maximum plant height,,
-pathogen,character,,no,pathogen,yes,,,yes,Name of the pathogen studied,,
-AUDPC,numeric,,no,,no,0,150,yes,Area under the disease progress curve,,
-rAUDPC,numeric,,no,,no,0,1,yes,Area under the disease progress curve divided by the non-diseased season length,,
-weeds_biomass,numeric,kg/ha,no,,no,0,100000,yes,Fresh weight weeds biomass,,
-nodule_weight,numeric,?,no,,no,0,,yes,Fresh weight or root nodules,,
