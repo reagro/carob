@@ -17,7 +17,7 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIAT",
     data_type = "soil properties", 
-    carob_contributor="Andrew M. Sila"  
+    carob_contributor="Andrew Sila"  
   )
   
   ## download data from the uri provided

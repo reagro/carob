@@ -13,10 +13,11 @@ carob_script <- function(path) {
 
 	uri <- "hdl:11529/10842"
 	dataset_id <- carobiner::simple_uri(uri)
+	group <- "conservation_agriculture"
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
-		group="conservation_agriculture",
+		group=group,
 		project=NA,
 		uri=uri,
 		data_citation='Thierfelder, Christian; Blessing Mhlanga, 2016, "Monitoring and evaluation of the effects over time of conservation agriculture practices on crop yield, soil quality, weeds, pests and diseases., https://hdl.handle.net/11529/10842, CIMMYT Research Data & Software Repository Network, V1"',

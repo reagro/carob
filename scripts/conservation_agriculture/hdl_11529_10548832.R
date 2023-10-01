@@ -15,7 +15,7 @@ Grain yield data collected from Conservation Agriculture (CA) systems across exp
   
   uri <- "hdl:11529/10548832"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "maize_trials"
+  group <- "conservation_agriculture"
   ## dataset level data 
   dset <- data.frame(
     dataset_id = dataset_id,
