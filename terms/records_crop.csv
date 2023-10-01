@@ -23,7 +23,7 @@ yield_part,character,,yes,yield_part,no,,,no,"The part of the crop that ""yield"
 yield,numeric,kg/ha,yes,,no,0,150000,yes,"Fresh weight biomass of the main harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000176 
 residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight biomass of the above ground biomass except for the harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000164 
 grain_weight,numeric,g,no,,no,0,1000,yes,1000 grain weight,,http://purl.obolibrary.org/obo/TO_0000382
-fertilizer_type,character,,no,fertilizer_type,yes,,,yes,Name of fertilizer used,,http://purl.obolibrary.org/obo/CHEBI_33287
+fertilizer_type,character,,no,fertilizer,yes,,,yes,Name of fertilizer used,,http://purl.obolibrary.org/obo/CHEBI_33287
 N_fertilizer,numeric,kg/ha,fertilizer,,no,0,600,no,N applied in inorganic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000158
 N_splits,integer,,no,,no,0,5,yes,Number of splits in the N_fertilizer application,,
 P_fertilizer,numeric,kg/ha,fertilizer,,no,0,250,no,"P applied in inorganic fertilizer (as P, not P2O5)",,http://purl.obolibrary.org/obo/AGRO_00000160 
@@ -36,7 +36,7 @@ Mg_fertilizer,numeric,kg/ha,no,,no,0,250,yes,Mg applied in inorganic fertilizer,
 lime,numeric,kg/ha,no,,no,0,10000,yes,lime applied,,
 gypsum,numeric,kg/ha,no,,no,0,10000,yes,gypsum applied,,
 OM_used,logical,,no,,no,,,yes,Organic fertilizer applied,,http://purl.obolibrary.org/obo/AGRO_00002039
-OM_type,character,,no,,yes,,,yes,Type of organic fertilzer applied,,http://purl.obolibrary.org/obo/AGRO_00002039
+OM_type,character,,no,OM,yes,,,yes,Type of organic fertilzer applied,,http://purl.obolibrary.org/obo/AGRO_00002039
 OM_applied,numeric,kg/ha,no,,no,0,,yes,Amount of organic fertilizer applied,,http://purl.obolibrary.org/obo/AGRO_00010008
 OM_N,numeric,kg/ha,no,,no,0,,yes,N applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000158
 OM_P,numeric,kg/ha,no,,no,0,,yes,P applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000160
@@ -63,3 +63,27 @@ AUDPC,numeric,,no,,no,0,150,yes,Area under the disease progress curve,,
 rAUDPC,numeric,,no,,no,0,1,yes,Area under the disease progress curve divided by the non-diseased season length,,
 weeds_biomass,numeric,kg/ha,no,,no,0,100000,yes,Fresh weight weeds biomass,,
 nodule_weight,numeric,?,no,,no,0,,yes,Fresh weight or root nodules,,
+leaf_N,numeric,(mg kg-1),no,,no,,,yes,nitrogen in leaf,,
+leaf_K,numeric,(mg kg-1),no,,no,,,yes,potassium in leaf,,
+leaf_P,numeric,(mg kg-1),no,,no,,,yes,phosphorous in leaf,,
+leaf_S,numeric,(mg kg-1),no,,no,,,yes,sulphur in leaf,,
+leaf_Mg,numeric,(mg kg-1),no,,no,,,yes,calcium in leaf,,
+leaf_Ca,numeric,(mg kg-1),no,,no,,,yes,iron in leaf,,
+leaf_Fe,numeric,(mg kg-1),no,,no,,,yes,zinc in leaf,,
+leaf_Zn,numeric,(mg kg-1),no,,no,,,yes,zinc in leaf,,
+leaf_Cu,numeric,(mg kg-1),no,,no,,,yes,copper in leaf,,
+leaf_Mn,numeric,(mg kg-1),no,,no,,,yes,manganese in leaf,,
+leaf_B,numeric,(mg kg-1),no,,no,,,yes,boron in leaf,,
+leaf_Al,numeric,(mg kg-1),no,,no,,,yes,aluminium in leaf,,
+grain_N,numeric,(mg kg-1),no,,no,,,yes,nitrogen in grain,,
+grain_K,numeric,(mg kg-1),no,,no,,,yes,potassium in grain,,
+grain_P,numeric,(mg kg-1),no,,no,,,yes,phosphorous in grain,,
+grain_S,numeric,(mg kg-1),no,,no,,,yes,sulphur in grain,,
+grain_Mg,numeric,(mg kg-1),no,,no,,,yes,calcium in grain,,
+grain_Ca,numeric,(mg kg-1),no,,no,,,yes,iron in grain,,
+grain_Fe,numeric,(mg kg-1),no,,no,,,yes,zinc in grain,,
+grain_Zn,numeric,(mg kg-1),no,,no,,,yes,zinc in grain,,
+grain_Cu,numeric,(mg kg-1),no,,no,,,yes,copper in grain,,
+grain_Mn,numeric,(mg kg-1),no,,no,,,yes,manganese in grain,,
+grain_B,numeric,(mg kg-1),no,,no,,,yes,boron in grain,,
+grain_Al,numeric,(mg kg-1),no,,no,,,yes,aluminium in grain,,

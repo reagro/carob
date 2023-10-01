@@ -33,7 +33,7 @@ carob_script <- function(path) {
   
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=2)
-  dset$license <- "unknown" #carobiner::get_license(js)
+  dset$license <- carobiner::get_license(js)
   
   
   f <- ff[basename(ff) == "Agronomy full data set 13 dec 2019 with nonames.xlsx"]
