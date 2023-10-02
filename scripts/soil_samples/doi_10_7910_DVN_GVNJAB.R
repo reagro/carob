@@ -42,8 +42,8 @@ carob_script <- function(path) {
 	d$country <-  'Kenya'
     d$dataset_id =dataset_id
 	
-	d$soil_sample_depth_top <- 0
-	d$soil_sample_depth_bottom <- 20
+	d$soil_sample_top <- 0
+	d$soil_sample_bottom <- 20
 	
 	carobiner::write_files(dset, d, path=path)
 }

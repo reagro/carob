@@ -37,8 +37,8 @@ carob_script <- function(path) {
 
 	f <- ff[basename(ff) == "Domboshawa 2010.2016.xlsx"]
 
-	r1 <- readxl::read_excel(f,sheet = 1) |> as.data.frame()
-	r2 <- readxl::read_excel(f,sheet = 2) |> as.data.frame()
+	r1 <- carobiner::read.excel(f,sheet = 1)
+	r2 <- carobiner::read.excel(f,sheet = 2)
 	
 	
 ## process file(s)
@@ -74,6 +74,18 @@ carob_script <- function(path) {
 ## normalize variety names
 ## see carobiner::fix_name
 	d1$crop <- "maize"
+
+## fertilizer from paper
+ 
+print("Shumirai Manzvera check if these are correct for all treatments")
+  d1$fertilizer_type <- 'Compound-D'
+  d1$soil_type <- 'Gleyic luvisols'
+  d1$N_fertilizer <- 14+68
+  d1$P_fertilizer <- 12.2
+  d1$K_fertilizer <- 11.6
+  d1$soil_clay <- 23
+  d1$soil_pH <- 5.1
+
 
 ##### Yield #####
 	d1$biomass_total <- r1$`Biomass yield (kg/ha)`
