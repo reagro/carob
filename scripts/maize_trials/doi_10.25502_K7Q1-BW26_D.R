@@ -19,12 +19,13 @@ carob_script <- function(path) {
       group=group,
       uri=uri,
       publication= NA,#DOI: 10.1038/s41598-019-50345-3
-      data_citation ="BADU-APRAKU, B., Annor, B., Nyadanu, D., Akromah, R., & Fakorede, M. A. B. (2020). Evaluation of testcrosses involving early maturing yellow maize inbred lines and elite testers [dataset]. International Institute of Tropical Agriculture (IITA).
+      data_citation ="Badu-Apraku, B., Annor, B., Nyadanu, D., Akromah, R., & Fakorede, M. A. B. (2020). Evaluation of testcrosses involving early maturing yellow maize inbred lines and elite testers [dataset]. International Institute of Tropical Agriculture (IITA).
       https://doi.org/10.25502/K7Q1-BW26/D",
       data_institutions = "IITA",
       carob_contributor="Cedric Ngakou",
       data_type="experiment",
-      project=NA 
+      project=NA,
+  	  carob_date="2023-10-03"	  
    )
    
    ## download and read data 
