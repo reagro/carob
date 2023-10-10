@@ -1,6 +1,11 @@
 # R script for "carob"
 
 ## ISSUES
+#RH
+# many crazy fertilizer amounts and yields
+# we can of course remove these but where to draw the line?
+# the entire dataset is suspect and am
+
 # ....
 
 
@@ -50,6 +55,7 @@ carob_script <- function(path) {
 	r2 <- read.csv(f2)
 	
 	## no point in using fields with area <= zero
+	r1 <- r1[r1$area < 50000,]
 	r1 <- r1[r1$area > 0,]
 	r <- merge(r1, r2, "farm_id")
 	
@@ -63,7 +69,7 @@ carob_script <- function(path) {
 	  on_farm = TRUE,
 	  is_survey = TRUE,
 	  irrigated = FALSE,
-	  country = ifelse(r$country == "", "Rwanda", trimws(r$country)),
+	  country = "Rwanda",
 	  site = gsub("I", "", carobiner::fix_name(r$village)),
 	  adm1 = carobiner::fix_name(r$district_lga),
 	  elevation = r$gps_altitude
@@ -135,12 +141,15 @@ carob_script <- function(path) {
 	elements <- get_elements(ftab, k)
 	
 	famount <- 10000 * r$amount_fert_kg / r$area  # From kg/m2 to kg/ha
+## see tail(sort(famount))	 (too high)
+
 	d <- cbind(d, elements * famount)
 	
 	# Treatment code	
-	d$treatment <- paste0("N", ifelse(!is.na(d$N_fertilizer), round(d$N_fertilizer), 0),
-	                      "P", ifelse(!is.na(d$P_fertilizer), round(d$P_fertilizer), 0),
-	                      "K", ifelse(!is.na(d$K_fertilizer), round(d$K_fertilizer), 0))
+#	d$treatment <- paste0("N", ifelse(!is.na(d$N_fertilizer), round(d$N_fertilizer), 0),
+#	                      "P", ifelse(!is.na(d$P_fertilizer), round(d$P_fertilizer), 0),
+#	                      "K", ifelse(!is.na(d$K_fertilizer), round(d$K_fertilizer), 0))
+# RH Not clear that missing means zero
     message("review: fertilizers, many NAs")
 	
 	d$OM_used <- r$organic_fert_applied == "Y"
@@ -153,7 +162,9 @@ carob_script <- function(path) {
 ##### Yield #####
 	# # EGB: No biomass
 	d$yield <- 10000 * r$production_field_kg / r$area # From kg/m2 to kg/ha
-	
+
+## see tail(sort(d$yield))	 (too high)
+
 	#what plant part does yield refer to?
 	d$yield_part <- ifelse(d$crop == "groundnut", "pod", "grain")
 	
