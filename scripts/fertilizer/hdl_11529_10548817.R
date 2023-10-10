@@ -46,17 +46,16 @@ carob_script <- function(path) {
   
   
   f <- ff[basename(ff) == "CSISA_KVK_Wheat_DoS_Trial_Data.csv"]
-  r <- read.csv(f, fileEncoding = "latin1") # used readr::read_csv to take care of encoding issues   
- 
-  ## use a subset
-  
+  r <- read.csv(f, fileEncoding = "latin1") 
+
+  ## use a subset 
   from <- c("Village","District","State","Block","PreviousCrop","Variety","SowingDate","HarvestDate","BiomassYield","SowingSchedule","Latitude", "Longitude")
   
   d <- carobiner::change_names(r[,from], from, c("location","adm2","adm1","site","previous_crop","variety","planting_date","harvest_date","biomass_total","treatment", "latitude", "longitude"))
   d$planting_date <- as.character(format(as.Date(d$planting_date, format = "%Y.%m.%d"), format = "%Y-%m-%d"))
   d$harvest_date <- as.character(format(as.Date(d$harvest_date, format = "%Y.%m.%d"), format = "%Y-%m-%d"))
   d$biomass_total <- (d$biomass_total)*1000 #to convert to kg/ha
-  # d$longitude <- gsub("<a0>4", " ", d$longitude)
+  d$longitude <- gsub(" ", "", d$longitude)
   d$longitude <- as.numeric(d$longitude)
   d$country <- "India"
   d$crop <- "wheat"
@@ -65,13 +64,12 @@ carob_script <- function(path) {
   d$is_survey <- FALSE
   d$is_experiment <- TRUE
   d$irrigated <- TRUE 
-  d$location <- iconv(d$location, to = "UTF-8", sub = " ")# to remove the characters bringing about encoding issues
+  # to remove the characters bringing about encoding issues
+## can't you read the file as UTF8?
+#  d$location <- iconv(d$location, to = "UTF-8", sub = " ")
   
   #identifying the rows with no spatial info
- h <- d[c(269, 270, 271, 325, 329, 330, 515, 561, 707, 751, 766, 803, 813, 823, 846, 852, 853, 854, 892, 899, 900, 917, 918, 933, 935,
-           940, 941, 1061, 1080, 1084, 1149, 1152, 1161, 1170, 1191, 1261, 1272, 1538, 1545, 1604, 1699, 1781, 1815, 1816, 1887, 1896, 2071, 2115, 2222, 2523,
-           2524, 2525, 2552, 2566, 2567, 2568, 2582, 2583, 2598, 2677, 2679, 2703, 2755, 2758, 2768, 2771, 2788, 2791, 2793, 2864, 2866, 2906, 2908, 2920, 2932,
-           2946, 2954, 2983, 2985, 3004, 3025, 3073, 3253),]
+ #h <- d[c(269, 270, 271, 325, 329, 330, 515, 561, 707, 751, 766, 803, 813, 823, 846, 852, 853, 854, 892, 899, 900, 917, 918, 933, 935, 940, 941, 1061, 1080, 1084, 1149, 1152, 1161, 1170, 1191, 1261, 1272, 1538, 1545, 1604, 1699, 1781, 1815, 1816, 1887, 1896, 2071, 2115, 2222, 2523, 2524, 2525, 2552, 2566, 2567, 2568, 2582, 2583, 2598, 2677, 2679, 2703, 2755, 2758, 2768, 2771, 2788, 2791, 2793, 2864, 2866, 2906, 2908, 2920, 2932, 2946, 2954, 2983, 2985, 3004, 3025, 3073, 3253),]
   
   # u <- unique(h[complete.cases(h$location), c("country","location")])
   # g <- carobiner::geocode(country = u$country,  location = u$location, service = "Geonames", username = "efyrouwa")
@@ -79,49 +77,53 @@ carob_script <- function(path) {
 
      # standardizing for fertilizer info
   g <- r$GradeNPK
-  g <- gsub("12:32:16 PM", "12:32:16", g)
+  g <- gsub(" PM", "", g)
   g <- gsub("12.32.16", "12:32:16", g)
-  g <- gsub("20.20.0.13", "20:20:0:13", g)
+  g <- gsub("20.20.0.13", "20:20:13", g)
   g <- gsub("10.26.26", "10:26:26", g)
-  d$GradeNPK <- g
-  d$BasalNPK_kg_ha <- r$BasalNPK * 0.404686 #to convert kg/acre to kg/ha
+
+  # convert kg/acre to kg/ha
+  d$BasalNPK_kg_ha <- r$BasalNPK * 0.404686 
   
   #  h <- r[c(1406,1523,1425,1540,184,185,299,388,390,393,397,399,453,454,490,497,498,502,601,954,957),] 
   #  These rows have peculiar NPK variations, should be looked into
  
-  d$N_fertilizer1 <- ifelse(d$GradeNPK == "12:32:16", 0.12 * d$BasalNPK_kg_ha,
-                           ifelse(d$GradeNPK == "20:20:0:13", 0.20 * d$BasalNPK_kg_ha,
-                                  ifelse(d$GradeNPK == "18:46:00" , 0.18 * d$BasalNPK_kg_ha,
-                                         ifelse(d$GradeNPK == "10:26:26" , 0.10 * d$BasalNPK_kg_ha,
-                                                ifelse(d$GradeNPK == "14:35:14" , 0.14 * d$BasalNPK_kg_ha,0)))))
+	
+  d$N_fertilizer1 <- ifelse(g == "12:32:16", 0.12 * d$BasalNPK_kg_ha,
+                     ifelse(g == "20:20:13", 0.20 * d$BasalNPK_kg_ha,
+                     ifelse(g == "18:46:00" , 0.18 * d$BasalNPK_kg_ha,
+                     ifelse(g == "10:26:26" , 0.10 * d$BasalNPK_kg_ha,
+                     ifelse(g == "14:35:14" , 0.14 * d$BasalNPK_kg_ha,0)))))
 
   
-  d$P_fertilizer1 <- ifelse(d$GradeNPK == "12:32:16", 0.32 * d$BasalNPK_kg_ha,
-                           ifelse(d$GradeNPK == "20:20:0:13", 0.20 * d$BasalNPK_kg_ha,
-                                  ifelse(d$GradeNPK == "18:46:00" , 0.46 * d$BasalNPK_kg_ha,
-                                         ifelse(d$GradeNPK == "10:26:26" , 0.26 * d$BasalNPK_kg_ha,
-                                                ifelse(d$GradeNPK == "14:35:14" , 0.35 * d$BasalNPK_kg_ha,0)))))
+  d$P_fertilizer1 <- ifelse(g == "12:32:16", 0.32 * d$BasalNPK_kg_ha,
+                    ifelse(g == "20:20:13", 0.20 * d$BasalNPK_kg_ha,
+                    ifelse(g == "18:46:00" , 0.46 * d$BasalNPK_kg_ha,
+                    ifelse(g == "10:26:26" , 0.26 * d$BasalNPK_kg_ha,
+                    ifelse(g == "14:35:14" , 0.35 * d$BasalNPK_kg_ha,0)))))
   
   
-  d$K_fertilizer <- ifelse(d$GradeNPK == "12:32:16", 0.16 * d$BasalNPK_kg_ha,
-                           ifelse(d$GradeNPK == "20:20:0:13", 0.13 * d$BasalNPK_kg_ha,
-                                  ifelse(d$GradeNPK == "10:26:26" , 0.26 * d$BasalNPK_kg_ha,
-                                         ifelse(d$GradeNPK == "14:35:14" , 0.14 * d$BasalNPK_kg_ha,0))))
+  d$K_fertilizer <- ifelse(g == "12:32:16", 0.16 * d$BasalNPK_kg_ha,
+                    ifelse(g == "20:20:13", 0.13 * d$BasalNPK_kg_ha,
+                    ifelse(g == "10:26:26" , 0.26 * d$BasalNPK_kg_ha,
+                    ifelse(g == "14:35:14" , 0.14 * d$BasalNPK_kg_ha,0))))
+
   d$N_splits <- 3
-  d$BasalDAP_kg_ha <- r$BasalDAP * 0.404686 #to convert kg/acre to kg/ha 
+  # convert kg/acre to kg/ha 
+  d$BasalDAP_kg_ha <- r$BasalDAP * 0.404686 
   
   # DAP in carob has 18% N and 20% P
   d$N_fertilizer2 <- ifelse(!is.na(d$BasalDAP_kg_ha),d$BasalDAP_kg_ha * 0.18,0)
   d$P_fertilizer2 <- ifelse(!is.na(d$BasalDAP_kg_ha),d$BasalDAP_kg_ha * 0.20,0)
   
   #MOP in  carob has 49.8% K
-  d$MOP_kg_ha <- r$BasalMOP * 0.404686 #to convert kg/acre to kg/ha 
+  d$MOP_kg_ha <- r$BasalMOP * 0.404686 #kg/acre to kg/ha 
   d$P_fertilizer3 <- ifelse(!is.na(d$BasalDAP_kg_ha),d$BasalDAP_kg_ha * 0.20,0)
   
   d$Zn_fertilizer <- ifelse(!is.na(r$BasalZn),r$BasalZn * 0.404686, 0) #to convert from kg/acre to kg/ha
   d$N_fertilizer <- d$N_fertilizer1 + d$N_fertilizer2 
   d$P_fertilizer <- d$P_fertilizer1 + d$P_fertilizer2 + d$P_fertilizer3
-  d$yield <- r$GrainYield * 1000 #to convert from ton/acre to kg/ha
+  d$yield <- r$GrainYield * 1000 #ton/acre to kg/ha
   d$yield_part <- "grain"
   d$grain_weight <- r$TestWeight
   d$trial_id <- paste(1:nrow(d), d$site, sep = "_")
