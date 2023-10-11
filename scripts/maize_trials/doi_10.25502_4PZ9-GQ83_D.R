@@ -18,12 +18,13 @@ carob_script <- function(path) {
       group=group,
       uri=uri,
       publication= NA,# DOI:10.1080/15427528.2019.1674760
-      data_citation ="BADU-APRAKU, B., Nelimor, C., Nguetta, S. P., Tetteh, A. Y., & Garcia-Oliveira, A. L. (2020). Screening of early and extra-early maize inbreds under artificial turcicum infestation [dataset]. International Institute of Tropical Agriculture (IITA).
+      data_citation ="Badu-Apraku, B., Nelimor, C., Nguetta, S. P., Tetteh, A. Y., & Garcia-Oliveira, A. L. (2020). Screening of early and extra-early maize inbreds under artificial turcicum infestation [dataset]. International Institute of Tropical Agriculture (IITA).
       https://doi.org/10.25502/4PZ9-GQ83/D",
       data_institutions = "IITA",
       carob_contributor="Cedric Ngakou",
       data_type="experiment",
-      project=NA 
+      project=NA,
+  	  carob_date="2023-10-03"
    )
    
    ## download and read data 
@@ -53,7 +54,7 @@ carob_script <- function(path) {
    d$irrigated <- FALSE
    d$borer_trial <- FALSE
    d$striga_infected <- FALSE
-   d$ID<- NULL
+   d$ID <- NULL
    d$striga_trial <- FALSE
 
    ### add long and lat coordinate
