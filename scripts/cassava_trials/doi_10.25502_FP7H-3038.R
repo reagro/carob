@@ -48,7 +48,7 @@ carob_script <- function(path) {
   d$is_survey <- FALSE
   d$crop <- "cassava"
   d$treatment <- d$germplasmName
-  d$country <- Nigeria
+  d$country <- "Nigeria"
   d$site <- d$locationName
   d$latitude <- 12.56009
   d$longitude <- 9.98599
