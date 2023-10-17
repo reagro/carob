@@ -3,18 +3,17 @@
 ## ISSUES
 # ....
 
+## should also be written to fertilizer
 
 carob_script <- function(path) {
 
 "Description:
-
-    [copy the abstract from the repo]
-
+Farmer participatory on-farm trials with CA technologies comparing with farmers’ practices (CT), were conducted in several fields in each community. Likewise, farmer-participatory validation trials were conducted comparing to existing practices and to find out suitable and more profitable crop production practices, prioritized to increase visibility and to avoid implementation and management problems that emerge when utilizing small plots with significant edge effects. Most trials were replicated in several fields within each community and were farmer-managed with backstopping from project staff and NARES partners. Project partners and staff coordinated monitoring and data acquisition. Where possible, collaborating farmers were selected by the community, and the project worked with existing farmer groups, with groups of both men and women farmers.
 "
 
 	uri <- "hdl:11529/10548007"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "wheat_trials"
+	group <- "conservation_agriculture"
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
@@ -32,7 +31,6 @@ carob_script <- function(path) {
 	  )
 
 ## download and read data 
-	path <- "C:/Users/user/Documents/DataAnalysis/carob"
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)

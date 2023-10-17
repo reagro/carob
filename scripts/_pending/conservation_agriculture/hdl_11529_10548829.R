@@ -38,10 +38,10 @@ path <-("C:/carob/wd/data/raw/maize_trials")
 
 
 	f <- "C:/carob/scripts/maize_trials/path/to/your/carob/folder/data/raw/maize_trials/doi_11529_10548829"
-library("readxl")
+#library("readxl")
 	##DATA_DTC_UZ_2019_2020_2021 <- read_excel("path/to/your/carob/folder/data/raw/maize_trials/doi_11529_10548829/DATA DTC UZ - 2019 2020 2021.xlsx", 
 	   #                                      +     sheet = "Raw Data")
-	r<- read_excel(f)
+	r <- read_excel(f)
 	r <- DATA_DTC_UZ_2019_2020_2021 
 
 	
