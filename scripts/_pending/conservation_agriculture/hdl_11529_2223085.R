@@ -5,7 +5,6 @@
 Some sites have missing geo coordinates 
 "
 
-path <- getwd() # This is directory where you are running scripts
 carob_script <- function(path) {
   
   "Description:
@@ -15,32 +14,14 @@ carob_script <- function(path) {
   
   uri <- "hdl:11529/2223085"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "maize_trials"
+  group <- "conservation_agriculture"
   ## dataset level data 
   dset <- data.frame(
     dataset_id = dataset_id,
     group=group,
     project=NA,
     uri=uri,
-    data_citation="Nyagumbo, Isaiah (CIMMYT) - ORCID: 0000-0003-0180-234X
-                    Rusinamhodzi, Leonard (CIMMYT) - ORCID: 0000-0002-5576-2040
-                    Mupangwa, W (CIMMYT) - ORCID: 0000-0001-5672-1331
-                    Njeru, John (CIMMYT)
-                    Craufurd, Peter (CIMMYT) - ORCID: 0000-0001-8559-0174
-                    Nhambeni, B (CIMMYT)
-                    Dias, Domingos (IIAM, Mozambique) - ORCID: 0000-0002-0333-2241
-                    Kamalongo, Donwell (DARS, Malawi) - ORCID: 0000-0002-8286-1036
-                    Siyeni, Dyton (DARS, Malawi)
-                    Ngwira, Amos (DARS, Malawi)
-                    Sariah, John (DRD, Tanzania)
-                    Ngatoluwa, Rama (DRD, Tanzania)
-                    Makoko, B (DRD, Tanzania)
-                    Ayaga, George (KALRO, Kenya)
-                    Micheni, Alfred (KALRO, Kenya)
-                    Nkonge, Charles (KALRO, Kenya)
-                    Atomsa, TB (EIAR, Ethiopia) - ORCID: 0000-0001-5199-7195
-                    Bedru, Beshir (EIAR, Ethiopia)
-                    Kanampiu, Fred (IITA, Kenya)",
+    data_citation="Nyagumbo, Isaiah; Rusinamhodzi, Leonard; Mupangwa, W; Njeru, John; Craufurd, Peter; Nhambeni, B; Dias, Domingos; Kamalongo, Donwell; Siyeni, Dyton; Ngwira, Amos; Sariah, John; Ngatoluwa, Rama; Makoko, B; Ayaga, George; Micheni, Alfred; Nkonge, Charles; Atomsa, TB; Bedru, Beshir; Kanampiu, Fred, 2017. SIMLESA. On-station and on-farm agronomy data from 2010 to 2019. https://hdl.handle.net/11529/2223085, CIMMYT Research Data & Software Repository Network",
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
@@ -57,14 +38,14 @@ carob_script <- function(path) {
   f <- ff[basename(ff) == "Agronomy full data set 13 dec 2019 with nonames.xlsx"]
   
   # start with reading On-farm data sheet
-  d <- carobiner::read.excel(f, sheet = "onfarmwith nonames")
+  ctype <- rep("guess", 64)
+  ctype[c(18, 38)] = "text"
+  d <- carobiner::read.excel(f, sheet = "onfarmwith nonames", col_types=ctype)
   
   # Reading On-station data sheet
   d1 <- carobiner::read.excel(f, sheet = "On-station",skip= 1) 
-  
   # remove first row 
-  d1 <- d1[-1,]
-  
+  d1 <- d1[-1,]  
   # Drop the last 6 rows
   d1 <- d1[1:(nrow(d1) - 6), ] 
   
@@ -85,10 +66,11 @@ carob_script <- function(path) {
   
   #  put dates in the correct format for the onfarm sheet
   
-  
-  d$`Maize Planting Date`<- as.Date("1899-12-30") + as.numeric(d$`Maize Planting Date`)
-  
-  d$`Maize harvesting dat`<- as.Date("1899-12-30") + as.numeric(d$`Maize harvesting dat`)
+  ##RH not correct. There are cases like 15_09_2013 to consider.
+  ## also many dates end up being in 1901 or thereabouts.
+
+#  d$`Maize Planting Date`<- as.Date("1899-12-30") + as.numeric(d$`Maize Planting Date`)
+#  d$`Maize harvesting dat`<- as.Date("1899-12-30") + as.numeric(d$`Maize harvesting dat`)
   
   # for onfarm data
   d$dataset_id <- dataset_id
@@ -108,8 +90,8 @@ carob_script <- function(path) {
  # standardise columns for the sheet named onfarm
   d$crop <- "maize"
   d$treatment <- d$original_treatment
-  d$harvest_date <- d$`Maize harvesting dat`
-  d$planting_date <-  d$`Maize Planting Date`
+#  d$harvest_date <- d$`Maize harvesting dat`
+#  d$planting_date <-  d$`Maize Planting Date`
   d$soil_clay <- d$`Clay 0_20_cm`
   d$soil_sand <- d$sand_0_20_cm
   d$yield_part <- "grain"
@@ -138,37 +120,33 @@ carob_script <- function(path) {
   # find geo coordinates for onstation
   locs <- unique(d1[,c("country","site")]) 
   locs <- na.omit(locs) # remove null values
-  
-  geocodes <- carobiner::geocode(country=locs$'country',location=locs$'site')
-  geocodes1 <- geocodes$df
- 
-  install.packages("dplyr")
-  library(dplyr)
-  
-  # renaming columns
-  geocodes1 <- geocodes1 %>%
-    rename(longitude=lon,latitude = lat,site=location)
+
+print("fix geocoding")  
+## RH do not run carobiner::geocode in the script!
+#  geocodes <- carobiner::geocode(country=locs$'country',location=locs$'site')
+#  geocodes1 <- geocodes$df
+   # renaming columns
+#  geocodes1 <- change_names(geocodes1, c("lon", "lat", "location"), c("longitude", "latitude", "site"))
+
   # Assign geo cordinates which were not found using carobiner function 
-  lattitude_mapping <- list("ISPM Chimoio"=c(-19.08114,33.39414) ,"Melkassa"=c(8.4, 39.33333),
-                            "ARI-Ilonga"=c(-9.06667,36.85),"SARI"=c(-6,35))
+#  lattitude_mapping <- list("ISPM Chimoio"=c(-19.08114,33.39414) ,"Melkassa"=c(8.4, 39.33333),
+#                            "ARI-Ilonga"=c(-9.06667,36.85),"SARI"=c(-6,35))
   
   # sources for gps coordinates 
   #https://mozambique.worldplaces.me/view-place/61801532-ispm-santo-antonio-chimoio.html
   #https://www.gps-coordinates.net/
   
   # Map geo coordinates to dataframe
-  geocodes1$latitude[is.na(geocodes1$latitude)] <- unlist(lapply(geocodes1$site, function(loc) lattitude_mapping[[loc]][1]))
-  geocodes1$longitude[is.na(geocodes1$longitude)] <- unlist(lapply(geocodes1$site, function(loc) lattitude_mapping[[loc]][2]))
+#  geocodes1$latitude[is.na(geocodes1$latitude)] <- unlist(lapply(geocodes1$site, function(loc) lattitude_mapping[[loc]][1]))
+#  geocodes1$longitude[is.na(geocodes1$longitude)] <- unlist(lapply(geocodes1$site, function(loc) lattitude_mapping[[loc]][2]))
   
   # merge dataset to get geocoordinates
-  d1<- left_join(d1,geocodes1,by=c("country","site"))
+#  d1 <- merge(d1,geocodes1,by=c("country","site"))
   
-  
-
-  
+  dd <- carobiner::bindr(d, d1) 
+ 
   # all scripts must end like this
-  carobiner::write_files(dset, d, path=path)
-  carobiner::write_files(dset, d1, path=path)
+  carobiner::write_files(dset, dd, path=path)
   #carob_script(path)
 }
 
