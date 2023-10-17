@@ -8,8 +8,6 @@ carob_script <- function(path) {
 
 "Description:
 Farmer participatory on-farm trials with CA technologies comparing with farmersâ€™ practices (CT), were conducted in several fields in each community. Likewise, farmer-participatory validation trials were conducted comparing to existing practices and to find out suitable and more profitable crop production practices, prioritized to increase visibility and to avoid implementation and management problems that emerge when utilizing small plots with significant edge effects. Most trials were replicated in several fields within each community and were farmer-managed with backstopping from project staff and NARES partners. Project partners and staff coordinated monitoring and data acquisition. Where possible, collaborating farmers were selected by the community, and the project worked with existing farmer groups, with groups of both men and women farmers
-    
-
 "
 
 	uri <- "hdl:11529/10548008"
@@ -31,224 +29,197 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	)
 
 ## download and read data 
- path <- "C:/Users/user/Documents/DataAnalysis/carob-BangladashDataset"
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
 
+	f <- ff[basename(ff) == "Rabi 2016-17-validation trials-all nodes-Rangpur.xlsx"]
 
-	f <- "C:/Users/user/Documents/DataAnalysis/carob-BangladashDataset/data/raw/maize_trial/hdl_11529_10548008/Rabi 2016-17-validation trials-all nodes-Rangpur.xlsx"
-	library("readxl")
-	r <- read_excel(f)
-	r <- readxl::read_excel(f,sheet = "Rabi-Wheat") |> as.data.frame()
-	r1 <- readxl::read_excel(f,sheet = "Rabi-Maize") |> as.data.frame()
-	r2 <- readxl::read_excel(f,sheet = "Kharif I-Jute") |> as.data.frame()
-	r3 <- readxl::read_excel(f,sheet = "Kharif I-Maize") |> as.data.frame()
-	r4 <- readxl::read_excel(f,sheet = "Boro rice") |> as.data.frame()
+	r0 <- carobiner::read.excel(f,sheet = "Rabi-Wheat")
+	r1 <- carobiner::read.excel(f,sheet = "Rabi-Maize")
+	r2 <- carobiner::read.excel(f,sheet = "Kharif I-Jute")
+	r3 <- carobiner::read.excel(f,sheet = "Kharif I-Maize")
+	r4 <- carobiner::read.excel(f,sheet = "Boro rice")
 	
 ## process file(s)
 
 ################################### Rabi-Wheat sheet ##############################
-	r <- readxl::read_excel(f,sheet = "Rabi-Wheat") |> as.data.frame()
-		d <- r
 	
 #### about the data #####
 ## (TRUE/FALSE)
 
-	d$dataset_id <- dataset_id
-	d$on_farm <- TRUE
-	d$is_survey <- FALSE
-	d$is_experiment <- TRUE
-	d$irrigated <- TRUE
+	d0 <- data.frame(dataset_id=dataset_id, country="Bangladesh", 
+		longitude=r0$Longitude, latitude=r0$Latitude)
+
+	d0$on_farm <- TRUE
+	d0$is_survey <- FALSE
+	d0$irrigated <- TRUE
 ## the treatment code	
-	d$treatment <- d$Tillage
+	d0$treatment <- r0$Tillage
 
 ##### Location #####
 ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
 ## you can use carobiner::fix_name()
-	d$country <- "Bangladesh"
-	d$site <- d$District
-	d$adm1 <- d$`Site/Location/Node`
-	d$adm2 <- NA
-	d$adm3 <- NA
-	d$elevation <- NA
+	d0$adm2 <- r0$District
+	d0$location <- r0$`Site/Location/Node`
 ## each site must have corresponding longitude and latitude
 ## see carobiner::geocode
-	d$longitude <- d$Longitude
-	d$latitude <- d$Latitude
 
 ##### Crop #####
 ## normalize variety names
 ## see carobiner::fix_name
-	d$crop <- d$Crop
-	d$variety <- d$Variety
+	d0$crop <- r0$Crop
+	d0$variety <- r0$Variety
 
 ##### Time #####
 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
 ## use 	as.character(as.Date()) for dates to assure the correct format.
-	d$planting_date <- d$`Date of sowing (mm/dd/yryr)`
-	d$harvest_date  <- d$`Date of harvesting`
+	d0$planting_date <- r0$`Date of sowing (mm/dd/yryr)`
+	d0$harvest_date  <- r0$`Date of harvesting`
 
 ##### Fertilizers #####
 ## note that we use P and K, not P2O5 and K2O
 ## P <- P2O5 / 2.29
 ## K <- K2O / 1.2051
-   d$P_fertilizer <- "15"
-   d$K_fertilizer <- "10"
-   d$N_fertilizer <- "30"
-   d$S_fertilizer <- "10"
-   d$Zn_fertilizer <- "1"
-   d$lime <- NA
+   d0$P_fertilizer <- 15
+   d0$K_fertilizer <- 10
+   d0$N_fertilizer <- 30
+   d0$S_fertilizer <- 10
+   d0$Zn_fertilizer <- 1
+   d0$lime <- NA
 ## normalize names 
-   d$fertlizer_type <- NA
-   d$inoculated <- FALSE
-   d$inoculant <- NA
+   d0$fertilizer_type <- NA
+   d0$inoculated <- FALSE
+   d0$inoculant <- NA
    
 ##### in general, add comments to your script if computations are
 ##### based on information gleaned from metadata, a publication, 
 ##### or when they are not immediately obvious for other reasons
 
 ##### Yield #####
-	d$biomass_total <- d$`Biomass (t/ha)`
-  d$residue_yield <- d$`Straw yield (t/ha)`
-	d$yield <- d$`Grain yield (t/ha)`
+	d0$biomass_total <- r0$`Biomass (t/ha)`
+	d0$residue_yield <- r0$`Straw yield (t/ha)`
+	d0$yield <- r0$`Grain yield (t/ha)`
 	#what plant part does yield refer to?
-	d$yield_part <- "grain" 
-	
-	d <- d[,c("dataset_id","on_farm","is_survey","is_experiment","irrigated","country","site","adm1", "longitude","latitude","treatment","crop","variety","planting_date","harvest_date","P_fertilizer","K_fertilizer","N_fertilizer","S_fertilizer","Zn_fertilizer","inoculated","inoculant","biomass_total","residue_yield","yield","yield_part")]
-	################################### END OF Rabi-Wheat sheet #############################################################################################################################################################################################################################################	
+	d0$yield_part <- "grain" 
 
-	################################### Rabi-Maize #################################################################
+	d0$season <- "Rabi" #RH fill in 
+	
+############### END OF Rabi-Wheat sheet ####################################
+	
+################### Rabi-Maize #########################################
 	
 	## process file(s)
-	r1 <- readxl::read_excel(f,sheet = "Rabi-Maize") |> as.data.frame()
 	
-	d1 <- r1
+	d1 <- data.frame(dataset_id=dataset_id, country="Bangladesh", 
+		longitude=r1$Longitude, latitude=r1$Latitude)
 	
 	
 	#### about the data #####
 	## (TRUE/FALSE)
 	
-	d1$dataset_id <- dataset_id
 	d1$on_farm <- TRUE
 	  d1$is_survey <- FALSE
-	  d1$is_experiment <- TRUE
 	  d1$irrigated <- TRUE
 	  ## the treatment code	
-	  d1$treatment <- d1$Tillage
+	  d1$treatment <- r1$Tillage
 	  
 	  ##### Location #####
 	## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
 	## you can use carobiner::fix_name()
-	d1$country <- "Bangladesh"
-	  d1$site <- d1$District
-	  d1$adm1 <- d1$`Site/Location/Node`
-	  d1$adm2 <- NA
-	  d1$adm3 <- NA
+	  d1$adm2 <- r1$District
+	  d1$location <- r1$`Site/Location/Node`
 	  d1$elevation <- NA
-	## each site must have corresponding longitude and latitude
-	## see carobiner::geocode
-	d1$longitude <- d1$Longitude
-	  d1$latitude <- d1$Longitude
 	  
 	  ##### Crop #####
 	## normalize variety names
 	## see carobiner::fix_name
-	d1$crop <- d1$Crop
-	  d1$variety <- d1$Variety
+	d1$crop <- r1$Crop
+	  d1$variety <- r1$Variety
 	  
 	  ##### Time #####
 	## time can be year (four characters), year-month (7 characters) or date (10 characters).
 	## use 	as.character(as.Date()) for dates to assure the correct format.
-	d1$planting_date <- d1$`Date of sowing (mm/dd/yryr)`
-	d1$harvest_date  <- d1$`Date of harvesting`
+	d1$planting_date <- r1$`Date of sowing (mm/dd/yryr)`
+	d1$harvest_date  <- r1$`Date of harvesting`
 	
 	##### Fertilizers #####
 	## note that we use P and K, not P2O5 and K2O
 	## P <- P2O5 / 2.29
 	## K <- K2O / 1.2051
-	d1$P_fertilizer <- "25"
-	  d1$K_fertilizer <- "30"
-	  d1$N_fertilizer <- "60"
-	  d1$S_fertilizer <- "20"
-	  d1$Zn_fertilizer <- "1"
+	d1$P_fertilizer <- 25
+	  d1$K_fertilizer <- 30
+	  d1$N_fertilizer <- 60
+	  d1$S_fertilizer <- 20
+	  d1$Zn_fertilizer <- 1
 	  d1$lime <- NA
 	  ## normalize names 
-	  d1$fertlizer_type <- NA
+	  d1$fertilizer_type <- NA
 	  d1$inoculated <- FALSE
 	d1$inoculant <- NA 
+
+	d1$season <- "Rabi" 
 	  
 	  ##### in general, add comments to your script if computations are
 	  ##### based on information gleaned from metadata, a publication, 
 	  ##### or when they are not immediately obvious for other reasons
 	  
 	  ##### Yield #####
-	d1$biomass_total <- d1$`Biomass (t/ha)`
-	  d1$residue_yield <- d1$`Straw yield (t/ha)`
-	  d1$yield <- d1$`Grain yield (t/ha)`
+	d1$biomass_total <- r1$`Biomass (t/ha)`
+	  d1$residue_yield <- r1$`Straw yield (t/ha)`
+	  d1$yield <- r1$`Grain yield (t/ha)`
 	  #what plant part does yield refer to?
 	  d1$yield_part <- "grain"
 	  
-	  d1 <- d1[,c("dataset_id","on_farm","is_survey","is_experiment","irrigated","country","site","adm1","longitude","latitude","treatment","crop","variety","planting_date","harvest_date","P_fertilizer","K_fertilizer","N_fertilizer","S_fertilizer","Zn_fertilizer","inoculated","inoculant","biomass_total","residue_yield", "yield","yield_part")]
 ############################################ END OF Rabi-Maize ###############################################################################
 	  
 ##############################################	Kharif I-Jute ######################################################################################  
 	  ## process file(s)
-	  r2 <- readxl::read_excel(f,sheet = "Kharif I-Jute") |> as.data.frame() 
-	   
-	  d2 <- r2
-
+   
+	d2 <- data.frame(dataset_id=dataset_id, country="Bangladesh", 
+		longitude=r2$Longitude, latitude=r2$Latitude)
 	  
 	  #### about the data #####
 	  ## (TRUE/FALSE)
 	  
-	  d2$dataset_id <- dataset_id
 	  d2$on_farm <- TRUE
 	    d2$is_survey <- FALSE
-	    d2$is_experiment <- TRUE
 	    d2$irrigated <- TRUE
 	    ## the treatment code	
-	    d2$treatment <- d2$Tillage
+	    d2$treatment <- r2$Tillage
 	    
 	    ##### Location #####
 	  ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
 	  ## you can use carobiner::fix_name()
-	  d2$country <- "Bangladash"
-	    d2$site <- d2$District
-	    d2$adm1 <- d2$`Site/Location/Node`
-	    d2$adm2 <- NA
-	    d2$adm3 <- NA
-	    d2$elevation <- NA
-	  ## each site must have corresponding longitude and latitude
-	  ## see carobiner::geocode
-	  d2$longitude <- d2$Longitude
-	    d2$latitude <- d2$Latitude
+	    d2$adm2 <- r2$District
+	    d2$location <- r2$`Site/Location/Node`
 	    
 	    ##### Crop #####
 	  ## normalize variety names
 	  ## see carobiner::fix_name
-	  d2$crop <- d2$Crop 
-	    d2$variety <- d2$Variety
-	    d2$season <- d2$Season
+	  d2$crop <- r2$Crop 
+	    d2$variety <- r2$Variety
+	    d2$season <- r2$Season
 	    
 	    ##### Time #####
 	  ## time can be year (four characters), year-month (7 characters) or date (10 characters).
 	  ## use 	as.character(as.Date()) for dates to assure the correct format.
-	  d2$planting_date <- d2$`Date of sowing (mm/dd/yryr)`
-	  d2$harvest_date  <- d2$`Date of harvesting`
+	  d2$planting_date <- r2$`Date of sowing (mm/dd/yryr)`
+	  d2$harvest_date  <- r2$`Date of harvesting`
 	  
 	  ##### Fertilizers #####
 	  ## note that we use P and K, not P2O5 and K2O
 	  ## P <- P2O5 / 2.29
 	  ## K <- K2O / 1.2051
-	  d2$P_fertilizer <- "15"
-	    d2$K_fertilizer <- "10"
-	    d2$N_fertilizer <- "20"
-	    d2$S_fertilizer <- NA
-	    d2$lime <- NA
+	  d2$P_fertilizer <- 15
+	    d2$K_fertilizer <- 10
+	    d2$N_fertilizer <- 20
+	    d2$S_fertilizer <- NA # RH should be zero?
+		d2$Zn_fertilizer <- NA  # RH should be zero?
+	    d2$lime <- NA  # RH should be zero?
 	    ## normalize names 
-	    d2$fertlizer_type <- NA
-	    d2$inoculated <- TRUE/FALSE
+	    d2$fertilizer_type <- NA
+	    d2$inoculated <- FALSE
 	  d2$inoculant <- NA
 	    
 	    ##### in general, add comments to your script if computations are
@@ -256,73 +227,59 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	    ##### or when they are not immediately obvious for other reasons
 	    
 	    ##### Yield #####
-	  d2$biomass_total <- d2$`Biomass (t/ha)`
+	  d2$biomass_total <- r2$`Biomass (t/ha)`
 	    
-	    d2$yield <- d2$`Jute fibre yield (t/ha)`
-	    d2$residue_yield <- d2$`Sun dry Jute stick yield (kg/smpling area)`
+	    d2$yield <- r2$`Jute fibre yield (t/ha)`
+	    d2$residue_yield <- r2$`Sun dry Jute stick yield (kg/smpling area)`
 	    #what plant part does yield refer to?
-	    d2$yield_part <- "stem"
+	    d2$yield_part <- "stems"
 	    
-	 d2 <- d2[,c("dataset_id","on_farm","is_survey","is_experiment","irrigated","season","country","season","site","adm1","longitude","latitude","treatment","crop","variety","planting_date","harvest_date","P_fertilizer","K_fertilizer","N_fertilizer","inoculated","inoculant","biomass_total","yield_part","residue_yield","yield")]
 	  
-###################################END OF Kharif I-Jute ##############################################################################################################################################################################################################################################################################
+#################END OF Kharif I-Jute ############################
 	 
-#################################### Kharif I-Maize ###################################################################################################################################################################################################################################################################################
+####################### Kharif I-Maize ###########################
 	 
-	 r3 <- readxl::read_excel(f,sheet = "Kharif I-Maize") |> as.data.frame()	
 	 
-	 ## use a subset
-	 d3 <- r3
+	d3 <- data.frame(dataset_id=dataset_id, country="Bangladesh", 
+		longitude=r3$Longitude, latitude=r3$Latitude)
 	 
-	 #### about the data #####
-	 ## (TRUE/FALSE)
-	 
-	 d3$dataset_id <- dataset_id
 	 d3$on_farm <- TRUE
 	   d3$is_survey <- FALSE
-	   d3$is_experiment <- TRUE
 	   d3$irrigated <- TRUE
 	   ## the treatment code	
-	   d3$treatment <- d3$Tillage
+	   d3$treatment <- r3$Tillage
 	   
 	   ##### Location #####
 	 ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
 	 ## you can use carobiner::fix_name()
-	 d3$country <- "Bangladash"
-	   d3$site <- d3$District
-	   d3$adm1 <- d3$`Site/Location/Node`
-	   d3$adm2 <- NA
-	   d3$adm3 <- NA
-	   d3$elevation <- NA
-	 ## each site must have corresponding longitude and latitude
-	 ## see carobiner::geocode
-	 d3$longitude <- d3$Longitude
-	   d3$latitude <- d3$Latitude
+	   d3$adm2 <- r3$District
+	   d3$location <- r3$`Site/Location/Node`
 	   
 	   ##### Crop #####
 	 ## normalize variety names
 	 ## see carobiner::fix_name
-	 d3$crop <- d3$Crop
-	   d3$variety <- d3$Variety
-	   d3$yield_part <- "maize"
+	 d3$crop <- r3$Crop
+	   d3$variety <- r3$Variety
+	   d3$yield_part <- "grain"
 	   
 	   ##### Time #####
 	 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
 	 ## use 	as.character(as.Date()) for dates to assure the correct format.
-	 d3$planting_date <- d3$`Date of sowing (mm/dd/yryr)`
-	 d3$harvest_date  <- d3$`Date of harvesting`
+	 d3$planting_date <- r3$`Date of sowing (mm/dd/yryr)`
+	 d3$harvest_date  <- r3$`Date of harvesting`
 	 
 	 ##### Fertilizers #####
 	 ## note that we use P and K, not P2O5 and K2O
 	 ## P <- P2O5 / 2.29
 	 ## K <- K2O / 1.2051
-	 d3$P_fertilizer <- "15"
-	   d3$K_fertilizer <-"10"
-	   d3$N_fertilizer <- "30"
-	   d3$S_fertilizer <- NA
-	   d3$lime <- NA
+	 d3$P_fertilizer <- 15
+	   d3$K_fertilizer <- 10
+	   d3$N_fertilizer <- 30
+	   d3$S_fertilizer <- NA # RH zero?
+		d3$Zn_fertilizer <- NA  # RH should be zero?
+	   d3$lime <- NA  # RH zero?
 	   ## normalize names 
-	   d3$fertlizer_type <- NA
+	   d3$fertilizer_type <- NA
 	   d3$inoculated <- FALSE
 	 d3$inoculant <- NA
 	   
@@ -331,88 +288,82 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	   ##### or when they are not immediately obvious for other reasons
 	   
 	   ##### Yield #####
-	 d3$biomass_total <- d3$`Biomass (t/ha)`
-	 d3$residue_yield <- d3$`Straw yield (t/ha)`  
-	   d3$yield <- d3$`Grain yield (t/ha)`
+	 d3$biomass_total <- r3$`Biomass (t/ha)`
+	 d3$residue_yield <- r3$`Straw yield (t/ha)`  
+	   d3$yield <- r3$`Grain yield (t/ha)`
 	 
-	 d3 <- d3[,c("dataset_id","on_farm","is_survey","is_experiment","irrigated","country","site","adm1","longitude","latitude","treatment","crop","variety","yield_part","planting_date","harvest_date","P_fertilizer","K_fertilizer","N_fertilizer","fertlizer_type","inoculated","inoculant","biomass_total","residue_yield","yield")]
+	 d3$season <- "kharif I"
 
-################################ END OF Kharif I-Maize################################################################################################################################################################################################################################################################################
+################# END OF Kharif I-Maize############
 	 
-################################### Boro rice ########################################################################################################################################################################################################################################################################################
+############### Boro rice ###########################
 	 
-	 r4 <- readxl::read_excel(f,sheet = "Boro rice") |> as.data.frame()	 
-	 
-	 ## use a subset
-	 d4 <- r4
-	 
+	d4 <- data.frame(dataset_id=dataset_id, country="Bangladesh", 
+		longitude=r4$Longitude, latitude=r4$Latitude)
 	 
 	 #### about the data #####
-	 ## (TRUE/FALSE)
-	 
-	 d4$dataset_id <- dataset_id
 	 d4$on_farm <- TRUE
 	   d4$is_survey <- FALSE
-	   d4$is_experiment <-TRUE 
 	   d4$irrigated <- TRUE
 	   ## the treatment code	
-	   d4$treatment <- d4$Tillage
+	   d4$treatment <- r4$Tillage
 	   
 	   ##### Location #####
 	 ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
 	 ## you can use carobiner::fix_name()
-	 d4$country <- "Bangladash"
-	   d4$site <- d4$District
-	   d4$adm1 <- d4$`Site/Location/Node`
-	   d4$adm2 <- NA
-	   d4$adm3 <- NA
-	   d4$elevation <- NA
+	   d4$adm2 <- r4$District
+	   d4$location <- r4$`Site/Location/Node`
 	 ## each site must have corresponding longitude and latitude
 	 ## see carobiner::geocode
-	 d4$longitude <- d4$Longitude
-	   d4$latitude <- d4$Latitude
 	   
 	   ##### Crop #####
 	 ## normalize variety names
 	 ## see carobiner::fix_name
-	 d4$crop <- d4$Crop
-	   d4$variety <- d4$Variety
+	 d4$crop <- r4$Crop
+	   d4$variety <- r4$Variety
 	   d4$yield_part <- "grain"
 	   
 	   ##### Time #####
 	 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
 	 ## use 	as.character(as.Date()) for dates to assure the correct format.
-	 d4$planting_date <- d4$`Date of sowing (mm/dd/yryr)`
-	 d4$harvest_date  <- d4$`Date of harvesting`
+	 d4$planting_date <- r4$`Date of sowing (mm/dd/yryr)`
+	 d4$harvest_date  <- r4$`Date of harvesting`
 	 
 	 ##### Fertilizers #####
 	 ## note that we use P and K, not P2O5 and K2O
 	 ## P <- P2O5 / 2.29
 	 ## K <- K2O / 1.2051
-	 d4$P_fertilizer <- "20"
-	   d4$K_fertilizer <-"15"
-	   d4$N_fertilizer <- "30"
-	   d4$S_fertilizer <- NA
-	   d4$lime <- NA
+	 d4$P_fertilizer <- 20 
+	   d4$K_fertilizer <- 15
+	   d4$N_fertilizer <- 30
+	   d4$S_fertilizer <- NA # RH 0?
+		d4$Zn_fertilizer <- NA  # RH should be zero?
+	   d4$lime <- NA # RH 0?
 	   ## normalize names 
-	   d4$fertlizer_type <- NA
+	   d4$fertilizer_type <- NA
 	   d4$inoculated <- FALSE
 	 d4$inoculant <- NA
-	 d4$season <- d4$Season
+	 d4$season <- r4$Season
 	   
 	   ##### in general, add comments to your script if computations are
 	   ##### based on information gleaned from metadata, a publication, 
 	   ##### or when they are not immediately obvious for other reasons
 	   
 	   ##### Yield #####
-	 d4$biomass_total <- d4$`Biomass (t/ha)`
-	 d4$residue_yield <- d4$`Straw yield (t/ha)`  
-	   d4$yield <-d4$`Grain yield (t/ha)` 
+	 d4$biomass_total <- r4$`Biomass (t/ha)`
+	 d4$residue_yield <- r4$`Straw yield (t/ha)`  
+	   d4$yield <- r4$`Grain yield (t/ha)` 
 	   
-	 d4 <- d4[,c( "dataset_id","on_farm","is_survey","is_experiment","irrigated","country","site","adm1","longitude","latitude","treatment","crop","variety","yield_part","planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","fertlizer_type","inoculated","inoculant","biomass_total","residue_yield","yield")]
 
+	x <- rbind(d0, d1, d2, d3, d4)
+	x$crop <- tolower(x$crop)
+	x$planting_date <- as.character(as.Date(x$planting_date))
+	x$harvest_date <- as.character(as.Date(x$harvest_date))
+	x$adm1 <- x$adm3 <- as.character(NA)
+	x$elevation <- as.numeric(NA)
+	
 	  	# all scripts must end like this
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(dset, x, path=path)
 }
 
 ## now test your function in a clean R environment 

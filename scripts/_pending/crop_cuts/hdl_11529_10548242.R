@@ -30,7 +30,6 @@ carob_script <- function(path) {
 	)
 
 ## download and read data 
-path <- "C:/Users/user/Documents/DataAnalysis/carob-TanzaniaDataset"
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
