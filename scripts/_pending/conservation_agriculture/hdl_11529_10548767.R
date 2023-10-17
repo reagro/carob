@@ -14,7 +14,7 @@ carob_script <- function(path) {
 
 	uri <- "hdl:11529/10548767"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "maize_trials"
+	group <- "conservation_agriculture"
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
@@ -150,8 +150,3 @@ path <- "C:/carob"
 	carobiner::write_files(dset, d, path=path)
 	
 }
-
-## now test your function in a clean R environment 
-# path <- _____
-# carob_script(path)
-

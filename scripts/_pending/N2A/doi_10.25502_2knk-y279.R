@@ -118,6 +118,10 @@ carob_script <- function(path) {
 ## is this correct for "D-compound; AN"? That is, the below (and above) assumes that 
 ## r$amount_fert_kg was applied of D-compound AND the same amount of AN. Is that correct?
 
+## RH there are many cases with a very high fertilizer amount. We 
+## could remove these records, but it would be better to carefully review what is going on
+
+
 	famount <- 10000 * r$amount_fert_kg / r$area  # From kg/m2 to kg/ha
 	d <- cbind(d, elements * famount)
     message("review: fertilizers, many NAs")

@@ -4,7 +4,7 @@ carob_script <- function(path)
 
 	uri <- "hdl:11529/10548759"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "rice_trials"
+	group <- "conservation_agriculture"
  
 	dset <- data.frame(
 		dataset_id = dataset_id,
@@ -96,7 +96,4 @@ carob_script <- function(path)
 	
 	carobiner::write_files(dset, d, path=path)
 }
-
-
- carob_script(path)
 

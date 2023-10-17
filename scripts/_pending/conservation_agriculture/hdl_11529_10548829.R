@@ -3,12 +3,6 @@
 ## ISSUES
 # ....
 
-#ff <- carobiner::make_carob(path, group = "maize trials")
-#path <-("C:/carob/wd/data/raw/maize_trials") 
-remotes::install_github("reagro/carobiner")
-
-ff <- carobiner::make_carob(path)
-
 
 carob_script <- function(path) {
 
@@ -20,7 +14,7 @@ carob_script <- function(path) {
 
 	uri <- "doi:11529/10548829"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "maize_trials"
+	group <- "conservation_agriculture"
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id =dataset_id,
