@@ -3,6 +3,10 @@
 ## ISSUES
 # ....
 
+# yield is not the correct field (see yield and grain yield)
+# fertilizer amounts should be provided
+
+
 
 carob_script <- function(path) {
   
