@@ -74,7 +74,11 @@ carob_script <- function(path) {
    
    # fix fertilize
    d$P_fertilizer<- 0 
-   d$K_fertilizer<- 0  ### NPK amount is given but the rate of N, P and K is missing
+   d$K_fertilizer<- 0  
+   
+   ### NPK amount is given but the rate of N, P and K is missing
+	##RH if it missing, we cannot use it.
+	
    #data type
    d$planting_date<- as.character(d$planting_date)
    
