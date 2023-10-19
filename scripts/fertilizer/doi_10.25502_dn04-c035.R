@@ -1,3 +1,7 @@
+
+## To do:
+## check P fertilizer. It is very high for many records (400 kg/ha)
+
 #################################################################################
 #N2Africa was aimed at increasing biological nitrogen fixation and productivity
 #of grain legumes through effective production technologies including inoculants
@@ -73,7 +77,7 @@ carob_script <- function(path){
 	d2$mineral_fert_type <- carobiner::fix_name(d2$mineral_fert_type, "lower")
 	
 	d2$mineral_fert_type[d2$mineral_fert_type %in% c("urea", "ureia", "ureia")]<- "urea"
-	d2$mineral_fert_type[d2$mineral_fert_type %in% "yes"]<- "ssp"
+	d2$mineral_fert_type[d2$mineral_fert_type %in% "yes"] <- "ssp"
 	
 	i <- grep("ssp", d2$mineral_fert_type)
 	d2$mineral_fert_type[i] <- "SSP"
@@ -90,25 +94,23 @@ carob_script <- function(path){
 	d2$mineral_fert_type[i] <- "lime"
 	
 	d2$fertilizer_type <- d2$mineral_fert_type
-	
-	
-	i<- which(d2$fertilizer_type == "gypsum")
-	d2$gypsum_amt <- ifelse(d2$fertilizer_type == "gypsum", d2$mineral_fert_amount[i],0)
-	d2$gypsum <- 10000/as.numeric(d2$crop_1_area_harvested)*d2$gypsum_amt
-	
-	i<- which(d2$fertilizer_type == "lime")
-	d2$lime_amt <- ifelse(d2$fertilizer_type == "lime", d2$mineral_fert_amount[i],0)
-	d2$lime <- 10000/as.numeric(d2$crop_1_area_harvested)*d2$gypsum_amt
-	
-	d2$N_fertilizer <- d2$K_fertilizer <- 0
 
-	i<- which(d2$fertilizer_type == "SSP")
-	d2$p_plot_amt<- ifelse(d2$fertilizer_type== "SSP", d2$mineral_fert_amount[i], 0) 
-	d2$P_fertilizer <- (10000/d2$crop_1_area_harvested) * d2$p_plot_amt
+	d2$fertilizer_type[is.na(d2$fertilizer_type) & d2$mineral_fert_amount == 0] <- "none"
+
+		
+	d2$gypsum <- ifelse(d2$fertilizer_type == "gypsum", d2$mineral_fert_amount, 0)
+	d2$gypsum <- 10000/as.numeric(d2$crop_1_area_harvested) * d2$gypsum
 	
-	i<- which(d2$fertilizer_type == "urea")
-	d2$N_plot_amt<- ifelse(d2$fertilizer_type== "urea", d2$mineral_fert_amount[i],0) 
-	d2$N_fertilizer <- (10000/d2$crop_1_area_harvested) * d2$N_plot_amt
+	d2$lime <- ifelse(d2$fertilizer_type == "lime", d2$mineral_fert_amount, 0)
+	d2$lime <- 10000/as.numeric(d2$crop_1_area_harvested) * d2$lime
+	
+	d2$K_fertilizer <- 0
+
+	d2$P_fertilizer <- ifelse(d2$fertilizer_type== "SSP", d2$mineral_fert_amount, 0) 
+	d2$P_fertilizer <- (10000/d2$crop_1_area_harvested) * d2$P_fertilizer
+	
+	d2$N_fertilizer <- ifelse(d2$fertilizer_type== "urea", d2$mineral_fert_amount, 0) 
+	d2$N_fertilizer <- (10000/d2$crop_1_area_harvested) * d2$N_fertilizer
 	
 	
 	d2$crop_1_area_harvested <- as.numeric(d2$crop_1_area_harvested)

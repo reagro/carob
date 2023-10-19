@@ -26,8 +26,11 @@ carob_script <- function(path) {
 		## also add a RIS file in references folder (with matching doi)
 		publication= "",
 		data_institutions = "",
-   		data_type="experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
-		carob_contributor="Your name",  
+		# e.g. "on-farm experiment", "survey", "compilation"
+   		data_type="experiment", 
+		carob_contributor="Your name",
+		# date of first submission to carob
+		carob_date="2023-05-21" 
 	)
 
 ## download and read data 
@@ -115,7 +118,7 @@ carob_script <- function(path) {
 	carobiner::write_files(dset, d, path=path)
 }
 
-## now test your function in a clean R environment 
+## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
 # path <- _____
 # carob_script(path)
 
