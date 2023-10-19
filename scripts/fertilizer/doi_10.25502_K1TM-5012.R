@@ -66,18 +66,19 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$latitude<- d$latitude1
   
   # process management file
-  library("stringr")
+  # use stringr:: if need be do not call library(stringr) or any other library
+  # library("stringr")
   d1 <- r1[, c("farm_id","size_ha","crops_grown","varieties","min_fert_type","harvest_amount","inoculant_applied","weight_unit","min_fert_amount")] 
   colnames(d1) <- c("trial_id","farm_size","crop","variety","fertilizer_type","yield1","inoculation_type","yield_unit","fertilizer_amount")
   
   i<-c(50,40,60,90,70,30,20,35,80,10,5,45,15,55,6,65,100,1,2,3,4,7,8,43,13,88,0)
-  p<-gsub("%","",d1$crop)
+  p<-gsub("%", "", d1$crop)
   for(j in i){
     p<-gsub(j,"",p)
   }
   d1$crop<-p
   
-  d1[c('crop', 'intercrops')] <- str_split_fixed(d1$crop, "[                                           ]", 2)
+  d1[c('crop', 'intercrops')] <- stringr::str_split_fixed(d1$crop, "[                                           ]", 2)
   
   d1[c('yield_unit', 'yield_unit1')] <- str_split_fixed(d1$yield_unit, "[                                                               ]", 2)
   
