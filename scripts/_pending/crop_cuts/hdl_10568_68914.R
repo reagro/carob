@@ -3,6 +3,9 @@
 ## ISSUES
 # ....
 
+## RH: are these field data?
+## RH: there is no file at that hdl
+
 
 carob_script <- function(path) {
 

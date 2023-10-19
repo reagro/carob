@@ -1,5 +1,9 @@
 # R script for "carob"
 
+
+## RH: are these field data?
+## RH: there is no file at that hdl
+
 ## ISSUES
 # ....
 
