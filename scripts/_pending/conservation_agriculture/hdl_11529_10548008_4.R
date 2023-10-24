@@ -16,7 +16,7 @@ carob_script <- function(path) {
   
   uri <- "hdl:11529/10548008"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "wheat_trials"
+  group <- "conservation_agriculture"
   ## dataset level data 
   dset <- data.frame(
     dataset_id = dataset_id,
@@ -33,7 +33,6 @@ carob_script <- function(path) {
   )
   
   ## download and read data 
-  path <- "C:/Users/user/Documents/DataAnalysis/carob-BangladashDataset"
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- carobiner::get_license(js)

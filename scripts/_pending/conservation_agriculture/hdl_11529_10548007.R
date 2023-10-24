@@ -3,18 +3,17 @@
 ## ISSUES
 # ....
 
+## should also be written to fertilizer
 
 carob_script <- function(path) {
 
 "Description:
-
-    [copy the abstract from the repo]
-
+Farmer participatory on-farm trials with CA technologies comparing with farmers’ practices (CT), were conducted in several fields in each community. Likewise, farmer-participatory validation trials were conducted comparing to existing practices and to find out suitable and more profitable crop production practices, prioritized to increase visibility and to avoid implementation and management problems that emerge when utilizing small plots with significant edge effects. Most trials were replicated in several fields within each community and were farmer-managed with backstopping from project staff and NARES partners. Project partners and staff coordinated monitoring and data acquisition. Where possible, collaborating farmers were selected by the community, and the project worked with existing farmer groups, with groups of both men and women farmers.
 "
 
 	uri <- "hdl:11529/10548007"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "wheat_trials"
+	group <- "conservation_agriculture"
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
@@ -32,31 +31,25 @@ carob_script <- function(path) {
 	  )
 
 ## download and read data 
-	path <- "C:/Users/user/Documents/DataAnalysis/carob"
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
 
+	f <- ff[basename(ff) == "Wheat 2014-15-DS&BP-all nodes Rajshahi.xlsx"]
 
-	f <- "C:/Users/user/Documents/DataAnalysis/carob/data/raw/wheat_trials/hdl_11529_10548007/Wheat 2014-15-DS&BP-all nodes Rajshahi.xlsx"
-	library("readxl")
-	r <- read_xlsx(f)
-	r <- readxl::read_excel(f,sheet = "6 - Fertilizer amounts " ) |> as.data.frame()
-	r1 <- readxl::read_excel(f,sheet = "12 - Biomass samples" ) |> as.data.frame()
-	r2 <- readxl::read_excel(f,sheet = "14 - Grain Harvest " ) |> as.data.frame()
-	t
-	r3 <- readxl::read_excel(f,sheet = "4- Stand counts & Phenology" ) |> as.data.frame()
+	r <- carobiner::read.excel(f,sheet = "6 - Fertilizer amounts ", skip=3 )
+	r <- r[-1,]
+	r1 <- carobiner::read.excel(f,sheet = "12 - Biomass samples" )
+	r2 <- carobiner::read.excel(f,sheet = "14 - Grain Harvest " ) 
+	r3 <- carobiner::read.excel(f,sheet = "4- Stand counts & Phenology" ) 
 ## process file(s)
 
 ## use a subset
 ###########	6 - Fertilizer amounts ###########
-	d <- r
-
 	
 #### about the data #####
 ## (TRUE/FALSE)
-
-	d$dataset_id <- dataset_id
+	d <- data.frame(dataset_id = rep(dataset_id, nrow(r)))
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$is_experiment <- TRUE
@@ -70,10 +63,10 @@ carob_script <- function(path) {
 	d$country <- "Bangladash"
 	d$site <- NA
 	d$adm1 <- NA
-	d$adm2 <- NA
+	d$adm2 <- "Rajshahi"
 	d$adm3 <- NA
 	d$elevation <- NA
-	d$location <- d$Node
+	d$location <- r$Node
 	
 ## each site must have corresponding longitude and latitude
 ## see carobiner::geocode
@@ -89,36 +82,41 @@ carob_script <- function(path) {
 ##### Crop #####
 ## normalize variety names
 ## see carobiner::fix_name
-	d$crop <- d$`Types of Trial`
+	d$crop <- r$`Types of Trial`
+## RH variety is available.
 	d$variety <- NA
 
 ##### Time #####
 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
 ## use 	as.character(as.Date()) for dates to assure the correct format.
-	d$planting_date <- NA
-	d$harvest_date  <- NA
+	d$planting_date <- 2014
+	d$harvest_date  <- 2015
 
 ##### Fertilizers #####
 ## note that we use P and K, not P2O5 and K2O
 ## P <- P2O5 / 2.29
 ## K <- K2O / 1.2051
-   d$P_fertilizer <- d$`TSP (kg/ha)`
-   d$K_fertilizer <-d$`MOP(kg/ha)`
-   d$N_fertilizer <- d$`N    (kg/ha)`
-   d$Zn_fertilizer <- d$`ZnSO4 (kg/ha)...51`
-   d$Zn_fertilizer <- d$`ZnSO4 (kg/ha)...57`
-   d$gypsum <- d$`Gypsum (kg/ha)`
-   d$S_fertilizer <- NA
-   d$lime <- NA
+
+## RH these fields are not present. It would also be wrong for P and K (we need the elements, not the product)
+   d$P_fertilizer <- r$`TSP (kg/ha)`
+   d$K_fertilizer <- r$`MOP(kg/ha)`
+   d$N_fertilizer <- r$`N    (kg/ha)`
+## RH not correct, overwriting the data
+   d$Zn_fertilizer <- r$`ZnSO4 (kg/ha)...51`
+   d$Zn_fertilizer <- r$`ZnSO4 (kg/ha)...57`
+   d$gypsum <- r$`Gypsum (kg/ha)`
+   d$S_fertilizer <- 0
+   d$lime <- 0
 ## normalize names 
-   d$fertlizer_type <- d$`Product used...12`
+## RH not correct, overwriting the data
+   d$fertilizer_type <- d$`Product used...12`
    d$fertilizer_type <- d$`Product used...19`
    d$fertilizer_type <- d$`Product used...26`
    d$fertilizer_type <- d$`Product used...33`
    d$fertilizer_type <- d$`Product used...40`
    d$inoculated <- FALSE
    d$inoculant <- NA
-   d <- d[,c("country","location","dataset_id","on_farm","is_survey","irrigated","treatment","crop", "fertlizer_type","fertilizer_type","P_fertilizer","K_fertilizer","N_fertilizer","Zn_fertilizer","gypsum","inoculated","longitude","latitude")]
+"inoculated","longitude","latitude")]
    
 ##### in general, add comments to your script if computations are
 ##### based on information gleaned from metadata, a publication, 
@@ -135,8 +133,6 @@ carob_script <- function(path) {
 
 ########### 12 - Biomass samples ####################
 	## use a subset
-	d <- carobiner::change_names(r, from, to)
-	r1 <- readxl::read_excel(f,sheet = "12 - Biomass samples" ) |> as.data.frame()
 	d1 <- r1
 	#### about the data #####
 	## (TRUE/FALSE)
@@ -706,8 +702,4 @@ carob_script <- function(path) {
 	            # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
-
-## now test your function in a clean R environment 
-#path <- "C:/Users/user/Documents/DataAnalysis/carob/data/raw/wheat_trials/hdl_11529_10548007/Wheat 2014-15-DS&BP-all nodes Rajshahi.xlsx"
-#carob_script(path)
 

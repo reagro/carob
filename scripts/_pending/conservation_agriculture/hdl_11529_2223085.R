@@ -5,7 +5,6 @@
 Some sites have missing geo coordinates 
 "
 
-path <- getwd() # This is directory where you are running scripts
 carob_script <- function(path) {
   
   "Description:
