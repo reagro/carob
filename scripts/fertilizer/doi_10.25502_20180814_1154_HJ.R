@@ -83,8 +83,8 @@ d$OM_type<- NA
 d$OM_used <- FALSE
 d$dataset_id <- dataset_id
 d$trial_id<-paste0(d$dataset_id,"-",d$location)
-d$OM_type[grepl("+MN",d$treatment)]<- "manure"
-d$OM_used[grepl("manure",d$OM_type)]<- TRUE
+d$OM_type[grepl("+MN",d$treatment)]<- "farmyard manure"
+d$OM_used[grepl("farmyard manure",d$OM_type)]<- TRUE
 	# previous crop name normalization 
 
 	p<- carobiner::fix_name(d$previous_crop,"lower")

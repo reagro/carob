@@ -88,7 +88,7 @@ carob_script <- function(path) {
 	# Merge with Manure applied ("1a Cattle manure lab analysis.xlsx")
 	OM <- carobiner::read.excel(ff[basename(ff) == "1a Cattle manure lab analysis.xlsx"], skip = 5)
 	d1$OM_used <- d1$Treatment == 8
-	d1$OM_type <- ifelse(d1$Treatment == 8, "manure", NA)
+	d1$OM_type <- ifelse(d1$Treatment == 8, "farmyard manure", NA)
 	d1$OM_applied <- ifelse(d1$Treatment == 8, 5000, 0)
 	d1$OM_N <- d1$OM_applied*(0.1796/100)*(0.755/100) # OM$K (%)
 	d1$OM_P <- d1$OM_applied*(0.1796/100)*(200.67532467532467/1e+06) # OM$P (ppm)
