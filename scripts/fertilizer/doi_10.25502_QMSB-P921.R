@@ -133,6 +133,8 @@ carob_script <- function(path){
   b3$K_fertilizer <- 0
  
   b3$OM_type <- carobiner::fix_name(b3$experimental_treatments_type_of_manure,"title")
+  b3$OM_type[tolower(b3$OM_type) == "fertisol"] <- "compost"
+  b3$OM_type[b3$OM_type != "compost"] <- NA
   b3$OM_used <- ifelse(is.na(b3$OM_type),FALSE,TRUE)
   
   b3$plot_size_ha <- (b3$plot_width * b3$plot_length)/10000 # convert plot size from m squared to ha

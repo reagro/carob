@@ -92,11 +92,13 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$inoculated<-FALSE
   d$inoculated[!is.na(d$inoculation_type)| d$inoculation_type !=""]<- TRUE
   d <- d[, c("country", "trial_id", "location","adm1","adm2","longitude", "latitude","crop", "yield","fertilizer_type","inoculated")]
-  #process
-  d4<-r10[,c("farm_id","haulm_use_now")]
-  colnames(d4)<-c("trial_id","OM_type")
-  #merge d and d4
-  d<-merge(d,d4,by="trial_id",all.x = T)
+  # # EGB: These are not OM applications, but more like the residue management.
+  # # In any case none of the values indicate it was integrated in the field. Therefore, removing.
+  # #process
+  # d4<-r10[,c("farm_id","haulm_use_now")]
+  # colnames(d4)<-c("trial_id","OM_type")
+  # #merge d and d4
+  # d<-merge(d,d4,by="trial_id",all.x = T)
   # Add columns
   d$dataset_id <- dataset_id
   d$on_farm <- TRUE
@@ -206,10 +208,12 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$location[d$location==""]<-NA
   d$adm1[d$adm1==""]<-NA
   d$adm2[d$adm2==""]<-NA
-  d$OM_type[d$OM_type==""]<-NA
-  # add column
-  d$OM_used<- FALSE
-  d$OM_used[!is.na(d$OM_type)]<-TRUE
+  # # EGB:
+  # # Removing OM_type and OM_used since there is no info on such
+  # d$OM_type[d$OM_type==""]<-NA
+  # # add column
+  # d$OM_used<- FALSE
+  # d$OM_used[!is.na(d$OM_type)]<-TRUE
   # data type
   d$location<- as.character(d$location)
   d$yield_part<-"seed"

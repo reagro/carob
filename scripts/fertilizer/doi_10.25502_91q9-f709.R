@@ -145,7 +145,9 @@ carob_script <- function(path){
   b3$K_fertilizer <- 0
   
   b3$OM_type <- carobiner::fix_name(b3$experimental_treatments_type_of_manure,"title")
-  b3$OM_used <- ifelse(is.na(b3$OM_type),FALSE,TRUE)
+  b3$OM_type[b3$OM_type %in% c("Animal Dung", "Farm Yard Manure")] <- "farmyard manure"
+  b3$OM_type[b3$OM_type %in% c("Organic Matter")] <- "compost"
+  b3$OM_used <- !is.na(b3$OM_type)
   
   b3$plot_width <- 10
   b3$plot_length <- 10
