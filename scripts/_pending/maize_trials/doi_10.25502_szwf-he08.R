@@ -148,7 +148,7 @@ carob_script <- function(path) {
             "site", "adm1", "latitude", "longitude", "elevation",
             "crop", "variety", "variety_type",
             "planting_date",
-            "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer",
+ #           "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer",
             "yield", "yield_part",
             "silking", "plant_height")]
 	
