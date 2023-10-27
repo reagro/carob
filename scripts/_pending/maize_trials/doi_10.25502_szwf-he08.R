@@ -14,7 +14,7 @@ carob_script <- function(path) {
 
 	uri <- "doi.org/10.25502/szwf-he08"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "fertilizer"
+	group <- "maize_trials"
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
@@ -124,12 +124,13 @@ carob_script <- function(path) {
 ## note that we use P and K, not P2O5 and K2O
 ## P <- P2O5 / 2.29
 ## K <- K2O / 1.2051
-   d$P_fertilizer <- 0
-   d$K_fertilizer <- 0
-   d$N_fertilizer <- 0
-   d$S_fertilizer <- 0
+## RH how sure are we about these zero applications?
+#   d$P_fertilizer <- 0
+#   d$K_fertilizer <- 0
+#   d$N_fertilizer <- 0
+#   d$S_fertilizer <- 0
 ## normalize names 
-   d$fertilizer_type <- "none"
+#   d$fertilizer_type <- "none"
 
 ##### in general, add comments to your script if computations are
 ##### based on information gleaned from metadata, a publication, 
