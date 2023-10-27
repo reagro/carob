@@ -1,14 +1,35 @@
 # R script for "carob"
 
 ## ISSUES
-# ....
+# efyrouwa: how do we incorporate weed information??
 
 
 carob_script <- function(path) {
 
-"Description:
-
-    [Weed development is one of the major constraints to cereal cropping systems in Southern Africa with potential severe crop losses. Understanding weed community responses to different conservation agriculture (CA) components (i.e., no-tillage, NT; crop rotation, R; and mulching, M) and/or their combinations is crucial in Southern Africa where farmers apply different combinations depending on local context. Here, for the first time, we assessed how weed density, community diversity and structure respond to different combinations of CA components [conventional tillage (CT), CT+M, CT+R, CT+M+R, NT, NT+M, NT+R, NT+M+R]. The study was carried out over three seasons at two locations with contrasting soil textures i.e., clayish, and sandy. At the sandy location, across seasons, weed density (number of individuals per unit area) and community diversity (distribution of individuals within the species) were significantly and positively affected by precipitation and not by cropping system. Weed richness (number of species) was affected by the interaction of season and cropping system, with the highest number of weed species being recorded in the NT+M+R system in the seasons with medium to high precipitation. At the clayish location, an opposite pattern was observed, and weed density was lower in seasons with medium-high precipitation than under low precipitation. Weed community diversity was 50 % higher under NT+M than under CT+R, whereas weed species richness decreased with the increase of precipitation. At both locations, the implementation of rotation and mulching either in NT or CT systems resulted in the modification of the structure of weed community with respect to CT and NT alone, and these CA combinations were associated with highest maize grain yield. Overall, eight weed species common to both locations were responsible for most of the community structure differences among cropping systems. Structural equation modelling showed that at the sandy location precipitation did not affect grain yield, but positively affected weed density, diversity, evenness, and richness. By contrast, at the clay location, precipitation positively affected grain yield, but did not modify weed density and evenness, and reduced weed community diversity and richness. At this location, weed density negatively affected grain yield. The differential weed-crop relationship supports the need to find a site-specific equilibrium between the control of weeds and the maintenance of their diversity]
+"
+    Weed development is one of the major constraints to cereal cropping systems in Southern Africa with potential severe crop losses. Understanding weed community responses to different conservation agriculture (CA) components (i.e., no-tillage, NT; crop rotation, R; and mulching, M) and/or their combinations is crucial in Southern Africa where farmers apply different combinations depending on local context. 
+    Here, for the first time, we assessed how weed density, community diversity and structure 
+    respond to different combinations of CA components[conventional tillage (CT), CT+M, CT+R, CT+M+R, NT, NT+M, NT+R, NT+M+R].
+    The study was carried out over three seasons at two locations with contrasting soil textures i.e., clayish, and sandy.
+    At the sandy location, across seasons, weed density (number of individuals per unit area) and community diversity 
+    (distribution of individuals within the species) were significantly and positively affected by precipitation and not by cropping system. Weed richness (number of species) was affected by the interaction of 
+    season and cropping system, with the highest number of weed species being 
+    recorded in the NT+M+R system in the seasons with medium to high precipitation.
+    At the clayish location, an opposite pattern was observed, and weed density was lower in 
+    seasons with medium-high precipitation than under low precipitation. Weed community diversity
+    was 50 % higher under NT+M than under CT+R, whereas weed species richness decreased with the increase of precipitation.
+    At both locations, the implementation of rotation and mulching either in NT or CT systems 
+    resulted in the modification of the structure of weed community with respect to CT and NT
+    alone, and these CA combinations were associated with highest maize grain yield. Overall, 
+    eight weed species common to both locations were responsible for most of the community
+    structure differences among cropping systems. Structural equation modelling showed that 
+    at the sandy location precipitation did not affect grain yield, but positively affected weed
+    density, diversity, evenness, and richness. By contrast, at the clay location, precipitation
+    positively affected grain yield, but did not modify weed density and evenness, and reduced 
+    weed community diversity and richness. At this location, weed density negatively affected 
+    grain yield. The differential weed-crop relationship supports the need to find a 
+    site-specific equilibrium between the control of weeds and the maintenance of their
+    diversity
 
 "
 
@@ -22,107 +43,87 @@ carob_script <- function(path) {
 		project= NA,
 		uri=uri,
 		data_citation="Mhlanga, Blessing; Pellegrino, Elisa; Thierfelder, Christian; Ercoli, Laura, 2022, Conservation agriculture practices lead to diverse weed communities and higher maize grain yield in Southern Africa, https://hdl.handle.net/11529/10548829, CIMMYT Research Data & Software Repository Network, V1",
-		## if there is a paper, include the paper's doi here
-		## also add a RIS file in references folder (with matching doi)
 		publication= "doi.org/10.1016/j.fcr.2022.108724",
 		data_institutions = "CIMMYT",
-   		data_type="on-farm experiment", 
+   	data_type="on-farm experiment", 
 		carob_contributor="Hope Takudzwa Mazungunye"  
 	)
 
 ## download and read data 
-path <-("C:/carob/wd/data/raw/maize_trials")
+ # path <-("C:/carob/wd/data/raw/maize_trials")
+
+	# f <- "C:/carob/scripts/maize_trials/path/to/your/carob/folder/data/raw/maize_trials/doi_11529_10548829"
+  # library("readxl")
+	##DATA_DTC_UZ_2019_2020_2021 <- read_excel("path/to/your/carob/folder/data/raw/maize_trials/doi_11529_10548829/DATA DTC UZ - 2019 2020 2021.xlsx", 
+	   #                                      +     sheet = "Raw Data")
+	# r <- read_excel(f)
+	# r <- DATA_DTC_UZ_2019_2020_2021 
+	
+	
+	# efyrouwa: read the file as below instead, path should never be in the script
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	dset$license <- carobiner::get_license(js)
-
-
-	f <- "C:/carob/scripts/maize_trials/path/to/your/carob/folder/data/raw/maize_trials/doi_11529_10548829"
-#library("readxl")
-	##DATA_DTC_UZ_2019_2020_2021 <- read_excel("path/to/your/carob/folder/data/raw/maize_trials/doi_11529_10548829/DATA DTC UZ - 2019 2020 2021.xlsx", 
-	   #                                      +     sheet = "Raw Data")
-	r <- read_excel(f)
-	r <- DATA_DTC_UZ_2019_2020_2021 
-
 	
-## process file(s)
-
-## use a subset
-	d <- r
-
+	## download and read data 
+	f <- ff[basename(ff) == "DATA DTC UZ - 2019 2020 2021.xlsx"]
+	r <- carobiner::read.excel(f, sheet = 3)
 	
-#### about the data #####
-## (TRUE/FALSE)
-
-	d$dataset_id <- dataset_id 
-	d$on_farm <- TRUE
-	d$is_survey <- FALSE
-	d$is_experiment <- TRUE
-	d$irrigated <- FALSE
-## the treatment code	
-	d$treatment <- d$System
-
-##### Location #####
-## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
-## you can use carobiner::fix_name()
-	d$country <- "Zimbabwe"
-	d$site <- NA
-	d$adm1 <- NA
-	d$adm2 <- NA
-	d$adm3 <- NA
-	d$location<-d$Location
-## each site must have corresponding longitude and latitude
-## see carobiner::geocode
-	d$longitude[d$location=="DTC"] <- 31.1000
-	d$latitude[d$location=="DTC"] <- -17.4833
-	d$longitude[d$location=="UZ"] <- 31.0569
-	d$latitude[d$location=="UZ"] <- -17.7829
-	d$elevation[d$location=="DTC"] <-1400
-	d$elevation[d$location=="UZ"]<- 1523
-
-##### Crop #####
-## normalize variety names
-## see carobiner::fix_name
-	d$crop <- "maize"
-	d$variety <- NA
-
-##### Time #####
-## time can be year (four characters), year-month (7 characters) or date (10 characters).
-## use 	as.character(as.Date()) for dates to assure the correct format.
-	d$planting_date <- NA
-	d$harvest_date  <- NA
-
-##### Fertilizers #####
-## note that we use P and K, not P2O5 and K2O
-## P <- P2O5 / 2.29
-## K <- K2O / 1.2051
-   d$P_fertilizer <- NA
-   d$K_fertilizer <-NA
-   d$N_fertilizer <- NA
-   d$S_fertilizer <- NA
-   d$lime <- NA
-## normalize names 
-   d$fertlizer_type <- NA
-   d$inoculated <- FALSE
-   d$inoculant <- NA
-   
-##### in general, add comments to your script if computations are
-##### based on information gleaned from metadata, a publication, 
-##### or when they are not immediately obvious for other reasons
-
-##### Yield #####
-	d$biomass_total <-d$Biomass
-
-	d$yield <- d$Grain
-	#what plant part does yield refer to?
-	d$yield_part <- "Grain"
-	d <- d[,c("dataset_id", "on_farm", "is_experiment", "longitude", "latitude", "elevation", "Season", "Plot", "Replicate", "treatment", "A.hispidum","crop", "A.hybridus", "B.pilosa", "C.albida", "C.benghalensis", "C.dactylon", "C.esculentus", "C.tridens", "D.stramonium", "D.uncinatum","E.heterophylla", "E.indica", "G.aparine", "G.parviflora", "H.meeusei", "H.zosterifolia", "I.purpurea", "L.matinensis", "M.repens", "Natal red", "O.latifolia", "P.oleracea", "R.cochinchinensis", "R.scabra", "S.alba", "S.asiatica", "T.minuta", "U.panicoides", "V.poskeana", "Other", "M.sativa", "T.rotundifolia", "E.panicoides", "T. fluminensis", "E. arvense", "biomass_total", "yield_part")] 
+  ## process file
+	r$site<-r$Location
+	r$country <- "Zimbabwe"
+	r$adm1 <- ifelse(r$site == "DTC","Mashonaland_east", "Harare")
+	r$adm2 <- ifelse(r$site == "DTC","Goromonzi", "Harare")
+	r$latitude <- ifelse(r$site =="DTC",-17.4833,-17.7829)
+	r$longitude <- ifelse(r$site =="DTC",31.1000,31.0569)
+	r$crop <- "maize"
+	r$biomass_total <-r$Biomass
+	r$yield <- r$Grain
+	r$planting_date <- as.character(r$Season)
+	r$rep <- r$Replicate
 	
-# all scripts must end like this
-	carobiner::write_files(dset, d, path=path)
-}
+	# efyrouwa: define the treatments
+	g <- r$System
+	g <- gsub("CT","conventional_tillage",g)
+	g <- gsub("\\+M", "_plus_mulch", g)
+	g <- gsub("\\+R", "_plus_rotation", g)
+	g <- gsub("NT", "no_tillage", g)
+	r$treatment <- g
+	r$yield_part <- "grain"
+	r$dataset_id <- dataset_id
+	r$trial_id <- paste(seq(1:nrow(r)),r$treatment)
+	r$on_farm <- TRUE
+	
+	# efyrouwa: Go through the reference to get more information, mostly in the materials and methods
+	# The soil at DTC has clay, sand, and silt contents of 220 g kg−1, 730 g kg−1, and 50 g kg−1, 
+	# respectively, SOC of 7.3 g kg−1.
+	# The soil at UZ has clay, sand, and silt contents of 400 g kg−1, 390 g kg−1, and 210 g kg−1, respectively, 
+	#  SOC content of 16.8 g kg−1
+  r$soil_clay <- ifelse(r$site == "DTC",22,40)
+	r$soil_sand <- ifelse(r$site == "DTC",73,39)
+	r$soil_silt <- ifelse(r$site == "DTC",5, 21)
+	r$soil_SOC  <- ifelse(r$site == "DTC",0.73,1.68)
+	
+	# treatments involving rotation, plots were split into half and maize was sown in a 
+	# one-year rotation with cowpea (with phases of the rotation present in each year) 
+	# while for monocropping treatments, sole maize was sown. 
+	r$crop_rotation <- ifelse(grepl("rotation",r$treatment), "cowpea",NA)
+	
+	# Maize was sown at an interrow spacing of 90 cm and an intra-row spacing of 25 cm
+	r$row_spacing <- 90
+	r$plant_spacing <- 25
+	
+	# At sowing, both maize and cowpea received a basal fertilizer at the rate of 
+	# 11.6 kg N ha−1, 10.1 kg P ha−1, 9.6 kg K ha−1
+	r$N_fertilizer <- 11.6
+	r$P_fertilizer <- 10.1
+	r$K_fertilizer <- 9.6
+  
+	
+	d <- r[,c("trial_id","country","adm1","adm2","latitude","longitude","treatment","crop","biomass_total", "yield","yield_part","planting_date","dataset_id","on_farm","soil_clay","soil_sand","soil_silt","soil_SOC","row_spacing","plant_spacing","N_fertilizer","P_fertilizer","K_fertilizer")] 
+	
 
-## now test your function in a clean R environment 
-# path <- _____
-# carob_script(path)
-
+  # all scripts must end like this
+  	carobiner::write_files(dset, d, path=path)
+  }
+ 
