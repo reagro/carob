@@ -45,8 +45,10 @@ carob_script <- function(path) {
 		data_citation="Mhlanga, Blessing; Pellegrino, Elisa; Thierfelder, Christian; Ercoli, Laura, 2022, Conservation agriculture practices lead to diverse weed communities and higher maize grain yield in Southern Africa, https://hdl.handle.net/11529/10548829, CIMMYT Research Data & Software Repository Network, V1",
 		publication= "doi.org/10.1016/j.fcr.2022.108724",
 		data_institutions = "CIMMYT",
-   	data_type="on-farm experiment", 
-		carob_contributor="Hope Takudzwa Mazungunye"  
+		data_type="on-farm experiment", 
+		carob_contributor="Hope Takudzwa Mazungunye"  ,
+		carob_date="2023-09-17",
+		revised_by = "Effie Ochieng'"  
 	)
 
 ## download and read data 
@@ -99,7 +101,7 @@ carob_script <- function(path) {
 	# respectively, SOC of 7.3 g kg−1.
 	# The soil at UZ has clay, sand, and silt contents of 400 g kg−1, 390 g kg−1, and 210 g kg−1, respectively, 
 	#  SOC content of 16.8 g kg−1
-  r$soil_clay <- ifelse(r$site == "DTC",22,40)
+	r$soil_clay <- ifelse(r$site == "DTC",22,40)
 	r$soil_sand <- ifelse(r$site == "DTC",73,39)
 	r$soil_silt <- ifelse(r$site == "DTC",5, 21)
 	r$soil_SOC  <- ifelse(r$site == "DTC",0.73,1.68)
@@ -125,5 +127,5 @@ carob_script <- function(path) {
 
   # all scripts must end like this
   	carobiner::write_files(dset, d, path=path)
-  }
+ }
  
