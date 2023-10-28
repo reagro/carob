@@ -29,8 +29,8 @@ carob_script <- function(path) {
 		publication= "NA",
 		data_institutions = "The Global Yield Gap Atlas ",
    		data_type="experiment",
-		carob_contributor="Shumirai Manzvera"  
-		carob_date="2023-09-19",
+		carob_contributor="Shumirai Manzvera",
+		carob_date="2023-09-19"
 	)
 
 ## download and read data 

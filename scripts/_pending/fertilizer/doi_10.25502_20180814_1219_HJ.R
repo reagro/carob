@@ -28,8 +28,7 @@ carob_script <- function(path) {
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
     carob_date="2023-02-15",
-    data_type="fertilizer"
-     
+    data_type="on-farm trials"
   )
   
   ## download and read data 

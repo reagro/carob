@@ -25,8 +25,9 @@ TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="survey",
-		carob_contributor="Shumirai Manzvera and Robert Hijmans",
-		carob_date="2023-08-25"
+		carob_contributor="Shumirai Manzvera",
+		carob_date="2023-08-25",
+		revised_by="Robert Hijmans"
 	)
 
 ## download and read data 
