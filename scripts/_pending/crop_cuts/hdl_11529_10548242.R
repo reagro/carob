@@ -26,7 +26,8 @@ carob_script <- function(path) {
 		publication= "Masuki, K., Karwani, G., Mushongi, A., Lameck, M., Chamberlin, J., Craufurd, P., Nord, A., Mwaijandi, V., Wineman, A. 2018. TAMASA Tanzania Agronomic Panel Survey for 2017. Maize grain yield data. These data were collected as part of the BMGF supported TAMASA (Taking Maize Agronomy to Scale in Africa) project, 2014-2018.",
 		data_institutions = "CIMMYT",
    		data_type="survey" ,
-		carob_contributor="Mitchelle Njukuya" 
+		carob_contributor="Mitchelle Njukuya",
+		carob_date="2023-08-31"
 	)
 
 ## download and read data 

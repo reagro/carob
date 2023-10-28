@@ -26,6 +26,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
     https://doi.org/10.25502/YSJW-CW72" ,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
+    carob_date="2023-09-18",
     data_type="farm monitoring",
     project=NA 
   )

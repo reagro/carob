@@ -22,6 +22,7 @@ carob_script <- function(path) {
       https://doi.org/10.18167/DVN1/2EHEQT, CIRAD Dataverse, V1, UNF:6:KODF5Pm0fcTqCAFwrvBLRA== [fileUNF]",
       data_institutions = "CIRAD",
       carob_contributor="Cedric Ngakou",
+      carob_date="2023-10-18",
       data_type="experiment",
       project=NA 
    )

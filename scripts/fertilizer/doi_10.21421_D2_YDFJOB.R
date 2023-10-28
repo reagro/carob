@@ -20,6 +20,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 		publication=NA,
 		data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Sorghum productivity and water use under Phosphorus fertilization in the Sudan savanna of Nigeria. https://doi.org/10.21421/D2/YDFJOB, ICRISAT Dataverse, V1",
 		carob_contributor="Siyabusa Mkuhlani",
+		carob_date="2022-09-12",
 		data_type="experiment",
 		data_institutions=NA,
 		project=NA 

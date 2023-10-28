@@ -18,6 +18,7 @@ carob_script <- function(path) {
 		data_citation = "International Crops Research Institute for the Semi-Arid Tropics (ICRISAT), 2021. Landscape Targeted Crop-Fertilizer Response in the Highlands of Ethiopia. https://doi.org/10.7910/DVN/ZXH0R8, Harvard Dataverse, V1",
 		data_institutions = "ICRISAT; ARARI; ILRI",
 		carob_contributor="Siyabusa Mkuhlani and Eduardo Garcia Bendito",
+		carob_date="2022-02-16",
 		data_type="on-farm experiment",
 		project="Africa Rising"	   
  	)

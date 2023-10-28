@@ -63,7 +63,7 @@ carob_script <- function(path) {
 	c$Cowpea_yield_kg_ha[c$Cowpea_yield_kg_ha == "NA"] <- NA
 	c$Cowpea_yield_kg_ha <- as.numeric( c$Cowpea_yield_kg_ha)
   
-    i <- is.na(c$grain_weight1[i]) & (!is.na(c$grain_weight2[i]))
+    i <- is.na(c$grain_weight1) & (!is.na(c$grain_weight2))
     c$grain_weight1[i] <- c$grain_weight2[i]
     c$Maize_yield_kg_ha[i]<- c$Cowpea_yield_kg_ha[i]
    

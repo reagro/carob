@@ -25,6 +25,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '16th High Temperature Wheat Yield Trial', hdl:11529/10548194, CIMMYT Research Data & Software Repository Network, V3",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Andrew Sila",
+	   carob_date="2023-05-03",
 	   
 	   ## something like randomized control...
 	   data_type="on-station experiment"

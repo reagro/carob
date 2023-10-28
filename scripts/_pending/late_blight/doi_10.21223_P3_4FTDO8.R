@@ -22,6 +22,7 @@ carob_script <- function(path) {
       https://doi.org/10.21223/P3/4FTDO8, International Potato Center, V1",
       data_institutions = "CIP",
       carob_contributor="Cedric Ngakou",
+      carob_date="2023-10-26",
       data_type="experiment",
       project=NA 
    )

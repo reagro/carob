@@ -26,6 +26,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
     https://doi.org/10.25502/AN1W-PT92" ,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
+    carob_date="2023-08-20",
     data_type="survey",
     project=NA 
   )

@@ -24,6 +24,7 @@ carob_script <- function(path) {
       UNF:6:HmO/JVvcmNC7pPO6MNVZJQ== [fileUNF]",
       data_institutions = "CIMMYT",
       carob_contributor="Cedric Ngakou",
+      carob_date="2023-09-27",
       data_type="experiment",
       project=NA 
    )

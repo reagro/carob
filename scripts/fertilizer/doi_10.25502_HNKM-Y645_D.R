@@ -23,6 +23,7 @@ carob_script <- function(path) {
 		data_citation="Engoke, C. N. S., Stephen, K.-B., Wiredu, A. N., & John, O. (2022). Inoculant, nitrogen and phosphorus improves photosynthesis and water use efficiency in soybean production- Legume cropping systems [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/HNKM-Y645/D", 
 		data_institutions = "IITA", 
 		carob_contributor="Effie Ochieng'", 
+		carob_date="2023-07-12",
 		data_type="on-farm experiment"
 	)
 

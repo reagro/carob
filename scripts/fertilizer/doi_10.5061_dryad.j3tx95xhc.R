@@ -24,6 +24,7 @@ carob_script <- function(path) {
 		publication= "doi:10.1016/j.fcr.2022.108578",
 		data_institutions = "Wageningen University & Research",
 		carob_contributor="Eduardo Garcia Bendito",
+		carob_date="2023-03-08",
 		data_type="compilation",
 		project=NA
 	)

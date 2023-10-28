@@ -33,6 +33,7 @@ TRUE
     # data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Mbinga [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1239/HJ",
     # data_institutions = "IITA",
     # carob_contributor="Cedric Ngakou",
+    # carob_date="2023-02-15",
     # data_type="experiment",
 
     # has_weather=FALSE

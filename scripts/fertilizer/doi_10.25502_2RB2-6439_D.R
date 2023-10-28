@@ -33,6 +33,7 @@ carob_script <- function(path) {
 		Agriculture (IITA). https://doi.org/10.25502/2RB2-6439/D",
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
+		carob_date="2023-06-25",
 		data_type="experiment",
 		project=NA 
 	)

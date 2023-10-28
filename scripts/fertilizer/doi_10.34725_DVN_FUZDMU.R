@@ -25,6 +25,7 @@ Agricultural Water Management 98: 1364-1372
 		uri = uri,
 		publication = "doi:10.1016/j.agwat.2011.04.002",
 		carob_contributor = "Camila Bonilla",
+		carob_date="2021-06-01",
 		data_type = "experiment",
 		data_institutions ="ICRAF",
 		project=NA

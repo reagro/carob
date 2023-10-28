@@ -20,6 +20,7 @@ and 2015 in over thirty African countries. This dataset contains output of the r
 		data_citation="Menkir, A. & Olufisola Oladipo, 2018. Grain Yield and Other Agronomic Traits of International Maize Trials - Borer [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180716/0907/MA",
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
+		carob_date="2021-06-02",
 		data_type = "experiment",
 		project="International Maize Trials",
 		data_institutions="IITA"

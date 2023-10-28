@@ -30,6 +30,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 		International Institute of Tropical Agriculture (IITA). doi:10.25502/X2H1-AT51/D",
 		data_institutions = "IITA",
 		carob_contributor="Rachel Mukami",
+		carob_date="2022-08-13",
 		data_type = "on-farm experiment"
     )
   

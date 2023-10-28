@@ -31,6 +31,7 @@ inoculants and fertilizers adapted to local settings.
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa diagnostic trial, 2012 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/V1CA-7Y60", 
 		data_institutions = "IITA", 
 		carob_contributor="Cedric Ngakou", 
+		carob_date="2023-06-01",
 		data_type="experiment"
 	)
 	

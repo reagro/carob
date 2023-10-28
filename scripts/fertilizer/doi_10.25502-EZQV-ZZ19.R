@@ -25,6 +25,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 		publication = 'doi.org/10.1016/j.agee.2017.08.015',
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa dianostic trial - Nigeria, 2014 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/EZQV-ZZ19",
 		carob_contributor = "Andrew Sila",
+		carob_date="2023-07-17",
 		data_type = "on farm experiment",
 		data_institutions="IITA"
 	)

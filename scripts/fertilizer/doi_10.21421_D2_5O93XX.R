@@ -34,6 +34,7 @@ carob_script <- function(path) {
 		uri=uri,
 		publication="doi:10.12692/ijb/9.1.291-302",
 		carob_contributor="Eduardo Garcia Bendito",
+		carob_date="2021-07-06",
 		data_type="experiment",
 		data_institutions=NA,
 		project=NA

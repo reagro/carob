@@ -19,15 +19,16 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		dataset_id = dataset_id,
 		group=group,
-		project=NA,
+		project=as.character(NA),
 		uri=uri,
 		data_citation="",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
-		publication= "NA",
+		publication=as.character(NA),
 		data_institutions = "CIMMYT",
    		data_type="experiment", 
-		carob_contributor="Shumirai Manzvera"  
+		carob_contributor="Shumirai Manzvera",
+		carob_date="2023-09-19"
 	)
 
 ## download and read data 

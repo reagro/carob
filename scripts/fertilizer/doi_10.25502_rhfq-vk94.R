@@ -23,6 +23,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
     https://doi.org/10.25502/RHFQ-VK94" ,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
+    carob_date="2023-07-20",
     data_type="experiment",
     project=NA 
   )

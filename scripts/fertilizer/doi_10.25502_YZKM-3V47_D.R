@@ -32,6 +32,7 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 	   publication = "doi:10.37722/AAHAE.2022403",
 	   data_institutions = "IITA",
 	   carob_contributor="Robert Hijmans",
+	   carob_date="2023-07-07",
 	   data_type="experiment"
 	)
 

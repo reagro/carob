@@ -17,7 +17,8 @@ carob_script <- function(path)
 		publication= "doi:10.1002/ldr.4321",
 		data_institutions = "CIMMYT",
    		data_type="on-farm experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
-		carob_contributor="Hope Takudzwa Mazungunye"  
+		carob_contributor="Hope Takudzwa Mazungunye", 
+		carob_date="2023-08-02"
 	)
 
 

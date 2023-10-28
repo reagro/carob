@@ -23,6 +23,7 @@ carob_script <- function(path){
 		publication = NA,
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa farm monitoring - Mozambique, 2011 - 2012, III [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/DN04-C035",
 		carob_contributor = "Effie Ochieng'",
+		carob_date="2022-09-09",
 		data_type = "on-farm experiment",
 		data_institutions=NA
 	)

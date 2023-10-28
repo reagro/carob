@@ -29,6 +29,7 @@ carob_script <- function(path){
   Institute of Tropical Agriculture (IITA). 
   https://doi.org/10.25502/JHRJ-9423",
     carob_contributor = "Effie Ochieng'",
+    carob_date="2022-09-22",
     data_type = "variety_performance"
     )
   

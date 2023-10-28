@@ -28,7 +28,8 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
-    carob_contributor="Fredy chimire" 
+    carob_contributor="Fredy chimire", 
+    carob_date="2023-08-21"
   )
   
   ## download and read data 

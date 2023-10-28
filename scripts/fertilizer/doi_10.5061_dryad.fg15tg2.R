@@ -24,6 +24,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 		data_institutions = "University of Nebraska-Lincoln",
 		data_citation = "Wortmann, Charles S. et al. (2018). Data from: Maize-nutrient response functions for Eastern and Southern Africa, Dryad, Dataset, https://doi.org/10.5061/dryad.fg15tg2",
 		carob_contributor="Effie Ochieng' and Rachel Mukami",
+		carob_date="2023-03-20",
 		data_type="experiment"
 	)
 	

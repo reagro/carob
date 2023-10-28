@@ -23,6 +23,7 @@ carob_script <- function(path) {
       
       data_institutions = "CIMMYT",
       carob_contributor="Cedric Ngakou",
+      carob_date="2023-10-18",
       data_type="experiment",
       project=NA 
    )

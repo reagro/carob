@@ -26,6 +26,7 @@ in West Africa from 2013 to 2016.
 		of Tropical Agriculture (IITA).	https://doi.org/10.25502/20181101/1228/BB",
 		publication= NA,
 		carob_contributor="Cedric Ngakou",
+		carob_date="2023-03-19",
 		data_type="experiment",
 		data_institutions="IITA"
  	)

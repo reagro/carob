@@ -22,6 +22,7 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 	   data_citation = "T Balemi; M Kebede; T Tufa; G Gurumu, 2017. TAMASA Ethiopia. Yield, soil and agronomy data from 70 farmers’ maize fields in Bako, Ethiopia, 2015 season. https://hdl.handle.net/11529/11020, CIMMYT Research Data & Software Repository Network, V1",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
+	   carob_date="2022-11-02",
 	   data_type= "farm survey",
 	   project=NA
  	)

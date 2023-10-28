@@ -22,6 +22,7 @@ carob_script <- function(path) {
 		uri=uri,
 		publication=NA,
 		carob_contributor="Henry Juarez",
+		carob_date="2022-03-24",
 		data_type="experiment",
 		project=NA
 	)

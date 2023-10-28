@@ -35,7 +35,8 @@ carob_script <- function(path) {
     publication=NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
-    carob_contributor ="Effie Ochieng'"
+    carob_contributor ="Effie Ochieng'",
+    carob_date="2023-09-18"
   )
   ## download and read data 
   

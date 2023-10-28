@@ -29,7 +29,8 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="on-farm experiment",
-    carob_contributor="Mitchelle Njukuya"
+    carob_contributor="Mitchelle Njukuya",
+    carob_date="2023-09-21"
   )
   
   ## download and read data 

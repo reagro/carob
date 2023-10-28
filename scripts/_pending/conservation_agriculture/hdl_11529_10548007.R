@@ -27,7 +27,8 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 		publication= "11529/10548007",
 		data_institutions = "CIMMYT",
    		data_type="on-farm experiment",
-		carob_contributor="Mitchelle Njukuya" 
+		carob_contributor="Mitchelle Njukuya",
+		carob_date="2023-08-17"
 	  )
 
 ## download and read data 

@@ -30,6 +30,7 @@ dset <- data.frame(
   data_citation = "Vanlauwe, Bernard, Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer,P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K.,Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Kenya, 2010 [Data set].International Institute of Tropical Agriculture (IITA). doi:10.25502/6G5B-RM44/D",
   data_institutions = "IITA",
   carob_contributor="Rachel Mukami and Effie Ochieng'",
+  carob_date="2022-07-29",
   data_type="on-farm trials"
 )
 

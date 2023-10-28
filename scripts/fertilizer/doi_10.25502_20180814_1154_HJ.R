@@ -27,6 +27,7 @@ carob_script <- function(path) {
 		(IITA). doi:10.25502/20180814/1154/HJ" ,
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
+		carob_date="2023-02-22",
 		data_type="experiment",
 	project=NA
 	)

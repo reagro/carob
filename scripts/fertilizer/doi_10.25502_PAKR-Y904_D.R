@@ -27,6 +27,7 @@ carob_script <- function(path) {
 		data_citation = "Huising, J. (2019). OCP validation trials for maize fertilizers, OCP - Nigeria [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/PAKR-Y904/D",
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
+		carob_date="2023-04-10",
 		data_type="experiment",
 		project=NA    
 	)

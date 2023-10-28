@@ -28,6 +28,7 @@ carob_script <- function(path) {
 		data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa diagnostic trial, 2015 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/1ANR-K002",
 		data_institutions = "IITA",
 		carob_contributor="Effie Ochieng'",
+		carob_date="2023-05-30",
 		data_type="on-farm experiments"
     )
   
