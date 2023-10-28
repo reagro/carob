@@ -78,7 +78,7 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	d1$Zn_fertilizer <- ifelse(d1$TrtDesc == "NPK+MN", 3, 0)
 	d1$S_fertilizer <- ifelse(d1$TrtDesc == "NPK+MN", 5, 0)
 	d1$OM_used <- TRUE
-	d1$OM_type <- "Manure"
+	d1$OM_type <- "farmyard manure"
 	d1$OM_applied <- 1000
 	d2 <- merge(d, d1, by = "FieldID", all.x = TRUE)
 

@@ -101,6 +101,8 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 
 	d$OM_used <- d$`Apply Organic Fertilizer ?` == "Yes"
 	d$OM_type <- d$`Type of Organic Fertilizer applied`
+	d$OM_type[grepl("manure", tolower(d$OM_type))] <- "farmyard manure"
+	d$OM_type[grepl("Farm", d$OM_type)] <- "farmyard manure"
 	# Assuming 50kg Manure Bags
 	d$OM_applied <- 0
 	bags <- which(d$`Unit for Organic Fertilizer` == "Bags")

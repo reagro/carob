@@ -44,8 +44,12 @@ Agricultural Water Management 98: 1364-1372
 	d12 <- cbind(d1, d2[,-1])
 
 	d <- d12[, c("Year", "TotalRF", "GRLL50F", "GRLL", "GRFert", "GRNofert")]
-	d <- reshape2::melt(d, 1:2)
+	d <- reshape(d, varying = c("GRLL50F", "GRLL", "GRFert", "GRNofert"), 
+		timevar = "treatment", direction="long", v.names = "yield",  
+		times = c("GRLL50F", "GRLL", "GRFert", "GRNofert"))
+	d$id <- NULL	
 	colnames(d) <- c("planting_date", "rain", "treatment", "yield")
+	
 	# Information from the paper
 	d$soil_type <- 'Ferric luvisol'
 	d$N_fertilizer <- 0

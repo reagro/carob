@@ -63,6 +63,7 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	d$fertilizer_type <- p
 
 	d$OM_type[d$OM_type ==""] <- NA
+	d$OM_type[!is.na(d$OM_type)] <- "farmyard manure"
 	d$OM_used <- !is.na(d$OM_type)
 
 	d$yield <- d$yield*1000 # kg/ha

@@ -79,6 +79,7 @@ proc_wheat <- function(ff) {
 
 # Process in carob format
 	r$planting_date <- as.Date(r$SOWING_DATE, "%b %d %Y")
+
 	if (!is.null(r$HARVEST_STARTING_DATE)) {
 		r$harvest_date <- as.Date(r$HARVEST_STARTING_DATE, "%b %d %Y")
 	} else {
@@ -94,6 +95,10 @@ proc_wheat <- function(ff) {
 # other variables
 	r$IRRIGATED <- r$IRRIGATED != "NO"
 	r$Rep <- as.integer(r$Rep)
+	r$planting_date <- as.character(r$planting_date)
+	i <- is.na(r$planting_date)
+	r$planting_date[i] <- as.character(r$Cycle[i])
+	r$harvest_date <- as.character(r$harvest_date)
 
 	r$on_farm <- FALSE
 	r$is_survey <- FALSE
@@ -106,6 +111,8 @@ proc_wheat <- function(ff) {
 		"AJO", "garlic",
 		"ALFA ALFA", "LUCERNE",
 		"ALFALFA", "LUCERNE",
+		"GORSYHIUM HIRSULU", "cotton",
+		"G-HIRTUSUM", "cotton",
 		"ALGODON", "cotton",		
 		"ALGODONERO", "cotton",			  
 		"ALGODAON", "cotton",
@@ -197,7 +204,9 @@ proc_wheat <- function(ff) {
 		"HARICOT BEAN", "common bean",
 		"HARICOT  BEAN", "common bean", 
 		"IRISH POTATO", "potato",
+		"LABLAB (LEGUME)", "lablab",
 		"LAB.LAB", "lablab",
+		"LAB-LAB", "lablab",
 		"LABLAB PURPUREUS (COVER CROP)", "lablab",
 		"LABLAB PURPUREUS", "lablab",
 		"LAGUME CROP(SOYABEAN)", "soybean",
@@ -218,6 +227,7 @@ proc_wheat <- function(ff) {
 		"AREEN  MANURE", "green manure", 
 		"GREEN MANUDE", "green manure", 
 		"GREEN MANEME", "green manure", 
+		"GREE MANURE", "green manure", 
 		"GREEN  MANURE", "green manure", 
 		"GREEM  MANURE", "green manure", 
 		"GREEN  MANWE", "green manure", 
@@ -290,6 +300,7 @@ proc_wheat <- function(ff) {
 		"POTATO AND RAPE SEED", "potato; rapeseed",
 		"PEAS", "pea",
 		"PERCO", NA,
+		"PENNISETUM TYPHOIDES", "pearl millet",
 		"PEAEL MILLELE", "pearl millet",
 		"PEARL MILL", "pearl millet",
 		"PEARL  MILLET", "pearl millet",
@@ -298,6 +309,7 @@ proc_wheat <- function(ff) {
 		"PHASEOLUS VULGARIS", "common bean",
 		"PISUM SATIVUM", "pea",
 		"PNLEES", NA,
+		"POROTO", "common bean", 
 		"PULSEC", "pulse", 
 		"PEA FOR GRAIN", "pea", 
 		"PULSES", "pulse", 
@@ -322,6 +334,9 @@ proc_wheat <- function(ff) {
 		"RICE WHEAT", "rice; wheat",		
 		"ROOT", "root crop", 
 		"SAF FLOWER", "safflower", 
+		"DHAINCHA", "sesbania",
+		"SESBANIA I", "sesbania",
+		"SESBANIA INDICA", "sesbania",
 		"SESBANIA SP.", "sesbania",
 		"SESBANIA\\", "sesbania",
 		"SEED PRODUCTION", NA,
@@ -355,6 +370,8 @@ proc_wheat <- function(ff) {
 		"SOYBEN", "soybean",
 		"SOYA-OIL SEED", "soybean",
 		"SOYA- OIL SEED", "soybean",
+		"SUNHAMP", "sunn hemp",
+		"SUNNHAMP", "sunn hemp",
 		"SUNHEMO", "sunn hemp",
 		"SRUNHEMP", "sunn hemp",
 		"SUNFLOVER", "sunflower",
@@ -395,6 +412,7 @@ proc_wheat <- function(ff) {
 		"T. AESTIVUM", "wheat",
 		"UPLAND RICE", "rice",
 		"UPLAND  RICE", "rice",
+		"URDBEAN (BLACK GRAM)", "black gram",
 		"URDBEAN", "black gram",
 		"URDBEAN- PULSES", "black gram",
 		"URDBEAN-PULSES", "black gram",
@@ -508,11 +526,7 @@ proc_wheat <- function(ff) {
 
 	r$yield_part <- "grain"
 	# records without yield are not very useful
-	#r <- r[!is.na(r$yield), ]
-
-	r$planting_date <- as.character(r$planting_date)	
-	r$harvest_date <- as.character(r$harvest_date)
-	
+	#r <- r[!is.na(r$yield), ]	
 		
 	# set all colnames to lowercase and subset	
 	colnames(r) <- tolower(colnames(r))

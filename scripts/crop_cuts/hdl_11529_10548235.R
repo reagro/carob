@@ -36,7 +36,7 @@ carob_script <- function(path) {
 	dset$license <- carobiner::get_license(js)
 
 	f <- ff[basename(ff) == "TZ_TAMASA_APS_2017_Yield_MetaData.xlsx"]
-	d <- as.data.frame(readxl::read_excel(f, sheet = "Corrected-Raw-Data", n_max = 1835))	
+	d <- carobiner::read.excel(f, sheet = "Corrected-Raw-Data", n_max = 1835)
 	d$country <- "Tanzania"
 	d$adm1 <- d$Zone
 	d$adm2 <- d$Region 
