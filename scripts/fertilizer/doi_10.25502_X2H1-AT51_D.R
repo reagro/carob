@@ -81,7 +81,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 	d$plant_density[d$plant_density == "NaN"] <- NA
 	d$yield <- as.numeric(d$grain_yield_kgperha)
 	d <- d[d$yield > 0,]
-	d$residue_yield<- as.numeric(d$total_yield_stover_kg_per_ha)
+	d$residue_yield <- as.numeric(d$total_yield_stover_kg_per_ha)
 	d$biomass_total <- as.numeric(d$calc_weight_a_ground_biomass_kg)
 	d$grain_weight <- d$dry_weight_100_seed_g * 10
 	d <- d[,c("trial_id","rep","treatment","variety","planting_date","harvest_date","plant_density","yield",
@@ -140,7 +140,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 
 	# processing soil_data.csv
 	f5 <- ff[basename(ff) == "soil_data.csv"]
-	d5<- data.frame(read.csv(f5)) 
+	d5 <- data.frame(read.csv(f5)) 
 	d5$trial_id <- toupper(d5$farm_id)
 	d5$soil_pH <- d5$ph
 	d5$soil_SOC <- d5$tc_perc
@@ -176,7 +176,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 	f$fertilizer_type[f$P_fertilizer > 0] <- "DAP"
 	f$country <- "Ethiopia"
 	f$row_spacing <- 40 
-	f$plant_spacing <-10
+	f$plant_spacing <- 10
 	f$on_farm <- TRUE
 	f$yield_part <- "seed"
 	

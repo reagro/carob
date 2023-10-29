@@ -26,7 +26,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
 	)
   
   ## treatment level data 
-  ff  <- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   
   ## read the json for version, license, terms of use  
   js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
@@ -79,11 +79,11 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   d$fertilizer_type <- NA
   for (i in 1:length(d$P_fertilizer)){
     if (d$P_fertilizer[i] > 0){
-      d$fertilizer_type[i] <-"urea; SSP; KCl"
+      d$fertilizer_type[i] <- "urea; SSP; KCl"
     }
     else{
       
-      d$fertilizer_type[i]<-"urea; KCl"
+      d$fertilizer_type[i] <- "urea; KCl"
     }  
     
   }

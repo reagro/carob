@@ -29,7 +29,7 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 
 ## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group)
 	dset$license <- carobiner::get_license(js)
 

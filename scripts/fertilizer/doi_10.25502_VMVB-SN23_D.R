@@ -37,7 +37,7 @@ carob_script <- function(path){
   
   ## downloading data 
   
-  ff  <- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- carobiner::get_license(js)
   
@@ -49,7 +49,7 @@ carob_script <- function(path){
   d$rep <- d$replication_no
   d$planting_date <- as.character(as.Date(paste(d$planting_date_yyyy,d$planting_date_mm,d$planting_date_dd, sep = "-")))
   d$date_harvest_yyyy[d$trial_id == "AT_KE003_LR_2011_INPUT_SB_BUTULA"] <- 2011
-  d$harvest_date <-as.character(as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-")))
+  d$harvest_date <- as.character(as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-")))
   d$harvest_date[d$harvest_date=="0-08-04"] <- "2011-08-04"
   
   d$yield <- d$grain_yield_ha_calc

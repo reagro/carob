@@ -123,7 +123,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	
 	#calculating the fertilizer different
 	d0$P_fertilizer <- (0.0874* d0$SSP_amt_per_plot / (as.numeric(d0$width * d0$length) / 10000)) #p in SSP taken as 8.74
-	d0$P_fertilizer[is.na(d0$P_fertilizer)]<- 0
+	d0$P_fertilizer[is.na(d0$P_fertilizer)] <- 0
 	d0$N_fertilizer <- 0
 	d0$K_fertilizer <- 0
 	d0 <- d0[!duplicated(d0), ]

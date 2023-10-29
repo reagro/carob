@@ -37,7 +37,7 @@ carob_script <- function(path) {
    bn <- basename(ff)
    
    # read the dataset
-   r<- read.csv(ff[bn=="data.csv"])
+   r <- read.csv(ff[bn=="data.csv"])
    
    ### process file()
    
@@ -48,7 +48,7 @@ carob_script <- function(path) {
     d$crop <- "soybean" 
     d$dataset_id <- dataset_id
     d$trial_id <- paste(d$ID,d$location,sep = "-")
-    d$ID<- NULL
+    d$ID <- NULL
     d$on_farm <- TRUE
     d$is_survey <- FALSE
     d$irrigated <- FALSE
@@ -60,8 +60,8 @@ carob_script <- function(path) {
    d$longitude[d$location=="NAMPULA"] <- 39.2707752
    d$latitude[d$location=="NAMPULA"] <- -14.966969
    d$country <- carobiner::fix_name(d$country,"title") 
-   d$harvest[d$harvest< 45]<- NA
-   d$yield_part<- "seed" 
+   d$harvest[d$harvest< 45] <- NA
+   d$yield_part <- "seed" 
    
     # all scripts must end like this
    carobiner::write_files(dset, d, path=path)

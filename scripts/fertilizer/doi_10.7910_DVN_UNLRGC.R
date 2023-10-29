@@ -42,7 +42,7 @@ Notes
 	)
 
 	## treatment level data 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(cleanuri, path, major=1, minor=3, group)
@@ -122,7 +122,7 @@ Notes
 	z <- merge(z, crds, by="TrialID")
 	
 	names(z) <- tolower(names(z))
-	z$soiltype  <- carobiner::fix_name(z$soiltype, "title")
+	z$soiltype <- carobiner::fix_name(z$soiltype, "title")
 	z$zone <- carobiner::fix_name(z$zone, "title")
 	z$location <- carobiner::fix_name(z$location, "title")
 	z$year[z$year=="87B"] <- "1987"

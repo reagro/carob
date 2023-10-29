@@ -31,7 +31,7 @@ carob_script <- function(path) {
   
 	## download and read data 
 	
-	ff	<- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
+	ff	 <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
 	js <- carobiner::get_metadata(dataset_id, path, group)
 	dset$license <- carobiner::get_license(js)
 	

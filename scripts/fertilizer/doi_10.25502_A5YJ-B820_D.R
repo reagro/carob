@@ -36,9 +36,9 @@ carob_script <- function(path) {
    bn <- basename(ff)
    
    # read the dataset
-   r<- read.csv(ff[bn=="Variety&Fertilizer_Effect_Data.csv"])  
+   r <- read.csv(ff[bn=="Variety&Fertilizer_Effect_Data.csv"])  
    
-   r1<- read.csv(ff[bn=="Nutrient response_Data.csv"])  
+   r1 <- read.csv(ff[bn=="Nutrient response_Data.csv"])  
    
 
    
@@ -55,47 +55,47 @@ carob_script <- function(path) {
    #### joint d1 and d2
    d <- rbind(d1,d2)
    
-   d$yield <-d$yield*1000  ## kg/ha
-   d$biomass_stems<- d$biomass_stems*1000 # kg/ha 
+   d$yield <- d$yield*1000  ## kg/ha
+   d$biomass_stems <- d$biomass_stems*1000 # kg/ha 
    # add columns
-   d$country<- "Democratic Republic of the Congo"
+   d$country <- "Democratic Republic of the Congo"
    d$crop <- "cassava" 
    d$dataset_id <- dataset_id
    d$trial_id <- paste(d$ID,d$location,sep = "-")
    d$on_farm <- TRUE
    d$is_survey <- FALSE
    d$irrigated <- FALSE
-   d$ID<- NULL
+   d$ID <- NULL
    d$adm1 <- "Sud-Kivu"
-   d$yield[d$yield==""]<- NA
-   d<-d[!is.na(d$yield),]
+   d$yield[d$yield==""] <- NA
+   d <- d[!is.na(d$yield),]
    ## add fertilizer
    ### 100-22-83 # get from 
-d$N_fertilizer<- 0
-d$P_fertilizer<- 0
-d$K_fertilizer<- 0
-   j<- grepl("NPK",d$treatment) |grepl("NP",d$treatment) |grepl("NK",d$treatment)
-d$N_fertilizer[j]<- 100
+d$N_fertilizer <- 0
+d$P_fertilizer <- 0
+d$K_fertilizer <- 0
+   j <- grepl("NPK",d$treatment) |grepl("NP",d$treatment) |grepl("NK",d$treatment)
+d$N_fertilizer[j] <- 100
   
-j<- grepl("NPK",d$treatment) |grepl("NP",d$treatment) |grepl("PK",d$treatment)
-d$P_fertilizer[j]<- 22/2.29
+j <- grepl("NPK",d$treatment) |grepl("NP",d$treatment) |grepl("PK",d$treatment)
+d$P_fertilizer[j] <- 22/2.29
 
-j<- grepl("NPK",d$treatment) |grepl("NK",d$treatment) |grepl("PK",d$treatment)
-d$K_fertilizer[j]<- 83/1.2051
+j <- grepl("NPK",d$treatment) |grepl("NK",d$treatment) |grepl("PK",d$treatment)
+d$K_fertilizer[j] <- 83/1.2051
 ### add long and lat coordinate
-   geoc<- data.frame(location=c("Kasheke","Cibanda","Cibandja","Muhongoza","Munanira"),
+   geoc <- data.frame(location=c("Kasheke","Cibanda","Cibandja","Muhongoza","Munanira"),
                      lat=c(-2.1518846,-2.1065462,-2.1065462,-2.0976667,-2.1057639),
                      lon=c(28.8560076,28.9186227,28.9186227,28.9069167,28.9202472))
    
-  d<- merge(d,geoc,by="location")
+  d <- merge(d,geoc,by="location")
    
-  d$longitude<- d$lon
-  d$latitude<- d$lat
+  d$longitude <- d$lon
+  d$latitude <- d$lat
   d$lon <- d$lat <- NULL
    
-  d$biomass_stems[d$biomass_stems>20000]<- NA
-  d$plant_height[d$plant_height>250]<- NA
-   d$yield_part<- "roots" 
+  d$biomass_stems[d$biomass_stems>20000] <- NA
+  d$plant_height[d$plant_height>250] <- NA
+   d$yield_part <- "roots" 
    
    # all scripts must end like this
    carobiner::write_files(dset, d, path=path)

@@ -29,7 +29,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	)
 	  
 	## treatment level data 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	  
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
@@ -55,7 +55,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	d$yield <- d$PodKgHa
 	d$residue_yield <- d$FdWtKgHa
 	d$grain_weight <- d$seedgm
-	d$crop <-"groundnut"
+	d$crop <- "groundnut"
 	
 	d$dataset_id <- dataset_id
 	d$trial_id <- paste0(dataset_id, d$adm2, sep = "_")

@@ -29,7 +29,7 @@ carob_script <- function(path) {
   
   ## download and read data 
   
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
 	dset$license <- carobiner::get_license(js)
   
@@ -65,7 +65,7 @@ carob_script <- function(path) {
   
     i <- is.na(c$grain_weight1) & (!is.na(c$grain_weight2))
     c$grain_weight1[i] <- c$grain_weight2[i]
-    c$Maize_yield_kg_ha[i]<- c$Cowpea_yield_kg_ha[i]
+    c$Maize_yield_kg_ha[i] <- c$Cowpea_yield_kg_ha[i]
    
 	c$grain_weight2 <- NULL
 	c$Cowpea_yield_kg_ha <- NULL
@@ -91,7 +91,7 @@ carob_script <- function(path) {
   # In the 2018/19 season improved cowpea was harvested earlier,26 March to 31 March 2019
   # followed by landrace cowpea and maize which were harvested from 15 April to 22 April 2019 
   
-	d$planting_date <-""
+	d$planting_date <- ""
 	d$harvest_date <- ""
   
 	i <- (d$Year == 1 & d$crop == "maize")

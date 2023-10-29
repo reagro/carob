@@ -27,7 +27,7 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 	)
 
 	## treatment level data 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
@@ -66,7 +66,7 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 	dh$year[de$year=='2017/18'] <- '2016/17'
 	colnames(dh) <- c("Rep","Trt","GY kg/ha","BM kg/ha","country","adm3","year")
 
-	dv  <- rbind(dh,dg,df,de)
+	dv <- rbind(dh,dg,df,de)
 	colnames(dv) <- c("rep","treatment","yield","biomass_total","country","adm3","planting_date")
 
 	#####Change Treatment
@@ -124,8 +124,8 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 
 	dv$rep <- as.integer(dv$rep)
 
-	dv$longitude<-0
-	dv$latitude<-0
+	dv$longitude <- 0
+	dv$latitude <- 0
 
 	dv$longitude[dv$adm3=='Limmu Sekka'] <- 36.945489
 	dv$latitude[dv$adm3=='Limmu Sekka'] <- 8.191739

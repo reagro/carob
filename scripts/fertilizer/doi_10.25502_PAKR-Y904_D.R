@@ -89,11 +89,11 @@ carob_script <- function(path) {
 	# planting date is June 2017	get from VT protocol
 	d$planting_date <- "2017-06-01"
 	d$harvest_date <- "2017-11-01"
-	d$season<- "2017"
+	d$season <- "2017"
 	
 	d$trial_id <- paste0(dataset_id, '-', d$Location)
 	#data type
-	d$yield<- as.numeric(d$yield)
+	d$yield <- as.numeric(d$yield)
 	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	

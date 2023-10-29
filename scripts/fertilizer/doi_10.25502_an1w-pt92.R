@@ -33,7 +33,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   
   ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- carobiner::get_license(js)
   
@@ -135,7 +135,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$P_fertilizer <- 0
   d$K_fertilizer <- 0
   
-  d$N_fertilizer[d$fertilizer_type=="D-compound; AN"|d$fertilizer_type=="D-compound; AN; unknown"]  <- 10 +0
+  d$N_fertilizer[d$fertilizer_type=="D-compound; AN"|d$fertilizer_type=="D-compound; AN; unknown"] <- 10 +0
   d$N_fertilizer[d$fertilizer_type=="gypsum; D-compound" |d$fertilizer_type=="D-compound"] <- 10
   d$N_fertilizer[d$fertilizer_type=="C-compound; AN"] <- 12+0
   d$N_fertilizer[d$fertilizer_type=="D-compound; AN; C-compound"] <- 10+0 + 12

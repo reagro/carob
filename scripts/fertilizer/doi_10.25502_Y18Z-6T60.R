@@ -30,7 +30,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   
   ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- carobiner::get_license(js)
   f <- ff[basename(ff) == "a_general_1.csv"] 

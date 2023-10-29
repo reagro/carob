@@ -28,7 +28,7 @@ carob_script <- function(path) {
 	)
 
 	## download and read data 	
-	ff	<- carobiner::get_data(uri, path, group)
+	ff	 <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
 	
@@ -79,7 +79,7 @@ carob_script <- function(path) {
 	
 	#start and end date info obtained from the dictonary 
 	dd$planting_date <- ifelse(dd$season =="Y1617S", "2016", "2017")
-	dd$harvest_date	<- ifelse(dd$season =="Y1617S", "2017", "2018")
+	dd$harvest_date	 <- ifelse(dd$season =="Y1617S", "2017", "2018")
 	dd$yield_part <- "seed"
 	dd$dataset_id <- dataset_id
 	dd$on_farm <- TRUE

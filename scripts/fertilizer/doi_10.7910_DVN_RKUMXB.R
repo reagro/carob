@@ -49,7 +49,7 @@ carob_script <- function(path) {
 
 ## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	f <- ff[basename(ff) == "02. ET_data_June2017.csv"]
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
@@ -90,7 +90,7 @@ carob_script <- function(path) {
 
 	## Add Zn and S columns and extract from "Other_Nutrient"
 	d$Zn <- 0
-	d$S  <- 0
+	d$S <- 0
 	d$Zn[d$Other_Nutrient == "Zn"] <- d$Nutrientamount[d$Other_Nutrient == "Zn"]
 	d$S[d$Other_Nutrient == "S"] <- d$Nutrientamount[d$Other_Nutrient == "S"]
 	d$Other_Nutrient <- NULL

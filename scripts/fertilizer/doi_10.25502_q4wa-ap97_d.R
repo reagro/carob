@@ -60,7 +60,7 @@ carob_script <- function(path){
 	d$N_fertilizer <- 0
 	d$N_splits <- 0L
 	
-	d$P_fertilizer[d$sub_treatment_inoc %in% c("TSP", "TSP/KCL+UREA", "TSP/KCL", "TSP/KCL +UREA")]<- 30
+	d$P_fertilizer[d$sub_treatment_inoc %in% c("TSP", "TSP/KCL+UREA", "TSP/KCL", "TSP/KCL +UREA")] <- 30
 	d$K_fertilizer[d$sub_treatment_inoc %in% c("TSP/KCL+UREA", "TSP/KCL", "TSP/KCL +UREA")] <- 30
 	d$N_fertilizer[d$sub_treatment_inoc %in% c("TSP/KCL+UREA","TSP/KCL +UREA","PK6+Urea","SB24+Urea")] <- 60
 	d$N_splits[d$N_fertilizer > 0] <- 2L

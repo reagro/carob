@@ -82,10 +82,10 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 	
 	d <- d[,c("trial_id","country","adm3","latitude","longitude","crop","variety","treatment","rep","N_fertilizer","P_fertilizer","K_fertilizer","planting_date","harvest_date","elevation", "soil_pH","soil_P_total","soil_K","yield")]
 	
-	d1$country <-"Malawi"
+	d1$country <- "Malawi"
 	d1$adm1 <- ""
 	d1$adm1[grep("BDF", d1$L)] <- "Bunda"
-	d1$adm1[grep("SL", d1$L)]	<- "Salima"
+	d1$adm1[grep("SL", d1$L)]	 <- "Salima"
 	d1$crop <- "maize"
 	d1$rep <- d1$r
 	d1$N_fertilizer <- d1$N
@@ -166,7 +166,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 		c("Seed-Co: 403","TMV-1", "DK8031"), 
 		c("Seed_Co 403","TMV 1","DK 8031"))
 	d3$variety <- v
-	d3$crop <-"maize"
+	d3$crop <- "maize"
 	d3$N_fertilizer <- d3$N
 	d3$N_fertilizer[d3$N_fertilizer %in% c("Diagnostic package", "Diagnostic",NA)] <- 0 
 	d3$N_fertilizer <- as.numeric(d3$N_fertilizer)

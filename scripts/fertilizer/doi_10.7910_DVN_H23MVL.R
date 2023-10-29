@@ -122,39 +122,39 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
 	d$latitude[i] <- d$lat[i]
     d$lat <- d$lon <- NULL
     # fix soil_SOC range and fertilizer
-    d$soil_SOC[d$soil_SOC>20]<-NA
-    d$N_fertilizer[is.na(d$N_fertilizer)]<-0
-    d$P_fertilizer[is.na(d$P_fertilizer)]<-0
-    d$K_fertilizer[is.na(d$K_fertilizer)]<-0
+    d$soil_SOC[d$soil_SOC>20] <- NA
+    d$N_fertilizer[is.na(d$N_fertilizer)] <- 0
+    d$P_fertilizer[is.na(d$P_fertilizer)] <- 0
+    d$K_fertilizer[is.na(d$K_fertilizer)] <- 0
     # remove rows without location
-    d<-d[!is.na(d$location),]
+    d <- d[!is.na(d$location),]
    # fix error in long and lat 
-    d$longitude[d$location=="Alukdia"]<-88.82096
-    d$latitude[d$location=="Alukdia"] <-23.6578
-    d$longitude[d$location=="Badarganj"]<-89.1808277
-    d$latitude[d$location=="Badarganj"]<-25.7071259
-    d$longitude[d$location=="Chandbill"]<-90.2934413
-    d$latitude[d$location=="Chandbill"]<-24.4769288
-    d$longitude[d$location=="Jhapa "]<-87.885701
-    d$latitude[d$location=="Jhapa "]<-26.5837354
-    d$longitude[d$location=="Grobogan, Central Java (GRO)"]<-110.8966767
-    d$latitude[d$location=="Grobogan, Central Java (GRO)"]<--7.0980947
-    d$longitude[d$location=="Ilocos Norte/Sur, La Union, Pangasinan, Isabela, Zambales, Nueva Ecija, Bulacan"]<-121
-    d$latitude[d$location=="Ilocos Norte/Sur, La Union, Pangasinan, Isabela, Zambales, Nueva Ecija, Bulacan"]<-15.583333
-    d$longitude[d$location=="Jeneponto, South Sulawesi (SUL)"]<-120.2948856
-    d$latitude[d$location=="Jeneponto, South Sulawesi (SUL)"]<--1.9758004
-    d$longitude[d$location=="Kediri, East Java (EJA)"]<-112.0046051
-    d$latitude[d$location=="Kediri, East Java (EJA)"]<--7.8111057
-    d$longitude[d$location=="Lampung Tengah, Lampung (LAM)"]<-105.0272986
-    d$latitude[d$location=="Lampung Tengah, Lampung (LAM)"]<--4.8555039
-    d$longitude[d$location=="Liaoning" ]<-122.9955469
-    d$latitude[d$location== "Liaoning"]<-40.9975197
-    d$longitude[d$location=="Pangasinan and Tarlac" ]<-120.4964091
-    d$latitude[d$location=="Pangasinan and Tarlac"]<-15.4937252
-    d$longitude[d$location=="Sukamandi, West Java"  ]<-107.6221628
-    d$latitude[d$location=="Sukamandi, West Java" ]<--6.7177474
-    d$longitude[d$location=="Trang Bang, Tay Ninh (TAY)"]<-106.3623675
-    d$latitude[d$location=="Trang Bang, Tay Ninh (TAY)"]<-11.0315517
+    d$longitude[d$location=="Alukdia"] <- 88.82096
+    d$latitude[d$location=="Alukdia"] <- 23.6578
+    d$longitude[d$location=="Badarganj"] <- 89.1808277
+    d$latitude[d$location=="Badarganj"] <- 25.7071259
+    d$longitude[d$location=="Chandbill"] <- 90.2934413
+    d$latitude[d$location=="Chandbill"] <- 24.4769288
+    d$longitude[d$location=="Jhapa "] <- 87.885701
+    d$latitude[d$location=="Jhapa "] <- 26.5837354
+    d$longitude[d$location=="Grobogan, Central Java (GRO)"] <- 110.8966767
+    d$latitude[d$location=="Grobogan, Central Java (GRO)"] <- -7.0980947
+    d$longitude[d$location=="Ilocos Norte/Sur, La Union, Pangasinan, Isabela, Zambales, Nueva Ecija, Bulacan"] <- 121
+    d$latitude[d$location=="Ilocos Norte/Sur, La Union, Pangasinan, Isabela, Zambales, Nueva Ecija, Bulacan"] <- 15.583333
+    d$longitude[d$location=="Jeneponto, South Sulawesi (SUL)"] <- 120.2948856
+    d$latitude[d$location=="Jeneponto, South Sulawesi (SUL)"] <- -1.9758004
+    d$longitude[d$location=="Kediri, East Java (EJA)"] <- 112.0046051
+    d$latitude[d$location=="Kediri, East Java (EJA)"] <- -7.8111057
+    d$longitude[d$location=="Lampung Tengah, Lampung (LAM)"] <- 105.0272986
+    d$latitude[d$location=="Lampung Tengah, Lampung (LAM)"] <- -4.8555039
+    d$longitude[d$location=="Liaoning" ] <- 122.9955469
+    d$latitude[d$location== "Liaoning"] <- 40.9975197
+    d$longitude[d$location=="Pangasinan and Tarlac" ] <- 120.4964091
+    d$latitude[d$location=="Pangasinan and Tarlac"] <- 15.4937252
+    d$longitude[d$location=="Sukamandi, West Java"  ] <- 107.6221628
+    d$latitude[d$location=="Sukamandi, West Java" ] <- -6.7177474
+    d$longitude[d$location=="Trang Bang, Tay Ninh (TAY)"] <- 106.3623675
+    d$latitude[d$location=="Trang Bang, Tay Ninh (TAY)"] <- 11.0315517
     # fix crop name 
   p <- carobiner::fix_name(d$crop, "lower")
   d$crop <- p

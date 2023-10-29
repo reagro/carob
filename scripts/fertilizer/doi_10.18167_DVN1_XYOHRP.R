@@ -37,16 +37,16 @@ carob_script <- function(path) {
    # process files
    
    # Yield biomass
-   r<- read_excel(ff[bn=="DonneesDATAVERSE_F1.xlsx"],sheet = 3)  
+   r <- read_excel(ff[bn=="DonneesDATAVERSE_F1.xlsx"],sheet = 3)  
    r$yield <- r$`Yield (14% moisture content)`
-   d1<- r[,c("Season","Rotation","yield","TotalWeedBiomass","RiceBiomassD5")]
-   colnames(d1)<- c("season","crop_rotation","yield","weeds_biomass","biomass_total")
+   d1 <- r[,c("Season","Rotation","yield","TotalWeedBiomass","RiceBiomassD5")]
+   colnames(d1) <- c("season","crop_rotation","yield","weeds_biomass","biomass_total")
    
    ### Fertilizer file
-   r1<- read_excel(ff[bn=="DonneesDATAVERSE_F1.xlsx"],sheet = 2) 
+   r1 <- read_excel(ff[bn=="DonneesDATAVERSE_F1.xlsx"],sheet = 2) 
    
-   d2<- r1[,c(2,3,5,6,8,9,10,11)]#
-   colnames(d2)<- c("season","Qty_apply","OM","N","P","K","Ca","Mg")#,
+   d2 <- r1[,c(2,3,5,6,8,9,10,11)]#
+   colnames(d2) <- c("season","Qty_apply","OM","N","P","K","Ca","Mg")#,
    
    d2$OM_applied <-   d2$Qty_apply*d2$OM*10
    d2$N_fertilizer <- d2$Qty_apply*d2$N*10 
@@ -54,41 +54,41 @@ carob_script <- function(path) {
    d2$K_fertilizer <- d2$Qty_apply*d2$K*10
    d2$Ca_fertilizer <- d2$Qty_apply*d2$Ca*10
    d2$Mg_fertilizer <- d2$Qty_apply*d2$Mg*10
-   d2$Qty_apply <- d2$OM <- d2$N <- d2$P<- d2$K <- d2$Ca <- d2$Mg <- NULL
+   d2$Qty_apply <- d2$OM <- d2$N <- d2$P <- d2$K <- d2$Ca <- d2$Mg <- NULL
    
    ## merge d1,d2
    d <- merge(d1,d2,by="season")
-   d$crop_rotation[d$crop_rotation=="RG"]<- "groundnut"
-   d$crop_rotation[d$crop_rotation=="RR"]<- "rice"
-   d$crop_rotation[d$crop_rotation=="RVC"]<- "cereal; legume"
-   d$crop_rotation[d$crop_rotation=="RSC"]<- "cereal"
-   d$yield<- d$yield*1000 # in kg/ha
-   d$weeds_biomass<- d$weeds_biomass*1000 # in kg/ha
-   d$biomass_total<- d$biomass_total*1000 # in kg/ha
+   d$crop_rotation[d$crop_rotation=="RG"] <- "groundnut"
+   d$crop_rotation[d$crop_rotation=="RR"] <- "rice"
+   d$crop_rotation[d$crop_rotation=="RVC"] <- "cereal; legume"
+   d$crop_rotation[d$crop_rotation=="RSC"] <- "cereal"
+   d$yield <- d$yield*1000 # in kg/ha
+   d$weeds_biomass <- d$weeds_biomass*1000 # in kg/ha
+   d$biomass_total <- d$biomass_total*1000 # in kg/ha
 
    # add columns
    
    d$crop <- "rice" 
    d$dataset_id <- dataset_id
-   d$country<- "Madagascar"
-   d$location<- "Vakinankaratra"
+   d$country <- "Madagascar"
+   d$location <- "Vakinankaratra"
    d$trial_id <- paste(d$country,d$location,sep = "-")
-   d$yield_part<- "grain"
+   d$yield_part <- "grain"
    d$on_farm <- TRUE
    d$irrigated <- FALSE
-   d$is_survey<- FALSE
-   d$planting_date<- NA
-   d$planting_date[d$season==1516]<- "2015"
-   d$planting_date[d$season==1617]<- "2016"
-   d$planting_date[d$season==1718]<- "2017"
-   d$planting_date[d$season==1819]<- "2018"
+   d$is_survey <- FALSE
+   d$planting_date <- NA
+   d$planting_date[d$season==1516] <- "2015"
+   d$planting_date[d$season==1617] <- "2016"
+   d$planting_date[d$season==1718] <- "2017"
+   d$planting_date[d$season==1819] <- "2018"
    ### add long and lat coordinate
    d$longitude[d$location=="Vakinankaratra"] <- 46.8355481
-   d$latitude[d$location=="Vakinankaratra"]<- -19.7113095
+   d$latitude[d$location=="Vakinankaratra"] <- -19.7113095
    
    #data type
-   d$season<- as.character(d$season)
-   d$planting_date<- as.character(d$planting_date)
+   d$season <- as.character(d$season)
+   d$planting_date <- as.character(d$planting_date)
    # all scripts must end like this
    carobiner::write_files(dset, d, path=path)
    

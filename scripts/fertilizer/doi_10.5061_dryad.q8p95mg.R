@@ -222,8 +222,8 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 # 	d6 <- extract_from_pdf(fpdf, pages = 4)
 # 
 # 	names(d6) <- c("Site_soil type", "Year", "Lat", "Long", "Elev", "Variety", "Yield")
-# 	d6$`Site_soil type`<- gsub("-", "_", d6$`Site_soil type`)
-# 	d6$`Site_soil type`<- gsub(" ", "", d6$`Site_soil type`)
+# 	d6$`Site_soil type` <- gsub("-", "_", d6$`Site_soil type`)
+# 	d6$`Site_soil type` <- gsub(" ", "", d6$`Site_soil type`)
 # 	d6$soil_type <- sapply(d6$`Site_soil type`, function(x) strsplit(x, "_")[[1]][3])
 # 	d6$trial_id <- paste0(sapply(d6$`Site_soil type`, function(x) strsplit(x, "_")[[1]][1]), "_", sapply(d6$`Site_soil type`, function(x) strsplit(x, "_")[[1]][2]))
 # 	d6$trial_id[d6$trial_id == "TZ_Selian" & d6$Year == 2014] <- "TZ_Selian14"

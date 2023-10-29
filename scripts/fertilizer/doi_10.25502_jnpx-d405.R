@@ -243,10 +243,10 @@ carob_script <- function(path){
   z$latitude <- ifelse(is.na(z$latitude), z$lat, z$latitude)
   z$longitude <- ifelse(is.na(z$longitude), z$lon, z$longitude)
   
-  z$latitude[is.na(z$latitude) & z$site == "Logshegu"] <-	9.43341645
+  z$latitude[is.na(z$latitude) & z$site == "Logshegu"] <- 	9.43341645
   z$longitude[is.na(z$longitude) & z$site == "Logshegu"] <- -0.889753797926527 
   
-  z$latitude[is.na(z$latitude) & z$site == "Zangbanllung-Kukuo"] <-	8.8493897
+  z$latitude[is.na(z$latitude) & z$site == "Zangbanllung-Kukuo"] <- 	8.8493897
   z$longitude[is.na(z$longitude) & z$site == "Zangbanllung-Kukuo"] <- 0.1586035 
   
   

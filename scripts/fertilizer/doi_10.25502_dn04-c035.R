@@ -77,7 +77,7 @@ carob_script <- function(path){
 	#cleaning fertilizer types
 	d2$mineral_fert_type <- carobiner::fix_name(d2$mineral_fert_type, "lower")
 	
-	d2$mineral_fert_type[d2$mineral_fert_type %in% c("urea", "ureia", "ureia")]<- "urea"
+	d2$mineral_fert_type[d2$mineral_fert_type %in% c("urea", "ureia", "ureia")] <- "urea"
 	d2$mineral_fert_type[d2$mineral_fert_type %in% "yes"] <- "ssp"
 	
 	i <- grep("ssp", d2$mineral_fert_type)

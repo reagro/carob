@@ -37,7 +37,7 @@ carob_script <- function(path) {
 
 ### download and read data 
 
-# ff  <- carobiner::get_data(uri, path, group)
+# ff <- carobiner::get_data(uri, path, group)
 # js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 # dset$license <- carobiner::get_license(js)
 
@@ -110,7 +110,7 @@ carob_script <- function(path) {
 #merge all the data
 # d <- merge(d1,d3,by="dataset_id", all.x = TRUE)
 # data type
-# d$season  <- as.character(d$season)
+# d$season <- as.character(d$season)
 # d$OM_type <- as.character(d$OM_type)
 # d$OM_used <- as.logical(d$OM_used)
 # crop terms normalization

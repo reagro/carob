@@ -26,7 +26,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	)
   
 	## treatment level data 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
   
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=1, group)

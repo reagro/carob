@@ -88,7 +88,7 @@ carob_script <- function(path){
 	d <- d[,c("trial_id","rep","on_farm","planting_date","harvest_date","treatment","biomass_roots","biomass_total", "crop", "K_fertilizer","P_fertilizer","N_fertilizer","N_splits", "fertilizer_type", "inoculated", "yield")]
 
 	d1$trial_id <- d1$experiment_id
-	d1$country <-"Kenya"
+	d1$country <- "Kenya"
 
 	as <- carobiner::fix_name(sapply(strsplit(d1$action_site, "-"), \(i) i[1]), "title")
 	as[as=="Marcel Olela"] <- NA
