@@ -34,5 +34,14 @@ The study was carried out by the International Institute of Tropical Agriculture
 	d <- mzfun(ff)
 	d$dataset_id <- dataset_id
 	
+	i <- which(d$location == "Bani Suef")
+	d$longitude[i] <- 30.96
+	d$latitude[i] <- 29.065
+	
+	i <- grep("^Loc", d$location)
+	d$longitude[i] <- 30.03
+	d$latitude[i] <- 31.03
+	
 	carobiner::write_files(dset, d, path=path)
 }
+

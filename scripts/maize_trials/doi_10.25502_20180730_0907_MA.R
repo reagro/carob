@@ -44,6 +44,11 @@ The study was carried out by the International Institute of Tropical Agriculture
 	d$longitude[i] <- 10.13
 	d$latitude[i] <- 5.98
 	
+	i <- d$location == "Djallingo"
+	d$longitude[i] <- 13.458
+	d$latitude[i] <- 9.246
+
+	
 	carobiner::write_files(dset, d, path=path)
 
 }

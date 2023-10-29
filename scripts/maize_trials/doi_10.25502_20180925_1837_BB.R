@@ -37,7 +37,10 @@ The study was carried out by the International Institute of Tropical Agriculture
 	
 	i <- d$location == "Sapu"
 	d$country[i] <- "Gambia"
+
+	i <- d$location == "N'tarla"
+	d$longitude[i] <- -5.69
+	d$latitude[i] <- 12.621
 	
 	carobiner::write_files(dset, d, path=path)
-
 }
