@@ -37,7 +37,7 @@ carob_script <- function(path) {
 ## download and read data 
 
 	f <- "C:/carob/data/raw/crop_cuts/"hdl:10568/68916"
-	path<- "C:/carob"
+	path <- "C:/carob"
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	dset$license <- carobiner::get_license(js)
@@ -59,7 +59,7 @@ carob_script <- function(path) {
 	d$dataset_id <- dataset_id
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
-	d$is_experiment <-TRUE 
+	d$is_experiment <- TRUE 
 	d$irrigated <- FALSE
 
 
@@ -78,7 +78,7 @@ carob_script <- function(path) {
 ##### Crop #####
 ## normalize variety names
 ## see carobiner::fix_name
-	d$crop <-d$CROP 
+	d$crop <- d$CROP 
  
 
 

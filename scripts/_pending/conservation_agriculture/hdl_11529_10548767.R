@@ -48,7 +48,7 @@ path <- "C:/carob"
 
 ## use a subset
 	d <- r
- d1<- r1
+ d1 <- r1
 	
 #### about the data #####
 ## (TRUE/FALSE)
@@ -140,7 +140,7 @@ path <- "C:/carob"
 	d$biomass_total <- NA
    d1$biomass_total <- NA
 
-	d$yield <-d$`Biological Yield (t/ha)`
+	d$yield <- d$`Biological Yield (t/ha)`
 	d1$yield <- NA
 	#what plant part does yield refer to?
 	d$yield_part <- "grain"

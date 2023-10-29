@@ -38,19 +38,19 @@ carob_script <- function(path) {
    lst <- list()
    for (i in c(5:11)){
 
-      name<- c("REP","INSTN","AUDPC","rAUDPC","TTYNA")
+      name <- c("REP","INSTN","AUDPC","rAUDPC","TTYNA")
       
-      Newname<-c("rep","variety","AUDPC","rAUDPC","yield")
+      Newname <- c("rep","variety","AUDPC","rAUDPC","yield")
       
       if (i %in% c(5:7)){
          r <- readxl::read_excel(ff[bn==bn[i]],sheet=9) |> as.data.frame()
-         ri<- r[,name]
+         ri <- r[,name]
          colnames(ri) <- Newname
          lst[[i]] <- ri
       }
       else{
          r <- readxl::read_excel(ff[bn==bn[i]],sheet=8) |> as.data.frame()
-         ri<- r[,name]
+         ri <- r[,name]
          colnames(ri) <- Newname
          lst[[i]] <- ri
       }
@@ -60,30 +60,30 @@ carob_script <- function(path) {
    # append all the data
    d <- do.call(rbind, lst)
  
-   d$yield<- d$yield*1000 ## in kg/ha
-   d$yield_part<- "tubers" 
+   d$yield <- d$yield*1000 ## in kg/ha
+   d$yield_part <- "tubers" 
    d$crop <- "potato"
    d$pathogen <- "Phytophthora infestans"
    ## add columns
    d$dataset_id <- dataset_id
-   d$country<- "Peru"
-   d$adm1<- "Junin"
-   d$adm2<- "concepcion"
-   d$adm3<- "Mariscal Castilla"
-   d$site<- "viena"
+   d$country <- "Peru"
+   d$adm1 <- "Junin"
+   d$adm2 <- "concepcion"
+   d$adm3 <- "Mariscal Castilla"
+   d$site <- "viena"
    d$trial_id <- paste(d$adm1,d$dataset_id,sep = "-")
-   d$harvest_date<- "2002-03-25"
-   d$planting_date<- "2001-12-11"
-   d$irrigated <-FALSE
+   d$harvest_date <- "2002-03-25"
+   d$planting_date <- "2001-12-11"
+   d$irrigated <- FALSE
    d$inoculated <- FALSE
    d$is_survey <- FALSE
    d$on_farm <- TRUE
    ### add lon and lat coordinate
-   d$longitude<-  -75.131448
-   d$latitude<-  -11.523716
+   d$longitude <-  -75.131448
+   d$latitude <-  -11.523716
    
    ##data type
-   d$rep<- as.integer(d$rep)
+   d$rep <- as.integer(d$rep)
    
    # all scripts must end like this
    carobiner::write_files(dset, d, path=path)

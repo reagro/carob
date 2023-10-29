@@ -34,7 +34,7 @@ carob_script <- function(path) {
 ## download and read data 
 
 	f <- "C:/carob/data/raw/wheat_trials/hdl:11529/10548225"
-	path<- "C:/carob"
+	path <- "C:/carob"
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	dset$license <- carobiner::get_license(js)

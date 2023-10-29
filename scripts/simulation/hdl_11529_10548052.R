@@ -158,7 +158,7 @@ carob_script <- function(path) {
   d$planting_date <- "2016-11-23"
   d$yield_part <- "grain"
   d$variety <-  "Kavery25K60"
-  d$crop <-"maize"
+  d$crop <- "maize"
   d$rep <- as.integer(sub("R", "", r$Replication))
   d$N_fertilizer <- ifelse(r$Nitrogen=="N1",0,ifelse(r$Nitrogen=="N2",125,250))
   
@@ -176,7 +176,7 @@ carob_script <- function(path) {
   d1$planting_date <- "2015-11-23"
   d1$yield_part <- "grain"
   d1$variety <-  "Kavery25K60"
-  d1$crop <-"maize"
+  d1$crop <- "maize"
   d1$rep <- as.integer(sub("R", "", r1$Replication))
   d1$N_fertilizer <- ifelse(r1$Nitrogen=="N1",0,ifelse(r1$Nitrogen=="N2",125,250))
   d1$P_fertilizer <- 75
@@ -197,7 +197,7 @@ carob_script <- function(path) {
   d2$harvest_date <- "2016-10-24"
   d2$yield_part <- "grain"
   d2$variety <-  "BRRI dhan62"
-  d2$crop <-"rice"
+  d2$crop <- "rice"
   d2$rep <- as.integer(sub("R", "", r2$Replication))
   d2$N_fertilizer <- ifelse(r2$Nitrogen=="N1",0,ifelse(r2$Nitrogen=="N2",34.5,69))
   d2$P_fertilizer <- 14.25
@@ -212,7 +212,7 @@ carob_script <- function(path) {
   d3$planting_date <- "2014-12-04"
   d3$yield_part <- "grain"
   d3$variety <-  "Kavery25K60"
-  d3$crop <-"maize"
+  d3$crop <- "maize"
   d3$rep <- as.integer(sub("R", "", r3$Replication))
   d3$N_fertilizer <- ifelse(r3$Nitrogen=="N1",0,ifelse(r3$Nitrogen=="N2",125,250))
   d3$P_fertilizer <- 75

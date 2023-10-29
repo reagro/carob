@@ -89,9 +89,9 @@ carob_script <- function(path) {
 ## P <- P2O5 / 2.29
 ## K <- K2O / 1.2051
    d$P_fertilizer <- NA
-   d$K_fertilizer <-NA
+   d$K_fertilizer <- NA
    d$N_fertilizer <- NA
-   d$S_fertilizer <-NA 
+   d$S_fertilizer <- NA 
    d$lime <- NA
 ## normalize names 
    d$fertlizer_type <- NA

@@ -15,7 +15,7 @@ carob_script <- function(path) {
   
   "
 
-  uri<- "hdl :11529/11020"
+  uri <- "hdl :11529/11020"
   dataset_id <- carobiner::simple_uri(uri)
   group <-  "crop_cuts"
   ## dataset level data 
@@ -44,7 +44,7 @@ carob_script <- function(path) {
  
   ##TAMASA_ET_CC_2015_BakoF <- read_excel("scripts/crop_cuts/data/raw/crop_cuts/hdl_11529_10548392/TAMASA_ET_CC_2015_BakoF.xlsx", 
   #                                   +     sheet = "Raw_Data")
-  r<- TAMASA_ET_CC_2015_BakoF
+  r <- TAMASA_ET_CC_2015_BakoF
   #	r <- readxl::read_excel(f)
   #	r <- readxl::read_excel(f) |> as.data.frame()
   
@@ -68,7 +68,7 @@ carob_script <- function(path) {
   ##### Location #####
   ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
   ## you can use carobiner::fix_name()
-  d$country <-"Ethiopia"
+  d$country <- "Ethiopia"
   d$adm1 <- "Oromia"
   d$adm2 <- "West Showa"
   d$adm3 <- "Bako"
@@ -85,26 +85,26 @@ carob_script <- function(path) {
   ## see carobiner::fix_name
   d$crop <- "maize"
   #variety
-  d$variety<-d$`Type of Variety`
+  d$variety <- d$`Type of Variety`
   #farming type 
   d$intercrops <- d$`Cropping System`
-  d$intercrops<-d$`Intercropping with legume`
-  d$croprotation<-d$`Crop Rotation with`
-  d$crop_rotation<-d$croprotation
-  d$previous_crop<-d$`Previous/precursor crop`
+  d$intercrops <- d$`Intercropping with legume`
+  d$croprotation <- d$`Crop Rotation with`
+  d$crop_rotation <- d$croprotation
+  d$previous_crop <- d$`Previous/precursor crop`
   
   ##### Fertilizers #####
   
   ## normalize names 
   d$fertlizer_type <- d$`Type of Inorganic Fertilizer`
   d$inoculated <- FALSE
-  d$OM_used<-d$`Apply Organic Fertilizer ?`
-  d$OM_type<-d$`Type of Organic Fertilizer applied`
-  d$soil_type<-d$`Soil type`
-  d$soil_pH<-d$pH
-  d$soil_K<-d$`K (mg kg-1)`
-  d$soil_Mg<-d$`Mg (mg kg-1)`
-  d$soil_Ca<-d$`Ca (mg kg-1)`
+  d$OM_used <- d$`Apply Organic Fertilizer ?`
+  d$OM_type <- d$`Type of Organic Fertilizer applied`
+  d$soil_type <- d$`Soil type`
+  d$soil_pH <- d$pH
+  d$soil_K <- d$`K (mg kg-1)`
+  d$soil_Mg <- d$`Mg (mg kg-1)`
+  d$soil_Ca <- d$`Ca (mg kg-1)`
   
   
   ##### Yield #####

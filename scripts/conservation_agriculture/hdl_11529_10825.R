@@ -76,8 +76,8 @@ carob_script <- function(path) {
   d$is_survey <- FALSE
   d$irrigated <- FALSE
   #fix residue_yield and plant_density out of the bounds
-  d$residue_yield[d$residue_yield>60000] <-NA
-  d$plant_density[d$plant_density<1000] <-NA
+  d$residue_yield[d$residue_yield>60000] <- NA
+  d$plant_density[d$plant_density<1000] <- NA
   # fix name treatment name
   
   p <- carobiner::fix_name(d$treatment)

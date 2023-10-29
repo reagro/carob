@@ -33,7 +33,7 @@ in West Africa from 2013 to 2016.
 	
 	## download and read data 
 	
-	ff	<- carobiner::get_data(uri, path, group)
+	ff	 <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
 	
@@ -46,26 +46,26 @@ in West Africa from 2013 to 2016.
 	
 	## process file(s)
 	rr <- r[,c("Country","Location","Rep","YR","YIELD","POLLEN","DYSK","PLHT","EHT","PASP","EROT","ASI","EASP")]	
-	colnames(rr)<-c("country","location","rep","planting_date","yield","dy_tass","dy_sk","pl_ht","e_ht","p_asp","erot","asi","e_asp")
+	colnames(rr) <- c("country","location","rep","planting_date","yield","dy_tass","dy_sk","pl_ht","e_ht","p_asp","erot","asi","e_asp")
 	
 	rr$trial_id <- paste0(r$Pedigree, '-', r$ENV)
-	rr$season<-r$Study
+	rr$season <- r$Study
 	
 	r11 <- r1[,c("Country","LOC","Rep","YEAR","YIELD","POLLEN","DYSK","PLHT","EHT","PASP","EROT","ASI","EASP")]	
-	colnames(r11)<-c("country","location","rep","planting_date","yield","dy_tass","dy_sk","pl_ht","e_ht","p_asp","erot","asi","e_asp")
+	colnames(r11) <- c("country","location","rep","planting_date","yield","dy_tass","dy_sk","pl_ht","e_ht","p_asp","erot","asi","e_asp")
 	
 	r11$trial_id <- paste0(r1$Pedigree, '-', r1$ENV)
-	r11$season<-r1$Study
+	r11$season <- r1$Study
 	
-	d	<-rbind(rr,r11)
+	d	 <- rbind(rr,r11)
 	d$dataset_id <- dataset_id
-	d$country<- "Nigeria"
+	d$country <- "Nigeria"
 	# Fix country name base on location 
 	p <- carobiner::fix_name(gsub("/", "; ", d$location))
 	p <- gsub("IKENNE", "Ikenne", p)
 	p <- gsub("INA", "Baba Ina", p)
 	p <- gsub("MABaba Ina-HARI", "Baba Ina", p)
-	d$location<- p
+	d$location <- p
 	
 	d$country[d$location %in% c("KPEVE", "NYANKPALA", "FUMESUA")] <- "Ghana"
 	d$country[d$location=="ANGARADEBOU"] <- "Benin"

@@ -97,7 +97,7 @@ carob_script <- function(path) {
   ## P <- P2O5 / 2.29
   ## K <- K2O / 1.2051
   d5$P_fertilizer <- NA
-    d5$K_fertilizer <-NA
+    d5$K_fertilizer <- NA
     d5$N_fertilizer <- NA
     d5$S_fertilizer <- NA
     d5$lime <- NA
@@ -179,7 +179,7 @@ carob_script <- function(path) {
       ## P <- P2O5 / 2.29
       ## K <- K2O / 1.2051
       d6$P_fertilizer <- NA
-        d6$K_fertilizer <-NA
+        d6$K_fertilizer <- NA
         d6$N_fertilizer <- NA
         d6$S_fertilizer <- NA
         d6$lime <- NA
@@ -257,7 +257,7 @@ carob_script <- function(path) {
           ## P <- P2O5 / 2.29
           ## K <- K2O / 1.2051
           d7$P_fertilizer <- NA
-            d7$K_fertilizer <-NA
+            d7$K_fertilizer <- NA
             d7$N_fertilizer <- NA
             d7$S_fertilizer <- NA
             d7$lime <- NA

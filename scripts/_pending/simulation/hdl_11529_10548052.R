@@ -81,7 +81,7 @@ carob_script <- function(path) {
   d$planting_date <- "2015-11-23"
   d$yield_part <- "grain"
   d$variety <-  "Kavery25K60"
-  d$crop <-"maize"
+  d$crop <- "maize"
 
 
 print("many more variables need to be included")  

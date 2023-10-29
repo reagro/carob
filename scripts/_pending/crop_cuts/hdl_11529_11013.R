@@ -64,7 +64,7 @@ carob_script <- function(path) {
     d$row_spacing <- d$`Row Distance (cm)`
     d$plant_spacing <- d$`Plant Distance (cm)`
     d$yield_part <- "grain"
-    d$crop <-"maize"
+    d$crop <- "maize"
     d$rep <- d$`Quadrant no.`
     d$yield <- d$`Grain yield (kg/ha)`
 

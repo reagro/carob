@@ -52,7 +52,7 @@ carob_script <- function(path) {
 	)
 
 ## download and read data 
- # path <-("C:/carob/wd/data/raw/maize_trials")
+ # path <- ("C:/carob/wd/data/raw/maize_trials")
 
 	# f <- "C:/carob/scripts/maize_trials/path/to/your/carob/folder/data/raw/maize_trials/doi_11529_10548829"
   # library("readxl")
@@ -72,14 +72,14 @@ carob_script <- function(path) {
 	r <- carobiner::read.excel(f, sheet = 3)
 	
   ## process file
-	r$site<-r$Location
+	r$site <- r$Location
 	r$country <- "Zimbabwe"
 	r$adm1 <- ifelse(r$site == "DTC","Mashonaland_east", "Harare")
 	r$adm2 <- ifelse(r$site == "DTC","Goromonzi", "Harare")
 	r$latitude <- ifelse(r$site =="DTC",-17.4833,-17.7829)
 	r$longitude <- ifelse(r$site =="DTC",31.1000,31.0569)
 	r$crop <- "maize"
-	r$biomass_total <-r$Biomass
+	r$biomass_total <- r$Biomass
 	r$yield <- r$Grain
 	r$planting_date <- as.character(r$Season)
 	r$rep <- r$Replicate

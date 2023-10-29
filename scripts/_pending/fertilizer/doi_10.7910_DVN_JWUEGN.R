@@ -48,45 +48,45 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   d <- carobiner::read.excel(f)[-c(1:21),]
   
   ##Convert First Row to Header
-  names(d)<-d[1,]
-  e<-d[-1,]
+  names(d) <- d[1,]
+  e <- d[-1,]
 
   e <- e[,c("Rep","N","D","V","Straw dry weight kg/ha","Adjusted 14% grains dry weight kg/ha")]
-  colnames(e)<-c('rep','N_fertilizer','spacing','variety','biomass_leaves','yield')
+  colnames(e) <- c('rep','N_fertilizer','spacing','variety','biomass_leaves','yield')
 
   e[e=="NA"] <- NA
 
   e$dataset_id <- "doi_10.7910_DVN_JWUEGN"
   e$trial_id <- "NERICA"
-  e$country<- "Benin"
-  e$on_farm<-TRUE
-  e$is_survey<-FALSE
-  e$crop<-"rice"
+  e$country <- "Benin"
+  e$on_farm <- TRUE
+  e$is_survey <- FALSE
+  e$crop <- "rice"
   e$planting_date <- "2006-05-01"
-  e$harvest_date <-"2006-10-30"
+  e$harvest_date <- "2006-10-30"
   
   #Replace values in a data frame
- e["N_fertilizer"][e["N_fertilizer"]=="0"]<-"0"
- e["N_fertilizer"][e["N_fertilizer"]=="1"]<-"30"
- e["N_fertilizer"][e["N_fertilizer"]=="2"]<-"60"
- e["N_fertilizer"][e["N_fertilizer"]=="3"]<-"120" 
+ e["N_fertilizer"][e["N_fertilizer"]=="0"] <- "0"
+ e["N_fertilizer"][e["N_fertilizer"]=="1"] <- "30"
+ e["N_fertilizer"][e["N_fertilizer"]=="2"] <- "60"
+ e["N_fertilizer"][e["N_fertilizer"]=="3"] <- "120" 
  
- e$plant_spacing[e$spacing == "1"]<-"30"
- e$plant_spacing[e$spacing == "1"]<-"30"
- e$row_spacing[e$spacing == "1"]<-"30"
- e$plant_spacing[e$spacing == "2"]<-"20"
- e$row_spacing[e$spacing == "2"]<-"20"
- e$plant_spacing[e$spacing == "3"]<-"25"
- e$row_spacing[e$spacing == "3"]<-"25"
+ e$plant_spacing[e$spacing == "1"] <- "30"
+ e$plant_spacing[e$spacing == "1"] <- "30"
+ e$row_spacing[e$spacing == "1"] <- "30"
+ e$plant_spacing[e$spacing == "2"] <- "20"
+ e$row_spacing[e$spacing == "2"] <- "20"
+ e$plant_spacing[e$spacing == "3"] <- "25"
+ e$row_spacing[e$spacing == "3"] <- "25"
 
  
- e["variety"][e["variety"]=="1"]<-"WAB 450-I-B-P-38-HB (NERICA 1)"
- e["variety"][e["variety"]=="2"]<-"WAB 450-I-B-P-20-HB (NERICA 2)"
- e["variety"][e["variety"]=="3"]<-"WAB 450-I-B-P-91-HB (NERICA 4)"
- e["variety"][e["variety"]=="4"]<-"v4 - WAB 56-50"
+ e["variety"][e["variety"]=="1"] <- "WAB 450-I-B-P-38-HB (NERICA 1)"
+ e["variety"][e["variety"]=="2"] <- "WAB 450-I-B-P-20-HB (NERICA 2)"
+ e["variety"][e["variety"]=="3"] <- "WAB 450-I-B-P-91-HB (NERICA 4)"
+ e["variety"][e["variety"]=="4"] <- "v4 - WAB 56-50"
 
  ##re-order
- e<-e[, c("rep","dataset_id","trial_id","country","on_farm","is_survey","planting_date","harvest_date","crop","N_fertilizer","variety","yield","biomass_leaves","plant_spacing","row_spacing")]       
+ e <- e[, c("rep","dataset_id","trial_id","country","on_farm","is_survey","planting_date","harvest_date","crop","N_fertilizer","variety","yield","biomass_leaves","plant_spacing","row_spacing")]       
  
  carobiner::write_files(dset, e, path, dataset_id, group)
 }
