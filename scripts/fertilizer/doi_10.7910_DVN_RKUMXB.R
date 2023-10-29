@@ -342,11 +342,20 @@ carob_script <- function(path) {
 	d$longitude[i] <- 39.154
 	d$latitude[i] <- 11.835
 
-	#4) to do
+	#4) the last two
 	#Garadella = Garadella State Farm
-	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
-	xy <- uxy[is.na(uxy$longitude),]
+	#https://en.wikipedia.org/wiki/Gedeb_Asasa
+	# Garadela, Arda Uta aka Aradayita and Temela are the three state farms in this woreda.
+	i <- which(d$location == "Garadella")
+	d$longitude[i] <- 39.2
+	d$latitude[i] <- 7.19
 
+	i <- which(d$location == "Fereze Guraghe Zone")
+	d$longitude[i] <- 38.08
+	d$latitude[i] <- 8.19
+
+#	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
+#	xy <- uxy[is.na(uxy$longitude),]
 
 	d$yield_part <- "grain"
 	d$yield_part[d$crop %in% c("pea", "common bean", "chickpea", "faba bean", "rapeseed")] <- "seed" 

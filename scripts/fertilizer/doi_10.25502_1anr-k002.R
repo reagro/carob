@@ -166,8 +166,9 @@ carob_script <- function(path) {
 	dd5$residue_yield[dd5$residue_yield > 10000] <- NA
 
 	dd5$dataset_id <- dataset_id
-	dd5$planting_date <- as.character(as.Date(dd5$planting_date, format = "%d/%m/%Y"))
-	dd5$harvest_date <- as.character(as.Date(dd5$harvest_date, format = "%d/%m/%Y"))
+	
+	dd5$planting_date <- as.character(as.Date(dd5$planting_date, format = "%m/%d/%Y"))
+	dd5$harvest_date <- as.character(as.Date(dd5$harvest_date, format = "%m/%d/%Y"))
 
 
 	z <- dd5[, c("trial_id","dataset_id","irrigated","on_farm","is_survey","country", "adm2", "location","latitude","longitude","planting_date","harvest_date","crop","variety","inoculated","row_spacing","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","S_fertilizer","OM_used","plant_spacing","yield","residue_yield")]

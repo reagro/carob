@@ -29,12 +29,12 @@ carob_script <- function(path) {
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-02-22",
 		data_type="experiment",
-	project=NA
+		project=NA
 	)
 	
 	## download and read data 
 	
-	ff	<- carobiner::get_data(uri, path, group)
+	ff	 <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
 	
@@ -49,18 +49,18 @@ carob_script <- function(path) {
 	r3 <- read.csv(f3)
 	
 	#process field dataset
-	d1<-r1[,c("Cluster","FieldID","Field","Country","Village","Site","Flat","Flong","TCVariety","TCrop","PCrop1","PlntDa","HarvDa")]
-	colnames(d1)<-c("cluster","FieldID","Field","country","location","site","latitude","longitude","variety","crop","previous_crop","planting_date","harvest_date")
+	d1 <- r1[,c("Cluster","FieldID","Field","Country","Village","Site","Flat","Flong","TCVariety","TCrop","PCrop1","PlntDa","HarvDa")]
+	colnames(d1) <- c("cluster","FieldID","Field","country","location","site","latitude","longitude","variety","crop","previous_crop","planting_date","harvest_date")
 	
 	#process plot data 
-	d2<-r3[,c("Cluster","FieldID","Field","Site","Rep","TrtDesc","TGrainYld","TStoverYld","Season")]
-	colnames(d2)<-c("cluster","FieldID","Field","site","rep","treatment","yield","residue_yield","season")
+	d2 <- r3[,c("Cluster","FieldID","Field","Site","Rep","TrtDesc","TGrainYld","TStoverYld","Season")]
+	colnames(d2) <- c("cluster","FieldID","Field","site","rep","treatment","yield","residue_yield","season")
 	
 	#merge d1 and d2
 	d <- merge(d1,d2,by=c("cluster","FieldID","Field","site"), all.x = TRUE)
 	
 	# keep the relevant columm
-	d<-d[,c("country","location","site","latitude","longitude","variety","crop","previous_crop","planting_date","harvest_date","rep","treatment","yield","residue_yield","season")]
+	d <- d[,c("country","location","site","latitude","longitude","variety","crop","previous_crop","planting_date","harvest_date","rep","treatment","yield","residue_yield","season")]
 	
 	#fertilizer apply	 more information can be found here  10.1016/j.agee.2016.05.012
 	d$N_fertilizer <- ifelse(d$treatment=="Control",0,
@@ -75,30 +75,30 @@ carob_script <- function(path) {
 	d$Zn_fertilizer <- ifelse(d$treatment=="NPK+MN", 3, 0)
 	
 	d$S_fertilizer <- ifelse(d$treatment=="NPK+MN", 5, 0)
-	d$Ca_fertilizer<- ifelse(d$treatment=="NPK+MN",10,0)
-	d$Mg_fertilizer<- ifelse(d$treatment=="NPK+MN",5,0)
+	d$Ca_fertilizer <- ifelse(d$treatment=="NPK+MN",10,0)
+	d$Mg_fertilizer <- ifelse(d$treatment=="NPK+MN",5,0)
 	d$N_splits <- ifelse(d$treatment > 0, 3L, 0L)
 	
 	#Add columns 
-d$OM_type<- NA
-d$OM_used <- FALSE
-d$dataset_id <- dataset_id
-d$trial_id<-paste0(d$dataset_id,"-",d$location)
-d$OM_type[grepl("+MN",d$treatment)]<- "farmyard manure"
-d$OM_used[grepl("farmyard manure",d$OM_type)]<- TRUE
+	d$OM_type <- NA
+	d$OM_used <- FALSE
+	d$dataset_id <- dataset_id
+	d$trial_id <- paste0(d$dataset_id,"-",d$location)
+	d$OM_type[grepl("+MN",d$treatment)] <- "farmyard manure"
+	d$OM_used[grepl("farmyard manure",d$OM_type)] <- TRUE
 	# previous crop name normalization 
 
-	p<- carobiner::fix_name(d$previous_crop,"lower")
-	p<- gsub("kolokoland",NA,p)
-	p<- gsub("millet","pearl millet",p)
+	p <- carobiner::fix_name(d$previous_crop,"lower")
+	p <- gsub("kolokoland",NA,p)
+	p <- gsub("millet","pearl millet",p)
 	p[p == ""] <- "no crop"
-	p[p =="groundnuts(aracide)"]<- "groundnut"
-	d$previous_crop<- p
+	p[p =="groundnuts(aracide)"] <- "groundnut"
+	d$previous_crop <- p
 	# fix crop name
-	d$crop<-"sorghum"
+	d$crop <- "sorghum"
 	# fix yield unit
-	d$yield<- d$yield*1000
-	d$residue_yield<- d$residue_yield*1000
+	d$yield <- d$yield*1000
+	d$residue_yield <- d$residue_yield*1000
 		# data type
 	d$season <- as.character(d$season)
 	# change date format
@@ -108,8 +108,7 @@ d$OM_used[grepl("farmyard manure",d$OM_type)]<- TRUE
 	# fill whitespace in observation 
 	d[d==""] <- NA
 	d$yield_part <- "grain"
-	# all scripts must end like this
+	d <- d[!is.na(d$yield), ]
 	carobiner::write_files(dset, d, path=path)
-	#TRUE
 }
 

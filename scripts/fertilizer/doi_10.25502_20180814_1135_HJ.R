@@ -95,7 +95,8 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	d$dataset_id <- dataset_id
 
 	d$yield_part <- "grain"
-# all scripts must end like this
+
+	d <- d[!is.na(d$yield), ]
 	carobiner::write_files(dset, d, path=path)
 
 }

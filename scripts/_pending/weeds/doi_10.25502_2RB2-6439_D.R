@@ -3,6 +3,7 @@
 ## ISSUES
 # ....
 
+## RH the treatments and the temporal info need to be extracted
 
 carob_script <- function(path) {
   
@@ -22,7 +23,7 @@ carob_script <- function(path) {
   
 	uri <- "doi:10.25502/2RB2-6439/D"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "fertilizer"
+	group <- "weeds"
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
@@ -137,11 +138,12 @@ carob_script <- function(path) {
 	d$plant_density <- as.numeric(d$plant_density)
 	#date format
 	d$planting_date <- as.character(as.Date(d$planting_date, format = "%m/%d/%Y"))
+	d$planting_date[is.na(d$planting_date)] <- "2015"
 	d$harvest_date <- as.character(as.Date(d$harvest_date, format = "%m/%d/%Y"))
+	d$harvest_date[is.na(d$harvest_date)] <- "2016" 
 	d$tillage <- tolower(d$tillage)
 	
 	# all scripts must end like this
-	carobiner::write_files(dset, d, path=path)
-	
+	carobiner::write_files(dset, d, path=path)	
 }
 

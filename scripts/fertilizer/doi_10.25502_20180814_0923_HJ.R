@@ -49,6 +49,7 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	colnames(d2) <- c("cluster", "field", "rep", "treatment", "residue_yield", "yield")
 
 	#merge d1 and d2
+	d2 <- d2[!is.na(d2$yield), ]
 	d <- merge(d1, d2, by=c("cluster", "field"))
 	d$trial_id <- paste0(d$location, "-", d$cluster)
 	d$cluster <- d$field <- NULL

@@ -134,15 +134,15 @@ carob_script <- function(path) {
 
 ##### Time #####
 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
-## use 	as.character(as.Date()) for dates to assure the correct format.
 	year <- substr(gsub("[^0-9.-]", "", rr$Year), 1, 4)
-	d$planting_date <- as.character(format(as.Date(strptime(ifelse(year == "", NA, year), "%Y")), "%Y"))
+	year[year == ""] <- NA
+	d$planting_date <- year
 	d$season <- ifelse(grepl("LR", rr$Year), "LR",
-                  ifelse(grepl("SR", rr$Year), "SR",
-                    ifelse(grepl("M", rr$Year), "M",
-                      ifelse(grepl("V", rr$Year), "V",
-                       ifelse(grepl("masika", rr$Year), "masika",
-                         ifelse(grepl("vuli", rr$Year), "vuli", NA))))))
+                ifelse(grepl("SR", rr$Year), "SR",
+                ifelse(grepl("M", rr$Year), "M",
+                ifelse(grepl("V", rr$Year), "V",
+                ifelse(grepl("masika", rr$Year), "masika",
+                ifelse(grepl("vuli", rr$Year), "vuli", NA))))))
 
 ##### Fertilizers #####
 ## note that we use P and K, not P2O5 and K2O
@@ -178,5 +178,7 @@ carob_script <- function(path) {
   d$tillage <- gsub("permanent_beds", "permanent beds", d$tillage)
   d$tillage <- gsub("no-tillage", "no tillage", d$tillage)
 # all scripts must end like this
+
+	d <- d[!is.na(d$yield), ] 
 	carobiner::write_files(dset, d, path=path)
 }

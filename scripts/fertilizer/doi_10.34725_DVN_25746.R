@@ -122,6 +122,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 
 	d$dataset_id <- dataset_id
 	d$rep <- as.integer(d$rep)
+	d <- d[!is.na(d$yield), ]
 	
 	carobiner::write_files(dset, d, path=path)
 }
