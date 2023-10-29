@@ -39,7 +39,7 @@ carob_script <- function(path) {
 	
 	f <- ff[basename(ff) == "DAT-PUB-214DrySow.xlsx"]
 	
-	d <- as.data.frame(readxl::read_excel(f, sheet = "Wheat"))
+	d <- carobiner::read.excel(f, sheet = "Wheat")
 	d$country <- "Mexico"
 	d$adm1 <- "Sonora"
 	d$adm2 <- "Cajeme"
@@ -107,7 +107,7 @@ carob_script <- function(path) {
 	
 	d$dataset_id <- dataset_id
 	d$yield_part <- "grain"
-	
+	d <- d[!is.na(d$yield), ]
 	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	

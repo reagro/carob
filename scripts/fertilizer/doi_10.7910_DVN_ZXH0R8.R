@@ -127,11 +127,13 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx"]
 	d <- read.file(f)
 	d4 <- get_df(d, "2017_Sorghum-Tef_")
-
+	d4$planting_date[is.na(d4$planting_date)] <- "2017"
+	
 ## process 004_2019_Wheat_ ICRISAT-AR_ETH.xlsx
 	f <- ff[basename(ff) == "004_2019_Wheat_ ICRISAT-AR_ETH.xlsx"]
 	d <- read.file(f)
 	d5 <- get_df(d, "2019_Wheat_")	
+	d5$planting_date[is.na(d5$planting_date)] <- "2019"
 	## many values that are much lower than yield
 	d5$residue_yield <- NA
 	

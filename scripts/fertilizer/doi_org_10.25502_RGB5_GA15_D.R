@@ -118,6 +118,7 @@ carob_script <- function(path) {
   d$trial_id <- paste0(dataset_id, '-', d$Location)
 #data type
   d$yield <- as.numeric(d$yield)
+  d <- d[!is.na(d$yield), ]
   # all scripts must end like this
  carobiner::write_files(dset, d, path=path)
  
