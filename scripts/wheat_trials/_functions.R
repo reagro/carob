@@ -536,6 +536,7 @@ proc_wheat <- function(ff) {
 
 	# they may not be all available
 	r <- r[, cvars[cvars %in% names(r)]]
+	r <- r[!is.na(r$yield), ]
 
 	#fix colnames with uppercase
 	r <- carobiner::change_names(r, 

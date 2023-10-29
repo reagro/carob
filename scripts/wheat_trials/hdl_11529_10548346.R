@@ -45,7 +45,7 @@ The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that c
 	d$dataset_id <- dataset_id
 
 	#one enormous outlier of 18800
-	d$yield[d$yield > 15000] <- NA
+	d <- d[d$yield < 15000, ]
 
 # all scripts must end like this
 	carobiner::write_files(path, dset, d)
