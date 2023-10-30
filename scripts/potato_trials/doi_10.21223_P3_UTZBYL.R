@@ -36,9 +36,9 @@ carob_script <- function(path) {
 	# read and process files
 	proc_fun <- function(f) {
 		r <- carobiner::read.excel(f,sheet="Fieldbook")
+		# this is marketable yield, total tuber yield not reported
 		r <- r[, c("REP", "INSTN", "MTYNA")]
 		colnames(r) <- c("rep", "variety", "yield")
-	#    r$f <- gsub(".xls", "", basename(f))
 		m <- carobiner::read.excel(f, sheet="Minimal") 
 		n <- as.list(m$Value)
 		names(n) <- m$Factor
@@ -87,6 +87,4 @@ carob_script <- function(path) {
 #                 latitude=c(-12.076289,-11.1275,-13.2734,-12.0264))
 
 #mg <- merge(m, geo, by="adm3",all.x=TRUE)
-#d <- merge(d, mg, by="f")
-#d$f <- NULL
 
