@@ -15,7 +15,7 @@ carob_script <- function(path){
  Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   "
   
-  uri <- "doi.org/10.25502/QMSB-P921"
+  uri <- "doi:10.25502/QMSB-P921"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   

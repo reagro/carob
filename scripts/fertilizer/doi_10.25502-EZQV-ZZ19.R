@@ -11,7 +11,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 "
   
 
-	uri <- "doi.org/10.25502/EZQV-ZZ19"
+	uri <- "doi:10.25502/EZQV-ZZ19"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 

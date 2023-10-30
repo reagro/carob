@@ -25,7 +25,7 @@ carob_script <- function(path) {
     Crop system: intercropped with banana vs. sole
   
 "
-  uri <- "doi.org/10.25502/6h5e-q472"
+  uri <- "doi:10.25502/6h5e-q472"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
  
