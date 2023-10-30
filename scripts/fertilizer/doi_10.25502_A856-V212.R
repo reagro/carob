@@ -1,4 +1,5 @@
 
+# fertilizer amount is not OK
 
 
 carob_script <- function(path) {
@@ -165,8 +166,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	d$fertilizer_type[d$fertilizer_type==""] <- NA
 	
 	#fix country name
-	dd <- carobiner::fix_name(d$country,"title")
-	d$country <- dd
+	d$country <- carobiner::fix_name(d$country, "title")
 	
 	# fix crop name 
 	p <- carobiner::fix_name(d$crop,"lower")
