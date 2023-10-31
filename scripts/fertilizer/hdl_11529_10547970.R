@@ -29,7 +29,8 @@ carob_script <- function(path) {
    		data_type="experiment", 
 		carob_contributor="Mitchelle Njukuya",
 		# date of first submission to carob
-		carob_date="2023-10-10" 
+		carob_date="2023-10-10",
+		revised_by="Robert Hijmans"
 	)
 
 ## download and read data 
