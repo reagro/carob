@@ -19,21 +19,22 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		dataset_id = dataset_id,
 		group=group,
-		project=NA,
+		project=as.character(NA),
 		uri=uri,
 		data_citation="",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
-		publication= "NA",
+		publication=as.character(NA),
 		data_institutions = "CIMMYT",
    		data_type="experiment", 
-		carob_contributor="Shumirai Manzvera"  
+		carob_contributor="Shumirai Manzvera",
+		carob_date="2023-09-19"
 	)
 
 ## download and read data 
 
 	f <- "C:/carob/data/raw/wheat_trials/hdl:11529/10548225"
-	path<- "C:/carob"
+	path <- "C:/carob"
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	dset$license <- carobiner::get_license(js)

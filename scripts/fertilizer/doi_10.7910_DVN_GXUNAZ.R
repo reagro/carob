@@ -29,12 +29,13 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 		data_citation = "Kihara, Job; Okeyo, Jeremiah; Bolo, Peter; Kinyua, Michael, 2020. Non-responsiveness of crops to fertilizers under some soils in sub-Saharan Africa, doi:10.7910/DVN/GXUNAZ",
 		data_institutions = "CIAT",
 		carob_contributor="Rachel Mukami",
+		carob_date="2023-05-29",
 		data_type="compilation"
 	)
   
 	  ## downloading data 
 	  
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
 	dset$license <- carobiner::get_license(js)
 	

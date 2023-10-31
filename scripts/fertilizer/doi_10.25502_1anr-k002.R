@@ -28,11 +28,12 @@ carob_script <- function(path) {
 		data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa diagnostic trial, 2015 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/1ANR-K002",
 		data_institutions = "IITA",
 		carob_contributor="Effie Ochieng'",
+		carob_date="2023-05-30",
 		data_type="on-farm experiments"
     )
   
   ## download and read data 
-	ff	<- carobiner::get_data(uri, path, group)
+	ff	 <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
 	dset$license <- carobiner::get_license(js)
 	
@@ -165,8 +166,9 @@ carob_script <- function(path) {
 	dd5$residue_yield[dd5$residue_yield > 10000] <- NA
 
 	dd5$dataset_id <- dataset_id
-	dd5$planting_date <- as.character(as.Date(dd5$planting_date, format = "%d/%m/%Y"))
-	dd5$harvest_date <- as.character(as.Date(dd5$harvest_date, format = "%d/%m/%Y"))
+	
+	dd5$planting_date <- as.character(as.Date(dd5$planting_date, format = "%m/%d/%Y"))
+	dd5$harvest_date <- as.character(as.Date(dd5$harvest_date, format = "%m/%d/%Y"))
 
 
 	z <- dd5[, c("trial_id","dataset_id","irrigated","on_farm","is_survey","country", "adm2", "location","latitude","longitude","planting_date","harvest_date","crop","variety","inoculated","row_spacing","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","S_fertilizer","OM_used","plant_spacing","yield","residue_yield")]
@@ -217,7 +219,7 @@ carob_script <- function(path) {
     lat = c(9.3576293, 9.3699943, 10.321, 10.3422, 10.4454, 10.5809263, 10.7320023, 10.6585, 10.5713263, 10.428557, 10.4334259, 10.4914201, 10.54434965, 10.5429129, 10.5865922, 10.5227, 10.3993, 10.44856195, -6.0976429, -7.1751048, -7.0355513, -6.95946295, -5.9545867, -6.2229198, -6.065013, -6.1119194, -6.1119194, -5.8027105, -6.2998788, -6.356593, -6.8322667, -6.6008742))
 
 	z <- merge(z, georef, all.x=TRUE, by=c( "country", "adm2", "location"))
-	z$latitude  <- ifelse(is.na(z$latitude), z$lat, z$latitude)
+	z$latitude <- ifelse(is.na(z$latitude), z$lat, z$latitude)
 	z$longitude <- ifelse(is.na(z$longitude), z$lon, z$longitude)
 	z$lon <- z$lat <- NULL
 
@@ -233,7 +235,7 @@ carob_script <- function(path) {
 		lat = c(9.4325, 9.8986, 10.4545, 10.4857, -6.2292, -6.9595))
 	
 	z <- merge(z, georef2, all.x=TRUE, by=c( "country", "adm2"))
-	z$latitude  <- ifelse(is.na(z$latitude), z$lat, z$latitude)
+	z$latitude <- ifelse(is.na(z$latitude), z$lat, z$latitude)
 	z$longitude <- ifelse(is.na(z$longitude), z$lon, z$longitude)
 	z$lon <- z$lat <- NULL
 	

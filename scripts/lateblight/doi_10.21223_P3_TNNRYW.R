@@ -27,6 +27,7 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institutions = "CIP",
 		carob_contributor="Henry Juarez",
+		carob_date="2023-06-21",
 	   
 		data_type="experiment"
  	)

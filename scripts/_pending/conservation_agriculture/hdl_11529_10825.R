@@ -27,7 +27,8 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institutions = "CIMYTT",
    		data_type="on-farm experiment",
-		carob_contributor="Mitchelle Njukuya"  
+		carob_contributor="Mitchelle Njukuya"  ,
+		carob_date="2023-08-23"
 	)
 
 ## download and read data 
@@ -63,7 +64,7 @@ library("readxl")
 ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
 ## you can use carobiner::fix_name()
 	d$country <- "Zambia"
-	d$site <-NA 
+	d$site <- NA 
 	d$adm1 <- d$District
 	d$adm2 <- d$Village
 	d$adm3 <- NA
@@ -88,7 +89,7 @@ library("readxl")
 	d$latitude[d$adm2=="Mafumbwe"] <- -14.3067
 	d$longitude[d$adm2=="Mtaya"] <- 32.0500
 	d$latitude[d$adm2=="Mtaya"] <- -14.3067
-	d$longitude[d$adm2=="Waya Camp"] <-27.9833 
+	d$longitude[d$adm2=="Waya Camp"] <- 27.9833 
 	d$latitude[d$adm2=="Waya Camp"] <- 14.3667
 
 ##### Crop #####
@@ -108,8 +109,8 @@ library("readxl")
 ## P <- P2O5 / 2.29
 ## K <- K2O / 1.2051
    d$P_fertilizer <- NA
-   d$K_fertilizer <-NA
-   d$N_fertilizer <-NA 
+   d$K_fertilizer <- NA
+   d$N_fertilizer <- NA 
    d$S_fertilizer <- NA
    d$lime <- NA
 ## normalize names 
@@ -179,7 +180,7 @@ library("readxl")
     d1$latitude[d1$adm2=="Mafumbwe"] <- -14.3067
     d1$longitude[d1$adm2=="Mtaya"] <- 32.0500
       d1$latitude[d1$adm2=="Mtaya"] <- -14.1067
-      d1$longitude[d1$adm2=="Waya Camp"] <-27.9833 
+      d1$longitude[d1$adm2=="Waya Camp"] <- 27.9833 
     d1$latitude[d1$adm2=="Waya Camp"] <- 14.3667
   
     
@@ -200,7 +201,7 @@ library("readxl")
   ## P <- P2O5 / 2.29
   ## K <- K2O / 1.2051
   d1$P_fertilizer <- NA
-    d1$K_fertilizer <-NA
+    d1$K_fertilizer <- NA
     d1$N_fertilizer <- NA
     d1$S_fertilizer <- NA
     d1$lime <- NA

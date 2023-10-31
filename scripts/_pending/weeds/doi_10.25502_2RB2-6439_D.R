@@ -3,6 +3,7 @@
 ## ISSUES
 # ....
 
+## RH the treatments and the temporal info need to be extracted
 
 carob_script <- function(path) {
   
@@ -22,7 +23,7 @@ carob_script <- function(path) {
   
 	uri <- "doi:10.25502/2RB2-6439/D"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "fertilizer"
+	group <- "weeds"
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
@@ -33,6 +34,7 @@ carob_script <- function(path) {
 		Agriculture (IITA). https://doi.org/10.25502/2RB2-6439/D",
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
+		carob_date="2023-06-25",
 		data_type="experiment",
 		project=NA 
 	)
@@ -71,18 +73,18 @@ carob_script <- function(path) {
 	d1$soil_Mg <- (r1$Mg_d10 + r1$Mg_d20)/2
 	weeds1 <- r1[, c("biomass_04WAP_gm2", "biomass_08WAP_gm2", "biomass_12WAP_gm2", "biomass_24WAP_gm2")]
 	# mean weed biomass in kg/ha	
-	d1$weeds_biomass<- rowMeans(weeds1) * 10
+	d1$weeds_biomass <- rowMeans(weeds1) * 10
 		
-	#d1$weed_biomass<- ((r1$biomass_04WAP_gm2+r1$biomass_08WAP_gm2+r1$biomass_12WAP_gm2+r1$biomass_24WAP_gm2)/2)*1000 # in kg/ha
+	#d1$weed_biomass <- ((r1$biomass_04WAP_gm2+r1$biomass_08WAP_gm2+r1$biomass_12WAP_gm2+r1$biomass_24WAP_gm2)/2)*1000 # in kg/ha
 	
 	#N_d10	% Nitrogen
 	# to convert Nitrogen in mg/kg (PPm) we use: 1g of soil contain n% of Nitrogen 
-	d1$soil_N<- (d1$soil_N/100)*1000000 # mg/kg
+	d1$soil_N <- (d1$soil_N/100)*1000000 # mg/kg
 	# #K_d10	Potassium (C mol/kg),#Mg_d10	Magnesium (C mol/kg) #Ca_d10	,Calcium (C mol/kg) 
 	## to convert in mg/kg (ppm) we use molar atomic mass of each element
-	d1$soil_K<- d1$soil_K*10*39.1 
-	d1$soil_Ca<- d1$soil_Ca*10*40
-	d1$soil_Mg <-d1$soil_Mg*10*24
+	d1$soil_K <- d1$soil_K*10*39.1 
+	d1$soil_Ca <- d1$soil_Ca*10*40
+	d1$soil_Mg <- d1$soil_Mg*10*24
 	
 	sel <- c('UniqueID', 'Season', 'Loc', 'Site', 'Rep', 'Tillage', 'cropSystem', 'Fertilizer', 'Variety', 'Density', "Yldokfr_Kgm2", 'Lat', 'Long', 'Date_Planted_Cas', 'Date_Harvested_Cas')
 	d2 <- r2[,sel]
@@ -91,17 +93,17 @@ carob_script <- function(path) {
 
 	weeds2 <- r2[, c("Biomass_04Wap_Gm2", "Biomass_08Wap_Gm2", "Biomass_12Wap_Gm2", "Biomass_24Wap_Gm2")]
 	# mean weed biomass in kg/ha	
-	d2$weeds_biomass<- rowMeans(weeds2) * 10 
+	d2$weeds_biomass <- rowMeans(weeds2) * 10 
 
-	#d2$weed_biomass<- ((r2$Biomass_04Wap_Gm2+r2$Biomass_08Wap_Gm2+r2$Biomass_12Wap_Gm2+r2$Biomass_24Wap_Gm2)/2)*1000 # in kg/ha
+	#d2$weed_biomass <- ((r2$Biomass_04Wap_Gm2+r2$Biomass_08Wap_Gm2+r2$Biomass_12Wap_Gm2+r2$Biomass_24Wap_Gm2)/2)*1000 # in kg/ha
 	
 	# fill soil information for second season base on $site.
 	# I assume that soil information is the same for the same long and lat position
 	
-	d2$latitude[d2$site=="Ido"]<-7.55140 #instead of 7.5517
-	d2$longitude[d2$site=="Ido"]<-3.66990 #instead of 3.6691
+	d2$latitude[d2$site=="Ido"] <- 7.55140 #instead of 7.5517
+	d2$longitude[d2$site=="Ido"] <- 3.66990 #instead of 3.6691
 	u <- na.omit(unique(d1[, c("rep","variety","treatment","tillage","crop","longitude", "latitude", "soil_SOC", "soil_pH", "soil_P_available", "soil_K", "soil_N", "soil_Ca", "soil_Mg")]))
-	d2 <-merge(d2, u,by=c("variety","treatment","tillage","crop","longitude", "latitude","rep"),all.x = TRUE)
+	d2 <- merge(d2, u,by=c("variety","treatment","tillage","crop","longitude", "latitude","rep"),all.x = TRUE)
 	
 	# combine d1 and d2
 	d <- rbind(d1, d2)
@@ -136,11 +138,12 @@ carob_script <- function(path) {
 	d$plant_density <- as.numeric(d$plant_density)
 	#date format
 	d$planting_date <- as.character(as.Date(d$planting_date, format = "%m/%d/%Y"))
+	d$planting_date[is.na(d$planting_date)] <- "2015"
 	d$harvest_date <- as.character(as.Date(d$harvest_date, format = "%m/%d/%Y"))
+	d$harvest_date[is.na(d$harvest_date)] <- "2016" 
 	d$tillage <- tolower(d$tillage)
 	
 	# all scripts must end like this
-	carobiner::write_files(dset, d, path=path)
-	
+	carobiner::write_files(dset, d, path=path)	
 }
 

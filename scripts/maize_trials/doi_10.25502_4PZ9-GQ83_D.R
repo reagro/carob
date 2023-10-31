@@ -11,7 +11,7 @@ carob_script <- function(path) {
    
    uri <-  "doi:10.25502/4PZ9-GQ83/D"
    dataset_id <- carobiner::simple_uri(uri)
-   group <-"maize_trials" 
+   group <- "maize_trials" 
    ## dataset level data 
    dset <- data.frame(
       dataset_id = dataset_id,
@@ -35,21 +35,21 @@ carob_script <- function(path) {
    bn <- basename(ff)
    
    # read the dataset
-   r<- read.csv(ff[bn=="Phenotypic characterization data.csv"])  
+   r <- read.csv(ff[bn=="Phenotypic characterization data.csv"])  
    
-   d<- r[,c("ID","COUNTRY","ENTRY","YEAR","REP","GENOTYPE","POLLEN","DYSK","ASI","PLHT","EHT","PASP","EROT","EASP","YIELD","HUSK")]#
-   colnames(d)<- c("ID","country","variety_code","planting_date","rep","variety","dy_poll","dy_sk","asi","pl_ht","e_ht","p_asp","e_rot","e_asp","yield","husk")#,
+   d <- r[,c("ID","COUNTRY","ENTRY","YEAR","REP","GENOTYPE","POLLEN","DYSK","ASI","PLHT","EHT","PASP","EROT","EASP","YIELD","HUSK")]#
+   colnames(d) <- c("ID","country","variety_code","planting_date","rep","variety","dy_poll","dy_sk","asi","pl_ht","e_ht","p_asp","e_rot","e_asp","yield","husk")#,
    
    
    # add columns
-   d$country[d$country=="BF"]<- "Burkina Faso"
-   d$country[d$country=="TG"]<- "Togo"
-   d$country[d$country=="GH"]<- "Ghana"
-   d$country[d$country=="IM"]<- "Nigeria"
+   d$country[d$country=="BF"] <- "Burkina Faso"
+   d$country[d$country=="TG"] <- "Togo"
+   d$country[d$country=="GH"] <- "Ghana"
+   d$country[d$country=="IM"] <- "Nigeria"
    d$crop <- "maize" 
    d$dataset_id <- dataset_id
    d$trial_id <- paste(d$ID,d$country,sep = "-")
-   d$yield_part<- "grain"
+   d$yield_part <- "grain"
    d$on_farm <- TRUE
    d$irrigated <- FALSE
    d$borer_trial <- FALSE
@@ -59,7 +59,7 @@ carob_script <- function(path) {
 
    ### add long and lat coordinate
    d$longitude[d$country=="Burkina Faso"] <- -1.6880314
-      d$latitude[d$country=="Burkina Faso"]<- 12.0753083
+      d$latitude[d$country=="Burkina Faso"] <- 12.0753083
       
       d$longitude[d$country=="Ghana"] <- -1.0800271
       d$latitude[d$country=="Ghana"] <- 8.0300284
@@ -70,8 +70,8 @@ carob_script <- function(path) {
        d$longitude[d$country=="Nigeria"] <- 3.8972497
       d$latitude[d$country=="Nigeria"] <- 7.3777462
    #data type
-   d$variety_code<- as.character(d$variety_code)
-   d$planting_date<- as.character(d$planting_date)
+   d$variety_code <- as.character(d$variety_code)
+   d$planting_date <- as.character(d$planting_date)
    
    # all scripts must end like this
    carobiner::write_files(dset, d, path=path)

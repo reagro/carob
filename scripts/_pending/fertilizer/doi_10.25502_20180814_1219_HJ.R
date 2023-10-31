@@ -27,8 +27,8 @@ carob_script <- function(path) {
     data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kontela [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1219/HJ",
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
-    data_type="fertilizer"
-     
+    carob_date="2023-02-15",
+    data_type="on-farm trials"
   )
   
   ## download and read data 
@@ -52,38 +52,38 @@ carob_script <- function(path) {
   #d <- carobiner::change_names(d, from, to)
   
  # process field data 
-  d1$latitude<- d1$Flat
-  d1$site<- d1$Site
-  d1$longitude<- d1$Flong
-  d1$planting_date<-d1$PlntDa_mac
-  d1$harvest_date<-d1$HarvDa
-  d1$longitude<- d1$Flong
-  d1$location<- d1$Village
-  d1$variety_type<- d1$TCVariety
-  d1$season<- d1$Season
+  d1$latitude <- d1$Flat
+  d1$site <- d1$Site
+  d1$longitude <- d1$Flong
+  d1$planting_date <- d1$PlntDa_mac
+  d1$harvest_date <- d1$HarvDa
+  d1$longitude <- d1$Flong
+  d1$location <- d1$Village
+  d1$variety_type <- d1$TCVariety
+  d1$season <- d1$Season
   
-  d1<-d1[,c("site","longitude","latitude","location","variety_type",
+  d1 <- d1[,c("site","longitude","latitude","location","variety_type",
             "planting_date","harvest_date","season")]
   
   # process plot data 
-  d3$trial_id<- paste0(d3$dataset_id,"-",d3$ID)
-  d3$rep<- d3$Rep
-  d3$treatment<- d3$TrtDesc
+  d3$trial_id <- paste0(d3$dataset_id,"-",d3$ID)
+  d3$rep <- d3$Rep
+  d3$treatment <- d3$TrtDesc
   d3$residue_yield <- (d3$TStoverYld)*1000
   d3$yield <- (d3$TGrainYld)*1000
   
-  d3$N_fertilizer<-ifelse(d3$TrtDesc=="Control",0,
+  d3$N_fertilizer <- ifelse(d3$TrtDesc=="Control",0,
                   ifelse(d3$TrtDesc=="PK",0,100))
   
-  d3$K_fertilizer<-ifelse(d3$TrtDesc=="Control",0,
+  d3$K_fertilizer <- ifelse(d3$TrtDesc=="Control",0,
                          ifelse(d3$TrtDesc=="NP",0,60))
   
-  d3$P_fertilizer<-ifelse(d3$TrtDesc=="Control",0,
+  d3$P_fertilizer <- ifelse(d3$TrtDesc=="Control",0,
                          ifelse(d3$TrtDesc=="NK",0,30))
   
-  d3$Zn_fertilizer<-ifelse(d3$TrtDesc=="NPK+MN",3,0)
+  d3$Zn_fertilizer <- ifelse(d3$TrtDesc=="NPK+MN",3,0)
   
-  d3$S_fertilizer<-ifelse(d3$TrtDesc=="NPK+MN",5,0)
+  d3$S_fertilizer <- ifelse(d3$TrtDesc=="NPK+MN",5,0)
   
   d3$N_splits <- ifelse(d3$N_fertilizer > 0,3,0)
  
@@ -93,7 +93,7 @@ carob_script <- function(path) {
  d$country <- "Mali"
  d$crop <- "sorghum"
  
- d <-d[,c("site","season","country","location","rep","trial_id","treatment","longitude","latitude","planting_date","harvest_date","variety_type",
+ d <- d[,c("site","season","country","location","rep","trial_id","treatment","longitude","latitude","planting_date","harvest_date","variety_type",
          "crop","residue_yield","yield","N_fertilizer","K_fertilizer","P_fertilizer","Zn_fertilizer",
          "S_fertilizer","N_splits")]
  

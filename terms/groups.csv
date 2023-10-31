@@ -10,3 +10,4 @@ soil_samples,soil,soil sampling data
 conservation_agriculture,crop; soil,conservation agriculture trials
 simulation,crop; soil,crop simulation trials
 cassava_trials,crop; soil,cassava variety trials
+potato_trials,crop; soil,potato variety trials

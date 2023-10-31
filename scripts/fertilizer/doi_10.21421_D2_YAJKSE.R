@@ -20,13 +20,14 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 		data_citation="Hakeem Ayinde Ajeigbe; Alpha Kamara; Kunihya Ayuba; Abubakar H. Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to Plant Density and Phosphorous application in the Sudan Savanna zone of Nigeria, Minjibir. https://doi.org/10.21421/D2/YAJKSE, ICRISAT Dataverse, V1",
 		publication=NA,
 		carob_contributor="Siyabusa Mkuhlani",
+		carob_date="2022-09-12",
 		data_type="experiment",
 		data_institutions="ICRISAT",
 		project=NA
 	)
   
 	## treatment level data 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	  
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)

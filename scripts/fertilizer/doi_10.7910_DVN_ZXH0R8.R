@@ -18,13 +18,14 @@ carob_script <- function(path) {
 		data_citation = "International Crops Research Institute for the Semi-Arid Tropics (ICRISAT), 2021. Landscape Targeted Crop-Fertilizer Response in the Highlands of Ethiopia. https://doi.org/10.7910/DVN/ZXH0R8, Harvard Dataverse, V1",
 		data_institutions = "ICRISAT; ARARI; ILRI",
 		carob_contributor="Siyabusa Mkuhlani and Eduardo Garcia Bendito",
+		carob_date="2022-02-16",
 		data_type="on-farm experiment",
 		project="Africa Rising"	   
  	)
 
 ## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
     dset$license <- gsub("-DEED.AST", "", carobiner::get_license(js))
 
@@ -126,11 +127,13 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "003_2017_Sorghum+Tef_ ICRISAT-AR_ETH.xlsx"]
 	d <- read.file(f)
 	d4 <- get_df(d, "2017_Sorghum-Tef_")
-
+	d4$planting_date[is.na(d4$planting_date)] <- "2017"
+	
 ## process 004_2019_Wheat_ ICRISAT-AR_ETH.xlsx
 	f <- ff[basename(ff) == "004_2019_Wheat_ ICRISAT-AR_ETH.xlsx"]
 	d <- read.file(f)
 	d5 <- get_df(d, "2019_Wheat_")	
+	d5$planting_date[is.na(d5$planting_date)] <- "2019"
 	## many values that are much lower than yield
 	d5$residue_yield <- NA
 	

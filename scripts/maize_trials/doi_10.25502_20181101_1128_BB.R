@@ -24,6 +24,7 @@ carob_script <- function(path) {
       https://doi.org/10.25502/20181101/1128/BB",
       data_institutions = "IITA",
       carob_contributor="Cedric Ngakou",
+      carob_date="2023-10-11",
       data_type="experiment",
       project=NA 
    )
@@ -36,17 +37,17 @@ carob_script <- function(path) {
    bn <- basename(ff)
    
    # read Yellow_lines_BBA_DS dataset
-   r<- read.csv(ff[bn=="20181029aao_S1_Yellow_lines_BBA_DS.csv"])  
+   r <- read.csv(ff[bn=="20181029aao_S1_Yellow_lines_BBA_DS.csv"])  
    
-   d1<- r[,c("ID","Country","Location","Study","Year","Rep","Entry","Pedigree","Yield","ASI","PLTH","EHT","PASP","EASP","DS","HC")]#
-   colnames(d1)<- c("ID","country","location","treatment","planting_date","rep","variety_code","variety","yield","asi","pl_ht","e_ht","p_asp","e_asp","dy_sk","husk")#,
+   d1 <- r[,c("ID","Country","Location","Study","Year","Rep","Entry","Pedigree","Yield","ASI","PLTH","EHT","PASP","EASP","DS","HC")]#
+   colnames(d1) <- c("ID","country","location","treatment","planting_date","rep","variety_code","variety","yield","asi","pl_ht","e_ht","p_asp","e_asp","dy_sk","husk")#,
    
    
    # read Yellow_lines_BBA_ww dataset
-   r1<- read.csv(ff[bn=="20181029aao_S1_Yellow_lines_BBA_WW.csv"])  
+   r1 <- read.csv(ff[bn=="20181029aao_S1_Yellow_lines_BBA_WW.csv"])  
    
-   d2<- r1[,c("ID","country","Location","Study","YEAR","Rep","Entry","Pedigree","YIELD","ASI","PLTH","EHT","PASP","EASP","DS","HC")]#
-   colnames(d2)<- c("ID","country","location","treatment","planting_date","rep","variety_code","variety","yield","asi","pl_ht","e_ht","p_asp","e_asp","dy_sk","husk")#,
+   d2 <- r1[,c("ID","country","Location","Study","YEAR","Rep","Entry","Pedigree","YIELD","ASI","PLTH","EHT","PASP","EASP","DS","HC")]#
+   colnames(d2) <- c("ID","country","location","treatment","planting_date","rep","variety_code","variety","yield","asi","pl_ht","e_ht","p_asp","e_asp","dy_sk","husk")#,
    
    # append d1 and d2
    d <- rbind(d1,d2)
@@ -56,24 +57,24 @@ carob_script <- function(path) {
    d$crop <- "maize" 
    d$dataset_id <- dataset_id
    d$trial_id <- paste(d$ID,d$location,sep = "-")
-   d$yield_part<- "grain"
+   d$yield_part <- "grain"
    d$on_farm <- TRUE
    d$irrigated <- FALSE
    d$borer_trial <- FALSE
    d$striga_infected <- FALSE
-   d$ID<- NULL
+   d$ID <- NULL
    d$striga_trial <- TRUE
    
    ### add long and lat coordinate
    d$longitude[d$location=="Ikenne"] <- 3.6977469
-   d$latitude[d$location=="Ikenne"]<- 6.9010051
+   d$latitude[d$location=="Ikenne"] <- 6.9010051
    
    d$longitude[d$location=="kadawa"] <- 8.4340146
    d$latitude[d$location=="kadawa"] <-  11.6331619
    
    #data type
-   d$variety_code<- as.character(d$variety_code)
-   d$planting_date<- as.character(d$planting_date)
+   d$variety_code <- as.character(d$variety_code)
+   d$planting_date <- as.character(d$planting_date)
    
    # all scripts must end like this
    carobiner::write_files(dset, d, path=path)

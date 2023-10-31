@@ -24,13 +24,14 @@ carob_script <- function(path) {
 		publication= "doi:10.1016/j.fcr.2022.108578",
 		data_institutions = "Wageningen University & Research",
 		carob_contributor="Eduardo Garcia Bendito",
+		carob_date="2023-03-08",
 		data_type="compilation",
 		project=NA
 	)
   
 	## download and read data 
 	
-	ff	<- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
+	ff	 <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
 	js <- carobiner::get_metadata(dataset_id, path, group)
 	dset$license <- carobiner::get_license(js)
 	

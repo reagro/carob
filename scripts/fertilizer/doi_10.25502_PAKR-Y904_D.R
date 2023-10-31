@@ -27,6 +27,7 @@ carob_script <- function(path) {
 		data_citation = "Huising, J. (2019). OCP validation trials for maize fertilizers, OCP - Nigeria [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/PAKR-Y904/D",
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
+		carob_date="2023-04-10",
 		data_type="experiment",
 		project=NA    
 	)
@@ -88,11 +89,11 @@ carob_script <- function(path) {
 	# planting date is June 2017	get from VT protocol
 	d$planting_date <- "2017-06-01"
 	d$harvest_date <- "2017-11-01"
-	d$season<- "2017"
+	d$season <- "2017"
 	
 	d$trial_id <- paste0(dataset_id, '-', d$Location)
 	#data type
-	d$yield<- as.numeric(d$yield)
+	d$yield <- as.numeric(d$yield)
 	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	

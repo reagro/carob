@@ -32,7 +32,8 @@ carob_script <- function(path) {
     publication= NA, # This should be the simplified version of the DOI using the carobiner::simple_uri("https://doi.org/10.1016/j.agee.2016.05.012"). Then you also need to add the RIS file into the references folder of your carob repository
     data_institutions = "International Institute of Tropical Agriculture (IITA)",
     data_type="Multi-location diagnostic trials", # Here use one of the examples: "on-farm experiment", "survey", "compilation"
-    carob_contributor="Haile Okuku"
+    carob_contributor="Haile Okuku",
+    carob_date="2023-07-27"
     # Please add the coplete metadata fields as in https://github.com/reagro/carob/blob/master/terms/dataset.csv
   )
   

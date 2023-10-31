@@ -25,12 +25,13 @@ carob_script <- function(path) {
 		publication= "doi:10.1007/s13593-017-0431-0",
 		data_institutions = "CIAT",
 		carob_contributor="Eduardo Garcia Bendito",
+		carob_date="2023-04-06",
 		data_type="compilation"
  	)
 
 ## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	dset$license <- carobiner::get_license(js)
 
@@ -100,7 +101,7 @@ carob_script <- function(path) {
 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
 ## use 	as.character(as.Date()) for dates to assure the correct format.
 	d$planting_date <- as.character(format(as.Date(substr(rr$YEAR, start = 1, stop = 4), "%Y"), "%Y"))
-	d$harvest_date  <- as.character(format(as.Date(substr(rr$YEAR, (nchar(rr$YEAR)+1) - 4, nchar(rr$YEAR)), "%Y"), "%Y"))
+	d$harvest_date <- as.character(format(as.Date(substr(rr$YEAR, (nchar(rr$YEAR)+1) - 4, nchar(rr$YEAR)), "%Y"), "%Y"))
 
 ##### Fertilizers #####
 ## note that we use P and K, not P2O5 and K2O

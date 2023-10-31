@@ -29,15 +29,16 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 	   uri=uri,
 	   data_citation="Hauser, S., Kreye, C., Salako, F. K., Ologunde, O., Adebayo, O. E., Busari, M. A., & Olowokere, O. E. (2023). Cassava storage root yield as affected by planting and harvest date and fertilizer and variety in SW Nigeria [Data set]. IITA. https://doi.org/10.25502/YZKM-3V47/D",
 	   # this DOI is currently not active
-	   publication = "doi:10.37722/AAHAE.2022403",
+	   publication = NA, #"doi:10.37722/AAHAE.2022403",
 	   data_institutions = "IITA",
 	   carob_contributor="Robert Hijmans",
+	   carob_date="2023-07-07",
 	   data_type="experiment"
 	)
 
 ## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	dset$license <- carobiner::get_license(js)
 

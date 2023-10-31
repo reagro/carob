@@ -21,6 +21,7 @@ carob_script <- function(path){
 		publication = NA,
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Rwanda, 2011 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/Q4WA-AP97/D",
 		carob_contributor = "Effie Ochieng'",
+		carob_date="2022-08-12",
 		data_type = "fertilizer",
 		data_institutions="IITA"
 	)
@@ -59,7 +60,7 @@ carob_script <- function(path){
 	d$N_fertilizer <- 0
 	d$N_splits <- 0L
 	
-	d$P_fertilizer[d$sub_treatment_inoc %in% c("TSP", "TSP/KCL+UREA", "TSP/KCL", "TSP/KCL +UREA")]<- 30
+	d$P_fertilizer[d$sub_treatment_inoc %in% c("TSP", "TSP/KCL+UREA", "TSP/KCL", "TSP/KCL +UREA")] <- 30
 	d$K_fertilizer[d$sub_treatment_inoc %in% c("TSP/KCL+UREA", "TSP/KCL", "TSP/KCL +UREA")] <- 30
 	d$N_fertilizer[d$sub_treatment_inoc %in% c("TSP/KCL+UREA","TSP/KCL +UREA","PK6+Urea","SB24+Urea")] <- 60
 	d$N_splits[d$N_fertilizer > 0] <- 2L

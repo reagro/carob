@@ -267,18 +267,18 @@ N2A_monitoring_1 <- function(ff) {
 	dd$urea_amt <- ifelse(dd$min_fertilizer_type == "urea", as.numeric(sub(".*?/", "", dd$min_fertiliser_amount_kg)), 0)
 	dd$fertilizer_type <- dd$min_fertilizer_type
 	#to get rates of N and P
-	dd$P_rate_plot <-dd$ssp_amt*0.16
+	dd$P_rate_plot <- dd$ssp_amt*0.16
 	
 	# for 10.25502/hwdb-p578
 	#v <- carobiner::replace_values(dd$area_harvested_m2, c(101, 102, 103, 104), 							c(100, 100, 100, 100))
 
 	## how so ???
 	#v[is.na(v)] <- 100
-	#dd$area_harvested_m2 <-v
+	#dd$area_harvested_m2 <- v
 	
 	dd$P_fertilizer <- (10000/dd$area_harvested_m2) * dd$P_rate_plot
 	dd$N_rate_plot <- dd$urea_amt*0.467
-	dd$N_fertilizer <-(10000/dd$area_harvested_m2) * dd$N_rate_plot
+	dd$N_fertilizer <- (10000/dd$area_harvested_m2) * dd$N_rate_plot
 	dd$K_fertilizer <- 0
 	#getting the yield
 	dd$yield <- (10000/dd$area_harvested_m2) * dd$weight_kg

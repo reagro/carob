@@ -17,6 +17,7 @@ The study was carried out by the International Institute of Tropical Agriculture
 		group=group,
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Robert Hijmans",
+		carob_date="2023-07-03",
 		data_type = "experiment",
 		project="International Maize Trials",
 		data_institutions="IITA"

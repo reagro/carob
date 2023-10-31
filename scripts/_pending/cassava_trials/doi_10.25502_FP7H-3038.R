@@ -23,6 +23,7 @@ carob_script <- function(path) {
     publication= "",
     data_institutions = "IITA",
     carob_contributor="Effie Ochieng",
+    carob_date="2023-06-01",
     experiment_type="",
     has_weather=FALSE,
     has_soil=FALSE,
