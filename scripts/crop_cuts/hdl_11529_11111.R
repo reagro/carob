@@ -48,65 +48,8 @@ carob_script <- function(path) {
   # g <- carobiner::geocode(country = t$country, adm1 = t$adm1, location = t$adm2, service = "nominatim") #to extract lat and lon
   # dput(g) to see the extracted data frame
   
-  x <- data.frame(country = c("India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India", 
-                   "India", "India", "India", "India", "India", "India", "India"), 
-      adm1 = c("Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", 
-              "Odisha", "Odisha", "Odisha", "Odisha", "Odisha", "Odisha"), 
- adm2 = c("Bhadrak", "Bhadrak", "Bhadrak", "Bhadrak", 
+  x <- data.frame(country = "India",  adm1 = "Odisha", 
+		adm2 = c("Bhadrak", "Bhadrak", "Bhadrak", "Bhadrak", 
                "Bhadrak", "Bhadrak", "Bhadrak", "Bhadrak", "Bhadrak", "Bhadrak", 
                "Bhadrak", "Mayurbhanj", "Mayurbhanj", "Mayurbhanj", "Mayurbhanj", 
                "Mayurbhanj", "Mayurbhanj", "Mayurbhanj", "Mayurbhanj", "Mayurbhanj", 
@@ -202,7 +145,7 @@ carob_script <- function(path) {
   
   d$longitude <- ifelse(is.na(d$longitude), x$longitude[match(d$adm2, x$adm2)], d$longitude)
   d$latitude <- as.numeric(ifelse(is.na(d$latitude) | d$latitude == "-"  | d$latitude == "" | d$latitude == 19.58| d$latitude== 86.34, 
-                                 x$latitude[match(d$adm2, x$adm2)], d$latitude)) 
+  x$latitude[match(d$adm2, x$adm2)], d$latitude)) 
   
   d$dataset_id <- dataset_id
   d$on_farm <- TRUE
@@ -239,8 +182,8 @@ carob_script <- function(path) {
   #Year 2015 - 1X1 sq meter in gm 
   #Year 2016 - 2X2 sq meter in gm
   d$yield <- ifelse(d$year == 2013, as.numeric(d$yield) * 400,
-                    ifelse(d$year == 2014, as.numeric(d$yield) * 2000,
-                           ifelse(d$year == 2015, as.numeric(d$yield) * 10, as.numeric(d$yield) * 2.5))) # to calculate in kg/ha
+             ifelse(d$year == 2014, as.numeric(d$yield) * 2000,
+             ifelse(d$year == 2015, as.numeric(d$yield) * 10, as.numeric(d$yield) * 2.5))) # to calculate in kg/ha
   
   
   #Total above ground weight Year 2013 - 5X5 sq meter in Kg Year 
@@ -248,13 +191,12 @@ carob_script <- function(path) {
   #Year 2015 - 1X1 sq meter in gm 
   #Year 2016 - 2X2 sq meter in Kg
   d$biomass_total <- ifelse(d$year == 2013, as.numeric(d$biomass_total) * 400,
-                            ifelse(d$year == 2014, as.numeric(d$biomass_total) * 2000,
-                                   ifelse(d$year == 2015, as.numeric(d$biomass_total) * 10, as.numeric(d$biomass_total) * 2500)))# to calculate in kg/ha
+                     ifelse(d$year == 2014, as.numeric(d$biomass_total) * 2000,
+                     ifelse(d$year == 2015, as.numeric(d$biomass_total) * 10, as.numeric(d$biomass_total) * 2500)))# to calculate in kg/ha
   
   
   
-  d <- d[, c("trial_id","dataset_id","country","adm1","adm2","latitude","longitude","crop","variety","planting_date","transplanting_date","harvest_date","treatment","yield_part","on_farm","is_survey","fertilizer_type",
-             "N_fertilizer","P_fertilizer","K_fertilizer","biomass_total","yield")]
+  d <- d[, c("trial_id","dataset_id","country","adm1","adm2","latitude","longitude","crop","variety","planting_date","transplanting_date","harvest_date","treatment","yield_part","on_farm","is_survey","fertilizer_type", "N_fertilizer","P_fertilizer","K_fertilizer","biomass_total","yield")]
     # all scripts must end like this
     carobiner::write_files(dset, d, path=path)
 }

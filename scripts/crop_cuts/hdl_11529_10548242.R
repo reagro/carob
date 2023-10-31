@@ -36,38 +36,25 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
 
-
 	f <- ff[basename(ff) == "TAMASA_TZ_APS_2017_CC_MaizeYield.xlsx"]
+	r <- carobiner::read.excel(f, sheet = "Raw data", n_max = 1738)
 
-	d <- carobiner::read.excel(f, sheet = "Raw data", n_max = 1738)
-	colnames(d) <- c("Country", "Zone", "Region", "District", "Ward", "Village", "Hamlet", "HHID", "Farmer Name", "drop", "QID",
-	                 "QRcode Cobs", "Latitude", "Longitude", "Altitude", "Area by Farmer_est", "Area by GPS", "drop1",
-	                 "Plant stands", "Total Number of Cobs", "FWt of Cobs_all (kg)", "FWt of Cobs SS (kg)", "Dry Wt of Cobs SS (kg)",
-	                 "drop2", "Grain Wt SS (kg)", "Moisture_WB (%)", "Sheliing Factor", "Total Cob wt",
-	                 "Total cob dry weight", "Grain dry weight (kg/25m2)", "Grain dry weight (kg/25m2 @12.5%)", "Grain yield (kg/ha@12.5%)",
-	                 "...33", "...34")
-	
+## lon/lat reversed. but lat make no sense.		
+	d <- data.frame(yield = r$`Grain yield (kg/ha@12.5%)`, 
+				latitude = r$`QRcode Cobs`,
+				longitude = r$Latitude)
+
 	d$country <- "Tanzania"
 	d$trial_id <- paste0(d$HHID, "-", d$QID)
-	d$latitude <- d$Latitude
-	d$longitude <- d$Longitude
 	d$planting_date <- "2016-05-01"
 	d$harvest_date <- "2016-12-01"
 	d$on_farm <- TRUE
 	d$is_survey <- TRUE
 	d$crop <- "maize"
 	d$yield_part <- "grain"
-	
-	# d$yield <- d$`FWt of Cobs_all (kg)`*4 # FWt of Cobs_all (kg) = Fresh Weight of Cobs in Quadrat (25m2)
-	d$yield <- d$`Grain yield (kg/ha@12.5%)` # Grain yield at 12.5% moisture
-	
-	# process file(s)
-	d <- d[,c("country", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "crop", "yield_part", "yield")]
 	d$dataset_id <- dataset_id
-    # EGB: Drop records without LatLon
+
     d <- d[!is.na(d$longitude) & !is.na(d$latitude),]
-
-# all scripts must end like this
+    d <- d[!is.na(d$yield),]
 	carobiner::write_files(dset, d, path=path)
-
 }
