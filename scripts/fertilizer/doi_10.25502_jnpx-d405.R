@@ -15,7 +15,7 @@ carob_script <- function(path){
  Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   "
   
-  uri <- "doi.org/10.25502/jnpx-d405"
+  uri <- "doi:10.25502/jnpx-d405"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
@@ -30,6 +30,7 @@ carob_script <- function(path){
     data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa demonstration trial, 2012 - 2019 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/JNPX-D405",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
+    carob_date="2023-07-25",
     data_type="on_farm survey demonstration trials"
   )
   
@@ -242,10 +243,10 @@ carob_script <- function(path){
   z$latitude <- ifelse(is.na(z$latitude), z$lat, z$latitude)
   z$longitude <- ifelse(is.na(z$longitude), z$lon, z$longitude)
   
-  z$latitude[is.na(z$latitude) & z$site == "Logshegu"] <-	9.43341645
+  z$latitude[is.na(z$latitude) & z$site == "Logshegu"] <- 	9.43341645
   z$longitude[is.na(z$longitude) & z$site == "Logshegu"] <- -0.889753797926527 
   
-  z$latitude[is.na(z$latitude) & z$site == "Zangbanllung-Kukuo"] <-	8.8493897
+  z$latitude[is.na(z$latitude) & z$site == "Zangbanllung-Kukuo"] <- 	8.8493897
   z$longitude[is.na(z$longitude) & z$site == "Zangbanllung-Kukuo"] <- 0.1586035 
   
   

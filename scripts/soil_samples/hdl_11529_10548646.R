@@ -20,12 +20,13 @@ The Soil Intelligence System (SIS-India) mid-IR (MIR) dataset contains MIR spect
 		data_citation = "Sherpa Sonam; Poonia Shishpal; Kumar Sunil; Sharma Sachin; Ajay Anurag; Wu William; Singh Balwinder; McDonald Andrew, 2022, 'Soil wet chemistry data and mid-infrared spectra collected from rice-wheat farmers’ fields in Bihar, India', https://hdl.handle.net/11529/10548646, CIMMYT Research Data & Software Repository Network, V1",
 		data_institutions = "CIMMYT",
 		carob_contributor="Andrew Sila",
+		carob_date="2023-09-28",
 		data_type = "soil sampling"
     )
   
   ## download and read data 
   
-	ff	<- carobiner::get_data(uri, path, group)
+	ff	 <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
 	

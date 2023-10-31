@@ -21,13 +21,14 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 		publication= "doi:10.1016/j.agee.2016.05.012",
 		data_institutions = "IITA", 
 		carob_contributor="Cedric Ngakou", 
+		carob_date="2023-04-04",
 		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kasungu [Data set]. International Institute of Tropical Agriculture (IITA).  doi:10.25502/20180814/0923/HJ", 
 		data_type="experiment"
     )
   
   ## download and read data 
   
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
   
@@ -48,6 +49,7 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	colnames(d2) <- c("cluster", "field", "rep", "treatment", "residue_yield", "yield")
 
 	#merge d1 and d2
+	d2 <- d2[!is.na(d2$yield), ]
 	d <- merge(d1, d2, by=c("cluster", "field"))
 	d$trial_id <- paste0(d$location, "-", d$cluster)
 	d$cluster <- d$field <- NULL
@@ -63,6 +65,7 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	d$fertilizer_type <- p
 
 	d$OM_type[d$OM_type ==""] <- NA
+	d$OM_type[!is.na(d$OM_type)] <- "farmyard manure"
 	d$OM_used <- !is.na(d$OM_type)
 
 	d$yield <- d$yield*1000 # kg/ha

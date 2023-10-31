@@ -25,6 +25,7 @@ The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that c
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '24th Elite Selection Wheat Yield Trial', hdl:11529/10548346, CIMMYT Research Data & Software Repository Network, V1, UNF:6:pdyKMSqyX8CgDbmb3WZLmw== [fileUNF]",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Andrew Sila",
+	   carob_date="2023-05-03",
 	   
 	   ## something like randomized control...
 	   data_type="on-station experiment"
@@ -44,7 +45,7 @@ The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that c
 	d$dataset_id <- dataset_id
 
 	#one enormous outlier of 18800
-	d$yield[d$yield > 15000] <- NA
+	d <- d[d$yield < 15000, ]
 
 # all scripts must end like this
 	carobiner::write_files(path, dset, d)

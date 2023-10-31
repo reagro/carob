@@ -21,6 +21,7 @@ carob_script <- function(path){
 		publication = "doi:10.1016/j.agee.2017.08.015",
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Rwanda, 2012 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/A7EX-EA51/D",
 		carob_contributor = "Effie Ochieng'",
+		carob_date="2022-08-05",
 		data_type = "on farm experiment",
 		data_institutions="IITA"
 	)
@@ -77,7 +78,7 @@ carob_script <- function(path){
 	#process data sets separately identifying the variables of interest
 	d$trial_id <- d$experiment_id
 	d$rep <- d$replication_no
-	d$on_farm <-TRUE
+	d$on_farm <- TRUE
 	d$planting_date <- as.character(as.Date(paste(d$planting_date_yyyy, d$planting_date_mm, d$planting_date_dd, sep = "-")))
 	d$harvest_date <- as.character(as.Date(paste(d$date_harvest_yyyy, d$date_harvest_mm, d$date_harvest_dd, sep = "-")))
 	d$treatment <- paste(d$main_treatment, d$sub_treatment_inoc, d$sub_treatment_fert, sep = "-")
@@ -116,7 +117,7 @@ carob_script <- function(path){
 	d$K_fertilizer <- 0
 	v <- carobiner::fix_name(d$sub_treatment_inoc)
 	d$P_fertilizer[v %in% c("DAP", "TSP", "TSP/KCL")] <- 30
-	d$K_fertilizer[v == "TSP/KCL"]<- 30
+	d$K_fertilizer[v == "TSP/KCL"] <- 30
 	
 	d <- d[, c("trial_id","on_farm","treatment","crop", "planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","yield","grain_weight","residue_yield","biomass_total")]
 	

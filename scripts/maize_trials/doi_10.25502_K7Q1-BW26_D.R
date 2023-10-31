@@ -36,74 +36,74 @@ carob_script <- function(path) {
    bn <- basename(ff)
    
    # read the dataset
-   r<- read.csv(ff[bn=="BA15188 ACROSS.csv"])  
+   r <- read.csv(ff[bn=="BA15188 ACROSS.csv"])  
    
-   d<- r[,c("ID","LOC","Rep","Entry","Pedigree","YIELD","PLST","POLLEN","DYSK","ASI","PLHT","EHT","PASP","PHARV","EHARV","EROT","FWT","CO1","CO2","RAT1","RAT2")]#
-     colnames(d)<- c("ID","location","rep","variety_code","variety","yield","pl_st","dy_poll","dy_sk","asi","pl_ht","e_ht","p_asp","p_harv","e_harv","e_rot","fwtun","str_co1","str_co2","str_rat1","str_rat2")#,
+   d <- r[,c("ID","LOC","Rep","Entry","Pedigree","YIELD","PLST","POLLEN","DYSK","ASI","PLHT","EHT","PASP","PHARV","EHARV","EROT","FWT","CO1","CO2","RAT1","RAT2")]#
+     colnames(d) <- c("ID","location","rep","variety_code","variety","yield","pl_st","dy_poll","dy_sk","asi","pl_ht","e_ht","p_asp","p_harv","e_harv","e_rot","fwtun","str_co1","str_co2","str_rat1","str_rat2")#,
    
    
    # add columns
-   d$country<- "Nigeria"
+   d$country <- "Nigeria"
    d$crop <- "maize" 
    d$dataset_id <- dataset_id
    d$trial_id <- paste(d$ID,d$location,sep = "-")
-   d$yield_part<- "grain" 
+   d$yield_part <- "grain" 
    d$on_farm <- TRUE
    d$is_survey <- FALSE
    d$irrigated <- FALSE
   d$borer_trial <- FALSE
    d$striga_infected <- FALSE
-   d$ID<- NULL
+   d$ID <- NULL
    d$treatment <- d$location
    d$striga_trial <- FALSE
-   i<-grepl("STR",d$treatment)
+   i <- grepl("STR",d$treatment)
    d$striga_trial <- TRUE
    #add season 
-   d$season<- "2015"
-   d$planting_date<- "2015"
-   j<- grepl("IK16OPT" ,d$location)|  grepl("MK16STR",d$location) |  grepl("AB16STR",d$location) |  grepl( "MK16LN"  ,d$location) |grepl("MK16OPT" ,d$location)|grepl("AB16OPT" ,d$location)
-   d$season[j]<- "2016"
-   d$planting_date[j]<- "2016"
-   j<-grepl("KDW16DT" ,d$location) 
-   d$season[j]<- "2015-2016"
-   d$planting_date[j]<- "2015"
-   j<-grepl("IK15DT" ,d$location) | grepl("MI15DT",d$location)
-   d$season[j]<- "2014-2015"
-   d$planting_date[j]<- "2014"
+   d$season <- "2015"
+   d$planting_date <- "2015"
+   j <- grepl("IK16OPT" ,d$location)|  grepl("MK16STR",d$location) |  grepl("AB16STR",d$location) |  grepl( "MK16LN"  ,d$location) |grepl("MK16OPT" ,d$location)|grepl("AB16OPT" ,d$location)
+   d$season[j] <- "2016"
+   d$planting_date[j] <- "2016"
+   j <- grepl("KDW16DT" ,d$location) 
+   d$season[j] <- "2015-2016"
+   d$planting_date[j] <- "2015"
+   j <- grepl("IK15DT" ,d$location) | grepl("MI15DT",d$location)
+   d$season[j] <- "2014-2015"
+   d$planting_date[j] <- "2014"
 # fix location 
-   j<- grepl("MI15DT",d$location)
+   j <- grepl("MI15DT",d$location)
    
-   d$location[j]<- "Minjibir"
+   d$location[j] <- "Minjibir"
    
-   j<- grepl("IK15DT" ,d$location)|  grepl("IK15OPT",d$location) |  grepl("IK16OPT",d$location)
-   d$location[j]<- "Ikenne"
+   j <- grepl("IK15DT" ,d$location)|  grepl("IK15OPT",d$location) |  grepl("IK16OPT",d$location)
+   d$location[j] <- "Ikenne"
    
-   j<- grepl("KDW16DT",d$location)
-   d$location[j]<- "Kadawa"
+   j <- grepl("KDW16DT",d$location)
+   d$location[j] <- "Kadawa"
    
-   j<- grepl("MK15LN" ,d$location)|  grepl("MK16LN",d$location) |  grepl("MK15STR",d$location) |  grepl("MK16OPT",d$location)|  grepl("MK16STR" ,d$location)|  grepl("MK15OPT"  ,d$location)
-   d$location[j]<- "Mokwa"
+   j <- grepl("MK15LN" ,d$location)|  grepl("MK16LN",d$location) |  grepl("MK15STR",d$location) |  grepl("MK16OPT",d$location)|  grepl("MK16STR" ,d$location)|  grepl("MK15OPT"  ,d$location)
+   d$location[j] <- "Mokwa"
    
-   j<- grepl("IF15LN",d$location) | grepl("IF15HN",d$location)
-   d$location[j]<- "Ile-Ife"
+   j <- grepl("IF15LN",d$location) | grepl("IF15HN",d$location)
+   d$location[j] <- "Ile-Ife"
    
-   j<- grepl("AB15STR",d$location) | grepl("AB16STR",d$location) | grepl("AB15OPT",d$location) | grepl("AB16OPT",d$location)
-   d$location[j]<- "Abuja"
+   j <- grepl("AB15STR",d$location) | grepl("AB16STR",d$location) | grepl("AB15OPT",d$location) | grepl("AB16OPT",d$location)
+   d$location[j] <- "Abuja"
    ### add long and lat coordinate
-   Geo<- data.frame(location=c("Minjibir","Ikenne","Kadawa","Mokwa","Ile-Ife","Abuja"),
+   Geo <- data.frame(location=c("Minjibir","Ikenne","Kadawa","Mokwa","Ile-Ife","Abuja"),
                     lat=c(12.1771,6.9010051,11.6331619,11.6331619,6.760397,9.0643305),
                     lon=c(8.65866,3.6977469,8.4340146,8.4340146,6.206915,7.4892974))
    
-   d<- merge(d,Geo,by="location")
+   d <- merge(d,Geo,by="location")
    d$longitude <- d$lon
    d$latitude <- d$lat
    d$lon <- d$lat <- NULL
    # fill whitespace in str_co1, str_rat1, str_rat2
-   d$str_co1[d$str_co1==""]<- NA
-   d$str_rat1[d$str_rat1==""]<- NA
-   d$str_rat2[d$str_rat2==""]<- NA
+   d$str_co1[d$str_co1==""] <- NA
+   d$str_rat1[d$str_rat1==""] <- NA
+   d$str_rat2[d$str_rat2==""] <- NA
    #data type
-   d$variety_code<- as.character(d$variety_code)
+   d$variety_code <- as.character(d$variety_code)
    
 
    # all scripts must end like this

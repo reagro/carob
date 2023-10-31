@@ -27,7 +27,8 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 		publication= "11529/10548007",
 		data_institutions = "CIMMYT",
    		data_type="on-farm experiment",
-		carob_contributor="Mitchelle Njukuya" 
+		carob_contributor="Mitchelle Njukuya",
+		carob_date="2023-08-17"
 	  )
 
 ## download and read data 
@@ -183,8 +184,8 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	## P <- P2O5 / 2.29
 	## K <- K2O / 1.2051
 	d1$P_fertilizer <- NA
-	  d1$K_fertilizer <-NA
-	  d1$N_fertilizer <-NA 
+	  d1$K_fertilizer <- NA
+	  d1$N_fertilizer <- NA 
 	  d1$S_fertilizer <- NA
 	  d1$lime <- NA
 	  ## normalize names 
@@ -203,7 +204,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	  d1$yield <- d1$`Total biomass at harvest (t/ah)`
 	  #what plant part does yield refer to?
 	  d1$yield_part <- NA
-	  d1<-d1[,c("dataset_id","on_farm","is_survey","is_experiment","irrigated","treatment","country","location","longitude","latitude","crop","inoculated","inoculant","biomass_leaves","biomass_total","yield")]
+	  d1 <- d1[,c("dataset_id","on_farm","is_survey","is_experiment","irrigated","treatment","country","location","longitude","latitude","crop","inoculated","inoculant","biomass_leaves","biomass_total","yield")]
 
 	  ###########END OF 12 - Biomass samples ####################	  
 	
@@ -265,9 +266,9 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	  ## P <- P2O5 / 2.29
 	  ## K <- K2O / 1.2051
 	  d2$P_fertilizer <- NA
-	    d2$K_fertilizer <-NA
+	    d2$K_fertilizer <- NA
 	    d2$N_fertilizer <- NA
-	    d2$S_fertilizer <-NA 
+	    d2$S_fertilizer <- NA 
 	    d2$lime <- NA
 	    ## normalize names 
 	    d2$fertlizer_type <- NA
@@ -286,7 +287,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	    #what plant part does yield refer to?
 	    d2$yield_part <- d2$`No. of kernels/ sample (for kernel weight)`
 	 
-	      d2<-d2[,c("dataset_id","on_farm","is_survey","is_experiment","irrigated","treatment","country","site","location","season","longitude","latitude","crop","inoculated","inoculant","biomass_total","residue_yield","yield","yield_part")] 
+	      d2 <- d2[,c("dataset_id","on_farm","is_survey","is_experiment","irrigated","treatment","country","site","location","season","longitude","latitude","crop","inoculated","inoculant","biomass_total","residue_yield","yield","yield_part")] 
 ###################END OF 14 - Grain Harvest ############################	    
 	
 	 ################ 4- Stand counts & Phenology #########################
@@ -349,7 +350,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	    ## P <- P2O5 / 2.29
 	    ## K <- K2O / 1.2051
 	    d3$P_fertilizer <- NA
-	      d3$K_fertilizer <-NA
+	      d3$K_fertilizer <- NA
 	      d3$N_fertilizer <- NA
 	      d3$S_fertilizer <- NA
 	      d3$lime <- NA
@@ -368,7 +369,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	      d3$yield <- NA
 	      #what plant part does yield refer to?
 	      d3$yield_part <- NA
-	      d3<- d3[,c("dataset_id" ,"on_farm","is_survey" ,"is_experiment","irrigated","treatment","country","site","location","longitude","latitude","crop","variety","planting_date","harvest_date","emergence","flowering","maturity","harvest","season","biomass_total")]
+	      d3 <- d3[,c("dataset_id" ,"on_farm","is_survey" ,"is_experiment","irrigated","treatment","country","site","location","longitude","latitude","crop","variety","planting_date","harvest_date","emergence","flowering","maturity","harvest","season","biomass_total")]
 
 	      #################### Wheat 2015-16-DS&BP-all nodes Rajshahi##########
 	      f1 <- "C:/Users/user/Documents/DataAnalysis/carob/data/raw/wheat_trials/hdl_11529_10548007/Wheat 2015-16-DS&BP-all nodes Rajshahi.xlsx"
@@ -386,7 +387,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	      
 	      ## use a subset
 	      
-	      d4<- r5
+	      d4 <- r5
 	      
 	      #### about the data #####
 	      ## (TRUE/FALSE)
@@ -435,8 +436,8 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	      ## P <- P2O5 / 2.29
 	      ## K <- K2O / 1.2051
 	      d4$P_fertilizer <- d4$`TSP (kg/ha)`
-	        d4$K_fertilizer <-d4$`MOP(kg/ha)`
-	        d4$N_fertilizer <-d4$`Fert Grade N...13` 
+	        d4$K_fertilizer <- d4$`MOP(kg/ha)`
+	        d4$N_fertilizer <- d4$`Fert Grade N...13` 
 	        d4$S_fertilizer <- NA
 	        d4$lime <- NA
 	        d4$gypsum <- d4$`Gypsum(Kg/ha)...56`
@@ -444,8 +445,8 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	        ## normalize names 
 	        d4$fertlizer_type <- d4$`Product used...12`
 	          d4$fertlizer_type <- d4$`Product used...19`
-	          d4$fertlizer_type <-d4$`Product used...26`
-	          d4$fertlizer_type <-d4$`Product used...40`
+	          d4$fertlizer_type <- d4$`Product used...26`
+	          d4$fertlizer_type <- d4$`Product used...40`
 	        d4$inoculated <- FALSE
 	      d4$inoculant <- NA
 	        
@@ -598,7 +599,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	          ## P <- P2O5 / 2.29
 	          ## K <- K2O / 1.2051
 	          d6$P_fertilizer <- NA
-	            d6$K_fertilizer <-NA
+	            d6$K_fertilizer <- NA
 	            d6$N_fertilizer <- NA
 	            d6$S_fertilizer <- NA
 	            d6$lime <- NA
@@ -618,7 +619,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	            #what plant part does yield refer to?
 	            d6$yield_part <- NA 
 	           
-	            d6 <-d6[,c("dataset_id","on_farm","is_survey","is_experiment","treatment","country","adm1","adm2","longitude","latitude","crop","biomass_total","yield")] 
+	            d6 <- d6[,c("dataset_id","on_farm","is_survey","is_experiment","treatment","country","adm1","adm2","longitude","latitude","crop","biomass_total","yield")] 
 ############################END OF f1 -> 12 - Biomass samples ##################################################################################################################
 	            
 ########################### f1 -> 14 - Grain Harvest #############################################################################################
@@ -676,7 +677,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	            ## P <- P2O5 / 2.29
 	            ## K <- K2O / 1.2051
 	            d7$P_fertilizer <- NA
-	              d7$K_fertilizer <-NA
+	              d7$K_fertilizer <- NA
 	              d7$N_fertilizer <- NA
 	              d7$S_fertilizer <- NA
 	              d7$lime <- NA

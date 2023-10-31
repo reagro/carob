@@ -26,6 +26,7 @@ carob_script <- function(path) {
 	   publication= NA,
 	   data_institutions = "CIP",
 	   carob_contributor="Henry Juarez",
+	   carob_date="2023-06-21",
 	   data_citation="Gastelo, Manuel; Bonierbale, Merideth; Landeo, Juan; Diaz, Luis, 2016. Dataset for: Advanced clones of B3C0, group B3, population B in Oxapampa-Peru. https://doi.org/10.21223/P3/SFXXDC, International Potato Center, V1",
 		data_type="experiment" 
  	)

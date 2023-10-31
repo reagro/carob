@@ -34,6 +34,7 @@ carob_script <- function(path) {
 		uri=uri,
 		publication="doi:10.12692/ijb/9.1.291-302",
 		carob_contributor="Eduardo Garcia Bendito",
+		carob_date="2021-07-06",
 		data_type="experiment",
 		data_institutions=NA,
 		project=NA
@@ -41,7 +42,7 @@ carob_script <- function(path) {
 
 ## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
 

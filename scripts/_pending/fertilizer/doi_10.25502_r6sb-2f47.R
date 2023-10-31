@@ -32,7 +32,8 @@ carob_script <- function(path) {
     publication=NA,
     data_institutions = "IITA",
     data_type="survey", # or, e.g. "on-farm experiment", "survey", "compilation"
-    carob_contributor="Effie Ochieng'"  
+    carob_contributor="Effie Ochieng'",
+	carob_date="2023-09-30"
   )
   
   ## download and read data 
@@ -51,7 +52,7 @@ carob_script <- function(path) {
   d$country <- carobiner::fix_name(r$country, case = "title") 
   d$adm1 <- carobiner::fix_name(d$adm1, case = "title")
   d$date <- format(as.Date(d$date, format = "%d-%b-%y", locale = "C"), "%Y-%m-%d")
-  d$trial_id <-paste(r$id,r$farm_id, sep = "_")
+  d$trial_id <- paste(r$id,r$farm_id, sep = "_")
   d$dataset_id <- dataset_id
   d$on_farm <- FALSE
   d$is_survey <- TRUE
@@ -83,7 +84,7 @@ carob_script <- function(path) {
   d$fertilizer_type[grep("NPK",d$treatment)] <- "NPK"
   d$fertilizer_type[grep("TSP",d$treatment)] <- "TSP"
   d$fertilizer_type[grep("SSP",d$treatment)] <- "SSP"
-  d$fertilizer_type[grep("other_mineral_fertilizer",d$treatment)]<- "unknown"
+  d$fertilizer_type[grep("other_mineral_fertilizer",d$treatment)] <- "unknown"
   d$OM_used <- grepl("organic_fertilizer",d$treatment)
   d$treatment2 <- r$inputs_used_on_plot_master_group_plot_id_repeat# This also looks like it would pass for the treatments???
   d$N_fertilizer <- 0
@@ -144,7 +145,7 @@ carob_script <- function(path) {
                                 10.8251, 10.4532, 10.6069, -3.4739, 10.5809, 9.5673, -1.2354, 10.4336, 10.3987, 10.5893, 10.394, 10.625, 7.8574, 10.3484, 
                                 10.4334, 7.347, 10.8942, 10.6585, 14.6968, 9.5583, 10.5429,-1.3973, -1.2605, 0.6047, -0.949, -1.2438, -1.3594, -1.2233))
   
-  d <-merge(d,g , by =c("country","location"), all = TRUE) 
+  d <- merge(d,g , by =c("country","location"), all = TRUE) 
   
   # fill in lat and lon that were in the original data set
   for (i in 1:nrow(r)) {

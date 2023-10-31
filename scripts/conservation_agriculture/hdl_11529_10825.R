@@ -36,6 +36,7 @@ carob_script <- function(path) {
 		in maize-based systems in Zambia, hdl:11529/10825, CIMMYT Research Data & Software Repository Network, V3",
 		data_institutions = "CIMMYT",
 		carob_contributor="Cedric Ngakou",
+		carob_date="2023-08-02",
 		data_type="on-station experiment"
     )
   
@@ -75,8 +76,8 @@ carob_script <- function(path) {
   d$is_survey <- FALSE
   d$irrigated <- FALSE
   #fix residue_yield and plant_density out of the bounds
-  d$residue_yield[d$residue_yield>60000] <-NA
-  d$plant_density[d$plant_density<1000] <-NA
+  d$residue_yield[d$residue_yield>60000] <- NA
+  d$plant_density[d$plant_density<1000] <- NA
   # fix name treatment name
   
   p <- carobiner::fix_name(d$treatment)

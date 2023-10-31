@@ -27,7 +27,8 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="survey",
-    carob_contributor="Fredy chimire" 
+    carob_contributor="Fredy chimire",
+    carob_date="2023-08-17"
   )
   
   ## download and read data 
@@ -63,7 +64,7 @@ carob_script <- function(path) {
     d$row_spacing <- d$`Row Distance (cm)`
     d$plant_spacing <- d$`Plant Distance (cm)`
     d$yield_part <- "grain"
-    d$crop <-"maize"
+    d$crop <- "maize"
     d$rep <- d$`Quadrant no.`
     d$yield <- d$`Grain yield (kg/ha)`
 

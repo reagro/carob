@@ -35,13 +35,14 @@ Notes
 		data_citation="Kihara, Job, 2016. Replication Data for: Maize response to macronutrients and potential for profitability in sub-Saharan Africa, https://doi.org/10.7910/DVN/UNLRGC",
 		publication="doi:10.1007/s10705-015-9717-2",
 		carob_contributor="Camila Bonilla",
+		carob_date="2021-05-31",
 		data_type="compilation",
 		project=NA,
 		data_institutions="CIAT"
 	)
 
 	## treatment level data 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(cleanuri, path, major=1, minor=3, group)
@@ -121,7 +122,7 @@ Notes
 	z <- merge(z, crds, by="TrialID")
 	
 	names(z) <- tolower(names(z))
-	z$soiltype  <- carobiner::fix_name(z$soiltype, "title")
+	z$soiltype <- carobiner::fix_name(z$soiltype, "title")
 	z$zone <- carobiner::fix_name(z$zone, "title")
 	z$location <- carobiner::fix_name(z$location, "title")
 	z$year[z$year=="87B"] <- "1987"

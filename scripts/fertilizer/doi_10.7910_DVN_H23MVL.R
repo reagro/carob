@@ -28,6 +28,7 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
 		doi: doi: 10.1016/S0378- 4290(01)00197-6" ,
 		data_institutions = "IRRI",
 		carob_contributor="Cedric Ngakou",
+		carob_date="2023-06-02",
 		data_type="NA",
 		project=NA     
 	)
@@ -41,12 +42,14 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
   f <- ff[basename(ff) =="SSNM_Meta-analysis_data.csv"] 
   
   # read the dataset
-  r <- read.csv(f,header=FALSE, stringsAsFactors=FALSE, fileEncoding="latin1")
-   colnames(r) <- r[1,]
-  d <- r[,c(4,7,8,9,10,14,15,17,28,29,31,32,34,35,38,41,43,44,49,53,57,62,64)]
-  d <- d[-1,] # drop the first rows
+	r <- read.csv(f,header=FALSE, stringsAsFactors=FALSE, fileEncoding="latin1")
+	colnames(r) <- r[1,]
+	r <- r[-1,] # drop the first rows
+	
+	#RH: do not use numeric indexing!
+	d <- r[,c(4,7,8,9,10,14,15,17,28,29,31,32,34,35,38,41,43,44,49,53,57,62,64)]
   #normalize columns names
-  colnames(d) <-  c("reference","country","location","longitude","latitude","soil_type","soil_pH","soil_SOC","previous_crop","crop", "water_mangement","variety","observation_date","season","tillage","treatment","N_splits","N_fertilizer", "P_fertilizer","K_fertilizer","Zn_fertilizer","rep","yield")
+	colnames(d) <-  c("reference","country","location","longitude","latitude","soil_type","soil_pH","soil_SOC","previous_crop","crop", "water_mangement","variety","observation_date","season","tillage","treatment","N_splits","N_fertilizer", "P_fertilizer","K_fertilizer","Zn_fertilizer","rep","yield")
   
   d[c('planting_date', 'harvest_date')] <- stringr::str_split_fixed(d$observation_date, "-", 2) 
   
@@ -121,39 +124,39 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
 	d$latitude[i] <- d$lat[i]
     d$lat <- d$lon <- NULL
     # fix soil_SOC range and fertilizer
-    d$soil_SOC[d$soil_SOC>20]<-NA
-    d$N_fertilizer[is.na(d$N_fertilizer)]<-0
-    d$P_fertilizer[is.na(d$P_fertilizer)]<-0
-    d$K_fertilizer[is.na(d$K_fertilizer)]<-0
+    d$soil_SOC[d$soil_SOC>20] <- NA
+    d$N_fertilizer[is.na(d$N_fertilizer)] <- 0
+    d$P_fertilizer[is.na(d$P_fertilizer)] <- 0
+    d$K_fertilizer[is.na(d$K_fertilizer)] <- 0
     # remove rows without location
-    d<-d[!is.na(d$location),]
+    d <- d[!is.na(d$location),]
    # fix error in long and lat 
-    d$longitude[d$location=="Alukdia"]<-88.82096
-    d$latitude[d$location=="Alukdia"] <-23.6578
-    d$longitude[d$location=="Badarganj"]<-89.1808277
-    d$latitude[d$location=="Badarganj"]<-25.7071259
-    d$longitude[d$location=="Chandbill"]<-90.2934413
-    d$latitude[d$location=="Chandbill"]<-24.4769288
-    d$longitude[d$location=="Jhapa "]<-87.885701
-    d$latitude[d$location=="Jhapa "]<-26.5837354
-    d$longitude[d$location=="Grobogan, Central Java (GRO)"]<-110.8966767
-    d$latitude[d$location=="Grobogan, Central Java (GRO)"]<--7.0980947
-    d$longitude[d$location=="Ilocos Norte/Sur, La Union, Pangasinan, Isabela, Zambales, Nueva Ecija, Bulacan"]<-121
-    d$latitude[d$location=="Ilocos Norte/Sur, La Union, Pangasinan, Isabela, Zambales, Nueva Ecija, Bulacan"]<-15.583333
-    d$longitude[d$location=="Jeneponto, South Sulawesi (SUL)"]<-120.2948856
-    d$latitude[d$location=="Jeneponto, South Sulawesi (SUL)"]<--1.9758004
-    d$longitude[d$location=="Kediri, East Java (EJA)"]<-112.0046051
-    d$latitude[d$location=="Kediri, East Java (EJA)"]<--7.8111057
-    d$longitude[d$location=="Lampung Tengah, Lampung (LAM)"]<-105.0272986
-    d$latitude[d$location=="Lampung Tengah, Lampung (LAM)"]<--4.8555039
-    d$longitude[d$location=="Liaoning" ]<-122.9955469
-    d$latitude[d$location== "Liaoning"]<-40.9975197
-    d$longitude[d$location=="Pangasinan and Tarlac" ]<-120.4964091
-    d$latitude[d$location=="Pangasinan and Tarlac"]<-15.4937252
-    d$longitude[d$location=="Sukamandi, West Java"  ]<-107.6221628
-    d$latitude[d$location=="Sukamandi, West Java" ]<--6.7177474
-    d$longitude[d$location=="Trang Bang, Tay Ninh (TAY)"]<-106.3623675
-    d$latitude[d$location=="Trang Bang, Tay Ninh (TAY)"]<-11.0315517
+    d$longitude[d$location=="Alukdia"] <- 88.82096
+    d$latitude[d$location=="Alukdia"] <- 23.6578
+    d$longitude[d$location=="Badarganj"] <- 89.1808277
+    d$latitude[d$location=="Badarganj"] <- 25.7071259
+    d$longitude[d$location=="Chandbill"] <- 90.2934413
+    d$latitude[d$location=="Chandbill"] <- 24.4769288
+    d$longitude[d$location=="Jhapa "] <- 87.885701
+    d$latitude[d$location=="Jhapa "] <- 26.5837354
+    d$longitude[d$location=="Grobogan, Central Java (GRO)"] <- 110.8966767
+    d$latitude[d$location=="Grobogan, Central Java (GRO)"] <- -7.0980947
+    d$longitude[d$location=="Ilocos Norte/Sur, La Union, Pangasinan, Isabela, Zambales, Nueva Ecija, Bulacan"] <- 121
+    d$latitude[d$location=="Ilocos Norte/Sur, La Union, Pangasinan, Isabela, Zambales, Nueva Ecija, Bulacan"] <- 15.583333
+    d$longitude[d$location=="Jeneponto, South Sulawesi (SUL)"] <- 120.2948856
+    d$latitude[d$location=="Jeneponto, South Sulawesi (SUL)"] <- -1.9758004
+    d$longitude[d$location=="Kediri, East Java (EJA)"] <- 112.0046051
+    d$latitude[d$location=="Kediri, East Java (EJA)"] <- -7.8111057
+    d$longitude[d$location=="Lampung Tengah, Lampung (LAM)"] <- 105.0272986
+    d$latitude[d$location=="Lampung Tengah, Lampung (LAM)"] <- -4.8555039
+    d$longitude[d$location=="Liaoning" ] <- 122.9955469
+    d$latitude[d$location== "Liaoning"] <- 40.9975197
+    d$longitude[d$location=="Pangasinan and Tarlac" ] <- 120.4964091
+    d$latitude[d$location=="Pangasinan and Tarlac"] <- 15.4937252
+    d$longitude[d$location=="Sukamandi, West Java"  ] <- 107.6221628
+    d$latitude[d$location=="Sukamandi, West Java" ] <- -6.7177474
+    d$longitude[d$location=="Trang Bang, Tay Ninh (TAY)"] <- 106.3623675
+    d$latitude[d$location=="Trang Bang, Tay Ninh (TAY)"] <- 11.0315517
     # fix crop name 
   p <- carobiner::fix_name(d$crop, "lower")
   d$crop <- p

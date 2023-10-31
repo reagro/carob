@@ -29,7 +29,8 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institutions = "IITA",
 		data_type = "survey", # or, e.g. "on-farm experiment", "survey", "compilation"
-		carob_contributor = "Eduardo Garcia Bendito"  
+		carob_contributor = "Eduardo Garcia Bendito",
+		carob_date="2023-07-11"
 	)
 
 ## download and read data 

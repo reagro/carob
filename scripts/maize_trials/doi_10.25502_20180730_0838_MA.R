@@ -20,6 +20,7 @@ carob_script <- function(path) {
 		uri = uri,
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
+		carob_date="2021-06-03",
 		data_type = "experiment",
 		project="International Maize Trials",
 		data_institutions="IITA"

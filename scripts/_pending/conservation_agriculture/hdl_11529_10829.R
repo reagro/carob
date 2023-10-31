@@ -27,7 +27,8 @@ carob_script <- function(path) {
 		publication=NA,
 		data_institutions = "CIMMYT",
    		data_type="on-farm experiment",
-		carob_contributor="Mitchelle Njukuya" 
+		carob_contributor="Mitchelle Njukuya",
+		carob_date="2023-06-21"
 	)
 
 ## download and read data 
@@ -57,14 +58,14 @@ carob_script <- function(path) {
 	d$intercrop[d$`sole/intercrop`==1 & d$treatment %in% c("CA +Maize/mucuna")] <- "velvet bean"
 	d$intercrop[d$`sole/intercrop`==1 & d$treatment %in% c("CA+Maize/Cp")] <- "cowpea"
 	d$yield <- d$`Grain yield (kg/ha)`
-	d$crop <-d$`crop grown`
+	d$crop <- d$`crop grown`
 	d$dataset_id <- dataset_id
 	d$on_farm <- TRUE 
 	d$is_survey <- FALSE
 	d$is_experiment <- TRUE 
 	d$irrigated <- FALSE
 	
-	d<-d[,c("dataset_id","country","adm1","adm2","treatment","variety","crop","intercrop","on_farm","irrigated","is_survey","yield")]
+	d <- d[,c("dataset_id","country","adm1","adm2","treatment","variety","crop","intercrop","on_farm","irrigated","is_survey","yield")]
 	
 	#merging with latidude and longitude for districts
 	d <- merge(d, districts$df, by.x = c("country" , "adm1"), by.y = c("country", "location"))
@@ -79,8 +80,8 @@ carob_script <- function(path) {
 	  d[d$country == distr$country & d$adm1 == distr$location & is.na(dd$lon), "lon"] <- distr$lon
 	  d[d$country == distr$country & d$adm1 == distr$location & is.na(dd$lat), "lat"] <- distr$lat
 	}
-		dd$lon[dd$adm1=="Mchinga"]<-35.6026
-	dd$lat[dd$adm1=="Mchinga"]<--14.9027
+		dd$lon[dd$adm1=="Mchinga"] <- 35.6026
+	dd$lat[dd$adm1=="Mchinga"] <- -14.9027
 	d1 <- r1
 	d1$country <- "Malawi"
 	d1$site <- d1$Site
@@ -95,15 +96,15 @@ carob_script <- function(path) {
 	d1$is_survey <- FALSE
 	d1$is_experiment <- TRUE 
 	d1$irrigated <- FALSE
-	d1<-d1[,c("country","dataset_id" ,"site","crop","treatment","biomass_leaves", "biomass_total","plant_density","yield","irrigated","on_farm","is_experiment")]
-	d1$lon[d1$site=="Mwansambo"]<- 34.1178 
-	d1$lat[d1$site=="Mwansambo"]<- -13.3100
-	d1$lon[d1$site=="Kaluluma"]<-33.5190
-	d1$lat[d1$site=="Kaluluma"]<- -12.5818
-	d1$lon[d1$site=="Songani"]<-35.4459
-	d1$lat[d1$site=="Songani"]<- -15.3026
-	d1$lon[d1$site=="Linga"]<- 33.7654
-	d1$lat[d1$site=="Linga"]<- -14.0060
+	d1 <- d1[,c("country","dataset_id" ,"site","crop","treatment","biomass_leaves", "biomass_total","plant_density","yield","irrigated","on_farm","is_experiment")]
+	d1$lon[d1$site=="Mwansambo"] <- 34.1178 
+	d1$lat[d1$site=="Mwansambo"] <- -13.3100
+	d1$lon[d1$site=="Kaluluma"] <- 33.5190
+	d1$lat[d1$site=="Kaluluma"] <- -12.5818
+	d1$lon[d1$site=="Songani"] <- 35.4459
+	d1$lat[d1$site=="Songani"] <- -15.3026
+	d1$lon[d1$site=="Linga"] <- 33.7654
+	d1$lat[d1$site=="Linga"] <- -14.0060
 	d1$lon[d1$site=="Malula"] <- 
 		# Villages
 	village <- carobiner::geocode(country= "Malawi",location = unique(d$adm2))
@@ -120,13 +121,13 @@ carob_script <- function(path) {
 	  dd[dd$country == distr$country & dd$adm1 == distr$location & is.na(dd$lat), "lat"] <- distr$lat
 	}
 	
-	dd$lon[dd$adm1=="Mchinga"]<-35.6026
-	dd$lat[dd$adm1=="Mchinga"]<--14.9027 
+	dd$lon[dd$adm1=="Mchinga"] <- 35.6026
+	dd$lat[dd$adm1=="Mchinga"] <- -14.9027 
 	
 	#joining tables
-	d4<- carobiner::bindr(d, d1)
+	d4 <- carobiner::bindr(d, d1)
 	
-	d2<-r2
+	d2 <- r2
 	d2$country <- "Malawi"
 	d2$site <- d2$`Site name`
 	d2$treatment <- d2$Tmnt.
@@ -140,10 +141,10 @@ carob_script <- function(path) {
 	d2$is_survey <- FALSE
 	d2$is_experiment <- TRUE 
 	d2$irrigated <- FALSE
-	d2<-d2[,c("country","dataset_id" ,"site","crop","treatment","biomass_leaves", "biomass_total","plant_density","yield","irrigated","on_farm","is_experiment")]
+	d2 <- d2[,c("country","dataset_id" ,"site","crop","treatment","biomass_leaves", "biomass_total","plant_density","yield","irrigated","on_farm","is_experiment")]
 	
 	#joining tables
-	d5<- carobiner::bindr(d, d1, d2)
+	d5 <- carobiner::bindr(d, d1, d2)
 	
 	
 #### about the data #####

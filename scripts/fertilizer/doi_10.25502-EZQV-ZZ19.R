@@ -11,7 +11,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 "
   
 
-	uri <- "doi.org/10.25502/EZQV-ZZ19"
+	uri <- "doi:10.25502/EZQV-ZZ19"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 
@@ -25,6 +25,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 		publication = 'doi.org/10.1016/j.agee.2017.08.015',
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa dianostic trial - Nigeria, 2014 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/EZQV-ZZ19",
 		carob_contributor = "Andrew Sila",
+		carob_date="2023-07-17",
 		data_type = "on farm experiment",
 		data_institutions="IITA"
 	)
@@ -115,14 +116,15 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
     ##RH: as long as you specify that in yield_part!
 		
 	d0$length[d0$length == 0.75] <- 10 #to change that one entry with 0.75 as the length
-	d0$yield <- 10000 / as.numeric(d0$width*d0$length) * ifelse(is.na(d0$grain_weight),d0$pod_weight , d0$grain_weight)
+	d0$yield <- 10000 / (d0$width*d0$length) * ifelse(is.na(d0$grain_weight), d0$pod_weight , d0$grain_weight)
+	
 	d0$residue_yield <- 10000 / as.numeric(d0$width * d0$width) * d0$residue_yield
 	d0$fertilizer_type[grepl("\\+p|\\+ p", d0$treatment, perl = TRUE)] <- "SSP"
 	d0$SSP_amt_per_plot[grepl("SSP",d0$fertilizer_type)] <- 2
 	
 	#calculating the fertilizer different
 	d0$P_fertilizer <- (0.0874* d0$SSP_amt_per_plot / (as.numeric(d0$width * d0$length) / 10000)) #p in SSP taken as 8.74
-	d0$P_fertilizer[is.na(d0$P_fertilizer)]<- 0
+	d0$P_fertilizer[is.na(d0$P_fertilizer)] <- 0
 	d0$N_fertilizer <- 0
 	d0$K_fertilizer <- 0
 	d0 <- d0[!duplicated(d0), ]
@@ -154,6 +156,13 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	# all scripts should end like this
 
 	df <- df[!is.na(df$crop), ]
+	df <- df[!is.na(df$yield), ]
+	df$planting_date <- as.character(NA)
+	
+	i <- df$location == "Danmaliki"
+	df$longitude[i] <- 8.82
+	df$latitude[i] <- 11.642
+	
 	carobiner::write_files(dset, df, path=path)
 }
 

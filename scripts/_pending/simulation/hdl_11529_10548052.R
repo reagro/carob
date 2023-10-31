@@ -30,7 +30,8 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="on_station",
-    carob_contributor="Fredy chimire" 
+    carob_contributor="Fredy chimire",
+    carob_date="2023-10-17"
   )
   
   ## download and read data 
@@ -80,7 +81,7 @@ carob_script <- function(path) {
   d$planting_date <- "2015-11-23"
   d$yield_part <- "grain"
   d$variety <-  "Kavery25K60"
-  d$crop <-"maize"
+  d$crop <- "maize"
 
 
 print("many more variables need to be included")  

@@ -22,6 +22,7 @@ carob_script <- function(path) {
 	   uri=uri,
 	   publication=NA,
 	   carob_contributor="Eduardo Garcia Bendito",
+	   carob_date="2021-06-18",
 	   data_type = "experiment",
 		data_institutions=NA,
 		project=NA
@@ -30,7 +31,7 @@ carob_script <- function(path) {
 
 ## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=5) 
 	dset$license <- carobiner::get_license(js)
 
@@ -88,7 +89,7 @@ carob_script <- function(path) {
 	# Merge with Manure applied ("1a Cattle manure lab analysis.xlsx")
 	OM <- carobiner::read.excel(ff[basename(ff) == "1a Cattle manure lab analysis.xlsx"], skip = 5)
 	d1$OM_used <- d1$Treatment == 8
-	d1$OM_type <- ifelse(d1$Treatment == 8, "manure", NA)
+	d1$OM_type <- ifelse(d1$Treatment == 8, "farmyard manure", NA)
 	d1$OM_applied <- ifelse(d1$Treatment == 8, 5000, 0)
 	d1$OM_N <- d1$OM_applied*(0.1796/100)*(0.755/100) # OM$K (%)
 	d1$OM_P <- d1$OM_applied*(0.1796/100)*(200.67532467532467/1e+06) # OM$P (ppm)

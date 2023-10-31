@@ -20,13 +20,14 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 		publication=NA,
 		data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Sorghum productivity and water use under Phosphorus fertilization in the Sudan savanna of Nigeria. https://doi.org/10.21421/D2/YDFJOB, ICRISAT Dataverse, V1",
 		carob_contributor="Siyabusa Mkuhlani",
+		carob_date="2022-09-12",
 		data_type="experiment",
 		data_institutions=NA,
 		project=NA 
 	)
   
 	## treatment level data 
-	ff	<- carobiner::get_data(uri, path, group)
+	ff	 <- carobiner::get_data(uri, path, group)
 	
 	## read the json for version, license, terms of use	
 	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
@@ -65,7 +66,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	e$planting_date <- paste0(e$year, "-06-01")
 	e$harvest_date <- as.character(as.Date(e$planting_date) + d$Mat_c_day)
 	e$year <- NULL
-	e$adm1 <-'Kano'
+	e$adm1 <- 'Kano'
 	
 	e$rep <- as.integer(e$rep)
 	e$yield_part <- "grain"
