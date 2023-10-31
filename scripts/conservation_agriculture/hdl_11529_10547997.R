@@ -127,7 +127,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 			d$location <- "Saalbani"
 		}
 		crop <- tolower(strsplit(basename(f), "-")[[1]][1])
-		d$crop <- gsub("kidneybean", "kidney bean", crop)
+#		d$crop <- gsub("kidneybean", "kidney bean", crop)
 		if (d$crop[1] == "potato") {
 			d$yield_part <- "tubers"
 		} else if (d$crop[1] %in% c("maize", "kidney bean")) {
