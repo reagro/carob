@@ -49,7 +49,21 @@ carob_script <- function(path) {
 		r$harvest_date <- n$`End date`
 		r$longitude <- as.numeric(n$Longitude)
 		r$latitude <- as.numeric(n$Latitude)
+		k <- carobiner::read.excel(f, sheet="Soil_analysis")
+		k1<- as.list(k$Abbreviture)
+		k<- t(k)
+		colnames(k)<- k1
+		m1 <- as.data.frame(k[!(row.names(k) %in% c("1","2")),])
+		r$soil_pH<-  mean(as.double(m1$pH),na.rm=TRUE) 
+		r$OM_applied<- mean(as.double(m1$MO),na.rm=TRUE) 
+		r$soil_P_available<-  (mean(as.double(m1$P),na.rm=TRUE)) 
+		r$soil_K<-  mean(as.double(m1$K),na.rm=TRUE) 
+		r$soil_sand<-  mean(as.double(m1$Sand),na.rm=TRUE)
+		r$soil_clay<-  mean(as.double(m1$Clay),na.rm=TRUE)
+		r$soil_silt<-  mean(as.double(m1$Silt),na.rm=TRUE)
+		
 		r
+		   
 	}
 
 	d <- lapply(ff, proc_fun) 
