@@ -8,13 +8,13 @@ carob_script <- function(path) {
 
 "Description:
 
-    CIMMYT annually distributes improved germplasm developed by its researchers and partners in international nurseries trials and experiments. The High Temperature Wheat Yield Trial (HTWYT) is a replicated yield trial that contains spring bread wheat (Triticum aestivum) germplasm adapted to Mega-environment 1 (ME1) which represents high temperature areas. (2016)
+   Final dataset from agronomic experiment in Gumara Maksegnit (2016), as elaborated by GARC researcher in charge for this trial. Please contact author and contact person at ICARDA to obtain more detailed metadata or to propose collaboration.
 
 "
 
-	uri <- "hdl:11529/10548063"
+	uri <- "hdl:20.500.11766.1/FK2/P024VP"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "conservation_agriculture"
+	group <- "conservation group"
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
@@ -25,32 +25,28 @@ carob_script <- function(path) {
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= "",
-		data_institutions = "CIMMYT",
-		
-   		data_type="experiment", 
-		carob_contributor="Shumirai Manzvera",
-		
-		carob_date="2023-08-02" 
+		data_institutions = "ICARDA",
+   		data_type="on-farm experiment", 
+		carob_contributor="Shumirfai Manzvera",
+		# date of first submission to carob
+		carob_date="2023-10-31" 
 	)
 
 ## download and read data 
-
 	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
 	dset$license <- carobiner::get_license(js)
 
 
-	f <- ff[basename(ff) == "_____________"]
-
+	f <- ff[basename(ff) == "Experimental_Data.xlsx"]
 	r <- read.csv(f)
-	r <- readxl::read_excel(f) |> as.data.frame()
-
+	r <- readxl::read_excel(f,sheet = "ExperimentalData") |> as.data.frame()
 	
 ## process file(s)
 
 ## use a subset
-	d <- carobiner::change_names(r, from, to)
-  d<- X15TH_THWYT_RawData_xls
+	d <- Experimental_Data
+
 	
 #### about the data #####
 ## (TRUE/FALSE)
@@ -59,41 +55,40 @@ carob_script <- function(path) {
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$is_experiment <- TRUE
-	d$irrigated <- 
+	d$irrigated <- FALSE
 ## the treatment code	
-	d$treatment <- d$
+	d$treatment <- d$Treatment
 
 ##### Location #####
 ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
 ## you can use carobiner::fix_name()
-	d$country <- d$Country
-	d$site <- d$Loc_desc
+	d$country <- "Ethiopia"
+	d$site <-  "Gonder"
 	d$adm1 <- 
 	d$adm2 <- 
 	d$adm3 <- 
 	d$elevation <- NA
 ## each site must have corresponding longitude and latitude
 ## see carobiner::geocode
-	#data location
-	d1<-X15TH_THWYT_Loc_data_xls
-	d1$longitude <- d1$Long_degress
-	d1$latitude <-d1$Lat_degress
+	d$longitude <- 37.466667
+	d$latitude <- 12.6
 
 ##### Crop #####
 ## normalize variety names
 ## see carobiner::fix_name
-	d$crop <- "wheat"
-	d$variety <- d$Gen_name
-
-
-
-##### Yield #####
-	 
-
-	d$yield <- d$Value
-
-
+	d$crop <- "sorghum"
 	
+
+  
+##### Yield #####
+
+	d$yield <- d$Yield
+	#replication
+	d$rep<-d$Replicate
+	#plant height
+	d$plant_height<-d$Plant_Height
+	#residual yield
+	d$residue_yield<-d$Stover
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
