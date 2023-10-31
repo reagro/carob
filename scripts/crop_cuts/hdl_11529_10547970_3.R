@@ -201,7 +201,7 @@ carob_script <- function(path) {
   d9$inoculated <- FALSE
   d9$inoculant <- NA
   
-  ##### in general, add comments to your script if computations are
+  ###in general, add comments to your script if computations are
   ##### based on information gleaned from metadata, a publication, 
   ##### or when they are not immediately obvious for other reasons
   
