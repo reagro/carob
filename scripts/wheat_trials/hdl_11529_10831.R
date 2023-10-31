@@ -86,22 +86,22 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
 	d$longitude[d$location=="Dharwad"] <- 75.0066516
 	d$latitude[d$location=="Dharwad"] <- 15.4540505
 	d$longitude[d$location=="Pirsabak"] <- 72.0393338
-	d$latitude[d$location=="Pirsabak"] <-	34.0258704
+	d$latitude[d$location=="Pirsabak"] <- 	34.0258704
 	d$longitude[d$location=="Gemmeiza"] <- 24.2037306
-	d$latitude[d$location=="Gemmeiza"] <-	12.6666536 
+	d$latitude[d$location=="Gemmeiza"] <- 	12.6666536 
 	
 	d$country[d$location=="Gemmeiza"] <- "Sudan" #
 	d$location[d$location=="Pirsabak"] <- "Pir Sabak" #
 	#Add column
 	d$dataset_id <- dataset_id
-	d$trial_id <-	paste0(d$dataset_id, "-", d$code)
+	d$trial_id <- 	paste0(d$dataset_id, "-", d$code)
 	
 	# Extract relevant columns 
 	d <- d[, c("dataset_id", "trial_id", "country", "location", "longitude", "latitude", "Rep", "YLD")]
 	colnames(d) <- c("dataset_id", "trial_id", "country", "location", "longitude", "latitude", "rep", "yield") # standard names
 	# Add columns
 	d$crop <- "wheat"
-	d$season <-	"sprind"	
+	d$season <- 	"sprind"	
 	d$on_farm <- FALSE
 	d$is_survey <- TRUE
 	d$irrigated <- FALSE

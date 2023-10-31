@@ -24,13 +24,14 @@ carob_script <- function(path) {
 		data_citation = 'Verhulst, Nele; Grahmann, Kathrin; Honsdorf, Nora; Govaerts, Bram, 2021. Durum wheat performance (10 years of data) and grain quality (three years of data) with two tillage and two sowing irrigation practices under five nitrogen fertilizer treatments in northwestern Mexico, hdl:11529/10548582',
 		data_institutions = "CIMMYT",
 		carob_contributor="Eduardo Garcia Bendito",
+		carob_date="2021-07-26",
 		data_type="experiment",
 		project=NA
 	)
 	
 	## download and read data 
 	
-	ff	<- carobiner::get_data(uri, path, group)
+	ff	 <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	
 	#dset$license <- carobiner::get_license(js)
@@ -38,7 +39,7 @@ carob_script <- function(path) {
 	
 	f <- ff[basename(ff) == "DAT-PUB-214DrySow.xlsx"]
 	
-	d <- as.data.frame(readxl::read_excel(f, sheet = "Wheat"))
+	d <- carobiner::read.excel(f, sheet = "Wheat")
 	d$country <- "Mexico"
 	d$adm1 <- "Sonora"
 	d$adm2 <- "Cajeme"
@@ -106,7 +107,7 @@ carob_script <- function(path) {
 	
 	d$dataset_id <- dataset_id
 	d$yield_part <- "grain"
-	
+	d <- d[!is.na(d$yield), ]
 	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	

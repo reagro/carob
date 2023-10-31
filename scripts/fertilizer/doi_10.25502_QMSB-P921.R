@@ -15,7 +15,7 @@ carob_script <- function(path){
  Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   "
   
-  uri <- "doi.org/10.25502/QMSB-P921"
+  uri <- "doi:10.25502/QMSB-P921"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
@@ -30,6 +30,7 @@ carob_script <- function(path){
     data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa demo - Ghana, 2014 [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/QMSB-P921",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
+    carob_date="2023-08-15",
     data_type="survey demonstration trials"
   )
   
@@ -133,6 +134,8 @@ carob_script <- function(path){
   b3$K_fertilizer <- 0
  
   b3$OM_type <- carobiner::fix_name(b3$experimental_treatments_type_of_manure,"title")
+  b3$OM_type[tolower(b3$OM_type) == "fertisol"] <- "compost"
+  b3$OM_type[b3$OM_type != "compost"] <- NA
   b3$OM_used <- ifelse(is.na(b3$OM_type),FALSE,TRUE)
   
   b3$plot_size_ha <- (b3$plot_width * b3$plot_length)/10000 # convert plot size from m squared to ha

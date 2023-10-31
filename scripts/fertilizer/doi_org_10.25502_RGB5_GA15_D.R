@@ -26,6 +26,7 @@ carob_script <- function(path) {
     data_citation = "Huising, J. (2019). OCP validation trials for maize fertilizers, Bayero University Kano - Nigeria [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/RGB5-GA15/D" ,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
+    carob_date="2023-02-27",
     data_type="experiment",
 		project=NA
      
@@ -51,16 +52,16 @@ carob_script <- function(path) {
   
 	d1 <- d1[, c("Section_B.repeat.trt_name", "X_parent_index", "yld.plot.kg.ha")] 
 	colnames(d1) <- c("treatment", "rep", "yield")
-	d1$location<-"katsina-kaduna" # Areas serviced by Team3
+	d1$location <- "katsina-kaduna" # Areas serviced by Team3
 	d2 <- d2[, c("trt_name", "parent_index", "plot.yld..kg.ha.")] 
 	colnames(d2) <- c("treatment", "rep", "yield")
-	d2$location<-"kaduna-kano" # Areas serviced by Team2
+	d2$location <- "kaduna-kano" # Areas serviced by Team2
 	d3 <- d3[, c("trt_name", "parent_index", "yld.plot")] 
 	colnames(d3) <- c("treatment", "rep", "yield")
-	d3$location<-"Bauchi" # Areas serviced by Team3
+	d3$location <- "Bauchi" # Areas serviced by Team3
 	d <- rbind(d1, d2, d3)
-	d$plant_spacing<- 25 # get from VT protocol OCP Project Document 
-	d$row_spacing<- 75   # get from VT protocol OCP Project Document
+	d$plant_spacing <- 25 # get from VT protocol OCP Project Document 
+	d$row_spacing <- 75   # get from VT protocol OCP Project Document
 	 
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
@@ -101,7 +102,7 @@ carob_script <- function(path) {
   d$crop <- "maize"
 	d$yield_part <- "grain"
   
-  d$variety<- "Sammaz 15"    # get from VT protocol OCP Project Document
+  d$variety <- "Sammaz 15"    # get from VT protocol OCP Project Document
 #Longitude and latitude fixed base on location
   d$latitude[d$location=="Bauchi"] <- 10.6228284
   d$longitude[d$location=="Bauchi"] <- 10.0287754
@@ -112,11 +113,12 @@ carob_script <- function(path) {
 # planting date is June 2017  get from VT protocol
   d$planting_date <- "2017-06-01"
   d$harvest_date <- "2017-11-01"
-  d$season<- "2017"
+  d$season <- "2017"
   
   d$trial_id <- paste0(dataset_id, '-', d$Location)
 #data type
-  d$yield<- as.numeric(d$yield)
+  d$yield <- as.numeric(d$yield)
+  d <- d[!is.na(d$yield), ]
   # all scripts must end like this
  carobiner::write_files(dset, d, path=path)
  

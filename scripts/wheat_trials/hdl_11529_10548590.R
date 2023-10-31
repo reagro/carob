@@ -22,6 +22,7 @@ The International Bread Wheat Screening Nursery (IBWSN) is designed to rapidly a
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2021. 53rd International Bread Wheat Screening Nursery. https://hdl.handle.net/11529/10548590, CIMMYT Research Data & Software Repository Network, V4",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Robert Hijmans",
+	   carob_date="2023-10-02",
 	   data_type="on-station experiment"
  	)
 

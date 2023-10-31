@@ -25,7 +25,8 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
-    carob_contributor="Fredy chimire" 
+    carob_contributor="Fredy chimire",
+    carob_date="2023-09-10"
   )
   
   ## download and read data 
@@ -69,8 +70,8 @@ carob_script <- function(path) {
   ##RH not correct. There are cases like 15_09_2013 to consider.
   ## also many dates end up being in 1901 or thereabouts.
 
-#  d$`Maize Planting Date`<- as.Date("1899-12-30") + as.numeric(d$`Maize Planting Date`)
-#  d$`Maize harvesting dat`<- as.Date("1899-12-30") + as.numeric(d$`Maize harvesting dat`)
+#  d$`Maize Planting Date` <- as.Date("1899-12-30") + as.numeric(d$`Maize Planting Date`)
+#  d$`Maize harvesting dat` <- as.Date("1899-12-30") + as.numeric(d$`Maize harvesting dat`)
   
   # for onfarm data
   d$dataset_id <- dataset_id

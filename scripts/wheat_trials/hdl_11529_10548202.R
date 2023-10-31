@@ -24,6 +24,7 @@ carob_script <- function(path) {
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '11th High Rainfall Wheat Yield Trial', hdl:11529/10548202, CIMMYT Research Data & Software Repository Network, V2, UNF:6:8B2lZ7f/GAnAmOz9N/I9GA== [fileUNF]",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Andrew Sila",
+	   carob_date="2023-05-03",
 	   
 	   ## something like randomized control...
 	   data_type="on-station experiment"

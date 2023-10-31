@@ -23,6 +23,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, 
 		F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa farm monitoring - Mozambique, 2012 - 2013 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/HWDB-P578",
 		carob_contributor = "Effie Ochieng'",
+		carob_date="2022-09-07",
 		data_type = "on-farm experiment",
 		data_institutions="IITA"
 	)
@@ -211,13 +212,13 @@ old_carob_script <- function(path){
 	dd$urea_amt <- ifelse(dd$min_fertilizer_type == "urea", as.numeric(sub(".*?/", "", dd$min_fertiliser_amount_kg)), 0)
 	dd$fertilizer_type <- dd$min_fertilizer_type
 	#to get rates of N and P
-	dd$P_rate_plot <-dd$ssp_amt*0.16
+	dd$P_rate_plot <- dd$ssp_amt*0.16
 	v <- carobiner::replace_values(dd$area_harvested_m2, c(101,102,103,104),							c(100,100,100,100))
 	v[is.na(v)] <- 100
-	dd$area_harvested_m2 <-v
+	dd$area_harvested_m2 <- v
 	dd$P_fertilizer <- (10000/dd$area_harvested_m2) * dd$P_rate_plot
 	dd$N_rate_plot <- dd$urea_amt*0.467
-	dd$N_fertilizer <-(10000/dd$area_harvested_m2) * dd$N_rate_plot
+	dd$N_fertilizer <- (10000/dd$area_harvested_m2) * dd$N_rate_plot
 	dd$K_fertilizer <- 0
 	#getting the yield
 	dd$yield <- (10000/dd$area_harvested_m2) * dd$weight_kg
@@ -271,7 +272,7 @@ old_carob_script <- function(path){
 	#get the dates information
 	d4$trial_id <- d4$farm_id
 
-	#h <-	subset(d4, grepl("harvest", activity))
+	#h <- 	subset(d4, grepl("harvest", activity))
 	
 	p <- d4[grepl("planting", d4$activity), ]
 	h <- d4[grepl("harvest", d4$activity), ]

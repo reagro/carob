@@ -26,6 +26,7 @@ carob_script <- function(path) {
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '15th High Temperature Wheat Yield Trial', hdl:11529/10548063, CIMMYT Research Data & Software Repository Network, V3, UNF:6:8YdQ7RxCYkOZnfwm/eVM2Q== [fileUNF]",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Andrew Sila",
+	   carob_date="2023-05-03",
 	   
 	   ## something like randomized control...
 	   data_type="on-station experiment"

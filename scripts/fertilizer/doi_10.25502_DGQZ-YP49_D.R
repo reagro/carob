@@ -22,6 +22,7 @@ carob_script <- function(path){
 		publication = NA,
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Kenya, 2012 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/DGQZ-YP49/D",
 		carob_contributor = "Effie Ochieng'",
+		carob_date="2022-08-06",
 		data_type = "fertilizer",
 		data_institutions="IITA"
 	)
@@ -87,7 +88,7 @@ carob_script <- function(path){
 	d <- d[,c("trial_id","rep","on_farm","planting_date","harvest_date","treatment","biomass_roots","biomass_total", "crop", "K_fertilizer","P_fertilizer","N_fertilizer","N_splits", "fertilizer_type", "inoculated", "yield")]
 
 	d1$trial_id <- d1$experiment_id
-	d1$country <-"Kenya"
+	d1$country <- "Kenya"
 
 	as <- carobiner::fix_name(sapply(strsplit(d1$action_site, "-"), \(i) i[1]), "title")
 	as[as=="Marcel Olela"] <- NA

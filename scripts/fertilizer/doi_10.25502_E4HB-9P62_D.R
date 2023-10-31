@@ -28,12 +28,13 @@ carob_script <- function(path) {
 		data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Rwanda, 2010 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/E4HB-9P62/D",
 		data_institutions = "IITA",
 		carob_contributor="Rachel Mukami",
+		carob_date="2022-08-07",
 		data_type = "on-farm experiment"
     )
   
   ## download and read data 
   
-	ff	<- carobiner::get_data(uri, path, group)
+	ff	 <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
 	
@@ -139,13 +140,13 @@ carob_script <- function(path) {
 	w$on_farm <- TRUE
 
 	## Long	and Lat based on Location using GPS Coordinates
-	w$longitude[w$location=="Nyamiyaga"] <-30.1349783
+	w$longitude[w$location=="Nyamiyaga"] <- 30.1349783
 	w$latitude[w$location=="Nyamiyaga"] <- -1.6873919
-	w$longitude[w$location=="Musenyi"] <-30.0208922
+	w$longitude[w$location=="Musenyi"] <- 30.0208922
 	w$latitude[w$location=="Musenyi"] <- -2.1788972
-	w$longitude[w$location=="Mareba"] <-29.7324604
+	w$longitude[w$location=="Mareba"] <- 29.7324604
 	w$latitude[w$location=="Mareba"] <- -1.6709261
-	w$longitude[w$location=="Kinoni"] <-29.7396606
+	w$longitude[w$location=="Kinoni"] <- 29.7396606
 	w$latitude[w$location=="Kinoni"] <- -1.4680746
 	w$longitude[w$location=="Nemba"] <- 29.7869531
 	w$latitude[w$location=="Nemba"] <- -1.6422655
@@ -185,9 +186,9 @@ carob_script <- function(path) {
 	w$fertilizer_type <- gsub("/","; ",w$fertilizer_type)
 	
 	# data type fixed
-	w$harvest_date<-as.character(w$harvest_date)
-	w$planting_date<-as.character(w$planting_date)
-	w$residue_yield<-as.numeric(w$residue_yield)
+	w$harvest_date <- as.character(w$harvest_date)
+	w$planting_date <- as.character(w$planting_date)
+	w$residue_yield <- as.numeric(w$residue_yield)
  
 	w <- w[,c("dataset_id","trial_id","country","adm2","location","latitude", "longitude","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","grain_weight","biomass_total","residue_yield","yield","fertilizer_type", "N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH","soil_sand","soil_clay","soil_silt","soil_N", "soil_K","soil_SOC", "on_farm")]
 

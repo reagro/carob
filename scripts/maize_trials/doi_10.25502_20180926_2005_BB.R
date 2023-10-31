@@ -19,6 +19,7 @@ The study was carried out by the International Institute of Tropical Agriculture
 		data_citation="Badu-Apraku, B. (2018). International Maize Trials – Grain Yield and other Agronomic Traits of Extra-Early, Early Maturing Variety (White & Yellow) under Stress (Drought, Striga) - Togo, 2008 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180926/2005/BB",
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Robert Hijmans",
+		carob_date="2023-07-03",
 		data_type = "experiment",
 		project="International Maize Trials",
 		data_institutions="IITA"

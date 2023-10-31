@@ -30,7 +30,9 @@ carob_script <- function(path) {
    		data_type="experiment", 
 		carob_contributor="Your name",
 		# date of first submission to carob
-		carob_date="2023-05-21" 
+		carob_date="2023-05-21",
+		# name(s) of others who made significant improvements
+		revised_by=""
 	)
 
 ## download and read data 

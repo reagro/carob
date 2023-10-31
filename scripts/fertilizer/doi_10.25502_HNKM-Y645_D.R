@@ -23,11 +23,12 @@ carob_script <- function(path) {
 		data_citation="Engoke, C. N. S., Stephen, K.-B., Wiredu, A. N., & John, O. (2022). Inoculant, nitrogen and phosphorus improves photosynthesis and water use efficiency in soybean production- Legume cropping systems [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/HNKM-Y645/D", 
 		data_institutions = "IITA", 
 		carob_contributor="Effie Ochieng'", 
+		carob_date="2023-07-12",
 		data_type="on-farm experiment"
 	)
 
 	## download and read data 	
-	ff	<- carobiner::get_data(uri, path, group)
+	ff	 <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
 	
@@ -78,7 +79,7 @@ carob_script <- function(path) {
 	
 	#start and end date info obtained from the dictonary 
 	dd$planting_date <- ifelse(dd$season =="Y1617S", "2016", "2017")
-	dd$harvest_date	<- ifelse(dd$season =="Y1617S", "2017", "2018")
+	dd$harvest_date	 <- ifelse(dd$season =="Y1617S", "2017", "2018")
 	dd$yield_part <- "seed"
 	dd$dataset_id <- dataset_id
 	dd$on_farm <- TRUE

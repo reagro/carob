@@ -25,6 +25,7 @@ In 2010, the Africa-wide Rice Breeding Task Force was launched by AfricaRice inv
     publication=NA,
 	data_institutions="AfricaRice",
     carob_contributor="Eduardo Garcia Bendito",
+    carob_date="2022-01-21",
     data_type="experiment"
   )
   

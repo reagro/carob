@@ -20,12 +20,13 @@ carob_script <- function(path) {
 		data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa farm monitoring - Malawi, 2011 - 2012 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/14M8-CS44/D",
 		data_institutions = "IITA",
 		carob_contributor="Robert Hijmans",
+		carob_date="2023-07-09",
 		data_type = "on-farm experiment"
     )
   
   ## download and read data 
   
-	ff	<- carobiner::get_data(uri, path, group)
+	ff	 <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
 	

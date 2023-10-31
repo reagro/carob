@@ -23,13 +23,14 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
     https://doi.org/10.25502/Y18Z-6T60" ,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
+    carob_date="2023-08-16",
     data_type="experiment",
     project=NA 
   )
   
   ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- carobiner::get_license(js)
   f <- ff[basename(ff) == "a_general_1.csv"] 

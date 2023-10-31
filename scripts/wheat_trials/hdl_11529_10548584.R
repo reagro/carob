@@ -25,6 +25,7 @@ The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that c
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2021, '41st Elite Selection Wheat Yield Trial', https://hdl.handle.net/11529/10548584, CIMMYT Research Data & Software Repository Network, V4",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Andrew Sila",
+	   carob_date="2023-05-03",
 	   
 	   ## something like randomized control...
 	   data_type="on-station experiment"

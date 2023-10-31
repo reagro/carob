@@ -22,7 +22,8 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
-    carob_contributor="Effie Ochieng'"  
+    carob_contributor="Effie Ochieng'",
+    carob_date="2023-09-25"
   )
   
   ## download and read data 
@@ -200,7 +201,7 @@ carob_script <- function(path) {
            21.9156, 21.9156, 19.8068))   
   
   d$longitude <- ifelse(is.na(d$longitude), x$longitude[match(d$adm2, x$adm2)], d$longitude)
-  d$latitude <-as.numeric(ifelse(is.na(d$latitude) | d$latitude == "-"  | d$latitude == "" | d$latitude == 19.58| d$latitude== 86.34, 
+  d$latitude <- as.numeric(ifelse(is.na(d$latitude) | d$latitude == "-"  | d$latitude == "" | d$latitude == 19.58| d$latitude== 86.34, 
                                  x$latitude[match(d$adm2, x$adm2)], d$latitude)) 
   
   d$dataset_id <- dataset_id
@@ -230,7 +231,7 @@ carob_script <- function(path) {
     timevar = "spot"
   )
   d$biomass_total[d$biomass_total== "-"] <- 0
-  d$yield[d$yield=="-"]<- 0
+  d$yield[d$yield=="-"] <- 0
   
   # efyrouwa : from dataset description
   #Grain weight Year 2013 - 5X5 sq meter in Kg 
