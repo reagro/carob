@@ -28,23 +28,30 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
     data_institutions = "CIMMYT",
     data_type="on-farm experiment",
     carob_contributor="Fredy chimire",
-    carob_date="2023-10-31"
+    carob_date="2023-10-31",
+    revised_by="Robert Hijmans"
   )
   
   ## download and read data 
   
 	ff  <- carobiner::get_data(uri, path, group)
+	## is duplicate??: Maize-Rabi 2015-16-ACS-Saalbani-Sunsar.xlsx"
+	sf <- c('Kidneybean-Rabi 2015-16-ACS-Saalbani-Sunsari.xlsx', 'Maize-Rabi 2015-16-ACS-Saalbani-Sunsari.xlsx', 'Maize-Rabi 2016-17-ACS-Bhokraha-Sunsari.xlsx', 'Maize-Rabi 2016-17-ACS-Saalbani-Sunsari.xlsx', 'Mustard-Rabi 2015-16-ACS-Saalbani-Sunsari.xlsx', 'Potato-Rabi 2016-17-ACS-Bhokraha-Sunsari.xlsx', 'Sunflower-Rabi 2016-17-ACS-Saalbani-Sunsari.xlsx')
+	ff <- ff[basename(ff) %in% sf]
+
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
  # dset$license <- "not specified" #carobiner::get_license(js)
 	dset$license <- carobiner::get_license(js)
     
-	get_data <- function(f) {
+	get_raw_data <- function(f) {
 		r1 <- carobiner::read.excel.hdr(f, sheet ="4- Stand counts & Phenology", skip=4, hdr=2)
 		r2 <- carobiner::read.excel.hdr(f, sheet ="14 - Grain Harvest ", skip=4, hdr=2)
 		r3 <- carobiner::read.excel.hdr(f, sheet ="6 - Fertilizer amounts ", skip=4, hdr=2)
 
 		nms <- c("Site.No", "Tmnt", "Grain.yield.t.ha", "TGW.g", "Biomass.t.ha", "Straw.yield.t.ha")
 		r2 <- r2[, nms]
+		
+		colnames(r3) <- gsub("Kg.ha_N.kg.ha", "N.kg.ha", colnames(r3))
 		nms <- c("Site.No", "Tmnt", "N.kg.ha", "P2O5.kg.ha", "K2O.kg.ha", "Gypsum.kg.ha", "ZnSO4.kg.ha", "Boric.acid.kg.ha", grep("Product.used", names(r3), value=TRUE))
 		r3 <- r3[, nms]
 
@@ -52,12 +59,12 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 		merge(r, r3, by=c("Site.No", "Tmnt"))
 	}
 
-	f <- ff[basename(ff) == "Maize-Rabi 2016-17-ACS-Bhokraha-Sunsari.xlsx"]
-	r <- get_data(f)	
 	
   #### about the data #####
+
+	process_data <- function(r) {
   
-	d <- data.frame(trial_id = as.character(r$Trial.Code), season = r$Season,
+		d <- data.frame(trial_id = as.character(r$Trial.Code), season = r$Season,
 			crop=tolower(r$Crop), variety= r$Variety, 
 			treatment = r$Tmnt, 
 			yield = r$Grain.yield.t.ha * 1000,  
@@ -67,33 +74,72 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 			P_fertilizer = r$P2O5.kg.ha / 2.29,
 			K_fertilizer = r$K2O.kg.ha / 1.2051,
 			B_fertilizer = r$Boric.acid.kg.ha * 0.1748,
-			planting_date = as.character(as.Date(r$Date.of.seeding.dd.mm.yy)),
-			harvest_date = as.character(as.Date(r$Datw.of.harvest.dd.mm.yy)),			
-			flowering_date = as.character(as.Date(r$Date.of.50.anthesis.dd.mm.yy)),
+			row_spacing = r$Row.spacing.cm,
 			site = paste("site ", r$Site.No),
-			row_spacing =r$Row.spacing.cm,
 			country= "Nepal",
+			adm2 = "Sunsari", # district provided in the excel
 			dataset_id=dataset_id,
 			S_fertilizer= 0,
 			Zn_fertilizer= 0,
 			lime =0, gypsum =0
 		)
-			
-  
-  # for first dataset
-	d$yield_part <- "grain"
-	d$irrigated <- TRUE
-	d$adm2 <- "Sunsari" # district provided in the excel
-	d$location <- "Bhokraha" # community provided in the excel
-	d$crop <- "maize"
-	d$latitude <- 26.5920003 # https://www.gps-coordinates.net/
-	d$longitude <- 87.1025479
-  	d$fertilizer_type <- apply(r[, grep("Product.used", names(r), value=TRUE)], 1, 
-		function(i) {
-			i <- gsub("Urea.*", "urea", i[!is.na(i)])
-			i <- gsub("MOP", "KCl", i[!is.na(i)])
-			paste(unique(i[!is.na(i)]), collapse="; ")
-		})
 
-	carobiner::write_files(dset, d, path=path)
+		d$irrigated <- TRUE
+		d$fertilizer_type <- apply(r[, grep("Product.used", names(r), value=TRUE)], 1, 
+			function(i) {
+				i <- gsub("Urea.*", "urea", i[!is.na(i)])
+				i <- gsub("MOP", "KCl", i[!is.na(i)])
+				i <- gsub("Muriate", "KCl", i[!is.na(i)])
+				paste(unique(i[!is.na(i)]), collapse="; ")
+			})
+
+		i <- grep("Date.of.seeding", names(r))
+		d$planting_date = as.character(as.Date(r[,i]))
+		i <- grep("Dat..of.harvest", names(r))
+		d$harvest_date = as.character(as.Date(r[,i]))			
+
+		if (is.character(d$row_spacing)) {
+			d$row_spacing <- gsub("30-40", "35", d$row_spacing)
+			d$row_spacing <- gsub("40-50", "45", d$row_spacing)
+			d$row_spacing <- as.numeric(d$row_spacing)
+		}
+
+		i <- grep("Date.of.50.anthesis", names(r))
+		if (length(i) != 0) {
+			d$flowering_date = as.character(as.Date(r[,i]))
+		}
+		d	
+	}
+
+
+	fun <- function(f) {
+		#print(basename(f)); flush.console()
+		r <- get_raw_data(f)
+		d <- process_data(r)
+		
+		if (grepl("Bhokraha", f)) {
+			d$latitude <- 26.592 # https://www.gps-coordinates.net/
+			d$longitude <- 87.103
+			d$location <- "Bhokraha"
+		} else { #Saalbani please add lon/lat
+			d$latitude <- NA
+			d$longitude <- NA
+			d$location <- "Saalbani"
+		}
+		crop <- tolower(strsplit(basename(f), "-")[[1]][1])
+		d$crop <- gsub("kidneybean", "kidney bean", crop)
+		if (d$crop[1] == "potato") {
+			d$yield_part <- "tubers"
+		} else if (d$crop[1] %in% c("maize", "kidney bean")) {
+			d$yield_part <- "grain"
+		} else { # mustard, sunflower
+			d$yield_part <- "seed"
+		}
+		d
+	}
+	
+	dd <- lapply(ff, fun)
+	dd <- do.call(rbind, dd)
+
+	carobiner::write_files(dset, dd, path=path)
 }
