@@ -40,13 +40,6 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "Rabi Maize 2016-17-LT-all nodes-Malda.xlsx"]
 
 # fix the bad spreadsheets
-	filler <- function(x){
-		e <- rle(x)
-		empty <- which(is.na(e))
-		x[empty] <- x[empty-1] 
-		inverse.rle(e)
-	}
-
 	fix_ss <- function(x, hdr) {
 		nms <- x[hdr,]
 		if (is.na(nms[1,1])) nms[1,1] <- "" 
