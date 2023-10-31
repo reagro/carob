@@ -29,7 +29,8 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="on-farm experiment",
-    carob_contributor="Mitchelle Njukuya"
+    carob_contributor="Mitchelle Njukuya",
+    carob_date="2023-09-21"
   )
   
   ## download and read data 
@@ -42,9 +43,9 @@ carob_script <- function(path) {
   library("readxl")
   rr <- read_excel(f3)
   rr1 <- readxl::read_excel(f3,sheet = "4- Stand counts & Phenology") |> as.data.frame()
-  rr2<- readxl::read_excel(f3,sheet = "12 - Biomass samples") |> as.data.frame()
-  rr3<- readxl::read_excel(f3,sheet = "14 - Grain Harvest ") |> as.data.frame()
-  rr4<- readxl::read_excel(f3,sheet = "6 - Fertilizer amounts ") |> as.data.frame()
+  rr2 <- readxl::read_excel(f3,sheet = "12 - Biomass samples") |> as.data.frame()
+  rr3 <- readxl::read_excel(f3,sheet = "14 - Grain Harvest ") |> as.data.frame()
+  rr4 <- readxl::read_excel(f3,sheet = "6 - Fertilizer amounts ") |> as.data.frame()
   
   ##################################### 4- stand counts & Phenology #####################################################################################################
   rr1 <- readxl::read_excel(f3,sheet = "4- Stand counts & Phenology") |> as.data.frame() 
@@ -94,7 +95,7 @@ carob_script <- function(path) {
   ## P <- P2O5 / 2.29
   ## K <- K2O / 1.2051
   dd1$P_fertilizer <- NA
-  dd1$K_fertilizer <-NA
+  dd1$K_fertilizer <- NA
   dd1$N_fertilizer <- NA
   dd1$S_fertilizer <- NA
   dd1$lime <- NA
@@ -121,7 +122,7 @@ carob_script <- function(path) {
   
   ############################################## 12 - Biomass samples##########################################################################################################################################################################################
   ## process file(s)
-  rr2<- readxl::read_excel(f3,sheet = "12 - Biomass samples") |> as.data.frame()
+  rr2 <- readxl::read_excel(f3,sheet = "12 - Biomass samples") |> as.data.frame()
      
   dd2 <- rr2
   
@@ -173,7 +174,7 @@ carob_script <- function(path) {
   ## P <- P2O5 / 2.29
   ## K <- K2O / 1.2051
   dd2$P_fertilizer <- NA
-  dd2$K_fertilizer <-NA
+  dd2$K_fertilizer <- NA
   dd2$N_fertilizer <- NA
   dd2$S_fertilizer <- NA
   dd2$lime <- NA
@@ -199,7 +200,7 @@ carob_script <- function(path) {
   
   ############################################14 - Grain Harvest #########################################################################################################################################
   ## process file(s)
-  rr3<- readxl::read_excel(f3,sheet = "14 - Grain Harvest ") |> as.data.frame()      
+  rr3 <- readxl::read_excel(f3,sheet = "14 - Grain Harvest ") |> as.data.frame()      
   
   dd3 <- rr3
   
@@ -249,7 +250,7 @@ carob_script <- function(path) {
   ## P <- P2O5 / 2.29
   ## K <- K2O / 1.2051
   dd3$P_fertilizer <- NA
-  dd3$K_fertilizer <-NA
+  dd3$K_fertilizer <- NA
   dd3$N_fertilizer <- NA
   dd3$S_fertilizer <- NA
   dd3$lime <- NA
@@ -278,7 +279,7 @@ carob_script <- function(path) {
   
   
   ## process file(s)
-  rr4<- readxl::read_excel(f3,sheet = "6 - Fertilizer amounts ") |> as.data.frame()              
+  rr4 <- readxl::read_excel(f3,sheet = "6 - Fertilizer amounts ") |> as.data.frame()              
   
   dd4 <- rr4
   

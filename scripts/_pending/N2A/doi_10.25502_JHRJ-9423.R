@@ -29,6 +29,7 @@ carob_script <- function(path){
   Institute of Tropical Agriculture (IITA). 
   https://doi.org/10.25502/JHRJ-9423",
     carob_contributor = "Effie Ochieng'",
+    carob_date="2022-09-22",
     data_type = "variety_performance"
     )
   
@@ -47,7 +48,7 @@ carob_script <- function(path){
   f3 <- ff[basename(ff) =="c_use_of_package_4.csv" ]
   d3 <- read.csv(f3)
   f4 <- ff[basename(ff) == "d_cropping_calendar.csv"]
-  d4<- read.csv(f4) 
+  d4 <- read.csv(f4) 
   f5 <- ff[basename(ff) == "e_harvest.csv"]
   d5 <- read.csv(f5)
   
@@ -113,9 +114,9 @@ carob_script <- function(path){
   y$variety <- carobiner::fix_name(dd$variety_1, "title", lowothers=FALSE) 
 
 ## RH: these are proper names and should be capitalized
-#  d2$variety[d2$variety == "Mamane"| d2$variety == "Mamane "]<- "mamane"
-#  d2$variety[d2$variety == "Chitala"]<-"chitala"
-#  d2$variety[d2$variety == "Nametil"]<-"nametil"
+#  d2$variety[d2$variety == "Mamane"| d2$variety == "Mamane "] <- "mamane"
+#  d2$variety[d2$variety == "Chitala"] <- "chitala"
+#  d2$variety[d2$variety == "Nametil"] <- "nametil"
  
   # from d3
   y$row_spacing <- as.numeric(dd$crop_1_spacing_row_to_row)

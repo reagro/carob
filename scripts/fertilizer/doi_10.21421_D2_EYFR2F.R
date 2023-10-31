@@ -19,13 +19,14 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
 		data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Jerome Jonah; Ayuba Kunihya, 2019. Sorghum productivity and water use under phosphorus fertilization in the sudan savanna of Nigeria. https://doi.org/10.21421/D2/EYFR2F, ICRISAT Dataverse, V1",
 		publication=NA, # "http://oar.icrisat.org/id/eprint/10842" Is the reference
 		carob_contributor="Siyabusa Mkuhlani",
+		carob_date="2022-09-12",
 		data_type="experiment",
 		data_institutions="ICRISAT",
 		project=NA	
 	)
   
   ## treatment level data 
-  ff  <- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   
   ## read the json for version, license, terms of use  
   js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
@@ -78,11 +79,11 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   d$fertilizer_type <- NA
   for (i in 1:length(d$P_fertilizer)){
     if (d$P_fertilizer[i] > 0){
-      d$fertilizer_type[i] <-"urea; SSP; KCl"
+      d$fertilizer_type[i] <- "urea; SSP; KCl"
     }
     else{
       
-      d$fertilizer_type[i]<-"urea; KCl"
+      d$fertilizer_type[i] <- "urea; KCl"
     }  
     
   }

@@ -20,12 +20,12 @@ carob_script <- function(path) {
     A strong national expertise in grain legume production and N2-fixation research 
     and development will be the legacy of the project.
     
-    %%%%%%%%%%The dataset is N2Africa agronomy trials - Uganda, 2016, I%%%%%%%%%%%%
+    The dataset is N2Africa agronomy trials - Uganda, 2016, I
     Crop: Climbing bean
     Crop system: intercropped with banana vs. sole
   
 "
-  uri <- "doi.org/10.25502/6h5e-q472"
+  uri <- "doi:10.25502/6h5e-q472"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
  
@@ -39,27 +39,30 @@ carob_script <- function(path) {
     data_citation = 'Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Uganda, 2016, I [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/6H5E-Q472',
     data_institutions = "IITA",
     carob_contributor="Samar Attaher",
+    carob_date="2023-08-06",
     data_type="experiment"
   )
   
   ## download and read data 
   ff <- carobiner::get_data(uri, path, group)
-  js<-carobiner::get_metadata(dataset_id,path,group,major=1,minor = 0)
-  dset$license <-carobiner::get_license (js)
+  js <- carobiner::get_metadata(dataset_id,path,group,major=1,minor = 0)
+  dset$license <- carobiner::get_license (js)
  
   #read the data file
   f <- ff[basename(ff) == "data_table.csv"] 
   # read the dataset
   d <- data.frame(read.csv(f))
 
+##RH this should not be done using column indices. There is no way to recover if the data changes
+
   #change the columns names...********issue: the original names returns errors in columns selection**********  
-  colnames(d)[2]<-"trial_id"
-  colnames(d)[8:9]<- c("country","adm2")
-  colnames(d)[11:13]<-c("latitude","longitude","elevation")
+  colnames(d)[2] <- "trial_id"
+  colnames(d)[8:9] <- c("country","adm2")
+  colnames(d)[11:13] <- c("latitude","longitude","elevation")
   colnames(d)[16:19] <- c("site","farm_size_ha","farm_size_unit","crop")
-  colnames(d)[28:29]<- c("fertilizer_type","OM_type")
-  colnames(d)[83:86]<- c("field_slop","farmer_perception_fertility","relative_fertility","drainage_level")
-  colnames(d)[92:109]<- c("previous_crop","other_previous_crop","fertilizer_type_previous_season","organic_fertilizer_previous_season",
+  colnames(d)[28:29] <- c("fertilizer_type","OM_type")
+  colnames(d)[83:86] <- c("field_slop","farmer_perception_fertility","relative_fertility","drainage_level")
+  colnames(d)[92:109] <- c("previous_crop","other_previous_crop","fertilizer_type_previous_season","organic_fertilizer_previous_season",
                           "inoculated_previous_season","area_harvested_previous_season","unit_area_harvested_previous_season",
                           "yield_previous_season","unit_yield_previous_season","previous_crop_before_previous_season",
                           "other_previous_crop_before_previous_season","fertilizer_type_before_previous_season",
@@ -67,15 +70,15 @@ carob_script <- function(path) {
                           "unit_area_harvested_before_previous_season","yield_crop_before_previous_season",
                           "unit_yield_crop_before_previous_season")
   
-  colnames(d)[122:127]<-c("land_preparation_date","OM_application_date","planting_date",
+  colnames(d)[122:127] <- c("land_preparation_date","OM_application_date","planting_date",
                           "fertilizer_application_date","frist_weeding_date","second_weeding_date")
-  colnames(d)[130:132]<-c("insecticide_application_date","drought_period_beginning_date","drought_period_end_date")
-  colnames(d)[136:139]<-c("pest_disease_date","flowering_date","maturity_date","harvest_date_date")
+  colnames(d)[130:132] <- c("insecticide_application_date","drought_period_beginning_date","drought_period_end_date")
+  colnames(d)[136:139] <- c("pest_disease_date","flowering_date","maturity_date","harvest_date_date")
  
 
  #new dataframe for the selected columns that descrip the full experiment (without plots data) 
 
-  d1<- d[,c("SN", "trial_id","country","adm2","sector_ward","latitude","longitude","elevation",
+  d1 <- d[,c("SN", "trial_id","country","adm2","sector_ward","latitude","longitude","elevation",
             "site","farm_size_ha","farm_size_unit","field_slop","drainage_level"
             ,"crop", "fertilizer_type","OM_type","land_preparation_date",
             "OM_application_date","planting_date", "fertilizer_application_date",
@@ -97,53 +100,53 @@ carob_script <- function(path) {
             "treatment1","treatment2","treatment3","treatment4", "treatment5","treatment6")] 
 
  # add and correct location names and georeferance colunms
-  d1$adm1<- "Western"
+  d1$adm1 <- "Western"
   
   library(stringr)
   
   d1[c('adm4', 'adm5',"location")] <- str_split_fixed(d1$sector_ward,' ',3)
-  d1$adm4 [d1$adm4=="Rutenga,"]<- "Rutenga"
-  d1$adm4 [d1$adm4=="Mpungu,"]<- "Mpungu"
+  d1$adm4 [d1$adm4=="Rutenga,"] <- "Rutenga"
+  d1$adm4 [d1$adm4=="Mpungu,"] <- "Mpungu"
   
-  d1$adm5 [d1$adm5=="Katojo,"]<- "Katojo"
-  d1$adm5 [d1$adm5==",Muramba"]<- "Muramba"
-  d1$adm5 [d1$adm5=="Muramba,"]<- "Muramba"
-  d1$adm5 [d1$adm5=="muramba,"]<- "Muramba"
+  d1$adm5 [d1$adm5=="Katojo,"] <- "Katojo"
+  d1$adm5 [d1$adm5==",Muramba"] <- "Muramba"
+  d1$adm5 [d1$adm5=="Muramba,"] <- "Muramba"
+  d1$adm5 [d1$adm5=="muramba,"] <- "Muramba"
   
-  d1$adm3 [d1$adm4=="Rutenga"]<- "Kinkizi East"
-  d1$adm3 [d1$adm4=="Mpungu"]<- "Kinkizi West"
+  d1$adm3 [d1$adm4=="Rutenga"] <- "Kinkizi East"
+  d1$adm3 [d1$adm4=="Mpungu"] <- "Kinkizi West"
   
   # converting the farm size to ha....#issue: the results of some rows are not correct!
   d1$farm_size_ha[d1$farm_size_unit=="acre"] <- as.numeric(d1$farm_size_ha[d1$farm_size_unit=="acre"]*0.4) 
   
   #correct the crop name
-  d1$crop<-"climbing beans"
+  d1$crop <- "climbing beans"
   
   #new columns for row & plant spacing
   d1$row_spacing <- 50   
   d1$plant_spacing <- 25
   
   #correction of "none" in 
-  d1$fertilizer_type_previous_season [d1$fertilizer_type_previous_season =="None"]<-NA
-  d1$OM_type_before_previous_season [d1$OM_type_before_previous_season=="none"]<- NA
-  d1$drought_period_beginning_date[d1$drought_period_beginning_date=='1-Jan-99']<- NA
-  d1$drought_period_end_date[d1$drought_period_end_date=='1-Jan-99']<- NA
-  d1$fertilizer_application_date[d1$fertilizer_application_date=='1-Jan-99']<- NA
-  d1$flowering_date[d1$flowering_date=='1-Jan-99']<- NA
-  d1$harvest_date_date[d1$harvest_date_date=='1-Jan-99']<- NA
-  d1$maturity_date[d1$maturity_date=='1-Jan-99']<- NA 
-  d1$OM_application_date[d1$OM_application_date=='1-Jan-99']<- NA
-  d1$pest_disease_date[d1$pest_disease_date=='1-Jan-99']<- NA
-  d1$planting_date[d1$planting_date=='1-Jan-99']<- NA
-  d1$land_preparation_date [d1$land_preparation_date =='1-Jan-99']<- NA
-  d1$second_weeding_date [d1$second_weeding_date =='1-Jan-99']<- NA
-  d1$frist_weeding_date[d1$frist_weeding_date =='1-Jan-99']<- NA
-  d1$insecticide_application_date[d1$insecticide_application_date=='1-Jan-99']<- NA
+  d1$fertilizer_type_previous_season [d1$fertilizer_type_previous_season =="None"] <- NA
+  d1$OM_type_before_previous_season [d1$OM_type_before_previous_season=="none"] <- NA
+  d1$drought_period_beginning_date[d1$drought_period_beginning_date=='1-Jan-99'] <- NA
+  d1$drought_period_end_date[d1$drought_period_end_date=='1-Jan-99'] <- NA
+  d1$fertilizer_application_date[d1$fertilizer_application_date=='1-Jan-99'] <- NA
+  d1$flowering_date[d1$flowering_date=='1-Jan-99'] <- NA
+  d1$harvest_date_date[d1$harvest_date_date=='1-Jan-99'] <- NA
+  d1$maturity_date[d1$maturity_date=='1-Jan-99'] <- NA 
+  d1$OM_application_date[d1$OM_application_date=='1-Jan-99'] <- NA
+  d1$pest_disease_date[d1$pest_disease_date=='1-Jan-99'] <- NA
+  d1$planting_date[d1$planting_date=='1-Jan-99'] <- NA
+  d1$land_preparation_date [d1$land_preparation_date =='1-Jan-99'] <- NA
+  d1$second_weeding_date [d1$second_weeding_date =='1-Jan-99'] <- NA
+  d1$frist_weeding_date[d1$frist_weeding_date =='1-Jan-99'] <- NA
+  d1$insecticide_application_date[d1$insecticide_application_date=='1-Jan-99'] <- NA
   
   
   #reshape d1 to stack the six treatments in one colunm
   
-  d2<- d1[,c("SN", "trial_id","country","adm1","adm2","adm3","adm4","adm5",
+  d2 <- d1[,c("SN", "trial_id","country","adm1","adm2","adm3","adm4","adm5",
             "location","latitude","longitude","elevation",
             "site","farm_size_ha","field_slop","drainage_level",
             "crop", "fertilizer_type","OM_type","land_preparation_date",
@@ -168,45 +171,43 @@ carob_script <- function(path) {
   
   
   d3 <- data.frame(d2[1:64], stack(d2[65:ncol(d2)]))
-  colnames(d3)[65:66]<- c("treatments","treatments_code")
+  colnames(d3)[65:66] <- c("treatments","treatments_code")
 
-  d3$variety<-"Nabe12c"
-  d3$variety [d3$treatments_code== "treatment1" |d3$treatments_code== "treatment2"|d3$treatments_code== "treatment5"]<-"Kabweseri" 
-  d3$variety [d3$SN==1 & d3$treatments_code== "treatment1"]<- "Nabe12c"
-  d3$variety [d3$SN==1 & d3$treatments_code== "treatment2"]<- "Nabe12c"
-  d3$variety [d3$SN==1 & d3$treatments_code== "treatment5"]<- "Nabe12c"
-  d3$variety [d3$SN==1 & d3$treatments_code== "treatment3"]<- "Mubano / kabweseri"
-  d3$variety [d3$SN==1 & d3$treatments_code== "treatment4"]<- "Mubano / kabweseri"
-  d3$variety [d3$SN==1 & d3$treatments_code== "treatment6"]<- "Mubano / kabweseri"
-  d3$variety [d3$SN==2 & d3$treatments_code== "treatment1"]<- "Mubano/kabweseri"
-  d3$variety [d3$SN==2 & d3$treatments_code== "treatment2"]<- "Mubano/kabweseri"
-  d3$variety [d3$SN==2 & d3$treatments_code== "treatment5"]<- "Mubano/kabweseri"
-  d3$variety [d3$SN==6 & d3$treatments_code== "treatment1"]<- "Mubano/kabweseri"
-  d3$variety [d3$SN==6 & d3$treatments_code== "treatment2"]<- "Mubano/kabweseri"
-  d3$variety [d3$SN==6 & d3$treatments_code== "treatment5"]<- "Mubano/kabweseri"
-  d3$variety [d3$SN==10 & d3$treatments_code== "treatment1"]<- "Mubano/kabweseri"
-  d3$variety [d3$SN==10 & d3$treatments_code== "treatment2"]<- "Mubano/kabweseri"
-  d3$variety [d3$SN==10 & d3$treatments_code== "treatment5"]<- "Mubano/kabweseri"
-  d3$variety [d3$SN==12 & d3$treatments_code== "treatment1"]<- "Mubano/kabweseri"
-  d3$variety [d3$SN==12 & d3$treatments_code== "treatment2"]<- "Mubano/kabweseri"
-  d3$variety [d3$SN==12 & d3$treatments_code== "treatment5"]<- "Mubano/kabweseri"
+  d3$variety <- "Nabe12c"
+  d3$variety [d3$treatments_code== "treatment1" |d3$treatments_code== "treatment2"|d3$treatments_code== "treatment5"] <- "Kabweseri" 
+  d3$variety [d3$SN==1 & d3$treatments_code== "treatment1"] <- "Nabe12c"
+  d3$variety [d3$SN==1 & d3$treatments_code== "treatment2"] <- "Nabe12c"
+  d3$variety [d3$SN==1 & d3$treatments_code== "treatment5"] <- "Nabe12c"
+  d3$variety [d3$SN==1 & d3$treatments_code== "treatment3"] <- "Mubano / kabweseri"
+  d3$variety [d3$SN==1 & d3$treatments_code== "treatment4"] <- "Mubano / kabweseri"
+  d3$variety [d3$SN==1 & d3$treatments_code== "treatment6"] <- "Mubano / kabweseri"
+  d3$variety [d3$SN==2 & d3$treatments_code== "treatment1"] <- "Mubano/kabweseri"
+  d3$variety [d3$SN==2 & d3$treatments_code== "treatment2"] <- "Mubano/kabweseri"
+  d3$variety [d3$SN==2 & d3$treatments_code== "treatment5"] <- "Mubano/kabweseri"
+  d3$variety [d3$SN==6 & d3$treatments_code== "treatment1"] <- "Mubano/kabweseri"
+  d3$variety [d3$SN==6 & d3$treatments_code== "treatment2"] <- "Mubano/kabweseri"
+  d3$variety [d3$SN==6 & d3$treatments_code== "treatment5"] <- "Mubano/kabweseri"
+  d3$variety [d3$SN==10 & d3$treatments_code== "treatment1"] <- "Mubano/kabweseri"
+  d3$variety [d3$SN==10 & d3$treatments_code== "treatment2"] <- "Mubano/kabweseri"
+  d3$variety [d3$SN==10 & d3$treatments_code== "treatment5"] <- "Mubano/kabweseri"
+  d3$variety [d3$SN==12 & d3$treatments_code== "treatment1"] <- "Mubano/kabweseri"
+  d3$variety [d3$SN==12 & d3$treatments_code== "treatment2"] <- "Mubano/kabweseri"
+  d3$variety [d3$SN==12 & d3$treatments_code== "treatment5"] <- "Mubano/kabweseri"
   
   #collecting grain yield per plots and converting it to yield per hectar for each treatment
-  colnames(d)[461]<-"yield_plot1"
-  colnames(d)[476]<-"yield_plot2"
-  colnames(d)[491]<-"yield_plot3"
-  colnames(d)[506]<-"yield_plot4"
-  colnames(d)[513]<-"yield_plot5"
-  colnames(d)[520]<-"yield_plot6"
+#  colnames(d)[c(461,476,491,506,513,520)]
+	froms <- paste0("grain_weight_crop_1_plot_", 1:6, ".kg")
+	tos <- paste0("yield_plot", 1:6)
+	d <- carobiner::change_names(d, froms, tos, TRUE)
   
-  dy<- d[,c("SN", "yield_plot1","yield_plot2","yield_plot3","yield_plot4","yield_plot5","yield_plot6")] 
+  dy <- d[,c("SN", "yield_plot1","yield_plot2","yield_plot3","yield_plot4","yield_plot5","yield_plot6")] 
   dy1 <- data.frame(dy[1], stack(dy[2:ncol(dy)]))
-  dy1$yield<- dy1$values*(10000/36)   # from reference reports the area of the plot is 36 meter square 
-  colnames(dy1)[3]<- "plot_number"
-  d3<- cbind(d3,dy1$plot_number,dy1$yield)
+  dy1$yield <- dy1$values*(10000/36)   # from reference reports the area of the plot is 36 meter square 
+  colnames(dy1)[3] <- "plot_number"
+  d3 <- cbind(d3,dy1$plot_number,dy1$yield)
   d3[c('other', 'plot_n')] <- str_split_fixed(d3$`dy1$plot_number`,'_',2)             
   d3 <- subset( d3, select = -c(other,`dy1$plot_number`))
-  colnames(d3)[68]<-"yield"
+  colnames(d3)[68] <- "yield"
   
   # # EGB: Fixing and adding
   d3$dataset_id <- dataset_id
@@ -273,6 +274,8 @@ carob_script <- function(path) {
   d5 <- merge(d4, s, by = c("adm1", "adm2", "adm4"), all.x=TRUE)
   d5$country <- "Uganda"
   d5$crop <- "common bean"
+  
+  d5 <- d5[!is.na(d5$yield), ]
   
   carobiner::write_files (dset, d5, path=path)
   

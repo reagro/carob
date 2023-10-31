@@ -28,7 +28,8 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="on-farm experiment",
-    carob_contributor="Mitchelle Njukuya"
+    carob_contributor="Mitchelle Njukuya",
+    carob_date="2023-09-19"
   )
   
   ## download and read data 
@@ -258,7 +259,7 @@ carob_script <- function(path) {
   ## P <- P2O5 / 2.29
   ## K <- K2O / 1.2051
   d11$P_fertilizer <- NA
-    d11$K_fertilizer <-NA
+    d11$K_fertilizer <- NA
     d11$N_fertilizer <- NA
     d11$S_fertilizer <- NA
     d11$lime <- NA

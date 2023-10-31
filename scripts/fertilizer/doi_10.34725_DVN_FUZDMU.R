@@ -25,6 +25,7 @@ Agricultural Water Management 98: 1364-1372
 		uri = uri,
 		publication = "doi:10.1016/j.agwat.2011.04.002",
 		carob_contributor = "Camila Bonilla",
+		carob_date="2021-06-01",
 		data_type = "experiment",
 		data_institutions ="ICRAF",
 		project=NA
@@ -32,7 +33,7 @@ Agricultural Water Management 98: 1364-1372
 
 ## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, major=4, minor=0, group)
 	dset$license <- carobiner::get_license(js)
 
@@ -75,11 +76,11 @@ Agricultural Water Management 98: 1364-1372
 	d$planting_date <- paste0(d$planting_date, "-04")
 	d$soil_SOC <- NA
 	d$soil_P_total <- NA
-	d$soil_N  <- NA
+	d$soil_N <- NA
 	d$soil_K <- NA
 	d$soil_pH <- NA
 	d$biomass_total <- NA
-	d$soil_sand  <- NA
+	d$soil_sand <- NA
 	d$soil_clay <- NA
 	d$rain <- as.numeric(d$rain)
 	d$yield <- as.numeric(d$yield) * 1000

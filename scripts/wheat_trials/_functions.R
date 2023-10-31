@@ -79,6 +79,7 @@ proc_wheat <- function(ff) {
 
 # Process in carob format
 	r$planting_date <- as.Date(r$SOWING_DATE, "%b %d %Y")
+
 	if (!is.null(r$HARVEST_STARTING_DATE)) {
 		r$harvest_date <- as.Date(r$HARVEST_STARTING_DATE, "%b %d %Y")
 	} else {
@@ -94,6 +95,10 @@ proc_wheat <- function(ff) {
 # other variables
 	r$IRRIGATED <- r$IRRIGATED != "NO"
 	r$Rep <- as.integer(r$Rep)
+	r$planting_date <- as.character(r$planting_date)
+	i <- is.na(r$planting_date)
+	r$planting_date[i] <- as.character(r$Cycle[i])
+	r$harvest_date <- as.character(r$harvest_date)
 
 	r$on_farm <- FALSE
 	r$is_survey <- FALSE
@@ -521,11 +526,7 @@ proc_wheat <- function(ff) {
 
 	r$yield_part <- "grain"
 	# records without yield are not very useful
-	#r <- r[!is.na(r$yield), ]
-
-	r$planting_date <- as.character(r$planting_date)	
-	r$harvest_date <- as.character(r$harvest_date)
-	
+	#r <- r[!is.na(r$yield), ]	
 		
 	# set all colnames to lowercase and subset	
 	colnames(r) <- tolower(colnames(r))
@@ -535,6 +536,7 @@ proc_wheat <- function(ff) {
 
 	# they may not be all available
 	r <- r[, cvars[cvars %in% names(r)]]
+	r <- r[!is.na(r$yield), ]
 
 	#fix colnames with uppercase
 	r <- carobiner::change_names(r, 

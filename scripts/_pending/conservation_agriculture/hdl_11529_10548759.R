@@ -17,7 +17,8 @@ carob_script <- function(path)
 		publication= "doi:10.1002/ldr.4321",
 		data_institutions = "CIMMYT",
    		data_type="on-farm experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
-		carob_contributor="Hope Takudzwa Mazungunye"  
+		carob_contributor="Hope Takudzwa Mazungunye", 
+		carob_date="2023-08-02"
 	)
 
 
@@ -39,10 +40,10 @@ carob_script <- function(path)
 	d$irrigated <- FALSE
 
 	d$treatment[d$...1 == "Sc1"] <- "Conventional rice - wheat system"
-	d$treatment[d$...1== "Sc2"]<- "partial CSA based rice-wheat-mungbean system"
-	d$treatment[d$...1== "Sc3"]<- "full CSA based rice-wheat-mungbean system"
-	d$treatment[d$...1== "Sc4"]<- "full CSA based maize-wheat-mungbean system"
-	d$country <-"INDIA"
+	d$treatment[d$...1== "Sc2"] <- "partial CSA based rice-wheat-mungbean system"
+	d$treatment[d$...1== "Sc3"] <- "full CSA based rice-wheat-mungbean system"
+	d$treatment[d$...1== "Sc4"] <- "full CSA based maize-wheat-mungbean system"
+	d$country <- "INDIA"
 	d$site <- "ICAR-CSSRI"
 	d$adm1 <- NA
 	d$adm2 <- NA
@@ -76,7 +77,7 @@ carob_script <- function(path)
    d$N_fertilizer[d$...1 == "Sc2"] <- "150"
    d$N_fertilizer[d$...1 == "Sc3"] <- "150"
    d$N_fertilizer[d$...1 == "Sc4"] <- "150"
-   d$S_fertilizer <-NA
+   d$S_fertilizer <- NA
    d$lime <- NA
  
    d$fertlizer_type[d$...1 == "Sc1"] <- "DAP:urea"

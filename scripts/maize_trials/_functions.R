@@ -162,6 +162,7 @@ intmztrial_striga <- function(ff, sf=NULL) {
 			d$longitude[d$longitude == ""] <- NA
 			d$longitude <- as.numeric(d$longitude)
 		}
+		d <- d[!is.na(d$yield), ]
 		d
 	}
 
@@ -171,12 +172,16 @@ intmztrial_striga <- function(ff, sf=NULL) {
 		sf <- grep("striga", ff, ignore.case=TRUE, value=TRUE)		
 		if (length(sf) > 0) {
 			e <- doit(sf, striga=TRUE)
-			d <- carobiner::bindr(d, e)
+			if (nrow(e) > 0) {
+				d <- carobiner::bindr(d, e)
+			}
 		}
 		sf <- grep("borer", ff, ignore.case=TRUE, value=TRUE)		
 		if (length(sf) > 0) {
 			e <- doit(sf, borer=TRUE)
-			d <- carobiner::bindr(d, e)
+			if (nrow(e) > 0) {
+				d <- carobiner::bindr(d, e)
+			}
 		}
 		d
 	} else {

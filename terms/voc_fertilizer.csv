@@ -1,6 +1,7 @@
 name,description,formula,N,P,K,S,obo
 basic slag,Basic slag,,NA,NA,NA,NA,
 CAN,Calcium ammonium nitrate,CA-NH4NO3,26,0,0,0,
+C-compound,C-compound,,7,9.156,5.785,6,
 AN,Ammonium nitrate,NH4NO3,34,0,0,0,http://purl.obolibrary.org/obo/CHEBI_63038
 DAP,Diammonium phosphate,(NH4)2HPO4,18,20.1,0,0,http://purl.obolibrary.org/obo/CHEBI_63051
 DAS,Ammonium sulfate,(NH4)2SO4,21,0,0,24,http://purl.obolibrary.org/obo/CHEBI_62946

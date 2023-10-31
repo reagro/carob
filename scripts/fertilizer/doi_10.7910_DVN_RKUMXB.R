@@ -41,6 +41,7 @@ carob_script <- function(path) {
 	   data_citation= "Kihara, Job; Tibebe, Degefie; Gurmensa, Biyensa; Lulseged, Desta, 2017, Towards understanding fertilizer responses in Ethiopia, doi:10.7910/DVN/RKUMXB",
 	   publication=NA,
 	   carob_contributor="Camila Bonilla",
+	   carob_date="2021-06-01",
 	   data_type="compilation",
 	   data_institutions="CIAT",
 	   project=NA
@@ -48,7 +49,7 @@ carob_script <- function(path) {
 
 ## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	f <- ff[basename(ff) == "02. ET_data_June2017.csv"]
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
@@ -89,7 +90,7 @@ carob_script <- function(path) {
 
 	## Add Zn and S columns and extract from "Other_Nutrient"
 	d$Zn <- 0
-	d$S  <- 0
+	d$S <- 0
 	d$Zn[d$Other_Nutrient == "Zn"] <- d$Nutrientamount[d$Other_Nutrient == "Zn"]
 	d$S[d$Other_Nutrient == "S"] <- d$Nutrientamount[d$Other_Nutrient == "S"]
 	d$Other_Nutrient <- NULL
@@ -341,11 +342,20 @@ carob_script <- function(path) {
 	d$longitude[i] <- 39.154
 	d$latitude[i] <- 11.835
 
-	#4) to do
+	#4) the last two
 	#Garadella = Garadella State Farm
-	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
-	xy <- uxy[is.na(uxy$longitude),]
+	#https://en.wikipedia.org/wiki/Gedeb_Asasa
+	# Garadela, Arda Uta aka Aradayita and Temela are the three state farms in this woreda.
+	i <- which(d$location == "Garadella")
+	d$longitude[i] <- 39.2
+	d$latitude[i] <- 7.19
 
+	i <- which(d$location == "Fereze Guraghe Zone")
+	d$longitude[i] <- 38.08
+	d$latitude[i] <- 8.19
+
+#	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
+#	xy <- uxy[is.na(uxy$longitude),]
 
 	d$yield_part <- "grain"
 	d$yield_part[d$crop %in% c("pea", "common bean", "chickpea", "faba bean", "rapeseed")] <- "seed" 

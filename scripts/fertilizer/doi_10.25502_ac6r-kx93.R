@@ -33,6 +33,7 @@ carob_script <- function(path){
 		N2Africa dianostic trial - Ghana, 2014 [Data set]. International Institute of Tropical Agriculture (IITA). 
 		https://doi.org/10.25502/AC6R-KX93",
 		carob_contributor = "Andrew Sila",
+		carob_date="2023-07-17",
 		data_type = "on farm experiment",
 		data_institutions="IITA"
 	)

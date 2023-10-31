@@ -22,6 +22,7 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 		uri=uri,
 		publication="doi:10.1155/2018/7676058",
 		carob_contributor="Eduardo Garcia Bendito",
+		carob_date="2021-06-29",
 		data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Productivity and water use efficiency of Sorghum [Sorghum bicolor (L.) Moench] grown under different nitrogen applications in Sudan Savanna Zone, Nigeria. https://doi.org/10.21421/D2/FATVHT",
 		data_type="experiment",
 		data_institutions="ICRISAT",
@@ -30,7 +31,7 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 
 ## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
 

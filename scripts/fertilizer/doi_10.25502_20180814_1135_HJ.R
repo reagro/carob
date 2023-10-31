@@ -22,13 +22,14 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	   data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kiberashi [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1135/HJ",
 	   data_institutions = "IITA",
 	   carob_contributor="Eduardo Garcia Bendito",
+	   carob_date="2021-10-06",
 	   data_type="on-farm experiments",
 	   project=NA
  	)
 
 ## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group)
 	dset$license <- carobiner::get_license(js)
 
@@ -78,7 +79,7 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	d1$Zn_fertilizer <- ifelse(d1$TrtDesc == "NPK+MN", 3, 0)
 	d1$S_fertilizer <- ifelse(d1$TrtDesc == "NPK+MN", 5, 0)
 	d1$OM_used <- TRUE
-	d1$OM_type <- "Manure"
+	d1$OM_type <- "farmyard manure"
 	d1$OM_applied <- 1000
 	d2 <- merge(d, d1, by = "FieldID", all.x = TRUE)
 
@@ -94,7 +95,8 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	d$dataset_id <- dataset_id
 
 	d$yield_part <- "grain"
-# all scripts must end like this
+
+	d <- d[!is.na(d$yield), ]
 	carobiner::write_files(dset, d, path=path)
 
 }

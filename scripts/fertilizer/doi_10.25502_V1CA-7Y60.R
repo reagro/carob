@@ -31,6 +31,7 @@ inoculants and fertilizers adapted to local settings.
 		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa diagnostic trial, 2012 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/V1CA-7Y60", 
 		data_institutions = "IITA", 
 		carob_contributor="Cedric Ngakou", 
+		carob_date="2023-06-01",
 		data_type="experiment"
 	)
 	
@@ -125,7 +126,7 @@ inoculants and fertilizers adapted to local settings.
  
 
 # merge d and dd
-	d	<- merge(d, dd, by=c("country", "location", "trial_id"))
+	d	 <- merge(d, dd, by=c("country", "location", "trial_id"))
 
 	d <- d[, c("country", "trial_id", "location", "site", "longitude", "latitude", "planting_date"
 			, "harvest_date", "crop", "previous_crop", "variety", "inoculated", "treatment", "row_spacing", "plant_spacing", "yield", "residue_yield", "plant_density")]
@@ -138,10 +139,10 @@ inoculants and fertilizers adapted to local settings.
 	
 	# Add fertilizer
 	
-	d$N_fertilizer	<- 0	 # 
-	d$K_fertilizer <-	ifelse(grepl("K", d$treatment), 20, 0)
-	d$P_fertilizer <-	ifelse(grepl("P", d$treatment) & (!grepl("Pendo", d$treatment)), 30, 0)
-	d$Zn_fertilizer <-	ifelse(grepl("Zn", d$treatment), 2.5, 0)
+	d$N_fertilizer	 <- 0	 # 
+	d$K_fertilizer <- 	ifelse(grepl("K", d$treatment), 20, 0)
+	d$P_fertilizer <- 	ifelse(grepl("P", d$treatment) & (!grepl("Pendo", d$treatment)), 30, 0)
+	d$Zn_fertilizer <- 	ifelse(grepl("Zn", d$treatment), 2.5, 0)
 	d$S_fertilizer <- ifelse(grepl("+ S", d$treatment) | grepl("\\+S", d$treatment) | grepl("MgS", d$treatment), 12, 0)
 
  	d$OM_used <- grepl("OM", d$treatment) | grepl("Manure", d$treatment)

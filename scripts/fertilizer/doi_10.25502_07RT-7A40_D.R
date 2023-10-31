@@ -22,13 +22,14 @@ carob_script <- function(path) {
 		uri=uri,
 		publication=NA,
 		carob_contributor="Henry Juarez",
+		carob_date="2022-03-24",
 		data_type="experiment",
 		project=NA
 	)
 	
 	## download and read data (Path is important)
 		
-	ff	<- carobiner::get_data(uri, path, group)
+	ff	 <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
 	
@@ -66,7 +67,7 @@ carob_script <- function(path) {
 	e$yield <- d$yield
 		
 	e$flowering <- as.numeric(d$flw50)
-	e$silking	<- d$slk50
+	e$silking	 <- d$slk50
 	
 	# all scripts must end like this
 	carobiner::write_files(dset, e, path=path)

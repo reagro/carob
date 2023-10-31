@@ -24,6 +24,7 @@ carob_script <- function(path) {
       UNF:6:HmO/JVvcmNC7pPO6MNVZJQ== [fileUNF]",
       data_institutions = "CIMMYT",
       carob_contributor="Cedric Ngakou",
+      carob_date="2023-09-27",
       data_type="experiment",
       project=NA 
    )
@@ -47,45 +48,45 @@ carob_script <- function(path) {
    dd <- r[,c("Season","Replication","Treatments","SITE","TWbS")]
    colnames(dd) <- c("season","rep","Treatment","site","weeds_biomass")
    
-   treat<- data.frame( treatment=c("Farmers practices + pretilochlor fb two HW","pendimethalim fb HW","Mefenacet + bensulfuron fb HW","Mefenacet + bensulfuron fb MW","Bispyribac-sodium fb HW","penoxsulan fb HW","Mefenacet+bensulfuron fb bispyribac-sodium fb HW",
+   treat <- data.frame( treatment=c("Farmers practices + pretilochlor fb two HW","pendimethalim fb HW","Mefenacet + bensulfuron fb HW","Mefenacet + bensulfuron fb MW","Bispyribac-sodium fb HW","penoxsulan fb HW","Mefenacet+bensulfuron fb bispyribac-sodium fb HW",
              "Mefenacet + ben sulfuron fb penoxulam fb HW","MW fb HW","Weed-free by frequent HW"), 
              Treatment=c(1,2,3,4,5,6,7,8,9,10))
-   dd<- merge(dd,treat,by="Treatment")
-   dd$Treatment<- NULL
+   dd <- merge(dd,treat,by="Treatment")
+   dd$Treatment <- NULL
    ### process Aman_Yield_and_economics file()
-   dd1<-r1[,c("Season","Replication","Treatment","SITE","Grain.yield..t.ha.")]
+   dd1 <- r1[,c("Season","Replication","Treatment","SITE","Grain.yield..t.ha.")]
    colnames(dd1) <- c("season","rep","Treatment","site","yield")
-   dd1<- merge(dd1,treat,by="Treatment")
-   dd1$Treatment<- NULL
+   dd1 <- merge(dd1,treat,by="Treatment")
+   dd1$Treatment <- NULL
    ####
    ## merge dd and dd1 
-   d1<- merge(dd,dd1, by=c("season","treatment","site","rep"))
-   d1$variety<- "BRRI dhan49"
-   d1$planting_date<- "2016-07-15"
+   d1 <- merge(dd,dd1, by=c("season","treatment","site","rep"))
+   d1$variety <- "BRRI dhan49"
+   d1$planting_date <- "2016-07-15"
    ### process Boro_weed_data file()
    dd2 <- r2[,c("Season","Replication","Treatment","Site","TWbS")]
    colnames(dd2) <- c("season","rep","Treatment","site","weeds_biomass")
    
    
-   dd2<- merge(dd2,treat,by="Treatment")
-   dd2$Treatment<- NULL
+   dd2 <- merge(dd2,treat,by="Treatment")
+   dd2$Treatment <- NULL
    
    ### process Boro_yield_and_economics-1 file()
-   dd3<-r3[,c("Season","Replication","Treatment","SITE","Grain.yield..t.ha.")]
+   dd3 <- r3[,c("Season","Replication","Treatment","SITE","Grain.yield..t.ha.")]
    colnames(dd3) <- c("season","rep","Treatment","site","yield")
-   dd3<- merge(dd3,treat,by="Treatment")
-   dd3$Treatment<- NULL
+   dd3 <- merge(dd3,treat,by="Treatment")
+   dd3$Treatment <- NULL
    ## merge dd2 and dd3 
-   d2<- merge(dd2,dd3, by=c("season","treatment","site","rep"))
-   d2$variety<- "BRRI dhan28"
-   d2$planting_date<- "2016-12-10"
+   d2 <- merge(dd2,dd3, by=c("season","treatment","site","rep"))
+   d2$variety <- "BRRI dhan28"
+   d2$planting_date <- "2016-12-10"
    #### joint d1 and d2
    d <- rbind(d1,d2)
    
-   d$yield <-d$yield*1000  ## kg/ha
-   d$weeds_biomass<- d$weeds_biomass*10 # kg/ha 
+   d$yield <- d$yield*1000  ## kg/ha
+   d$weeds_biomass <- d$weeds_biomass*10 # kg/ha 
    # add columns
-   d$country<- "Bangladesh"
+   d$country <- "Bangladesh"
    d$crop <- "rice" 
    d$dataset_id <- dataset_id
    d$trial_id <- paste(d$site,d$dataset_id,sep = "-")
@@ -100,7 +101,7 @@ carob_script <- function(path) {
    d$longitude[d$site=="Jashore" ] <- 89.2094419
    d$latitude[d$site=="Jashore" ] <- 23.1665256
    
-   d$yield_part<- "grain" 
+   d$yield_part <- "grain" 
    
    # all scripts must end like this
    carobiner::write_files(dset, d, path=path)

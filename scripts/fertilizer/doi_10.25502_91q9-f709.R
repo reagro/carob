@@ -15,7 +15,7 @@ carob_script <- function(path){
  Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   "
   
-  uri <- "doi.org/10.25502/91q9-f709"
+  uri <- "doi:10.25502/91q9-f709"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   
@@ -30,6 +30,7 @@ carob_script <- function(path){
     data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa demo - Nigeria, 2014 [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/91Q9-F709",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
+    carob_date="2023-08-22",
     data_type="on-farm demonstration trials"
   )
   
@@ -145,7 +146,9 @@ carob_script <- function(path){
   b3$K_fertilizer <- 0
   
   b3$OM_type <- carobiner::fix_name(b3$experimental_treatments_type_of_manure,"title")
-  b3$OM_used <- ifelse(is.na(b3$OM_type),FALSE,TRUE)
+  b3$OM_type[b3$OM_type %in% c("Animal Dung", "Farm Yard Manure")] <- "farmyard manure"
+  b3$OM_type[b3$OM_type %in% c("Organic Matter")] <- "compost"
+  b3$OM_used <- !is.na(b3$OM_type)
   
   b3$plot_width <- 10
   b3$plot_length <- 10
