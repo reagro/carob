@@ -14,7 +14,7 @@ carob_script <- function(path) {
 
 	uri <- "hdl:11529/10547970"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "maize_trials"
+	group <- "?"
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
