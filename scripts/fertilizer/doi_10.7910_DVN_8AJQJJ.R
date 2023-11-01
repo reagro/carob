@@ -115,6 +115,12 @@ carob_script <- function(path) {
    d$OM_used <- ifelse(rr$`Organic resource` == "Yes", TRUE,
                        ifelse(rr$`Organic resource` == "None", FALSE, NA))
    
+   
+   #this seems reasonable here
+   d$N_fertilizer[is.na(d$N_fertilizer)] <- 0
+   d$P_fertilizer[is.na(d$P_fertilizer)] <- 0
+   d$K_fertilizer[is.na(d$K_fertilizer)] <- 0
+     
 ## normalize names 
    d$fertilizer_type <- as.character(rr$P_Source)
    d[!is.na(d$fertilizer_type) & d$fertilizer_type == "Compound D", "fertilizer_type"] <- "D-compound"
@@ -179,6 +185,8 @@ carob_script <- function(path) {
 	d$longitude[i] <- -d$longitude[i]
 	  
   	d$soil_P_available[d$soil_P_available > 200] <- NA
+	
+	d <- d[!is.na(d$yield), ]
 
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
