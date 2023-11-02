@@ -166,6 +166,8 @@ proc_wheat <- function(ff) {
 		"COMPOSITEA", NA, 
 		"COMPOSITAE", NA, 
 		"CORN", "maize", 
+		"COSTAN", "cotton",
+		"SUGAR  BEET-MAIZE", "sugar beet; maize",	
 		"COTTON/VEGETABLE", "cotton; vegetables",
 		"COTLON", "cotton",
 		"COTTAN", "cotton",
