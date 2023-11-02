@@ -158,8 +158,10 @@ carob_script <- function(path) {
 	# are OK, not in the ocean (needs to be fixed in GADM)
   
     # EGB:
-    message("1492 records are missing yield. Should it be removed?")
-
+    #message("1492 records are missing yield. Should it be removed?")
+	x <- x[!is.na(x$yield), ]
+	x$planting_date <- as.character(NA)
+	
 	# all scripts must end like this
 	carobiner::write_files(dset, x, path=path)
 }

@@ -103,7 +103,7 @@ TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 	}	
 
 	f1 <- ff[basename(ff) == "TAMASA_TZ_APS_CC_2016.xlsx"]
-	r1 <- carobiner::read.excel(f1, "Data")
+	r1 <- carobiner::read.excel(f1, sheet="Data")
 	hhid <- r1$HHID
 	r1$HHID <- r1$FarmID
 	r1$FarmID <- r1$hhid
@@ -113,7 +113,7 @@ TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 #	unlist(lapply(split(d1$HHID, d1$HHID), seq_along))
 	
 	f2 <- ff[basename(ff) == "TAMASA_TZ_APS_Soil_2016.xlsx"]
-	r2 <- carobiner::read.excel(f2, "Data")
+	r2 <- carobiner::read.excel(f2, sheet="Data")
 	d2 <- getdf(r2)
 	d2a <- d2[d2$soil_sample_top == 0, ]
 	d2a <- d2a[, c('trial_id', 'soil_pH', 'soil_Al', 'soil_N', 'soil_Na', 'soil_Fe', 'soil_K', 'soil_S', 'soil_B', 'soil_C', 'soil_Ca', 'soil_Mg', 'soil_Mn', 'soil_Zn', 'soil_sample_top', 'soil_sample_bottom')]
@@ -126,12 +126,12 @@ TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 	f3 <- ff[basename(ff) == "TZ_TAMASA_BYS_Yield_2015_22June17.xlsx"]
 	# use n_max to avoid reading a summary row that will be descarded but would 
 	# mess up the date field
-	r3 <- carobiner::read.excel(f3, "Yield Data", n_max=427)
+	r3 <- carobiner::read.excel(f3, sheet="Yield Data", n_max=427)
 	d3 <- getdf(r3)
 	d3$date <- as.character(as.Date(d3$date))
 	
 	f4 <- ff[basename(ff) == "TZ_TAMASA_BYS_Yield_2015_22June17.xlsx"]
-	r4 <- carobiner::read.excel(f4, "Soil data")
+	r4 <- carobiner::read.excel(f4, sheet="Soil data")
 	d4 <- getdf(r4)
 	d4a <- d4[d4$soil_sample_top == 0, ]
 	d4a <- d4[, c('trial_id', 'soil_pH', 'soil_Al', 'soil_N', 'soil_Na', 'soil_Fe', 'soil_K', 'soil_S', 'soil_B', 'soil_C', 'soil_Ca', 'soil_Mg', 'soil_Mn', 'soil_Zn', 'soil_sample_top', 'soil_sample_bottom')]
