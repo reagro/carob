@@ -10,7 +10,7 @@ carob_script <- function(path) {
    
    uri <-  "doi:10.21223/R5CN7B"
    dataset_id <- carobiner::simple_uri(uri)
-   group <- "fertilizer"
+   group <- "sweetpotato_trials"
    ## dataset level data 
    dset <- data.frame(
       dataset_id = dataset_id,
@@ -55,9 +55,9 @@ carob_script <- function(path) {
    d$is_survey <- FALSE
    d$irrigated <- FALSE
    ##Add fertilizer
-   d$N_fertilizer <- 0
-   d$P_fertilizer <- 0
-   d$K_fertilizer <- 0
+#   d$N_fertilizer <- 0
+#   d$P_fertilizer <- 0
+#   d$K_fertilizer <- 0
    ### add long and lat coordinate
    geo<- data.frame(location=c("San Ramon","Huaral","Ica","Satipo"),
                   lon=c(-78.4544042,-76.916667,-75.499722,-74.1181641),

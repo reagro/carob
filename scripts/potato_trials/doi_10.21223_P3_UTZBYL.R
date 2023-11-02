@@ -35,7 +35,7 @@ carob_script <- function(path) {
 
 	# read and process files
 	proc_fun <- function(f) {
-		r <- carobiner::read.excel(f,sheet="Fieldbook")
+		r <- carobiner::read.excel(f, sheet="Fieldbook")
 		# this is marketable yield, total tuber yield not reported
 		r <- r[, c("REP", "INSTN", "MTYNA")]
 		colnames(r) <- c("rep", "variety", "yield")
