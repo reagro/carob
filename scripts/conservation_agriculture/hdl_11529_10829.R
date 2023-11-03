@@ -38,10 +38,10 @@ The data set presents yields for maize and the legumes from these sites over 10 
 		data_citation='Thierfelder, Christian, 2016, "Options available for the management of drought-tolerant maize varieties and conservation agriculture practices in Malawi", https://hdl.handle.net/11529/10829, CIMMYT Research Data & Software Repository Network, V1',
 		publication=NA,
 		data_institutions = "CIMMYT",
-   	data_type="on-farm experiment",
+		data_type="on-farm experiment",
 		carob_contributor="Mitchelle Njukuya",
 		carob_date="2023-06-21",
-		revised_by="Effie Ochieng'"
+		revised_by=c("Effie Ochieng', Robert Hijmans")
 	)
 
 ## download and read data 
@@ -65,44 +65,11 @@ The data set presents yields for maize and the legumes from these sites over 10 
 	colnames(d1) <- c("harvest_date", "adm1", "location", "rep", "crop", "treatment", "residue_yield", "yield", "fname")
 
 	d2 <- r2[,  c("Site", "Tmnt.", "Crop grown", "Final stand (pl/ha)", "Grain yield (kg/ha)", "total Biomass yield (kg/ha)",  "Year", "Site name", "Plot No.")]
-	colnames(d2) <- c("adm1", "treatment", "crop", "plant_density", "yield", "biomass_total", "harvest_date", "fname", "rep")
+	colnames(d2) <- c("location", "treatment", "crop", "plant_density", "yield", "biomass_total", "harvest_date", "fname", "rep")
 
 	# third data set
 	d3 <- r3[, c("Year", "Site name", "Tmnt.", "Crop grown", "Final stand (pl/ha)", "total Biomass yield (kg/ha)", "Grain yield (kg/ha)", "Farmer")]
 	colnames(d3) <- c("harvest_date", "location", "treatment", "crop", "plant_density", "biomass_total", "yield", "fname")
-
-
-	## ? please comment on why you do this
-	d1$location <- carobiner::replace_values(d1$location, 
-		c("Champhira", "Lemu", "Matandika"), c("Champhila", "Balaka", "Machinga"))
-	  
-	geo1 <- data.frame( 
-        location = c("Malula", "Enyezini", "Chisepo", "Chipeni", "Zidyana", "Mwansambo","Balaka",
-					"Machinga", "Linga", "Herbert", "Songani", "Chinguluwe", "Champhila", "Kaluluma"), 
-        latitude = c(-14.96656, -11.46457, -13.63281, -13.81782, -13.21417, -13.6966, -14.97928, 
-					-15.06665, -13.06345, -13.5396, -15.3, -13.81066, -12.40513, -12.58075), 
-        longitude = c(34.99189, 33.86478, 33.47223, 33.38493, 34.31717, 33.55553, 34.95575, 35.22543, 
-					33.43611, 33.02705, 35.48333, 33.49862, 33.64337, 33.51833))
-	
-	d1 <- merge(d1, geo1, by ="location", all.x = TRUE)
-	
-	# second data set
-	d2$adm1 <- carobiner::replace_values(d2$adm1, 
-			c("Champhira", "Lemu", "Matandika"), c("Champhila", "Balaka", "Machinga"))
-
-	geo2 <- data.frame( 
-			adm1 = c("Malula", "Zidyana", "Chipeni", "Mwansambo", "Balaka", "Herbert", 
-	         "Kaluluma", "Champhila", "Chinguluwe", "Machinga", "Songani", "Linga"), 
-	    latitude = c(-14.96656, -13.21417, -13.81782, -13.6966, -14.97928, -13.5396, 
-	         -12.58075, -12.40513, -13.81066, -15.06665, -15.3, -13.06345), 
-	    longitude = c(34.99189, 34.31717, 33.38493, 33.55553, 34.95575, 33.02705, 
-	         33.51833, 33.64337, 33.49862, 35.22543, 35.48333, 33.43611))
-	
-	d2 <- merge(d2, geo2,  by="adm1",  all.x = TRUE)
-
-
-## need to georeference d3 (perhaps using data from d2 or d1
-# geo3 = 
 
 #joining tables
 	d <- carobiner::bindr(d1,  d2,  d3)
@@ -180,6 +147,35 @@ The data set presents yields for maize and the legumes from these sites over 10 
 	d$intercrops[i & grepl("cowpea", d$treatment)] <- "cowpea"
 	d$intercrops[i & grepl("soybean", d$treatment)] <- "soybean"
 	d$intercrops[i & grepl("legume", d$treatment)] <- "legume"
+
+
+	d$adm1 <- carobiner::replace_values(d$adm1, 
+		c("Nkhotkota", "Mchinga"), 
+		c("Nkhotakota", "Machinga"))
+
+	g <- unique(d[, c("adm1", "location")])
+	g <- g[!is.na(g$adm1), ]
+	colnames(g)[1] <- c("ad1")
+	
+	d <- merge(d, g, by="location", all.x=TRUE)
+	i <- is.na(d$adm1)
+	d$adm1[i] <- d$ad1[i]
+	d$ad1 <- NULL
+	
+	# why?
+	d$location <- carobiner::replace_values(d$location, 
+		c("Champhira", "Lemu", "Matandika"), 
+		c("Champhila", "Balaka", "Machinga"))
+
+	geo <- data.frame(
+		location = c("Malula", "Enyezini", "Chisepo", "Chipeni", "Zidyana", "Mwansambo",
+			"Balaka", "Machinga", "Linga", "Herbert", "Songani", "Chinguluwe", "Champhila", "Kaluluma"), 
+		latitude = c(-14.967, -11.465, -13.633, -13.818, -13.214, -13.697, -14.979, -15.067, -13.063, -13.54,
+			-15.3, -13.811, -12.405, -12.581), 
+		longitude = c(34.992, 33.865, 33.472, 33.385, 34.317, 33.556, 34.956, 35.225, 33.436, 33.027, 35.483,
+			33.499, 33.643, 33.518))
+
+	d <- merge(d, geo, by ="location", all.x = TRUE)
 
 	d$planting_date <- as.character(NA)
 	
