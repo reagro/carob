@@ -49,19 +49,28 @@ carob_script <- function(path) {
 		r$harvest_date <- n$`End date`
 		r$longitude <- as.numeric(n$Longitude)
 		r$latitude <- as.numeric(n$Latitude)
+
 		k <- carobiner::read.excel(f, sheet="Soil_analysis")
-		k1<- as.list(k$Abbreviture)
-		k<- t(k)
-		colnames(k)<- k1
-		m1 <- as.data.frame(k[!(row.names(k) %in% c("1","2")),])
-		r$soil_pH<-  mean(as.double(m1$pH),na.rm=TRUE) 
-		r$OM_applied<- mean(as.double(m1$MO),na.rm=TRUE) 
-		r$soil_P_available<-  (mean(as.double(m1$P),na.rm=TRUE)) 
-		r$soil_K<-  mean(as.double(m1$K),na.rm=TRUE) 
-		r$soil_sand<-  mean(as.double(m1$Sand),na.rm=TRUE)
-		r$soil_clay<-  mean(as.double(m1$Clay),na.rm=TRUE)
-		r$soil_silt<-  mean(as.double(m1$Silt),na.rm=TRUE)
-		
+		k <- k[, c("Abbreviture", "Unit", "Data1", "Data2")]
+		vars <- c('pH', 'EC', 'CaCO3', 'MO', 'P', 'K', 'Sand', 'Silt', 'Clay', 'CEC', 'ExCa2', 'ExMg2', 'ExK', 'ExNa', 'ExAl3_H', 'TCA', 'TBAS')
+		k <- k[k$Abbreviture %in% vars, ]
+		k$Data1 <- as.numeric(k$Data1) 
+		k$Data2 <- as.numeric(k$Data2) 
+		kk <- as.list(rowMeans(k[, c("Data1", "Data2")]))
+		names(kk) <- k$Abbreviture
+		r$soil_pH <- kk$pH
+		r$soil_SOM <- kk$MO
+		r$soil_P_available <- kk$P
+		r$soil_K <- kk$K 
+		r$soil_sand <- kk$Sand
+		r$soil_clay <- kk$Clay
+		r$soil_silt <- kk$Silt
+		r$soil_CEC <- kk$CEC
+		r$soil_Ex_Ca <- kk$ExCa2
+		r$soil_Ex_Mg <- kk$ExMg2
+		r$soil_Ex_K <- kk$ExK
+		r$soil_Ex_Na <- kk$ExNa
+		r$soil_Ex_Al <- kk$ExAl3_H
 		r
 		   
 	}
