@@ -172,17 +172,27 @@ The data set presents yields for maize and the legumes from these sites over 10 
 	d2$on_farm <- TRUE 
 	d2$is_survey <- FALSE
 	d2$yield_part <- "seed"
-	d2 <- d2[,c("country","site","harvest_date","crop","treatment","biomass_total","plant_density","yield","yield_part","on_farm","is_survey")]
+	d2$site <- carobiner::replace_values(d2$site, c("Lemu","Matandika"),c("Balaka","Machinga"))
+
+  # efyrouwa: fill the coordinates
+	ll <- data.frame(country = c("Malawi", "Malawi", "Malawi", "Malawi","Malawi", "Malawi", "Malawi", "Malawi", "Malawi"), 
+	                  site = c("Machinga", "Malula", "Balaka", "Herbert", "Songani","Mwansambo", "Zidyana", "Linga", "Chinguluwe"),
+	                  latitude = c(-15.06665, -14.96656, -14.97928,  -13.5396, -15.3, -13.6966, -13.21417, -13.06345, -13.81066), 
+	                  longitude = c(35.22543, 34.99189, 34.95575, 33.02705, 35.48333, 33.55553, 34.31717, 33.43611, 33.49862))
+	
+	d2 <- merge(d2,ll, by = c("country","site"), all.x = TRUE)
+	
+	d2 <- d2[,c("country","site","harvest_date","crop","treatment","biomass_total","plant_density","yield","yield_part","on_farm","is_survey","latitude","longitude")]
 	
 	#joining tables
 	d5 <- carobiner::bindr(d, d1, d2)
 	d5$dataset_id <- dataset_id
 	d5$trial_id <- paste(1:nrow(d5),d5$treatment, sep = "_")
 	d5$harvest_date <- as.character(d5$harvest_date)
+	d5 <- d5[!is.na(d5$yield),] #four observations have no yield
 	
 	d5 <- d5[, c("country","adm1","site","latitude","longitude","treatment","harvest_date","crop","yield_part","intercrops","on_farm","is_survey","residue_yield","yield","plant_density","biomass_total","dataset_id","trial_id")]
 
-	
 	# all scripts must end like this
 	carobiner::write_files(dset, d5, path=path)
 }
