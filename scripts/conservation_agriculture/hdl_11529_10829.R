@@ -50,12 +50,6 @@ The data set presents yields for maize and the legumes from these sites over 10 
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	dset$license <- carobiner::get_license(js)
 	
-	# f <- ff[basename(ff) == "Summary files Malawi 2005-15..xlsx"]
-	# r <- readxl::read_excel(f,sheet="Maize working data") |> as.data.frame()
-	# r1 <- readxl::read_excel(f,sheet="Legume yields") |> as.data.frame()
-	# r2 <- readxl::read_excel(f,sheet="Intercropped legume yields") |> as.data.frame()
-	
-	# efyrouwa: .xlsx files can be read by carobiner::read.excel() 
 	f <- ff[basename(ff) == "Summary files Malawi 2005-15..xlsx"]
 	
 	# to avoid warnings
@@ -65,8 +59,7 @@ The data set presents yields for maize and the legumes from these sites over 10 
 	r3 <- carobiner::read.excel(f, sheet = "Intercropped legume yields")	
   
   ## process file(s)
-	# it is confusing to use "d, d1, d2". Instead use "d0, d1, d2"
-  
+ 
   ## use a subset (like this to avoid subsetting later)
 	d1 <- r1[, c("Harvest Year", "District", "Village", "Plot No.", "crop grown", "Tmnt.", "Stalk yield (kg/ha)", "Grain yield (kg/ha)", "Farmer")]
 	colnames(d1) <- c("harvest_date", "adm1", "location", "rep", "crop", "treatment", "residue_yield", "yield", "fname")
@@ -110,6 +103,7 @@ The data set presents yields for maize and the legumes from these sites over 10 
 
 ## need to georeference d3 (perhaps using data from d2 or d1
 # geo3 = 
+
 #joining tables
 	d <- carobiner::bindr(d1,  d2,  d3)
 	d$dataset_id <- dataset_id
