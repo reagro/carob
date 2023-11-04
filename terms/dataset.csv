@@ -9,5 +9,6 @@ data_type,yes,"what kind of data is this (e.g. experiment, survey, compilation)"
 publication,yes,the doi of the associated publication (if any),yes
 data_institutions,yes,organizational home(s) of the data providers,yes
 project,yes,project that this dataset belongs to (if any),yes
-carob_date,yes,date of contribution to Carob,no
+carob_date,yes,date of first contribution to Carob,no
 revised_by,no,name(s) of contributers who made significant changes,no
+revision_date,no,date of last revision,no
