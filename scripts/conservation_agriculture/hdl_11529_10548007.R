@@ -28,7 +28,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 		data_type="on-farm experiment", 
 		carob_contributor="Mitchelle Njukuya", 
 		carob_date="2023-08-17", 
-		revised_by=c("Cedric Ngakou", "Robert Hijmans"),
+		revised_by="Cedric Ngakou, Robert Hijmans",
 		revision_date="2023-11-03"
 	)
 

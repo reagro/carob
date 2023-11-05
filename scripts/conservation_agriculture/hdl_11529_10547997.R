@@ -41,7 +41,6 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	ff <- ff[basename(ff) %in% sf]
 
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
- # dset$license <- "not specified" #carobiner::get_license(js)
 	dset$license <- carobiner::get_license(js)
 		
 	get_raw_data <- function(f) {
@@ -128,7 +127,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 			d$location <- "Saalbani"
 		}
 		crop <- tolower(strsplit(basename(f), "-")[[1]][1])
-#		d$crop <- gsub("kidneybean", "kidney bean", crop)
+		d$crop <- gsub("kidneybean", "kidney bean", crop)
 		if (d$crop[1] == "potato") {
 			d$yield_part <- "tubers"
 		} else if (d$crop[1] %in% c("maize", "kidney bean")) {

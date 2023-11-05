@@ -80,9 +80,9 @@ carob_script <- function(path) {
 			biomass_total = r$Biomass.t.ha * 1000,
 			residue_yield = r$Straw.yield.t.ha * 1000,
 			yield = r$Grain.yield.t.ha * 1000,
-			emergence= r$X100.emergence.DAS,
-			flowering= r$X50.anthesis.DAS,
-			maturity = r$X80.physiological.maturity.DAS,
+			emergence= r$X100pct.emergence.DAS,
+			flowering= r$X50pct.anthesis.DAS,
+			maturity = r$X80pct.physiological.maturity.DAS,
 			dataset_id = dataset_id,
 			N_fertilizer = r$N.kg.ha,
 			P_fertilizer = r$P2O5.kg.ha / 2.29,
@@ -129,7 +129,7 @@ carob_script <- function(path) {
 
 
 	fun <- function(f) {
-		#print(basename(f)); flush.console()
+#		print(basename(f)); flush.console()
 		r <- get_raw_data(f)
 		d <- process_data(r)
 
