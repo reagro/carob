@@ -14,35 +14,35 @@ carob_script <- function(path) {
 Farmer participatory on-farm trials with CA technologies comparing with farmersâ€™ practices (CT), were conducted in several fields in each community. Likewise, farmer-participatory alternative cropping systems trials were conducted comparing to existing systems and to find out suitable and more profitable cropping systems, prioritized to increase visibility and to avoid implementation and management problems that emerge when utilizing small plots with significant edge effects. Most trials were replicated in several fields within each community and were farmer-managed with backstopping from project staff and NARES partners. Project partners and staff coordinated monitoring and data acquisition. Where possible, collaborating farmers were selected by the community, and the project worked with existing farmer groups, with groups of both men and women farmers.
   "
   
-  uri <- "hdl:11529/10547997"
-  dataset_id <- carobiner::simple_uri(uri)
-  group <- "conservation_agriculture"
-  ## dataset level data 
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    project="Rabi (winter) crops-all nodes-Alternative cropping systems trial-Sunsari-Nepal",
-    uri=uri,
-    data_citation= "Gathala, Mahesh K. (CIMMYT) - ORCID: 0000-0001-8282-2953, Tiwari, Thakur P. (CIMMYT), Islam, Saiful (CIMMYT) - ORCID: 0000-0002-6482-5031, Shrestha, Renuka (Nepal Agricultural Research Council), Shrestha, H.K. (Nepal Agricultural Research Council), Manandhar, S. (Nepal Agricultural Research Council) - ORCID: 0000-0002-6353-3539, Shrestha, Shukra Raj (Nepal Agricultural Research Council).",
-    publication= NA,
-    data_institutions = "CIMMYT",
-    data_type="on-farm experiment",
-    carob_contributor="Fredy chimire",
-    carob_date="2023-10-31",
-    revised_by="Robert Hijmans"
-  )
-  
-  ## download and read data 
-  
-	ff  <- carobiner::get_data(uri, path, group)
+	uri <- "hdl:11529/10547997"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "conservation_agriculture"
+	## dataset level data 
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		project="Rabi (winter) crops-all nodes-Alternative cropping systems trial-Sunsari-Nepal",
+		uri=uri,
+		data_citation= "Gathala, Mahesh K.; Tiwari, Thakur P.; Islam, Saiful; Shrestha, Renuka; Shrestha, H.K.; Manandhar, S.; Shrestha, Shukra Raj, 2018. 4.4-Rabi (winter) crops-all nodes-Alternative cropping systems trial-Sunsari-Nepal. https://hdl.handle.net/11529/10547997, CIMMYT Research Data & Software Repository Network, V1",
+		publication= NA,
+		data_institutions = "CIMMYT",
+		data_type="on-farm experiment",
+		carob_contributor="Fredy chimire",
+		carob_date="2023-10-31",
+		revised_by="Robert Hijmans",
+		revision_date="2023-11-04"
+	)
+	
+	## download and read data 
+	
+	ff	<- carobiner::get_data(uri, path, group)
 	## is duplicate??: Maize-Rabi 2015-16-ACS-Saalbani-Sunsar.xlsx"
 	sf <- c('Kidneybean-Rabi 2015-16-ACS-Saalbani-Sunsari.xlsx', 'Maize-Rabi 2015-16-ACS-Saalbani-Sunsari.xlsx', 'Maize-Rabi 2016-17-ACS-Bhokraha-Sunsari.xlsx', 'Maize-Rabi 2016-17-ACS-Saalbani-Sunsari.xlsx', 'Mustard-Rabi 2015-16-ACS-Saalbani-Sunsari.xlsx', 'Potato-Rabi 2016-17-ACS-Bhokraha-Sunsari.xlsx', 'Sunflower-Rabi 2016-17-ACS-Saalbani-Sunsari.xlsx')
 	ff <- ff[basename(ff) %in% sf]
 
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
- # dset$license <- "not specified" #carobiner::get_license(js)
 	dset$license <- carobiner::get_license(js)
-    
+		
 	get_raw_data <- function(f) {
 		r1 <- carobiner::read.excel.hdr(f, sheet ="4- Stand counts & Phenology", skip=4, hdr=2)
 		r2 <- carobiner::read.excel.hdr(f, sheet ="14 - Grain Harvest ", skip=4, hdr=2)
@@ -60,14 +60,14 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	}
 
 	
-  #### about the data #####
+	#### about the data #####
 
 	process_data <- function(r) {
-  
+	
 		d <- data.frame(trial_id = as.character(r$Trial.Code), season = r$Season,
 			crop=tolower(r$Crop), variety= r$Variety, 
 			treatment = r$Tmnt, 
-			yield = r$Grain.yield.t.ha * 1000,  
+			yield = r$Grain.yield.t.ha * 1000,	
 			biomass_total = r$Biomass.t.ha * 1000,
 			residue_yield = r$Straw.yield.t.ha * 1000,
 			N_fertilizer = r$N.kg.ha,
@@ -127,7 +127,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 			d$location <- "Saalbani"
 		}
 		crop <- tolower(strsplit(basename(f), "-")[[1]][1])
-#		d$crop <- gsub("kidneybean", "kidney bean", crop)
+		d$crop <- gsub("kidneybean", "kidney bean", crop)
 		if (d$crop[1] == "potato") {
 			d$yield_part <- "tubers"
 		} else if (d$crop[1] %in% c("maize", "kidney bean")) {

@@ -3,6 +3,7 @@
 ## ISSUES
 # ....
 
+# TO DO: Fertilizers
 
 carob_script <- function(path) {
 
@@ -37,199 +38,65 @@ carob_script <- function(path) {
 	dset$license <- carobiner::get_license(js)
 
 
-	f <- "C:Users/user/Documents/DataAnalysis/carob-ZambiaDataset/data/raw/maize_trials/hdl_11529_10825/Summary Zambia On-farm Demonstration 2006-2015.xls"
-library("readxl")
-	r <- read_excel(f)
-	r <- readxl::read_excel(f,sheet = "Zambia all sites all maize") |> as.data.frame()
-	r1 <- readxl::read_excel(f,sheet = "Zambia all legume all years") |> as.data.frame()
+	f <- ff[basename(ff) == "Summary Zambia On-farm Demonstration 2006-2015.xls"]
+	r1 <- carobiner::read.excel(f, sheet = "Zambia all sites all maize", fix_names=TRUE)
+	r2 <- carobiner::read.excel(f, sheet = "Zambia all legume all years", fix_names=TRUE)
 	
-## process file(s)
 ############################### Zambia all sites all maize#####################
-## use a subset
-	d <- r
-
+	d1 <- data.frame(adm2=r1[,3], location=r1[,4], treatment=r1$Tmnt, 
+			yield=r1$Grain.yield.kg.ha, residue_yield=r1$Stalk.yield.kg.ha, 
+			rep=r1$Rep, trial_id=r1$site.rep, crop=tolower(r1$Crop.grown), 
+			plant_density=r1$Final.stand.pl.ha, harvest_date=as.character(r1[,2]))
+	# one missing value
+	d1$crop[is.na(d1$crop)] <- "maize"
 	
-#### about the data #####
-## (TRUE/FALSE)
-
-	d$dataset_id <- dataset_id
-	d$on_farm <- TRUE
-	d$is_survey <- FALSE
-	d$is_experiment <- TRUE
-	d$irrigated <- FALSE
-## the treatment code	
-	d$treatment <- d$Tmnt.
-
-##### Location #####
-## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
-## you can use carobiner::fix_name()
-	d$country <- "Zambia"
-	d$site <- NA 
-	d$adm1 <- d$District
-	d$adm2 <- d$Village
-	d$adm3 <- NA
-	d$elevation <- NA
-## each site must have corresponding longitude and latitude
-## see carobiner::geocode
-	d$longitude[d$adm1=="Monze"] <- 27.4733
-	d$latitude[d$adm1=="Monze"] <- 16.2803
-	d$longitude[d$adm1=="Chipata"] <- 32.6447
-	d$latitude[d$adm1=="Chipata"] <- 13.6445
-	d$longitude[d$adm1=="Lundazi"] <- 33.1745
-	d$latitude[d$adm1=="Lundazi"] <- 12.2849
-	d$longitude[d$adm2=="Waya"] <- 27.9833
-	d$latitude[d$adm2=="Waya"] <- 14.3667
-	d$longitude[d$adm2=="Chibombo"] <- 28.0889
-	d$latitude[d$adm2=="Chibombo"] <- 14.6554
-	d$longitude[d$adm2=="Chanje"] <- 32.8515
-	d$latitude[d$adm2=="Chanje"] <- 13.3812
-	d$longitude[d$adm2=="Kawalala"] <- 31.8080
-	d$latitude[d$adm2=="Kawalala"] <- -14.1996
-	d$longitude[d$adm2=="Mafumbwe"] <- 32.1747
-	d$latitude[d$adm2=="Mafumbwe"] <- -14.3067
-	d$longitude[d$adm2=="Mtaya"] <- 32.0500
-	d$latitude[d$adm2=="Mtaya"] <- -14.3067
-	d$longitude[d$adm2=="Waya Camp"] <- 27.9833 
-	d$latitude[d$adm2=="Waya Camp"] <- 14.3667
-
-##### Crop #####
-## normalize variety names
-## see carobiner::fix_name
-	d$crop <- d$`Crop grown`
-	d$variety <- NA
-
-##### Time #####
-## time can be year (four characters), year-month (7 characters) or date (10 characters).
-## use 	as.character(as.Date()) for dates to assure the correct format.
-	d$planting_date <- NA
-	d$harvest_date  <- d$`Harvest Year`
-
 ##### Fertilizers #####
 ## note that we use P and K, not P2O5 and K2O
 ## P <- P2O5 / 2.29
 ## K <- K2O / 1.2051
-   d$P_fertilizer <- NA
-   d$K_fertilizer <- NA
-   d$N_fertilizer <- NA 
-   d$S_fertilizer <- NA
-   d$lime <- NA
-## normalize names 
-   d$fertlizer_type <- NA
-   d$inoculated <- FALSE
-   d$inoculant <- NA
    
-##### in general, add comments to your script if computations are
-##### based on information gleaned from metadata, a publication, 
-##### or when they are not immediately obvious for other reasons
+   
+   
+   
 
-##### Yield #####
-	d$biomass_total <- NA
-  d$plant_density <- d$`Final stand (pl/ha)`
-	d$yield <- d$`Grain yield (kg/ha)`
-	d$residue_yield <- d$`Stalk yield (kg/ha)`
-	#what plant part does yield refer to?
-	d$yield_part <- "grain"
-	
- d <- d[,c("dataset_id","is_experiment","on_farm","irrigated","is_survey","inoculated","inoculant","country","adm1","adm2","longitude","latitude","crop","treatment","plant_density","harvest_date","yield_part","residue_yield","yield")]	
-########################END OF Zambia all sites all maize##########################################
-	
 ###########################Zambia all legume all years#############################################
 
-		 ## use a subset
-	r1 <- readxl::read_excel(f,sheet = "Zambia all legume all years") |> as.data.frame()	
-	d1 <- r1
-  
-  
-  #### about the data #####
-  ## (TRUE/FALSE)
-  
-  d1$dataset_id <- dataset_id
-  d1$on_farm <- TRUE
-    d1$is_survey <- FALSE
-    d1$is_experiment <- TRUE
-    d1$irrigated <- FALSE
-    ## the treatment code	
-    d1$treatment <- d1$Tmnt
-    
-    ##### Location #####
-  ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
-  ## you can use carobiner::fix_name()
-  d1$country <- "Zambia"
-    d1$site <- NA
-    d1$adm1 <- d1$District
-    d1$adm2 <- d1$Village
-    d1$adm3 <- NA
-    d1$elevation <- NA
-  ## each site must have corresponding longitude and latitude
-  ## see carobiner::geocode
-    d1$longitude[d1$adm1=="Monze"] <- 27.4733
-    d1$latitude[d1$adm1=="Monze"] <- 16.2803
-    d1$longitude[d1$adm1=="Chipata"] <- 32.6447
-    d1$latitude[d1$adm1=="Chipata"] <- 13.6445
-    d1$longitude[d1$adm1=="Lundazi"] <- 33.1745
-    d1$latitude[d1$adm1=="Lundazi"] <- 12.2849
-    d1$longitude[d1$adm2=="Waya"] <- 27.9833
-    d1$latitude[d1$adm2=="Waya"] <- 14.3667
-    d1$longitude[d1$adm2=="Chibombo"] <- 28.0889
-    d1$latitude[d1$adm2=="Chibombo"] <- 14.6554
-    d1$longitude[d1$adm2=="Chanje"] <- 32.8515
-    d1$latitude[d1$adm2=="Chanje"] <- 13.3812
-    d1$longitude[d1$adm2=="Kawalala"] <- 31.8080
-    d1$latitude[d1$adm2=="Kawalala"] <- -14.1996
-    d1$longitude[d1$adm2=="Mafumbwe"] <- 32.1747
-    d1$latitude[d1$adm2=="Mafumbwe"] <- -14.3067
-    d1$longitude[d1$adm2=="Mtaya"] <- 32.0500
-      d1$latitude[d1$adm2=="Mtaya"] <- -14.1067
-      d1$longitude[d1$adm2=="Waya Camp"] <- 27.9833 
-    d1$latitude[d1$adm2=="Waya Camp"] <- 14.3667
-  
-    
-    ##### Crop #####
-  ## normalize variety names
-  ## see carobiner::fix_name
-  d1$crop <- d1$`Crop grown`
-    d1$variety <- NA
-    
-    ##### Time #####
-  ## time can be year (four characters), year-month (7 characters) or date (10 characters).
-  ## use 	as.character(as.Date()) for dates to assure the correct format.
-  d1$planting_date <- NA
-  d1$harvest_date  <- d1$`Harvest Year`
-  
-  ##### Fertilizers #####
-  ## note that we use P and K, not P2O5 and K2O
-  ## P <- P2O5 / 2.29
-  ## K <- K2O / 1.2051
-  d1$P_fertilizer <- NA
-    d1$K_fertilizer <- NA
-    d1$N_fertilizer <- NA
-    d1$S_fertilizer <- NA
-    d1$lime <- NA
-    ## normalize names 
-    d1$fertlizer_type <- NA
-    d1$inoculated <- FALSE
-  d1$inoculant <- NA
-    
-    ##### in general, add comments to your script if computations are
-    ##### based on information gleaned from metadata, a publication, 
-    ##### or when they are not immediately obvious for other reasons
-    
-    ##### Yield #####
-  d1$biomass_total <- NA
-  d1$plant_density <- d1$`Final stand (pl/ha)`
-   d1$residue_yield <- d1$`Stalk yield (kg/ha)` 
-    d1$yield <- d1$`Grain yield (kg/ha)`
-    #what plant part does yield refer to?
-    d1$yield_part <- "grain" 
-    
-    d1 <- d1[,c("dataset_id","is_experiment","on_farm","is_survey","irrigated","inoculated","inoculant","country","adm1","adm2","longitude","latitude","crop","treatment","plant_density","harvest_date","yield_part","residue_yield","yield")]
-    
-  
+	d2 <- data.frame(adm2=r2[,3], location=r2[,4], treatment=r2$Tmnt, 
+			yield=r2$Grain.yield.kg.ha, residue_yield=r2$Stalk.yield.kg.ha, 
+			trial_id=r2$Site.rep, crop=tolower(r2$Crop.grown), 
+			plant_density=r2$Final.stand.pl.ha, harvest_date=as.character(r2[,2]))
+
+
+##### Fertilizers #####
+
+
+	d <- carobiner::bindr(d1, d2)
+
+	geo <- data.frame(
+		adm2 = c("Chibombo", "Chipata", "Chipata", "Chipata", "Chipata", "Kabwe", "Kabwe", "Katete", "Katete", "Lundazi", "Lundazi", "Monze"), 
+		location = c("Chibombo", "Chanje", "Kapara", "Kayowozi", "Mtaya", "Waya", "Waya Camp", "Kafumbwe", "Kawalala", "Hoya", "Vuu", "Malende"), 
+		longitude = c(28.0889, 32.8515, 32.517, 32.588, 32.05, 27.9833, 27.9833, 32.065, 31.808, 33.154, 33.0356, 27.606), 
+		latitude = c(-14.6554, -13.3812, -13.519, -13.692, -14.3067, -14.3667, -14.3667, -14.063, -14.1996, -12.27, -12.267, -16.013))
+
+	d$location[d$location == "Waya camp"] <- "Waya Camp"	
+	d <- merge(d, geo, by=c("adm2", "location"), all.x=TRUE)
+	
+
+	d$dataset_id <- dataset_id
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
+	d$irrigated <- FALSE
+	d$country <- "Zambia"
+	d$yield_part <- "grain" 
+	d$inoculated <- FALSE
+
+	d$crop <- gsub("cowpeas", "cowpea", d$crop)
+	d$planting_date <- as.character(NA)
+	d$rep <- as.integer(d$rep)
+	d$trial_id <- as.character(d$trial_id)
+
+	d <- d[!is.na(d$yield), ]
+
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
-
-## now test your function in a clean R environment 
-# path <- _____
-# carob_script(path)
-
