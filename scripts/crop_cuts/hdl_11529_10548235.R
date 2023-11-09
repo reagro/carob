@@ -37,19 +37,21 @@ carob_script <- function(path) {
 	dset$license <- carobiner::get_license(js)
 
 	f <- ff[basename(ff) == "TZ_TAMASA_APS_2017_Yield_MetaData.xlsx"]
-	d <- carobiner::read.excel(f, sheet = "Corrected-Raw-Data", n_max = 1835)
+	r <- carobiner::read.excel(f, sheet = "Corrected-Raw-Data", n_max = 1835)
+
+	d <- data.frame(yield = r$`Grain yield (kg/ha@12.5%)`, dataset_id=dataset_id)
 	d$country <- "Tanzania"
-	d$adm1 <- d$Zone
-	d$adm2 <- d$Region 
-	d$adm3 <- d$District
-	d$adm4 <- d$Ward 
+	d$adm1 <- r$Zone
+	d$adm2 <- r$Region 
+	d$adm3 <- r$District
+	d$adm4 <- r$Ward 
 	
-	d$location <- d$Village
-	d$site <- d$Hamlet
-	d$trial_id <- paste0(d$HHID, "-", d$QID)
-	d$latitude <- d$Latitude
-	d$longitude <- d$Longitude
-	d$elevation <- d$Altitude
+	d$location <- r$Village
+	d$site <- r$Hamlet
+	d$trial_id <- paste0(r$HHID, "-", r$QID)
+	d$latitude <- r$Latitude
+	d$longitude <- r$Longitude
+	d$elevation <- r$Altitude
 	
 	d$planting_date <- "2016-05-01"
 	d$harvest_date <- "2016-12-01"
@@ -57,14 +59,8 @@ carob_script <- function(path) {
 	d$is_survey <- TRUE
 	d$crop <- "maize"
 	d$yield_part <- "grain"
-	# d$yield <- d$`FWt of Cobs_all (kg)`*4 # FWt of Cobs_all (kg) = Fresh Weight of Cobs in Quadrat (25m2)
-	d$yield <- d$`Grain yield (kg/ha@12.5%)` # Grain yield at 12.5% moisture
+
+	d <- d[!is.na(d$yield), ]
 	
-	# process file(s)
-	d <- d[,c("country", "trial_id", "location", "site","latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "crop", "yield_part", "yield", "adm1", "adm2", "adm3", "adm4")]
-	d$dataset_id <- dataset_id
-
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
-
 }

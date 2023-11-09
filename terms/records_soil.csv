@@ -4,6 +4,7 @@ soil_pH,numeric,,no,,no,3,9,yes,Soil pH (H2O),,http://purl.obolibrary.org/obo/EN
 soil_pH_KCl,numeric,,no,,no,3,9,yes,Soil pH (KCl),,http://purl.obolibrary.org/obo/ENVO_09200010
 soil_pH_CaCl2,numeric,,no,,no,3,10,yes,Soil pH (KCl),,http://purl.obolibrary.org/obo/ENVO_09200010
 soil_SOC,numeric,%,no,,no,0,20,yes,Soil organic carbon,,
+soil_SOM,numeric,%,no,,no,0,20,yes,Soil organic matter,,
 soil_sand,numeric,%,no,,no,0,100,yes,Soil sand content (excluding gravel),,
 soil_clay,numeric,%,no,,no,0,100,yes,Soil clay content (excluding gravel),,http://purl.obolibrary.org/obo/ENVO_00002982
 soil_silt,numeric,%,no,,no,0,100,yes,Soil silt content (excluding gravel),,
@@ -26,3 +27,9 @@ soil_EC,numeric,mS/cm,no,,no,0,20,yes,Soil electric conductivity,,
 soil_bd,numeric,g/cm^-3,no,,no,0,20,yes,Soil bulk density,,
 soil_sample_top,numeric,cm,no,,no,0,200,yes,Soil sampling depth (top),,
 soil_sample_bottom,numeric,cm,no,,no,0,200,yes,Soil sampling depth (bottom),,
+soil_CEC,numeric,,no,,no,0,200,yes,Cation Exchange Capacity,,
+soil_Ex_Ca,numeric,mg/kg,no,,no,0,200,yes,Soil exchangeable Ca,,
+soil_Ex_Mg,numeric,mg/kg,no,,no,0,200,yes,Soil exchangeable Mg,,
+soil_Ex_K,numeric,mg/kg,no,,no,0,200,yes,Soil exchangeable K,,
+soil_Ex_Na,numeric,mg/kg,no,,no,0,200,yes,Soil exchangeable Na,,
+soil_Ex_Al,numeric,mg/kg,no,,no,0,200,yes,Soil exchangeable Al,,

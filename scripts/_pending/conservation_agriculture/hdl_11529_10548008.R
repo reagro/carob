@@ -33,6 +33,11 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
+	
+	ff <- ff[grep("xlsx$", ff)]
+
+	# process all ff files, below only the first one 
+
 
 	f <- ff[basename(ff) == "Rabi 2016-17-validation trials-all nodes-Rangpur.xlsx"]
 
