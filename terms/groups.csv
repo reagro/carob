@@ -1,5 +1,5 @@
 name,include,description
-fertilizer,crop; soil,crop fertilizer trials
+fertilizer,crop; fertilizer_type; soil,crop fertilizer trials
 crop_cuts,crop; soil,crop cut data
 maize_trials,crop; soil,maize variety trials
 rice_trials,crop; soil,rice variety trials
