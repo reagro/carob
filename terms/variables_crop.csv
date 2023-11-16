@@ -24,7 +24,7 @@ yield_part,character,,yes,yield_part,no,,,no,"The part of the crop that ""yield"
 yield,numeric,kg/ha,yes,,no,0,150000,no,"Fresh weight biomass of the main harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000176 
 residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight biomass of the above ground biomass except for the harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000164 
 grain_weight,numeric,g,no,,no,0,1000,yes,1000 grain weight,,http://purl.obolibrary.org/obo/TO_0000382
-fertilizer_type,character,,no,fertilizer,yes,,,yes,Name of fertilizer used,,http://purl.obolibrary.org/obo/CHEBI_33287
+fertilizer_type,character,,no,fertilizer_type,yes,,,yes,Name of fertilizer used,,http://purl.obolibrary.org/obo/CHEBI_33287
 N_fertilizer,numeric,kg/ha,fertilizer,,no,0,600,no,N applied in inorganic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000158
 N_splits,integer,,no,,no,0,5,yes,Number of splits in the N_fertilizer application,,
 P_fertilizer,numeric,kg/ha,fertilizer,,no,0,250,no,"P applied in inorganic fertilizer (as P, not P2O5)",,http://purl.obolibrary.org/obo/AGRO_00000160 
