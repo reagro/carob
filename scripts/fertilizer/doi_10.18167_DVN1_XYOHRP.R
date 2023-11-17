@@ -62,9 +62,9 @@ carob_script <- function(path) {
    d$crop_rotation[d$crop_rotation=="RR"] <- "rice"
    d$crop_rotation[d$crop_rotation=="RVC"] <- "cereal; legume"
    d$crop_rotation[d$crop_rotation=="RSC"] <- "cereal"
-   d$yield <- d$yield*1000 # in kg/ha
+   d$yield <- d$yield*1000 
    d$weeds_biomass <- d$weeds_biomass*1000 # in kg/ha
-   d$biomass_total <- d$biomass_total*1000 # in kg/ha
+   d$dmy_total <- d$dmy_total*1000 # in kg/ha
 
    # add columns
    

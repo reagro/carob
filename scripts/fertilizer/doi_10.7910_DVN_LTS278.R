@@ -120,7 +120,7 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 	dv$trial_id <- 'Blendedfert'
 
 	dv$yield <- as.numeric(dv$yield)
-	dv$biomass_total <- as.numeric(dv$biomass_total)
+	dv$dmy_total <- as.numeric(dv$dmy_total)
 
 	dv$rep <- as.integer(dv$rep)
 

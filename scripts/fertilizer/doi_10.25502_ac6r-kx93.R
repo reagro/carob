@@ -200,7 +200,7 @@ h_year <- 2014 # harvest year
   
   # get the grain and biomass yield/ha
   dabia_crop1$yield <- round(10000 * as.numeric(dabia_crop1$grain_weight_kg_shelled_grain.kg) / dabia_crop1$plot_size,3)
-  dabia_crop1$biomass_total <- round(10000 * as.numeric(dabia_crop1$above_ground_biomass_weight_husks_stover_res.kg) / dabia_crop1$plot_size,3)
+  dabia_crop1$dmy_total <- round(10000 * as.numeric(dabia_crop1$above_ground_biomass_weight_husks_stover_res.kg) / dabia_crop1$plot_size,3)
   
   dabia_crop1 <- dabia_crop1[,c('ssid','farm_id','plot','yield', 'biomass_total')]
   

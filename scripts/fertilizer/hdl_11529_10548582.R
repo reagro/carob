@@ -67,7 +67,7 @@ carob_script <- function(path) {
 	d$yield_part <- "grain"
 	
 	d$BIOMASS[d$BIOMASS == "."] <- NA 
-	d$biomass_total <- as.numeric(d$BIOMASS)
+	d$dmy_total <- as.numeric(d$BIOMASS)
 	d$`YIELD 12%`[d$`YIELD 12%` == "."] <- NA
 	d$yield <- as.numeric(d$`YIELD 12%`)
 	d$STRAW[d$STRAW == "."] <- NA

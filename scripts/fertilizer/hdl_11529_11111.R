@@ -90,13 +90,13 @@ carob_script <- function(path) {
 	#Year 2015 - 1X1 sq meter in gm 
 	#Year 2016 - 2X2 sq meter in Kg
 	# to calculate in kg/ha
-	d$biomass_total <- ifelse(r$Year == 2013, biom * 400,
+	d$dmy_total <- ifelse(r$Year == 2013, biom * 400,
 					 ifelse(r$Year == 2014, biom * 2000,
 					 ifelse(r$Year == 2015, biom * 10, 
 					 biom * 2500)))
 	
 	# RH: all the values above 10000 are really suspect relative to grain yield
-	d$biomass_total[d$biomass_total > 50000] <- NA
+	d$dmy_total[d$dmy_total > 50000] <- NA
 	
 	d$planting_date <- as.character(as.Date(d$planting_date, format = "%d-%b-%y")) 
 	i <- is.na(d$planting_date)

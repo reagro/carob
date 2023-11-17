@@ -89,7 +89,7 @@ print("Shumirai Manzvera check if these are correct for all treatments")
 
 
 ##### Yield #####
-	d1$biomass_total <- r1$`Biomass yield (kg/ha)`
+	d1$dmy_total <- r1$`Biomass yield (kg/ha)`
 	#what plant part does yield refer to?
 	d1$yield_part <- "grain"
 	d1$yield <- r1$`Grain/cotton yield (kg/ha)`

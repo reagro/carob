@@ -54,7 +54,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	   
 	   d$yield<- d$yield*1000 # in kg/ha
 	   d$residue_yield<- d$residue_yield*1000 # in kg/ha
-	   d$biomass_total<- d$biomass_total*1000 # in kg/ha
+	   d$dmy_total<- d$dmy_total*1000 # in kg/ha
 	   d$crop<- carobiner::fix_name(d$crop,"lower")
 	   d$trial_id<- paste(d$adm1,d$variety,sep = "_")
 	   ## data type

@@ -57,7 +57,7 @@ carob_script <- function(path) {
   d$yield_part <- "grain"
   # efyrouwa : could the units be in tons/ha?, if so then convert 
   d$yield <- d$yield * 1000 
-  d$biomass_total <- d$biomass_total * 1000 
+  d$dmy_total <- d$dmy_total * 1000 
   
   # Assign country names based on location on which experiment was made
   

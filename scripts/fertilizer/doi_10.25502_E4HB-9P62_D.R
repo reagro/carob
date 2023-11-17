@@ -70,7 +70,7 @@ carob_script <- function(path) {
 	d[, c("above_ground_dry_biomass", "root_dry_weight_roots_no_nodules","nodule_dry_weight")] <- 
 		lapply(d[, c("above_ground_dry_biomass", "root_dry_weight_roots_no_nodules","nodule_dry_weight")], as.numeric)
 	
-	d$biomass_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules+d$nodule_dry_weight)
+	d$dmy_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules+d$nodule_dry_weight)
 	
 	d$fertilizer_type <- ifelse(d$sub_treatment_inoc %in% c("DAP", "TSP", "TSP/KCl","none", "TSP/KCl/urea", "PK 6/urea"), d$sub_treatment_inoc, NA)
 	d$fertilizer_type[d$fertilizer_type == "PK 6/urea"] <- "urea"

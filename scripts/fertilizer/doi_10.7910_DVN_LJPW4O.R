@@ -65,7 +65,7 @@ carob_script <- function(path) {
 						  biomass[, c("Site", "Season", "season", "Block", "Treatment")], FUN=mean)
 	d1 <- merge(d, biomass1, by = intersect(names(d), names(biomass1)), all.x = TRUE)
 	# 5 plants sampled; 53.333 plants/ha
-	d1$biomass_total <- ((d1$`Dry weight with roots (g)` * 10.666))/1000
+	d1$dmy_total <- ((d1$`Dry weight with roots (g)` * 10.666))/1000
 	d1$Plot <- biomass$Plot
 	
 	# Adding Treatment information

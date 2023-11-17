@@ -55,7 +55,7 @@ carob_script <- function(path){
   d$yield <- d$grain_yield_ha_calc
   d$residue_yield <- d$tot_stover_yield_haulm_husks_calc
   d$biomass_roots <- d$root_dry_weight_roots_no_nodules
-  d$biomass_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules + d$nodule_dry_weight)
+  d$dmy_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules + d$nodule_dry_weight)
   d$grain_weight <- as.numeric(d$dry_weight_100_seeds)*10 # to get the 1000 grain weight
   
   y <- carobiner::fix_name(d$main_treatment)

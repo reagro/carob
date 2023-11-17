@@ -64,13 +64,13 @@ carob_script  <- function(path) {
 	## fix yield value
 	d$yield <- gsub("\\*",NA,d$yield)
 	d$biomass_leaves <- gsub("\\*", NA, d$biomass_leaves)
-	d$biomass_total <- gsub("\\*", NA, d$biomass_total)
+	d$dmy_total <- gsub("\\*", NA, d$dmy_total)
 	d <- d[!is.na(d$yield),] ## remove NA in yield	
 	#data type
 	d$rep <- as.integer(d$rep)
 	d$yield <- (as.numeric(d$yield))*1000 # in kg/ha
 	d$biomass_leaves <- (as.numeric(d$biomass_leaves))*1000 # in kg/ha
-	d$biomass_total <- (as.numeric(d$biomass_total))*1000 # in kg/ha
+	d$dmy_total <- (as.numeric(d$dmy_total))*1000 # in kg/ha
 	d$planting_date <- as.character(d$planting_date)
 	
 	### fix the bounds error 

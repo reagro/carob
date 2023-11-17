@@ -79,7 +79,7 @@ carob_script <- function(path) {
 	r$latitude <- ifelse(r$site =="DTC",-17.4833,-17.7829)
 	r$longitude <- ifelse(r$site =="DTC",31.1000,31.0569)
 	r$crop <- "maize"
-	r$biomass_total <- r$Biomass
+	r$dmy_total <- r$Biomass
 	r$yield <- r$Grain
 	r$planting_date <- as.character(r$Season)
 	r$rep <- r$Replicate

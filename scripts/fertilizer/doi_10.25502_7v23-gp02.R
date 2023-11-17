@@ -191,7 +191,7 @@ carob_script <- function(path) {
 	d$yield <- (as.numeric(d$yield) / plot_size) * 10000 # kg/ha
 	d$yield_part <- "seed"
 	d$residue_yield <- (as.numeric(d$residue) / plot_size) * 10000 # kg/ha
-	d$biomass_total <- (as.numeric(d$biomass_total) / plot_size) * 10000 # kg/ha
+	d$dmy_total <- (as.numeric(d$dmy_total) / plot_size) * 10000 # kg/ha
 	
 	# Other
 	d$irrigated <- FALSE

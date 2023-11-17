@@ -80,7 +80,7 @@ carob_script <- function(path){
 	d[, i] <- lapply(d[, i], as.numeric)
 	
 	d$biomass_roots <- d$root_dry_weight_roots_no_nodules
-	d$biomass_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules +
+	d$dmy_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules +
 							d$nodule_dry_weight)
 	
 	#subset the processed variables

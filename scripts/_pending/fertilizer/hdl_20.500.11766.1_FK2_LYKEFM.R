@@ -81,7 +81,7 @@ Please contact author and contact person at ICARDA to obtain more detailed metad
    d$latitude <- 12.28333
    
    ##  fix biomass_total range
-   #d$biomass_total[d$biomass_total>20000]<- NA
+   #d$dmy_total[d$dmy_total>20000]<- NA
    ## CN 
    # the plant_height values are lower than the valmin in record.csv (10cm) which doesn't make sense. The unit is given in cm, but I suppose this is probably an error.Should we remove the variable ?
    

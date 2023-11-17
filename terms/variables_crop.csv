@@ -15,14 +15,14 @@ variety_type,character,,no,,no,,,yes,variety grouping (e.g. climbing/bush),,
 intercrops,character,,no,crop,yes,,,yes,Other crop grown together with the main crop,,
 previous_crop,character,,no,crop,yes,,,yes,Crop grown on this plot in the prior season,,
 crop_rotation,character,,no,crop,yes,,,yes,Crops grown in rotation on this plot,,
-biomass_roots,numeric,kg/ha,no,,no,0,5000,yes,Dry-weight biomass of fine roots per unit area,,http://purl.obolibrary.org/obo/PO_0009005 
-biomass_stems,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of stems per unit area,,http://purl.obolibrary.org/obo/PO_0009047 
-biomass_leaves,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of leaves per unit area,,http://purl.obolibrary.org/obo/TO_0000870 
-biomass_storage,numeric,kg/ha,no,,no,0,50000,yes,Dry-weight biomass of storage organs per unit area,,
-biomass_total,numeric,kg/ha,no,,no,0,100000,yes,Dry-weight total biomass per unit area,,http://purl.obolibrary.org/obo/PO_0000003
+dmy_root,numeric,kg/ha,no,,no,0,5000,yes,Dry-weight biomass of fine roots per ha,,
+dmy_stem,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of stems per ha,,
+dmy_leaves,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of leaves per ha,,
+dmy_storage,numeric,kg/ha,no,,no,0,50000,yes,Dry-weight biomass of storage organs per ha,,
+dmy_total,numeric,kg/ha,no,,no,0,100000,yes,Dry-weight total biomass per ha,,
 yield_part,character,,yes,yield_part,no,,,no,"The part of the crop that ""yield"" refer to (e.g. grain, tubers, roots, leaves, fruit)",,
-yield,numeric,kg/ha,yes,,no,0,150000,no,"Fresh weight biomass of the main harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000176 
-residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight biomass of the above ground biomass except for the harvestable parts at maturity, per unit area",,http://purl.obolibrary.org/obo/AGRO_00000164 
+yield,numeric,kg/ha,yes,,no,0,150000,no,"Fresh weight biomass of the main harvestable parts at maturity, per ha",,http://purl.obolibrary.org/obo/AGRO_00000176 
+residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight of the above ground biomass except for the harvestable parts at maturity, per ha",,http://purl.obolibrary.org/obo/AGRO_00000164 
 grain_weight,numeric,g,no,,no,0,1000,yes,1000 grain weight,,http://purl.obolibrary.org/obo/TO_0000382
 fertilizer_type,character,,no,fertilizer_type,yes,,,yes,Name of fertilizer used,,http://purl.obolibrary.org/obo/CHEBI_33287
 N_fertilizer,numeric,kg/ha,fertilizer,,no,0,600,no,N applied in inorganic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000158

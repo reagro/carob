@@ -79,7 +79,7 @@ Agricultural Water Management 98: 1364-1372
 	d$soil_N <- NA
 	d$soil_K <- NA
 	d$soil_pH <- NA
-	d$biomass_total <- NA
+	d$dmy_total <- NA
 	d$soil_sand <- NA
 	d$soil_clay <- NA
 	d$rain <- as.numeric(d$rain)
@@ -90,8 +90,8 @@ Agricultural Water Management 98: 1364-1372
 	z <- z[, c("Year", "Treat", "Grain", "Total", "Rainfall")]
 	colnames(z) <- c("year", "treatment", "yield", "biomass_total", "rain")
 	z$yield <- as.numeric(z$yield) * 1000
-	z$biomass_total[z$biomass_total == "."] <- NA
-	z$biomass_total <- as.numeric(z$biomass_total) * 1000
+	z$dmy_total[z$dmy_total == "."] <- NA
+	z$dmy_total <- as.numeric(z$dmy_total) * 1000
 	i <- which(colnames(z) %in% c("yield", "biomass_total"))
 	z <- aggregate(z[,i], z[,-i], mean)
 

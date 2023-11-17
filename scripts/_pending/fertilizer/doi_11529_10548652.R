@@ -140,25 +140,25 @@ carob_script <- function(path) {
 	d18$plant_density <- d18$`Harvest Pop.`
 	d19$plant_density <- d19$`Harvest Pop.`
 	
-	d$biomass_total <- d$BIOMASS
-	d2$biomass_total <- d2$BIOMASS
-	d3$biomass_total <- d3$BIOMASS
-	d4$biomass_total <- d4$BIOMASS
-	d5$biomass_total <- d5$BIOMASS
-	d6$biomass_total <- d6$BIOMASS
-  d7$biomass_total <- d7$BIOMASS
-  d8$biomass_total <- d8$BIOMASS
-  d9$biomass_total <- d9$BIOMASS
-  d10$biomass_total <- d10$Biomass
-  d11$biomass_total <- d11$Biomass
-	d12$biomass_total <- d12$BIOMASS
-	d13$biomass_total <- d13$BIOMASS
-	d14$biomass_total <- d14$BIOMASS
-	d15$biomass_total <- d15$BIOMASS
-	d16$biomass_total <- d16$BIOMASS
-	d17$biomass_total <- d17$BIOMASS
-	d18$biomass_total <- d18$BIOMASS
-	d19$biomass_total <- d19$BIOMASS
+	d$dmy_total <- d$BIOMASS
+	d2$dmy_total <- d2$BIOMASS
+	d3$dmy_total <- d3$BIOMASS
+	d4$dmy_total <- d4$BIOMASS
+	d5$dmy_total <- d5$BIOMASS
+	d6$dmy_total <- d6$BIOMASS
+  d7$dmy_total <- d7$BIOMASS
+  d8$dmy_total <- d8$BIOMASS
+  d9$dmy_total <- d9$BIOMASS
+  d10$dmy_total <- d10$Biomass
+  d11$dmy_total <- d11$Biomass
+	d12$dmy_total <- d12$BIOMASS
+	d13$dmy_total <- d13$BIOMASS
+	d14$dmy_total <- d14$BIOMASS
+	d15$dmy_total <- d15$BIOMASS
+	d16$dmy_total <- d16$BIOMASS
+	d17$dmy_total <- d17$BIOMASS
+	d18$dmy_total <- d18$BIOMASS
+	d19$dmy_total <- d19$BIOMASS
   
 
 ##### Time #####

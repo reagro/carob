@@ -82,7 +82,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 	d$yield <- as.numeric(d$grain_yield_kgperha)
 	d <- d[d$yield > 0,]
 	d$residue_yield <- as.numeric(d$total_yield_stover_kg_per_ha)
-	d$biomass_total <- as.numeric(d$calc_weight_a_ground_biomass_kg)
+	d$dmy_total <- as.numeric(d$calc_weight_a_ground_biomass_kg)
 	d$grain_weight <- d$dry_weight_100_seed_g * 10
 	d <- d[,c("trial_id","rep","treatment","variety","planting_date","harvest_date","plant_density","yield",
 			"residue_yield","biomass_total","grain_weight")]
