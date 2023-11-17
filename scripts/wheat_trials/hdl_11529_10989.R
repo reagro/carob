@@ -1,8 +1,7 @@
-R script for "carob"
+#R script for "carob"
 
 ## ISSUES
 # ....
-# specify path parameter
 
 carob_script <- function(path) {
   
@@ -19,18 +18,12 @@ The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that c
     group=group,
     project="The Elite Selection Wheat Yield Trial",
     uri=uri,
-    ## if there is a paper, include the paper's doi here
-    ## also add a RIS file in references folder (with matching doi)
     publication = NA,
     data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2018, '36th Elite Selection Wheat Yield Trial', https://hdl.handle.net/11529/10989, CIMMYT Research Data & Software Repository Network, V4, UNF:6:kLxFsNDa8qNxvzNvutGQiQ== [fileUNF]",
     data_institutions = "CIMMYT",
-    carob_contributor="Mitchelle Njukuya",
+    carob_contributor="Mitchelle Njukuya, Blessing Dzuda",
     carob_date="2023-11-14",
-    
-    ## something like randomized control...
-    data_type="on-station experiment"
-    
-    
+    data_type="on-station experiment" 
   )
   
   ## download and read data 
@@ -47,3 +40,4 @@ The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that c
   # all scripts must end like this
   carobiner::write_files(path, dset, d)
 }
+
