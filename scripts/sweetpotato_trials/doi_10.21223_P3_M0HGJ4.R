@@ -40,7 +40,7 @@ carob_script  <- function(path) {
 	r <- carobiner::read.excel(ff[bn=="Drought_06_08.xls"])  
 	
 	d <- r[,c("YEAR","TREATMENT","REP","CULTIVAR","RYTHA","FYTHA","BIOM")]
-	colnames(d) <- c("planting_date","irrigation","rep","treatment","yield","biomass_leaves","dmy_total")
+	colnames(d) <- c("planting_date","irrigation","rep","treatment","yield","dmy_leaves","dmy_total")
 	
 
 	## add columns
@@ -76,7 +76,7 @@ carob_script  <- function(path) {
 	### fix the bounds error 
 	d$dmy_leaves[d$dmy_leaves>20000] <- NA 
 	##CN
-	# Most biomass_leaves values are out of range. Could we perhaps review the maximum biomass_leave limit in record_crops.csv?
+	# Most dmy_leaves values are out of range. Could we perhaps review the maximum biomass_leave limit in record_crops.csv?
 	
 	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)

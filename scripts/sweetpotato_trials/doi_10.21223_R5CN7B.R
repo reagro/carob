@@ -37,12 +37,12 @@ carob_script <- function(path) {
    r <- carobiner::read.excel(ff[bn=="Genetic_Gain_Trials_Peru_Cost_Amazon_90_120_days_full_data_.xlsx"])  
    
    d<- r[,c("trial_name","planting_date","season","loc","cipno","geno","harvest","rep","rytha","fe","zn","ca","mg","bytha","fytha")]
-   colnames(d)<- c("trial_id","planting_date","season","location","variety","treatment","harvest","rep","yield","leaf_Fe","leaf_Zn","leaf_Ca","leaf_Mg","residue_yield","biomass_leaves")
+   colnames(d)<- c("trial_id","planting_date","season","location","variety","treatment","harvest","rep","yield","leaf_Fe","leaf_Zn","leaf_Ca","leaf_Mg","residue_yield","dmy_leaves")
    
    d$yield<- d$yield*1000 # in kg/ha
    
    ##CN
-### The unit of residue_yield and biomass_leaves is unclear: it is given in tons/ha, but after conversion to kg/ha, almost all values are  out of bounds.
+### The unit of residue_yield and dmy_leaves is unclear: it is given in tons/ha, but after conversion to kg/ha, almost all values are  out of bounds.
    #d$residue_yield<- d$residue_yield*1000 # in kg/ha
    #d$dmy_leaves<- d$dmy_leaves*1000
    d<- d[!is.na(d$yield),] ## remove NA in yield

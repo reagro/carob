@@ -52,7 +52,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   e <- d[-1,]
 
   e <- e[,c("Rep","N","D","V","Straw dry weight kg/ha","Adjusted 14% grains dry weight kg/ha")]
-  colnames(e) <- c('rep','N_fertilizer','spacing','variety','biomass_leaves','yield')
+  colnames(e) <- c('rep','N_fertilizer','spacing','variety','dmy_leaves','yield')
 
   e[e=="NA"] <- NA
 
@@ -86,7 +86,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
  e["variety"][e["variety"]=="4"] <- "v4 - WAB 56-50"
 
  ##re-order
- e <- e[, c("rep","dataset_id","trial_id","country","on_farm","is_survey","planting_date","harvest_date","crop","N_fertilizer","variety","yield","biomass_leaves","plant_spacing","row_spacing")]       
+ e <- e[, c("rep","dataset_id","trial_id","country","on_farm","is_survey","planting_date","harvest_date","crop","N_fertilizer","variety","yield","dmy_leaves","plant_spacing","row_spacing")]       
  
  carobiner::write_files(dset, e, path, dataset_id, group)
 }
