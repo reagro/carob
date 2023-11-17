@@ -40,7 +40,7 @@ carob_script  <- function(path) {
 	r <- carobiner::read.excel(ff[bn=="Drought_06_08.xls"])  
 	
 	d <- r[,c("YEAR","TREATMENT","REP","CULTIVAR","RYTHA","FYTHA","BIOM")]
-	colnames(d) <- c("planting_date","irrigation","rep","treatment","yield","biomass_leaves","biomass_total")
+	colnames(d) <- c("planting_date","irrigation","rep","treatment","yield","biomass_leaves","dmy_total")
 	
 
 	## add columns
@@ -63,18 +63,18 @@ carob_script  <- function(path) {
 	
 	## fix yield value
 	d$yield <- gsub("\\*",NA,d$yield)
-	d$biomass_leaves <- gsub("\\*", NA, d$biomass_leaves)
+	d$dmy_leaves <- gsub("\\*", NA, d$dmy_leaves)
 	d$dmy_total <- gsub("\\*", NA, d$dmy_total)
 	d <- d[!is.na(d$yield),] ## remove NA in yield	
 	#data type
 	d$rep <- as.integer(d$rep)
 	d$yield <- (as.numeric(d$yield))*1000 # in kg/ha
-	d$biomass_leaves <- (as.numeric(d$biomass_leaves))*1000 # in kg/ha
+	d$dmy_leaves <- (as.numeric(d$dmy_leaves))*1000 # in kg/ha
 	d$dmy_total <- (as.numeric(d$dmy_total))*1000 # in kg/ha
 	d$planting_date <- as.character(d$planting_date)
 	
 	### fix the bounds error 
-	d$biomass_leaves[d$biomass_leaves>20000] <- NA 
+	d$dmy_leaves[d$dmy_leaves>20000] <- NA 
 	##CN
 	# Most biomass_leaves values are out of range. Could we perhaps review the maximum biomass_leave limit in record_crops.csv?
 	

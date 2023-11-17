@@ -40,7 +40,7 @@ carob_script <- function(path) {
    r <- read_excel(ff[bn=="DonneesDATAVERSE_F1.xlsx"],sheet = 3)  
    r$yield <- r$`Yield (14% moisture content)`
    d1 <- r[,c("Season","Rotation","yield","TotalWeedBiomass","RiceBiomassD5")]
-   colnames(d1) <- c("season","crop_rotation","yield","weeds_biomass","biomass_total")
+   colnames(d1) <- c("season","crop_rotation","yield","weeds_biomass","dmy_total")
    
    ### Fertilizer file
    r1 <- read_excel(ff[bn=="DonneesDATAVERSE_F1.xlsx"],sheet = 2) 

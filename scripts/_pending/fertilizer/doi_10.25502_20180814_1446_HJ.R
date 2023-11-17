@@ -124,7 +124,7 @@ carob_script <- function(path) {
   d$dmy_total <- d$TStoverYld + d$TGrainYld
   d$yield <- d$CobFW
   
-  d <- d[,c("dataset_id", "on_farm", "is_survey", "irrigated", "treatment", "country", "adm1", "location", "site", "longitude", "latitude", "crop", "variety", "planting_date", "harvest_date", "P_fertilizer", "K_fertilizer", "N_fertilizer", "fertilizer_type", "yield_part", "biomass_total", "yield")]
+  d <- d[,c("dataset_id", "on_farm", "is_survey", "irrigated", "treatment", "country", "adm1", "location", "site", "longitude", "latitude", "crop", "variety", "planting_date", "harvest_date", "P_fertilizer", "K_fertilizer", "N_fertilizer", "fertilizer_type", "yield_part", "dmy_total", "yield")]
 
     
   # all scripts must end like this

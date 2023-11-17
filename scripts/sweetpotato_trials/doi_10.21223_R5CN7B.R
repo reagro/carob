@@ -44,7 +44,7 @@ carob_script <- function(path) {
    ##CN
 ### The unit of residue_yield and biomass_leaves is unclear: it is given in tons/ha, but after conversion to kg/ha, almost all values are  out of bounds.
    #d$residue_yield<- d$residue_yield*1000 # in kg/ha
-   #d$biomass_leaves<- d$biomass_leaves*1000
+   #d$dmy_leaves<- d$dmy_leaves*1000
    d<- d[!is.na(d$yield),] ## remove NA in yield
    ## add columns
    d$crop <- "sweetpotato" 

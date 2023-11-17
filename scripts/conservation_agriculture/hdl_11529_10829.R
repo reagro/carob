@@ -65,11 +65,11 @@ The data set presents yields for maize and the legumes from these sites over 10 
 	colnames(d1) <- c("harvest_date", "adm1", "location", "rep", "crop", "treatment", "residue_yield", "yield", "fname")
 
 	d2 <- r2[,  c("Site", "Tmnt.", "Crop grown", "Final stand (pl/ha)", "Grain yield (kg/ha)", "total Biomass yield (kg/ha)",  "Year", "Site name", "Plot No.")]
-	colnames(d2) <- c("location", "treatment", "crop", "plant_density", "yield", "biomass_total", "harvest_date", "fname", "rep")
+	colnames(d2) <- c("location", "treatment", "crop", "plant_density", "yield", "dmy_total", "harvest_date", "fname", "rep")
 
 	# third data set
 	d3 <- r3[, c("Year", "Site name", "Tmnt.", "Crop grown", "Final stand (pl/ha)", "total Biomass yield (kg/ha)", "Grain yield (kg/ha)", "Farmer")]
-	colnames(d3) <- c("harvest_date", "location", "treatment", "crop", "plant_density", "biomass_total", "yield", "fname")
+	colnames(d3) <- c("harvest_date", "location", "treatment", "crop", "plant_density", "dmy_total", "yield", "fname")
 
 #joining tables
 	d <- carobiner::bindr(d1,  d2,  d3)

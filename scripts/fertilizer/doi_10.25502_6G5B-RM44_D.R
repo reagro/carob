@@ -4,15 +4,8 @@ carob_script <- function(path){
   "
  Title: N2Africa agronomy trials - Kenya, 2011
  
- Description: N2Africa is to contribute to increasing biological nitrogen fixation and productivity 
- of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, 
- improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, 
- N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit 
- from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants 
- and fertilizers adapted to local settings. A strong national expertise in grain legume production and 
- N2-fixation research and development will be the legacy of the project.The project is implemented in 
- five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, 
- Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
+ Description: N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and 
+ N2-fixation research and development will be the legacy of the project.The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   "
   
 uri <- "doi:10.25502/6G5B-RM44/D"
@@ -75,9 +68,9 @@ dset <- data.frame(
 		c("MRP","TSP/KCl urea","TGX1835-10F","KENAY MAVUNO","KAT B 9","KAT X 56","NEW ROSCOCO","NONE","UMUBANO","GASIRIDA","RWV1129","NAMSOY 4M"),
 		c("unknown","TSP/KCl/urea","TGX 1835-10F","Kenya Mavuno","KAT B9","KAT X56","New Roscoco","none","Umubano","Gasilida","RWV 1129","NAMSOY"))
 	d$sub_treatment_inoc <- de
-	d$treatment <- paste("main treatment: ",d$main_treatment," | ",
-											 "inoculant treatment: " ,d$sub_treatment_inoc," | ",
-											 "fertilizer treatment: " ,d$sub_treatment_fert)
+	d$treatment <- paste("main treatment: ", d$main_treatment," | ",
+				"inoculant treatment: ", d$sub_treatment_inoc," | ",
+				 "fertilizer treatment: ", d$sub_treatment_fert)
 
 	ft <- ifelse(d$sub_treatment_inoc %in% c("unknown", "DAP", "TSP/KCl", "TSP/KCl/urea", "TSP","none"), d$sub_treatment_inoc, 
 		ifelse( d$sub_treatment_fert %in% c("unknown","TSP/KCl","TSP/KCl/urea","DAP","TSP","KCl","none"), d$sub_treatment_fert,NA))
@@ -91,7 +84,7 @@ dset <- data.frame(
 	d$variety <- v
 
 	d$dmy_roots <- d$root_dry_weight_roots_no_nodules
-	d$dmy_total <- d$above_ground_dry_biomass + d$biomass_roots + d$nodule_dry_weight
+	d$dmy_total <- d$above_ground_dry_biomass + d$dmy_roots + d$nodule_dry_weight
 	d$residue_yield <- d$tot_stover_yield_haulm_husks_calc
 	d$yield <- d$grain_yield_ha_calc
 
@@ -100,7 +93,7 @@ dset <- data.frame(
 	d$grain_weight <- d$dry_weight_100_seeds*10 # converting to g per 1000 seeds
 	d <- d[d$yield > 0,]
 
-	d <- d[,c("experiment_id","rep","variety","planting_date","harvest_date","treatment","fertilizer_type","inoculated","plant_density","grain_weight","biomass_roots","biomass_total","residue_yield","yield")]
+	d <- d[,c("experiment_id","rep","variety","planting_date","harvest_date","treatment","fertilizer_type","inoculated","plant_density","grain_weight","dmy_roots","dmy_total","residue_yield","yield")]
 
 	f1 <- ff[basename(ff) == "soil_properties.csv"]
 	d1 <- read.csv(f1)
@@ -153,7 +146,7 @@ dset <- data.frame(
 
 	d4$K_fertilizer <- ifelse(grepl("KCl", d4$fertilizer_type), 30, 0)
 	d4$N_splits <- ifelse(grepl("urea",d4$fertilizer_type), 2L, 0L)
-	d4 <- d4[, c("dataset_id","trial_id","country","location","latitude", "longitude", "elevation","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","plant_density","grain_weight","biomass_roots","biomass_total", "residue_yield","yield","fertilizer_type","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH", "soil_K", "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm")]
+	d4 <- d4[, c("dataset_id","trial_id","country","location","latitude", "longitude", "elevation","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","plant_density","grain_weight","dmy_roots","dmy_total", "residue_yield","yield","fertilizer_type","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH", "soil_K", "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm")]
 
 	d4$yield_part <- "seed"
 

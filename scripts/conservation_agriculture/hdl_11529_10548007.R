@@ -86,7 +86,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 				treatment=r4$Tmnt, trial_id=r4$Site.No, 
 				yield=r4$Grain.yield.t.ha * 1000,
 				residue_yield=r4$Straw.yield.t.ha * 1000,
-				biomass_total=r4$Biomass.t.ha * 1000)
+				dmy_total=r4$Biomass.t.ha * 1000)
 
 		## merge all 
 		dd <- merge(d1, d2, by=c("treatment", "trial_id"), all.x=TRUE)

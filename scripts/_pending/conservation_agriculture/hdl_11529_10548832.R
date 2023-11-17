@@ -49,7 +49,7 @@ carob_script <- function(path) {
   
   # efyrouwa: you can use carobiner::change_names, 
   # look at the documentation on the function above to understand better.
-  d <- carobiner::change_names(r,c("Location","Season","Rep","Clay","Sand","OrgC","Biomass","Grain","System","Nitrogen","Phosphorus","Potassium"),c("location","planting_date","rep","soil_clay","soil_sand","soil_SOC","biomass_total","yield","treatment", "soil_N", "soil_P_total","soil_K"))
+  d <- carobiner::change_names(r,c("Location","Season","Rep","Clay","Sand","OrgC","Biomass","Grain","System","Nitrogen","Phosphorus","Potassium"),c("location","planting_date","rep","soil_clay","soil_sand","soil_SOC","dmy_total","yield","treatment", "soil_N", "soil_P_total","soil_K"))
   d$dataset_id <- dataset_id
   d$on_farm <- FALSE
   d$is_survey <- FALSE

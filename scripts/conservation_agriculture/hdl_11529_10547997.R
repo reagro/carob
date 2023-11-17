@@ -68,7 +68,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 			crop=tolower(r$Crop), variety= r$Variety, 
 			treatment = r$Tmnt, 
 			yield = r$Grain.yield.t.ha * 1000,	
-			biomass_total = r$Biomass.t.ha * 1000,
+			dmy_total = r$Biomass.t.ha * 1000,
 			residue_yield = r$Straw.yield.t.ha * 1000,
 			N_fertilizer = r$N.kg.ha,
 			P_fertilizer = r$P2O5.kg.ha / 2.29,

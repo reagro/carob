@@ -67,7 +67,7 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 	colnames(dh) <- c("Rep","Trt","GY kg/ha","BM kg/ha","country","adm3","year")
 
 	dv <- rbind(dh,dg,df,de)
-	colnames(dv) <- c("rep","treatment","yield","biomass_total","country","adm3","planting_date")
+	colnames(dv) <- c("rep","treatment","yield","dmy_total","country","adm3","planting_date")
 
 	#####Change Treatment
 	dv$N_fertilizer <- 0

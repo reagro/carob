@@ -44,7 +44,7 @@ Please contact author and contact person at ICARDA to obtain more detailed metad
     
     r <- read.csv(ff[bn=="Mandie_s_Farm.csv"],sep = ";")
     r1 <- read.csv(ff[bn=="Worku_s_Farm.csv"],sep = ";") 
-    newname<- c("year","treatment","rep","plant_height","biomass_total","yield")
+    newname<- c("year","treatment","rep","plant_height","dmy_total","yield")
     oldname<- c("Year","Treatment","Replicate","Plant_Height","Biomass","Yield")
     d1<- carobiner::change_names(r[,c("Year","Treatment","Replicate","Plant_Height","Biomass","Yield")],oldname,newname)
     d2<- carobiner::change_names(r1[,c("Year","Treatment","Replicate","Plant_Height","Biomass","Yield")],oldname,newname)
@@ -80,7 +80,7 @@ Please contact author and contact person at ICARDA to obtain more detailed metad
    d$longitude<- 37.5
    d$latitude <- 12.28333
    
-   ##  fix biomass_total range
+   ##  fix dmy_total range
    #d$dmy_total[d$dmy_total>20000]<- NA
    ## CN 
    # the plant_height values are lower than the valmin in record.csv (10cm) which doesn't make sense. The unit is given in cm, but I suppose this is probably an error.Should we remove the variable ?

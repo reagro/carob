@@ -77,7 +77,7 @@ carob_script <- function(path) {
 			treatment = r$Tmnt,
 			crop=tolower(r$Crop), variety= r$Variety, 
 			season=r$Season, 
-			biomass_total = r$Biomass.t.ha * 1000,
+			dmy_total = r$Biomass.t.ha * 1000,
 			residue_yield = r$Straw.yield.t.ha * 1000,
 			yield = r$Grain.yield.t.ha * 1000,
 			emergence= r$X100pct.emergence.DAS,

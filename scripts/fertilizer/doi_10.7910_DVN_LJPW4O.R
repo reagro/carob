@@ -123,7 +123,7 @@ carob_script <- function(path) {
 	     c("Site", "pH", "N (%)", "K (ppm)", "P (ppm)", "Sand (%)", "Clay (%)"),
 	     c("site", "soil_pH", "soil_N", "soil_K", "soil_P_total", "soil_sand", "soil_clay"))
 		 	 
-	d <- d[,c("country", "adm1", "adm2", "adm3", "latitude", "longitude", "site", "planting_date", "harvest_date", "season", "on_farm", "is_survey", "crop", "variety", "variety_code", "biomass_total", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "OM_used", "OM_type", "OM_applied", "OM_N", "OM_P", "OM_K", "soil_pH", "soil_N", "soil_K", "soil_P_total", "soil_sand", "soil_clay", "irrigated", "row_spacing","plant_spacing")]
+	d <- d[,c("country", "adm1", "adm2", "adm3", "latitude", "longitude", "site", "planting_date", "harvest_date", "season", "on_farm", "is_survey", "crop", "variety", "variety_code", "dmy_total", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "OM_used", "OM_type", "OM_applied", "OM_N", "OM_P", "OM_K", "soil_pH", "soil_N", "soil_K", "soil_P_total", "soil_sand", "soil_clay", "irrigated", "row_spacing","plant_spacing")]
 
 	id <- ifelse(d$site == "Kawanda", seq(1,sum(d$site == "Kawanda")), 
 										seq(1,sum(d$site == "Namulonge")))

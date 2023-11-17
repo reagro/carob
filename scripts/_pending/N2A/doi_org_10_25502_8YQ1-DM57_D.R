@@ -82,7 +82,7 @@ Mozambique, Kenya & Zimbabwe) as tier one countries.
 	n <- read.csv(n)
 	n <- n[,c(3,4,7,8)]
 	names(n)
-	names(n) <- c('farm_id',"rep", "biomass_total", "yield")
+	names(n) <- c('farm_id',"rep", "dmy_total", "yield")
 	
 	d <- Reduce(function(...) merge(..., all=T), list(b,k,n))
 	names(d)

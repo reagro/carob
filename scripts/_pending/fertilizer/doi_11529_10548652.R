@@ -199,7 +199,7 @@ carob_script <- function(path) {
 ## normalize names 
    d$fertlizer_type <- 
 	
-	d<- d[, c("country","adm1","site","latitude","longitude","elevation","planting_date","crop","rep","treatment","plant_density","N_fertilizer","yield","yield_part","biomass_total")]
+	d<- d[, c("country","adm1","site","latitude","longitude","elevation","planting_date","crop","rep","treatment","plant_density","N_fertilizer","yield","yield_part","dmy_total")]
 	
 	
 # all scripts must end like this

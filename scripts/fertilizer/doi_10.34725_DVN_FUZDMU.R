@@ -88,11 +88,11 @@ Agricultural Water Management 98: 1364-1372
 	f <- ff[basename(ff) == "Msekera data.xls"]
 	z <- as.data.frame(readxl::read_excel(f))
 	z <- z[, c("Year", "Treat", "Grain", "Total", "Rainfall")]
-	colnames(z) <- c("year", "treatment", "yield", "biomass_total", "rain")
+	colnames(z) <- c("year", "treatment", "yield", "dmy_total", "rain")
 	z$yield <- as.numeric(z$yield) * 1000
 	z$dmy_total[z$dmy_total == "."] <- NA
 	z$dmy_total <- as.numeric(z$dmy_total) * 1000
-	i <- which(colnames(z) %in% c("yield", "biomass_total"))
+	i <- which(colnames(z) %in% c("yield", "dmy_total"))
 	z <- aggregate(z[,i], z[,-i], mean)
 
 	z$year <- z$year + 1994

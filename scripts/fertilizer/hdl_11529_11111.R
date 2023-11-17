@@ -127,7 +127,7 @@ carob_script <- function(path) {
 	d$latitude[i] <- d$longitude[i]
 	d$longitude[i] <- tmp
 		
-#	d <- d[, c("trial_id","dataset_id","country","adm1","adm2","latitude","longitude","crop","variety","planting_date","transplanting_date","harvest_date","treatment","yield_part","on_farm","is_survey","fertilizer_type", "N_fertilizer","P_fertilizer","K_fertilizer","biomass_total","yield")]
+#	d <- d[, c("trial_id","dataset_id","country","adm1","adm2","latitude","longitude","crop","variety","planting_date","transplanting_date","harvest_date","treatment","yield_part","on_farm","is_survey","fertilizer_type", "N_fertilizer","P_fertilizer","K_fertilizer","dmy_total","yield")]
 		# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
