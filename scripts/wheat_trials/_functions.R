@@ -105,7 +105,6 @@ proc_wheat <- function(ff) {
 	r$row_spacing <- as.numeric(r$SPACE_BTN_ROWS_SOWN)
 	r$crop <- "wheat"
 	r$variety_code <- r$Gen_name
-
 	m <- matrix(byrow=TRUE, ncol=2, c(
 		"AJOS", "garlic",
 		"AJO", "garlic",
@@ -121,6 +120,7 @@ proc_wheat <- function(ff) {
 		"AMAN RCIE", "rice",
 		"AMARANTO", "amaranth",
 		"ARVEJA", "pea",
+		"ARVEJAS PARA CONGELADO", "arveja",
 		"AVENA+VICI", "oats; vetch", 
 		"AVENA+VICIA", "oats; vetch", 
 		"AVENA + VICIA", "oats; vetch", 
@@ -134,6 +134,7 @@ proc_wheat <- function(ff) {
 		"BEANS&POTATOES", "common bean; potato",
 		"BERSEEM (FODDER)", "berseem clover",
 		"BLEND", NA,
+		"BRASICA NAPUS", "rapeseed",
 		"BRASICA  NAPUS", "rapeseed",
 		"CARTAMO", "safflower",
 		"CANOLA", "rapeseed",
@@ -179,6 +180,7 @@ proc_wheat <- function(ff) {
 		"DURUM  WHEAT", "wheat",
 		"BREAD WHEAT", "wheat",
 		"TRIGO HARI", "wheat",
+		"WEED FREE FALLOW", "no crop",
 		"FALLOW", "no crop",		
 		"FALLOWED", "no crop",
 		"FABABEAN", "faba bean",
@@ -213,10 +215,11 @@ proc_wheat <- function(ff) {
 		"LABLAB PURPUREUS", "lablab",
 		"LAGUME CROP(SOYABEAN)", "soybean",
 		"LEAVES VEGETABLE FOLLOWED BY MAIZE", "vegetables; maize",
-		"LECHUGA", "lettuce",		
+		"LECHUGA", "lettuce",
 		"LEGUMES", "legume", 
 		"LEGUME", "legume",
 		"LEGUMINOUS", "legume",
+		"LEGUMINOSA", "legume",
 		"LEGUMINOSAS", "legume",
 		"LEGUMINOSAE", "legume",
 		"LENTILS", "lentil",
@@ -347,6 +350,7 @@ proc_wheat <- function(ff) {
 		"SOGO", "sorghum",
 		"SORGO", "sorghum", 
 		"SORGO FORR", "sorghum", 
+		"SAYABEAN", "soybean", 
 		"SOJA BEANS", "soybean", 
 		"SOYBEAN JS-335", "soybean", 
 		"SOYBEAN-JS 335", "soybean", 
@@ -421,6 +425,7 @@ proc_wheat <- function(ff) {
 		"VICIA LABA", "faba bean",
 		"VECIA  FABA", "faba bean", 
 		"VIGNA RADIATA", "mung bean", 
+		"VIGRA  RADIATA", "mung bean", 
 		"V. RADIATA MOONG", "mung bean", 
 		"VES", "vetch",
 		"VEZA", "vetch",
