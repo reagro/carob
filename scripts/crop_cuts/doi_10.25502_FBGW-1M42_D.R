@@ -26,7 +26,7 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
       https://doi.org/10.25502/FBGW-1M42/D", 
       publication= NA, 
       data_institutions = "IITA", 
-      carob_contributor="cedric Ngakou", 
+      carob_contributor="Cedric Ngakou", 
       carob_date="2023-11-18", 
       data_type="survey"
       

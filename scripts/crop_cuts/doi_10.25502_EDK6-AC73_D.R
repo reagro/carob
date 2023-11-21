@@ -26,7 +26,7 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
       https://doi.org/10.25502/EDK6-AC73/D", 
       publication= NA, 
       data_institutions = "IITA", 
-      carob_contributor="cedric Ngakou", 
+      carob_contributor="Cedric Ngakou", 
       carob_date="2023-11-21", 
       data_type="survey"
       
@@ -51,7 +51,9 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
    d$plant_density <- d$plant_density * 10000 # in plant/ha
    
    #add columns
-   d$crop<- "millet"
+   ## the data says "millet". Given that this is in Uganda, 
+   ## presumably this refers to finger millet 
+   d$crop<- "finger millet"
    d$dataset_id <- dataset_id
    d$country <- "Uganda"
    ##CN :I used the reverse function on GPS coordinate to obtain the location knowing long and lat coordinate.
