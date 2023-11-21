@@ -15,11 +15,11 @@ carob_script <- function(path) {
     The Global Yield Gap Atlas project (GYGA - http://yieldgap.org ) has undertaken a yield gap assessment following the protocol recommended by van Ittersum et. al. (van Ittersum et. al., 2013). This datafile holds the results for rainfed sorghum.The Global Yield Gap Atlas project (GYGA - http://yieldgap.org ) has undertaken a yield gap assessment following the protocol recommended by van Ittersum et. al. (van Ittersum et. al., 2013). This datafile holds the results for rainfed sorghum.
 "
 
-	uri <- "hdl:10568/68916"
-	dataset_id <- carobiner::simple_uri(uri)
-	group <- "crop_cuts"
+	uri <-"hdl:10568/68916"
+	dataset_id <-carobiner::simple_uri(uri)
+	group <-"crop_cuts"
 	## dataset level data 
-	dset <- data.frame(
+	dset <-data.frame(
 		dataset_id = dataset_id,
 		group=group,
 		project="The Global Yield Gap Atlas",
@@ -36,14 +36,14 @@ carob_script <- function(path) {
 
 ## download and read data 
 
-	f <- "C:/carob/data/raw/crop_cuts/"hdl:10568/68916"
-	path <- "C:/carob"
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-	dset$license <- carobiner::get_license(js)
+	f <-"C:/carob/data/raw/crop_cuts/"hdl:10568/68916"
+	path <-"C:/carob"
+	ff  <-carobiner::get_data(uri, path, group)
+	js <-carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
+	dset$license <-carobiner::get_license(js)
 	
 
-	r <- GygaRainfedSorghum 
+	r <-GygaRainfedSorghum 
 	
 
 	
@@ -56,29 +56,29 @@ carob_script <- function(path) {
 #### about the data #####
 ## (TRUE/FALSE)
 
-	d$dataset_id <- dataset_id
-	d$on_farm <- TRUE
-	d$is_survey <- FALSE
-	d$is_experiment <- TRUE 
-	d$irrigated <- FALSE
+	d$dataset_id <-dataset_id
+	d$on_farm <-TRUE
+	d$is_survey <-FALSE
+	d$is_experiment <-TRUE 
+	d$irrigated <-FALSE
 
 
 ##### Location #####
 ## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
 ## you can use carobiner::fix_name()
-	d$country <- d$COUNTRY
-	d$site <- d$STATIONNAME
+	d$country <-d$COUNTRY
+	d$site <-d$STATIONNAME
 	
-	d$elevation <- d$ELEVATION_METER
+	d$elevation <-d$ELEVATION_METER
 ## each site must have corresponding longitude and latitude
 ## see carobiner::geocode
-	d$longitude <- d$LONGITUDE
-	d$latitude <- d$LATITUDE
+	d$longitude <-d$LONGITUDE
+	d$latitude <-d$LATITUDE
 
 ##### Crop #####
 ## normalize variety names
 ## see carobiner::fix_name
-	d$crop <- d$CROP 
+	d$crop <-d$CROP 
  
 
 
@@ -88,7 +88,7 @@ carob_script <- function(path) {
 ##### Yield #####
 
 
-	d$yield <- d$YA
+	d$yield <-d$YA
 	
 	
 # all scripts must end like this
