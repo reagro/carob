@@ -25,7 +25,7 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="on-farm experiment",
-    carob_contributor="Fredy chimire",
+    carob_contributor="Fredy Chimere",
     carob_date="2023-11-07"
   )
   

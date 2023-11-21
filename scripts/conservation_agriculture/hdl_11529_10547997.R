@@ -27,7 +27,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="on-farm experiment",
-		carob_contributor="Fredy chimire",
+		carob_contributor="Fredy Chimere",
 		carob_date="2023-10-31",
 		revised_by="Robert Hijmans",
 		revision_date="2023-11-04"
