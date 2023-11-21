@@ -3,7 +3,7 @@
 
 ## ISSUES
 # ....
-## review by cedric Ngakou
+## review by Cedric Ngakou
 
 carob_script <- function(path) {
 

@@ -25,7 +25,7 @@ Increasing organic matter/carbon contents of soils is one option from a basket o
       https://doi.org/10.25502/CNE2-H823/D", 
       publication= NA, 
       data_institutions = "IITA", 
-      carob_contributor="cedric Ngakou", 
+      carob_contributor="Cedric Ngakou", 
       carob_date="2023-11-14", 
       data_type="survey"
       

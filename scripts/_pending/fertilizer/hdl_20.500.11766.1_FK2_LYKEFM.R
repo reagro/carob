@@ -29,7 +29,7 @@ Please contact author and contact person at ICARDA to obtain more detailed metad
       publication= NA, 
       data_institutions = "ICARDA", 
       data_type="on-farm experiment", 
-      carob_contributor="cedric Ngakou", 
+      carob_contributor="Cedric Ngakou", 
       carob_date="2023-11-10" 
       
    )
