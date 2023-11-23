@@ -38,7 +38,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 
 	##Convert First Row to Header
 	e <- d[,c(1,2,4,5,6,14,15,16)]
-	colnames(e) <- c('year', 'adm1','rep','P_fertilizer','variety','yield','biomass_stems','grain_weight')
+	colnames(e) <- c('year', 'adm1','rep','P_fertilizer','variety','yield','dmy_stems','grain_weight')
 	e$country <- "Nigeria"
 	e$crop <- "sorghum"
 	e$dataset_id <- dataset_id

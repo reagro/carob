@@ -96,7 +96,7 @@ carob_script <- function(path) {
    stop("there are many more soil variables")
   
 ##### Yield #####
-	d$biomass_total <- 
+	d$dmy_total <- 
 
 	d$yield <- r$`Average yield kg/ha or (Q1+Q2)/2`
 	#what plant part does yield refer to?

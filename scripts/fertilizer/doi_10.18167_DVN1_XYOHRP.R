@@ -4,9 +4,7 @@ carob_script <- function(path) {
    
    "
 	Description:
-	Dataset recording the observation of different variables related to rice growth, weeds, nitrogen content in rice biomass and grains, rice yield, macrofauna and grub countings, and nematodes under 3 different rotations
-	(one with rice followed by groundnut, one with rice followed by a cereal-legume mixture, one with rice followed by a legume mixture) and a rice monocropping during 4 years.in Malagasy highlands Climatic data (monthly) for the 4 years of the trial are also included (rainfall, temperature).
-	
+	Dataset recording the observation of different variables related to rice growth, weeds, nitrogen content in rice biomass and grains, rice yield, macrofauna and grub countings, and nematodes under 3 different rotations (one with rice followed by groundnut, one with rice followed by a cereal-legume mixture, one with rice followed by a legume mixture) and a rice monocropping during 4 years.in Malagasy highlands Climatic data (monthly) for the 4 years of the trial are also included (rainfall, temperature).
 "
    
    uri <-  "doi:10.18167/DVN1/XYOHRP"
@@ -40,7 +38,7 @@ carob_script <- function(path) {
    r <- read_excel(ff[bn=="DonneesDATAVERSE_F1.xlsx"],sheet = 3)  
    r$yield <- r$`Yield (14% moisture content)`
    d1 <- r[,c("Season","Rotation","yield","TotalWeedBiomass","RiceBiomassD5")]
-   colnames(d1) <- c("season","crop_rotation","yield","weeds_biomass","biomass_total")
+   colnames(d1) <- c("season","crop_rotation","yield","weeds_biomass","dmy_total")
    
    ### Fertilizer file
    r1 <- read_excel(ff[bn=="DonneesDATAVERSE_F1.xlsx"],sheet = 2) 
@@ -62,9 +60,9 @@ carob_script <- function(path) {
    d$crop_rotation[d$crop_rotation=="RR"] <- "rice"
    d$crop_rotation[d$crop_rotation=="RVC"] <- "cereal; legume"
    d$crop_rotation[d$crop_rotation=="RSC"] <- "cereal"
-   d$yield <- d$yield*1000 # in kg/ha
+   d$yield <- d$yield*1000 
    d$weeds_biomass <- d$weeds_biomass*1000 # in kg/ha
-   d$biomass_total <- d$biomass_total*1000 # in kg/ha
+   d$dmy_total <- d$dmy_total*1000 # in kg/ha
 
    # add columns
    

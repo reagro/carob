@@ -89,9 +89,9 @@ carob_script <- function(path){
 	#getting the biomass total 
 	d$above_ground_dry_biomass <- as.numeric(d$above_ground_dry_biomass)/1000 #  convert to kg
 	d$area_biomass_sampling <- as.numeric(d$area_biomass_sampling)
-	d$biomass_total <- 10000 * d$above_ground_dry_biomass / d$area_biomass_sampling  # to get kg/ha
+	d$dmy_total <- 10000 * d$above_ground_dry_biomass / d$area_biomass_sampling  # to get kg/ha
 	i <- d$area_biomass_sampling == 0
-	d$biomass_total[i] <- NA
+	d$dmy_total[i] <- NA
 
 	
 	# to get kg/ha
@@ -119,7 +119,7 @@ carob_script <- function(path){
 	d$P_fertilizer[v %in% c("DAP", "TSP", "TSP/KCL")] <- 30
 	d$K_fertilizer[v == "TSP/KCL"] <- 30
 	
-	d <- d[, c("trial_id","on_farm","treatment","crop", "planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","yield","grain_weight","residue_yield","biomass_total")]
+	d <- d[, c("trial_id","on_farm","treatment","crop", "planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","yield","grain_weight","residue_yield","dmy_total")]
 	
 	# combining the processed data sets to one
 	e <- merge(d1, d, by = "trial_id")

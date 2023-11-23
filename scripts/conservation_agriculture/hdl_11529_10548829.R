@@ -79,7 +79,7 @@ carob_script <- function(path) {
 	r$latitude <- ifelse(r$site =="DTC",-17.4833,-17.7829)
 	r$longitude <- ifelse(r$site =="DTC",31.1000,31.0569)
 	r$crop <- "maize"
-	r$biomass_total <- r$Biomass
+	r$dmy_total <- r$Biomass
 	r$yield <- r$Grain
 	r$planting_date <- as.character(r$Season)
 	r$rep <- r$Replicate
@@ -122,7 +122,7 @@ carob_script <- function(path) {
 	r$K_fertilizer <- 9.6
   
 	
-	d <- r[,c("trial_id","country","adm1","adm2","latitude","longitude","treatment","crop","biomass_total", "yield","yield_part","planting_date","dataset_id","on_farm","soil_clay","soil_sand","soil_silt","soil_SOC","row_spacing","plant_spacing","N_fertilizer","P_fertilizer","K_fertilizer")] 
+	d <- r[,c("trial_id","country","adm1","adm2","latitude","longitude","treatment","crop","dmy_total", "yield","yield_part","planting_date","dataset_id","on_farm","soil_clay","soil_sand","soil_silt","soil_SOC","row_spacing","plant_spacing","N_fertilizer","P_fertilizer","K_fertilizer")] 
 	
 
   # all scripts must end like this

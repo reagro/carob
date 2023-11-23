@@ -79,13 +79,13 @@ carob_script <- function(path){
 	i <- c("above_ground_dry_biomass", "root_dry_weight_roots_no_nodules", "nodule_dry_weight")
 	d[, i] <- lapply(d[, i], as.numeric)
 	
-	d$biomass_roots <- d$root_dry_weight_roots_no_nodules
-	d$biomass_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules +
+	d$dmy_roots <- d$root_dry_weight_roots_no_nodules
+	d$dmy_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules +
 							d$nodule_dry_weight)
 	
 	#subset the processed variables
 	
-	d <- d[,c("trial_id","rep","on_farm","planting_date","harvest_date","treatment","biomass_roots","biomass_total", "crop", "K_fertilizer","P_fertilizer","N_fertilizer","N_splits", "fertilizer_type", "inoculated", "yield")]
+	d <- d[,c("trial_id","rep","on_farm","planting_date","harvest_date","treatment","dmy_roots","dmy_total", "crop", "K_fertilizer","P_fertilizer","N_fertilizer","N_splits", "fertilizer_type", "inoculated", "yield")]
 
 	d1$trial_id <- d1$experiment_id
 	d1$country <- "Kenya"

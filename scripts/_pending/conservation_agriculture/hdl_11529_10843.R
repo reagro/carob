@@ -22,11 +22,11 @@ carob_script <- function(path) {
     group=group,
     project=NA,
     uri=uri,
-    data_citation="	Thierfelder, Christian (CIMMYT, Zimbabwe) - ORCID: 0000-0002-6306-7670,Blessing Mhlanga (CIMMYT, Zimbabwe) - ORCID: 0000-0003-4587-795X",
+    data_citation= ______,
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
-    carob_contributor="Fredy chimire",
+    carob_contributor="Fredy Chimere",
     carob_date="2023-08-26"
   )
   

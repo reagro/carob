@@ -52,10 +52,10 @@ carob_script <- function(path) {
   ## use a subset 
   from <- c("Village","District","State","Block","PreviousCrop","Variety","SowingDate","HarvestDate","BiomassYield","SowingSchedule","Latitude", "Longitude")
   
-  d <- carobiner::change_names(r[,from], from, c("location","adm2","adm1","site","previous_crop","variety","planting_date","harvest_date","biomass_total","treatment", "latitude", "longitude"))
+  d <- carobiner::change_names(r[,from], from, c("location","adm2","adm1","site","previous_crop","variety","planting_date","harvest_date","dmy_total","treatment", "latitude", "longitude"))
   d$planting_date <- as.character(format(as.Date(d$planting_date, format = "%Y.%m.%d"), format = "%Y-%m-%d"))
   d$harvest_date <- as.character(format(as.Date(d$harvest_date, format = "%Y.%m.%d"), format = "%Y-%m-%d"))
-  d$biomass_total <- (d$biomass_total)*1000 #to convert to kg/ha
+  d$dmy_total <- (d$dmy_total)*1000 #to convert to kg/ha
   d$longitude <- gsub(" ", "", d$longitude)
   d$longitude <- as.numeric(d$longitude)
   d$country <- "India"

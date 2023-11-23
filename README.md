@@ -2,10 +2,9 @@
 
 <img align="right" width="350" height="350" src="https://github.com/reagro/carob/raw/master/img/carob.png">
 
-The aim of the *Carob project* is to create reproducible workflows that reshape primary agricultural research data from experiments and surveys into a standard format, and to aggregate individual data sets into larger collections that can be used in further research.
+The aim of the *Carob project* is to create reproducible workflows that reshape primary agricultural research data from experiments and surveys into a standard format, and to aggregate individual data sets into larger collections that can be used in further research. 
 
 We do this by writing an R script for each individual dataset. Feel free to improve these scripts, or provide new ones through a pull request (see below for more info). 
-
 
 ### Get the data
 
@@ -26,5 +25,5 @@ if you use the data, run `carobiner::get_citations(data)` to get references for 
 
 ### Contribute 
 
-Contributions are welcomed via pull-requests. The best place to discover new data sets is the [Gardian](https://gardian.bigdata.cgiar.org/) website. See these [preliminary guidelines](https://github.com/reagro/carob/wiki/Guidelines).
+Carob is the *Extract, Transform, and Load* (ETL) framework supported by [CGIAR](https://www.cgiar.org/initiative/excellence-in-agronomy/) to support predictive agronomy analytics. Contributions are welcome from anyone, and they can be made via pull-requests. You can also raises issues on this github site. See these [preliminary guidelines](https://github.com/reagro/carob/wiki/Guidelines). A good place to discover new data sets is the [Gardian](https://gardian.bigdata.cgiar.org/) website. 
 

@@ -100,7 +100,7 @@ carob_script <- function(path) {
 		colnames(rrr) <- gsub(paste0("_plot_",i), "", colnames(rrr))
 		colnames(rrr)[1:2] <- c("trial_id", "treatment")
 		colnames(rrr) <- gsub("\\..*", "", colnames(rrr))
-		colnames(rrr)[c(3,4,6,7,8)] <- c("plot_width", "plot_length", "yield", "residue", "biomass_total")
+		colnames(rrr)[c(3,4,6,7,8)] <- c("plot_width", "plot_length", "yield", "residue", "dmy_total")
 		d <- rbind(d, rrr)
 	}
 	
@@ -191,7 +191,7 @@ carob_script <- function(path) {
 	d$yield <- (as.numeric(d$yield) / plot_size) * 10000 # kg/ha
 	d$yield_part <- "seed"
 	d$residue_yield <- (as.numeric(d$residue) / plot_size) * 10000 # kg/ha
-	d$biomass_total <- (as.numeric(d$biomass_total) / plot_size) * 10000 # kg/ha
+	d$dmy_total <- (as.numeric(d$dmy_total) / plot_size) * 10000 # kg/ha
 	
 	# Other
 	d$irrigated <- FALSE
@@ -216,7 +216,7 @@ carob_script <- function(path) {
 	d <- d[,c('trial_id','treatment','country','adm1','adm2','longitude','latitude',
 				'date','on_farm','is_survey','crop','variety',
 				'fertilizer_type','N_fertilizer','P_fertilizer','K_fertilizer','OM_used','OM_type','OM_applied', 'planting_date',
-				'yield', 'yield_part', 'residue_yield', 'biomass_total',
+				'yield', 'yield_part', 'residue_yield', 'dmy_total',
 				'irrigated', 'row_spacing', 'plant_spacing', 'plant_density')]
 	d$dataset_id <- dataset_id
 	

@@ -67,7 +67,7 @@ carob_script <- function(path) {
 	d$yield_part <- "grain"
 	
 	d$BIOMASS[d$BIOMASS == "."] <- NA 
-	d$biomass_total <- as.numeric(d$BIOMASS)
+	d$dmy_total <- as.numeric(d$BIOMASS)
 	d$`YIELD 12%`[d$`YIELD 12%` == "."] <- NA
 	d$yield <- as.numeric(d$`YIELD 12%`)
 	d$STRAW[d$STRAW == "."] <- NA
@@ -101,7 +101,7 @@ carob_script <- function(path) {
 	# process file(s)
 	d <- d[,c("country", "adm1", "adm2", "trial_id",
 		"latitude", "longitude", "planting_date", "harvest_date",
-		"on_farm", "is_survey", "rep", "crop", "biomass_total", "yield",
+		"on_farm", "is_survey", "rep", "crop", "dmy_total", "yield",
 		"fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer",
 		"residue_yield", "grain_weight", "irrigated", "tillage", "plant_density")]
 	
