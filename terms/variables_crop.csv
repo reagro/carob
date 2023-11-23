@@ -20,6 +20,7 @@ dmy_stems,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of stems per ha,,
 dmy_leaves,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of leaves per ha,,
 dmy_storage,numeric,kg/ha,no,,no,0,50000,yes,Dry-weight biomass of storage organs per ha,,
 dmy_total,numeric,kg/ha,no,,no,0,100000,yes,Dry-weight total biomass per ha,,
+dmy_residue,numeric,kg/ha,no,,no,0,100000,yes,Dry-weight residue biomass per ha,,
 yield_part,character,,yes,yield_part,no,,,no,"The part of the crop that ""yield"" refer to (e.g. grain, tubers, roots, leaves, fruit)",,
 yield,numeric,kg/ha,yes,,no,0,150000,no,"Fresh weight biomass of the main harvestable parts at maturity, per ha",,http://purl.obolibrary.org/obo/AGRO_00000176 
 residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight of the above ground biomass except for the harvestable parts at maturity, per ha",,http://purl.obolibrary.org/obo/AGRO_00000164 

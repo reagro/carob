@@ -47,6 +47,10 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	dd <- do.call(carobiner::bindr, d)
 	dd$dataset_id <- dataset_id
 
+	dd$planting_date[dd$planting_date == "92-93"] <- "1992"
+	dd$planting_date[dd$planting_date == "99-00"] <- "1999"
+	dd$planting_date[dd$planting_date == "00-01"] <- "2000"
+
 # all scripts must end like this
 	carobiner::write_files(dset, dd, path=path)
 }

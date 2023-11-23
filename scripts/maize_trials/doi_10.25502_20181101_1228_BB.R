@@ -72,8 +72,8 @@ in West Africa from 2013 to 2016.
 	d$country[d$location=="MANGA"] <- "Burkina Faso"
 	## each site must have corresponding longitude and latitude
 	loc <- data.frame(location = c("Ikenne", "KPEVE", "NYANKPALA", "FUMESUA", "ANGARADEBOU", "ZARIA", "MOKWA", "DUSU", "BAGAUDA", "IFE", "MAINA-HARI", "MANGA","Baba Ina"), 
-	longitude = c(3.6977469, 0.3326709, -0.981456, -1.5119402, 3.0412812, 7.6518533, 5.0544281, 12.366667, 8.38546, 4.5604451, 12.1577, -1.0723972,12.40664), 
-	latitude = c(6.9010051, 6.6851678, 9.400463, 6.7143898, 11.3228338, 11.0248119, 9.2957202, 8.816667, 11.5696, 7.482824, 10.6788, 11.6673837,8.95185))
+	longitude = c(3.698, 0.333, -0.981, -1.512, 3.041, 7.652, 5.054, 12.367, 8.385, 4.560, 12.158, -1.072, 12.407), 
+	latitude = c(6.901, 6.685, 9.400, 6.714, 11.323, 11.025, 9.296, 8.817, 11.570, 7.483, 10.679, 11.667, 8.952))
 	d <- merge(d, loc, by="location", all.x=TRUE)
 		 
 	d$borer_trial <- FALSE
