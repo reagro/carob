@@ -87,7 +87,7 @@ carob_script <- function(path)
    d$inoculated <- FALSE
    d$inoculant <- NA
    
-	d$biomass_total <- NA
+	d$dmy_total <- NA
    
 	d$yield <- NA
 

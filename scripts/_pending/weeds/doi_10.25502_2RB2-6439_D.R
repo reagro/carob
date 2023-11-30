@@ -75,7 +75,7 @@ carob_script <- function(path) {
 	# mean weed biomass in kg/ha	
 	d1$weeds_biomass <- rowMeans(weeds1) * 10
 		
-	#d1$weed_biomass <- ((r1$biomass_04WAP_gm2+r1$biomass_08WAP_gm2+r1$biomass_12WAP_gm2+r1$biomass_24WAP_gm2)/2)*1000 # in kg/ha
+	#d1$weed_biomass <- ((r1$dmy_04WAP_gm2+r1$dmy_08WAP_gm2+r1$dmy_12WAP_gm2+r1$dmy_24WAP_gm2)/2)*1000 # in kg/ha
 	
 	#N_d10	% Nitrogen
 	# to convert Nitrogen in mg/kg (PPm) we use: 1g of soil contain n% of Nitrogen 
@@ -95,7 +95,7 @@ carob_script <- function(path) {
 	# mean weed biomass in kg/ha	
 	d2$weeds_biomass <- rowMeans(weeds2) * 10 
 
-	#d2$weed_biomass <- ((r2$Biomass_04Wap_Gm2+r2$Biomass_08Wap_Gm2+r2$Biomass_12Wap_Gm2+r2$Biomass_24Wap_Gm2)/2)*1000 # in kg/ha
+	#d2$weed_biomass <- ((r2$dmy_04Wap_Gm2+r2$dmy_08Wap_Gm2+r2$dmy_12Wap_Gm2+r2$dmy_24Wap_Gm2)/2)*1000 # in kg/ha
 	
 	# fill soil information for second season base on $site.
 	# I assume that soil information is the same for the same long and lat position

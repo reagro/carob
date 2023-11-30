@@ -103,7 +103,7 @@ carob_script <- function(path) {
 ##### or when they are not immediately obvious for other reasons
 
 ##### Yield #####
-	d$biomass_total <- NA
+	d$dmy_total <- NA
 
 	d$yield <- d$`Grain yield (kg/ha@12.5%)`
 	#what plant part does yield refer to?

@@ -1,8 +1,9 @@
+
 # R script for "carob"
 
 ## ISSUES
 # ....
-## review by cedric Ngakou
+## review by Cedric Ngakou
 
 carob_script <- function(path) {
 
@@ -49,11 +50,11 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	   names(r0)<- make.names(names(r0),unique = TRUE)
 	   names(r0)<- gsub("Date.of.sowing..mm.dd.yryr.","Date.of.sowing..mm.dd.yr.",names(r0))
 	   d <- r0[,c("Season","Crop","Variety","Tillage","District","Longitude","Latitude","Site.Location.Node","Date.of.sowing..mm.dd.yr.","Dose.of.fertilizer..N.P.K.S.Zn..kg.ha..33.deci","Date.of.harvesting","Straw.yield..t.ha.","Grain.yield..t.ha." ,"Biomass..t.ha.")]
-	   colnames(d)<- c("season","crop","variety","tillage","adm1","longitude","latitude","location","planting_date","treatment","harvest_date","residue_yield","yield","biomass_total")
+	   colnames(d)<- c("season","crop","variety","tillage","adm1","longitude","latitude","location","planting_date","treatment","harvest_date","residue_yield","yield","dmy_total")
 	   
 	   d$yield<- d$yield*1000 # in kg/ha
 	   d$residue_yield<- d$residue_yield*1000 # in kg/ha
-	   d$biomass_total<- d$biomass_total*1000 # in kg/ha
+	   d$dmy_total<- d$dmy_total*1000 # in kg/ha
 	   d$crop<- carobiner::fix_name(d$crop,"lower")
 	   d$trial_id<- paste(d$adm1,d$variety,sep = "_")
 	   ## data type
@@ -136,7 +137,7 @@ proc <- function(f) {
       treatment=r4$Tmnt, trial_id=r4$Site.No, 
       yield=r4$Grain.yield.t.ha * 1000,
       residue_yield=r4$Straw.yield.t.ha * 1000,
-      biomass_total=r4$Biomass.t.ha * 1000)
+      dmy_total=r4$Biomass.t.ha * 1000)
    
    ## merge all 
    dd <- merge(d1, d2, by=c("treatment", "trial_id"), all.x=TRUE)

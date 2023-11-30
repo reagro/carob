@@ -45,18 +45,18 @@ carob_script <- function(path) {
    ### process Variety&Fertilizer file()
    
    d1 <- r[,c("ID","Site","Village","Season","Replicate","Fertilizer","Variety","Total_yield_Root_stem","H12MAP","FW_Stem")]
-   colnames(d1) <- c("ID","adm2","location","season","rep","treatment","variety","yield","plant_height","biomass_stems")
+   colnames(d1) <- c("ID","adm2","location","season","rep","treatment","variety","yield","plant_height","dmy_stems")
    
    
    ### Nutrient response data file()
    d2 <- r1[,c("ID","Site","Village","Season","Replicate","Fertilizer","Variety","Total_yield_Root_stem","H12MAP","FW_Stem")]
-   colnames(d2) <- c("ID","adm2","location","season","rep","treatment","variety","yield","plant_height","biomass_stems")
+   colnames(d2) <- c("ID","adm2","location","season","rep","treatment","variety","yield","plant_height","dmy_stems")
    
    #### joint d1 and d2
    d <- rbind(d1,d2)
    
    d$yield <- d$yield*1000  ## kg/ha
-   d$biomass_stems <- d$biomass_stems*1000 # kg/ha 
+   d$dmy_stems <- d$dmy_stems*1000 # kg/ha 
    # add columns
    d$country <- "Democratic Republic of the Congo"
    d$crop <- "cassava" 
@@ -93,7 +93,7 @@ d$K_fertilizer[j] <- 83/1.2051
   d$latitude <- d$lat
   d$lon <- d$lat <- NULL
    
-  d$biomass_stems[d$biomass_stems>20000] <- NA
+  d$dmy_stems[d$dmy_stems>20000] <- NA
   d$plant_height[d$plant_height>250] <- NA
    d$yield_part <- "roots" 
    

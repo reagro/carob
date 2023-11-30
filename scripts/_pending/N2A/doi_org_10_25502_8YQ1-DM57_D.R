@@ -82,7 +82,7 @@ Mozambique, Kenya & Zimbabwe) as tier one countries.
 	n <- read.csv(n)
 	n <- n[,c(3,4,7,8)]
 	names(n)
-	names(n) <- c('farm_id',"rep", "biomass_total", "yield")
+	names(n) <- c('farm_id',"rep", "dmy_total", "yield")
 	
 	d <- Reduce(function(...) merge(..., all=T), list(b,k,n))
 	names(d)
@@ -103,11 +103,11 @@ Mozambique, Kenya & Zimbabwe) as tier one countries.
 	names(d)
 	d$rep <- as.integer(d$rep)
 	d$yield <- as.numeric(d$yield)
-	d$biomass_total <- as.numeric(d$biomass_total)
+	d$dmy_total <- as.numeric(d$dmy_total)
 	
 	#Extrapolate crop yield values. #Needs revision
 	d$yield <- (10000/200*(d$yield))
-	d$biomass_total <- (10000/200*(d$biomass_total))
+	d$dmy_total <- (10000/200*(d$dmy_total))
 	
 	#Remove the 'farmer_id' we have been using for merging the data sets.
 	d <- d[,-c(1)]

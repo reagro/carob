@@ -28,7 +28,7 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
-    carob_contributor="Fredy chimire", 
+    carob_contributor="Fredy Chimere", 
     carob_date="2023-08-21"
   )
   
@@ -49,7 +49,7 @@ carob_script <- function(path) {
   
   # efyrouwa: you can use carobiner::change_names, 
   # look at the documentation on the function above to understand better.
-  d <- carobiner::change_names(r,c("Location","Season","Rep","Clay","Sand","OrgC","Biomass","Grain","System","Nitrogen","Phosphorus","Potassium"),c("location","planting_date","rep","soil_clay","soil_sand","soil_SOC","biomass_total","yield","treatment", "soil_N", "soil_P_total","soil_K"))
+  d <- carobiner::change_names(r,c("Location","Season","Rep","Clay","Sand","OrgC","Biomass","Grain","System","Nitrogen","Phosphorus","Potassium"),c("location","planting_date","rep","soil_clay","soil_sand","soil_SOC","dmy_total","yield","treatment", "soil_N", "soil_P_total","soil_K"))
   d$dataset_id <- dataset_id
   d$on_farm <- FALSE
   d$is_survey <- FALSE
@@ -57,7 +57,7 @@ carob_script <- function(path) {
   d$yield_part <- "grain"
   # efyrouwa : could the units be in tons/ha?, if so then convert 
   d$yield <- d$yield * 1000 
-  d$biomass_total <- d$biomass_total * 1000 
+  d$dmy_total <- d$dmy_total * 1000 
   
   # Assign country names based on location on which experiment was made
   

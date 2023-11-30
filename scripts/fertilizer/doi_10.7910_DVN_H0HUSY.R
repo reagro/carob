@@ -49,9 +49,9 @@ Description: This dataset contains information of experiments carried out upland
 	d1$P_fertilizer <- d1$P #
 	d1$K_fertilizer <- d1$K #
 	d1$yield <- as.numeric(d1$rto_grano_kgha)
-	d1$biomass_total <- as.numeric(d1$rto_biom_kgha)
+	d1$dmy_total <- as.numeric(d1$rto_biom_kgha)
 	d1$trial_id <- "Caribbean"
-	d1 <- d1[,c("trial_id","country", "adm1","adm2","adm3","longitude","latitude","crop", "rep","treatment","N_fertilizer", "P_fertilizer", "K_fertilizer","yield","biomass_total")]
+	d1 <- d1[,c("trial_id","country", "adm1","adm2","adm3","longitude","latitude","crop", "rep","treatment","N_fertilizer", "P_fertilizer", "K_fertilizer","yield","dmy_total")]
 	
 	# processing 04. Rice Data - Pacific.tab
 	f2 <- ff[basename(ff) == "04. Rice Data - Pacific.xlsx"]
@@ -74,9 +74,9 @@ Description: This dataset contains information of experiments carried out upland
 	d2$P_fertilizer <- d1$P
 	d2$K_fertilizer <- d1$K
 	d2$yield <- as.numeric(d2$rto_grano_kgha)
-	d2$biomass_total <- as.numeric(d2$rto_biom_kgha)
+	d2$dmy_total <- as.numeric(d2$rto_biom_kgha)
 	d2$trial_id <- "Pacific"
-	d2 <- d2[,c("trial_id","country", "adm1","adm2","adm3","longitude","latitude","crop", "rep","treatment","N_fertilizer", "P_fertilizer", "K_fertilizer","yield","biomass_total")]
+	d2 <- d2[,c("trial_id","country", "adm1","adm2","adm3","longitude","latitude","crop", "rep","treatment","N_fertilizer", "P_fertilizer", "K_fertilizer","yield","dmy_total")]
 	
 	# processing 02. Soils Data.xlsx
 	f3 <- ff[basename(ff) == "02. Soils Data.xlsx"]

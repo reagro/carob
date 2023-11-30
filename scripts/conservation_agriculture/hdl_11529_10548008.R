@@ -1,10 +1,6 @@
 # R script for "carob"
 
 # ## ISSUES 
-
-#RH: this is 
-
-
 # ....
 
 
@@ -29,7 +25,7 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="on-farm experiment",
-    carob_contributor="Fredy chimire",
+    carob_contributor="Fredy Chimere",
     carob_date="2023-11-07"
   )
   
@@ -40,11 +36,6 @@ carob_script <- function(path) {
   # dset$license <- "not specified" #carobiner::get_license(js)
   dset$license <- carobiner::get_license(js)
   
-  ff1 <- ff[grep("Rangpur", basename(ff))]
-  ff2 <- ff[grep("validation", basename(ff))]
-  
-  ## process file(s)
-  ## process Rabi maize and wheat-DS&BP-all nodes Rangpur files
   
   proc <- function(f) {
     r1 <- carobiner::read.excel.hdr(f, sheet ="2 - Site information", skip=5, hdr=3)
@@ -89,7 +80,7 @@ carob_script <- function(path) {
       treatment=r4$Tmnt, trial_id=r4$Site.No, 
       yield=r4$Grain.yield.t.ha * 1000,
       residue_yield=r4$Straw.yield.t.ha * 1000,
-      biomass_total=r4$Biomass.t.ha * 1000)
+      dmy_total=r4$Biomass.t.ha * 1000)
     
     ## merge all 
     dd <- merge(d1, d2, by=c("treatment", "trial_id"), all.x=TRUE)
@@ -116,7 +107,8 @@ carob_script <- function(path) {
   d$fertilizer_type <- gsub("Urea", "urea", d$fertilizer_type)
   d$fertilizer_type <- gsub("Gypsum", "gypsum", d$fertilizer_type)
   
-
+# Zn and S? 
+# 
   
   geo= data.frame(location=c("Kolkondo", "Lakkhiitari", "Durgapur" , "Borodargha", "Mohanpur"), 
                   latitude=c(25.86245, 25.88404, 25.55461, 25.82308, 25.93235), 

@@ -62,12 +62,15 @@ carob_script <- function(path) {
 	e$is_survey <- FALSE
 	e$crop <- "maize"
 	e$yield_part <- "grain"
-	e$grain_weight <- (d$swt500)*2 ### [swt500	Weight of 500 seeds	g, the original value was multiplied by 2]
-	e$biomass_total <- d$tdmm2*10 # Add total biomass (dry matter) in kg/ha )
+	# swt500 = Weight of 500 seeds (g), the original value was multiplied by 2
+	e$grain_weight <- (d$swt500)*2 
+	# total biomass (dry matter) to kg/ha
+	e$dmy_total <- d$tdmm2 * 10
+
 	e$yield <- d$yield
 		
 	e$flowering <- as.numeric(d$flw50)
-	e$silking	 <- d$slk50
+	e$silking <- d$slk50
 	
 	# all scripts must end like this
 	carobiner::write_files(dset, e, path=path)

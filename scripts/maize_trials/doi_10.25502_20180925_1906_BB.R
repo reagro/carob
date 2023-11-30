@@ -46,9 +46,38 @@ The study was carried out by the International Institute of Tropical Agriculture
 	d$longitude[i] <- 7.717
 	d$latitude[i] <- 11.131
 
+	i <- d$location == "Tofa"
+	d$longitude[i] <- 8.27
+	d$latitude[i] <- 12.06 
+	
+	i <- d$location == "Mokwa"
+	d$longitude[i] <- 5.06
+	d$latitude[i] <- 9.29
+
+	i <- d$location == "Zuru"
+	d$longitude[i] <- 5.219
+	d$latitude[i] <- 11.432
+
+	i <- d$location=="Ikenne"
+	d$longitude[i] <- 3.698
+	d$latitude[i] <- 6.901
+
+	i <- d$location == "Bagauda"
+	d$longitude[i] <- 8.385
+	d$latitude[i] <- 11.570
+	
+	i <- d$location == "Ejiba"
+	d$longitude[i] <- 5.640
+	d$latitude[i] <- 8.298
+
+	i <- d$location == "Tamba Daura"
+	d$longitude[i] <- 8.311
+	d$latitude[i] <- 13.016
+		
 	i <- d$location == "Angaradebou"
 	d$country[i] <- "Benin"
 	
+	d <- d[!is.na(d$yield), ]
 
 	carobiner::write_files(dset, d, path=path)
 

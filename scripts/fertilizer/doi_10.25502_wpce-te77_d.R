@@ -42,7 +42,7 @@ carob_script <- function(path) {
    ### process file()
    
    d <- r[,c("ID","Country","City","REP_NO","DESIGNATION","YIELD","BIOM","PLHT","SWT100","DM","HARVEST")]
-    colnames(d) <- c("ID","country","location","rep","variety","yield","biomass_total","plant_height","grain_weight","maturity","harvest")
+    colnames(d) <- c("ID","country","location","rep","variety","yield","dmy_total","plant_height","grain_weight","maturity","harvest")
    
     # add columns
     d$crop <- "soybean" 
