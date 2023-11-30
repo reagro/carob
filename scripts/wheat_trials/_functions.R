@@ -119,7 +119,7 @@ proc_wheat <- function(ff) {
 		"AMAN RICE", "rice",
 		"AMAN RCIE", "rice",
 		"AMARANTO", "amaranth",
-		"ARVEJAS PARA CONGELADO", "arveja",
+		"ARVEJAS PARA CONGELADO", "pea",
 		"ARVEJA", "pea",
 		"AVENA+VICI", "oats; vetch", 
 		"AVENA+VICIA", "oats; vetch", 
@@ -312,6 +312,7 @@ proc_wheat <- function(ff) {
 		"PEARLI MILLER", "pearl millet",
 		"PHACELIA TANACETIFOLIA", 'phacelia',
 		"PHASEOLUS VULGARIS", "common bean",
+		"PHASCOWS", "common bean", # maybe
 		"PISUM SATIVUM", "pea",
 		"PNLEES", NA,
 		"POROTO", "common bean", 
