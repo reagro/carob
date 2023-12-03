@@ -9,7 +9,7 @@ carob_script <- function(path) {
   "
 	Description:
    Characterising soils of the maize belt in Nigeria to
-   deteminie limiting nutrients based on which new fertilzer 
+   =determine limiting nutrients based on which new fertilizer 
    formulations are developed that are tested on farmer's fields 
    in validation trials in a large number of locations 
    against the commonly used NPK 15-15-15 fertilizer
@@ -42,13 +42,14 @@ carob_script <- function(path) {
 	# read the dataset
 	d <- read.csv(f)
 	#d <- readxl::read_excel(f) |> as.data.frame()
+
+# Team BUK1,BUK2,BUK3 data are already include in doi_10.25502_RGB5_GA15_D.R
+	d <- d[!(d$team %in% c("BUK1", "BUK2", "BUK3")), ] 
 	
 	# process file(s)
-	d <- d[, c(1,2,3,4,5,7,8,13,47)] 
-	colnames(d) <- c("location","adm2","rep","latitude","longitude","Team","treatment", "yield","soil_pH")
-	d <- d[d$Team!="BUK3" & d$Team!="BUK1" & d$Team!="BUK2",] # Team BUK1,BUK2,BUK3 data are already include in doi_10.25502_RGB5_GA15_D.R
-	# drop Team column
-	d <- d[,c("location","adm2","rep","latitude","longitude","treatment","yield","soil_pH")]
+	d <- d[, c('state', 'lga', 'sid', 'lat', 'lon', 'trt', 'ayld', 'PH', 'SND', 'SOC')]
+	colnames(d) <- c("adm1", "adm2", "rep", "latitude", "longitude", "treatment",
+			"yield", "soil_pH", "soil_sand", "soil_SOC")
 	# Add columns
 	d$plant_spacing <- 25 # get from VT protocol OCP Project Document 
 	d$row_spacing <- 75	 # get from VT protocol OCP Project Document
@@ -94,6 +95,8 @@ carob_script <- function(path) {
 	d$trial_id <- paste0(dataset_id, '-', d$Location)
 	#data type
 	d$yield <- as.numeric(d$yield)
+	d$soil_SOC <- d$soil_SOC / 10
+
 	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	

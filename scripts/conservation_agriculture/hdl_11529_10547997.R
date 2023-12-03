@@ -2,7 +2,7 @@
 
 # ## ISSUES 
 
-#RH: perhaps we should capture more managment variables 
+#RH: perhaps we should capture more management variables 
 
 
 # ....
