@@ -14,92 +14,82 @@ carob_script <- function(path) {
    dataset_id <- carobiner::simple_uri(uri)
    group <- "fertilizer" 
    ## dataset level data 
-   dset <- data.frame(
-      dataset_id = dataset_id,
-      group=group,
-      uri=uri,
-      publication= NA,#https://doi.org/10.1016/j.fcr.2023.109056
-      data_citation ="Wivine, M., Birindwa, D., Pypers, P., Swennen, R., Vanlauwe, B., & Merckx, R. (2023). Datasets on yield components of fertilized improved and local varieties of Cassava grown in the highlands of South Kivu, DR Congo [dataset]. International Institute of Tropical Agriculture (IITA).
-      https://doi.org/10.25502/A5YJ-B820/D",
-      data_institutions = "IITA",
-      carob_contributor="Cedric Ngakou",
-      carob_date="2023-10-01",
-      data_type="experiment",
-      project=NA 
-   )
-   
-   ## download and read data 
-   ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
-   dset$license <- carobiner::get_license(js)
-   
-   bn <- basename(ff)
-   
-   # read the dataset
-   r <- read.csv(ff[bn=="Variety&Fertilizer_Effect_Data.csv"])  
-   
-   r1 <- read.csv(ff[bn=="Nutrient response_Data.csv"])  
-   
-
-   
-   ### process Variety&Fertilizer file()
-   
-   d1 <- r[,c("ID","Site","Village","Season","Replicate","Fertilizer","Variety","Total_yield_Root_stem","H12MAP","FW_Stem")]
-   colnames(d1) <- c("ID","adm2","location","season","rep","treatment","variety","yield","plant_height","dmy_stems")
-   
-   
-   ### Nutrient response data file()
-   d2 <- r1[,c("ID","Site","Village","Season","Replicate","Fertilizer","Variety","Total_yield_Root_stem","H12MAP","FW_Stem")]
-   colnames(d2) <- c("ID","adm2","location","season","rep","treatment","variety","yield","plant_height","dmy_stems")
-   
-   #### joint d1 and d2
-   d <- rbind(d1,d2)
-   
-   d$yield <- d$yield*1000  ## kg/ha
-   d$dmy_stems <- d$dmy_stems*1000 # kg/ha 
-   # add columns
-   d$country <- "Democratic Republic of the Congo"
-   d$crop <- "cassava" 
-   d$dataset_id <- dataset_id
-   d$trial_id <- paste(d$ID,d$location,sep = "-")
-   d$on_farm <- TRUE
-   d$is_survey <- FALSE
-   d$irrigated <- FALSE
-   d$ID <- NULL
-   d$adm1 <- "Sud-Kivu"
-   d$yield[d$yield==""] <- NA
-   d <- d[!is.na(d$yield),]
-   ## add fertilizer
-   ### 100-22-83 # get from 
-d$N_fertilizer <- 0
-d$P_fertilizer <- 0
-d$K_fertilizer <- 0
-   j <- grepl("NPK",d$treatment) |grepl("NP",d$treatment) |grepl("NK",d$treatment)
-d$N_fertilizer[j] <- 100
-  
-j <- grepl("NPK",d$treatment) |grepl("NP",d$treatment) |grepl("PK",d$treatment)
-d$P_fertilizer[j] <- 22/2.29
-
-j <- grepl("NPK",d$treatment) |grepl("NK",d$treatment) |grepl("PK",d$treatment)
-d$K_fertilizer[j] <- 83/1.2051
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		uri=uri,
+		publication= NA,#https://doi.org/10.1016/j.fcr.2023.109056
+		data_citation ="Wivine, M., Birindwa, D., Pypers, P., Swennen, R., Vanlauwe, B., & Merckx, R. (2023). Datasets on yield components of fertilized improved and local varieties of Cassava grown in the highlands of South Kivu, DR Congo [dataset]. International Institute of Tropical Agriculture (IITA).
+		https://doi.org/10.25502/A5YJ-B820/D",
+		data_institutions = "IITA",
+		carob_contributor="Cedric Ngakou",
+		carob_date="2023-10-01",
+		data_type="experiment",
+		project=NA 
+	)
+	
+	## download and read data 
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
+	dset$license <- carobiner::get_license(js)
+	
+	bn <- basename(ff)
+	
+	# read the dataset
+	r1 <- read.csv(ff[bn=="Variety&Fertilizer_Effect_Data.csv"])  
+	r2 <- read.csv(ff[bn=="Nutrient response_Data.csv"])  
+	
+	### process Variety&Fertilizer file()
+	
+	vrs <- c("ID", "Site", "Village", "Season", "Replicate", "Fertilizer", "Variety","Total_yield_Root_stem", "H12MAP", "FW_Stem")
+	d <- rbind(r1[,vrs], r2[,vrs])
+ 
+	colnames(d) <- c("ID", "adm2", "location", "season", "rep", "treatment", "variety", "yield","plant_height", "dmy_stems")
+	
+	d$yield <- d$yield*1000  ## kg/ha
+	d$dmy_stems <- d$dmy_stems*1000 # kg/ha 
+	# add columns
+	d$country <- "Democratic Republic of the Congo"
+	d$crop <- "cassava" 
+	d$dataset_id <- dataset_id
+	d$trial_id <- paste(d$ID,d$location,sep = "-")
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
+	d$irrigated <- FALSE
+	d$ID <- NULL
+	d$adm1 <- "Sud-Kivu"
+	d$yield[d$yield==""] <- NA
+	d <- d[!is.na(d$yield),]
+	## add fertilizer
+	### 100-22-83 # get from 
+	d$N_fertilizer <- NA
+	d$P_fertilizer <- NA
+	d$K_fertilizer <- NA
+	j <- d$treatment == "None"
+	d$N_fertilizer[j] <- 0
+	d$P_fertilizer[j] <- 0
+	d$K_fertilizer[j] <- 0
+	j <- grepl("NP",d$treatment) |grepl("NK",d$treatment)
+	d$N_fertilizer[j] <- 100
+	j <- grepl("NP",d$treatment) |grepl("PK",d$treatment)
+	d$P_fertilizer[j] <- 22/2.29
+	j <- grepl("NK",d$treatment) |grepl("PK",d$treatment)
+	d$K_fertilizer[j] <- 83/1.2051
 ### add long and lat coordinate
-   geoc <- data.frame(location=c("Kasheke","Cibanda","Cibandja","Muhongoza","Munanira"),
-                     lat=c(-2.1518846,-2.1065462,-2.1065462,-2.0976667,-2.1057639),
-                     lon=c(28.8560076,28.9186227,28.9186227,28.9069167,28.9202472))
-   
-  d <- merge(d,geoc,by="location")
-   
-  d$longitude <- d$lon
-  d$latitude <- d$lat
-  d$lon <- d$lat <- NULL
-   
-  d$dmy_stems[d$dmy_stems>20000] <- NA
-  d$plant_height[d$plant_height>250] <- NA
-   d$yield_part <- "roots" 
-   
-   # all scripts must end like this
-   carobiner::write_files(dset, d, path=path)
-   
+	geoc <- data.frame(location=c("Kasheke","Cibanda","Cibandja","Muhongoza","Munanira"),
+				latitude=c(-2.1518846,-2.1065462,-2.1065462,-2.0976667,-2.1057639),
+				longitude=c(28.8560076,28.9186227,28.9186227,28.9069167,28.9202472))
+	
+	d <- merge(d,geoc,by="location")
+
+	d$dmy_stems[d$dmy_stems>20000] <- NA
+	d$plant_height[d$plant_height>250] <- NA
+	d$yield_part <- "roots" 
+	d$planting_date <- ifelse(d$season == "LR2014", "2014", "2015")
+	
+	# all scripts must end like this
+	carobiner::write_files(dset, d, path=path)
+	
 }
 
 

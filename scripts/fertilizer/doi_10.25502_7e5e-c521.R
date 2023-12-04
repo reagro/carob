@@ -62,7 +62,7 @@ carob_script <- function(path) {
 	lst <- list()
 	i <- c(1,3)	# c(1, 3)	because number_of_rows_crop1_plot_2.nr	is missing Therefore we can can't have plot area and then yield
 
-## RH is things this is wrong see areas etc 
+## RH is this is wrong see areas etc 
 ## unit_area_field_2	amount_harvested_most_important_crop_field_2	unit_amount_field_2
 
 	for (j in i) {
