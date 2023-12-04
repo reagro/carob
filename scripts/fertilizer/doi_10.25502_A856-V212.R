@@ -6,11 +6,7 @@ carob_script <- function(path) {
 	
 	"Description:
 
-	N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, 
-	improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder
-	farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise 
-	in grain legume production and N2-fixation research and development will be the legacy of the project.
-The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
+	N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 
 "
 	
@@ -203,16 +199,14 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	d$crop[d$crop=="soybea"] <- "soybean"
 	
 	# remove rows with two crop in one cell but just one value of yield
-	d <- d[d$crop!= "maize, cowpea"	&d$crop!="maize, soybean"&d$crop!="sorghum, groundnut" &d$crop!="sorghum cowpea" &d$crop!="sorghum, soybean," &d$crop!="0.6ha" &d$crop!="0.4ha"	&d$crop!="sorghum, soybean", ] 
+	d <- d[!grepl(",", d$crop), ]
+	d <- d[!(d$crop %in% c("crop", "sorghum cowpea", "0.6ha", "0.4ha")), ]
 	
 	#fix crop yield limit by crop
-	d$yield[d$crop=="common bean" & d$yield>9000] <- NA
-	d$yield[d$crop=="groundnut" & d$yield>8500] <- NA
-	d$yield[d$crop=="soybean" & d$yield>15000] <- NA
-	d$yield[d$crop=="cowpea" & d$yield>5000] <- NA
-	d$yield[d$crop=="sorghum" & d$yield>18000] <- NA
+	d$yield[d$crop=="groundnut" & d$yield > 10000] <- NA
+	d$yield[d$crop=="cowpea" & d$yield > 10000] <- NA
+	d$yield[d$crop=="sorghum" & d$yield > 10000] <- NA
 	#remove crop with very low yield value after divided by the plot area
-	d <- d[d$crop!="crop",]
 	
 	# fix whitespace in variable
 	d$adm1[d$adm1==""] <- NA
@@ -223,8 +217,12 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	# add column
 	# d$OM_used <- FALSE
 	# d$OM_used[!is.na(d$OM_type)] <- TRUE
+
+	#is this the best we can do (not even year)?
+	d$plating_date = as.character(NA)
 	
 	d$yield_part <- "seed"
 	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
+
