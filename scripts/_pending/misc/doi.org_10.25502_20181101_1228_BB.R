@@ -13,7 +13,7 @@ carob_script <- function(path) {
 
 	uri <- "doi.org/10.25502/20181101/1228/BB"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "conservation_agriculture"
+	group <- "maize_trials"
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
@@ -25,7 +25,7 @@ carob_script <- function(path) {
 	
 		data_institutions = "International Institute of Tropical Agriculture (IITA)",
 
-   		data_type="0n-farm experiment", 
+   		data_type="on-farm experiment", 
 		carob_contributor="Shumirai Manzvera",
 		# date of first submission to carob
 		carob_date="2023-11-23",
