@@ -132,6 +132,8 @@ carob_script <- function(path) {
 	p <- gsub("y","none",p)
 	p <- gsub("npk"	,"NPK",p)
 	p <- gsub("ssp"	,"SSP",p)
+	p[p == "sononea bean ,inoculant"] <- NA
+
 
 	d$fertilizer_type <- p	
 	#add fertilizer
@@ -163,41 +165,27 @@ carob_script <- function(path) {
 	
 	#fix country name
 	d$country <- carobiner::fix_name(d$country, "title")
+
+	
 	
 	# fix crop name 
 	p <- carobiner::fix_name(d$crop,"lower")
-	p <- gsub("g/nut","groundnut",p)
-	p <- gsub("soyabean","soybean",p)
-	p <- gsub("c0wpea","cowpea",p)
-	p <- gsub("cpwpea","cowpea",p)
-	p <- gsub("cowpea local" ,"cowpea",p)
-	p <- gsub("cowpera" ,"cowpea",p)
-	p <- gsub("copea" ,"cowpea",p)
-	p <- gsub("soya beans","soybean",p)
-	p <- gsub("s/bean" ,"soybean",p)
-	p <- gsub("soy beans","soybean",p)
-	p <- gsub("soy bean" ,"soybean",p)
-	p <- gsub("soyabeaan","soybean",p)
-	p <- gsub("gsoybean","soybean",p)
-	p <- gsub("soybeans","soybean",p)
-	p <- gsub("soybaen","soybean",p)
-	p <- gsub("soybean,","soybean",p)
-	p <- gsub("cassaca","cassava",p)
-	p <- gsub("ginger","finger",p)
-	p <- gsub("ginger","finger",p)
-	p <- gsub("cowpeq","cowpea",p)
-	p <- gsub("g.nut" ,"groundnut",p)
+	p[p %in% c("0.4ha", "0.6ha", "crop", "sorghum cowpea", "sorghum, g/nut", "sorghum, soyabean")] <- NA
+	p[grep("^cow", p)] <- "cowpea"
+	p[grep("pea$", p)] <- "cowpea"
+	p[grep("nut$", p)] <- "groundnut"
 	p <- gsub("groundut" ,"groundnut",p)
-	p <- gsub("groudnut"	,"groundnut",p)
+	p[grep("soy", p)] <- "soybean"
+	p <- gsub("s/bean" ,"soybean",p)
+	p[grep("inger", p)] <- "finger millet"
+	p[grep("millet", p)] <- "finger millet"
+	p <- gsub("cassaca","cassava",p)
 	p <- gsub("tomatoes" ,"tomato",p)
 	p <- gsub("guinea corn" ,"maize",p)
-	p <- gsub("hot pepper"	,"pepper" ,p)
-	p <- gsub("late millet"	,"millet" ,p)
-	p <- gsub("finger"	,"finger millet" ,p)
+	p <- gsub("hot pepper", "chili pepper" ,p)
 	p <- gsub("sorgum"	,"sorghum" ,p)
 	d$crop <- p
-	d$crop[d$crop=="soybea"] <- "soybean"
-	
+		
 	# remove rows with two crop in one cell but just one value of yield
 	d <- d[!grepl(",", d$crop), ]
 	d <- d[!(d$crop %in% c("crop", "sorghum cowpea", "0.6ha", "0.4ha")), ]
@@ -206,20 +194,15 @@ carob_script <- function(path) {
 	d$yield[d$crop=="groundnut" & d$yield > 10000] <- NA
 	d$yield[d$crop=="cowpea" & d$yield > 10000] <- NA
 	d$yield[d$crop=="sorghum" & d$yield > 10000] <- NA
-	#remove crop with very low yield value after divided by the plot area
+
+	d <- d[!is.na(d$crop), ]
 	
 	# fix whitespace in variable
 	d$adm1[d$adm1==""] <- NA
 	d$adm2[d$adm2==""] <- NA
-	# # EGB:
-	# # Removing OM_type and OM_used since there is no info on such
-	# d$OM_type[d$OM_type==""] <- NA
-	# add column
-	# d$OM_used <- FALSE
-	# d$OM_used[!is.na(d$OM_type)] <- TRUE
 
 	#is this the best we can do (not even year)?
-	d$plating_date = as.character(NA)
+	## d$planting_date = as.character(NA)
 	
 	d$yield_part <- "seed"
 	# all scripts must end like this
