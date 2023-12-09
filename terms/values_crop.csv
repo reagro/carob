@@ -1,4 +1,4 @@
-name,sciname,altname,is_preferred,harvest,group,fresh_moisture,max_yield,AGROVOC,URI
+name,sciname,altname,is_preferred,harvest,group,fresh_moisture,max_yield,FAO_name,FAO_uri
 abacá,Musa textilis,Manila hemp,yes,leaves,fibre_crops,,,abaca,http://aims.fao.org/aos/agrovoc/c_4
 abyssinian cabbage,Brassica carinata,,yes,leaves,vegetables,,,brassica carinata,http://aims.fao.org/aos/agrovoc/c_33311
 adzuki bean,Vigna angularis,,yes,seed,pulses,,,adzuki beans,http://aims.fao.org/aos/agrovoc/c_8632
