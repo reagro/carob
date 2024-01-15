@@ -10,7 +10,7 @@ carob_script <- function(path) {
   "Description:
   The experiment was initiated in 2008 and concluded in 2018 to evaluate the performance of durum wheat (Triticum durum L.) under conventionally tilled (CTB) and permanent beds (PB) under two sowing irrigation practices and five nitrogen (N) fertilization treatments in northwestern Mexico. It was located at the Norman E. Borlaug Experiment Station (CENEB) near Ciudad Obregón, Sonora, Mexico (lat. 27°22010″N, long. 109°55051″E, 38 masl) and had a randomized complete block design for four environments (ENV) that combined tillage and sowing irrigation practice: CTB with wet and dry sowing and PB with wet and dry sowing. The PB treatments had been under conservation agriculture for over ten years previously to the experiment. Plots were defined by N fertilizer management, with three replicates. Plots were 3 m wide (4 beds of 0.75 m width) and 10 m long, a space of 30 m2. The CTB were tilled after each crop with a disk harrow to 20 cm depth and new beds were formed. The PB were only reshaped every year in the furrow without disturbing the soil on the bed. In wet sowing, 100-120 mm irrigation was applied two-to-three weeks before sowing; in dry sowing, the field was irrigated one or two days after sowing, which provided higher soil moisture content during germination than wet sowing. Four auxiliary irrigations of 80-100 mm were applied to all plots each cycle. The N fertilizer treatments consisted of a control treatment with no N fertilizer and five treatments with different doses and divisions between first and second fertilization applied as urea. The basal N application was done on the same day as the pre-sowing irrigation, applying the fertilizer in the furrow and incorporating it through irrigation. The N application at first node was completed immediately prior to the first auxiliary irrigation. Nitrogen was applied either once (basal) or split between pre-sowing and first node (split). The data set contains daily weather data for the weather station closest to the experimental site for 2008-2018 (reference evapotranspiration, precipitation, minimum and maximum temperature), yield data (grain yield, biomass yield and straw yield for durum wheat), grain quality data (test weight and thousand kernel weight), and plant physiological data (plant stand, days from flowering to maturity, NDVI) for 2009-2018, grain and straw N data for three years, soil temperature for two years and soil moisture for one year. (2021-07-09)  
       "
-  
+
   uri <- "hdl:11529/10548582"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
@@ -20,7 +20,7 @@ carob_script <- function(path) {
     group=group,
     project=NA,
     uri=uri,
-    data_citation= "Verhulst, Nele (CIMMYT) - ORCID: 0000-0001-5032-4386, Grahmann, Kathrin (Leibniz Centre for Agricultural Landscape Research (ZALF)) - ORCID: 0000-0002-9589-7441, Honsdorf, Nora (Kiel University) - ScopusID: 36016829100, Govaerts, Bram (CIMMYT) - ORCID: 0000-0002-6109-7286",
+    data_citation= "Verhulst, Nele; Grahmann, Kathrin; Honsdorf, Nora; Govaerts, Bram, 2021. Durum wheat performance (10 years of data) and grain quality (three years of data) with two tillage and two sowing irrigation practices under five nitrogen fertilizer treatments in northwestern Mexico. https://hdl.handle.net/11529/10548582, CIMMYT Research Data & Software Repository Network, V1",
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
@@ -28,13 +28,11 @@ carob_script <- function(path) {
     carob_date="2023-12-12"
   )
   
-  
-  
+
   ## download and read data 
   
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-  # dset$license <- "not specified" #carobiner::get_license(js)
   dset$license <- carobiner::get_license(js)
   
   f <- ff[basename(ff) == "DAT-PUB-214DrySow.xlsx"]
@@ -72,7 +70,7 @@ carob_script <- function(path) {
   
   
   d$grain_weight <- as.numeric(d$grain_weight)
-  d <- d[d$yield != '.',]
+  d$yield[d$yield == '.'] <- NA
   d$yield <- as.numeric(d$yield)
   carobiner::write_files(dset, d, path=path)
 }
