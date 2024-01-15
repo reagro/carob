@@ -1,0 +1,12 @@
+TY  - JOUR
+T1  - Broadening farmer options through legume rotational and intercrop diversity in maize-based cropping systems of central Malawi
+A1  - Gwenambira-Mwika, Chiwimbo P
+A1  - Snapp, Sieglinde S
+A1  - Chikowo, Regis
+JO  - Field Crops Research
+VL  - 270
+SP  - 108225
+SN  - 0378-4290
+Y1  - 2021
+PB  - Elsevier
+ER  - 
