@@ -50,7 +50,7 @@ carob_script <- function(path) {
   d$dataset_id <- dataset_id
   d$country<- "Malawi"
   d$crop <- "Maize"
-  d$is_experiment <- TRUE
+  d$is_survey <- FALSE
   d$yield_part <- "grain"
   d$fertilizer_type <- "NPS"
   # source: dictionary_AR_MAL_CIMMYT_CAmother_onfarm_2020.csv
@@ -62,18 +62,24 @@ carob_script <- function(path) {
   
   # Gps was found at district level since the villages are not available at map
   # https://www.google.com/maps/search/balaka+malawi++lemu+gps+coordinates/@-14.9319518,34.9463051,17z?entry=ttu
-  
-  lattitude_mapping <- list("Balaka" = c(-14.9318, 34.9511),
-                            "Dowa"   = c(-13.6279, 33.9329),
-                            "machinga" = c(-15.1775, 35.2963),
-                            "Nkhotakota" = c(-12.7037, 34.2570),
-                            "Salima" = c(-13.7114, 34.4461),
-                            "Zomba" = c(-15.3737, 35.3194)) 
-                            
-  d$lattitude <- unlist(lapply(d$Location, function(loc) lattitude_mapping[[loc]][1]))
-  d$longitude <- unlist(lapply(d$Location, function(loc) lattitude_mapping[[loc]][2]))
-  
-  carobiner::write_files(dset, d, path=path)
+
+	d$location <- gsub("machinga", "Machinga", d$location)
+	d$crop <- tolower(d$crop)
+  	d$harvest_date <- as.character(d$harvest_date)
+
+	geo <- list("Balaka" = c(-14.9318, 34.9511),
+              "Dowa"   = c(-13.6279, 33.9329),
+              "Machinga" = c(-15.1775, 35.2963),
+              "Nkhotakota" = c(-12.7037, 34.2570),
+              "Salima" = c(-13.7114, 34.4461),
+              "Zomba" = c(-15.3737, 35.3194)) 
+
+    geo <- t(as.data.frame(geo))
+	colnames(geo) <- c("latitude", "longitude") 
+	d <- merge(d, geo, by.x="location", by.y=0, all.x=TRUE)
+
+                           
+	carobiner::write_files(dset, d, path=path)
 }
 
 

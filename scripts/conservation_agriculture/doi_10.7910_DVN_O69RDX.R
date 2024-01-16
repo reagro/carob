@@ -62,7 +62,7 @@ Doubled up Maize-Groundnut rotation with Gliricidia [Maize/Gliricidia (Dispersed
   
  
   # https://www.findlatitudeandlongitude.com/l/Msekera+Chipata+Zambia/5548305/
-  d$lattitude <- -13.64451
+  d$latitude <- -13.64451
   d$longitude <- 32.6447
   
   carobiner::write_files(dset, d, path=path)

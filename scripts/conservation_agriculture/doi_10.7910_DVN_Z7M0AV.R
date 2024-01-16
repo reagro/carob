@@ -55,19 +55,24 @@ T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on
   # for first dataset
   d$dataset_id <- dataset_id
   
-  d$is_experiment <- TRUE
+  d$is_survey <- FALSE
   d$on_farm <- TRUE
   d$N_fertilizer <- 10 
   d$P_fertilizer <- 20
   d$K_fertilizer <- 10
   
-  
+   
   d$yield_part <- "grain"
   
-  
+	d$crop <- tolower(d$crop)
+	d$crop <- gsub("soyabeans", "soybean", d$crop)
+	d$harvest_date <- as.character(d$harvest_date)
+	d$yield <- as.numeric(d$yield)
+	d$dmy_total <- as.numeric(d$dmy_total)
+
   
   # https://www.findlatitudeandlongitude.com/l/Msekera+Chipata+Zambia/5548305/
-  d$lattitude <- -13.64451
+  d$latitude <- -13.64451
   d$longitude <- 32.6447
   
   carobiner::write_files(dset, d, path=path)
