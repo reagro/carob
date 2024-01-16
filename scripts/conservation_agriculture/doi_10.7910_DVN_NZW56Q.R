@@ -36,7 +36,7 @@ carob_script <- function(path) {
   
   ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
   dset$license <- carobiner::get_license(js)
   
@@ -46,60 +46,67 @@ carob_script <- function(path) {
   r <- read.csv(f)
   
   ## process file(s)
-  d <- r
+  d <- data.frame(trial_id=r$No, country=r$Country, 
+					adm2=r$District, location=r$Village, 
+					treatment=r$Treat, variety=r$Variety, crop=r$crop.grown, 
+					plant_density=r$Plantpopulation, yield=r$Grain.yield, 
+					harvest_date=as.character(r$Harvest.Year), 
+					residue_yield=r$Biomassyield
+
+				)
   
-  d<- carobiner::change_names(d,c("No","Country","District","Village","Treat","Variety","crop.grown","Plantpopulation","Grain.yield")
-                              ,c("trial_id","country","location","adm1","treatment","variety","crop","plant_density","yield"))
+#  d <- carobiner::change_names(d,
+# note error in district/village c("No","Country","District","Village","Treat","Variety","crop.grown","Plantpopulation","Grain.yield")
+#    ,c("trial_id","country","location","adm1","treatment","variety","crop","plant_density","yield"))
  
-  d$trial_id<-as.numeric(d$trial_id)
+  d$trial_id <- as.numeric(d$trial_id)
   
   #fixing crop names
-  d$crop<-carobiner::replace_values(d$crop,c("Maize","Cowpea","Pigeonpea","Groundnuts","groundnuts"),
-                                    c("maize","cowpea","pigeon pea","groundnut","groundnut"))
+  d$crop <- carobiner::replace_values(
+			tolower(d$crop), c("pigeonpea", "groundnuts"),
+                             c("pigeon pea", "groundnut"))
   
   #protocol had no information on cowpea and pigeon pea variety used but 
   #it specified groundnut variety used as CG7
-  d$variety[d$crop=="groundnut"]<-"CG7"
+  d$variety <- trimws(d$variety)
+  d$variety[d$variety==""] <- NA
+  d$variety[d$crop=="groundnut"] <- "CG7"
   
   d$dataset_id <- dataset_id
+  d$trial_id <- as.character(d$trial_id)
   d$on_farm <- TRUE
-  d$is_experiment <- TRUE
+  d$is_survey <- FALSE
   #fixing location name
-  d$location<-carobiner::replace_values(d$location,"Nkotakhota","Nkhotakota")
+  d$adm2 <- carobiner::replace_values(d$adm2, "Nkotakhota", "Nkhotakota")
   
-  d1<-unique(d[,c("country","location")])
-  d2<-data.frame(country = c("Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi"), 
-                 location = c("Balaka","Dowa", "Machinga", "Nkhotakota", "Salima", "Zomba"),
-                 longitude = c(35.0532, 33.7781, 35.6026, 34.0329, 34.4524, 35.4575),
-                 latitude = c(-15.0485, -13.5388, -14.9027, -12.8322, -13.7629, -15.4337))
-  d<-merge(d,d2,by=c("country","location"))  
-
   d$planting_date <- "2018"
-  d$harvest_date  <- d$Harvest.Year
-  d$harvest_date<-as.character(as.Date(d$harvest_date))
-  d$harvest_date <- as.character(as.Date(d$Harvest.Year,format="%d/%m/%y"))
   
+
   ##### Fertilizers #####
   # Protocol specified basal dressing with 23:21:0(N:P:K)
   # Top dressing was done with urea (46%N)
   # Protocol did not specify rate of fertilizer application or meaning of 100:100
   #in dataset
-  d$fertlizer_type <-"urea"
+
+  d$fertilizer_type <- "urea"
   
-  d$residue_yield<- d$Biomassyield
-  d$yield_part[d$crop=="maize"] <-"grain"
-  d$yield_part[d$crop=="cowpea"] <-"seed"
-  d$yield_part[d$crop=="pigeon pea"] <-"seed"
-  d$yield_part[d$crop=="groundnut"] <-"seed"
+  d$yield_part <- "seed"
+  d$yield_part[d$crop=="maize"] <- "grain"
+
+### this needs improvement. "location" should be used when possible, not "adm2" 
+#  d1 <- unique(d[,c("country", "adm2", "location")])
+  geo <- data.frame(country = "Malawi", 
+                 adm2 = c("Balaka","Dowa", "Machinga", "Nkhotakota", "Salima", "Zomba"),
+                 longitude = c(35.0532, 33.7781, 35.6026, 34.0329, 34.4524, 35.4575),
+                 latitude = c(-15.0485, -13.5388, -14.9027, -12.8322, -13.7629, -15.4337))
+
+  d <- merge(d, geo, by=c("country", "adm2"), all.x=TRUE)  
+
   
-  d<-d[,c("dataset_id","on_farm","is_experiment","trial_id","country","location","adm1",
-          "longitude","latitude","crop","variety","treatment","plant_density","planting_date",
-          "harvest_date","fertlizer_type","residue_yield","yield","yield_part")]  
+#  d <- d[,c("dataset_id","on_farm","is_experiment","trial_id","country","location","adm1",
+#          "longitude","latitude","crop","variety","treatment","plant_density","planting_date",
+#          "harvest_date","fertlizer_type","residue_yield","yield","yield_part")]  
     
-  # all scripts must end like this
     carobiner::write_files(dset, d, path=path)
 }
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
