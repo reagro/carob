@@ -54,6 +54,7 @@ Doubled up Maize-Groundnut rotation with Gliricidia [Maize/Gliricidia (Dispersed
   treatments <- c("Traditional Maize- Groundnuts rotation [with half recommended fertilizer on maize, no fertilizer on groundnuts]",
                   "Maize-Groundnut rotation with Gliricidia [ Maize/Gliricidia (COMACO’s Gliricidia spacing: 5m x 1m) – Groundnuts/Gliricidia]",
                   "Doubled up Maize-Groundnut rotation with Gliricidia [Maize/Gliricidia (Dispersed shading spacing; 10m x 5m)/pigeonpea – Groundnuts/Gliricidia/Pigeonpea]")
+  # Replace treament numbers with actual description
   d$treatement <-factor(r$Treat, levels = 1:3,labels = treatments)
   
   d$yield_part <- "grain"
