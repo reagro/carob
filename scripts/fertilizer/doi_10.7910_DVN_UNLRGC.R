@@ -26,7 +26,7 @@ Notes
 	cleanuri <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 
-	dataset_id <- paste0(cleanuri, "-afsis")
+	dataset_id <- paste0(cleanuri)
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
@@ -108,7 +108,7 @@ Notes
 	d$rep <- NULL
 	
 	d$yield_part <- "grain"
-	carobiner::write_files(dset, d, path=path, id="afsis")
+	afsis_data <- d
 
 ###############################
 	## FAO data 
@@ -174,9 +174,9 @@ Notes
 	c("adm1", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "latitude", "longitude", "soil_type"))
 	zz$yield_part <- "grain"
 
-	dataset_id <- paste0(cleanuri, "-fao")
+#	dataset_id <- paste0(cleanuri, "-fao")
+#	dset$dataset_id <- dataset_id
 
-	dset$dataset_id <- dataset_id
 	zz$dataset_id <- dataset_id
 	zz$on_farm <- NA
 	zz$is_survey <- FALSE
@@ -204,8 +204,9 @@ Notes
 
 	# most likely here
 	zz$K_fertilizer[is.na(zz$K_fertilizer)] <- 0
- 
-	carobiner::write_files(dset, zz, path=path, id="fao")
+
+	affao <- carobiner::bindr(afsis_data, zz)
+	carobiner::write_files(dset, affao, path=path)
 }
 
 

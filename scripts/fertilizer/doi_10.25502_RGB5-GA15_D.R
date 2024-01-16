@@ -13,7 +13,7 @@ carob_script <- function(path) {
    Maize belt of Nigeria that covers 8 states: Bauchi,
    Kaduna, Kano, Katsina, Nasarawa, Niger, Plateau and Taraba
 "
-  
+
   uri <- "doi:10.25502/RGB5-GA15/D"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"

@@ -33,7 +33,7 @@ carob_script <- function(path) {
 
 "
 
-	uri <- "doi:11529/10548829"
+	uri <- "hdl:11529/10548829"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
 	## dataset level data 
