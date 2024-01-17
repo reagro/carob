@@ -8,6 +8,7 @@ carob_script <- function(path) {
   
   "Description:
   The present data is from a long-term trial set at Msekera Research Station in Zambia to monitor and evaluate the long-term effects of conservation agriculture practices on soil quality, soil water dynamics, weeds, pests/diseases, and crop yield. This trial was conducted from 2012 to 2020. The ten treatments including control were:
+  
 T1: Control plot 1 (CPM1): traditional farmers practice mouldboard plough on the flat, maize as a sole crop, no residue retention, stubble incorporated into the row for the following season.
 T2: Control plot 2 (CPM2); ridge and furrow system dug by hand, maize as a sole crop, no residue retention, stubble incorporated into the row for the following season
 T3: Basins (BAM), residue retention on the surface, maize as a sole crop
@@ -67,8 +68,8 @@ T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on
 	d$crop <- tolower(d$crop)
 	d$crop <- gsub("soyabeans", "soybean", d$crop)
 	d$harvest_date <- as.character(d$harvest_date)
-	d$yield <- as.numeric(d$yield)
-	d$dmy_total <- as.numeric(d$dmy_total)
+	d$yield <- as.numeric(gsub(",", "", d$yield))
+	d$dmy_total <- as.numeric(gsub(",", "", d$dmy_total))
 
   
   # https://www.findlatitudeandlongitude.com/l/Msekera+Chipata+Zambia/5548305/

@@ -24,7 +24,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 		publication = NA,
 		data_citation = "Global Wheat Program (CIMMYT),IWIN Collaborators,Singh, Ravi (CIMMYT) - ORCID: 0000-0002-4676-5071,Payne, Thomas (CIMMYT) - ORCID: 0000-0002-0383-4073",
 		data_institutions = "CIMMYT",
-		carob_contributor="Fredy Chimere",
+		carob_contributor="Fredy Chimire",
     
     ## something like randomized control...
 		data_type="on-station experiment",
