@@ -18,7 +18,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 		group=group,
 		uri=uri,
 		data_citation="Hakeem Ayinde Ajeigbe; Alpha Kamara; Kunihya Ayuba; Abubakar H. Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to Plant Density and Phosphorous application in the Sudan Savanna zone of Nigeria, Minjibir. https://doi.org/10.21421/D2/YAJKSE, ICRISAT Dataverse, V1",
-		publication=NA,
+		publication="doi_10.12692_ijb_9.1.291-302",
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
 		data_type="experiment",
@@ -54,14 +54,15 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	
 	e$on_farm <- FALSE
 	e$is_survey <- FALSE
+	# EGB
+	# SSP composition is N 0%; P 9%; K 0%
 	e$P_fertilizer[e$treatment=='F1'] <- 0
 	e$P_fertilizer[e$treatment=='F2'] <- 20
+	e$N_fertilizer <- 0
+	e$K_fertilizer <- 0
 	#  names(e)
 
-	#RH: SM please check 
 	e$plant_density <- 2 * c(44444, 66667, 133333)[e$plant_density/10]
-	e$N_fertilizer <- 0
-	e$K_fertilizer <- 20
 	e$fertilizer_type <- "unknown"
 	e$yield_part <- "pod"
 	carobiner::write_files(dset, e, path=path)
