@@ -60,7 +60,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
         colnames(d1) <- c("trial_id","plot_no", "crop","variety","inoculated","OM_type","OM_applied","fertilizer_type","fertilizer_amount")
   
 ### merge d and d1
-    d <- merge(d,d1,by="trial_id",all.x = T)    
+   d <- merge(d, d1, by="trial_id",all.x = T)    
         
  ###### process file with management information
   d2 <- r5[, c("farm_id","plot_no","crop_1_spacing_row_to_row","crop_1_spacing_plant_to_plant")] 
@@ -98,75 +98,33 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$is_survey <- FALSE
   d$irrigated <- FALSE
   # fix lon and Lat 
-  d$adm2 <- gsub(" ","",d$adm2)
+  d$adm2 <- gsub(" ", "", d$adm2)
   
-  Geo <- data.frame(adm2=c("Mudzi","Hwedza","Guruve","Goromonzi","Chegutu","Murehwa","Makoni","MAKONI","Murewa"),
-                     lat=c(-17.0516554,-18.6257778,-16.3431777,-17.8182737,-18.1867654,-17.8044363,-18.3848893,-18.3848893,-17.646074),
-                     lon=c(32.5494492,31.5769196,30.6290426,31.3723592,30.39756,31.8388002,32.1371586,32.1371586,31.777541))
+  geo <- data.frame(adm2=c("Mudzi","Hwedza","Guruve","Goromonzi","Chegutu","Murehwa","Makoni","MAKONI","Murewa"),
+        latitude=c(-17.0516554,-18.6257778,-16.3431777,-17.8182737,-18.1867654,-17.8044363,-18.3848893,-18.3848893,-17.646074),
+        longitude=c(32.5494492,31.5769196,30.6290426,31.3723592,30.39756,31.8388002,32.1371586,32.1371586,31.777541))
   # merge geo data 
   
-  d <- merge(d,Geo,by="adm2")
+  d <- merge(d, geo, by="adm2")
   
-  d$longitude <- d$lon
-  d$latitude <- d$lat
-  d$lon <- d$lat <- NULL
   # Fix fertilizer_type
-  p <- carobiner::fix_name(d$fertilizer_type)
-  p <- gsub(" and ","; ",p)
-  p <- gsub(",",";",p)
-  p <- gsub(",",";",p)
-  p <- gsub(",",";",p)
-  p <- gsub("\\+|/| &|&|,", "; ", p)
-  p <- gsub("\\-|/| &|&|,", "; ", p)
-  p <- gsub("Gypsum","gypsum",p)
-  p <- gsub("Gypum","gypsum",p)
-  p <- gsub("SSp","SSP",p)
-  p <- gsub("No leaf harvesting","unknown",p)
-  p <- gsub("No Leaf harvesting" ,"unknown",p)
-  p <- gsub("no Leaf harvesting","unknown",p)
-  p <- gsub("no Leaf harvesting","unknown",p)
-  p <- gsub("Noleaf harvesting","unknown",p)
-  p <- gsub("Noleaf harvesting","unknown",p)
-  p <- gsub("Leaf harvesting","unknown",p)
-  p <- gsub("leaves harvested","unknown",p)
-  p <- gsub("leaves not harvested","unknown",p)
-  p <- gsub("SSP ; harvesting leaves for re","SSP; unknown",p)
-  p <- gsub("SSP ; gypsum","SSP; gypsum",p)
-  p <- gsub("No; unknown" ,"unknown" ,p)
-  p <- gsub("SSP gypsum" ,"SSP; gypsum" ,p)
-  p <- gsub("SSP;gypsum" ,"SSP; gypsum" ,p)
-  p <- gsub("Harveng leaves of leaves for r" ,"unknown" ,p)
-  p <- gsub("Leaves not harvested"  ,"unknown" ,p)
-  p <- gsub("SSP; no leaf harvesting"  ,"SSP; unknown" ,p)
-  p <- gsub("SSP no leaf harvesting"  ,"SSP; unknown" ,p)
-  p <- gsub("no leaf harvesting"  ,"unknown" ,p)
-  p <- gsub("Leaves harvested"   ,"unknown" ,p)
-  p <- gsub("leaf harvesting"   ,"unknown" ,p)
-  p <- gsub("Leaves harvested; no SSP"   ,"SSP; unknown" ,p)
-  p <- gsub("SSP ; leaf harvesting"   ,"SSP; unknown" ,p)
-  p <- gsub("SSP; leaf harvesting"       ,"SSP; unknown" ,p)
-  p <- gsub("SSP leaf harvesting"       ,"SSP; unknown" ,p)
-  p <- gsub("SSP leaf harvesting"        ,"SSP; unknown" ,p)
-  p <- gsub("SSP leaf harvesting"        ,"SSP; unknown" ,p)
-  p <- gsub("2.5"         ,"unknown" ,p)
-  p <- gsub("2"         ,"unknown" ,p)
-  p <- gsub( "5"          ,"unknown" ,p)
-  p <- gsub( "SSP unknown"           ,"SSP; unknown"  ,p)
-  p <- gsub( "SSP ;  harvesting leaves for re"           ,"SSP; unknown"  ,p)
-  p <- gsub( "SSP ;  gypsum"   ,"SSP; gypsum"   ,p)
-  p <- gsub( "SSP ;  unknown"  ,"SSP; unknown"   ,p)
-  p <- gsub( "unknown; no SSP"  ,"SSP; unknown"   ,p)
-  p <- gsub( "Lime"  ,"lime"   ,p)
+  p <- carobiner::fix_name(d$fertilizer_type) |> tolower()
+  p[grep("harve", p)] <- NA
+  p[grep("5|2", p)] <- NA
+  p <- gsub(" and | \\+ |, ", "; ", p)
+  p <- gsub(",", "; ", p)
+  p <- gsub("ssp", "SSP", p)
+  p <- gsub("SSP ", "SSP; ", p)
+  p <- gsub("gypum", "gypsum", p)
   d$fertilizer_type <- p
   
   #add fertilizer
   d$N_fertilizer <- NA
   d$P_fertilizer <- NA
   d$K_fertilizer <- NA
-  i <- grepl("SSP",d$fertilizer_type ) |grepl("SSP; unknown",d$fertilizer_type ) |grepl("lime; SSP",d$fertilizer_type ) |grepl("SSP; gypsum",d$fertilizer_type )
+  i <- grepl("SSP",d$fertilizer_type)
   d$P_fertilizer[i] <- d$fertilizer_amount[i]
-  
-  
+    
   d$fertilizer_amount <- NULL
   #fix country name
   dd <- carobiner::fix_name(d$country,"title")
@@ -180,27 +138,25 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   # remove NA in Crop 
   d <- d[!is.na(d$crop),]
   ## data type
-  d$inoculated[d$inoculated=="N" ] <- FALSE
-  d$inoculated[is.na(d$inoculated)] <- FALSE
-  d$inoculated[d$inoculated=="Y"] <- TRUE
-  d$inoculated <- as.logical(d$inoculated)
+  d$inoculated[d$inoculated==""] <- NA
+  d$inoculated <- d$inoculated=="Y" 
+
   d$planting_date <- as.character(as.Date(d$planting_date, format = "%Y-%m-%d"))
-  ### fix crop yield
-  d$k <- d$yield
-  d$yield[d$crop=="common bean" & d$k>9000] <- NA
-  d$yield[d$crop=="groundnut" & d$k>8500] <- NA
-  d$yield[d$crop=="cowpea" & d$k>5000] <- NA
-  d$k <- NULL
   
   # fix whitespace in variable
   d$fertilizer_type[d$fertilizer_type==""] <- NA
   d$adm2[d$adm2==""] <- NA
   d$adm3[d$adm3==""] <- NA
-  d$inoculated[d$inoculated==""] <- NA
   d$variety[d$variety==""] <- NA
   
   d$yield_part <- "seed"
   d$yield_part[d$crop=="groundnut"] <- "grain"
+
+  ### fix crop yield
+#  d$yield[d$crop=="common bean" & d$yield > 9000] <- NA
+#  d$yield[d$crop=="groundnut" & d$yield > 8500] <- NA
+#  d$yield[d$crop=="cowpea" & d$yield > 5000] <- NA
+
   # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
 }

@@ -36,9 +36,6 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- carobiner::get_license(js)
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  dset$license <- carobiner::get_license(js)
   
   f <- ff[basename(ff) == "a_general_1.csv"] 
   f1 <- ff[basename(ff) == "c_land_holding_management_2.csv"]
@@ -67,85 +64,86 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$latitude <- d$latitude1
   
   # process management file
-  # use stringr:: if need be do not call library(stringr) or any other library
-  # library("stringr")
+
   d1 <- r1[, c("farm_id","size_ha","crops_grown","varieties","min_fert_type","harvest_amount","inoculant_applied","weight_unit","min_fert_amount")] 
   colnames(d1) <- c("trial_id","farm_size","crop","variety","fertilizer_type","yield1","inoculation_type","yield_unit","fertilizer_amount")
+
+
+	fix_cropnames <- function(p) {
+		p <- gsub("urubingo", "Napier grass", p)
+		p <- gsub("soybeans","soybean", p)
+		p <- gsub("groundnuts", "groundnut", p)
+		p <- gsub("cabbages", "cabbage", p)
+		p <- gsub("potatoes", "potato", p)
+		p <- gsub("sweet potato", "sweetpotato", p)
+		p <- gsub("sweet potaotes", "sweetpotato", p)
+		p <- gsub("irish",  "", p)
+		p <- gsub("^, ",  "", p)
+		p <- gsub("beans beans", "beans", p)
+		p <- gsub("bean ", "beans", p)
+		p <- gsub("climbing |common ", "", p)
+		p <- gsub(" beans", "; beans", p)
+		p <- gsub("beans ", "beans; ", p)
+		p <- gsub(" soybean", "; soybean", p)
+		p <- gsub("cassava ", "cassava; ", p)
+		p <- gsub("banana tree", "banana", p)
+		p <- gsub("soybeanscassava", "soybean; cassava", p)
+		p <- gsub("amaranths", "amaranth", p)
+		p <- gsub("tomatoes", "tomato", p)
+		p <- gsub("peas", "pea", p)
+		p <- gsub(" cassava", "; cassava", p)
+		p <- gsub("cassava;potato", "cassava; potato", p)
+		
+		p <- gsub(";;", ";", p)
+		p <- gsub("onions", "onion", p)
+		p[p %in% c("feeding animal", "kitchen garden")] <- NA
+		p <- gsub("bean$", "beans", p)
+		p <- gsub("soybeans", "soybean", p)
+
+		p <- gsub("cassava;", "cassava; ", p)
+		p <- gsub("cassava;  ", "cassava; ", p)
+		p <- gsub("^beans| beans", "common bean", p)
+		p <- gsub("red onion","onion",p)
+		p <- gsub("potaotes","potato",p)
+		p <- gsub(" potato", "potato", p)
+		gsub("pineaple",  "pineapple" ,p)
+	}
+
+    cp <- carobiner::fix_name(d1$crop, "lower")
+	cp <- gsub(" (\\d+)", " _\\1", cp)
+	cp <- gsub("&", "%", cp)
+	cp <- gsub("%$", "", cp)
+	cp <- stringr::str_split_fixed(cp, "%", 3)
+	cp <- data.frame(id = 1:nrow(cp), crop=c(cp[,1], trimws(cp[,2]), trimws(cp[,3])))
+
+	pp <- stringr::str_split_fixed(cp[,2], "_", 2)
+	cp[,2] <- trimws(pp[,1])
+	pp <- pp[,2]
+	pp[pp==""] <- NA
+	cp$perc <- as.integer(trimws(pp))
+	cp <- cp[order(cp$id, -cp$perc), ]
+	i <- duplicated(cp$id)
+	d1$crop <- cp$crop[!i]
+	pp <- unique(cp[i, ])
+	pp <- pp[pp$crop != "", ]
+	pp <- aggregate(pp["crop"], pp["id"], \(i) paste(i, collapse="; "))
+	d1$intercrops <- "no crop"
+	d1$intercrops[pp$id] <- pp$crop
+	
+	d1$yield_unit <- ifelse(grepl("kg", tolower(d1$yield_unit)), "kg", "bundles")
   
-  i <- c(50,40,60,90,70,30,20,35,80,10,5,45,15,55,6,65,100,1,2,3,4,7,8,43,13,88,0)
-  p <- gsub("%", "", d1$crop)
-  for(j in i){
-    p <- gsub(j,"",p)
-  }
-  d1$crop <- p
-  
-  d1[c('crop', 'intercrops')] <- stringr::str_split_fixed(d1$crop, "[                                           ]", 2)
-  
-  d1[c('yield_unit', 'yield_unit1')] <- str_split_fixed(d1$yield_unit, "[                                                               ]", 2)
-  
-  d1 <- d1[,c("trial_id","farm_size","crop","variety","intercrops","fertilizer_type","yield1","inoculation_type","yield_unit","fertilizer_amount")]
+	d1 <- d1[,c("trial_id","farm_size","crop","variety","intercrops","fertilizer_type","yield1","inoculation_type","yield_unit","fertilizer_amount")]
   
   # merge d and d1
-  d1 <- merge(d,d1,by="trial_id",All.X=T)
+	d1 <- merge(d, d1, by="trial_id", all.x=TRUE)
   
   ## fix crop name in d1
-  p <- carobiner::fix_name(d1$crop,"lower")
-  p <- gsub("sweet","sweetpotato",p)
-  p <- gsub("soybeans","soybean",p)
-  p <- gsub("groundnuts"  ,"groundnut" ,p)
-  p <- gsub("cabbages"    ,"cabbage" ,p)
-  p <- gsub("potatoes"    ,"potato" ,p)
-  p <- gsub("irish"    ,"potato" ,p)
-  p <- gsub("common"    ,"common bean" ,p)
-  p <- gsub("climbing"    ,"common bean" ,p)
-  p <- gsub("Beans"    ,"common bean" ,p)
-  p <- gsub("onions"    ,"onion" ,p)
-  p <- gsub("tomatoes"    ,"tomato" ,p)
-  p <- gsub("pineaple"    ,"pineapple" ,p)
-  d1$crop <- p
   
   # fix intercrops
-  II <- carobiner::fix_name(d1$intercrops,"lower")
-  II <- gsub("                        ","",II)
-  II <- gsub("          ","",II)
-  II <- gsub("                            ","",II)
-  II <- gsub("                                  ","",II)
-  II <- gsub(",  potatoes","potato",II)
-  II <- gsub("irish potatoes" ,"potato",II)
-  II <- gsub("sweet potatoes" ,"sweetpotato",II)
-  II <- gsub("potaotes","potato",II)
-  II <- gsub("groundnuts" ,"groundnut",II)
-  II <- gsub("soybeans" ,"soybean",II)
-  II <- gsub("climbing beans" ,"common bean",II)
-  II <- gsub("crops" ,"no crop",II)
-  II <- gsub("animal" ,"no crop",II)
-  II <- gsub("garden" ,"no crop",II)
-  II <- gsub("tree" ,"no crop",II)
-  II <- gsub("9,    peas"  ,"pea" ,II)
-  II <- gsub("peas"  ,"pea" ,II)
-  II <- gsub("& spinach"   ,"spinach"  ,II)
-  II <- gsub(",   beans"   ,"common bean"  ,II)
-  II <- gsub("maize     vegetables"   ,"maize; vegetables"  ,II)
-  II <- gsub("beans   pea"   ,"common bean; pea"  ,II)
-  II <- gsub("potatoes     cassava"   ,"potato; cassava"  ,II)
-  II <- gsub("beans  maize"   ,"common bean; maize"  ,II)
-  II <- gsub("beans   maize"    ,"common bean; maize"  ,II)
-  II <- gsub("beans   banana"     ,"common bean; banana"  ,II)
-  II <- gsub("beans"      ,"common bean"  ,II)
-  II <- gsub("potatoes","potato",II)
-  d1$intercrops <- II
-  d1$intercrops[d1$intercrops=="bean"] <- "common bean"
-  d1$intercrops[d1$intercrops=="crop"] <- "no crop"
+
   # remove bad value of yield in the data
-  d1 <- d1[d1$yield1 !="NOTYET" & d1$yield1 !="130NOTYETHARVESTED" & d1$yield1 !="67NA" & d1$yield1 !="1NA" & d1$yield1 !="NOTYET100" & d1$yield1 !="NOTYET75" & d1$yield1 !="100NOTYET"
-          & d1$yield1 !="25NOTYET" & d1$yield1 !="STILLINTHEFIELD" & d1$yield1 !="40-6" & d1$yield1 !="80NOTYET" & d1$yield1 !="70NA" & d1$yield1 !="80NA" 
-          & d1$yield1 !="20NOTYET" & d1$yield1 !="DAMAGEDBYFLOOD" & d1$yield1 !="NOTYETHARVESTED" & d1$yield1 !="20NOTYETHARVESTED" & d1$yield1 !="45NOTYETHARVESTED" & d1$yield1 !="NOTYETHARVESTED40"
-          & d1$yield1 !="THEYARESTILLGROWING" & d1$yield1 !="STILLINFIELD3" & d1$yield1 !="70STILLINFIELD"& d1$yield1 !="95STILLINTHEFIELD" & d1$yield1 !="STILLINFIELD" 
-          & d1$yield1 !="300STILLINFIELD" & d1$yield1 !="50STILLINFIELD" & d1$yield1 !="STILLINFIELD34" & d1$yield1 !="STILLINFIELD40" & d1$yield1 !="12NOTYET",]
-  
-  # remove unknown crops
-  d1 <- d1[d1$crop!="fallow" & d1$crop!="urubingo" & d1$crop!="feeding" & d1$crop!="bamboo, fodder"& d1$crop!="eucalyptus" & d1$crop!="kitchen" 
-         & d1$crop!="no" & d1$crop!="fodder crop" & d1$crop!="pineaple",]
+  d1 <- d1[!grepl("[[:alpha:]]", d1$yield1), ] 
+
   ##############################################
   # Process production data and  land management
   
@@ -157,7 +155,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d2 <- merge(d2,d22,by="trial_id")
   
   # merge d2 and d (location data)
-  d2 <- merge(d,d2,by="trial_id")
+  d2 <- merge(d, d2, by="trial_id")
   # remove word in yield value
   d2 <- d2[d2$yield1!="NOTYET" & d2$yield1!="LOSS" & d2$yield1!="DAMAGEDBYFLOOD" & d2$yield1!="STILLINFIELD" & d2$yield1!="STILLINTHEFIELD" & d2$yield1!="NOTYETHARVESTED", ]
   d2$inoculation_type <- NA
@@ -175,21 +173,23 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d3$variety <- NA
   d3$intercrops <- "no crop"
   # merge d3 and d
-  d3 <- merge(d,d3,by="trial_id")
+  d3 <- merge(d, d3, by="trial_id")
   
   # Append All the data we process 
   ################################################
-  d <- rbind(d1,d2,d3) 
+  d <- rbind(d1, d2, d3) 
   # remove bad value in the yield
-  d$yield1 <- as.numeric(d$yield1)
-  d$yield <- ifelse((d$yield_unit=="kg"| d$yield_unit=="Kg" | d$yield_unit=="kgs" | d$yield_unit=="KG" | d$yield_unit==" kg"| d$yield_unit=="kgs"| d$yield_unit=="kgS" | d$yield_unit=="KGS") & d$farm_size >0,d$yield1/d$farm_size,d$yield1)
+  d$yield1[d$yield1 == ""] <- NA
+  d$yield1[d$yield1 == "40-6"] <- NA
+  d$yield1 <- as.numeric(d$yield1)  
+  
+  d$yield <- ifelse(grepl("kg", d$yield_unit, ignore.case=TRUE) & (d$farm_size > 0), d$yield1 / d$farm_size, NA)
+  
   d$inoculated <- FALSE
   d$inoculated[!is.na(d$inoculation_type)| d$inoculation_type !=""] <- TRUE
   d <- d[, c("country", "trial_id", "location","adm2","adm3","longitude", "latitude","crop","intercrops", "yield","fertilizer_type","inoculated")]
   
-  
   # Add columns
-  d$dataset_id <- dataset_id
   d$on_farm <- FALSE
   d$is_survey <- TRUE
   d$irrigated <- FALSE
@@ -201,19 +201,21 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   # Fix fertilizer_type
   p <- carobiner::fix_name(d$fertilizer_type)
   p <- gsub("Urea","urea",p)
-  p <- gsub("DAP         urea","urea; DAP",p)
-  p <- gsub("urea       DAP","urea; DAP",p)
-  p <- gsub("DAP       urea","urea; DAP",p)
-  p <- gsub("DAP      urea","urea; DAP",p)
-  p <- gsub("DAP        urea","urea; DAP",p)
-  p <- gsub("NPK       DAP","NPK; DAP",p)
-  p <- gsub("DAP         urea","urea; DAP",p)
-  p <- gsub("DAP       urea" ,"urea; DAP",p)
+  p <- gsub("DAP urea","urea; DAP",p)
+  p <- gsub("urea DAP","urea; DAP",p)
+  p <- gsub("DAP urea","urea; DAP",p)
+  p <- gsub("DAP urea","urea; DAP",p)
+  p <- gsub("DAP urea","urea; DAP",p)
+  p <- gsub("NPK DAP","NPK; DAP",p)
+  p <- gsub("DAP urea","urea; DAP",p)
+  p <- gsub("DAP urea" ,"urea; DAP",p)
   p <- gsub("NPK17.17.17","NPK",p)
-  p <- gsub("NPK       NPK","NPK",p)
+  p <- gsub("NPK NPK","NPK",p)
   p <- gsub("NPk","NPK",p)
+  p[p==""] <- NA
   d$fertilizer_type <- p
-  d$fertilizer_type[d$fertilizer_type=="DAP+manure"] <- "DAP"
+
+#  d$fertilizer_type[d$fertilizer_type=="DAP+manure"] <- "DAP"
   
   #add fertilizer
   d$N_fertilizer <- NA
@@ -228,57 +230,32 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$P_fertilizer[d$fertilizer_type=="NPK; DAP"] <- 17/2.29+30
   d$K_fertilizer[d$fertilizer_type=="NPK"] <- 17/1.2051
   d$K_fertilizer[d$fertilizer_type=="NPK" |d$fertilizer_type=="NPK; DAP"] <- 17/1.2051
-  #fix country name
-  dd <- carobiner::fix_name(d$country,"title")
-  d$country <- dd
-  d$country[is.na(d$country)] <- "Rwanda"
-  # fix crop name 
-  p <- carobiner::fix_name(d$crop,"lower")
-  p <- gsub("soybeans","soybean",p)
-  p <- gsub("Sweet potatoes","sweetpotato",p)
-  p <- gsub("sweet potatoes","sweetpotato",p)
-  p <- gsub("sweet potatoes","sweetpotato",p)
-  p <- gsub("irish potatoes","potato",p)
-  p <- gsub("potatoes","potato",p)
-  p <- gsub("peas","pea",p)
-  p <- gsub("climbing beans","common bean",p)
-  p <- gsub("common beans","common bean",p)
-  p <- gsub("beans","common bean",p)
-  p <- gsub("tomatoes","tomato",p)
-  p <- gsub("onions","onion",p)
-  p <- gsub("cocoyam","taro",p)
-  p <- gsub("amaranths","amaranth",p)
-  p <- gsub("groundnuts","groundnut",p)
-  p <- gsub("kitchen garden","vegetables",p)
-  p <- gsub("cofffee","coffee",p)
-  p <- gsub("red onions","onion",p)
-  p <- gsub("red onion","onion",p)
-  p <- gsub("Banana","banana",p)
-  p <- gsub("peanuts","groundnut",p)
-  p <- gsub("irish potaotes","potato",p)
-  p <- gsub("pineaple"    ,"pineapple" ,p)
-  d$crop <- p
-  d$crop[is.na(d$crop)] <- "no crop"
+
+  d$crop <- fix_cropnames(carobiner::fix_name(d$crop,"lower"))
+  d$intercrops <- fix_cropnames(carobiner::fix_name(d$intercrops,"lower"))
   
   #fix crop yield limit with respect to crop
-  d$yield[d$crop=="common bean" & d$yield>9000] <- NA
-  d$yield[d$crop=="banana" & d$yield>173000] <- NA
-  d$yield[d$crop=="cassava" & d$yield>90000] <- NA
-  d$yield[d$crop=="maize" & d$yield>41500] <- NA
-  d$yield[d$crop=="sorghum" & d$yield>18000] <- NA
-  d$yield[d$crop=="wheat" & d$yield>19000] <- NA
-  d$yield[d$crop=="groundnut" & d$yield>8500] <- NA
-  d$yield[d$crop=="soybean" & d$yield>15000] <- NA
+  d$yield[d$crop=="common bean" & d$yield > 9000] <- NA
+  d$yield[d$crop=="banana" & d$yield > 173000] <- NA
+  d$yield[d$crop=="cassava" & d$yield > 90000] <- NA
+  d$yield[d$crop=="maize" & d$yield > 41500] <- NA
+  d$yield[d$crop=="sorghum" & d$yield > 18000] <- NA
+  d$yield[d$crop=="wheat" & d$yield > 19000] <- NA
+  d$yield[d$crop=="groundnut" & d$yield > 8500] <- NA
+  d$yield[d$crop=="soybean" & d$yield > 15000] <- NA
   # remove crop with very low yield value after divided by the plot area
-  d <- d[d$crop!="bamboo"&d$crop!="fodder"& d$crop!="fodder crop" & d$crop!="no crop",]
+#  d <- d[d$crop!="bamboo"&d$crop!="fodder"& d$crop!="fodder crop",]
   
   # fix whitespace in variable
-  d$fertilizer_type[d$fertilizer_type==""] <- NA
   d$location[d$location==""] <- NA
   d$adm2[d$adm2==""] <- NA
   d$adm3[d$adm3==""] <- NA
   d$intercrops[d$intercrops==""] <- NA
-  d$yield_part <- "seed"
+  d <- d[!is.na(d$crop), ]
+#  d$yield_part <- "seed"
   # all scripts must end like this
+  d$dataset_id <- dataset_id
+  d$country <- "Rwanda"
+
   carobiner::write_files(dset, d, path=path)
 }
