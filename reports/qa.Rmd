@@ -1,0 +1,76 @@
+---
+title: "&#32;"
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+carob_path = "../../../carob/"
+library(kableExtra)
+library(ggplot2)
+library(dplyr)
+library(viridis)
+```
+
+This is a test for data quality and exploratory analysis of carob data. The idea behind this is to provide some simple QA for each of the carob datasets in a summarized way in the [carob-data.org](http://carob-data.org/) page. 
+
+With this, users can quickly have an overview of the data quality, and pick any strange behaviors in the data (e.g.: missing NA's), so that contributors can go and look closer at each of the datasets, view them and correct them (if deem necessary).
+
+```{r plt, echo=FALSE, results = 'asis', fig.width = 8, fig.height = 3.25}
+# Get carob datasets
+datasets <- list.files(file.path(carob_path, "data", "clean", "fertilizer"), pattern = ".csv", full.names = TRUE)
+unwanted <- list.files(file.path(carob_path, "data", "clean", "fertilizer"), pattern = "_meta.csv", full.names = TRUE)
+csv_files <- base::setdiff(datasets, unwanted)
+
+# Loop over each CSV file
+for (file in csv_files) {
+  
+  # Print dataset_id
+  cat(paste0("<p style='text-align: center; font-size:15pt;'>, ", gsub(".csv", "", basename(file)), "</p>\n\n"))
+
+  # Read the clean dataset into a dataframe
+  df <- utils::read.csv(file)
+  
+  # Get number of crops in dataset
+  crops <- unique(df$crop)
+  for (crop in seq_along(crops)) {
+    # Subset by crop
+    df2 <- df[df$crop == crops[crop],]
+    # Create fertilizer classes/ranges
+    df2$N_class <- cut(df2$N_fertilizer, breaks=c(-Inf, 40, 100, Inf), right = TRUE, labels = c("low", "mid", "high"))
+    df2$P_class <- cut(df2$P_fertilizer, breaks=c(-Inf, 20, 50, Inf), right = TRUE, labels = c("low", "mid", "high"))
+    df2$K_class <- cut(df2$K_fertilizer, breaks=c(-Inf, 20, 50, Inf), right = TRUE, labels = c("low", "mid", "high"))        
+    # Plots
+      n <- ggplot(df2, aes(x=N_class, y=yield)) +
+        geom_violin(width = 0.5, scale = "count", na.rm = TRUE) +
+        geom_point(position = position_jitter(width = 0.2), alpha = 0.1) +
+        geom_boxplot(width=0.1, color="grey", outlier.alpha = 0) +
+        scale_fill_viridis(discrete = TRUE) +
+        ggtitle(paste0(crops[crop])) +
+        labs(x = "Nitrogen level") +
+        theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.5))
+      suppressWarnings(print(n))
+      p <- ggplot(df2, aes(x=P_class, y=yield)) +
+        geom_violin(width = 0.5, scale = "count", na.rm = TRUE) +
+        geom_point(position = position_jitter(width = 0.2), alpha = 0.1) +
+        geom_boxplot(width=0.1, color="grey", outlier.alpha = 0) +
+        scale_fill_viridis(discrete = TRUE) +
+        labs(x = "Phosphorous level") +
+        theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.5))
+      suppressWarnings(print(p))
+      k <- ggplot(df2, aes(x=K_class, y=yield)) +
+        geom_violin(width = 0.5, scale = "count", na.rm = TRUE) +
+        geom_point(position = position_jitter(width = 0.2), alpha = 0.1) +
+        geom_boxplot(width=0.1, color="grey", outlier.alpha = 0) +
+        scale_fill_viridis(discrete = TRUE) +
+        labs(x = "Potassium level") +
+        theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.5))
+      suppressWarnings(print(k))
+  }
+
+  # Add a page break after each histogram
+  cat("\n\n")
+  # cat("\\newpage\n")
+}
+```
