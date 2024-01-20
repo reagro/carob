@@ -91,15 +91,15 @@ carob_script <- function(path) {
 	# Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
 	# and Urea split (50-50) applied at a rate of 60 kg N/ha
 	
-	d$P_fertilizer <- 0 
+	d$P_fertilizer <- NA
 	i <- d$fertilizer_type %in% c("DAP", "TSP", "TSP/KCl", "TSP/KCl/urea")
 	d$P_fertilizer[i] <- 30 
 	
-	d$K_fertilizer <- 0 
+	d$K_fertilizer <- NA
 	i <- grep("KCl", d$fertilizer_type) 
 	d$K_fertilizer[i] <- 30 
 	
-	d$N_fertilizer <- 0 
+	d$N_fertilizer <- NA
 	i <- grep("urea", d$fertilizer_type) 
 	d$N_fertilizer[i] <- 60 
 	

@@ -160,9 +160,9 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$fertilizer_type <- p
   
   #add fertilizer
-  d$N_fertilizer <- 0
-  d$P_fertilizer <- 0
-  d$K_fertilizer <- 0
+  d$N_fertilizer <- NA
+  d$P_fertilizer <- NA
+  d$K_fertilizer <- NA
   i <- grepl("SSP",d$fertilizer_type ) |grepl("SSP; unknown",d$fertilizer_type ) |grepl("lime; SSP",d$fertilizer_type ) |grepl("SSP; gypsum",d$fertilizer_type )
   d$P_fertilizer[i] <- d$fertilizer_amount[i]
   

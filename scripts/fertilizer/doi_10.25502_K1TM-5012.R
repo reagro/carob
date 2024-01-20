@@ -216,9 +216,9 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$fertilizer_type[d$fertilizer_type=="DAP+manure"] <- "DAP"
   
   #add fertilizer
-  d$N_fertilizer <- 0
-  d$P_fertilizer <- 0
-  d$K_fertilizer <- 0
+  d$N_fertilizer <- NA
+  d$P_fertilizer <- NA
+  d$K_fertilizer <- NA
   d$N_fertilizer[d$fertilizer_type=="NPK"] <- 17
   d$N_fertilizer[d$fertilizer_type=="urea"] <- 60*0.46
   d$N_fertilizer[d$fertilizer_type=="urea; DAP"] <- 60*0.46+ (30*0.18)/0.46

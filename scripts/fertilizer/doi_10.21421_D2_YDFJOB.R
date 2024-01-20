@@ -17,13 +17,15 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 		dataset_id = dataset_id,
 		group=group,
 		uri=uri,
-		publication=NA,
+		publication="issn-2315-5094",
 		data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Sorghum productivity and water use under Phosphorus fertilization in the Sudan savanna of Nigeria. https://doi.org/10.21421/D2/YDFJOB, ICRISAT Dataverse, V1",
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
 		data_type="experiment",
-		data_institutions=NA,
-		project=NA 
+		data_institutions = "ICRISAT",
+		project = "CGIAR Research Program on Dryland Systems",
+		revised_by = "Eduardo Garcia Bendito",
+		revised_date = "2024-01-18"
 	)
   
 	## treatment level data 
@@ -50,9 +52,12 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	e$P_fertilizer <- e$P_fertilizer / 2.29
 	
 	## RH check in paper if N or K were applied
-	e$N_fertilizer <- 0
-	e$K_fertilizer <- 0
-	e$fertilizer_type <- "unknown"
+	## EGB: Apparently there was N and K applied according to a paper (https://oar.icrisat.org/10842/).
+	## RIS added as ISSN, since no DOI was available
+	e$N_fertilizer <- 60
+	e$K_fertilizer <- 30/1.21 # K2O to K
+	e$fertilizer_type <- "Urea; SSP; KCl"
+	e$treatment <- paste0("N", as.integer(e$N_fertilizer), "P", as.integer(e$P_fertilizer), "K", as.integer(e$K_fertilizer))
 	
 	#Replace values in a data frame
 	e$location <- ifelse(d$Location == "BUK", "Bayero", d$Location)
@@ -70,9 +75,13 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	
 	e$rep <- as.integer(e$rep)
 	e$yield_part <- "grain"
+	
+	# Additional variables
+	e$flowering_date <- as.character(as.Date(e$planting_date) + d$Flo_c_day)
+	e$flowering <- d$Flo_c_day # Two terms that mean the same thing?
+	e$plant_height <- d$PH_M_cm
+	e$dmy_stems <- d$`Stalk yield` # Not sure if it is DMY... 
 
 	carobiner::write_files(dset, e, path=path)
 
 }
-
-

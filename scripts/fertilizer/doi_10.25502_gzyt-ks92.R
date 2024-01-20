@@ -116,9 +116,9 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   # Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare;
   # DAP content: 18% of N  and 46% P205 
   #Urea was applied at a rate of 60 kg N/ha in Kenya and Rwanda trials and we assume it was the same in others Trials
-  d$N_fertilizer <- 0
-  d$P_fertilizer <- 0
-  d$K_fertilizer <- 0
+  d$N_fertilizer <- NA
+  d$P_fertilizer <- NA
+  d$K_fertilizer <- NA
   d$P_fertilizer[grepl("NPK",d$fertilizer_type)] <- 30
   d$P_fertilizer[grepl("TSP",d$fertilizer_type)] <- 30
   d$P_fertilizer[grepl("DAP",d$fertilizer_type)] <- 30*0.46/2.29 
