@@ -1,0 +1,52 @@
+---
+title: "Report"
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+scrolltab <- function(data, caption, width="100%") {
+  rownames(data) <- NULL
+  kableExtra::kbl(data, caption=caption) |>
+    kableExtra::kable_classic(full_width = F,  position = "right") |>
+    kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))  |> 
+    kableExtra::scroll_box(width=width, height="400px")
+}
+
+ktab <- function(data, caption) {
+    kableExtra::kbl(data, caption=caption) |>
+    kableExtra::kable_classic(full_width=FALSE) |> 
+    kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
+}
+
+uri <- "doi_10.25502_ysjw-cw72"
+group <- "fertilizer"
+
+d <- read.csv(paste0("../data/clean/", group, "/", uri, ".csv"))
+m <- read.csv(paste0("../data/clean/", group, "/", uri, "_meta.csv"))
+
+```
+
+Standardized data for 
+
+`r m$citation`
+
+
+The first 25 records 
+
+```{r tab1}
+scrolltab(head(d, 25))
+```
+
+
+Fertilzier treatments 
+
+```{r tab1}
+i <- grep("_fertilizer", colnames(d))
+ktab(unique(d[, i])
+```
+
+
+
+
