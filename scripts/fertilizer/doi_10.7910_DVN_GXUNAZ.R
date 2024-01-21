@@ -38,6 +38,7 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 	
 	# reading the data.csv data
 	f <- ff[basename(ff) == "Non responsiveness of crop to fertiliser dat V2.xlsx"]

@@ -17,7 +17,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 		dataset_id = dataset_id,
 		group=group,
 		uri=uri,
-		publication="issn-2315-5094",
+		publication=NA,#"issn-2315-5094",
 		data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Sorghum productivity and water use under Phosphorus fertilization in the Sudan savanna of Nigeria. https://doi.org/10.21421/D2/YDFJOB, ICRISAT Dataverse, V1",
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
@@ -34,6 +34,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	## read the json for version, license, terms of use	
 	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
 	dset$license <- carobiner::get_license(js) #Cant get the license right??
+  dset$title <- carobiner::get_title(js)
 	
 	f <- ff[basename(ff) == "Data file of Sorghum productivity and water use under phosphorous fertilization.xlsx"]
 	d <- carobiner::read.excel(f)

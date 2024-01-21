@@ -38,6 +38,7 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   lic <- carobiner::get_license(js)
   dset$license <- lic$name
+  dset$title <- carobiner::get_title(js)
   
   f <- ff[basename(ff) =="SSNM_Meta-analysis_data.csv"] 
   

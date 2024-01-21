@@ -39,6 +39,7 @@ carob_script <- function(path) {
   ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
   dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
   
   
   f <- ff[basename(ff) == "003_AR_MAL_CIMMYT_CAmother_onfarm_2019_Data.csv"]

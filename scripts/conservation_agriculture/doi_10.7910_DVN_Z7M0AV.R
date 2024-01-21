@@ -43,7 +43,7 @@ T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on
   
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-  # dset$license <- "not specified" #carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
   dset$license <- carobiner::get_license(js)
   
   f <- ff[basename(ff) == "AR_ZAM_CIMMYT_Msekera_LT trial_2020.csv"]

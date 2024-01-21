@@ -47,6 +47,7 @@ Notes
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(cleanuri, path, major=1, minor=3, group)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 
 	## the AFSIS data 
 

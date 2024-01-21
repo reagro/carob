@@ -34,6 +34,7 @@ carob_script <- function(path) {
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=0)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 	
 	ss <- c("AB250.xlsx", "", 
 	"AB250.xlsx", sheet = "AB250C1", 

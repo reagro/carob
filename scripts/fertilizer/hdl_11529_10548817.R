@@ -43,6 +43,7 @@ carob_script <- function(path) {
   ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
   dset$license <- "CIMMYT license"
+  dset$title <- carobiner::get_title(js)
   #dset$license <- carobiner::get_license(js)
   
   

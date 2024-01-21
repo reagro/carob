@@ -45,6 +45,7 @@ h_year <- 2014 # harvest year
 	ff <- carobiner::get_data(uri,path,group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
 	dset$license <- carobiner::get_license(js) 
+  dset$title <- carobiner::get_title(js)
 	
 	# read the experiment data table
 	f0 <- ff[basename(ff) == "experiment.csv"]

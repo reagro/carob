@@ -36,6 +36,7 @@ carob_script <- function(path) {
   ## Major and minor version are important. This case is 1.3
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 
 ##Read data 
 	f <- ff[basename(ff) == "PTLB200409_OXAPMP_B3C0OXA05-01.xls"]

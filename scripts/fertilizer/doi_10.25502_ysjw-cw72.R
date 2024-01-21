@@ -34,6 +34,7 @@ carob_script <- function(path) {
   ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
   
   bn <- basename(ff)
   
@@ -55,7 +56,7 @@ carob_script <- function(path) {
 ### process file with crop and management information
   
   d1 <- r4[, c("farm_id","plot_no", "crop_1","variety_1","inoculant_used","organic_fert_type","organic_fert_amount","mineral_fert_type","mineral_fert_amount")] 
-        colnames(d1) <- c("trial_id","plot_no", "crop","variety","inoculated","OM_type","OM_applied","fertilizer_type","fertilizer_amount")
+        colnames(d1) <- c("trial_id","plot_no", "crop","variety","inoculated", "OM_type", "OM_applied","fertilizer_type","fertilizer_amount")
   
 ### merge d and d1
    d <- merge(d, d1, by="trial_id",all.x = T)    
@@ -70,11 +71,11 @@ carob_script <- function(path) {
   ######### process file with date  
   
   d3 <- r6[, c("farm_id","date_planting_dd","date_planting_mm","date_planting_yyyy")] 
-  d3$planting_date <- paste(d3$date_planting_yyyy,d3$date_planting_mm,d3$date_planting_dd,sep = "-")
-  d3 <- d3[,c("farm_id","planting_date")]
-  colnames(d3) <- c("trial_id","planting_date")
+  d3$planting_date <- paste(d3$date_planting_yyyy, d3$date_planting_mm, d3$date_planting_dd, sep = "-")
+  d3 <- d3[,c("farm_id", "planting_date")]
+  colnames(d3) <- c("trial_id", "planting_date")
   ## merge d and d3
-  d <- merge(d,d3,by=("trial_id"),all.x = T)
+  d <- merge(d,d3,by=("trial_id"), all.x = T)
   
   ### process file with yield data
   
@@ -95,15 +96,16 @@ carob_script <- function(path) {
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$irrigated <- FALSE
+  d$adm2 <- carobiner::fix_name(d$adm2, "title")
+  d$adm3 <- carobiner::fix_name(d$adm2, "title")
+
   # fix lon and Lat 
-  d$adm2 <- gsub(" ", "", d$adm2)
-  
-  geo <- data.frame(adm2=c("Mudzi","Hwedza","Guruve","Goromonzi","Chegutu","Murehwa","Makoni","MAKONI","Murewa"),
-        latitude=c(-17.0516554,-18.6257778,-16.3431777,-17.8182737,-18.1867654,-17.8044363,-18.3848893,-18.3848893,-17.646074),
-        longitude=c(32.5494492,31.5769196,30.6290426,31.3723592,30.39756,31.8388002,32.1371586,32.1371586,31.777541))
-  # merge geo data 
-  
-  d <- merge(d, geo, by="adm2")
+ #RH: not correct. georeferencing should be done with adm3, not with adm2! 
+#  geo <- data.frame(adm2=c("Mudzi","Hwedza","Guruve","Goromonzi","Chegutu","Murehwa","Makoni","MAKONI","Murewa"),
+#        latitude=c(-17.0516554,-18.6257778,-16.3431777,-17.8182737,-18.1867654,-17.8044363,-18.3848893,-18.3848893,-17.646074),
+#        longitude=c(32.5494492,31.5769196,30.6290426,31.3723592,30.39756,31.8388002,32.1371586,32.1371586,31.777541))
+ 
+#  d <- merge(d, geo, by="adm2")
   
   # Fix fertilizer_type
   p <- carobiner::fix_name(d$fertilizer_type) |> tolower()
