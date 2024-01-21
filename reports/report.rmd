@@ -56,13 +56,15 @@ locvars <- c("country", paste0("adm", 1:5), "location", "site", "longitude", "la
 i <- which(locvars %in% colnames(d))
 locs <- unique(d[, locvars[i]])
 
+pub <- ifelse(is.na(m$publication), "", paste0('This is the accompanying <a href="', carobiner:::http_address(m$publication), "'>paper</a>"))
 ```
 
-This report describes standardized data for:
+
+This report describes standardized data for `r m$title`. These data were standardized on `r m$carob_date` by `r m$carob_contributor` with this `r script`. The original data are available `r http`. This is the full citation: 
 
 `r m$data_citation`
 
-These data were standardized on `r m$carob_date` by `r m$carob_contributor` with this `r script`. The original data are available `r http`. 
+`r pub`
 
 The dataset has `r nrow(d)` records for `r crop` in `r country`. These are the first `r min(nrow(d), 25)` records: 
 
@@ -79,7 +81,7 @@ ktab(treatments, "treatments")
 
 The fertilizer types used were: `r ferts`.
 
-The observations are for `r nrow(locs)` locations for which we have `r nrow(uniqe(locs[, c("longitude", "latitude")])` unique coordinate pairs.
+The observations are for `r nrow(locs)` locations for which we have `r nrow(unique(locs[, c("longitude", "latitude")]))` unique coordinate pairs.
 
 ```{r}
 locs <- locs[!is.na(locs$latitude), ]

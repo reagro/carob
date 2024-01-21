@@ -49,14 +49,15 @@ carob_script <- function(path) {
   r7 <- read.csv(ff[bn == "e_harvest.csv"])
   ## process file(s)
   ### Process General file containing locations information
-  d <- r1[, c( "farm_id","country","season","district","vilage","gps_longitude","gps_latitude","farm_size")] 
-       colnames(d) <- c("trial_id", "country","season","adm2","adm3","longitude","latitude","farm_size")
+  # all NA: "gps_longitude", "gps_latitude"
+  d <- r1[, c( "farm_id","country","season","district","vilage", "farm_size")] 
+  colnames(d) <- c("trial_id", "country","season", "adm2", "adm3", "farm_size")
   
   ############
 ### process file with crop and management information
   
   d1 <- r4[, c("farm_id","plot_no", "crop_1","variety_1","inoculant_used","organic_fert_type","organic_fert_amount","mineral_fert_type","mineral_fert_amount")] 
-        colnames(d1) <- c("trial_id","plot_no", "crop","variety","inoculated", "OM_type", "OM_applied","fertilizer_type","fertilizer_amount")
+  colnames(d1) <- c("trial_id","plot_no", "crop","variety","inoculated", "OM_type", "OM_applied","fertilizer_type","fertilizer_amount")
   
 ### merge d and d1
    d <- merge(d, d1, by="trial_id",all.x = T)    
@@ -89,7 +90,7 @@ carob_script <- function(path) {
   
   ## Extract Relevant columns 
   
-  d <- d[,c("trial_id", "country","season","adm2","adm3","longitude","latitude","crop","variety","yield","inoculated","OM_applied","fertilizer_type","fertilizer_amount","row_spacing","plant_spacing","planting_date")]
+  d <- d[,c("trial_id", "country","season","adm2","adm3", "crop","variety","yield","inoculated","OM_applied","fertilizer_type","fertilizer_amount","row_spacing","plant_spacing","planting_date")]
   
   # Add columns
   d$dataset_id <- dataset_id
@@ -119,11 +120,11 @@ carob_script <- function(path) {
   d$fertilizer_type <- p
   
   #add fertilizer
-  d$N_fertilizer <- NA
-  d$P_fertilizer <- NA
-  d$K_fertilizer <- NA
-  i <- grepl("SSP",d$fertilizer_type)
+  d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- ifelse(is.na(d$fertilizer_type), NA, 0)
+  i <- grepl("SSP", d$fertilizer_type)
   d$P_fertilizer[i] <- d$fertilizer_amount[i]
+  d$lime <- as.numeric(NA)
+  d$gypsum <- as.numeric(NA)
     
   d$fertilizer_amount <- NULL
   #fix country name
