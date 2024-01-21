@@ -284,10 +284,6 @@ carob_script <- function(path) {
 
 
 ## georeferencing 
-	# 0) remove bad georefs 
-	w <- geodata::world(path="data")
-	e <- terra::extract(w, d[, c("longitude", "latitude")])
-	d[which(e$NAME_0 != d$country), c("longitude", "latitude")] <- NA 
 
 	# 1) find missing lon.lat that are available in other records
 	d <- carobiner::geocode_duplicates(d, c("country", "location") )
@@ -298,13 +294,10 @@ carob_script <- function(path) {
 
 	#g <- carobiner::geocode(xy$country, xy$location, adm1=xy$adm1)
 	#g$put
-	pts <- structure(list(country = c("Ethiopia", "Ethiopia", "Ethiopia", 
-    "Ethiopia", "Ethiopia"), adm1 = c(NA_character_, NA_character_, 
-    NA_character_, NA_character_, NA_character_), location = c("Bule", 
-    "Hosanna", "Menagesha", "Tatek", "Waka"), lon = c(38.4102886, 
-    37.8578477, 38.568749925286, 38.6382559, 37.1791421), lat = c(6.3024217, 
-    7.5578434, 9.05509080403642, 9.0338169, 7.0600736)), row.names = c(2L, 
-    7L, 11L, 12L, 13L), class = "data.frame")
+	pts <- data.frame(country = "Ethiopia", 
+			location = c("Bule", "Hosanna", "Menagesha", "Tatek", "Waka"), 
+			lon = c(38.4102886, 37.8578477, 38.568749925286, 38.6382559, 37.1791421), 
+			lat = c(6.3024217, 7.5578434, 9.05509080403642, 9.0338169, 7.0600736))
 
 	# all adm1 were NA
 	pts$adm1 <- NULL
@@ -333,6 +326,9 @@ carob_script <- function(path) {
 	d$longitude[i] <- 35.258
 	d$latitude[i] <- 7.2424
 
+	i <- d$location == "Metema"
+	d[i, "latitude"] <- 12.965
+	d[i, "longitude"] <- 36.160
 
 	#centroids(eth[eth$NAME_3=="Lay Gayint", ]) |> crds()
 	i <- which(d$location == "Laie-Gaient Woreda")
@@ -354,6 +350,8 @@ carob_script <- function(path) {
 	i <- which(d$location == "Fereze Guraghe Zone")
 	d$longitude[i] <- 38.08
 	d$latitude[i] <- 8.19
+
+	d$location <- gsub("La’elay", "La'elay", d$location) 
 
 #	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
 #	xy <- uxy[is.na(uxy$longitude),]

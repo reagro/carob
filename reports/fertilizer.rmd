@@ -22,7 +22,7 @@ ktab <- function(data, caption) {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 }
 
-uri <- "doi:10.25502/jnpx-d405"
+uri <- "doi:10.7910/DVN/RKUMXB"
 group <- "fertilizer"
 
 suri <- carobiner::simple_uri(uri)
