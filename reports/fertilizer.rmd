@@ -22,7 +22,7 @@ ktab <- function(data, caption) {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 }
 
-uri <- "doi:10.25502/ysjw-cw72"
+uri <- "doi:10.25502/jnpx-d405"
 group <- "fertilizer"
 
 suri <- carobiner::simple_uri(uri)
@@ -43,24 +43,37 @@ rownames(treatments) <- NULL
 
 get_values <- function(x, label) {
   x <- unique(x)
-  ifelse(length(x)==1, x, paste0(length(x), " ", label, "(", paste(x, collapse=", "), ")"))
+  ifelse(length(x)==1, x, paste0(length(x), " ", label, "(", paste(sort(x), collapse=", "), ")"))
 }
 
 crop <- get_values(d$crop, "crops")
 country <- get_values(d$country, "countries")
 
-uf <- strsplit(unique(d$fertilizer_type), "; ") |> unlist() |> unique()
-ferts <- paste0(sort(uf), collapse=", ")
+if (is.null(d$fertilizer_type) || all(is.na(d$fertilizer_type))) {
+  ferts <- "unknown"
+} else {
+  uf <- strsplit(unique(d$fertilizer_type), "; ") |> unlist() |> unique()
+  ferts <- paste0(sort(uf), collapse=", ")
+}
 
 locvars <- c("country", paste0("adm", 1:5), "location", "site", "longitude", "latitude")
 i <- which(locvars %in% colnames(d))
 locs <- unique(d[, locvars[i]])
-
-pub <- ifelse(is.na(m$publication), "", paste0('This is the accompanying <a href="', carobiner:::http_address(m$publication), "'>paper</a>"))
+if (all(c("longitude", "latitude") %in% colnames(locs))) {
+  xy <- unique(locs[, c("longitude", "latitude")])
+  xytxt <- paste0(", for which we have ", nrow(xy), " unique mapped locations.")
+  haveXY <- TRUE
+} else {
+  xytxt <- paste0("for which we have no coordinates.")
+  xy <- cbind(0,0)[0,]
+  haveXY <- FALSE
+}
+     
+pub <- ifelse(is.na(m$publication), "", paste0('You can also consult the accompanying <a href="', carobiner:::http_address(carobiner::simple_uri(m$publication, reverse=FALSE)), '">paper</a>.'))
 ```
 
 
-This report describes standardized data for `r m$title`. These data were standardized on `r m$carob_date` by `r m$carob_contributor` with this `r script`. The original data are available `r http`. This is the full citation: 
+This report describes standardized data for "*`r m$title`*". These data were standardized on `r m$carob_date` by `r m$carob_contributor` with this `r script`. The original data are available `r http`. This is the full citation of the data set: 
 
 `r m$data_citation`
 
@@ -76,14 +89,14 @@ scrolltab(head(d, 25), "records")
 The dataset has `r nrow(treatments)` fertilizer treatments: 
 
 ```{r tab2}
-ktab(treatments, "treatments")
+scrolltab(treatments, "treatments")
 ```
 
 The fertilizer types used were: `r ferts`.
 
-The observations are for `r nrow(locs)` locations for which we have `r nrow(unique(locs[, c("longitude", "latitude")]))` unique coordinate pairs.
+The observations are for `r nrow(locs)` locations `r xytxt`
 
-```{r}
+```{r map, include=haveXY}
 locs <- locs[!is.na(locs$latitude), ]
 if (nrow(locs) > 0) {
   crs <- terra::crs
