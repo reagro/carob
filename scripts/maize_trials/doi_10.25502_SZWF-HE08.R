@@ -15,7 +15,7 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 		group=group,
 		uri = uri,
 		data_citation="Badu-Apraku Baffour, R. Asiedu, A.O. Talabi, M.A.B. Fakorede, Y. Fasanmade, M. Gedil, & C. Magorokosho. (2018). Yield gains and associated changes in an early yellow bi-parental maize population following Genomic Selection for Striga resistance and drought tolerance [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/SZWF-HE08 ",
- 	    # publication="doi.org/10.1186/s12870-019-1740-z",
+ 	        publication="doi.org/10.1186/s12870-019-1740-z",
 		publication=NA,
 		carob_contributor = "Siyabusa Mkuhlani",
 		carob_date="2024-17-01",
