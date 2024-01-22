@@ -27,7 +27,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="on-farm experiment",
-		carob_contributor="Fredy Chimere",
+		carob_contributor="Fredy Chimire",
 		carob_date="2023-10-31",
 		revised_by="Robert Hijmans",
 		revision_date="2023-11-04"
@@ -42,6 +42,7 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 		
 	get_raw_data <- function(f) {
 		r1 <- carobiner::read.excel.hdr(f, sheet ="4- Stand counts & Phenology", skip=4, hdr=2)

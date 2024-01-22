@@ -7,10 +7,9 @@
 carob_script <- function(path) {
   
   "Description:Maize response to N and P. Tofa, A., Kamara, A. Y., Babaji, B. A., Ademulegun, T. D., & Aliyu, K. T. (2021). Maize response to N and P [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/07RT-7A40/D"
-
     
 ####
-	uri <- "doi:10.25502/07rt-7a40/d"
+	uri <- "doi:10.25502/07RT-7A40/d"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	## dataset level data. Internal annotation for CAROB 
@@ -32,6 +31,7 @@ carob_script <- function(path) {
 	ff	 <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 	
 	# Process the trial/farm sites 
 		

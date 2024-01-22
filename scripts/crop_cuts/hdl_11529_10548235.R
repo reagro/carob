@@ -35,6 +35,7 @@ carob_script <- function(path) {
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 
 	f <- ff[basename(ff) == "TZ_TAMASA_APS_2017_Yield_MetaData.xlsx"]
 	r <- carobiner::read.excel(f, sheet = "Corrected-Raw-Data", n_max = 1835)

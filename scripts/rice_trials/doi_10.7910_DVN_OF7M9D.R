@@ -34,6 +34,7 @@ In 2010, the Africa-wide Rice Breeding Task Force was launched by AfricaRice inv
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   dset$license <- carobiner::get_license(js)[[1]]
+  dset$title <- carobiner::get_title(js)
   
   d <- list()
   ## Process all country files in a loop, since all have similar structure. Then append them together

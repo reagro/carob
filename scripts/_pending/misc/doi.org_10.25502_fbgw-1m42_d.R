@@ -34,6 +34,7 @@ Increasing organic matter/carbon contents of soils is one option from a basket o
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 
 	
 ## process file(s)

@@ -36,6 +36,7 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
    ff  <- carobiner::get_data(uri, path, group)
    js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
    dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
    
    bn <- basename(ff)
    ## process file(s)

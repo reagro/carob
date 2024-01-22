@@ -30,7 +30,7 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="on_station",
-    carob_contributor="Fredy Chimere",
+    carob_contributor="Fredy Chimire",
     carob_date="2023-10-17"
   )
   
@@ -39,6 +39,7 @@ carob_script <- function(path) {
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- "not specified" #carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
   
   
   f <- ff[basename(ff) == "APSIM-IrrXN- rabi maize 2015-16-SRFSI-OFRD-Rangpur.xlsx"]

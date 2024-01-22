@@ -9,8 +9,7 @@ legumes through effective production technologies including inoculants and ferti
 A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project.
 The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 "
-  
-
+          
 	uri <- "doi:10.25502/EZQV-ZZ19"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
@@ -34,6 +33,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	ff <- carobiner::get_data(uri,path,group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
 	dset$license <- carobiner::get_license(js) 
+  dset$title <- carobiner::get_title(js)
 	
 	# read the experiment data table
 	f0 <- ff[basename(ff) == "experiment.csv"]

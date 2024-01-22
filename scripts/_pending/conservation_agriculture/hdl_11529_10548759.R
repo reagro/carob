@@ -25,6 +25,7 @@ carob_script <- function(path)
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	dset$license <- carobiner::get_license(js)[[1]]
+  dset$title <- carobiner::get_title(js)
 
 
 	f <- ff[basename(ff) == "Jat et al 2022 Final row data for LDD_SK.xlsx"]

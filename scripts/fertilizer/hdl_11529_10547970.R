@@ -38,6 +38,7 @@ carob_script <- function(path) {
 	ff <- ff[-grep("^hdl", basename(ff))]
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 
 
 	get_raw_data <- function(f) {
