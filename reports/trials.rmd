@@ -8,7 +8,7 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE)
 
-setwd("c:/github/reagro/carob")
+#setwd("c:/github/reagro/carob")
 
 scrolltab <- function(data, caption, width="100%") {
   rownames(data) <- NULL
@@ -40,12 +40,12 @@ m <- read.csv(gsub(".csv$", "_meta.csv", f))
 
 get_values <- function(x, label) {
   x <- unique(x)
-  ifelse(length(x)==1, x, paste0(length(x), " ", label, "(", paste(sort(x), collapse=", "), ")"))
+  ifelse(length(x)==1, x, paste0(length(x), " ", label, " (", paste(sort(x), collapse=", "), ")"))
 }
 
 crop <- get_values(d$crop, "crops")
 country <- get_values(d$country, "countries")
-vars <- unique(d$variety)
+varieties <- unique(d$variety)
 
 locvars <- c("country", paste0("adm", 1:5), "location", "site", "longitude", "latitude")
 i <- which(locvars %in% colnames(d))

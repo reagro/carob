@@ -39,8 +39,9 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 			## RH: were all locations planted on 04-01?
 			## that seems rather unlikely.
 			planting_date = paste(r$YEAR, "04", "01", sep="-"),
-			## RH: How can it be "x + ASI"?
-			anthesis = r$DYSK + r$ASI,  
+			## RH: How can it be "x + ASI"? 
+			## anthesis = r$DYSK + r$ASI,  
+			anthesis = r$DYSK - r$ASI,  
 			variety = r$PEDIGREE,
 			rep = r$REP,
 			yield = r$YIELD,
