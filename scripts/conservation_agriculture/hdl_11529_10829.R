@@ -49,6 +49,7 @@ The data set presents yields for maize and the legumes from these sites over 10 
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 	
 	f <- ff[basename(ff) == "Summary files Malawi 2005-15..xlsx"]
 	

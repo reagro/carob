@@ -54,6 +54,7 @@ carob_script <- function(path) {
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 
 
 	ft <- c("DATASOURCE", "reference", "SITE", "location", "ADMIN_REGION", "adm1", "CODE", "trial_id", "CodeSE", "drop", "Y", "longitude", "X", "latitude", "CoordType", "drop", "CROPTYPE", "crop", "VARIETY", "variety", "VARIETYTYPE", "variety_type", "TRIALTYPE", "trial_type", "SOILTYPE", "soil_type", "Sand", "soil_sand", "Clay", "soil_clay", "SOC", "soil_SOC", "pH", "soil_pH", "Avail_P", "soil_P_available", "CroppingSystem", "crop_system", "Organicresource", "OM_used", "Inoculation", "inoculated", "OrgR_type", "OM_type", "OrgR_Amount", "OM_applied", "OrganicN", "OM_N", "OrganicK", "OM_K", "OrganicP", "OM_P", "Prev_crop", "previous_crop", "YEAR", "year", "Season", "season", "Response", "response", "N", "N", "N_Timing", "drop", "N_splits", "N_splits", "P", "P", "P_Appl", "drop", "P_Source", "fertilizer_type_1", "K", "K", "Other_Nutrient", "Other_Nutrient", "NutrientSource", "fertilizer_type_2", "Nutrientamount", "Nutrientamount", "AvailableSoilNutrient_OtherthanNPK", "drop", "TrtDesc", "drop", "Treatment_yld", "yield", "Control_Yld", "Control_Yld", "Absolute_Ctrl_Yld", "Absolute_Ctrl_Yld", "Error", "uncertainty", "ErrorType", "uncertainty_type", "Replications", "drop", "Treatments", "drop", "SDEV", "drop", "Application_ForOtherNutrients", "drop", "Rainfall", "drop", "WateringRegime", "irrigated", "Tillage", "tillage", "COMMENTS", "comments", "RR", "drop")
@@ -283,10 +284,6 @@ carob_script <- function(path) {
 
 
 ## georeferencing 
-	# 0) remove bad georefs 
-	w <- geodata::world(path="data")
-	e <- terra::extract(w, d[, c("longitude", "latitude")])
-	d[which(e$NAME_0 != d$country), c("longitude", "latitude")] <- NA 
 
 	# 1) find missing lon.lat that are available in other records
 	d <- carobiner::geocode_duplicates(d, c("country", "location") )
@@ -297,13 +294,10 @@ carob_script <- function(path) {
 
 	#g <- carobiner::geocode(xy$country, xy$location, adm1=xy$adm1)
 	#g$put
-	pts <- structure(list(country = c("Ethiopia", "Ethiopia", "Ethiopia", 
-    "Ethiopia", "Ethiopia"), adm1 = c(NA_character_, NA_character_, 
-    NA_character_, NA_character_, NA_character_), location = c("Bule", 
-    "Hosanna", "Menagesha", "Tatek", "Waka"), lon = c(38.4102886, 
-    37.8578477, 38.568749925286, 38.6382559, 37.1791421), lat = c(6.3024217, 
-    7.5578434, 9.05509080403642, 9.0338169, 7.0600736)), row.names = c(2L, 
-    7L, 11L, 12L, 13L), class = "data.frame")
+	pts <- data.frame(country = "Ethiopia", 
+			location = c("Bule", "Hosanna", "Menagesha", "Tatek", "Waka"), 
+			lon = c(38.4102886, 37.8578477, 38.568749925286, 38.6382559, 37.1791421), 
+			lat = c(6.3024217, 7.5578434, 9.05509080403642, 9.0338169, 7.0600736))
 
 	# all adm1 were NA
 	pts$adm1 <- NULL
@@ -332,6 +326,9 @@ carob_script <- function(path) {
 	d$longitude[i] <- 35.258
 	d$latitude[i] <- 7.2424
 
+	i <- d$location == "Metema"
+	d[i, "latitude"] <- 12.965
+	d[i, "longitude"] <- 36.160
 
 	#centroids(eth[eth$NAME_3=="Lay Gayint", ]) |> crds()
 	i <- which(d$location == "Laie-Gaient Woreda")
@@ -353,6 +350,8 @@ carob_script <- function(path) {
 	i <- which(d$location == "Fereze Guraghe Zone")
 	d$longitude[i] <- 38.08
 	d$latitude[i] <- 8.19
+
+	d$location <- gsub("La’elay", "La'elay", d$location) 
 
 #	uxy <- unique(d[,c("country", "adm1", "location", "longitude", "latitude")])
 #	xy <- uxy[is.na(uxy$longitude),]

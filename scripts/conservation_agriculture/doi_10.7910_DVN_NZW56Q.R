@@ -39,6 +39,7 @@ carob_script <- function(path) {
   ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
   dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
   
   
   f <- ff[basename(ff) == "003_AR_MAL_CIMMYT_CAmother_onfarm_2019_Data.csv"]
@@ -66,11 +67,12 @@ carob_script <- function(path) {
 			tolower(d$crop), c("pigeonpea", "groundnuts"),
                              c("pigeon pea", "groundnut"))
   
-  #protocol had no information on cowpea and pigeon pea variety used but 
-  #it specified groundnut variety used as CG7
+  #protocol had no information on cowpea and pigeon pea variety used 
+  #but genotype information was provided by the author via email
   d$variety <- trimws(d$variety)
-  d$variety[d$variety==""] <- NA
   d$variety[d$crop=="groundnut"] <- "CG7"
+  d$variety[d$crop=="cowpea"] <- "Sudan"
+  d$variety[d$crop=="pigeon pea"] <- "Mtawajuni"
   
   d$dataset_id <- dataset_id
   d$trial_id <- as.character(d$trial_id)
@@ -86,10 +88,11 @@ carob_script <- function(path) {
   # Protocol specified basal dressing with 23:21:0(N:P:K)
   # Top dressing was done with urea (46%N)
   # Protocol did not specify rate of fertilizer application or meaning of 100:100
-  #in dataset
+  # Author provided information that application rate for urea was 100kg/ha
+  
 
   d$fertilizer_type <- "urea"
-  
+  d$N_fertilizer <- "100"
   d$yield_part <- "seed"
   d$yield_part[d$crop=="maize"] <- "grain"
 

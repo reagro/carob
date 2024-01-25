@@ -30,6 +30,7 @@ and 2015 in over thirty African countries. This dataset contains output of the r
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 

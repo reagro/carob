@@ -364,6 +364,7 @@ proc_wheat <- function(ff) {
 		"SOYA BEAN", "soybean",
 		"SOYASEAN", "soybean",
 		"SOY  BEAN", "soybean",
+		"SOYBEA", "soybean",
 		"SUGAR CANE", "sugarcane",
 		"SUGAR CAME", "sugarcane",
 		"SUGAR BEET-MAIZE", "sugar beet; maize",

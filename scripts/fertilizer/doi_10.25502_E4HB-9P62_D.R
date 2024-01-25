@@ -37,6 +37,7 @@ carob_script <- function(path) {
 	ff	 <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 	
 	# reading the data.csv data
 	f <- ff[basename(ff) == "data.csv"]
@@ -91,15 +92,15 @@ carob_script <- function(path) {
 	# Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
 	# and Urea split (50-50) applied at a rate of 60 kg N/ha
 	
-	d$P_fertilizer <- 0 
+	d$P_fertilizer <- NA
 	i <- d$fertilizer_type %in% c("DAP", "TSP", "TSP/KCl", "TSP/KCl/urea")
 	d$P_fertilizer[i] <- 30 
 	
-	d$K_fertilizer <- 0 
+	d$K_fertilizer <- NA
 	i <- grep("KCl", d$fertilizer_type) 
 	d$K_fertilizer[i] <- 30 
 	
-	d$N_fertilizer <- 0 
+	d$N_fertilizer <- NA
 	i <- grep("urea", d$fertilizer_type) 
 	d$N_fertilizer[i] <- 60 
 	

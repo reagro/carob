@@ -51,6 +51,7 @@ Mozambique, Kenya & Zimbabwe) as tier one countries.
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
 	dset$license <- carobiner::get_license(js)[[1]]
+  dset$title <- carobiner::get_title(js)
 
 	b <- ff[basename(ff) == "c_use_of_package_2.csv"] 
 	# e <- read_csv("data/raw/fertilizer/doi_10.25502_8YQ1-DM57_D/c_use_of_package_2.csv")

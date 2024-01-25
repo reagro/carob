@@ -39,6 +39,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   ## read the json for version, license, terms of use  
   js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
   dset$license <- "CC0 1.0 Universal"
+  dset$title <- carobiner::get_title(js)
   
   ## the AFSIS data 
   f <- ff[basename(ff) == "Responses of upland NERICA rice varieties to nitrogen and plant density.xlsx"]

@@ -37,6 +37,7 @@ The experiment was established in 1986 and continued until 2018 at the ICRISAT S
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 
 
 	f <- ff[basename(ff) == "Data file of Long term millet trial ISC sadore Niger.xlsx"]

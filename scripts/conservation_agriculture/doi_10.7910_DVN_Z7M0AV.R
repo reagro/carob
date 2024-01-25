@@ -37,13 +37,11 @@ T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on
     carob_date="2024-1-16"
   )
   
-  
-  
   ## download and read data 
   
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-  # dset$license <- "not specified" #carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
   dset$license <- carobiner::get_license(js)
   
   f <- ff[basename(ff) == "AR_ZAM_CIMMYT_Msekera_LT trial_2020.csv"]
@@ -51,7 +49,9 @@ T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on
   # Select sheet with revised data from the excel file 
   r <- read.csv(f)
   
-  d <- data.frame(country= r$County,harvest_date=r$year,rep= r$Rep,crop= r$Crop,treatment= r$Treatdesc,adm2=r$District,location=r$Location,dmy_total = r$Biomass, yield = r$Grain)
+  d <- data.frame(country=r$County, harvest_date=r$year, rep=r$Rep, 
+			crop=r$Crop, treatment=r$Treatdesc, adm2=r$District, 
+			location=r$Location, dmy_total = r$Biomass, yield = r$Grain)
   
   # for first dataset
   d$dataset_id <- dataset_id
@@ -61,8 +61,7 @@ T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on
   d$N_fertilizer <- 10 
   d$P_fertilizer <- 20
   d$K_fertilizer <- 10
-  
-   
+     
   d$yield_part <- "grain"
   
 	d$crop <- tolower(d$crop)

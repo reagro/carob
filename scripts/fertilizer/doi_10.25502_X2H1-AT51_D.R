@@ -37,6 +37,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
 
 	# The activities.csv, nutr_deficiency_pest_disease.csv,pesticide_biocide_use.csv datasets don't 
 	# contain additional info as their important information is already represented in datasets below.
