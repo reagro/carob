@@ -1,6 +1,7 @@
 name,required,description,NAok
 dataset_id,yes,id (normalized uri),no
 uri,yes,the uri of the dataset,no
+authors,no,dataset authors,no
 title,yes,title,no
 description,no,description,no
 group,yes,Carob group,no
