@@ -32,7 +32,7 @@ Animal traction (AT) ripline seeding with maize rotated with legumes"
     group=group,
     project=NA,
     uri=uri,
-    data_citation= "Project Leader : Thierfelder, Christian (International Maize and Wheat Improvement Center (CIMMYT)),Researcher : Mwila, Mulundu (Zambian Agriculture Research Institute (ZARI)),Other : International Maize and Wheat Improvement Center (CIMMYT),Other : Zambian Agriculture Research Institute (ZARI)",
+    data_citation= "International Maize and Wheat Improvement Center (CIMMYT)); Zambian Agriculture Research Institute (ZARI); Total LandCare (TLC), 2021. Conservation Agriculture Mother Trials in Chipata, Lundazi, and Sinda, Zambia, 2020. https://doi.org/10.7910/DVN/UTSWRY, Harvard Dataverse, V1, UNF:6:E8BoRjSCFDb0R88SvbqtfA== [fileUNF]",
     publication= "doi:10.1017/S1742170517000606",
     data_institutions = "CIMMYT",
     data_type="experiment",

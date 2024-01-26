@@ -6,11 +6,11 @@
 
 carob_script <- function(path) {
   
-  "Description:
-  The objective of the study is to test different plant arrangements between maize and Gliricidia sepium and evaluate its effects on soil quality and productivity. Below is the list of treatments applied during the experiment.
-Traditional Maize- Groundnuts rotation [with half recommended fertilizer on maize, no fertilizer on groundnuts]
-Maize-Groundnut rotation with Gliricidia [ Maize/Gliricidia (COMACO’s Gliricidia spacing: 5m x 1m) – Groundnuts/Gliricidia]
-Doubled up Maize-Groundnut rotation with Gliricidia [Maize/Gliricidia (Dispersed shading spacing; 10m x 5m)/pigeonpea – Groundnuts/Gliricidia/Pigeonpea] "
+"Description:
+The objective of the study is to test different plant arrangements between maize and Gliricidia sepium and evaluate its effects on soil quality and productivity. Below is the list of treatments applied during the experiment.
+1. Traditional Maize- Groundnuts rotation [with half recommended fertilizer on maize, no fertilizer on groundnuts]
+2. Maize-Groundnut rotation with Gliricidia [ Maize/Gliricidia (COMACO’s Gliricidia spacing: 5m x 1m) – Groundnuts/Gliricidia]
+3. Doubled up Maize-Groundnut rotation with Gliricidia [Maize/Gliricidia (Dispersed shading spacing; 10m x 5m)/pigeonpea – Groundnuts/Gliricidia/Pigeonpea] "
   
   uri <- "doi:10.7910/DVN/O69RDX"
   dataset_id <- carobiner::simple_uri(uri)
@@ -21,7 +21,7 @@ Doubled up Maize-Groundnut rotation with Gliricidia [Maize/Gliricidia (Dispersed
     group=group,
     project=NA,
     uri=uri,
-    data_citation= "Project Leader : Thierfelder, Christian (International Maize and Wheat Improvement Center (CIMMYT)),Researcher : Mwila, Mulundu (Zambian Agriculture Research Institute (ZARI)),Other : International Maize and Wheat Improvement Center (CIMMYT),Other : Zambian Agriculture Research Institute (ZARI)",
+    data_citation= "International Maize and Wheat Improvement Center (CIMMYT); Zambian Agriculture Research Institute (ZARI), 2021. Gliricidia Intercropping Trial On-Station Under Conservation Agriculture, 2020. https://doi.org/10.7910/DVN/O69RDX, Harvard Dataverse, V1, UNF:6:23bY0zo49o7Fxy/jrhNtiA== [fileUNF]",
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="experiment",

@@ -29,7 +29,7 @@ T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on
     group=group,
     project=NA,
     uri=uri,
-    data_citation= "Project Leader : Thierfelder, Christian (International Maize and Wheat Improvement Center (CIMMYT)),Researcher : Mwila, Mulundu (Zambian Agriculture Research Institute (ZARI)),Other : International Maize and Wheat Improvement Center (CIMMYT),Other : Zambian Agriculture Research Institute (ZARI)",
+    data_citation= "International Maize and Wheat Improvement Center (CIMMYT)); Zambian Agriculture Research Institute (ZARI), 2021. Conservation Agriculture Long-Term Trial at Msekera Research Station, Zambia. https://doi.org/10.7910/DVN/Z7M0AV, Harvard Dataverse, V1, UNF:6:bJV9u4YCOZzC5c89r46c8A== [fileUNF]",
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
