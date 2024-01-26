@@ -70,14 +70,13 @@ This report describes standardized data for "*`r m$title`*". These data were sta
 
 `r pub`
 
-The dataset has `r nrow(d)` records for variety trials of `r crop` in `r country`. These are the first `r min(nrow(d), 25)` records: 
+The dataset has `r nrow(d)` records for variety trials of `r crop` in `r country`. There are `r length(varieties)` varieties. These are the first `r min(nrow(d), 25)` records: 
 
 ```{r tab1}
 scrolltab(head(d, 25), "records")
 ```
 
 </br>
-The dataset has data for `r length(varieties)` varieties 
 
 The observations are for `r nrow(locs)` locations `r xytxt`
 

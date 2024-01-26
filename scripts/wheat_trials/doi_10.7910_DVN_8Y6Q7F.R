@@ -50,8 +50,6 @@ carob_script <- function(path) {
 	#manually extracting geo coordinates using dput
 	#dput(g1)
 
-## it should be possible to find the coordinates for the first three
-	
 	gg <- data.frame(
 		site=c("LANGGEWENS", "RIEBEEKWES", "TYGERHOEK", 
 			"ALPHA","ARLINGTON", "BETHLEHEM", "BULTFONTEIN", "CLARENS", "EXCELSIOR", 
