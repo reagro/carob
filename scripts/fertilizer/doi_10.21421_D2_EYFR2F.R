@@ -32,6 +32,8 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
   dset$license <- carobiner::get_license(js) 
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   
   f <- ff[basename(ff) == "Data file of Sorghum Phosphorus trial Kano Nigeria.xlsx"]
   d <- carobiner::read.excel(f)

@@ -42,6 +42,8 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 
 	f1 <- ff[basename(ff) == "legumes_area_and_management.csv"]

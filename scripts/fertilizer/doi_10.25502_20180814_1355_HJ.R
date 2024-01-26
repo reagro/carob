@@ -48,6 +48,8 @@ and response to improved soil management practices (soil amendments) "
 # js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 # dset$license <- carobiner::get_license(js)
 # dset$title <- carobiner::get_title(js)
+#	dset$authors <- carobiner::get_authors(js)
+#	dset$description <- carobiner::get_description(js)
 
 
 # f1 <- ff[basename(ff) == "Nkhata Bay_S2_Field.csv"] ## get Field dataset

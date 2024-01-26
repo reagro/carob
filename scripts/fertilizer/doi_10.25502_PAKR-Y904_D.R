@@ -37,6 +37,8 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 	
 	f <- ff[basename(ff) == "OCP_Yld-data&covariates_complete.csv"] 
 	
@@ -44,7 +46,7 @@ carob_script <- function(path) {
 	d <- read.csv(f)
 	#d <- readxl::read_excel(f) |> as.data.frame()
 
-# Team BUK1,BUK2,BUK3 data are already include in doi_10.25502_RGB5_GA15_D.R
+# Team BUK1,BUK2,BUK3 data are already included in doi_10.25502_RGB5_GA15_D.R
 	d <- d[!(d$team %in% c("BUK1", "BUK2", "BUK3")), ] 
 	
 	# process file(s)

@@ -33,6 +33,8 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	dset$license <- carobiner::get_license(js)
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "TAMASA_ET_CC_2015_BakoF.xlsx"]
 

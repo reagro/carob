@@ -32,12 +32,10 @@ carob_script <- function(path) {
 		group=group,
 		project=NA,
 		uri=uri,
-		data_citation="Effect of Climate-Smart Agriculture Practices on 
-		Climate Change Adaptation, Greenhouse Gas Mitigation and Economic 
-		Efficiency of Rice-Wheat System in India",
+		data_citation="Effect of Climate-Smart Agriculture Practices on Climate Change Adaptation, Greenhouse Gas Mitigation and Economic Efficiency of Rice-Wheat System in India",
 		publication= NA,
 		data_institutions = "CIMMYT",
-   	data_type="is_experiment", 
+		data_type="is_experiment", 
 		carob_contributor="Shumirai Manzvera",
 		# date of first submission to carob
 		carob_date="2023-12-12",
@@ -50,6 +48,8 @@ carob_script <- function(path) {
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 	dset$license <- carobiner::get_license(js)
 
 	f <- ff[basename(ff) == "Agriculture_11-0-1269_Kakraliya et al 2021.xlsx"]

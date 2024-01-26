@@ -32,7 +32,7 @@ carob_script <- function(path) {
 		# date of first submission to carob
 		carob_date="2023-05-21",
 		# name(s) of others who made significant improvements
-		revised_by=""
+		revised_by=NA
 	)
 
 ## download and read data 
@@ -41,6 +41,8 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
 	dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 
 	f <- ff[basename(ff) == "_____________"]
@@ -52,7 +54,8 @@ carob_script <- function(path) {
 ## process file(s)
 
 ## use a subset
-	d <- carobiner::change_names(r, from, to)
+	d <- data.frame(crop=r$crop, 
+					latitude=r$lat)
 
 	
 #### about the data #####

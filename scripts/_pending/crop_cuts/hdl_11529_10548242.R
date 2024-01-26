@@ -35,6 +35,8 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 
 	f <- "C:/Users/user/Documents/DataAnalysis/carob-TanzaniaDataset/data/raw/maize_trials/hdl_11529_10548242/TAMASA_TZ_APS_2017_CC_MaizeYield.xlsx"

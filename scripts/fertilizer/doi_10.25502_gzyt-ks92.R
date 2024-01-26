@@ -34,6 +34,8 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- carobiner::get_license(js)
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   
   
   f <- ff[basename(ff) == "general.csv"] 

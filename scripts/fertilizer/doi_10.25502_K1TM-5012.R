@@ -7,9 +7,7 @@ carob_script <- function(path) {
 
   N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, 
   improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder
-  farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise 
-  in grain legume production and N2-fixation research and development will be the legacy of the project.
-The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
+  farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 
 "
   
@@ -37,6 +35,8 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- carobiner::get_license(js)
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   
   f <- ff[basename(ff) == "a_general_1.csv"] 
   f1 <- ff[basename(ff) == "c_land_holding_management_2.csv"]
@@ -66,18 +66,16 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   
   # process management file
 
-  d1 <- r1[, c("farm_id","size_ha","crops_grown","varieties","min_fert_type","harvest_amount","inoculant_applied","weight_unit","min_fert_amount")] 
-  colnames(d1) <- c("trial_id","farm_size","crop","variety","fertilizer_type","yield1","inoculation_type","yield_unit","fertilizer_amount")
-
 
 	fix_cropnames <- function(p) {
-		p <- gsub("urubingo", "Napier grass", p)
+		p <- gsub("urubingo", "napier grass", p)
 		p <- gsub("soybeans","soybean", p)
 		p <- gsub("groundnuts", "groundnut", p)
 		p <- gsub("cabbages", "cabbage", p)
 		p <- gsub("potatoes", "potato", p)
 		p <- gsub("sweet potato", "sweetpotato", p)
 		p <- gsub("sweet potaotes", "sweetpotato", p)
+		p <- gsub("sweet potatoes", "sweetpotato", p)
 		p <- gsub("irish",  "", p)
 		p <- gsub("^, ",  "", p)
 		p <- gsub("beans beans", "beans", p)
@@ -94,21 +92,28 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 		p <- gsub("peas", "pea", p)
 		p <- gsub(" cassava", "; cassava", p)
 		p <- gsub("cassava;potato", "cassava; potato", p)
+		p <- gsub("fodder crop", "forage crop", p)
+		p <- gsub("fodder crops", "forage crop", p)
 		
 		p <- gsub(";;", ";", p)
 		p <- gsub("onions", "onion", p)
 		p[p %in% c("feeding animal", "kitchen garden")] <- NA
 		p <- gsub("bean$", "beans", p)
 		p <- gsub("soybeans", "soybean", p)
+		p <- gsub("cofffee", "coffee", p)
 
 		p <- gsub("cassava;", "cassava; ", p)
 		p <- gsub("cassava;  ", "cassava; ", p)
 		p <- gsub("^beans| beans", "common bean", p)
-		p <- gsub("red onion","onion",p)
-		p <- gsub("potaotes","potato",p)
+		p <- gsub("red onion", "onion", p)
+		p <- gsub("potaotes", "potato", p)
 		p <- gsub(" potato", "potato", p)
 		gsub("pineaple",  "pineapple" ,p)
 	}
+
+	d1 <- r1[, c("farm_id","size_ha","crops_grown","varieties","min_fert_type","harvest_amount","inoculant_applied","weight_unit","min_fert_amount")] 
+	colnames(d1) <- c("trial_id","farm_size","crop","variety","fertilizer_type","yield1","inoculation_type","yield_unit","fertilizer_amount")
+
 
     cp <- carobiner::fix_name(d1$crop, "lower")
 	cp <- gsub(" (\\d+)", " _\\1", cp)
@@ -125,6 +130,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	cp <- cp[order(cp$id, -cp$perc), ]
 	i <- duplicated(cp$id)
 	d1$crop <- cp$crop[!i]
+
 	pp <- unique(cp[i, ])
 	pp <- pp[pp$crop != "", ]
 	pp <- aggregate(pp["crop"], pp["id"], \(i) paste(i, collapse="; "))
@@ -166,7 +172,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d2$intercrops <- "no crop"
   ################################################################
   # process second production_use_2
-  d3 <- r4[,c("farm_id","legume_area_now_ha","crop","yield_amount_now","yield_unit_now")]
+  d3 <- r4[,c("farm_id","legume_area_now_ha", "crop", "yield_amount_now","yield_unit_now")]
   colnames(d3) <- c("trial_id","farm_size","crop","yield1","yield_unit")
   d3$inoculation_type <- NA
   d3$fertilizer_type <- NA
@@ -232,8 +238,6 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$K_fertilizer[d$fertilizer_type=="NPK"] <- 17/1.2051
   d$K_fertilizer[d$fertilizer_type=="NPK" |d$fertilizer_type=="NPK; DAP"] <- 17/1.2051
 
-  d$crop <- fix_cropnames(carobiner::fix_name(d$crop,"lower"))
-  d$intercrops <- fix_cropnames(carobiner::fix_name(d$intercrops,"lower"))
   
   #fix crop yield limit with respect to crop
   d$yield[d$crop=="common bean" & d$yield > 9000] <- NA
@@ -257,6 +261,9 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   # all scripts must end like this
   d$dataset_id <- dataset_id
   d$country <- "Rwanda"
+	d$crop <- fix_cropnames(carobiner::fix_name(d$crop, "lower"))
+	d$intercrops <- fix_cropnames(carobiner::fix_name(d$intercrops, "lower"))
+
 
   carobiner::write_files(dset, d, path=path)
 }

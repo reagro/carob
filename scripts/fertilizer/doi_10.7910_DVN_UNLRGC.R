@@ -48,6 +48,8 @@ Notes
 	js <- carobiner::get_metadata(cleanuri, path, major=1, minor=3, group)
 	dset$license <- carobiner::get_license(js)
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 	## the AFSIS data 
 

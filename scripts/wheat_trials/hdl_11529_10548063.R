@@ -40,6 +40,8 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
 	dset$license <- carobiner::get_license(js)
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 ## process file(s)
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)

@@ -47,6 +47,8 @@ sharp bread. (2016-12-08)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
   dset$license <- "CIMMYT"
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   
   
   f <- ff[basename(ff) == "Summary Mozambique On-farm Demonstration 2006-2015.xlsx" ]

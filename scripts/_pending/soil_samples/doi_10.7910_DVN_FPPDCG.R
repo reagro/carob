@@ -26,6 +26,8 @@ carob_script <- function(path) {
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   dset$license <- carobiner::get_license(js)$name
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
  
   ##RH why not?
   # No need to read the table with MIR data

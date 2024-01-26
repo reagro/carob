@@ -28,6 +28,8 @@ Description: This dataset contains information of experiments carried out upland
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	dset$license <- carobiner::get_license(js) 
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 	
 	# processing Rice Data - Caribbean.tab
 	f1 <- ff[basename(ff) == "03. Rice Data - Caribbean.xlsx"]

@@ -29,6 +29,8 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
 	dset$license <- carobiner::get_license(js)
 	dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 	read_data <- function(f) {
 		r <- read.csv(f)

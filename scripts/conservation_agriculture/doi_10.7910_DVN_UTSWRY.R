@@ -47,6 +47,8 @@ Animal traction (AT) ripline seeding with maize rotated with legumes"
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   dset$license <- carobiner::get_license(js)
   
   f <- ff[basename(ff) == "AR_ZAM_CIMMYT_CAmother_onfarm_2020.csv"]

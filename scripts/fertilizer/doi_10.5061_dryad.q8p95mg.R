@@ -31,6 +31,8 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 	#fpdf <- carobiner::get_more_data(url, dataset_id, path, group)
 
 	# reading the datasets

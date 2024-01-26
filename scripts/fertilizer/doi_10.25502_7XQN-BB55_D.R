@@ -30,6 +30,8 @@ ACAI is a 5 year Bill & Melinda Gates Foundation funded project in 5 countries i
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	dset$license <- carobiner::get_license(js)
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "ACAI_FR_forCKAN_2022.csv"]
 	r <- read.csv(f)

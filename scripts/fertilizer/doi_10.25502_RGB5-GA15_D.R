@@ -37,6 +37,8 @@ carob_script <- function(path) {
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- carobiner::get_license(js)
   dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   
   f1 <- ff[basename(ff) == "BUK_T1_VT_yieldatharvest_summ.csv"] # dataset from team1
   f2 <- ff[basename(ff) == "BUK-T2_VT_yieldatharvest_summ.csv"] # dataset from team2

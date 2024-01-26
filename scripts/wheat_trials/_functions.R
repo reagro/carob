@@ -106,6 +106,8 @@ proc_wheat <- function(ff) {
 	r$crop <- "wheat"
 	r$variety_code <- r$Gen_name
 	m <- matrix(byrow=TRUE, ncol=2, c(
+
+		"LEGUME:   FABA  BEAN", "faba bean",
 		"AJOS", "garlic",
 		"AJO", "garlic",
 		"ALFA ALFA", "LUCERNE",
@@ -133,6 +135,7 @@ proc_wheat <- function(ff) {
 		"BAJWA", "pearl millet",
 		"BEANS&POTATOES", "common bean; potato",
 		"BERSEEM (FODDER)", "berseem clover",
+		"TRIFOLIUM ALEXANDRINUM", "berseem clover",
 		"BLEND", NA,
 		"BRASICA NAPUS", "rapeseed",
 		"BRASICA  NAPUS", "rapeseed",
