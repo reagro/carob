@@ -1,88 +1,80 @@
 # R script for "carob"
 
 ## ISSUES
-# The yield seem too high, maybe data entry error?
+# yield corrected in two cases after inspecting 
+# other yield values in the same trial (location)
 
 
 carob_script <- function(path) {
-  
-  "Description:
+	  
+"Description:
+	Fertilizer response trials to compare the performance of 5 'best-bet' fertilizer recommendations with the current blanket recommendation in multiple locations and farms. The best-bets differ in N:P:K ratios and rates and are designed based on assumptions on how fertilizer responses may vary across locations and fields. The five treatments are compared in each site with only the reference treatment replicated. Tuber yield as well as secondary agronomic data were assessed. Data were collected using the ODK-based digital data collection tool 'Smart Agronomy Data Management System (SAnDMan)'."
+	  
+	uri <- "doi:10.21223/YACJGV"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "fertilizer"
+	
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		project=NA,
+		uri=uri,
+		data_citation = "Vandamme, Elke, 2023. Dataset for: Fertilizer response trials to calibrate and cross-validate AKILIMO for potato in Rwanda. https://doi.org/10.21223/YACJGV, International Potato Center, V1, UNF:6:dqyMNI9EnXyX0pNaGvS+hQ== [fileUNF]",
+		publication= NA,
+		data_institutions = "CIP",
+		data_type="experiment", 
+		carob_contributor="Njogu Mary, Stephen Gichuhi",
+		carob_date="2023-01-22"
+	)
+	
+	
+	ff  <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
+	dset$license <- carobiner::get_license(js)
+	dset$title <- carobiner::get_title(js)
+    
+	f1 <- ff[basename(ff) == "Scaling_AKILIMO_yield_data.csv"]
+	r <- read.csv(f1)
 
-    [Fertilizer response trials to compare the performance of 5 ‘best-bet’ fertilizer recommendations with the current blanket
-    recommendation in multiple locations and farms.
-    The best-bets differ in N:P:K ratios and rates and
-    are designed based on assumptions on how fertilizer 
-    responses may vary across locations and fields. 
-    The five treatments are compared in each site with only 
-    the reference treatment replicated.
-    Tuber yield as well as secondary agronomic data were assessed. 
-    Data were collected using the ODK-based digital data collection
-    tool 'Smart Agronomy Data Management System (SAnDMan).]
-
-"
+	f2 <- ff[basename(ff) == "DataDictionary_SA-VAP-1.xlsx"]  
+	fert <- carobiner::read.excel(f2, sheet="Fertilizer treatments", skip=1)
+	
+	## use a subset
+## do not use column numbers. Always use names. Numbers cannot be directly interpreted. 
+## 	d <- r[,c(7,54,3,14,16,17)]
   
-  uri <- "doi:10.21223/YACJGV"
-  dataset_id <- carobiner::simple_uri(uri)
-  group <- "fertilizer"
-  
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    project=NA,
-    uri=uri,
-    data_citation="Vandamme, Elke ",
-    publication= NA,
-    data_institutions = "	International Potato Center (CIP)",
-    data_type="experiment", 
-    carob_contributor="Njogu Mary & Stephen Gichuhi",
-    carob_date="2023-01-22",
-    revised_by="NA"
-  )
-  
-  
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-  dset$license <- carobiner::get_license(js)
-  
-  
-  f <- ff[basename(ff) == "Scaling_AKILIMO_yield_data.csv"]
-  
-  r <- read.csv(f)
-  
-  
-  
-  ## process file(s)
-  
-  ## use a subset
-  d <- r[,c(7,54,3,14,16,17)]
-  
+	d <- data.frame(country="Rwanda", dataset_id=dataset_id, 
+			crop="potato", yield_part = "tubers",
+			date=r$today, yield=r$tuberY * 1000, 
+			latitude=r$Latitude, longitude=r$Longitude, 
+			elevation=r$Altitude, treatment=r$treat)
  
- colnames(d) <- c("date","yield","trial_id","country","latitude","longitude")
+	d$date <- as.character(as.Date(d$date,format= "%d-%b-%y"))
+	d$trial_id <- as.character(as.integer(as.factor(paste(d$latitude, d$longitude))))
 
+## this is easier to read than nested ifelse	
+## but we can read this directly from the file 
+## that can avoid mistakes (the fourth P value was 32 instead of 35)
+##	npk <- data.frame(
+##		treatment = c("NPK6", "NPK4_MOP2", "NPK4_UREA2", "NPK4_DAP2", "NPK11"), 
+##		N_fertilizer = c(51, 34, 80, 52, 94), 
+##		P_fertilizer = c(22, 15, 15, 35, 41),
+##		K_fertilizer = c(42, 78, 28, 28, 78)) 
+##		d <- merge(d, npk, by="treatment")
 
-  d$country <- "Rwanda"
-  d$yield <- d$yield*1000 #change from t/ha to kg/ha,value seem too large
-  d$dataset_id <- dataset_id
-  d$crop <- "potato"
-  d$yield_part <-"tubers"
-  d$N_fertilizer <- 0
-  d$N_fertilizer <- ifelse(r$treat == "NPK6", 51,
-                           ifelse(r$treat == "NPK4_MOP2", 34,
-                                  ifelse(r$treat == "NPK4_UREA2", 80,
-                                         ifelse(r$treat == "NPK4_DAP2", 52, 94))))
-  d$K_fertilizer <- ifelse(r$treat == "NPK6", 42,
-                           ifelse(r$treat == "NPK4_MOP2", 78,
-                                  ifelse(r$treat == "NPK4_UREA2", 28,
-                                         ifelse(r$treat == "NPK4_DAP2", 28, 78))))
-  d$P_fertilizer <- ifelse(r$treat == "NPK6", 22,
-                           ifelse(r$treat == "NPK4_MOP2", 15,
-                                  ifelse(r$treat == "NPK4_UREA2", 15,
-                                         ifelse(r$treat == "NPK4_DAP2", 32, 41))))
-  d$date <- as.character(as.Date(d$date,format= "%d-%b-%y"))
- 
-  
-  # all scripts must end like this
-  carobiner::write_files(dset, d, path=path)
+	colnames(fert)[1] <- "treatment"
+	fert$treatment <- gsub("_rep.$", "", fert$treatment)
+	fert <- unique(na.omit(fert[, c("treatment", "N", "P", "K")]))
+	colnames(fert)[-1] <- paste0(colnames(fert)[-1], "_fertilizer")
+
+	d <- merge(d, fert, by="treatment")
+	
+## fixing two cases 
+	i <- d$yield > 100000
+	d$yield[i] <- d$yield[i] / 10
+
+	d$planting_date <- as.character(NA)
+	carobiner::write_files(dset, d, path=path)
 }
 
 
