@@ -29,7 +29,7 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
 		data_institutions = "IRRI",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-06-02",
-		data_type="NA",
+		data_type=NA,
 		project=NA     
 	)
   

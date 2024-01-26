@@ -13,28 +13,19 @@ The Semi-Arid Wheat Yield Trial (SAWYT) is a replicated yield trial that contain
 	uri <- "hdl:11529/10170"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_trials"
-	## dataset level data 
-	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
-	   uri=uri,
-	   project="CIMMYT Semi-Arid Wheat Yield Trial",	   
-	   publication=NA,
-	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2015. 13th Semi-Arid Wheat Yield Trial. https://hdl.handle.net/11529/10314, CIMMYT Research Data & Software Repository Network, V7",
-	   data_institutions = "CIMMYT",
-	   carob_contributor="Robert Hijmans",
-	   carob_date="2023-06-30",
-	   data_type="on-station experiment"
- 	)
-
-## download and read data 
-
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=7, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
+
+	## dataset level data 
+	dset <- carobiner::extract_metadata(js, uri, dataset_id, group)
+	dset$project <- "CIMMYT Semi-Arid Wheat Yield Trial"
+	dset$publication <- NA
+	dset$data_citation <- "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2015. 13th Semi-Arid Wheat Yield Trial. https://hdl.handle.net/11529/10314, CIMMYT Research Data & Software Repository Network, V7"
+	dset$data_institutions <- "CIMMYT"
+	dset$carob_contributor <- "Robert Hijmans"
+	dset$carob_date <- "2023-06-30"
+	dset$data_type <- "on-station experiment"
+
 
 ## process file(s)
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)

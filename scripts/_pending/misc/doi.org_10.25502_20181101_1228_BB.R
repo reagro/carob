@@ -30,7 +30,7 @@ carob_script <- function(path) {
 		# date of first submission to carob
 		carob_date="2023-11-23",
 		# name(s) of others who made significant improvements
-		revised_by="NA"
+		revised_by=NA
 	)
 
 ## download and read data 
