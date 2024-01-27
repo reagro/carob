@@ -1,14 +1,14 @@
 name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes,obo
-planting_date,character,,yes,,no,,,no,"Planting date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,http://purl.obolibrary.org/obo/AGRO_00010099
+planting_date,character,,yes,,no,,,no,"Planting date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,AGRO_00010099
 transplanting_date,character,,no,,no,,,yes,"Transplanting date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
 flowering_date,character,,no,,no,,,yes,"Flowering date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
 harvest_date,character,,no,,no,,,yes,"Harvest date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
 season,character,,no,,no,,,yes,Season name,,
-on_farm,logical,,no,,no,,,yes,Is this observation on farm (not on station),,http://purl.obolibrary.org/obo/AGRO_00000601
+on_farm,logical,,no,,no,,,yes,Is this observation on farm (not on station),,AGRO_00000601
 is_survey,logical,,no,,no,,,yes,Is this observation from a survey (not an experiment),,
-treatment,character,,no,,no,,,yes,Description of the treatment,,http://purl.obolibrary.org/obo/AGRO_00000370
-rep,integer,,no,,no,,,yes,"Replication number (1, 2, 3, ...) For this specific observation",,http://purl.obolibrary.org/obo/AGRO_00000318
-crop,character,,yes,crop,no,,,yes,Crop name(s),,http://purl.obolibrary.org/obo/AGRO_00000325
+treatment,character,,no,,no,,,yes,Description of the treatment,,AGRO_00000370
+rep,integer,,no,,no,,,yes,"Replication number (1, 2, 3, ...) For this specific observation",,AGRO_00000318
+crop,character,,yes,crop,no,,,yes,Crop name(s),,AGRO_00000325
 variety,character,,no,,no,,,yes,Variety name,,
 variety_code,character,,no,,no,,,yes,Variety code (used by breeders),,
 variety_type,character,,no,,no,,,yes,variety grouping (e.g. climbing/bush),,
@@ -22,41 +22,41 @@ dmy_storage,numeric,kg/ha,no,,no,0,50000,yes,Dry-weight biomass of storage organ
 dmy_total,numeric,kg/ha,no,,no,0,100000,yes,Dry-weight total biomass per ha,,
 dmy_residue,numeric,kg/ha,no,,no,0,100000,yes,Dry-weight residue biomass per ha,,
 yield_part,character,,yes,yield_part,no,,,no,"The part of the crop that ""yield"" refer to (e.g. grain, tubers, roots, leaves, fruit)",,
-yield,numeric,kg/ha,yes,,no,0,150000,no,"Fresh weight biomass of the main harvestable parts at maturity, per ha",,http://purl.obolibrary.org/obo/AGRO_00000176 
-residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight of the above ground biomass except for the harvestable parts at maturity, per ha",,http://purl.obolibrary.org/obo/AGRO_00000164 
-grain_weight,numeric,g,no,,no,0,1000,yes,1000 grain weight,,http://purl.obolibrary.org/obo/TO_0000382
-fertilizer_type,character,,no,fertilizer_type,yes,,,yes,Name of fertilizer used,,http://purl.obolibrary.org/obo/CHEBI_33287
-N_fertilizer,numeric,kg/ha,fertilizer,,no,0,600,no,N applied in inorganic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000158
+yield,numeric,kg/ha,yes,,no,0,150000,no,"Fresh weight biomass of the main harvestable parts at maturity, per ha",,AGRO_00000176 
+residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight of the above ground biomass except for the harvestable parts at maturity, per ha",,AGRO_00000164 
+grain_weight,numeric,g,no,,no,0,1000,yes,1000 grain weight,,TO_0000382
+fertilizer_type,character,,no,fertilizer_type,yes,,,yes,Name of fertilizer used,,CHEBI_33287
+N_fertilizer,numeric,kg/ha,fertilizer,,no,0,600,no,N applied in inorganic fertilizer,,AGRO_00000158
 N_splits,integer,,no,,no,0,5,yes,Number of splits in the N_fertilizer application,,
-P_fertilizer,numeric,kg/ha,fertilizer,,no,0,250,no,"P applied in inorganic fertilizer (as P, not P2O5)",,http://purl.obolibrary.org/obo/AGRO_00000160 
-K_fertilizer,numeric,kg/ha,fertilizer,,no,0,300,no,"K applied in inorganic fertilizer (as K, not K2O)",,http://purl.obolibrary.org/obo/AGRO_00000201
+P_fertilizer,numeric,kg/ha,fertilizer,,no,0,250,no,"P applied in inorganic fertilizer (as P, not P2O5)",,AGRO_00000160 
+K_fertilizer,numeric,kg/ha,fertilizer,,no,0,300,no,"K applied in inorganic fertilizer (as K, not K2O)",,AGRO_00000201
 Zn_fertilizer,numeric,kg/ha,no,,no,0,100,yes,Zn applied in inorganic fertilizer,,
-S_fertilizer,numeric,kg/ha,no,,no,0,250,yes,S applied in inorganic fertilizer,,http://purl.obolibrary.org/obo/TO_0000658
+S_fertilizer,numeric,kg/ha,no,,no,0,250,yes,S applied in inorganic fertilizer,,TO_0000658
 B_fertilizer,numeric,kg/ha,no,,no,0,100,yes,B applied in inorganic fertilizer,,
 Ca_fertilizer,numeric,kg/ha,no,,no,0,250,yes,Ca applied in inorganic fertilizer,,
 Mg_fertilizer,numeric,kg/ha,no,,no,0,250,yes,Mg applied in inorganic fertilizer,,
 lime,numeric,kg/ha,no,,no,0,10000,yes,lime applied,,
 gypsum,numeric,kg/ha,no,,no,0,10000,yes,gypsum applied,,
-OM_used,logical,,no,,no,,,yes,Organic fertilizer applied,,http://purl.obolibrary.org/obo/AGRO_00002039
-OM_type,character,,no,OM,yes,,,yes,Type of organic fertilzer applied,,http://purl.obolibrary.org/obo/AGRO_00002039
-OM_applied,numeric,kg/ha,no,,no,0,,yes,Amount of organic fertilizer applied,,http://purl.obolibrary.org/obo/AGRO_00010008
-OM_N,numeric,kg/ha,no,,no,0,,yes,N applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000158
-OM_P,numeric,kg/ha,no,,no,0,,yes,P applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000160
-OM_K,numeric,kg/ha,no,,no,0,,yes,K applied in organic fertilizer,,http://purl.obolibrary.org/obo/AGRO_00000201
+OM_used,logical,,no,,no,,,yes,Organic fertilizer applied,,AGRO_00002039
+OM_type,character,,no,OM,yes,,,yes,Type of organic fertilzer applied,,AGRO_00002039
+OM_applied,numeric,kg/ha,no,,no,0,,yes,Amount of organic fertilizer applied,,AGRO_00010008
+OM_N,numeric,kg/ha,no,,no,0,,yes,N applied in organic fertilizer,,AGRO_00000158
+OM_P,numeric,kg/ha,no,,no,0,,yes,P applied in organic fertilizer,,AGRO_00000160
+OM_K,numeric,kg/ha,no,,no,0,,yes,K applied in organic fertilizer,,AGRO_00000201
 inoculated,logical,,no,,no,,,yes,Was the field inoculated (with Rhizobium),,
 inoculant,character,,no,,no,,,yes,Name of the inoculant product,,
-irrigated,logical,,no,,no,,,yes,Was the plot irrigated?,,http://purl.obolibrary.org/obo/AGRO_00000006
+irrigated,logical,,no,,no,,,yes,Was the plot irrigated?,,AGRO_00000006
 irrigation,numeric,mm,no,,no,,,yes,The total irrigation amount applied to the crop,,
-tillage,character,,no,,no,,,yes,Tillage used,,http://purl.obolibrary.org/obo/AGRO_00000322
+tillage,character,,no,,no,,,yes,Tillage used,,AGRO_00000322
 uncertainty,numeric,,no,,no,0,,yes,Measure of noise in data ,,
 uncertainty_type,character,,no,,no,,,yes,Type of noise measure,,
 row_spacing,numeric,cm,no,,no,0,150,yes,Distance between rows,,
-plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,http://purl.obolibrary.org/obo/AGRO_00000316
-plant_density,numeric,plants/ha,no,,no,1000,3100000,yes,Number of plants per ha,,http://purl.obolibrary.org/obo/PCO_0000079
-rain,numeric,mm,no,,no,0,3000,yes,Total rainfall between planting and harvest,,http://purl.obolibrary.org/obo/ENVO_01000830
+plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,AGRO_00000316
+plant_density,numeric,plants/ha,no,,no,1000,3100000,yes,Number of plants per ha,,PCO_0000079
+rain,numeric,mm,no,,no,0,3000,yes,Total rainfall between planting and harvest,,ENVO_01000830
 emergence,numeric,,no,,no,3,90,yes,Days to emergence (after planting),,
 heading,numeric,,no,,no,25,300,yes,Days to heading (after planting),,
-flowering,numeric,,no,,no,15,250,yes,Days to flowering (after planting),,http://purl.obolibrary.org/obo/TO_0000344
+flowering,numeric,,no,,no,15,250,yes,Days to flowering (after planting),,TO_0000344
 silking,numeric,,no,,no,30,125,yes,Days to silking (after planting),,
 maturity,numeric,,no,,no,45,300,yes,Days to maturity (after planting),,
 harvest,numeric,,no,,no,45,300,yes,Days to harvest (after planting),,

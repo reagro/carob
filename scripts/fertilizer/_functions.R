@@ -120,7 +120,7 @@ N2A_monitoring_2 <- function(ff, path) {
 
 ## it is not clear what the quantities refer to if there are multiple products 
 ## that much of each?	
-	ftab <- carobiner::get_accepted_values("fertilizer", path)
+	ftab <- carobiner::get_accepted_values("fertilizer_type", path)
 ## NPK is undefined need to check of 20-20-20 is a good guess
 	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(20, 20, 20, 0)	
 	get_elements <- carobiner::get_function("get_elements_from_product", path, group)

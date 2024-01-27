@@ -1,19 +1,11 @@
-
-
 ## ISSUES
 # efyrouwa: can the NPK fertilizers be comprised of the basal and top dressing? 
-
 
 
 carob_script <- function(path) { 
   
   "
-  The objective of the Landscape Diagnostic Survey (LDS) for wheat is to bridge the existing data-gap around current 
-  production practices of wheat, and also to help in evidence-based planning. The LDS is designed in a way that 
-  data is collected from randomly selected farmers spread uniformly within a KVK (government extension system) 
-  domain/district. Data has been collected from farmers largest wheat plot for winter season of 2018. Survey questionnaire
-  captures all production practices applied by farmers from land preparation to harvesting, including detailed sections on
-  fertilizer use, weed control and irrigation application. Data is captured through electronically enabled Open Data Kit
+  The objective of the Landscape Diagnostic Survey (LDS) for wheat is to bridge the existing data-gap around current production practices of wheat, and also to help in evidence-based planning. The LDS is designed in a way that data is collected from randomly selected farmers spread uniformly within a KVK (government extension system)  domain/district. Data has been collected from farmers largest wheat plot for winter season of 2018. Survey questionnaire captures all production practices applied by farmers from land preparation to harvesting, including detailed sections on fertilizer use, weed control and irrigation application. Data is captured through electronically enabled Open Data Kit
   (ODK) tool on mobile phone or tablet. (2019-12-31)
 "
   
@@ -30,7 +22,7 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="survey", 
-    carob_contributor="Effie Ochineg'",
+    carob_contributor="Effie Ochieng'",
     carob_date="2024-01-22"
   )
   
@@ -38,7 +30,7 @@ carob_script <- function(path) {
   
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-  dset$license <- "CIMMYT"
+  dset$license <- carobiner::get_license(js)
   
   
   f <- ff[basename(ff) == "CSISA_IND_LDS_Whe_2018_Data.csv"]

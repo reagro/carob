@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
   
@@ -50,17 +47,17 @@ carob_script <- function(path) {
 	d$longitude <- -109.930833
 	# EGB: Adding planting_date
 	d$planting_date <- NA
-	d$planting_date[d$Year == 2009] <- as.character("2008-12-03")
-	d$planting_date[d$Year == 2010] <- as.character("2009-12-01")
-	d$planting_date[d$Year == 2011] <- as.character("2010-12-08")
-	d$planting_date[d$Year == 2012] <- as.character("2011-12-15")
-	d$planting_date[d$Year == 2013] <- as.character("2012-12-10")
-	d$planting_date[d$Year == 2014] <- as.character("2013-12-11")
-	d$planting_date[d$Year == 2015] <- as.character("2014-11-26")
-	d$planting_date[d$Year == 2016] <- as.character("2015-11-23")
-	d$planting_date[d$Year == 2017] <- as.character("2016-11-28")
-	d$planting_date[d$Year == 2018] <- as.character("2017-11-27")
-	d$harvest_date <- as.character(d$Year)
+	d$planting_date[d$Year == 2009] <- "2008-12-03"
+	d$planting_date[d$Year == 2010] <- "2009-12-01"
+	d$planting_date[d$Year == 2011] <- "2010-12-08"
+	d$planting_date[d$Year == 2012] <- "2011-12-15"
+	d$planting_date[d$Year == 2013] <- "2012-12-10"
+	d$planting_date[d$Year == 2014] <- "2013-12-11"
+	d$planting_date[d$Year == 2015] <- "2014-11-26"
+	d$planting_date[d$Year == 2016] <- "2015-11-23"
+	d$planting_date[d$Year == 2017] <- "2016-11-28"
+	d$planting_date[d$Year == 2018] <- "2017-11-27"
+	d$harvest_date <- as.character(d$Year + 1)
 	
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
@@ -114,3 +111,74 @@ carob_script <- function(path) {
 	carobiner::write_files(dset, d, path=path)
 	
 }
+
+
+## dup from cons_ag
+
+  # uri <- "hdl:11529/10548582"
+  # dataset_id <- carobiner::simple_uri(uri)
+  # group <- "conservation_agriculture"
+  # ## dataset level data 
+  # dset <- data.frame(
+    # dataset_id = dataset_id,
+    # group=group,
+    # project=NA,
+    # uri=uri,
+    # data_citation= "Verhulst, Nele; Grahmann, Kathrin; Honsdorf, Nora; Govaerts, Bram, 2021. Durum wheat performance (10 years of data) and grain quality (three years of data) with two tillage and two sowing irrigation practices under five nitrogen fertilizer treatments in northwestern Mexico. https://hdl.handle.net/11529/10548582, CIMMYT Research Data & Software Repository Network, V1",
+    # publication= NA,
+    # data_institutions = "CIMMYT",
+    # data_type="experiment",
+    # carob_contributor="Fredy Chimire",
+    # carob_date="2023-12-12"
+  # )
+  
+
+  # ## download and read data 
+  
+  # ff  <- carobiner::get_data(uri, path, group)
+  # js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
+  # dset$license <- carobiner::get_license(js)
+  # dset$title <- carobiner::get_title(js)
+	# dset$authors <- carobiner::get_authors(js)
+	# dset$description <- carobiner::get_description(js)
+  
+  # f <- ff[basename(ff) == "DAT-PUB-214DrySow.xlsx"]
+  
+  # # Select sheet with revised data from the excel file 
+  # r <- carobiner::read.excel(f, sheet = "Wheat")
+  
+  # d <- data.frame(harvest_date=r$Year,rep=r$REP,dmy_residue=r$STRAW,dmy_total = r$BIOMASS, yield = r$`YIELD 12%`)
+  
+  # # for first dataset
+  # d$dataset_id <- dataset_id
+  # d$country<- "Mexico"
+  # d$treatment <- as.character(r$FERT)
+  # d$N_fertilizer <-factor(r$FERT, levels = 1:6, labels = c(0, 120, 180,180,240,240))
+  # d$latitude <-  27.3687  # https://www.google.com/maps/place/Campo+Experimental+Norman+E.+Borlaug/@27.3684654,-109.9280195,17z/data=!4m14!1m7!3m6!1s0x86c8181464933267:0x39ffb81d18b2b774!2sCampo+Experimental+Norman+E.+Borlaug!8m2!3d27.3684654!4d-109.9280195!16s%2Fg%2F1hc5dzgvq!3m5!1s0x86c8181464933267:0x39ffb81d18b2b774!8m2!3d27.3684654!4d-109.9280195!16s%2Fg%2F1hc5dzgvq?entry=ttu
+  # d$longitude <- -109.9281
+  
+
+  # d$yield_part <- "grain"
+  # d$crop <- "wheat"
+  
+  # d$N_splits <- as.integer(factor(r$FERT, levels = c(1,2,3,4,5,6), labels = c(0, 2, 2,1,2,1)))
+  # d$grain_weight <- r$TKW
+  # d$trial_id <- paste(1:nrow(d),d$N_fertilizer,sep = '_')
+  # d$harvest_date <- as.character(d$harvest_date)
+  # d$rep <- as.integer(d$rep)
+  # d$dmy_residue[!grepl("^\\d+$", d$dmy_residue, perl = TRUE)] <- "0"
+  # d$dmy_residue <- as.numeric(d$dmy_residue)
+  # d$dmy_total[!grepl("^\\d+$", d$dmy_total, perl = TRUE)] <- "0"
+  
+  # d$dmy_total <- as.numeric(d$dmy_total)
+  # d$N_fertilizer <- as.numeric(d$N_fertilizer)
+  
+  # d$grain_weight[!grepl("^\\d+$", d$grain_weight, perl = TRUE)] <- "0"
+  
+  
+  # d$grain_weight <- as.numeric(d$grain_weight)
+  # d$yield[d$yield == '.'] <- NA
+  # d$yield <- as.numeric(d$yield)
+  # carobiner::write_files(dset, d, path=path)
+# }
+

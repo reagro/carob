@@ -98,7 +98,7 @@ carob_script <- function(path) {
 	k[p %in% c("ssp,ureia", "ssp, ureia", "ssp,ureia,")] <- "SSP; urea"
 	d$fertilizer_type <- k
 	
-	ftab <- carobiner::get_accepted_values("fertilizer", path)[, c("name", "N", "P", "K", "S")]
+	ftab <- carobiner::get_accepted_values("fertilizer_type", path)[, c("name", "N", "P", "K", "S")]
 	ftab <- ftab[ftab$name %in% c("SSP", "urea"), ]
 	fmat <- as.matrix(ftab[,-1]) / 100
 	fr <- matrix(0, ncol=4, nrow=nrow(d))

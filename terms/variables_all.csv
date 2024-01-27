@@ -2,13 +2,13 @@ name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,des
 dataset_id,character,,yes,,no,,,no,"dataset identifier (normalized URI, that is: ""/"" replaced with ""_"")",,
 trial_id,character,,yes,,no,,,yes,Identifier of a single trial (that may have treatments and replicates); should be unique within dataset_id,,
 record_id,integer,,no,,no,,,no,Unique identifier for each records in a dataset (sequence from 1 to n),,
-country,character,,yes,country,no,,,no,Country name,,http://purl.obolibrary.org/obo/ENVO_00000009 
-adm1,character,,no,,no,,,yes,First level administrative subdivision,follow GADM,http://purl.obolibrary.org/obo/ENVO_00000005
-adm2,character,,no,,no,,,yes,Second level administrative subdivision (within the first level subdivision),follow GADM,http://purl.obolibrary.org/obo/ENVO_00000006
-adm3,character,,no,,no,,,yes,Third level administrative subdivision (within the second level subdivision),follow GADM,http://purl.obolibrary.org/obo/ENVO_00000007
-adm4,character,,no,,no,,,yes,Fourth level administrative subdivision (within the third level subdivision),follow GADM,http://purl.obolibrary.org/obo/ENVO_00000008
+country,character,,yes,country,no,,,no,Country name,,ENVO_00000009 
+adm1,character,,no,,no,,,yes,First level administrative subdivision,follow GADM,ENVO_00000005
+adm2,character,,no,,no,,,yes,Second level administrative subdivision (within the first level subdivision),follow GADM,ENVO_00000006
+adm3,character,,no,,no,,,yes,Third level administrative subdivision (within the second level subdivision),follow GADM,ENVO_00000007
+adm4,character,,no,,no,,,yes,Fourth level administrative subdivision (within the third level subdivision),follow GADM,ENVO_00000008
 adm5,character,,no,,no,,,yes,Fifth level administrative subdivision (within the fourth level subdivision),follow GADM,
-location,character,,no,,no,,,yes,"Name of the location where the location was made. E.g., a place name or locality description.",,http://purl.obolibrary.org/obo/ENVO_00000114
+location,character,,no,,no,,,yes,"Name of the location where the location was made. E.g., a place name or locality description.",,ENVO_00000114
 site,character,,no,,no,,,yes,Name of the sub-location where the observation was made,,
 reference,character,,no,,no,,,yes,Reference to source if the data set is a compilation,,
 longitude,numeric,degrees,yes,,no,-180,180,no,Longitude of the location where the observation was made (in decimal notation),,
