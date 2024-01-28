@@ -24,6 +24,7 @@ carob_script <- function(path) {
     carob_contributor="Robert Hijmans and Effie Ochieng'",
     carob_date="2024-01-22"
   )
+
   
   ## download and read data 
   
@@ -47,7 +48,7 @@ carob_script <- function(path) {
 		previous_crop = tolower(r$D.prevCrop),
 		planting_date = r$D.seedingSowingTransplanting,
 		harvest_date = r$L.q601_harvestDate,  # L.harvDate is cleaner, but not in dictionary
-		season = r$	A.q117_season A.q118_harvYear,
+		season = r$A.q117_season, # A.q118_harvYear,
 		variety = r$D.q410_varName,
 		var_type = r$D.q409_varType,
 		latitude = r$O.largestPlotGPS.Latitude,
@@ -82,7 +83,7 @@ carob_script <- function(path) {
 		bm3 = r$B.q207_q3tagb
 	)
 	# biomass from 2*2 quadrants
-	d$dmy_total <- 10000 * colMeans(biomass) / 4
+	d$dmy_total <- 10000 * rowMeans(biomass) / 4
 
 	grain <- data.frame(
 		gw1 = r$B.q202_q1gWeight,
@@ -99,9 +100,6 @@ carob_script <- function(path) {
 	)
 	moist[moist==0] <- NA
 	m <- rowMeans(moist, na.rm=TRUE)
-	
-	
-	
 	
 
 # get fertilizer in kg/ha	
@@ -121,6 +119,28 @@ carob_script <- function(path) {
 	) / (plot_acres * 0.404686)
 	
 	
+
+	fix_date <- function(x) {
+		x <- gsub(", ", "-", x)
+		x <- gsub(" ", "-", x)
+		x <- gsub("/", "-", x)
+		for (y in 16:24) {
+			x <- gsub(paste0("-", y, "$"), paste0("-20", y), x)
+		}
+		
+		month.num <- paste0("-", formatC(1:12, width=2, flag = "0"), "-")
+		for (i in 1:12) {
+			x <- gsub(paste0("-", month.abb[i], "-"), month.num[i], x)
+		}
+
+		dat <- rep(as.Date(NA), length(x))
+		i <- grepl("-", x)
+		dat[!i] <- as.Date("1899-12-31") + as.numeric(x[!i])
+		dat[i] <- as.Date(x[i], "%d-%m-%Y")
+		as.character(dat)
+	}
+	
+	
 	d$date <- fix_date(d$date)
 	d$planting_date <- fix_date(d$planting_date)
 	d$harvest_date <- fix_date(d$harvest_date)
@@ -137,7 +157,7 @@ carob_script <- function(path) {
  
     # to get the fertilizer/ha
 	ftab <- carobiner::get_accepted_values("fertilizer_type", path)
-	ftab <- ftab[match(colnames(fert), ftab$name), c("name", "N", "P", "K", "S", "B", "Mg", "Ca")]
+	ftab <- ftab[match(colnames(fert), ftab$name), c("name", "N", "P", "K", "S", "B", "Mg", "Ca", "Zn")]
 ## define NPK according to R script that comes with the data
 	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(12, 20, 13, 0)	
 ### none applied anyway
