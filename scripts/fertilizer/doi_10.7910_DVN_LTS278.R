@@ -1,7 +1,6 @@
 # R script for "carob"
 
 ## ISSUES
-###reference file missing: doi_10.7910_DVN_LTS278
 
 carob_script <- function(path) {
 

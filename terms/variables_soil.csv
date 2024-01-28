@@ -8,6 +8,7 @@ soil_SOM,numeric,%,no,,no,0,20,yes,Soil organic matter,,
 soil_sand,numeric,%,no,,no,0,100,yes,Soil sand content (excluding gravel),,
 soil_clay,numeric,%,no,,no,0,100,yes,Soil clay content (excluding gravel),,http://purl.obolibrary.org/obo/ENVO_00002982
 soil_silt,numeric,%,no,,no,0,100,yes,Soil silt content (excluding gravel),,
+soil_texture,character,,no,,no,,,yes,Soil texture,,
 soil_N,numeric,mg/kg,no,,no,1,10000,yes,Soil N content,,http://purl.obolibrary.org/obo/ENVO_09000017
 soil_K,numeric,mg/kg,no,,no,1,10000,yes,Soil K content,,
 soil_P_total,numeric,mg/kg,no,,no,1,1000,yes,Soil P (total) ,,
@@ -33,3 +34,4 @@ soil_Ex_Mg,numeric,mg/kg,no,,no,0,200,yes,Soil exchangeable Mg,,
 soil_Ex_K,numeric,mg/kg,no,,no,0,200,yes,Soil exchangeable K,,
 soil_Ex_Na,numeric,mg/kg,no,,no,0,200,yes,Soil exchangeable Na,,
 soil_Ex_Al,numeric,mg/kg,no,,no,0,200,yes,Soil exchangeable Al,,
+soil_color,character,,no,,no,,,yes,Soil color,,

@@ -38,17 +38,25 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "CSISA_OD_RiceCropCut_AllYearRawDataFinal.csv"]
 	r <- read.csv(f)
 
-	d <- r[, c("Season","District_Name","CEM","VAR","DOS","DOT","DOH","Latitude","Longitude")]
-	colnames(d) <- c("season","adm2","treatment","variety","planting_date","transplanting_date","harvest_date","latitude","longitude")
-
-	d$dataset_id <- dataset_id
-	d$trial_id <- paste(1:nrow(d), r$FID, sep = "_")
-	d$country <- "India"
-	d$adm1 <- "Odisha"
-	d$crop <- "rice"
-	d$yield_part <- "grain"	
-	d$on_farm <- TRUE
-	d$is_survey <- FALSE
+	d <- data.frame(
+		dataset_id = dataset_id,
+		country = "India",
+		crop = "rice",
+		yield_part = "grain",	
+		on_farm = TRUE,
+		is_survey = TRUE,
+		adm1="Odisha",
+		adm2=r$District_Name,
+		season=r$Season, 
+		latitude =r$Latitude,
+		longitude=r$Longitude,
+		variety=r$VAR, 
+		planting_date = r$DOS,
+		transplanting_date = r$DOT,
+		harvest_date = r$DOH,
+		planting_method = r$CEM,
+		trial_id = r$FID
+	)
 
 	dap <- r$DAP_Total
 	mop <- apply(r[, grep("MoP_", names(r))], 1, sum)
@@ -130,8 +138,6 @@ carob_script <- function(path) {
 	d$latitude[i] <- d$longitude[i]
 	d$longitude[i] <- tmp
 		
-#	d <- d[, c("trial_id","dataset_id","country","adm1","adm2","latitude","longitude","crop","variety","planting_date","transplanting_date","harvest_date","treatment","yield_part","on_farm","is_survey","fertilizer_type", "N_fertilizer","P_fertilizer","K_fertilizer","dmy_total","yield")]
-		# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
 

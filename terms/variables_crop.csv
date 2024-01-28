@@ -46,8 +46,11 @@ OM_K,numeric,kg/ha,no,,no,0,,yes,K applied in organic fertilizer,,AGRO_00000201
 inoculated,logical,,no,,no,,,yes,Was the field inoculated (with Rhizobium),,
 inoculant,character,,no,,no,,,yes,Name of the inoculant product,,
 irrigated,logical,,no,,no,,,yes,Was the plot irrigated?,,AGRO_00000006
-irrigation,numeric,mm,no,,no,,,yes,The total irrigation amount applied to the crop,,
+irrigation_source,character,,no,,no,,,yes,the source of irrigation water,,
+irrigation_number,integer,,no,,no,0,50,yes,How many times was the crop irrigated?,,
+irrigation_amount,numeric,mm,no,,no,0,1000,yes,The total irrigation amount applied to the crop,,
 tillage,character,,no,,no,,,yes,Tillage used,,AGRO_00000322
+transplanting_method,character,,no,,no,,,yes,(rice) transplanting method,,
 uncertainty,numeric,,no,,no,0,,yes,Measure of noise in data ,,
 uncertainty_type,character,,no,,no,,,yes,Type of noise measure,,
 row_spacing,numeric,cm,no,,no,0,150,yes,Distance between rows,,
@@ -91,3 +94,5 @@ grain_Mn,numeric,kg/ha,no,,no,,,yes,manganese in grain,,
 grain_B,numeric,kg/ha,no,,no,,,yes,boron in grain,,
 grain_Al,numeric,kg/ha,no,,no,,,yes,aluminium in grain,,
 residue_N,numeric,kg/ha,no,,no,,,yes,nitrogen in residue,,
+soil_constraint,character,,no,,no,,,yes,soil constriaint (e.g. saline),,
+season_constraint,character,,no,,no,,,yes,season constraint (e.g. drought),,
