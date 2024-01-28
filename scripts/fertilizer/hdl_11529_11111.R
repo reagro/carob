@@ -67,7 +67,7 @@ carob_script <- function(path) {
 	ft[ft == ""] <- "none"
 	ft[is.na(dap)] <- NA
 	
- # 2.4711 to convert from ? to kg/ha 
+ # 2.4711 to convert from kg/acre to kg/ha 
 	d$P_fertilizer <- dap * 2.4711 * .201
 	d$K_fertilizer <- mop * 2.4711 * .498
 	d$N_fertilizer <- dap * 2.4711 * 0.180 + urea * 2.4711 * 0.46
@@ -137,7 +137,7 @@ carob_script <- function(path) {
 	tmp <- d$latitude[i]
 	d$latitude[i] <- d$longitude[i]
 	d$longitude[i] <- tmp
-		
+
 	carobiner::write_files(dset, d, path=path)
 }
 

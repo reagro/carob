@@ -48,7 +48,7 @@ Under CSISA Phase II, Nutrient Omission Plot Technique (NOPT) trials were conduc
 		dataset_id = dataset_id,
 		crop=tolower(r$Crop), previous_crop = tolower(r$PCRP),
 		yield_part = "grain",
-		season=tolower(r$Season), trial_id = r$FarmerID, 
+		season=tolower(r$Season), trial_id = r$SiteID, 
 		soil_texture = r$STYP, soil_color =  r$SCLR, 
 		variety = r$VAR, variety_type = r$VTYP, 
 		planting_date = r$SDATE,
