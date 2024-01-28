@@ -159,5 +159,5 @@ carob_script <- function(path) {
 }
 
 
-a = r[, c("L.q605_totalGrainYieldQUINTAL", "L.q606_largestPlotYieldQUNITAL", "L.quintalPerAcre", "L.tonPerHectare", "C.q306_cropLarestAreaAcre")]
+#a = r[, c("L.q605_totalGrainYieldQUINTAL", "L.q606_largestPlotYieldQUNITAL", "L.quintalPerAcre", "L.tonPerHectare", "C.q306_cropLarestAreaAcre")]
 

@@ -31,6 +31,8 @@ Landscape Diagnostic Survey (LDS) for rice contains farmer's data on current pro
 	dset$title <- carobiner::get_title(js)
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
+
+return(TRUE)	
 	
 }
 

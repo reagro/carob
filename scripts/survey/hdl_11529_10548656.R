@@ -33,6 +33,7 @@ Landscape Diagnostic Survey (LDS) data contains current rice production practice
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
 
-	
+
+return(TRUE)	
 }
 
