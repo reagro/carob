@@ -1,8 +1,5 @@
 ## ISSUES
 
-## NO LON/LAT
-
-
 carob_script <- function(path) { 
   
   "
@@ -35,7 +32,12 @@ Landscape Diagnostic Survey (LDS) data contains current rice production practice
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
 
-
-return(TRUE)	
+	f <- ff[basename(ff)=="CSISA_IND_LDS_Rice_2018_Data.csv"]
+	r <- read.csv(f)
+	d <- data.frame(
+			latitude=r$X, longitude=r$X.1
+		)
+	
+	return(TRUE)	
 }
 

@@ -145,7 +145,7 @@ proc_wheat <- function(ff) {
 		"CEBOLLA", "onion",
 		"CERAL", "cereal",
 		"CEREALS", "cereal",
-		"CEREAL (MAGI)", "cereal",  #rice?
+		"CEREAL (MAGI)", "cereal",  #ragi?
 		"CEREAL (MAYIL)", "cereal", #rice?
 		"CEAREALS", "cereal",
 		"CEREAL (RICE)", "rice",
@@ -409,14 +409,13 @@ proc_wheat <- function(ff) {
 		"SUPER BEAT", "sugar beet",
 		"SWEET  POTATOS", "sweetpotato",
 		"TRAMANRICE", "rice",
-		"TREBOL BLANCO", "white clover",
+		"TREBOL BLANCO", "white clover", 
 		"TREBOL ROJO", "red clover",
 		"TREFOIL CLOVER", "clover",		
 		"TREBOL-SOJA", "clover; soybean",
 		"TRIGO", "wheat", 
 		"TRIFOLIUM ALEXANDRIUM", "berseem clover", 
 		"TRIFOLIUM ALEXANDIUM", "berseem clover", 
-		"TREBOL BLANCO", "white clover", 
 		"TRIFOLIUM REPENS", "white clover", 
 		"TRITICALE", "triticale",
 		"TRITICUM", "wheat",
