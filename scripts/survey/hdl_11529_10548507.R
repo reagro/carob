@@ -38,33 +38,36 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "CSISA_IND_LDS_Whe_2018_Data.csv"]
 	r <- read.csv(f)
 	d <- data.frame(
-		date = r$collectionDate, 
-		country = r$A.q101_country,
+		date = r$collectionDate,
 		adm1 = r$A.q102_state,
 		adm2 = r$A.q103_district,
 		adm3 = r$A.q104_subDistrict,
 		location = r$A.q105_village,
 		crop = tolower(r$A.q116_crop),
 		previous_crop = tolower(r$D.prevCrop),
-		planting_date = r$D.seedingSowingTransplanting,
 		harvest_date = r$L.q601_harvestDate,  # L.harvDate is cleaner, but not in dictionary
 		season = r$A.q117_season, # A.q118_harvYear,
 		variety = r$D.q410_varName,
-		var_type = r$D.q409_varType,
+		variety_type = r$D.q409_varType,
 		latitude = r$O.largestPlotGPS.Latitude,
 		longitude = r$O.largestPlotGPS.Longitude,
 		yield = r$L.tonPerHectare * 1000,
-		insectides = r$I.q5508_insecticidesName,
-		pesticides = r$I.q5511_pesticidesName
-
+		insectide_product = r$I.q5508_insecticidesName,
+		pesticide_product = r$I.q5511_pesticidesName
 	)
+
+#	country <- r$A.q101_country
+	country <- "India"
+	
+	d$planting_date <- r$D.seedingSowingTransplanting
+	if (is.null(d$planting_date)) d$planting_date <- r$D.q415_seedingSowingTransDate
 
 	d$seed_source = ifelse(r$D.q421_seedSource == "other", 
 							r$D.q422_otherSeedSource, r$D.q421_seedSource)
 
-	d$OM_applied <- r$E.q5101_FYM == "yes"
-	d$OM_type <- paste0("FYM (", r$E.q5102_typeFYM, ")")
-	d$OM_type[d$OM_applied] <- NA
+	d$OM_used <- r$E.q5101_FYM == "yes"
+	d$OM_type <- paste0("farmyard manure (", r$E.q5102_typeFYM, ")")
+	d$OM_type[!d$OM_used] <- NA
 
 	d$herbicide <- apply(r[, c("J.q5601_1herbName", "J.q5603_2herbName", "J.q5605_3herbName")], 1, 
 		\(i) {
@@ -74,24 +77,24 @@ carob_script <- function(path) {
 		})
 		
 	d$herbicide[d$herbicide == "2,4-D, 24D"] <- "2,4-D"
-	d$herbicide_times <- rowSums(!is.na(r[, c("J.q5601_1herbName", "J.q5603_2herbName", "J.q5605_3herbName")])) 
-	d$weed_times <- r$J.manualWeedTimes
+	d$herbicide_times <- as.integer(rowSums(!is.na(r[, c("J.q5601_1herbName", "J.q5603_2herbName", "J.q5605_3herbName")]))) 
+	d$weeding_times <- as.integer(r$J.manualWeedTimes)
 
-	biomass <- data.frame(
+	crop_cut_biomass <- data.frame(
 		bm1 = r$B.q201_q1tagb, 
 		bm2 = r$B.q204_q2tagb, 
 		bm3 = r$B.q207_q3tagb
 	)
 	# biomass from 2*2 quadrants
-	d$dmy_total <- 10000 * rowMeans(biomass) / 4
+	d$dmy_total <- 10000 * rowMeans(crop_cut_biomass) / 4
 
-	grain <- data.frame(
+	crop_cut_yield <- data.frame(
 		gw1 = r$B.q202_q1gWeight,
 		gw2 = r$B.q205_q2gWeight,
 		gw3 = r$B.q208_q3gWeight
 	)
-	grain[grain==0] <- NA
-	g <- 10000 * rowMeans(grain, na.rm=TRUE) / 4
+	crop_cut_yield[crop_cut_yield==0] <- NA
+	crop_cut_yield <- 10000 * rowMeans(crop_cut_yield, na.rm=TRUE) / 4
 	
 	moist <- data.frame(
 		m1 = r$B.q203_q1gMoist,
@@ -99,10 +102,11 @@ carob_script <- function(path) {
 		m3 = r$B.q209_q3gMoist
 	)
 	moist[moist==0] <- NA
-	m <- rowMeans(moist, na.rm=TRUE)
+	crop_cut_moist <- rowMeans(moist, na.rm=TRUE)
+	crop_cut_moist[is.na(crop_cut_moist)] <- 14
+	crop_cut_yield <- crop_cut_yield * (100 - crop_cut_moist) / 86
 	
-
-# get fertilizer in kg/ha	
+					# note the spelling error
 	plot_acres = r$C.q306_cropLarestAreaAcre 
 # note that these "tot" variables are not in dictionary	
 	fert <- data.frame(
@@ -147,8 +151,8 @@ carob_script <- function(path) {
 	d$is_survey <- TRUE
 	d$dataset_id <- dataset_id
 	d$previous_crop <- carobiner::replace_values(d$previous_crop, 
-		c("bajra", "jowar", "greenmanure", "greengram", "pulses", "mungbean"), 
-		c("pearl millet", "sorghum", "green manure", "mung bean", "pulse", "mung bean"))
+		c("fallow", "other", "bajra", "jowar", "greenmanure", "greengram", "pulses", "mungbean"), 
+		c("no crop", NA, "pearl millet", "sorghum", "green manure", "mung bean", "pulse", "mung bean"))
 
 
 	d$country[d$country == "8"] <- "India"
@@ -174,7 +178,7 @@ carob_script <- function(path) {
 	d$B_fertilizer <- colSums(t(fert) * ftab$B / 100)
 	d$Zn_fertilizer <- colSums(t(fert) * ftab$Zn / 100)
 	
-    carobiner::write_files(dset, d, path=path)
+    carobiner::write_files(path, dset, d)
 
 }
 
