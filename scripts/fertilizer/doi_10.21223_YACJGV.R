@@ -75,7 +75,15 @@ carob_script <- function(path) {
 	i <- d$yield > 100000
 	d$yield[i] <- d$yield[i] / 10
 
-	d$planting_date <- as.character(NA)
+	# EGB: Planting and harvest date
+	# https://climateknowledgeportal.worldbank.org/country/rwanda/climate-data-historical#:~:text=Overall%2C%20the%20country's%20four%20climactic,dry%20season:%20December%20to%20February.
+	d$harvest_date <- d$date
+	d$season <- ifelse(as.integer(format(as.Date(d$harvest_date, "%Y-%m-%d"), "%m")) %in% c(3:10), "Long", "Short")
+	# Substracting from harvest as per:
+	# Using a random number of dates to substract from the harvest, but limited to a range close to the season length.
+	d$planting_date <- as.character(ifelse(d$season == "Short",
+	                                       format(as.Date(d$harvest_date) - rnorm(1, 100, 5), "%Y-%m-%d"),
+	                                       format(as.Date(d$harvest_date) - rnorm(1, 130, 10), "%Y-%m-%d")))
 	carobiner::write_files(dset, d, path=path)
 }
 
