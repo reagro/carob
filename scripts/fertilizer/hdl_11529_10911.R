@@ -73,7 +73,7 @@ Under CSISA Phase II, Nutrient Omission Plot Technique (NOPT) trials were conduc
 	irn <- gsub("20-24", "22", irn)
 	irn <- gsub("20-25", "22", irn)
 	d$irrigation_number = suppressWarnings(as.integer(irn))
-	d$tillage[d$crop=="wheat"] <- r$ESTM[d$crop=="wheat"]
+	d$land_prep_method[d$crop=="wheat"] <- r$ESTM[d$crop=="wheat"]
 	d$transplanting_method[d$crop=="rice"] <- r$ESTM[d$crop=="rice"]
 	d$transplanting_method[	d$transplanting_method == "" ] <- NA
 

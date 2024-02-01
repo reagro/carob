@@ -52,13 +52,13 @@ carob_script <- function(path) {
 		soil_quality = r$D.q403_soilPerception,
 		landscape_position = r$D.q402_drainClass,
 		previous_crop_residue = r$D.q407_cropResiduePcnt,
-		previous_crop_burnt = r$D.q408_residueBurnt,
+		previous_crop_burnt = r$D.q408_residueBurnt == "yes",
 		land_prep_method = r$D.q411_LandPrep,
 		is_survey = TRUE,
 		dataset_id = dataset_id
 	)
 	
-	d$trial_id <- 1:nrow(d)
+	d$trial_id <- as.character(1:nrow(d))
 	d$country <- r$A.q101_country
 	d$country[d$country == "8"] <- "India"
 #	d$country <- "India"
@@ -89,7 +89,10 @@ carob_script <- function(path) {
 	d$herbicide_timing <- apply(r[, c("J.q5602_1herbAppDays", "J.q5604_2herbAppDays", "J.q5606_3herbAppDays"
 )], 1, \(i) paste(na.omit(i), collapse=";"))
 
-	d$weeding_times <- as.integer(r$J.manualWeedTimes)
+	d$herbicide_product[d$herbicide_product == ""] <- NA 
+	d$herbicide_timing[d$herbicide_timing == ""] <- NA 
+	
+		d$weeding_times <- as.integer(r$J.manualWeedTimes)
 
 	d$planting_date <- r$D.seedingSowingTransplanting
 	if (is.null(d$planting_date)) d$planting_date <- r$D.q415_seedingSowingTransDate
