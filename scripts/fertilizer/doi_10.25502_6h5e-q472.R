@@ -3,7 +3,6 @@
 ## ISSUES
 # ....
 
-
 carob_script <- function(path) {
   
   "
@@ -253,18 +252,16 @@ carob_script <- function(path) {
   d3$OM_type <- NA
   d3$OM_type[d3$treatments_code != "treatment1"] <- "farmyard manure"
   d3$OM_amount[d3$treatments_code != "treatment1"] <- 2 * 1000 # According to protocol
-  # # EGB: Standardizing pathogen names
-  # # Need to add pathogens/diseases to the vocabulary
-  d3$disease <- d3$type_of_disease
+
+  d3$diseases <- d3$type_of_disease
   
   d4 <- d3[,c("dataset_id", "trial_id", "on_farm", "is_survey",
               "country", "adm1", "adm2", "adm3", "adm4", "adm5", "location", "site", "elevation",
               "crop", "variety", "variety_type", "previous_crop",
               "planting_date", "flowering", "maturity", "harvest", "harvest_date",
               "treatment", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", 
-              "OM_used", "OM_type", "OM_amount", "disease",
-              "yield", "yield_part",
-              "row_spacing", "plant_spacing")]
+              "OM_used", "OM_type", "OM_amount", "diseases",
+              "yield", "yield_part", "row_spacing", "plant_spacing")]
   
   # # EGB: Improved georeferencing
   s <- data.frame(adm1 = c("Western", "Western"),

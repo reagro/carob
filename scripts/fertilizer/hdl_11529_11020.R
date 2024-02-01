@@ -56,10 +56,12 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 ##	# d$latitude <- 9.085
 ## RH: GPS lon/lat probably exist
 
+
+
 	d$planting_date <- as.character(as.Date(r$`Planting Date`))
 	d$on_farm <- TRUE
-	d$is_survey <- FALSE
-	d$treatment <- "none"
+	d$is_survey <- TRUE
+
 	d$rep <- ifelse(gsub("^[^.]*.", "", as.character(r$`plot ID`)) == "", "1", 
 					gsub("^[^.]*.", "", as.character(r$`plot ID`)))
 	d$rep <- as.integer(d$rep)			
@@ -125,6 +127,7 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 	
 	d$dataset_id <- dataset_id
 	d$yield_part <- "grain"
+	d$crop_cut <- TRUE
 	
 	d <- d[!is.na(d$yield), ]
 # all scripts must end like this
