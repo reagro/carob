@@ -1,5 +1,5 @@
 name,include,description
-fertilizer,crop; fertilizer_type; soil,crop fertilizer trials
+fertilizer,crop; soil,crop fertilizer trials
 crop_cuts,crop; soil,crop cut data
 maize_trials,crop; soil,maize variety trials
 rice_trials,crop; soil,rice variety trials
@@ -13,4 +13,4 @@ cassava_trials,crop; soil,cassava variety trials
 potato_trials,crop; soil,potato variety trials
 sweetpotato_trials,crop; soil,sweetpotato variety trials
 soybean_trials,crop; soil,soybean variety trials
-survey,,household and agronomic surveys
+survey,household; crop; soil; pesticide,household and agronomic surveys

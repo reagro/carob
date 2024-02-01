@@ -1,6 +1,5 @@
 ## ISSUES
 
-
 carob_script <- function(path) { 
   
   "
@@ -24,8 +23,6 @@ Landscape Diagnostic Survey (LDS) data contains current rice production practice
     carob_date="2024-01-27"
   )
   
-  ## download and read data 
-  
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
 	dset$license <- carobiner::get_license(js)
@@ -33,7 +30,10 @@ Landscape Diagnostic Survey (LDS) data contains current rice production practice
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
 
-
-return(TRUE)	
+	f <- ff[basename(ff)=="CSISA_IND_LDS_Rice_2018_Data.csv"]
+	r <- read.csv(f)
+	r <- carobiner::change_names(r, c("X", "X.1"), c("latitude", "longitude"))
+	
+	return(TRUE)	
 }
 

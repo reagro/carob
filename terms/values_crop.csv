@@ -169,7 +169,7 @@ mustard,,,yes,seed,spices,,,mustard seed,http://aims.fao.org/aos/agrovoc/c_fd07a
 napier grass,Cenchrus purpureus,Pennisetum purpureum,yes,above_ground,fodder_crops,,,,
 nectarine,,,yes,fruit,fruits,,,nectarines,http://aims.fao.org/aos/agrovoc/c_5100
 niger ,Guizotia abyssinica,sunflecks,yes,seed,oil_seeds,,,,
-no crop,,,yes,,other,,,,
+no crop,,fallow,yes,,other,,,,
 noug,Guziota scarba,,yes,seed,oil_seeds,,5000,noug seed,http://aims.fao.org/aos/agrovoc/c_12827
 nutmeg,,,yes,seed,spices,,,nutmegs,http://aims.fao.org/aos/agrovoc/c_23169
 oats,Avena sativa,,yes,grain,cereals,,13450,oats,http://aims.fao.org/aos/agrovoc/c_5287
