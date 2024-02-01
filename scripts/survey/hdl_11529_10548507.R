@@ -134,9 +134,6 @@ carob_script <- function(path) {
 		c("no crop", NA, "pearl millet", "sorghum", "green manure", "mung bean", "pulse", "mung bean"))
 
 
-
-
-
 # note that these "tot" variables are not in dictionary	
 	fert <- data.frame(
 		DAP = r$F.totAmtDAP, 
@@ -172,6 +169,10 @@ carob_script <- function(path) {
 	d$OM_type <- paste0("farmyard manure (", tolower(r$E.q5102_typeFYM), ")")
 	d$OM_type[!d$OM_used] <- NA
 	d$OM_amount <- r$E.q5103_amtFYM / plot_ha
+
+
+##	p <- r[, c("F.q5112_priceDAP", "F.q5113_priceNPK", "F.q5114_priceUrea", "F.q5127_priceMoP", "F.q5115_priceZnSO4", "F.q5116_priceGypsum", "F.q5117_priceBoron", "F.q5126_priceNPKS", "F.q5128_priceSSP", "F.q5129_priceTSP")]
+##	nms <- c("DAP", "NPK", "urea", "KCl", "S", "gypsum", "B", "NPKS", "SSP", "TSP")
 
 	crop_cut_biomass <- data.frame(
 		bm1 = r$B.q201_q1tagb, 
