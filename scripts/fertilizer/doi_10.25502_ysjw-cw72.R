@@ -59,7 +59,7 @@ carob_script <- function(path) {
 ### process file with crop and management information
   
   d1 <- r4[, c("farm_id","plot_no", "crop_1","variety_1","inoculant_used","organic_fert_type","organic_fert_amount","mineral_fert_type","mineral_fert_amount")] 
-  colnames(d1) <- c("trial_id","plot_no", "crop","variety","inoculated", "OM_type", "OM_applied","fertilizer_type","fertilizer_amount")
+  colnames(d1) <- c("trial_id","plot_no", "crop","variety","inoculated", "OM_type", "OM_amount","fertilizer_type","fertilizer_amount")
   
 ### merge d and d1
    d <- merge(d, d1, by="trial_id",all.x = T)    
@@ -92,7 +92,7 @@ carob_script <- function(path) {
   
   ## Extract Relevant columns 
   
-  d <- d[,c("trial_id", "country","season","adm2","adm3", "crop","variety","yield","inoculated","OM_applied","fertilizer_type","fertilizer_amount","row_spacing","plant_spacing","planting_date")]
+  d <- d[,c("trial_id", "country","season","adm2","adm3", "crop","variety","yield","inoculated","OM_amount","fertilizer_type","fertilizer_amount","row_spacing","plant_spacing","planting_date")]
   
   # Add columns
   d$dataset_id <- dataset_id

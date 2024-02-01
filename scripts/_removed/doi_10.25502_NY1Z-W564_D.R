@@ -87,7 +87,7 @@ carob_script <- function(path) {
   # plot from m2 to ha
   d2$plot_size <- d2$plot_size/10000
   
-  d2$OM_applied <- ifelse(!is.na(d2$org_fertilizer_amount_kg),d2$org_fertilizer_amount_kg/d2$plot_size,NA) # in kg/ha
+  d2$OM_amount <- ifelse(!is.na(d2$org_fertilizer_amount_kg),d2$org_fertilizer_amount_kg/d2$plot_size,NA) # in kg/ha
   
   d2$fertilizer_type <- carobiner::fix_name(d2$min_fertilizer_type)
   d2$fertilizer_type <- ifelse(grepl("symp",ignore.case = T,d2$fertilizer_type),"sympal",d2$fertilizer_type)
@@ -147,7 +147,7 @@ carob_script <- function(path) {
     c("MAKWACHA","NASOKO","SUDAN 1","SUDAN 2","SUDAN 3","SUDAN 1; IT82E16","CG 7","CG 7","KALIMA; DEMETER","RG 1"))
   
   d2$variety <- d2$variety1 
-  d2 <- d2[,c( "trial_id","crop","variety","inoculated","OM_used","OM_type","OM_applied",
+  d2 <- d2[,c( "trial_id","crop","variety","inoculated","OM_used","OM_type","OM_amount",
                "fertilizer_type","N_fertilizer", "P_fertilizer","K_fertilizer")]
   
   f3 <- ff[basename(ff) == "c_use_of_package_3.csv"]
@@ -223,7 +223,7 @@ carob_script <- function(path) {
   z$K_fertilizer[is.na(z$K_fertilizer)] <- 0
   
   z <- z[,c("dataset_id","trial_id","season","country","adm1","adm2","adm3","site","longitude","latitude","elevation","observation_date"
-            ,"planting_date","harvest_date","crop","variety","inoculated","OM_used","OM_type","OM_applied","fertilizer_type","N_fertilizer",
+            ,"planting_date","harvest_date","crop","variety","inoculated","OM_used","OM_type","OM_amount","fertilizer_type","N_fertilizer",
             "P_fertilizer","K_fertilizer","row_spacing","plant_spacing","yield","on_farm","is_survey")]
   
   # all scripts must end like this

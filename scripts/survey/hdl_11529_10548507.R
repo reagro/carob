@@ -8,25 +8,22 @@ carob_script <- function(path) {
   (ODK) tool on mobile phone or tablet. (2019-12-31)
 "
 
-  uri <- "hdl:11529/10548507"
-  dataset_id <- carobiner::simple_uri(uri)
-  group <- "survey"
-  ## dataset level data 
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    project="CSISA",
-    uri=uri,
-    data_citation="Ajay, Anurag; Craufurd, Peter; Sharma, Sachin; Ranjan, Harshit; Poudel, Gokul; Malik, RK; Singh, Balwinder; Singh, AK; Samaddar, Arindam; Rai, Ashok; Keil, Alwin; McDonald, Andrew, 2020, Landscape diagnostic survey data of wheat production practices and yield of 2018 from eastern India, https://hdl.handle.net/11529/10548507, CIMMYT Research Data & Software Repository Network, V1, UNF:6:ACX3w1PnF4Otyf++Z6mO3g== [fileUNF]",
-    publication= NA,
-    data_institutions = "CIMMYT",
-    data_type="survey", 
-    carob_contributor="Robert Hijmans and Effie Ochieng'",
-    carob_date="2024-01-22"
-  )
-
+	uri <- "hdl:11529/10548507"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "survey"
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		project="CSISA",
+		uri=uri,
+		data_citation="Ajay, Anurag; Craufurd, Peter; Sharma, Sachin; Ranjan, Harshit; Poudel, Gokul; Malik, RK; Singh, Balwinder; Singh, AK; Samaddar, Arindam; Rai, Ashok; Keil, Alwin; McDonald, Andrew, 2020, Landscape diagnostic survey data of wheat production practices and yield of 2018 from eastern India, https://hdl.handle.net/11529/10548507, CIMMYT Research Data & Software Repository Network, V1, UNF:6:ACX3w1PnF4Otyf++Z6mO3g== [fileUNF]",
+		publication= NA,
+		data_institutions = "CIMMYT",
+		data_type="survey", 
+		carob_contributor="Robert Hijmans and Effie Ochieng'",
+		carob_date="2024-01-22"
+	)
   
-  ## download and read data 
   
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
@@ -51,34 +48,126 @@ carob_script <- function(path) {
 		variety_type = r$D.q409_varType,
 		latitude = r$O.largestPlotGPS.Latitude,
 		longitude = r$O.largestPlotGPS.Longitude,
-		yield = r$L.tonPerHectare * 1000,
-		insectide_product = r$I.q5508_insecticidesName,
-		pesticide_product = r$I.q5511_pesticidesName
+		soil_texture = r$D.q401_soilTexture,
+		soil_quality = r$D.q403_soilPerception,
+		landscape_position = r$D.q402_drainClass,
+		previous_crop_residue = r$D.q407_cropResiduePcnt,
+		previous_crop_burnt = r$D.q408_residueBurnt,
+		land_prep_method = r$D.q411_LandPrep,
+		is_survey = TRUE,
+		dataset_id = dataset_id
 	)
-
-#	country <- r$A.q101_country
-	country <- "India"
 	
-	d$planting_date <- r$D.seedingSowingTransplanting
-	if (is.null(d$planting_date)) d$planting_date <- r$D.q415_seedingSowingTransDate
+	d$trial_id <- 1:nrow(d)
+	d$country <- r$A.q101_country
+	d$country[d$country == "8"] <- "India"
+#	d$country <- "India"
+	d$yield_part <- "grain"
 
-	d$seed_source = ifelse(r$D.q421_seedSource == "other", 
-							r$D.q422_otherSeedSource, r$D.q421_seedSource)
+	d$planting_method = r$D.q413_CropEst
+	## grep above to get d$trans_planting_method 
 
-	d$OM_used <- r$E.q5101_FYM == "yes"
-	d$OM_type <- paste0("farmyard manure (", r$E.q5102_typeFYM, ")")
-	d$OM_type[!d$OM_used] <- NA
+	plot_ha <- 0.404686 * r$C.q305_cropLargestArea / r$C.q302_acreConv
 
-	d$herbicide <- apply(r[, c("J.q5601_1herbName", "J.q5603_2herbName", "J.q5605_3herbName")], 1, 
+## ?? 
+	d$drought_severity <- tolower(r$I.q5502_droughtSeverity)
+	d$insect_severity <- tolower(r$I.q5506_insectSeverity)
+	d$weed_severity <- tolower(r$I.q5505_weedSeverity)
+	d$disease_severity <- tolower(r$I.q5509_diseaseSeverity)
+
+	d$insecticide_product <- tolower(r$I.q5508_insecticidesName)
+	d$fungicide_product <- tolower(r$I.q5511_pesticidesName)
+	d$herbicide_product <- apply(r[, c("J.q5601_1herbName", "J.q5603_2herbName", "J.q5605_3herbName")], 1, 
 		\(i) {
 			i <- gsub("\\+", "; ", unique(i))
 			i <- gsub(", ", "; ", unique(i))
 			i <- gsub("; NA|NA", "", paste(unique(i), collapse="; "))
-		})
-		
-	d$herbicide[d$herbicide == "2,4-D, 24D"] <- "2,4-D"
+		}) |> tolower()
+
+	d$herbicide_product[d$herbicide_product == "2,4-D, 24D"] <- "2,4-D"
 	d$herbicide_times <- as.integer(rowSums(!is.na(r[, c("J.q5601_1herbName", "J.q5603_2herbName", "J.q5605_3herbName")]))) 
+	d$herbicide_timing <- apply(r[, c("J.q5602_1herbAppDays", "J.q5604_2herbAppDays", "J.q5606_3herbAppDays"
+)], 1, \(i) paste(na.omit(i), collapse=";"))
+
 	d$weeding_times <- as.integer(r$J.manualWeedTimes)
+
+	d$planting_date <- r$D.seedingSowingTransplanting
+	if (is.null(d$planting_date)) d$planting_date <- r$D.q415_seedingSowingTransDate
+
+
+	d$seed_amount = r$D.q420_cropSeedAmt / plot_ha
+	d$seed_source = ifelse(r$D.q421_seedSource == "other", 
+							r$D.q422_otherSeedSource, r$D.q421_seedSource)
+
+
+
+	fix_date <- function(x) {
+		x <- gsub(", ", "-", x)
+		x <- gsub(" ", "-", x)
+		x <- gsub("/", "-", x)
+		for (y in 16:24) {
+			x <- gsub(paste0("-", y, "$"), paste0("-20", y), x)
+		}
+		
+		month.num <- paste0("-", formatC(1:12, width=2, flag = "0"), "-")
+		for (i in 1:12) {
+			x <- gsub(paste0("-", month.abb[i], "-"), month.num[i], x)
+		}
+
+		dat <- rep(as.Date(NA), length(x))
+		i <- grepl("-", x)
+		dat[!i] <- as.Date("1899-12-31") + as.numeric(x[!i])
+		dat[i] <- as.Date(x[i], "%d-%m-%Y")
+		as.character(dat)
+	}
+	
+	d$date <- fix_date(d$date)
+	d$planting_date <- fix_date(d$planting_date)
+	d$harvest_date <- fix_date(d$harvest_date)
+
+	d$previous_crop <- carobiner::replace_values(d$previous_crop, 
+		c("fallow", "other", "bajra", "jowar", "greenmanure", "greengram", "pulses", "mungbean"), 
+		c("no crop", NA, "pearl millet", "sorghum", "green manure", "mung bean", "pulse", "mung bean"))
+
+
+
+
+
+# note that these "tot" variables are not in dictionary	
+	fert <- data.frame(
+		DAP = r$F.totAmtDAP, 
+		NPK = r$F.totAmtNPK, 
+		urea = r$F.totAmtUrea, 
+		NPKS = r$F.otherGradeNPKS, 
+		KCl = r$F.totAmtMoP, 
+		SSP = r$F.totAmtSSP, 
+		TSP = r$F.totAmtTSP, 
+		ZnSO4 = r$F.totAmtZnSO4, 
+		gypsum = r$F.totAmtGypsum, 
+		H3BO3 = r$F.totAmtBoron  # ?
+	) / plot_ha
+	
+    # to get the fertilizer/ha
+	ftab <- carobiner::get_accepted_values("fertilizer_type", path)
+	ftab <- ftab[match(colnames(fert), ftab$name), c("name", "N", "P", "K", "S", "B", "Mg", "Ca", "Zn")]
+## define NPK according to R script that comes with the data
+	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(12, 20, 13, 0)	
+### none applied anyway
+	ftab[ftab$name=="NPKS", c("N", "P", "K", "S")] <- c(12, 20, 13, 0)	
+	fert[is.na(fert)] <- 0
+  
+ 	# NPK percentages from the R script that was published with the data
+	d$N_fertilizer <- colSums(t(fert) * ftab$N / 100)
+	d$P_fertilizer <- colSums(t(fert) * ftab$P / 100)
+	d$K_fertilizer <- colSums(t(fert) * ftab$K / 100)
+	d$S_fertilizer <- colSums(t(fert) * ftab$S / 100)
+	d$B_fertilizer <- colSums(t(fert) * ftab$B / 100)
+	d$Zn_fertilizer <- colSums(t(fert) * ftab$Zn / 100)
+
+	d$OM_used <- r$E.q5101_FYM == "yes"
+	d$OM_type <- paste0("farmyard manure (", tolower(r$E.q5102_typeFYM), ")")
+	d$OM_type[!d$OM_used] <- NA
+	d$OM_amount <- r$E.q5103_amtFYM / plot_ha
 
 	crop_cut_biomass <- data.frame(
 		bm1 = r$B.q201_q1tagb, 
@@ -105,83 +194,14 @@ carob_script <- function(path) {
 	crop_cut_moist <- rowMeans(moist, na.rm=TRUE)
 	crop_cut_moist[is.na(crop_cut_moist)] <- 14
 	crop_cut_yield <- crop_cut_yield * (100 - crop_cut_moist) / 86
-	
-					# note the spelling error
-	plot_acres = r$C.q306_cropLarestAreaAcre 
-# note that these "tot" variables are not in dictionary	
-	fert <- data.frame(
-		DAP = r$F.totAmtDAP, 
-		NPK = r$F.totAmtNPK, 
-		urea = r$F.totAmtUrea, 
-		NPKS = r$F.otherGradeNPKS, 
-		KCl = r$F.totAmtMoP, 
-		SSP = r$F.totAmtSSP, 
-		TSP = r$F.totAmtTSP, 
-		ZnSO4 = r$F.totAmtZnSO4, 
-		gypsum = r$F.totAmtGypsum, 
-		H3BO3 = r$F.totAmtBoron  # ?
-	) / (plot_acres * 0.404686)
-	
-	
 
-	fix_date <- function(x) {
-		x <- gsub(", ", "-", x)
-		x <- gsub(" ", "-", x)
-		x <- gsub("/", "-", x)
-		for (y in 16:24) {
-			x <- gsub(paste0("-", y, "$"), paste0("-20", y), x)
-		}
-		
-		month.num <- paste0("-", formatC(1:12, width=2, flag = "0"), "-")
-		for (i in 1:12) {
-			x <- gsub(paste0("-", month.abb[i], "-"), month.num[i], x)
-		}
+	d$yield <- 10 * r$L.q606_largestPlotYieldQUNITAL / plot_ha
 
-		dat <- rep(as.Date(NA), length(x))
-		i <- grepl("-", x)
-		dat[!i] <- as.Date("1899-12-31") + as.numeric(x[!i])
-		dat[i] <- as.Date(x[i], "%d-%m-%Y")
-		as.character(dat)
-	}
-	
-	
-	d$date <- fix_date(d$date)
-	d$planting_date <- fix_date(d$planting_date)
-	d$harvest_date <- fix_date(d$harvest_date)
-	d$is_survey <- TRUE
-	d$dataset_id <- dataset_id
-	d$previous_crop <- carobiner::replace_values(d$previous_crop, 
-		c("fallow", "other", "bajra", "jowar", "greenmanure", "greengram", "pulses", "mungbean"), 
-		c("no crop", NA, "pearl millet", "sorghum", "green manure", "mung bean", "pulse", "mung bean"))
+	d$crop_cut <- !is.na(crop_cut_yield)
+	d$yield[d$crop_cut] <- crop_cut_yield[d$crop_cut] 
 
+	d$crop_price <- r$M.q706_cropSP
 
-	d$country[d$country == "8"] <- "India"
-	d$yield_part <- "grain"
- 
- 
-    # to get the fertilizer/ha
-	ftab <- carobiner::get_accepted_values("fertilizer_type", path)
-	ftab <- ftab[match(colnames(fert), ftab$name), c("name", "N", "P", "K", "S", "B", "Mg", "Ca", "Zn")]
-## define NPK according to R script that comes with the data
-	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(12, 20, 13, 0)	
-### none applied anyway
-	ftab[ftab$name=="NPKS", c("N", "P", "K", "S")] <- c(12, 20, 13, 0)	
-
-	fert[is.na(fert)] <- 0
-
-  
- 	# NPK percentages from the R script that was published with the data
-	d$N_fertilizer <- colSums(t(fert) * ftab$N / 100)
-	d$P_fertilizer <- colSums(t(fert) * ftab$P / 100)
-	d$K_fertilizer <- colSums(t(fert) * ftab$K / 100)
-	d$S_fertilizer <- colSums(t(fert) * ftab$S / 100)
-	d$B_fertilizer <- colSums(t(fert) * ftab$B / 100)
-	d$Zn_fertilizer <- colSums(t(fert) * ftab$Zn / 100)
-	
     carobiner::write_files(path, dset, d)
-
 }
-
-
-#a = r[, c("L.q605_totalGrainYieldQUINTAL", "L.q606_largestPlotYieldQUNITAL", "L.quintalPerAcre", "L.tonPerHectare", "C.q306_cropLarestAreaAcre")]
 

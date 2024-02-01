@@ -49,7 +49,7 @@ carob_script <- function(path) {
    d2 <- r1[,c(2,3,5,6,8,9,10,11)]#
    colnames(d2) <- c("season","Qty_apply","OM","N","P","K","Ca","Mg")#,
    
-   d2$OM_applied <-   d2$Qty_apply*d2$OM*10
+   d2$OM_amount <-   d2$Qty_apply*d2$OM*10
    d2$N_fertilizer <- d2$Qty_apply*d2$N*10 
    d2$P_fertilizer <- d2$Qty_apply*d2$P*10
    d2$K_fertilizer <- d2$Qty_apply*d2$K*10
