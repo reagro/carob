@@ -70,8 +70,9 @@ carob_script <- function(path) {
 	plot_ha <- 0.404686 * r$C.q305_cropLargestArea / r$C.q302_acreConv
 
 ## ?? 
-	d$drought_severity <- tolower(r$I.q5502_droughtSeverity)
-	d$insect_severity <- tolower(r$I.q5506_insectSeverity)
+	d$flood_stress <- tolower(r$I.q5504_floodSeverity)
+	d$drought_stress <- tolower(r$I.q5502_droughtSeverity)
+	d$pest_severity <- tolower(r$I.q5506_insectSeverity)
 	d$weed_severity <- tolower(r$I.q5505_weedSeverity)
 	d$disease_severity <- tolower(r$I.q5509_diseaseSeverity)
 

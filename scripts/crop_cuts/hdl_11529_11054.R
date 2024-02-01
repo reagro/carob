@@ -48,10 +48,12 @@ carob_script <- function(path) {
 	d <- data.frame(
 		dataset_id = dataset_id, trial_id=as.character(r$FID),
 		crop="maize", yield_part="grain", season=r$SEASON, 
-		country = "India", adm1="Odisha",
-		adm2 = r$DIST, longitude = r$LON, latitude=r$LAT,
-		variety = r$VAR, planting_method = r$MSOW,
-		herbicide_product=tolower(r$HRBCDE), herbicide_amount=r$HRBCDE_AMT,
+		country = "India", adm1="Odisha", adm2 = r$DIST, 
+		longitude = r$LON, latitude=r$LAT,
+		variety = r$VAR, 
+		planting_method = r$MSOW,
+		herbicide_product=tolower(r$HRBCDE), 
+		herbicide_amount=r$HRBCDE_AMT,
 		herbicide_timing = r$HRBCDE_DAS, 
 		plant_density = 10000 * r$PLNT_NO / 15 ,
 		yield = r$GYLD_15 * 1000

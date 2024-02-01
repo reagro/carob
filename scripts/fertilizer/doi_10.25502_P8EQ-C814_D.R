@@ -66,7 +66,7 @@
       d1$soil_Mg <- (r1$Mg_d10 + r1$Mg_d20)/2
       weeds1 <- r1[, c("biomass_04WAP_gm2", "biomass_08WAP_gm2", "biomass_12WAP_gm2", "biomass_24WAP_gm2")]
       # mean weed biomass in kg/ha	
-      d1$weeds_biomass <- rowMeans(weeds1) * 10
+      d1$weed_biomass <- rowMeans(weeds1) * 10
       
       # to convert Nitrogen in mg/kg (PPm) we use: 1g of soil contain n% of Nitrogen 
       d1$soil_N <- (d1$soil_N/100)*1000000 # mg/kg
@@ -83,7 +83,7 @@
       
       weeds2 <- r2[, c("biomass_04WAP_gm2", "biomass_08WAP_gm2", "biomass_12WAP_gm2", "biomass_24WAP_gm2")]
       # mean weed biomass in kg/ha	
-      d2$weeds_biomass <- rowMeans(weeds2) * 10 
+      d2$weed_biomass <- rowMeans(weeds2) * 10 
       
       # fill soil information for second season base on $site.
       # I assume that soil information is the same for the same long and lat position

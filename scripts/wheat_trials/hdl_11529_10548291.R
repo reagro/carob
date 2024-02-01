@@ -28,7 +28,7 @@ carob_script <- function(path) {
 		project="Global_Wheat_Program",
 		uri=uri,
 		data_citation="Global Wheat Program; IWIN Collaborators; Ammar, Karim; Payne, Thomas, 2020, 39th International Durum Yield Nursery, https://hdl.handle.net/11529/10548291, CIMMYT Research Data & Software Repository Network, V1",
-		publication="",
+		publication=as.character(NA),
 		data_institutions = "CIMMYT",
    		data_type="experiment", 
 		carob_contributor="Blessing Dzuda",
