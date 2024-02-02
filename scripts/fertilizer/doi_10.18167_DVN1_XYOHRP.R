@@ -78,7 +78,6 @@ carob_script <- function(path) {
 	d$on_farm <- TRUE
 	d$irrigated <- FALSE
 	d$is_survey <- FALSE
-	d$planting_date <- NA
 
 message("should also process soil and weather data")
 
