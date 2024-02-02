@@ -10,7 +10,7 @@ carob_script <- function(path) {
    uri <-  "doi:10.18167/DVN1/XYOHRP"
    dataset_id <- carobiner::simple_uri(uri)
    group <- "fertilizer" 
-   ## dataset level data 
+
    dset <- data.frame(
       dataset_id = dataset_id,
       group=group,
@@ -33,29 +33,21 @@ carob_script <- function(path) {
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
    
-  
-   # process files
-   
-   # Yield biomass
 	r1 <- carobiner::read.excel(ff[basename(ff)=="DonneesDATAVERSE_F1.xlsx"], sheet="DataBiomassYieldN")  
 	d1 <- data.frame(
-		crop <- "rice", 
-		dataset_id <- dataset_id,
-		country <- "Madagascar",
+		crop = "rice", 
+		dataset_id = dataset_id,
+		country = "Madagascar",
 		season = as.character(r1$Season),
 		crop_rotation = r1$Rotation, 
 		yield = 1000 * r1$`Yield (14% moisture content)`,
 		weed_biomass = 1000 * r1$TotalWeedBiomass,
 		dmy_total = 1000 * r1$RiceBiomassD5,
-		rep <- as.integer(as.factor(r1$Block))
+		rep = as.integer(as.factor(r1$Block))
 	)
    
-   ### Fertilizer file
 	r2 <- carobiner::read.excel(ff[basename(ff)=="DonneesDATAVERSE_F1.xlsx"], sheet = "DataFertilization", fix=TRUE) 
       
-	#d2 <- r1[,c(2,3,5,6,8,9,10,11)]#
-	#colnames(d2) <- c("season","Qty_apply","OM","N","P","K","Ca","Mg")#,
-
 	qom <- r2$Quantity.of.applied.manure.t.ha.1.of.DM  * 10
 	d2 <- data.frame(
 		season = r2$Season,
@@ -75,8 +67,8 @@ carob_script <- function(path) {
 	d$crop_rotation[d$crop_rotation=="RSC"] <- "rice; cereal"
 
  
-	d$planting_date <- substr(d$season, 1, 2)
-	d$harvest_date <- substr(d$season, 3, 4)
+	d$planting_date <- paste0("20", substr(d$season, 1, 2))
+	d$harvest_date <- paste0("20", substr(d$season, 3, 4))
 	   
 	d$location <- "Vakinankaratra"
 	d$longitude <- 46.836
@@ -88,7 +80,7 @@ carob_script <- function(path) {
 	d$is_survey <- FALSE
 	d$planting_date <- NA
 
-message("should also process soil and climate data")
+message("should also process soil and weather data")
 
 	carobiner::write_files(path, dset, d)
    

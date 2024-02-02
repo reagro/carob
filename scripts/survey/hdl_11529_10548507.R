@@ -174,7 +174,7 @@ carob_script <- function(path) {
 ##	p <- r[, c("F.q5112_priceDAP", "F.q5113_priceNPK", "F.q5114_priceUrea", "F.q5127_priceMoP", "F.q5115_priceZnSO4", "F.q5116_priceGypsum", "F.q5117_priceBoron", "F.q5126_priceNPKS", "F.q5128_priceSSP", "F.q5129_priceTSP")]
 ##	nms <- c("DAP", "NPK", "urea", "KCl", "S", "gypsum", "B", "NPKS", "SSP", "TSP")
 
-	crop_cut_biomass <- data.frame(
+		crop_cut_biomass <- data.frame(
 		bm1 = r$B.q201_q1tagb, 
 		bm2 = r$B.q204_q2tagb, 
 		bm3 = r$B.q207_q3tagb
