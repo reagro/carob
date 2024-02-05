@@ -220,6 +220,14 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   # d$OM_used[!is.na(d$OM_type)] <- TRUE
   
   d$yield_part <- "seed"
+  
+  # EGB:
+  # Adding dates. Since it is a survey conducted in 2013,
+  # it is assumed that the responses correspond to the previous cropping season
+  # Assuming that the crop was harvested 120 days after planting. Only indicating %Y-%m
+  d$planting_date <- as.character(format(as.Date("2012-12-01"), "%Y-%m"))
+  d$harvest_date <- as.character(format(as.Date("2012-12-01") + 120, "%Y-%m"))
+  
   # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
 }
