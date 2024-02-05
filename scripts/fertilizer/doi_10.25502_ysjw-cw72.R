@@ -172,6 +172,3 @@ carob_script <- function(path) {
   # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
 }
-
-
-carobiner::geocode(d$country, d$adm3, adm3 = d$adm3)
