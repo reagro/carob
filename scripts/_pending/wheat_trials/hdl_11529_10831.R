@@ -31,43 +31,50 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
+	dset$title <- carobiner::get_title(js)
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
 	
-	f <- ff[basename(ff) == "1SATYN.csv"] 
-	f1 <- ff[basename(ff) == "1WYCYT.csv"]
-	f2 <- ff[basename(ff) == "2SATYN.csv"]
-	f3 <- ff[basename(ff) == "2WYCYT.csv"]
-	f4 <- ff[basename(ff) == "3SATYN.csv"]
-	f5 <- ff[basename(ff) == "3WYCYT.csv"]
-	f6 <- ff[basename(ff) == "4SATYN.csv"]
+	f1 <- ff[basename(ff) == "1SATYN.csv"] 
+	f2 <- ff[basename(ff) == "1WYCYT.csv"]
+	f3 <- ff[basename(ff) == "2SATYN.csv"]
+	f4 <- ff[basename(ff) == "2WYCYT.csv"]
+	f5 <- ff[basename(ff) == "3SATYN.csv"]
+	f6 <- ff[basename(ff) == "3WYCYT.csv"]
+	f7 <- ff[basename(ff) == "4SATYN.csv"]
 	
 	# read the dataset
-	r <- read.csv(f)
 	r1 <- read.csv(f1)
 	r2 <- read.csv(f2)
 	r3 <- read.csv(f3)
 	r4 <- read.csv(f4)
 	r5 <- read.csv(f5)
+	r6 <- read.csv(f6)
+
+	r3$SubBlock <- NULL
+	r6$SubBlock <- NULL
 	
 	# process file(s)
-	d <- rbind(r, r1, r4) # r1, r, r4 have the same variable 
-	r5 <- r5[c(2, 3, 5, 1, 6)]	
-	r2 <- r2[c(1, 2, 4, 5, 6)] 
-	d <- rbind(d, r5, r2)
+	r <- rbind(r1, r2, r3, r4, r5, r6)
+	
+## RH: we need to know the names/codes for the varieties. 
+## data has not much use without that. 	
+	d <- data.frame(
+		trial_id = r$code,
+		rep = r$Rep,
+		yield <- as.numeric(r$YLD)*1000, 
+		variety = r$Entry
+	)
  
  ## create a data frame with location , longitude, latitude and country variable
  ## The information come from # doi: 10.2135/cropsci2016.06.0558 # 
 
-## RH missing codes
+## RH included codes that are not in d$trial_id
 ## "BGLD J3" "Iran S"	"Iran SA" "Iran SC" "Mex B"	 "MEX CM"	"Mex D"	 "Mex H"	 "Mex HD"	"Pak N"	 "Pak R" 
-
-## RH included codes that are not in d$code
 ## "China L" "Mex-Baj"
 
 	location <- data.frame(
-		code = c("BGLD D", "BGLD J", "BGLD R", "China L", "Croatia O", "Egypt A", 
+		trial_id = c("BGLD D", "BGLD J", "BGLD R", "China L", "Croatia O", "Egypt A", 
 				"Egypt G", "Egypt N", "Egypt S", "Egypt Si", "Egypt SK", "India D", "India H", 
 				"India I", "India K", "India L", "India U", "India V", 
 				"Iran D", "Iran DZ", "Iran K", "Iran Z", "Mex BC", "Mex CM", "Mex JAL", "Mex SIN", 
@@ -83,35 +90,28 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
 	)
   
 	# Add location and country in the dataset 
-	d <- merge(d, location, by="code", all.x=TRUE)
+	d <- merge(d, location, by="trial_id", all.x=TRUE)
 	
-	#fix long and lat
+	#fixes
 	d$longitude[d$location=="Dharwad"] <- 75.0066516
 	d$latitude[d$location=="Dharwad"] <- 15.4540505
 	d$longitude[d$location=="Pirsabak"] <- 72.0393338
 	d$latitude[d$location=="Pirsabak"] <- 	34.0258704
 	d$longitude[d$location=="Gemmeiza"] <- 24.2037306
 	d$latitude[d$location=="Gemmeiza"] <- 	12.6666536 
-	
 	d$country[d$location=="Gemmeiza"] <- "Sudan" #
-	d$location[d$location=="Pirsabak"] <- "Pir Sabak" #
-	#Add column
+	d$location[d$location=="Pirsabak"] <- "Pir Sabak" 
+
+
 	d$dataset_id <- dataset_id
-	d$trial_id <- 	paste0(d$dataset_id, "-", d$code)
+	d$trial_id <- paste0(d$dataset_id, "-", d$code)
 	
-	# Extract relevant columns 
-	d <- d[, c("dataset_id", "trial_id", "country", "location", "longitude", "latitude", "Rep", "YLD")]
-	colnames(d) <- c("dataset_id", "trial_id", "country", "location", "longitude", "latitude", "rep", "yield") # standard names
-	# Add columns
 	d$crop <- "wheat"
-	d$season <- 	"sprind"	
 	d$on_farm <- FALSE
 	d$is_survey <- TRUE
 	d$irrigated <- FALSE
 	
-	
 	#data type
-	d$yield <- (as.numeric(d$yield))*1000 
 	d$yield_part <- "grain"
 
 	carobiner::write_files(dset, d, path=path)

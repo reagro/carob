@@ -25,7 +25,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 		data_institutions = "ICRISAT",
 		project = "CGIAR Research Program on Dryland Systems",
 		revised_by = "Eduardo Garcia Bendito",
-		revised_date = "2024-01-18"
+		revision_date = "2024-01-18"
 	)
   
 	## treatment level data 
