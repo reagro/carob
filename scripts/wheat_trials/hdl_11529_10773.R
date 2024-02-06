@@ -50,10 +50,7 @@ carob_script <- function(path) {
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
-	
-	d$previous_crop<-carobiner::replace_values(d$previous_crop,"sanphemp","sunn hemp")
-	d$previous_crop<-carobiner::replace_values(d$previous_crop,"weedy fallow",NA)
-	
+		
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }

@@ -1,9 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
-
 carob_script <- function(path) {
 
 "Description:
@@ -35,8 +31,6 @@ carob_script <- function(path) {
 		carob_date="2024-02-01"
 	)
 
-## download and read data 
-
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
 	dset$license <- carobiner::get_license(js)
@@ -44,14 +38,10 @@ carob_script <- function(path) {
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
 	
-#### about the data #####
-## (TRUE/FALSE)
-	
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
-	d$previous_crop<-carobiner::replace_values(d$previous_crop,"sannhemp","sunn hemp")
-# all scripts must end like this
+
 	carobiner::write_files(dset, d, path=path)
 }
 
