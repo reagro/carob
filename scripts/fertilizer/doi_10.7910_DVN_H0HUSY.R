@@ -31,25 +31,28 @@ Description: This dataset contains information of experiments carried out upland
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
 	
+
+	dfun <- function(r) {
+		data.frame(
+			adm1 = r$Departamento,
+			adm2 = r$Municipio,
+			adm3 = r$Comunidad,
+	#		location = r1$Localidad,
+			treatment = as.character(r$ttos),
+			N_fertilizer = r$N,
+			P_fertilizer = r$P,
+			K_fertilizer = r$K,
+			yield = as.numeric(r$rto_grano_kgha),
+			dmy_total= as.numeric(r$rto_biom_kgha),
+			trial_id = r$Localidad,
+			rep = as.integer(r$rep)
+		)
+	}
+
 	# processing Rice Data - Caribbean.tab
 	f1 <- ff[basename(ff) == "03. Rice Data - Caribbean.xlsx"]
 	r1 <- data.frame(readxl::read_xlsx(f1))
-
-	d1 <- data.frame(
-		adm1 = r1$Departamento,
-		adm2 = r1$Municipio,
-		adm3 = r1$Comunidad,
-#		location = r1$Localidad,
-		treatment = r1$ttos,
-		N_fertilizer = r1$N,
-		P_fertilizer = r1$P,
-		K_fertilizer = r1$K,
-		yield = as.numeric(r1$rto_grano_kgha),
-		dmy_total= as.numeric(r1$rto_biom_kgha),
-		trial_id = r1$Localidad,
-		rep = as.integer(r1$rep)
-	)
-	
+	d1 <- dfun(r1)
 	d1$adm1 <- "Región Autónoma de la Costa Caribe Sur"
 	d1$longitude <- ifelse(d1$adm3 == "Montivideo", -84.609,
 					ifelse(d1$adm3 == "El Panchon", -83.863,
@@ -59,30 +62,18 @@ Description: This dataset contains information of experiments carried out upland
 					ifelse(d1$adm3 == "La Tortuga", 11.999, 12.170)))
 	d1$trial_id <- "Caribbean"
 	
+	
 	# processing 04. Rice Data - Pacific.tab
 	f2 <- ff[basename(ff) == "04. Rice Data - Pacific.xlsx"]
 	r2 <- data.frame(readxl::read_xlsx(f2))
-	d2 <- data.frame(
-		adm1 = r2$Departamento,
-		adm2 = r2$Municipio,
-		adm3 = r2$Comunidad,
-#		location = r2$Localidad,
-		treatment = as.character(r2$ttos),
-		N_fertilizer = r2$N, 
-		P_fertilizer = r2$P,
-		K_fertilizer = r2$K,
-		yield = as.numeric(r2$rto_grano_kgha),
-		dmy_total=  as.numeric(r2$rto_biom_kgha),
-		trial_id = r2$Localidad,
-		rep = as.integer(r2$rep)
-	)
-
+	d2 <- dfun(r2)
 	d2$longitude <- ifelse(d2$adm3 == "Rio chiquito", -86.909579,
 					ifelse(d2$adm3 == "El Ensayo", -87.170,
 					ifelse(d2$adm3 == "El Tololar", -86.832, -85.764)))
 	d2$latitude <- ifelse(d2$adm3 == "Rio chiquito", 12.318,
 					ifelse(d2$adm3 == "El Ensayo", 12.587,
 					ifelse(d2$adm3 == "El Tololar", 12.486, 13.080)))
+	
 	
 	# processing 02. Soils Data.xlsx
 	f3 <- ff[basename(ff) == "02. Soils Data.xlsx"]
