@@ -19,7 +19,7 @@ carob_script <- function(path) {
 		group=group,
 		uri=uri,
 		data_citation="Namatsheve, Talent; Chikowo, Regis; Corbeels, Marc; Mouquet-Rivier, Claire; Icard-Vernière, Christèle; Cardinael, Rémi, 2020, Data for: Maize-cowpea intercropping as an ecological intensification option for low input systems in sub-humid Zimbabwe: productivity, biological N2-fixation and grain mineral content, https://doi.org/10.18167/DVN1/IJOA5J, CIRAD Dataverse, V2",
-		publication= "doi: 10.1016/j.fcr.2020.108052",
+		publication= "doi:10.1016/j.fcr.2020.108052",
 		data_institutions = "CIRAD",
 		data_type="experiment", 
 		carob_contributor="Effie Ochieng'",

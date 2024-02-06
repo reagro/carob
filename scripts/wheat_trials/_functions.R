@@ -106,8 +106,8 @@ proc_wheat <- function(ff) {
 	r$crop <- "wheat"
 	r$variety_code <- r$Gen_name
 	m <- matrix(byrow=TRUE, ncol=2, c(
-
 		"LEGUME:   FABA  BEAN", "faba bean",
+		"LEGUME: FABA BEAN", "faba bean",
 		"AJOS", "garlic",
 		"AJO", "garlic",
 		"ALFA ALFA", "LUCERNE",
