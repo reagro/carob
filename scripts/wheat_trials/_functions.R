@@ -105,9 +105,11 @@ proc_wheat <- function(ff) {
 	r$row_spacing <- as.numeric(r$SPACE_BTN_ROWS_SOWN)
 	r$crop <- "wheat"
 	r$variety_code <- r$Gen_name
+	
+	
 	m <- matrix(byrow=TRUE, ncol=2, c(
-
 		"LEGUME:   FABA  BEAN", "faba bean",
+		"LEGUME: FABA BEAN", "faba bean",
 		"AJOS", "garlic",
 		"AJO", "garlic",
 		"ALFA ALFA", "LUCERNE",
@@ -184,7 +186,9 @@ proc_wheat <- function(ff) {
 		"BREAD WHEAT", "wheat",
 		"TRIGO HARI", "wheat",
 		"WEED FREE FALLOW", "no crop",
-		"FALLOW", "no crop",		
+		"FELLOW", "no crop",		
+		"FALLOW", "no crop",
+		"WEEDY FALLOW", "no crop",
 		"FALLOWED", "no crop",
 		"FABABEAN", "faba bean",
 		"FABA BEEN", "faba bean",
@@ -198,6 +202,7 @@ proc_wheat <- function(ff) {
 		"FODDER", "forage legume",
 		"FOOD LEGUMES", "legume",
 		"FOOD LEGUME", "legume",		
+		"LEGUMS", "legume",
 		"FRIJOL", "common bean",
 		"GIRASOL", "sunflower",
 		"G. HIRSUTUM", "cotton",
@@ -205,6 +210,7 @@ proc_wheat <- function(ff) {
 		"GLYCIN  MAX", "soybean",
 		"GIYCIN MAX", "soybean",
 		"GRASSES", "forage legume",
+		"GREEN GRAME","mung bean",
 		"GUISANTE", "pea",
 		"HABAS", "faba bean",
 		"MARICOT BEAN", "common bean",
@@ -244,6 +250,7 @@ proc_wheat <- function(ff) {
 		"GREEN MAMUDE", "green manure", 		
 		"GREEN GRAIN", "mung bean",
 		"GRUNDNUT", "groundnut",
+		"GROUND NUT", "groundnut",
 		"HELIANTHUS ANNUUS", "sunflower",
 		"HELIANTHUS  ANNUS", "sunflower",
 		"MAIN SEASON", NA, 
@@ -255,7 +262,8 @@ proc_wheat <- function(ff) {
 		"MAÍZ", "maize",
 		"MAIZ, BAJO", "maize",
 		"MAIZE,MUNG BEAN", "maize; mung bean",
-		"MALINBEAN", NA,
+		"MALINBEAN", NA,  # mung bean??
+		"MEDCIN PLANTS", NA,
 		"MILICIMA ATERRINA", NA,
 		"MONSOON", "rice",
 		"MONSSON RICE", "rice",
@@ -362,6 +370,7 @@ proc_wheat <- function(ff) {
 		"SOYBEANS", "soybean", 
 		"SOYBEAN", "soybean",
 		"SOYABEAN", "soybean",
+		"SOYABEEN", "soybean",
 		"SOYBAEAN", "soybean", 
 		"SOYA BEANS", "soybean", 
 		"SOYA BEAN", "soybean",
@@ -381,7 +390,9 @@ proc_wheat <- function(ff) {
 		"SOYBEN", "soybean",
 		"SOYA-OIL SEED", "soybean",
 		"SOYA- OIL SEED", "soybean",
-		"SUNHAMP", "sunn hemp",
+		"SANNHEMP", "sunn hemp",
+		"SANPHEMP", "sunn hemp",
+		"SANDAEMP", "sunn hemp",
 		"SUNNHAMP", "sunn hemp",
 		"SUNHEMO", "sunn hemp",
 		"SRUNHEMP", "sunn hemp",
@@ -414,9 +425,11 @@ proc_wheat <- function(ff) {
 		"TREFOIL CLOVER", "clover",		
 		"TREBOL-SOJA", "clover; soybean",
 		"TRIGO", "wheat", 
+		"TRIGO HARINERO", "wheat",
 		"TRIFOLIUM ALEXANDRIUM", "berseem clover", 
 		"TRIFOLIUM ALEXANDIUM", "berseem clover", 
 		"TRIFOLIUM REPENS", "white clover", 
+		"TRYPHOLIUM SUBTERRANEUM", "subterranean clover",
 		"TRITICALE", "triticale",
 		"TRITICUM", "wheat",
 		"T. AESTIVUM", "wheat",

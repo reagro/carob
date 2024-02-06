@@ -18,7 +18,7 @@ carob_script <- function(path) {
 
 "
 
-	uri <- "hdl:11529/10548037"
+	uri <- "hdl:11529/10773"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_trials"
 	## dataset level data 
@@ -38,7 +38,7 @@ carob_script <- function(path) {
 ## download and read data 
 
 	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=5, minor=0)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=0)
 	dset$license <- carobiner::get_license(js)
 	dset$title <- carobiner::get_title(js)
 	dset$authors <- carobiner::get_authors(js)
@@ -50,7 +50,7 @@ carob_script <- function(path) {
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
-	
+		
 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }

@@ -163,7 +163,8 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   ds <- d[, c("trial_id", "pdate", "hdate")]
   pdates <- ds[complete.cases(ds[,c("trial_id", "pdate")]), c("trial_id", "pdate")]
   hdates <- ds[complete.cases(ds[,c("trial_id", "hdate")]), c("trial_id", "hdate")]
-  tdates <- merge(pdates, hdates, by = "trial_id", all = TRUE)[!duplicated(tdates),]
+  tdates <- merge(pdates, hdates, by = "trial_id", all = TRUE)
+  tdates <- unique(tdates)
   del <- merge(d, tdates, by = "trial_id", all.x = TRUE)
   dd <- del[,c("dataset_id","trial_id","on_farm","is_survey",
               "country","location","longitude","latitude",
