@@ -16,7 +16,7 @@ Description: This dataset contains information of experiments carried out upland
 		group=group,
 		uri=uri,
 		publication= NA,
-		data_citation = "Siles, Pablo; Tellez, Orlando; Peng, Yuan-Ching; Zeledón, Yasser, 2020, Impact of NPK fertilization on upland rice yield, Nicaragua, doi:10.7910/DVN/H0HUSY",
+		data_citation = "Siles, Pablo; Tellez, Orlando; Peng, Yuan-Ching; Zeledón, Yasser, 2020. Impact of NPK fertilization on upland rice yield, Nicaragua. doi:10.7910/DVN/H0HUSY",
 		data_institutions = "CIAT",
 		carob_contributor="Jean-Martial Johnson",
 		carob_date="2022-12-09",
@@ -54,26 +54,11 @@ Description: This dataset contains information of experiments carried out upland
 	r1 <- data.frame(readxl::read_xlsx(f1))
 	d1 <- dfun(r1)
 	d1$adm1 <- "Región Autónoma de la Costa Caribe Sur"
-	d1$longitude <- ifelse(d1$adm3 == "Montivideo", -84.609,
-					ifelse(d1$adm3 == "El Panchon", -83.863,
-					ifelse(d1$adm3 == "La Tortuga", -84.469, -84.312)))
-	d1$latitude <- ifelse(d1$adm3 == "Montivideo", 11.808,
-					ifelse(d1$adm3 == "El Panchon", 12.323,
-					ifelse(d1$adm3 == "La Tortuga", 11.999, 12.170)))
-	d1$trial_id <- "Caribbean"
-	
 	
 	# processing 04. Rice Data - Pacific.tab
 	f2 <- ff[basename(ff) == "04. Rice Data - Pacific.xlsx"]
 	r2 <- data.frame(readxl::read_xlsx(f2))
 	d2 <- dfun(r2)
-	d2$longitude <- ifelse(d2$adm3 == "Rio chiquito", -86.909579,
-					ifelse(d2$adm3 == "El Ensayo", -87.170,
-					ifelse(d2$adm3 == "El Tololar", -86.832, -85.764)))
-	d2$latitude <- ifelse(d2$adm3 == "Rio chiquito", 12.318,
-					ifelse(d2$adm3 == "El Ensayo", 12.587,
-					ifelse(d2$adm3 == "El Tololar", 12.486, 13.080)))
-	
 	
 	# processing 02. Soils Data.xlsx
 	f3 <- ff[basename(ff) == "02. Soils Data.xlsx"]
@@ -90,18 +75,25 @@ Description: This dataset contains information of experiments carried out upland
 		soil_P_available = as.numeric(r3$P),
 		soil_K = as.numeric(r3$K) * 39 * 10
 	)
-
 	d3$adm2[grep("Kuka hill",d1$Municipio)] <- 'Kukrahill'
 
 	d <- carobiner::bindr(d1, d2)
 	d <- merge(x=d, y=d3, by = c("adm1", "adm2", "adm3"), all.x = TRUE)
 
+	geo <- data.frame(
+		adm3 = c("La Rebusca", "El Ensayo", "Rio chiquito", "El Tololar #1", "El Recreo", "El Panchon", "La Tortuga", "Montivideo"), 
+		longitude = c(-85.764, -87.17, -86.909579, -85.764, -84.312, -83.863, -84.469, -84.609), 
+		latitude = c(13.08, 12.587, 12.318, 13.08, 12.17, 12.323, 11.999, 11.808)
+	)
+
+	d <- merge(d, geo, by="adm3", all.x=TRUE)
+
 	d$dataset_id <- dataset_id
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
-	d$yield_part <- "grain"
 	d$country <- "Nicaragua"
 	d$crop <- "rice"
+	d$yield_part <- "grain"
 	d$planting_date = "2019"
 	
 	carobiner::write_files(dset, d, path=path)
