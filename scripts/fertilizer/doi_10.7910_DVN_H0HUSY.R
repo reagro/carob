@@ -44,20 +44,20 @@ Description: This dataset contains information of experiments carried out upland
 			K_fertilizer = r$K,
 			yield = as.numeric(r$rto_grano_kgha),
 			dmy_total= as.numeric(r$rto_biom_kgha),
-			trial_id = r$Localidad,
+			trial_id = as.character(r$Localidad),
 			rep = as.integer(r$rep)
 		)
 	}
 
 	# processing Rice Data - Caribbean.tab
 	f1 <- ff[basename(ff) == "03. Rice Data - Caribbean.xlsx"]
-	r1 <- data.frame(readxl::read_xlsx(f1))
+	r1 <- carobiner::read.excel(f1)
 	d1 <- dfun(r1)
 	d1$adm1 <- "Región Autónoma de la Costa Caribe Sur"
 	
 	# processing 04. Rice Data - Pacific.tab
 	f2 <- ff[basename(ff) == "04. Rice Data - Pacific.xlsx"]
-	r2 <- data.frame(readxl::read_xlsx(f2))
+	r2 <- carobiner::read.excel(f2)
 	d2 <- dfun(r2)
 	
 	# processing 02. Soils Data.xlsx
