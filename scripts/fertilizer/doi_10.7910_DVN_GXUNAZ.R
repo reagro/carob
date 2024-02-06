@@ -205,7 +205,7 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 		
 	d$lime <- 0	
 	# this number (500) needs to be checked!
-	d$lime[d$treatment == "NPK+Lime"] <- -500
+	d$lime[d$treatment == "NPK+Lime"] <- NA
 	
 	d$OM_used <- FALSE
 	d$OM_used[d$treatment == "NPK+Manure"] <- TRUE
@@ -218,11 +218,11 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 
 	# these numbers needs to be checked!
 	i <- d$treatment == "NPK+S+Ca+Mg+Zn+B"
-	d$S_fertilizer[i] <- -10
-	d$Ca_fertilizer[i] <- -10
-	d$Mg_fertilizer[i] <- -10
-	d$Zn_fertilizer[i] <- -10
-	d$B_fertilizer[i] <- -10
+	d$S_fertilizer[i] <- NA
+	d$Ca_fertilizer[i] <- NA
+	d$Mg_fertilizer[i] <- NA
+	d$Zn_fertilizer[i] <- NA
+	d$B_fertilizer[i] <- NA
 	
 	d$country[d$country == "Cote d'Ivoire"] <- "Côte d'Ivoire"
 	d$on_farm <- TRUE
