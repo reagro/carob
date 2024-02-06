@@ -154,6 +154,15 @@ carob_script <- function(path) {
   
   d$yield_part <- "seed"
   d$yield_part[d$crop=="groundnut"] <- "grain"
+  
+  # EGB:
+  # Capturing latitude and longitud of the ADM3 centroids
+  # ll <- carobiner::geocode(country = unique(d$country), location = unique(d$adm3))
+  ll <- data.frame(country = c("Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe", "Zimbabwe"), 
+                   location = c("Mudzi", "Hwedza", "Guruve", "Goromonzi", "Chegutu", "Murehwa", "Makoni", "Murewa"),
+                   longitude = c(32.5494, 31.5708, 30.629, 31.3724, 30.3976, 31.8388, 32.1372, 31.7775), 
+                   latitude = c(-17.0517, -18.6225, -16.3432, -17.8183, -18.1868, -17.8044, -18.3849, -17.6461))
+  d <- merge(d, ll, by.x = c("country", "adm3"), by.y = c("country", "location"))
 
   ### fix crop yield
 #  d$yield[d$crop=="common bean" & d$yield > 9000] <- NA
