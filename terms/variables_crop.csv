@@ -26,6 +26,7 @@ yield,numeric,kg/ha,yes,,no,0,150000,no,"Fresh weight biomass of the main harves
 residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight of the above ground biomass except for the harvestable parts at maturity, per ha",,AGRO_00000164 
 grain_weight,numeric,g,no,,no,0,1000,yes,1000 grain weight,,TO_0000382
 fertilizer_type,character,,no,fertilizer_type,yes,,,yes,Name of fertilizer used,,CHEBI_33287
+fertilizer_date,character,,no,,no,,,,"Date of fertilizer applications. Possibly followed by ""(product; amount)""",,
 N_fertilizer,numeric,kg/ha,fertilizer,,no,0,600,no,N applied in inorganic fertilizer,,AGRO_00000158
 N_splits,integer,,no,,no,0,5,yes,Number of splits in the N_fertilizer application,,
 P_fertilizer,numeric,kg/ha,fertilizer,,no,0,250,no,"P applied in inorganic fertilizer (as P, not P2O5)",,AGRO_00000160 
@@ -39,7 +40,7 @@ lime,numeric,kg/ha,no,,no,0,10000,yes,lime applied,,
 gypsum,numeric,kg/ha,no,,no,0,10000,yes,gypsum applied,,
 OM_used,logical,,no,,no,,,yes,Organic fertilizer applied,,AGRO_00002039
 OM_type,character,,no,OM,yes,,,yes,Type of organic fertilzer applied,,AGRO_00002039
-OM_applied,numeric,kg/ha,no,,no,0,,yes,Amount of organic fertilizer applied,,AGRO_00010008
+OM_amount,numeric,kg/ha,no,,no,0,,yes,Amount of organic fertilizer applied,,AGRO_00010008
 OM_N,numeric,kg/ha,no,,no,0,,yes,N applied in organic fertilizer,,AGRO_00000158
 OM_P,numeric,kg/ha,no,,no,0,,yes,P applied in organic fertilizer,,AGRO_00000160
 OM_K,numeric,kg/ha,no,,no,0,,yes,K applied in organic fertilizer,,AGRO_00000201
@@ -49,7 +50,7 @@ irrigated,logical,,no,,no,,,yes,Was the plot irrigated?,,AGRO_00000006
 irrigation_source,character,,no,,no,,,yes,the source of irrigation water,,
 irrigation_number,integer,,no,,no,0,50,yes,How many times was the crop irrigated?,,
 irrigation_amount,numeric,mm,no,,no,0,1000,yes,The total irrigation amount applied to the crop,,
-tillage_method,character,,no,,no,,,yes,Tillage method used,,AGRO_00000322
+land_prep_method,character,,no,,no,,,yes,Land preparation (tillage) method used (including no-till),,AGRO_00000322
 planting_method,character,,no,,no,,,yes,Planting (sowing) method,,
 transplanting_method,character,,no,,no,,,yes,(rice) transplanting method,,
 uncertainty,numeric,,no,,no,0,,yes,Measure of noise in data ,,
@@ -68,7 +69,6 @@ plant_height,numeric,cm,no,,no,10,250,yes,Maximum plant height,,
 pathogen,character,,no,pathogen,yes,,,yes,Name of the pathogen studied,,
 AUDPC,numeric,,no,,no,0,150,yes,Area under the disease progress curve,,
 rAUDPC,numeric,,no,,no,0,1,yes,Area under the disease progress curve divided by the non-diseased season length,,
-weeds_biomass,numeric,kg/ha,no,,no,0,100000,yes,Fresh weight weeds biomass,,
 nodule_weight,numeric,?,no,,no,0,,yes,Fresh weight or root nodules,,
 leaf_N,numeric,kg/ha,no,,no,,,yes,nitrogen in leaf,,
 leaf_K,numeric,kg/ha,no,,no,,,yes,potassium in leaf,,
@@ -101,17 +101,31 @@ herbicide_used,logical,,no,,no,,,yes,was a herbicide used?,,
 herbicide_product,character,,no,herbicide,yes,,,yes,name(s) of the active ingredient of the herbicide,,
 herbicide_timing,integer,,no,,no,,,yes,days after (or before) planting on which herbicide was used,,
 herbicide_times,integer,,no,,no,,,yes,number of herbicide applications,,
-herbicide_amount,numeric,?,no,,no,,,yes,how much herbicide was used?,,
-pesticide_used,logical,,no,,no,,,yes,was a herbicide used?,,
-pesticide_product,character,,no,pesticide,yes,,,yes,name(s) of the active ingredient of the pesticide,,
-pesticide_timing,integer,,no,,no,,,yes,days after (or before) planting on which pesticide was used,,
-pesticide_times,integer,,no,,no,,,yes,number of pesticide applications,,
-pesticide_amount,numeric,?,no,,no,,,yes,how much pesticide was used?,,
+herbicide_amount,numeric,kg (ai) / ha,no,,no,,,yes,how much herbicide was used?,,
+weeding_times,integer,,no,,no,,,yes,how many times was the crop weeded?,,
+weed_species,character,,no,,no,,,yes,weed species names ,,
+weed_biomass,numeric,kg/ha,no,,no,0,100000,yes,Fresh weight weeds biomass,,
+weed_severity,character,,no,,no,,,yes,how severe was the competition from weeds?,,
+insecticide_used,logical,,no,,no,,,yes,was an insecticide used?,,
+insecticide_product,character,,no,insecticide,yes,,,yes,name(s) of the active ingredient of the insecticide,,
+insecticide_timing,integer,,no,,no,,,yes,days after (or before) planting on which insecticide was used,,
+insecticide_times,integer,,no,,no,,,yes,number of insecticide applications,,
+insecticide_amount,numeric,kg (ai) / ha,no,,no,,,yes,how much insecticide was used?,,
+pest_severity,character,,no,,no,,,yes,how severe was the pest damage?,,
+pest_species,character,,no,,no,,,yes,name(s) of relevant pest(s),,
 fungicide_used,logical,,no,,no,,,yes,was a herbicide used?,,
 fungicide_product,character,,no,fungicide,yes,,,yes,name(s) of the active ingredient of the fungicide,,
 fungicide_timing,integer,,no,,no,,,yes,days after (or before) planting on which fungicide was used,,
 fungicide_times,integer,,no,,no,,,yes,number of fungicide applications,,
-fungicide_amount,numeric,?,no,,no,,,yes,how much fungicide was used?,,
-weeding_times,integer,,no,,no,,,yes,how many times was the crop weeded?,,
-weeds_species,character,,no,,no,,,yes,weed species names ,,
+fungicide_amount,numeric,kg (ai) / ha,no,,no,,,yes,how much fungicide was used?,,
+disease_severity,character,,no,,no,,,yes,how severe was the disease damage?,,
+diseases,character,,no,,no,,,yes,name(s) of relevant disease(s),,
 seed_source,character,,no,,no,,,yes,source of the seed used,,
+seed_amount,numeric,kg/ha,no,,no,,,yes,amount of seed used,,
+crop_cut,logical,,no,,no,,,yes,was the yield (in a survey) determined with a crop cut?,,
+previous_crop_residue,numeric,%,no,,no,,,yes,percentage of residue of previous crop that stayed on the field,,
+previous_crop_burnt,logical,,no,,no,,,yes,was the residue of the previous crop burnt?,,
+crop_price,numeric,PPP U$ / ha,no,,no,,,yes,current crop price when sold to market,,
+fertilizer_price,character,PPP U$ / ha,no,,no,,,yes,price paid for fertilizer(s). E.g (urea=1; DAP=1.2),,
+flood_stress,character,,no,,no,,,yes,how severe was the damage from flooding?,,
+drought_stress,character,,no,,no,,,yes,how severe was the damage from drought?,,

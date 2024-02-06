@@ -2,7 +2,7 @@ name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,des
 soil_type,character,,no,,yes,,,yes,Soil name or description,,http://purl.obolibrary.org/obo/AGRO_00010099
 soil_pH,numeric,,no,,no,3,9,yes,Soil pH (H2O),,http://purl.obolibrary.org/obo/ENVO_09200010
 soil_pH_KCl,numeric,,no,,no,3,9,yes,Soil pH (KCl),,http://purl.obolibrary.org/obo/ENVO_09200010
-soil_pH_CaCl2,numeric,,no,,no,3,10,yes,Soil pH (KCl),,http://purl.obolibrary.org/obo/ENVO_09200010
+soil_pH_CaCl2,numeric,,no,,no,3,10,yes,Soil pH (CaCl2),,http://purl.obolibrary.org/obo/ENVO_09200010
 soil_SOC,numeric,%,no,,no,0,20,yes,Soil organic carbon,,
 soil_SOM,numeric,%,no,,no,0,20,yes,Soil organic matter,,
 soil_sand,numeric,%,no,,no,0,100,yes,Soil sand content (excluding gravel),,
@@ -35,3 +35,5 @@ soil_Ex_K,numeric,mg/kg,no,,no,0,200,yes,Soil exchangeable K,,
 soil_Ex_Na,numeric,mg/kg,no,,no,0,200,yes,Soil exchangeable Na,,
 soil_Ex_Al,numeric,mg/kg,no,,no,0,200,yes,Soil exchangeable Al,,
 soil_color,character,,no,,no,,,yes,Soil color,,
+soil_quality,character,,no,,no,,,yes,Soil quality preception,,
+landscape_position,character,,no,,no,,,yes,Relative landscape position,,

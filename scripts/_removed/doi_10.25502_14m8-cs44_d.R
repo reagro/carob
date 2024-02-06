@@ -73,16 +73,15 @@ carob_script <- function(path) {
                        ifelse(d1$organic_fert_amount > 0, TRUE, FALSE))
   # EGB: Fixing OM_type to make it NA where 0 OM applied
   d1$OM_type <- ifelse(d1$organic_fert_amount <= 0, NA,
-                       ifelse(d1$organic_fert_type %in% 
-                                c("Animal dung","Animal manure","Compost","Compost manure",
-                                  "Farmyard","Farm yard","Compost, animal manure"), d1$organic_fert_type,NA))
+                ifelse(d1$organic_fert_type %in% 
+                c("Animal dung","Animal manure","Compost","Compost manure", "Farmyard", "Farm yard", "Compost, animal manure"), d1$organic_fert_type,NA))
 #   d1$OM_type <- ifelse(d1$organic_fert_type %in% 
 # 			c("Animal dung","Animal manure","Compost","Compost manure",
 #               "Farmyard","Farm yard","Compost, animal manure"), d1$organic_fert_type,
 #              ifelse(d1$organic_fert_amount > 0, d1$organic_fert_type, "none"))
   # EGB: Leave it as kilograms
-  d1$OM_applied <- as.numeric(d1$organic_fert_amount)
-  # d1$OM_applied <- as.numeric(d1$organic_fert_amount)*1000 # converting into g
+  d1$OM_amount <- as.numeric(d1$organic_fert_amount)
+  # d1$OM_amount <- as.numeric(d1$organic_fert_amount)*1000 # converting into g
   d1$fertilizer_type <- NA
                                
   d1$fertilizer_type[grepl("TSP", d1$mineral_fert_type)] <- "TSP"
@@ -113,7 +112,7 @@ carob_script <- function(path) {
                      ifelse(d1$mineral_fert_type == "S compound", d1$mineral_fert_amount * 0.07,
                      ifelse(d1$fertilizer_type == "D compound", d1$mineral_fert_amount * 0.20, NA)))
   
-  d1 <- d1[,c("trial_id","crop","variety","inoculated","OM_used","OM_applied","OM_type","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer")]
+  d1 <- d1[,c("trial_id","crop","variety","inoculated","OM_used","OM_amount","OM_type","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer")]
   
   
   f2 <- ff[basename(ff) == "c_use_of_package_4.csv"]
@@ -167,7 +166,7 @@ carob_script <- function(path) {
   z$crop[is.na(z$crop)] <- "common bean" # filled NAs in crops with common bean
   
   z <- z[,c("dataset_id","trial_id","season","country","adm1","adm2","adm3","latitude","longitude","elevation","crop","variety",
-            "planting_date","inoculated","OM_used","OM_type","OM_applied","fertilizer_type",
+            "planting_date","inoculated","OM_used","OM_type","OM_amount","fertilizer_type",
             "N_fertilizer","P_fertilizer","K_fertilizer","yield","row_spacing","plant_spacing",
             "on_farm","is_survey")]
   

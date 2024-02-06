@@ -42,7 +42,7 @@ carob_script <- function(path) {
    r <- readxl::read_excel(ff[bn=="2006-2010_database_bvlac_bruelle_v01.20201009.xlsx"],sheet=1) |> as.data.frame()
    
    d <- r[,c("id_field","village","crop_season","soil","tillage_system","sow_date","manure","nitrogen","yield","rain_year")]
-        colnames(d) <- c("trial_id","location","season","soil_type","tillage","planting_date","OM_applied","N_fertilizer","yield","rain")
+        colnames(d) <- c("trial_id","location","season","soil_type","tillage","planting_date","OM_amount","N_fertilizer","yield","rain")
    
    ## add columns
    d$country <- "Madagascar"

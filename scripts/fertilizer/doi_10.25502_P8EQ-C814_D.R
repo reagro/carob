@@ -38,7 +38,7 @@
       ff <- carobiner::get_data(uri, path, group)
       js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
       dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
+	dset$title <- carobiner::get_title(js)
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
       
@@ -52,7 +52,7 @@
       sel <- c('UniqueID', 'Season', 'Loc', 'Site', 'Rep', 'Tillage', 'cropSystem', 'Fertilizer', 'Variety', 'Density', 'YLDOKfr_kgm2', 'Lat', 'Long', 'Date_Planted_Cas', 'Date_Harvested_Cas')
       d1 <- r1[,sel]
       d1 <- carobiner::change_names(d1, sel,
-                                    c("trial_id", "season", "location", "site", "rep", "tillage", "crop", "treatment", "variety","plant_density","yield", "latitude", "longitude", "planting_date", "harvest_date"))
+         c("trial_id", "season", "location", "site", "rep", "land_prep_method", "crop", "treatment", "variety","plant_density","yield", "latitude", "longitude", "planting_date", "harvest_date"))
       
       # soil information
       d1$soil_pH <- (r1$pH_d10 + r1$pH_d20)/2
@@ -66,7 +66,7 @@
       d1$soil_Mg <- (r1$Mg_d10 + r1$Mg_d20)/2
       weeds1 <- r1[, c("biomass_04WAP_gm2", "biomass_08WAP_gm2", "biomass_12WAP_gm2", "biomass_24WAP_gm2")]
       # mean weed biomass in kg/ha	
-      d1$weeds_biomass <- rowMeans(weeds1) * 10
+      d1$weed_biomass <- rowMeans(weeds1) * 10
       
       # to convert Nitrogen in mg/kg (PPm) we use: 1g of soil contain n% of Nitrogen 
       d1$soil_N <- (d1$soil_N/100)*1000000 # mg/kg
@@ -79,19 +79,21 @@
       sel <- c('UniqueID', 'Season', 'Loc', 'Site', 'Rep', 'Tillage', 'cropSystem', 'Fertilizer', 'Variety', 'Density', "YLDOKfr_kgm2", 'Lat', 'Long', 'Date_Planted_Cas', 'Date_Harvested_Cas')
       d2 <- r2[,sel]
       d2 <- carobiner::change_names(d2, sel,
-                                    c("trial_id", "season", "location", "site", "rep", "tillage", "crop", "treatment", "variety","plant_density","yield", "latitude", "longitude", "planting_date", "harvest_date"))
+             c("trial_id", "season", "location", "site", "rep", "land_prep_method", "crop", "treatment", "variety","plant_density","yield", "latitude", "longitude", "planting_date", "harvest_date"))
       
       weeds2 <- r2[, c("biomass_04WAP_gm2", "biomass_08WAP_gm2", "biomass_12WAP_gm2", "biomass_24WAP_gm2")]
       # mean weed biomass in kg/ha	
-      d2$weeds_biomass <- rowMeans(weeds2) * 10 
+      d2$weed_biomass <- rowMeans(weeds2) * 10 
       
       # fill soil information for second season base on $site.
       # I assume that soil information is the same for the same long and lat position
       
       d2$latitude[d2$site=="Ido"] <- 7.55140 #instead of 7.5517
       d2$longitude[d2$site=="Ido"] <- 3.66990 #instead of 3.6691
-      u <- na.omit(unique(d1[, c("rep","variety","treatment","tillage","crop","longitude", "latitude", "soil_SOC", "soil_pH", "soil_P_available", "soil_K", "soil_N", "soil_Ca", "soil_Mg")]))
-      d2 <- merge(d2, u,by=c("variety","treatment","tillage","crop","longitude", "latitude","rep"),all.x = TRUE)
+	  
+		# RH: unique is suspect
+      u <- na.omit(unique(d1[, c("rep", "variety", "treatment", "land_prep_method", "crop","longitude", "latitude", "soil_SOC", "soil_pH", "soil_P_available", "soil_K", "soil_N", "soil_Ca", "soil_Mg")]))
+      d2 <- merge(d2, u,by=c("variety", "treatment", "land_prep_method", "crop","longitude", "latitude","rep"),all.x = TRUE)
       
       # combine d1 and d2
       d <- rbind(d1, d2)
@@ -134,7 +136,7 @@
       #date format
       d$planting_date <- as.character(as.Date(d$planting_date, format = "%m/%d/%Y"))
       d$harvest_date <- as.character(as.Date(d$harvest_date, format = "%m/%d/%Y"))
-      d$tillage <- tolower(d$tillage)
+      d$land_prep_method <- tolower(d$land_prep_method)
       
       # all scripts must end like this
       carobiner::write_files(dset, d, path=path)

@@ -157,9 +157,9 @@ carob_script <- function(path){
   b3$plot_length <- 10
   b3$plot_size_ha <- (b3$plot_width * b3$plot_length)/10000 # convert plot size from m squared to ha
   
-  b3$OM_applied <- b3$`manure_amtkg/plot`/b3$plot_size_ha
+  b3$OM_amount <- b3$`manure_amtkg/plot`/b3$plot_size_ha
   
-  b3$OM_used[b3$OM_applied > 0 & !is.na(b3$OM_applied)] <- TRUE
+  b3$OM_used[b3$OM_amount > 0 & !is.na(b3$OM_amount)] <- TRUE
   
   b3$yield <- b3$`grain_weight_shelledcrop1_kg/plot`/b3$plot_size_ha
   b3$residue_yield <- b3$`above_ground_biomass_husksstover_kg/plot`/b3$plot_size_ha
@@ -171,7 +171,7 @@ carob_script <- function(path){
   
   # subset to variables of interest
   r1 <- b3[,c("trial_id","crop","variety","treatment","inoculated","inoculant","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer",
-              "OM_used","OM_type","OM_applied","row_spacing","plant_spacing","residue_yield","yield")]
+              "OM_used","OM_type","OM_amount","row_spacing","plant_spacing","residue_yield","yield")]
 
   # drop duplicates
   i <- duplicated(r1) 
@@ -260,8 +260,7 @@ carob_script <- function(path){
   
   # final data set
   
-  z <- z[,c("dataset_id","trial_id","country","adm1","adm2","adm3","latitude","longitude","elevation","crop","variety","planting_date","harvest_date","treatment","inoculated","inoculant","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer",
-            "OM_used","OM_type","OM_applied","row_spacing","plant_spacing","residue_yield","yield","yield_part","on_farm","is_survey")]
+  z <- z[,c("dataset_id","trial_id","country","adm1","adm2","adm3","latitude","longitude","elevation","crop","variety","planting_date","harvest_date","treatment","inoculated","inoculant","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer", "OM_used","OM_type","OM_amount","row_spacing","plant_spacing","residue_yield","yield","yield_part","on_farm","is_survey")]
   
   carobiner::write_files(dset, z, path=path)
 }

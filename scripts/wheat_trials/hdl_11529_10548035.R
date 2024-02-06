@@ -26,8 +26,7 @@ carob_script <- function(path) {
 		data_institutions = "CIMMYT",
 		data_type="experiment", 
 		carob_contributor="Blessing Dzuda",
-		carob_date="2024-01-11",
-		revised_by=NA
+		carob_date="2024-01-11"
 	)
 	 
 	ff	<- carobiner::get_data(uri, path, group)

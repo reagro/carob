@@ -56,10 +56,12 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 ##	# d$latitude <- 9.085
 ## RH: GPS lon/lat probably exist
 
+
+
 	d$planting_date <- as.character(as.Date(r$`Planting Date`))
 	d$on_farm <- TRUE
-	d$is_survey <- FALSE
-	d$treatment <- "none"
+	d$is_survey <- TRUE
+
 	d$rep <- ifelse(gsub("^[^.]*.", "", as.character(r$`plot ID`)) == "", "1", 
 					gsub("^[^.]*.", "", as.character(r$`plot ID`)))
 	d$rep <- as.integer(d$rep)			
@@ -106,11 +108,11 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 	d$OM_type[grepl("manure", tolower(d$OM_type))] <- "farmyard manure"
 	d$OM_type[grepl("Farm", d$OM_type)] <- "farmyard manure"
 	# Assuming 50kg Manure Bags
-	d$OM_applied <- 0
+	d$OM_amount <- 0
 	bags <- which(r$`Unit for Organic Fertilizer` == "Bags")
 	kgs <- which(r$`Unit for Organic Fertilizer` == "Kg")
-	d$OM_applied[bags] <- as.numeric(r$`Amount of  Organic Fertilizer applied`[bags] * 50)
-	d$OM_applied[kgs] <- as.numeric(r$`Amount of  Organic Fertilizer applied`[kgs])
+	d$OM_amount[bags] <- as.numeric(r$`Amount of  Organic Fertilizer applied`[bags] * 50)
+	d$OM_amount[kgs] <- as.numeric(r$`Amount of  Organic Fertilizer applied`[kgs])
 			
 	d$soil_type <- r$`Soil type`
 	d$soil_pH <- r$pH
@@ -120,11 +122,12 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 	d$soil_P_total <- r$`P (mg kg-1)`
 	
 #	d <- d[,c("country", "site", "trial_id", "longitude", "latitude", "planting_date", "on_farm", "is_survey", "treatment", "rep", "crop", "variety_code", "variety_type", "previous_crop",
-#	          "yield", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "OM_type", "OM_applied", "soil_type", "soil_pH", "soil_SOC",
+#	          "yield", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "OM_type", "OM_amount", "soil_type", "soil_pH", "soil_SOC",
 #	          "soil_N", "soil_K", "soil_P_total")]
 	
 	d$dataset_id <- dataset_id
 	d$yield_part <- "grain"
+	d$crop_cut <- TRUE
 	
 	d <- d[!is.na(d$yield), ]
 # all scripts must end like this

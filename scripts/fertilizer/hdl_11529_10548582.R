@@ -94,7 +94,7 @@ carob_script <- function(path) {
 	## RH: this is the seeding method
 	## d$irrigated <- ifelse(d$IRR == 1 , "Dry seeding", "Wet seeding")
 	d$irrigated <- TRUE
-	d$tillage <- ifelse(d$TIL == 1 , "Permanent beds", "Conventionally tilled beds")
+	d$land_prep_method <- ifelse(d$TIL == 1 , "Permanent beds", "Conventionally tilled beds")
 	d$plant_density <- d$`PLANTS/m² Emerg`*10000 # Conversion m2 to ha
 	
 	# process file(s)
@@ -102,7 +102,7 @@ carob_script <- function(path) {
 		"latitude", "longitude", "planting_date", "harvest_date",
 		"on_farm", "is_survey", "rep", "crop", "dmy_total", "yield",
 		"fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer",
-		"residue_yield", "grain_weight", "irrigated", "tillage", "plant_density")]
+		"residue_yield", "grain_weight", "irrigated", "land_prep_method", "plant_density")]
 	
 	d$dataset_id <- dataset_id
 	d$yield_part <- "grain"

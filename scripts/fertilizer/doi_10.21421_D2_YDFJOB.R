@@ -34,7 +34,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	## read the json for version, license, terms of use	
 	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
 	dset$license <- carobiner::get_license(js) #Cant get the license right??
-  dset$title <- carobiner::get_title(js)
+	dset$title <- carobiner::get_title(js)
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
 	
@@ -59,7 +59,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	## RIS added as ISSN, since no DOI was available
 	e$N_fertilizer <- 60
 	e$K_fertilizer <- 30/1.21 # K2O to K
-	e$fertilizer_type <- "Urea; SSP; KCl"
+	e$fertilizer_type <- "urea; SSP; KCl"
 	e$treatment <- paste0("N", as.integer(e$N_fertilizer), "P", as.integer(e$P_fertilizer), "K", as.integer(e$K_fertilizer))
 	
 	#Replace values in a data frame
