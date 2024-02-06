@@ -208,6 +208,14 @@ carob_script <- function(path) {
 	## d$planting_date = as.character(NA)
 	
 	d$yield_part <- "seed"
+	
+	# EGB:
+	# Adding dates. Since it is a survey conducted in 2013,
+	# it is assumed that the responses correspond to the cropping season that year
+	# Assuming that the crop was harvested 120 days after planting. Only indicating %Y-%m
+	d$planting_date <- as.character(format(as.Date("2013-05-01"), "%Y-%m"))
+	d$harvest_date <- as.character(format(as.Date("2013-05-01") + 120, "%Y-%m"))
+	
 	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
