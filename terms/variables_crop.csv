@@ -6,7 +6,7 @@ harvest_date,character,,no,,no,,,yes,"Harvest date in ""yyyy-mm-dd"", ""yyyy-mm"
 season,character,,no,,no,,,yes,Season name,,
 on_farm,logical,,no,,no,,,yes,Is this observation on farm (not on station),,AGRO_00000601
 is_survey,logical,,no,,no,,,yes,Is this observation from a survey (not an experiment),,
-treatment,character,,no,,no,,,yes,Description of the treatment,,AGRO_00000370
+treatment,character,,no,,no,,,yes,"Description of the treatment, if any. Can be a code used in the original data. There are no rules about its content or format",,AGRO_00000370
 rep,integer,,no,,no,,,yes,"Replication number (1, 2, 3, ...) For this specific observation",,AGRO_00000318
 crop,character,,yes,crop,no,,,yes,Crop name(s),,AGRO_00000325
 variety,character,,no,,no,,,yes,Variety name,,
