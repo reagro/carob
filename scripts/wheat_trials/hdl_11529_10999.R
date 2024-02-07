@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
@@ -17,7 +14,6 @@ carob_script <- function(path) {
     It is distributed to 70 locations, and contains 50 entries. (2015)]
 
 "
-
 	uri <- "hdl:11529/10999"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_trials"
@@ -28,14 +24,12 @@ carob_script <- function(path) {
 		project="Global_Wheat_Program",
 		uri=uri,
 		data_citation="Global Wheat Program; IWIN Collaborators; Ammar, Karim; Payne, Thomas, 2015, 47th International Durum Yield Nursery, https://hdl.handle.net/11529/10999, CIMMYT Research Data & Software Repository Network, V1",
-		publication="",
+		publication=NA,
 		data_institutions = "CIMMYT",
    		data_type="experiment", 
 		carob_contributor="Blessing Dzuda",
 		carob_date="2024-02-07"
 	)
-
-## download and read data 
 
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
@@ -44,17 +38,10 @@ carob_script <- function(path) {
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
 	
-#### about the data #####
-## (TRUE/FALSE)
-	
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
-	d$previous_crop<-carobiner::replace_values(d$previous_crop,"green  monming","green manure")
-	d$previous_crop<-carobiner::replace_values(d$previous_crop,"legume, faba bean","faba bean")
-	d$previous_crop<-carobiner::replace_values(d$previous_crop,"vigna   radiata","mung bean")
 	
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
 
