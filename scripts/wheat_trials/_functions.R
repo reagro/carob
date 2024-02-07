@@ -105,6 +105,8 @@ proc_wheat <- function(ff) {
 	r$row_spacing <- as.numeric(r$SPACE_BTN_ROWS_SOWN)
 	r$crop <- "wheat"
 	r$variety_code <- r$Gen_name
+	
+	
 	m <- matrix(byrow=TRUE, ncol=2, c(
 		"LEGUME:   FABA  BEAN", "faba bean",
 		"LEGUME: FABA BEAN", "faba bean",
@@ -208,6 +210,7 @@ proc_wheat <- function(ff) {
 		"GLYCIN  MAX", "soybean",
 		"GIYCIN MAX", "soybean",
 		"GRASSES", "forage legume",
+		"GREEN GRAME","mung bean",
 		"GUISANTE", "pea",
 		"HABAS", "faba bean",
 		"MARICOT BEAN", "common bean",
@@ -259,7 +262,8 @@ proc_wheat <- function(ff) {
 		"MAÍZ", "maize",
 		"MAIZ, BAJO", "maize",
 		"MAIZE,MUNG BEAN", "maize; mung bean",
-		"MALINBEAN", NA,
+		"MALINBEAN", NA,  # mung bean??
+		"MEDCIN PLANTS", NA,
 		"MILICIMA ATERRINA", NA,
 		"MONSOON", "rice",
 		"MONSSON RICE", "rice",
@@ -421,9 +425,11 @@ proc_wheat <- function(ff) {
 		"TREFOIL CLOVER", "clover",		
 		"TREBOL-SOJA", "clover; soybean",
 		"TRIGO", "wheat", 
+		"TRIGO HARINERO", "wheat",
 		"TRIFOLIUM ALEXANDRIUM", "berseem clover", 
 		"TRIFOLIUM ALEXANDIUM", "berseem clover", 
 		"TRIFOLIUM REPENS", "white clover", 
+		"TRYPHOLIUM SUBTERRANEUM", "subterranean clover",
 		"TRITICALE", "triticale",
 		"TRITICUM", "wheat",
 		"T. AESTIVUM", "wheat",
