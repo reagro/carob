@@ -238,7 +238,10 @@ carob_script <- function(path) {
   d$K_fertilizer[d$fertilizer_type=="NPK"] <- 17/1.2051
   d$K_fertilizer[d$fertilizer_type=="NPK" |d$fertilizer_type=="NPK; DAP"] <- 17/1.2051
 
-  
+  ############################################################
+  # EGB:
+  # There are extreme yield values (too high/low)
+  ############################################################
   #fix crop yield limit with respect to crop
   d$yield[d$crop=="common bean" & d$yield > 9000] <- NA
   d$yield[d$crop=="banana" & d$yield > 173000] <- NA
@@ -261,9 +264,19 @@ carob_script <- function(path) {
   # all scripts must end like this
   d$dataset_id <- dataset_id
   d$country <- "Rwanda"
-	d$crop <- fix_cropnames(carobiner::fix_name(d$crop, "lower"))
-	d$intercrops <- fix_cropnames(carobiner::fix_name(d$intercrops, "lower"))
-
+	d$crop <- fix_cropnames(carobiner::fix_name(trimws(d$crop), "lower"))
+	d <- d[!(d$crop %in% c("fallow")),]
+	d$intercrops <- fix_cropnames(carobiner::fix_name(trimws(d$intercrops), "lower"))
+	
+	# EGB:
+	# Attempt to fix multiple crop names in "crop" variable.
+	# Moving the second element of the "array" to intercrops variable.
+	t <- as.data.frame(stringr::str_split_fixed(d$crop, ";", 2))
+	t[[2]][t[[2]] == ""] <- NA
+	t[[2]] <- trimws(t[[2]])
+	t <- t[!is.na(t$V2),]
+	d$crop[grep(";", d$crop)] <- t[[1]]
+	d$intercrops[grep(";", d$crop)] <- t[[2]]
 
   carobiner::write_files(dset, d, path=path)
 }
