@@ -11,46 +11,40 @@ carob_script <- function(path) {
     [copy the abstract from the repo]
 
 "
-
-	uri <- "doi:______"
+#### Identifiers
+	uri <- "doi:10xxx/yyy"
+	group <- "___"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- ""
-	## dataset level data 
-	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		project=NA,
-		uri=uri,
-		data_citation="",
-		## if there is a paper, include the paper's doi here
-		## also add a RIS file in references folder (with matching doi)
-		publication= "",
-		data_institutions = "",
-		# e.g. "on-farm experiment", "survey", "compilation"
-   		data_type="experiment", 
-		carob_contributor="Your name",
-		# date of first submission to carob
-		carob_date="2023-05-21",
-		# name(s) of others who made significant improvements
-		revised_by=NA
-	)
 
-## download and read data 
+# the script filename should be paste0(dataset_id, ".R")
 
+
+#### Download data 
 	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
+##### dataset level metadata 
+	dset <- extract_metadata(js, uri, group)
+	dset$project=NA
+	dset$data_citation=""
+	## if there is a paper, include the paper's doi here
+	## also add a RIS file in references folder (with matching doi)
+	dset$publication= ""
+	dset$data_institutions = ""
+	# data_type can be e.g. "on-farm experiment", "survey", "compilation"
+	dset$data_type= "experiment"
+	dset$carob_contributor= "Your Name"
+	dset$carob_date="2024-01-01"
+	
+	
+##### PROCESS data records
+
+# read data 
 
 	f <- ff[basename(ff) == "_____________"]
-
 	r <- read.csv(f)
-	r <- readxl::read_excel(f) |> as.data.frame()
+	# or  r <- carobiner::read.excel(f)
 
-	
 ## process file(s)
 
 ## use a subset
@@ -106,7 +100,8 @@ carob_script <- function(path) {
    d$lime <- 
 ## normalize names 
    d$fertlizer_type <- 
-   d$inoculated <- TRUE/FALSE
+   
+   d$inoculated <- TRUE or FALSE
    d$inoculant <- 
    
 ##### in general, add comments to your script if computations are
