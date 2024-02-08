@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
@@ -22,19 +19,14 @@ carob_script <- function(path) {
 		project=NA,
 		uri=uri,
 		data_citation="Sukumaran, Sivakumar, 2020, Physiological pre-breeding crossing block dataset, https://hdl.handle.net/11529/10548509, CIMMYT Research Data & Software Repository Network, V1, UNF:6:zXWmVpPwNsYZNjlM1Pd6sQ== [fileUNF]",
-		## if there is a paper, include the paper's doi here
-		## also add a RIS file in references folder (with matching doi)
 		publication=NA,
 		data_institutions = "CIMMYT",
-
-   	data_type="experiment", 
+		data_type="experiment", 
 		carob_contributor="Shumirai Manzvera",
-		# date of first submission to carob
 		carob_date="2024-02-08"
 
 	)
 
-## download and read data 
 
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
@@ -47,7 +39,6 @@ carob_script <- function(path) {
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
 	
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
 	

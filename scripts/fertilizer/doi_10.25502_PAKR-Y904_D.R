@@ -6,13 +6,9 @@
 
 carob_script <- function(path) {
   
-  "
-	Description:
-   Characterising soils of the maize belt in Nigeria to
-   =determine limiting nutrients based on which new fertilizer 
-   formulations are developed that are tested on farmer's fields 
-   in validation trials in a large number of locations 
-   against the commonly used NPK 15-15-15 fertilizer
+"
+Description:
+   Characterising soils of the maize belt in Nigeria to determine limiting nutrients based on which new fertilizer formulations are developed that are tested on farmer's fields in validation trials in a large number of locations against the commonly used NPK 15-15-15 fertilizer
 "
   
 	uri <- "doi:10.25502/pakr-y904/d"
@@ -36,7 +32,7 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
+	dset$title <- carobiner::get_title(js)
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
 	
@@ -44,7 +40,6 @@ carob_script <- function(path) {
 	
 	# read the dataset
 	d <- read.csv(f)
-	#d <- readxl::read_excel(f) |> as.data.frame()
 
 # Team BUK1,BUK2,BUK3 data are already included in doi_10.25502_RGB5_GA15_D.R
 	d <- d[!(d$team %in% c("BUK1", "BUK2", "BUK3")), ] 
@@ -65,38 +60,50 @@ carob_script <- function(path) {
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
 	
+
+	# see annex 2 pdf
+
 	# NPK Apply	15-15-15 means 15% N, 15% P2O5, 15% K2O
-	#OCPF1	(N) : 11% (P2O5): 21% (k2O): 22%	S: 5%	Zn: 1% 
-	#OCPF2 (N) : 14% (P205): 31% (k2O): 0%	 S: 9%	Zn: 0.9%
+	#OCPF1	(N) : 11% (P2O5): 21% (k2O): 22% S: 5%	Zn: 1% B2O3: 0.8%
+	#OCPF2 (N) : 14% (P205): 31% (k2O): 0%	 S: 9%	Zn: 0.9% B2O3: 1%
 	
+	# RH each product was appliet at 150 kg/ha 
+	# in addition: 100 kg urea
 	d$N_fertilizer <- ifelse(d$treatment == "Control", 0, 
 					ifelse(d$treatment == "OCPF1", 11,
-					ifelse(d$treatment=="OCPF2",14,15)))
-	
-	d$K_fertilizer <- ifelse(d$treatment == "Control", 0, 
-					ifelse(d$treatment == "OCPF1", 22/1.2051,
-					ifelse(d$treatment=="OCPF2",0,15/1.2051)))
-	
+					ifelse(d$treatment == "OCPF2", 14, 15))) * 1.50 + 100 * .46
+		
 	d$P_fertilizer <- ifelse(d$treatment == "Control", 0, 
-					ifelse(d$treatment == "OCPF1", 21/2.29,
-					ifelse(d$treatment=="OCPF2",31/2.29,15/2.29)))
+					ifelse(d$treatment == "OCPF1", 21,
+					ifelse(d$treatment == "OCPF2", 31, 15))) * 1.50 / 2.29
+
+	d$K_fertilizer <- ifelse(d$treatment == "Control", 0, 
+					ifelse(d$treatment == "OCPF1", 22,
+					ifelse(d$treatment == "OCPF2", 0, 15))) * 1.50 / 1.2051
 	
 	d$Zn_fertilizer <- ifelse(d$treatment == "Control", 0, 
 					ifelse(d$treatment == "OCPF1", 1,
-					ifelse(d$treatment=="OCPF2",0.9,0)))
+					ifelse(d$treatment == "OCPF2", 0.9, 0))) * 1.50
 	
 	d$S_fertilizer <- ifelse(d$treatment == "Control", 0, 
 					ifelse(d$treatment == "OCPF1", 5,
-					ifelse(d$treatment=="OCPF2",9,0)))
-	# add Columns 
-	
-	# planting date is June 2017	get from VT protocol
-	d$planting_date <- "2017-06-01"
+					ifelse(d$treatment == "OCPF2", 9, 0))) * 1.50
+
+	d$B_fertilizer <- ifelse(d$treatment == "Control", 0, 
+					ifelse(d$treatment == "OCPF1", 0.8,
+					ifelse(d$treatment == "OCPF2", 1, 0))) * 1.50
+
+
+	# planting dates from VT protocol pdf
+
+	d$planting_date <- "2017-04"  # april/may
+	i <- !(d$adm1 %in% c("Nassarawa", "Plateau", "Taraba"))
+	d$planting_date[i] <- "2017-06"
 	d$harvest_date <- "2017-11-01"
 	d$season <- "2017"
 	
-	d$trial_id <- paste0(dataset_id, '-', d$Location)
-	#data type
+	d$trial_id <- as.character(as.integer(as.factor(paste0(paste(d$longitude, d$latitude)))))
+
 	d$yield <- as.numeric(d$yield)
 	d$soil_SOC <- d$soil_SOC / 10
 
