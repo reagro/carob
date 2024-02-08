@@ -51,9 +51,11 @@ Please contact author and contact person at ICARDA to obtain more detailed metad
     oldname<- c("Year","Treatment","Replicate","Plant_Height","Biomass","Yield")
     d1<- carobiner::change_names(r[,c("Year","Treatment","Replicate","Plant_Height","Biomass","Yield")],oldname,newname)
     d2<- carobiner::change_names(r1[,c("Year","Treatment","Replicate","Plant_Height","Biomass","Yield")],oldname,newname)
+    d1$site <- "Mandie"
+    d2$site <- "Worku"
     
     # append d1 and d2
-    d<- rbind(d1,d2)
+    d<- carobiner::bindr(d1,d2)
     d$planting_date[d$year==1]<- "2013-06-03"
     d$harvest_date[d$year==1]<- "2013-10-25"
     
@@ -80,8 +82,12 @@ Please contact author and contact person at ICARDA to obtain more detailed metad
    d$yield_part <- "grain" 
    d$trial_id <- paste(d$rep,d$location,sep = "_")
    ## add lon and lat
-   d$longitude<- 37.5
-   d$latitude <- 12.28333
+   # EGB:
+   # EPSG:32637 (https://epsg.io/map#srs=32637&x=349106&y=1373852&z=5&layer=streets)
+   d$longitude<- 38.056
+   d$latitude <- 10.401
+   d$longitude[d$site == "Mandie"] <- 37.583
+   d$latitude[d$site == "Mandie"] <- 12.421
    
    ##  fix dmy_total range
    #d$dmy_total[d$dmy_total>20000]<- NA
