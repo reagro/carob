@@ -1,7 +1,8 @@
 # R script for "carob"
 
 ## ISSUES
-# ....
+# script does not capture the main treatments 
+# probably should have its own group? "tillage"?
 
 
 carob_script <- function(path) {
