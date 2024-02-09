@@ -69,6 +69,8 @@ carob_script <- function(path) {
   # combine d1 and d2
   d <- rbind(d1,d2)
   
+  # remove NA in yield
+  d<- d[!is.na(d$yield),]  
   # add columns
   d$country <- "Zambia"
   d$dataset_id <- dataset_id
@@ -97,7 +99,7 @@ carob_script <- function(path) {
   e <- carobiner::fix_name(d$crop,"lower")
   d$crop <- e 
   d$crop[d$crop=="cowpeas"] <-  "cowpea"
-  #add inter crop crop rotation column 
+  #add inter crop and crop rotation column 
  
   d$intercrops  <- ifelse(d$treatment=="DS, maize/cowpea int" ,"cowpea",
                 ifelse(d$treatment=="DS, maize-cowpea rotation","soybean",
@@ -112,18 +114,11 @@ carob_script <- function(path) {
   
                                                              
   # add longitude and  latitude
-  d$latitude[d$adm1=="Monze"]  <- -16.2759563
-  d$longitude[d$adm1=="Monze"]  <- 27.4763925
-  d$latitude[d$adm1=="Kabwe"]  <- -14.4571147
-  d$longitude[d$adm1=="Kabwe"]  <- 28.3992336
-  d$latitude[d$adm1=="Chipata"]  <- -13.7478246
-  d$longitude[d$adm1=="Chipata"]  <- 32.6324569
-  d$latitude[d$adm1=="Chibombo"]  <- -14.8569383
-  d$longitude[d$adm1=="Chibombo"]  <- 27.6530228
-  d$latitude[d$adm1=="Lundazi"]  <- -12.4137188
-  d$longitude[d$adm1=="Lundazi"]  <- 33.3487457
-  d$latitude[d$adm1=="Katete"]  <- -14.060241
-  d$longitude[d$adm1=="Katete"]  <- 32.04272
+  geo<- data.frame(adm1=c("Monze","Kabwe","Chipata","Chibombo","Lundazi","Katete"),
+                   longitude=c(27.4763925, 28.3992336,32.6324569,27.6530228,33.3487457,32.04272),
+                   latitude=c(-16.2759563,-14.4571147,-13.7478246,-14.8569383,-12.4137188,-14.060241)) 
+  
+  d<- merge(d,geo,by="adm1")
   
     # data type 
     d$season <- as.character(d$season)
