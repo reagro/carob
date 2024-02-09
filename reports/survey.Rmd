@@ -8,8 +8,6 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE)
 
-#setwd("c:/github/reagro/carob")
-
 scrolltab <- function(data, caption, width="100%") {
   rownames(data) <- NULL
   kableExtra::kbl(data, caption=caption) |>
@@ -24,8 +22,8 @@ ktab <- function(data, caption) {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 }
 
-uri <- "hdl:11529/10170"
-group <- "wheat_trials"
+uri <- "doi:10.7910/DVN/RKUMXB"
+group <- "survey"
 
 suri <- carobiner::simple_uri(uri)
 huri <- carobiner:::http_address(uri)
@@ -38,14 +36,15 @@ d <- read.csv(f)
 
 m <- read.csv(gsub(".csv$", "_meta.csv", f))
 
+
 get_values <- function(x, label) {
   x <- unique(x)
-  ifelse(length(x)==1, x, paste0(length(x), " ", label, " (", paste(sort(x), collapse=", "), ")"))
+  ifelse(length(x)==1, x, paste0(length(x), " ", label, "(", paste(sort(x), collapse=", "), ")"))
 }
 
 crop <- get_values(d$crop, "crops")
 country <- get_values(d$country, "countries")
-varieties <- unique(d$variety)
+
 
 locvars <- c("country", paste0("adm", 1:5), "location", "site", "longitude", "latitude")
 i <- which(locvars %in% colnames(d))
@@ -70,14 +69,13 @@ This report describes standardized data for "*`r m$title`*". These data were sta
 
 `r pub`
 
-The dataset has `r nrow(d)` records for variety trials of `r crop` in `r country`. There are `r length(varieties)` varieties. These are the first `r min(nrow(d), 25)` records: 
+The dataset has `r nrow(d)` records for `r crop` in `r country`. These are the first `r min(nrow(d), 25)` records: 
 
 ```{r tab1}
 scrolltab(head(d, 25), "records")
 ```
 
 </br>
-
 The observations are for `r nrow(locs)` locations, `r xytxt`
 
 ```{r map, include=haveXY}

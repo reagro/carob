@@ -106,8 +106,9 @@ proc_wheat <- function(ff) {
 	r$crop <- "wheat"
 	r$variety_code <- r$Gen_name
 	
-	
 	m <- matrix(byrow=TRUE, ncol=2, c(
+		"CLASLERBEEN", "guar",  # cluster bean
+		"P. / LEGUME", "legume",
 		"LEGUME: FABA BEAN", "faba bean",
 		"LEGUME, FABA BEAN", "faba bean",
 		"AJOS", "garlic",
@@ -381,6 +382,8 @@ proc_wheat <- function(ff) {
 		"SOYBEN", "soybean",
 		"SOYA-OIL SEED", "soybean",
 		"SOYA- OIL SEED", "soybean",
+		"SUNHANP", "sunn hemp",
+		"SAMHAMP", "sunn hemp",
 		"SANNHEMP", "sunn hemp",
 		"SANPHEMP", "sunn hemp",
 		"SANDAEMP", "sunn hemp",
@@ -439,7 +442,7 @@ proc_wheat <- function(ff) {
 		"VEGETABLE", "vegetables",
 		"VEGATEABLES", "vegetables",
 		"WATER  MELON", "watermelon",
-		"WEEDS", NA,
+		"WEEDS", "fallow",
 		"ZEA MAYS", "maize",
 		"CEREAL", "cereal", 		
 		"BEANS", "common bean",

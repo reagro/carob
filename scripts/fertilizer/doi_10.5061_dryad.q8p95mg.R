@@ -30,10 +30,9 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
+	dset$title <- carobiner::get_title(js)
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
-	#fpdf <- carobiner::get_more_data(url, dataset_id, path, group)
 
 	# reading the datasets
 	ff <- carobiner::get_data(uri, path, group)
@@ -183,6 +182,22 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 #					ifelse(z$trial_id == "E_Busegerwa_Musenyi_14B", 30.0209, z$longitude)))
 
 	z$planting_date <- as.character(z$planting_date)
+	
+	# EGB:
+	# Adding (approximate) coordinates
+	# go <- unique(z[,c("country", "adm1", "adm2", "location")])
+	# gi <- carobiner::geocode(country = go$country,
+	#                          location = ifelse(is.na(go$location) & is.na(go$adm2), go$adm1,
+	#                                            ifelse(is.na(go$location) & is.na(go$adm1), go$adm2, go$location)))
+	gi <- data.frame(
+		country = c("Mozambique", "Rwanda", "Rwanda", "Rwanda", "Tanzania", "Tanzania", "Tanzania", "Zambia", "Zambia", "Zambia", "Zambia", "Zambia"),
+	    location = c("Gurue", "Iburasirazuba", "Amajyepfo", "Amajyaruguru", "Selian", "Karangai", "Uyole", "Mt.Makulu", "Kasama", "Mufulira", "Msekera", "Mt. Makulu"), 
+	    longitude = c(36.941, 30.5404, 29.6818, 29.9119, 36.6496, 36.8836, 33.5279, 28.2608, 31.1877, 28.1922, 32.5404, 28.2608), 
+	    latitude = c(-15.4545, -1.7415, -2.2855, -1.6107, -3.3255, -3.5229, -8.9172, -15.5443, -10.2045, -12.5441, -13.621, -15.5443)
+	)
+	z <- z[,!(colnames(z) %in% c("longitude", "latitude"))]
+	z <- merge(z, gi, by = c("country", "location"))
+	
 	# all scripts must end like this
 	carobiner::write_files(path, dset, z)
 }
