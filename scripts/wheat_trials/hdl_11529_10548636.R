@@ -1,0 +1,98 @@
+# R script for "carob"
+
+
+carob_script <- function(path) {
+  
+  "Description:
+
+    [copy the abstract from the repo]
+
+"
+  
+	uri <- "hdl:11529/10548636"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "wheat_trials"
+	## dataset level data 
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		project=NA,
+		uri=uri,
+		data_citation="Verhulst, Nele; Honsdorf, Nora; Mulvaney, Michael J.; Singh, Ravi; Ammar, Karim; Govaerts, Bram, 2021, Nine years of data on genotype by tillage interaction and performance progress for 14 bread and 13 durum wheat genotypes on irrigated raised beds in Mexico, https://hdl.handle.net/11529/10548636, CIMMYT Research Data & Software Repository Network, V2",
+		publication="doi.org/10.1016/j.fcr.2017.11.011" ,
+		data_institutions = "CIMMYT",
+		data_type="experiment", 
+		carob_contributor="Mitchelle Njukuya",
+		carob_date="2023-02-06",
+		revised_by=NA
+	)
+	
+	## download and read data 
+	
+	ff	<- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
+	dset$license <- carobiner::get_license(js)
+	dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
+	
+	f <- ff[basename(ff) == "PUB-201-DIB_2021-Data_2021-12-12_corrected.xlsx"]
+	
+	r1 <- carobiner::read.excel(f,sheet = "Genotype list", skip = 3)
+	d1 <- data.frame(GID=r1$`Germplasm ID`, variety=r1$Name, variety_code=r1$`Selection History`)
+
+	r2 <- carobiner::read.excel(f, sheet = "Data", skip = 2)
+	
+	## use a subset
+	d <- data.frame(GID=r2$GID, trial_id=r2$year, planting_date=as.character(r2$SOW),
+					emergence=r2$EMER, flowering=r2$FLO, maturity=r2$MAT, plant_height=r2$HEI, 
+					yield=r2$YLD)
+					
+	d$flowering[d$flowering == "NA"] <- NA
+	d$flowering <- as.integer(d$flowering)
+
+					
+	#BW -> Bread Wheat, DW -> Durum Wheat
+	d$variety_type <- ifelse(r2$type == "BW", "bread wheat", "durum wheat")
+
+	#excel sheet for abbreviations indicated the following system names:
+	treatcode = c("PB-FI", "PB-RI", "CB-RI", "CB-FI")
+	treatname = c("Permanents beds, Full irrigation", "Permanents beds, Reduced irrigation", "Conventional tilled beds, Reduced irrigation", "Conventional tilled beds, Full irrigation")
+ 
+	d$treatment <- treatname[match(r2$syst, treatcode)]
+
+ 
+	#Information on fertilizer application rates was found in the publication 
+	d$P_fertilizer <- 23
+	d$N_fertilizer <- 103
+	d$N_fertilizer[r2$syst =="PB-RI"] <- 203 
+	d$N_fertilizer[r2$syst =="CB-RI"] <- 203
+	d$N_fertilizer[r2$syst =="CB-FI"] <- 178
+	d$N_fertilizer[r2$syst =="PB-FI"] <- 178
+	d$fertilizer_type <- "urea" 
+
+	#site information was obtained from publication
+	d$country <- "Mexico"
+	d$site <- "Sonora"
+	d$adm1 <- "Ciudad Obregon"
+	d$longitude <- -109.9338
+	d$latitude <- 27.4847
+	d$crop <- "wheat"
+
+
+	d$yield_part <- "grain"
+	d$trial_id <- as.character(d$trial_id)
+	d$dataset_id <- dataset_id
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
+	d$irrigated <- TRUE
+	
+
+	d <- merge(d, d1, by= "GID", all.x=TRUE)
+	d$GID <- NULL
+	
+	carobiner::write_files(dset, d, path=path)
+}
+
+
+

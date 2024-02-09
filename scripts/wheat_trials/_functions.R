@@ -105,8 +105,9 @@ proc_wheat <- function(ff) {
 	r$row_spacing <- as.numeric(r$SPACE_BTN_ROWS_SOWN)
 	r$crop <- "wheat"
 	r$variety_code <- r$Gen_name
-	
+		
 	m <- matrix(byrow=TRUE, ncol=2, c(
+		"INTERCROPING", NA,
 		"CLASLERBEEN", "guar",  # cluster bean
 		"P. / LEGUME", "legume",
 		"LEGUME: FABA BEAN", "faba bean",
@@ -259,6 +260,7 @@ proc_wheat <- function(ff) {
 		"MAÍZ", "maize",
 		"MAIZ, BAJO", "maize",
 		"MAIZE,MUNG BEAN", "maize; mung bean",
+		"MAIZE-WHEAT", "maize; wheat",
 		"MALINBEAN", NA,  # mung bean??
 		"MEDCIN PLANTS", NA,
 		"MILICIMA ATERRINA", NA,
@@ -326,7 +328,8 @@ proc_wheat <- function(ff) {
 		"PULSE CROP", "pulse", 		
 		"PURPERUREUS", "lablab",
 		"QUINUA", "quinoa", 
-		"RAPE SEED", "RAPESEED",
+		"RAPE SEED", "rapeseed",
+		"RAPE SEAT", "rapeseed",
 		"RAPHANUS SPP", "radish",
 		"RAPHANUS SPP.", "radish", 
 		"RAPHA NUS SPP", "radish",
