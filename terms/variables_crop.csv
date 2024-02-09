@@ -57,7 +57,7 @@ uncertainty,numeric,,no,,no,0,,yes,Measure of noise in data ,,
 uncertainty_type,character,,no,,no,,,yes,Type of noise measure,,
 row_spacing,numeric,cm,no,,no,0,150,yes,Distance between rows,,
 plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,AGRO_00000316
-plant_density,numeric,plants/ha,no,,no,1000,3100000,yes,Number of plants per ha,,PCO_0000079
+plant_density,numeric,plants/ha,no,,no,1,3100000,yes,Number of plants per ha,,PCO_0000079
 rain,numeric,mm,no,,no,0,3000,yes,Total rainfall between planting and harvest,,ENVO_01000830
 emergence,numeric,,no,,no,3,90,yes,Days to emergence (after planting),,
 heading,numeric,,no,,no,25,300,yes,Days to heading (after planting),,
