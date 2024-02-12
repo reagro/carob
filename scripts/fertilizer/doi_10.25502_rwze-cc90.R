@@ -20,7 +20,7 @@ carob_script <- function(path) {
   
 	uri <- "doi:10.25502/rwze-cc90"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "variety_performance"
+	group <- "fertilizer"
 	 
 	## data set level data
 	dset <- data.frame(
@@ -58,7 +58,7 @@ carob_script <- function(path) {
     K_fertilizer = numeric(0), P_fertilizer = numeric(0), Zn_fertilizer = numeric(0), 
     S_fertilizer = numeric(0), yield_part = character(0))
  
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(path, dset, d, dataset_id, group)
 
 }
 
