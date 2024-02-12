@@ -135,6 +135,7 @@ proc_wheat <- function(ff) {
 		"AVENA / VICIA", "oats; vetch", 
 		"AVENA", "oats",
 		"AVENA SATIVA", "oats",
+		"BAIRA", "pearl millet",
 		"BAJRA", "pearl millet",
 		"BAJWA", "pearl millet",
 		"BEANS&POTATOES", "common bean; potato",
