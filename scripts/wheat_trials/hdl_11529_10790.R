@@ -40,7 +40,6 @@ carob_script <- function(path) {
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)
 	d$dataset_id <- dataset_id
-	d$previous_crop<-carobiner::replace_values(d$previous_crop,"baira","pearl millet")
 	
 	carobiner::write_files(dset, d, path=path)
 }
