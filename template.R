@@ -14,28 +14,29 @@ carob_script <- function(path) {
 #### Identifiers
 	uri <- "doi:10xxx/yyy"
 	group <- "___"
-	dataset_id <- carobiner::simple_uri(uri)
+
 
 # the script filename should be paste0(dataset_id, ".R")
-
+	dataset_id <- carobiner::simple_uri(uri)
 
 #### Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 ##### dataset level metadata 
-	dset <- extract_metadata(js, uri, group)
-	dset$project=NA
-	dset$data_citation=""
-	## if there is a paper, include the paper's doi here
-	## also add a RIS file in references folder (with matching doi)
-	dset$publication= ""
-	dset$data_institutions = ""
-	# data_type can be e.g. "on-farm experiment", "survey", "compilation"
-	dset$data_type= "experiment"
-	dset$carob_contributor= "Your Name"
-	dset$carob_date="2024-01-01"
-	
+	dset <- data.frame(
+		extract_metadata(js, uri, group),
+		project=NA,
+		data_citation="",
+		## if there is a paper, include the paper's doi here
+		## also add a RIS file in references folder (with matching doi)
+		publication= "",
+		data_institutions = "",
+		# data_type can be e.g. "on-farm experiment", "survey", "compilation"
+		data_type= "experiment",
+		carob_contributor= "Your Name",
+		carob_date="2024-01-01"
+	)
 	
 ##### PROCESS data records
 

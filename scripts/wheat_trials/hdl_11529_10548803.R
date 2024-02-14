@@ -19,9 +19,9 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		dataset_id = dataset_id,
 		group=group,
-		project="Global_Wheat_Program",
+		project="International Durum Yield Nursery",
 		uri=uri,
-		data_citation="Global Wheat Program; IWIN Collaborators; Ammar, Karim; Payne, Thomas, 2016, 48th International Durum Yield Nursery, https://hdl.handle.net/11529/10548035, CIMMYT Research Data & Software Repository Network, V1",
+		data_citation="Global Wheat Program; IWIN Collaborators; Ammar, Karim; Payne, Thomas, 2016. 48th International Durum Yield Nursery, https://hdl.handle.net/11529/10548035, CIMMYT Research Data & Software Repository Network, V1",
 		publication=NA,
 		data_institutions = "CIMMYT",
    		data_type="experiment", 

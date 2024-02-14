@@ -17,7 +17,7 @@ The Semi-Arid Wheat Yield Trial (SAWYT) is a replicated yield trial that contain
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   project="CIMMYT Semi-Arid Wheat Yield Trial",	   
+	   project="Semi-Arid Wheat Yield Trial",	   
 	   publication=NA,
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2018. 25th Semi-Arid Wheat Yield Trial. https://hdl.handle.net/11529/10548135, CIMMYT Research Data & Software Repository Network, V4",
 	   data_institutions = "CIMMYT",

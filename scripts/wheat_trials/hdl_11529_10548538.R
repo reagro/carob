@@ -17,7 +17,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		dataset_id = dataset_id, 
 		group=group,
-		project=NA,
+		project="Elite Selection Wheat Yield Trial",
 		uri=uri,
 		data_citation="Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2020, 40th Elite Selection Wheat Yield Trial, https://hdl.handle.net/11529/10548538, CIMMYT Research Data & Software Repository Network, V3",
 		## if there is a paper, include the paper's doi here

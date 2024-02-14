@@ -1,6 +1,6 @@
 
 
-intmztrial_striga <- function(ff, sf=NULL) {
+intmztrial_striga <- function(ff, sf=NULL, id=NULL) {
 
 	doit <- function(sf, striga=FALSE, borer=FALSE) {
 		d  <- read.csv(sf)
@@ -183,10 +183,14 @@ intmztrial_striga <- function(ff, sf=NULL) {
 				d <- carobiner::bindr(d, e)
 			}
 		}
-		d
 	} else {
 		sf <- grep(sf, ff, ignore.case=TRUE, value=TRUE)
-		doit(sf)
+		d <- doit(sf)
 	}
+	
+	if (!is.null(id)) {
+		d$dataset_id = id
+	}
+	d
 }
 
