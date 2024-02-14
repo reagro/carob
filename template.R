@@ -15,7 +15,6 @@ carob_script <- function(path) {
 	uri <- "doi:10xxx/yyy"
 	group <- "___"
 
-
 # the script filename should be paste0(dataset_id, ".R")
 	dataset_id <- carobiner::simple_uri(uri)
 
@@ -26,13 +25,13 @@ carob_script <- function(path) {
 ##### dataset level metadata 
 	dset <- data.frame(
 		extract_metadata(js, uri, group),
-		project=NA,
 		data_citation="",
+		data_institutions = "",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= "",
-		data_institutions = "",
 		# data_type can be e.g. "on-farm experiment", "survey", "compilation"
+		project=NA,
 		data_type= "experiment",
 		carob_contributor= "Your Name",
 		carob_date="2024-01-01"
