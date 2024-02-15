@@ -8,8 +8,7 @@ carob_script <- function(path) {
 
 "Description:
 
-    [	
-These are the raw data of the paper “Mulch application as the overarching factor explaining increase in soil organic carbon stocks under conservation agriculture in two 8-year-old experiments in Zimbabwe” authored by Armwell Shumba, Regis Chikowo, Christian Thierfelder, Marc Corbeels, Johan Six, Rémi Cardinael and submitted for publication in a peer-reviewed journal.]
+These are the raw data of the paper: 'Mulch application as the overarching factor explaining increase in soil organic carbon stocks under conservation agriculture in two 8-year-old experiments in Zimbabwe.' authored by Armwell Shumba, Regis Chikowo, Christian Thierfelder, Marc Corbeels, Johan Six, Rémi Cardinael and submitted for publication in a peer-reviewed journal.]
 
 "
 
@@ -26,7 +25,7 @@ These are the raw data of the paper “Mulch application as the overarching fact
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= NA,
-		data_institutions = "CIRAD, UNIVERSITY OF ZIMBABWE, CIMMYT, ETH ZURICH",
+		data_institutions = "CIRAD; University of ZIMBABWE; CIMMYT; ETH ZURICH",
 		# e.g. "on-farm experiment", "survey", "compilation"
    		data_type="experiment", 
 		carob_contributor="Hope Takudzwa Mazungunye",
