@@ -140,7 +140,6 @@ intmztrial_striga <- function(ff, sf=NULL, id=NULL) {
 				d[[v]] <- as.numeric(d[[v]])			
 			}
 		}
-		d$yield[d$yield < 0] <- NA
 		
 		d$yield_part <- "grain"
 		d$striga_trial <- striga
@@ -187,13 +186,21 @@ intmztrial_striga <- function(ff, sf=NULL, id=NULL) {
 		sf <- grep(sf, ff, ignore.case=TRUE, value=TRUE)
 		d <- doit(sf)
 	}
-	
-	d <- carobiner::change_names(d, c("pl_ht", "dy_sk", "dy_tass"), 
-				c("plant_height", "silking", "tassling"), must_have=FALSE)
-	
 	if (!is.null(id)) {
 		d$dataset_id = id
 	}
+	
+	d <- carobiner::change_names(d, c("pl_ht", "dy_sk", "dy_tass"), 
+				c("plant_height", "silking", "tassling"), must_have=FALSE)
+
+	if (!is.null(d$tassling)) d$tassling <- as.numeric(d$tassling)
+
+	d$yield[d$yield < 0] <- NA
+	if (!is.null(d$silking)) d$silking[d$silking < 10] <- NA
+	if (!is.null(d$tassling)) d$tassling[d$tassling < 10] <- NA
+	if (!is.null(d$anthesis)) d$anthesis[d$anthesis < 10] <- NA
+	if (!is.null(d$plant_height)) d$plant_height[d$plant_height < 10] <- NA
+	
 	d
 }
 

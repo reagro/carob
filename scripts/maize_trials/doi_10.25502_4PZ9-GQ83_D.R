@@ -41,7 +41,7 @@ carob_script <- function(path) {
    r <- read.csv(ff[bn=="Phenotypic characterization data.csv"])  
    
    d <- r[,c("ID","COUNTRY","ENTRY","YEAR","REP","GENOTYPE","POLLEN","DYSK","ASI","PLHT","EHT","PASP","EROT","EASP","YIELD","HUSK")]#
-   colnames(d) <- c("ID","country","variety_code","planting_date","rep","variety","dy_poll","dy_sk","asi","pl_ht","e_ht","p_asp","e_rot","e_asp","yield","husk")#,
+   colnames(d) <- c("ID","country","variety_code","planting_date","rep","variety","dy_poll","silking","asi","plant_height","e_ht","p_asp","e_rot","e_asp","yield","husk")#,
    
    
    # add columns

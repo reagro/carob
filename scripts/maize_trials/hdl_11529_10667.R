@@ -55,7 +55,7 @@ carob_script <- function(path) {
 			borer_trial = FALSE,
  			yield_part = "grain", 
 			yield = r$Yield.t.ha * 1000,
-			pl_ht = r$Plt.Hght.cm,
+			plant_height = r$Plt.Hght.cm,
 			variety = r$Pedigree,
 			e_asp = r$Ear.Asp.1.5,
 			p_asp = r$Plt.Asp.1.5,
@@ -71,7 +71,7 @@ carob_script <- function(path) {
 		d$gls = r$GLS.1.5
 		d$asi = r$ASI
 		d$borer = r$Stem.Bor.1.5
-		d$pl_ht = r$Plt.Hght.cm
+		d$plant_height = r$Plt.Hght.cm
 		d
 	}
 

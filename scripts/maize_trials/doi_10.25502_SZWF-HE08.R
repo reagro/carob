@@ -48,9 +48,9 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 			rep = r$REP,
 			yield = r$YIELD,
 			polshed = r$POLLEN,
-			dy_sk = r$DYSK,
+			silking = r$DYSK,
 			asi = r$ASI,
-			pl_ht = r$PLHT,
+			plant_height = r$PLHT,
 			e_ht = r$EHT,
 			p_asp = r$PLASP,
 			#e_harv = r$EASP #RH: ???

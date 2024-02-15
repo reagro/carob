@@ -16,16 +16,16 @@ carob_script <- function(path) {
 	group <- "maize_trials" 
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
-		publication= NA,# 
+		dataset_id = dataset_id, 
+		group=group, 
+		uri=uri, 
+		publication= NA, # 
 		data_citation ="Baffour Badu-Apraku. (2018). Genetic Variances and Heritabilities of Early Yellow Maize Population Following Cycles of Improvement for Striga Resistance and Drought Tolerance [dataset]. International Institute of Tropical Agriculture (IITA).
-		https://doi.org/10.25502/20181101/1128/BB",
-		data_institutions = "IITA",
-		carob_contributor="Cedric Ngakou",
-		carob_date="2023-10-11",
-		data_type="experiment",
+		https://doi.org/10.25502/20181101/1128/BB", 
+		data_institutions = "IITA", 
+		carob_contributor="Cedric Ngakou", 
+		carob_date="2023-10-11", 
+		data_type="experiment", 
 		project=NA 
 	)
 	
@@ -42,25 +42,25 @@ carob_script <- function(path) {
 	# read Yellow_lines_BBA_DS dataset
 	r <- read.csv(ff[bn=="20181029aao_S1_Yellow_lines_BBA_DS.csv"])  
 	
-	d1 <- r[,c("ID","Country","Location","Study","Year","Rep","Entry","Pedigree","Yield","ASI","PLTH","EHT","PASP","EASP","DS","HC")]#
-	colnames(d1) <- c("ID","country","location","treatment","planting_date","rep","variety_code","variety","yield","asi","pl_ht","e_ht","p_asp","e_asp","dy_sk","husk")#,
+	d1 <- r[, c("ID", "Country", "Location", "Study", "Year", "Rep", "Entry", "Pedigree", "Yield", "ASI", "PLTH", "EHT", "PASP", "EASP", "DS", "HC")]#
+	colnames(d1) <- c("ID", "country", "location", "treatment", "planting_date", "rep", "variety_code", "variety", "yield", "asi", "plant_height", "e_ht", "p_asp", "e_asp", "silking", "husk")#, 
 	
 	
 	# read Yellow_lines_BBA_ww dataset
 	r1 <- read.csv(ff[bn=="20181029aao_S1_Yellow_lines_BBA_WW.csv"])  
 	
-	d2 <- r1[,c("ID","country","Location","Study","YEAR","Rep","Entry","Pedigree","YIELD","ASI","PLTH","EHT","PASP","EASP","DS","HC")]#
+	d2 <- r1[, c("ID", "country", "Location", "Study", "YEAR", "Rep", "Entry", "Pedigree", "YIELD", "ASI", "PLTH", "EHT", "PASP", "EASP", "DS", "HC")]#
 
-	colnames(d2) <- c("ID","country","location","treatment","planting_date","rep","variety_code","variety","yield","asi","pl_ht","e_ht","p_asp","e_asp","dy_sk","husk")#,
+	colnames(d2) <- c("ID", "country", "location", "treatment", "planting_date", "rep", "variety_code", "variety", "yield", "asi", "plant_height", "e_ht", "p_asp", "e_asp", "silking", "husk")#, 
 	
 	# append d1 and d2
-	d <- rbind(d1,d2)
+	d <- rbind(d1, d2)
 	
 	# add columns
 
 	d$crop <- "maize" 
 	d$dataset_id <- dataset_id
-	d$trial_id <- paste(d$ID,d$location,sep = "-")
+	d$trial_id <- paste(d$ID, d$location, sep = "-")
 	d$yield_part <- "grain"
 	d$on_farm <- TRUE
 	d$irrigated <- FALSE
