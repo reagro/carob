@@ -17,7 +17,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   project="CIMMYT Semi-Arid Wheat Yield Trial",	   
+	   project="Semi-Arid Wheat Yield Trial",	   
 	   publication=NA,
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '1st to 10th High Temperature Wheat Yield Trial', https://hdl.handle.net/11529/11089, CIMMYT Research Data & Software Repository Network, V4, UNF:6:LSthho4eES7Tm960eaiEwA== [fileUNF]",
 	   data_institutions = "CIMMYT",

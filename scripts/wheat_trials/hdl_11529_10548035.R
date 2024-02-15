@@ -19,7 +19,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		dataset_id = dataset_id,
 		group=group,
-		project="CIMMYT High Rainfall Wheat Yield Trial",
+		project="High Rainfall Wheat Yield Trial",
 		uri=uri,
 		data_citation="Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, 1st to 10th High Rainfall Wheat Yield Trial, https://hdl.handle.net/11529/10548195, CIMMYT Research Data & Software Repository Network, V4, UNF:6:1bUNVa1OpwFsogRFMSF4vQ== [fileUNF]",
 		publication=NA,

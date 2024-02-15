@@ -6,7 +6,7 @@
 # also can use more variables from env data such as irrigation 
 
 
-proc_wheat <- function(ff) {
+proc_wheat <- function(ff, dataset_id=NULL) {
 
 # not used
 #	fgeno <- ff[basename(ff) == "29 HRWYT_Genotypes_Data.xls"]
@@ -386,6 +386,8 @@ proc_wheat <- function(ff) {
 		"SOYBEN", "soybean",
 		"SOYA-OIL SEED", "soybean",
 		"SOYA- OIL SEED", "soybean",
+		"SUNFLOVER", "sunflower",
+		"SUNFLOWER (HELIANTHUS ANNUUS L)", "sunflower",
 		"SUNHANP", "sunn hemp",
 		"SAMHAMP", "sunn hemp",
 		"SANNHEMP", "sunn hemp",
@@ -394,8 +396,6 @@ proc_wheat <- function(ff) {
 		"SUNNHAMP", "sunn hemp",
 		"SUNHEMO", "sunn hemp",
 		"SRUNHEMP", "sunn hemp",
-		"SUNFLOVER", "sunflower",
-		"SUNFLOWER (HELIANTHUS ANNUUS L)", "sunflower",
 		"SUNHEMP (FLAX)", "sunn hemp",
 		"SUNHIMP (FLAX)", "sunn hemp",
 		"SUN-HAMP", "sunn hemp", 
@@ -564,6 +564,10 @@ proc_wheat <- function(ff) {
 		c("soil_ph", "h_tritici_repentis", "feconcentration", "znconcentration","n_fertilizer", "n_splits", "p_fertilizer", "k_fertilizer", "soil_om"),
 		c("soil_pH", "H_tritici_repentis", "Fe_concentration", "Zn_concentration",  "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_OM"), must_have=FALSE)
 
+
+	if (!is.null(dataset_id)) {
+		r$dataset_id <- carobiner::simple_uri(uri)
+	}
 	r
 
 }
