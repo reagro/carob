@@ -196,10 +196,9 @@ intmztrial_striga <- function(ff, sf=NULL, id=NULL) {
 	if (!is.null(d$tassling)) d$tassling <- as.numeric(d$tassling)
 
 	d$yield[d$yield < 0] <- NA
-	if (!is.null(d$silking)) d$silking[d$silking < 10] <- NA
-	if (!is.null(d$tassling)) d$tassling[d$tassling < 10] <- NA
-	if (!is.null(d$anthesis)) d$anthesis[d$anthesis < 10] <- NA
-	if (!is.null(d$plant_height)) d$plant_height[d$plant_height < 10] <- NA
+	for (v in c("silking", "tassling", "anthesis", "plant_height")) {
+		if (!is.null(d[[v]])) d[[v]][d[[v]] < 10] <- NA
+	}
 	
 	d
 }
