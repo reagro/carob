@@ -133,10 +133,11 @@ carob_script <- function(path){
 	s <- s[!is.na(s$yield),]
 	# Processing coordinates
 	# gi <- carobiner::geocode(country = "Rwanda", location = unique(s$location))
-	gi <- data.frame(country = c("Rwanda", "Rwanda", "Rwanda", "Rwanda",  "Rwanda", "Rwanda", "Rwanda", "Rwanda", "Rwanda", "Rwanda", "Rwanda", "Rwanda"),
-	                 location = c("Mareba", "Musambira", "Nyamiyaga", "Rukara", "Musenyi", "Nyamirama", "Kamonyi", "Nyamata", "Nyarubaka", "Rwinkwavu", "Bugesera", "Kayonza"), 
-	                 longitude = c(30.0565, 29.8376, 30.135, 30.4768, 30.0209, 30.521, 29.902, 30.1226, 29.8447, 30.6234, 30.1589, 30.6582), 
-	                 latitude = c(-2.2624, -2.0208, -1.6874, -1.7902, -2.1789, -1.956, -2.0279, -2.1496, -2.0831, -1.9464, -2.2329, -1.8616))
+	gi <- data.frame(
+		country = c("Rwanda", "Rwanda", "Rwanda", "Rwanda",  "Rwanda", "Rwanda", "Rwanda", "Rwanda", "Rwanda", "Rwanda", "Rwanda", "Rwanda"),
+	    location = c("Mareba", "Musambira", "Nyamiyaga", "Rukara", "Musenyi", "Nyamirama", "Kamonyi", "Nyamata", "Nyarubaka", "Rwinkwavu", "Bugesera", "Kayonza"), 
+	    longitude = c(30.0565, 29.8376, 30.135, 30.4768, 30.0209, 30.521, 29.902, 30.1226, 29.8447, 30.6234, 30.1589, 30.6582), 
+	    latitude = c(-2.2624, -2.0208, -1.6874, -1.7902, -2.1789, -1.956, -2.0279, -2.1496, -2.0831, -1.9464, -2.2329, -1.8616))
 	s <- s[,!(colnames(s) %in% c("longitude", "latitude"))]
 	s <- merge(s, gi, by = c("country", "location"))
 	

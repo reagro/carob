@@ -24,7 +24,7 @@ carob_script <- function(path) {
 
 ##### dataset level metadata 
 	dset <- data.frame(
-		extract_metadata(js, uri, group),
+		carobiner::extract_metadata(js, uri, group),
 		data_citation="",
 		data_institutions = "",
 		## if there is a paper, include the paper's doi here

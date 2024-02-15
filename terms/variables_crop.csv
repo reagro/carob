@@ -62,10 +62,12 @@ rain,numeric,mm,no,,no,0,3000,yes,Total rainfall between planting and harvest,,E
 emergence,numeric,,no,,no,3,90,yes,Days to emergence (after planting),,
 heading,numeric,,no,,no,25,300,yes,Days to heading (after planting),,
 flowering,numeric,,no,,no,15,250,yes,Days to flowering (after planting),,TO_0000344
+anthesis,numeric,,no,,no,30,125,yes,Days to anthesis (after planting),,
 silking,numeric,,no,,no,30,125,yes,Days to silking (after planting),,
+tassling,numeric,,no,,no,30,125,yes,Days to tassling (after planting),,
 maturity,numeric,,no,,no,45,300,yes,Days to maturity (after planting),,
 harvest,numeric,,no,,no,45,300,yes,Days to harvest (after planting),,
-plant_height,numeric,cm,no,,no,10,250,yes,Maximum plant height,,
+plant_height,numeric,cm,no,,no,10,300,yes,Maximum plant height,,
 pathogen,character,,no,pathogen,yes,,,yes,Name of the pathogen studied,,
 AUDPC,numeric,,no,,no,0,150,yes,Area under the disease progress curve,,
 rAUDPC,numeric,,no,,no,0,1,yes,Area under the disease progress curve divided by the non-diseased season length,,

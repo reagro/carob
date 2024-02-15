@@ -188,6 +188,9 @@ intmztrial_striga <- function(ff, sf=NULL, id=NULL) {
 		d <- doit(sf)
 	}
 	
+	d <- carobiner::change_names(d, c("pl_ht", "dy_sk", "dy_tass"), 
+				c("plant_height", "silking", "tassling"), must_have=FALSE)
+	
 	if (!is.null(id)) {
 		d$dataset_id = id
 	}
