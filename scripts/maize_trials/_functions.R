@@ -1,4 +1,8 @@
 
+## to do
+## extract fertilizer use (and more?) from "description"
+## standardize variable names specific to this dataset
+
 
 intmztrial_striga <- function(ff, sf=NULL, id=NULL) {
 

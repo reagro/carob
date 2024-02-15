@@ -566,7 +566,7 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 
 
 	if (!is.null(dataset_id)) {
-		r$dataset_id <- carobiner::simple_uri(uri)
+		r$dataset_id <- dataset_id
 	}
 	r
 
