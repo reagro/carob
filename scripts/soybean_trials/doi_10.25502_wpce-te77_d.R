@@ -51,10 +51,6 @@ carob_script <- function(path) {
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
-	 ## Add fertilizer
-	d$N_fertilizer <- NA
-	d$K_fertilizer <- NA
-	d$P_fertilizer <- NA
 	 
 	d$longitude[d$location=="NAMPULA"] <- 39.2707752
 	d$latitude[d$location=="NAMPULA"] <- -14.966969
@@ -63,7 +59,7 @@ carob_script <- function(path) {
 	d$harvest[d$harvest< 45] <- NA
 	d$yield_part <- "seed" 
 
-	d$planting_date <- "2018"
+	d$planting_date <- js$result$coverage_start_date
 	
 	 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
