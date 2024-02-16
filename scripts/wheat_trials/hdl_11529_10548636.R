@@ -3,38 +3,27 @@
 
 carob_script <- function(path) {
   
-  "Description:
-
-    [copy the abstract from the repo]
-
+"Description:
+Adoption of agronomic practices based on zero tillage and residue retention is increasing, due to their potential for climate change adaptation and mitigation. Genotype by tillage interactions for yield are not well understood. Fourteen CIMMYT bread (Triticum aestivum) and durum (Triticum turgidum) wheat genotypes, created between 1964 and 2011, were tested for yield and agronomic performance at CIMMYT’s experimental station near Ciudad Obregon, Mexico, over nine years (harvest years 2010 to 2018). Treatments included conventional and permanent raised beds with full and reduced irrigation. The dataset contains data on wheat performance (days to emergence, flowering and maturity, plant height, harvest index, grain yield, thousand grain weight, test weight, NDVI), performance traits calculated from these data (e.g. number of grains per m2, number of grains per spike, grain production rate from flowering to maturity) and daily weather data during the study period (precipitation, maximum and minimum temperature). This is an updated version of a dataset published in Honsdorf et al. (2018), where we have added three more years of data (harvest years 2016, 2017 and 2018) and one additional bread wheat genotype, Borlaug 100 (created in 2011) that was tested only in the six last years of the experiment (harvest years 2013 to 2018). (2021-12-14)
 "
   
 	uri <- "hdl:11529/10548636"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_trials"
-	## dataset level data 
+	dataset_id <- carobiner::simple_uri(uri)
+
+	ff	<- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		uri=uri,
 		data_citation="Verhulst, Nele; Honsdorf, Nora; Mulvaney, Michael J.; Singh, Ravi; Ammar, Karim; Govaerts, Bram, 2021, Nine years of data on genotype by tillage interaction and performance progress for 14 bread and 13 durum wheat genotypes on irrigated raised beds in Mexico, https://hdl.handle.net/11529/10548636, CIMMYT Research Data & Software Repository Network, V2",
 		publication="doi.org/10.1016/j.fcr.2017.11.011" ,
 		data_institutions = "CIMMYT",
 		data_type="experiment", 
 		carob_contributor="Mitchelle Njukuya",
-		carob_date="2023-02-06",
-		revised_by=NA
+		carob_date="2023-02-06"
 	)
-	
-	## download and read data 
-	
-	ff	<- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	f <- ff[basename(ff) == "PUB-201-DIB_2021-Data_2021-12-12_corrected.xlsx"]
 	
