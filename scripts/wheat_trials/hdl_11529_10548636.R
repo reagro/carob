@@ -62,12 +62,11 @@ Adoption of agronomic practices based on zero tillage and residue retention is i
 
 	#site information was obtained from publication
 	d$country <- "Mexico"
-	d$site <- "Sonora"
-	d$adm1 <- "Ciudad Obregon"
-	d$longitude <- -109.9338
-	d$latitude <- 27.4847
+	d$adm1 <- "Sonora"
+	d$site <- "Ciudad Obregón"
+	d$longitude <- -109.926
+	d$latitude <- 27.368
 	d$crop <- "wheat"
-
 
 	d$yield_part <- "grain"
 	d$trial_id <- as.character(d$trial_id)
