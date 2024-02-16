@@ -446,7 +446,7 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 		"VEGETABLE", "vegetables",
 		"VEGATEABLES", "vegetables",
 		"WATER MELON", "watermelon",
-		"WEEDS", "fallow",
+		"WEEDS", "no crop",
 		"ZEA MAYS", "maize",
 		"CEREAL", "cereal", 		
 		"BEANS", "common bean",
