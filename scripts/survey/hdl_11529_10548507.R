@@ -77,15 +77,29 @@ carob_script <- function(path) {
 	d$disease_severity <- tolower(r$I.q5509_diseaseSeverity)
 
 	d$insecticide_product <- tolower(r$I.q5508_insecticidesName)
-	d$fungicide_product <- tolower(r$I.q5511_pesticidesName)
+	d$insecticide_product[grep("remember", d$insecticide_product)] <- "unknown"
+	d$insecticide_product[d$insecticide_product %in% c("chloripyriphos", "chloropyariphosh", "chloropyriphos", "chlorpyriphos")] <- "chlorpyrifos"
+	d$insecticide_product[d$insecticide_product %in% c("firadon", "furadan", "furadon")] <- "carbofuran"
+	d$insecticide_product <- carobiner::replace_values(d$insecticide_product, 
+		c("dichlorophos", "imadiclorpid", "imidachloropid"),
+		c("dichlorvos", "imidacloprid", "imidacloprid"))
+
+	d$biocide_product <- tolower(r$I.q5511_pesticidesName)
+	d$biocide_product[grep("remember", d$biocide_product)] <- "unknown"
+
 	d$herbicide_product <- apply(r[, c("J.q5601_1herbName", "J.q5603_2herbName", "J.q5605_3herbName")], 1, 
 		\(i) {
+			i <- tolower(i)
+			i <- gsub("2,4-d|24d", "2,4-D", i)
+			i <- gsub("clodinofop", "clodinafop", i)
+			i <- gsub("idosulfuron", "iodosulfuron", i)
+			i <- gsub("leader|traget", "sulfosulfuron", i)
+			i <- gsub("propargyl", "clodinafop", i)
 			i <- gsub("\\+", "; ", unique(i))
 			i <- gsub(", ", "; ", unique(i))
 			i <- gsub("; NA|NA", "", paste(unique(i), collapse="; "))
-		}) |> tolower()
+		})
 
-	d$herbicide_product[d$herbicide_product == "2,4-D, 24D"] <- "2,4-D"
 	d$herbicide_times <- as.integer(rowSums(!is.na(r[, c("J.q5601_1herbName", "J.q5603_2herbName", "J.q5605_3herbName")]))) 
 	d$herbicide_timing <- apply(r[, c("J.q5602_1herbAppDays", "J.q5604_2herbAppDays", "J.q5606_3herbAppDays"
 )], 1, \(i) paste(na.omit(i), collapse=";"))
@@ -93,7 +107,7 @@ carob_script <- function(path) {
 	d$herbicide_product[d$herbicide_product == ""] <- NA 
 	d$herbicide_timing[d$herbicide_timing == ""] <- NA 
 	
-		d$weeding_times <- as.integer(r$J.manualWeedTimes)
+	d$weeding_times <- as.integer(r$J.manualWeedTimes)
 
 	d$planting_date <- r$D.seedingSowingTransplanting
 	if (is.null(d$planting_date)) d$planting_date <- r$D.q415_seedingSowingTransDate
@@ -207,6 +221,7 @@ carob_script <- function(path) {
 
 	d$crop_price <- r$M.q706_cropSP
 
+	#d$longitude <- d$latitude <- NULL
     carobiner::write_files(path, dset, d)
 }
 
