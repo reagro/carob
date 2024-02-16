@@ -98,6 +98,7 @@ carob_script <- function(path) {
 			i <- gsub("\\+", "; ", unique(i))
 			i <- gsub(", ", "; ", unique(i))
 			i <- gsub("; NA|NA", "", paste(unique(i), collapse="; "))
+			gsub("", NA, i)
 		})
 
 	d$herbicide_times <- as.integer(rowSums(!is.na(r[, c("J.q5601_1herbName", "J.q5603_2herbName", "J.q5605_3herbName")]))) 
