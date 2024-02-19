@@ -251,7 +251,7 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 		"GRUNDNUT", "groundnut",
 		"GROUND NUT", "groundnut",
 		"HELIANTHUS ANNUUS", "sunflower",
-		"HELIANTHUS  ANNUS", "sunflower",
+		"HELIANTHUS ANNUS", "sunflower",
 		"MAIN SEASON", NA, 
 		"MAIZE", "maize", 
 		"MAIZ/SOJA", "maize; soybean",
@@ -439,14 +439,14 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 		"VICIA LABA", "faba bean",
 		"VECIA FABA", "faba bean", 
 		"VIGNA RADIATA", "mung bean", 
-		"VIGRA  RADIATA", "mung bean", 
+		"VIGRA RADIATA", "mung bean", 
 		"V. RADIATA MOONG", "mung bean", 
 		"VES", "vetch",
 		"VEZA", "vetch",
 		"VEGETABLE", "vegetables",
 		"VEGATEABLES", "vegetables",
-		"WATER  MELON", "watermelon",
-		"WEEDS", "fallow",
+		"WATER MELON", "watermelon",
+		"WEEDS", "no crop",
 		"ZEA MAYS", "maize",
 		"CEREAL", "cereal", 		
 		"BEANS", "common bean",
@@ -566,7 +566,7 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 
 
 	if (!is.null(dataset_id)) {
-		r$dataset_id <- carobiner::simple_uri(uri)
+		r$dataset_id <- dataset_id
 	}
 	r
 

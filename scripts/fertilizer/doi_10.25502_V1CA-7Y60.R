@@ -39,7 +39,7 @@ inoculants and fertilizers adapted to local settings.
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
+	dset$title <- carobiner::get_title(js)
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
 	
@@ -221,6 +221,30 @@ inoculants and fertilizers adapted to local settings.
 ##??	b2 <- carobiner::fix_name(d$planting_date) 
 ##	b2 <- gsub("08/07/2025", "08/07/2016", b2) # end date is 2016-11-05 and the crop is soybean
 	d$planting_date[d$planting_date=="2025-07-08"] <- "2016-07-08"
+	d$planting_date[d$planting_date=="2021-10-01"] <- "2016-10-01"
+	d$planting_date[d$planting_date=="2018-07-07"] <- "2015-07-07"
+	
+	d$harvest_date[d$harvest_date=="2005-11-26"] <- "2015-11-26"
+	d$harvest_date[d$harvest_date=="2019-10-27"] <- "2016-10-27"
+
+	d$harvest_date[substr(d$harvest_date, 1, 4) == "1999"] <- NA
+	d$harvest_date[substr(d$harvest_date, 1, 4) == "2005"] <- NA
+	d$planting_date[substr(d$planting_date, 1, 4) == "1999"] <- NA
+
+	i <- which(as.Date(d$planting_date) > as.Date(d$harvest_date))
+	d$planting_date[i] <- NA
+	d$harvest_date[i] <- NA
+	i <- which(as.numeric(as.Date(d$harvest_date) - as.Date(d$planting_date)) > 300)
+	d$planting_date[i] <- NA
+	d$harvest_date[i] <- NA
+	i <- which(as.numeric(as.Date(d$harvest_date) - as.Date(d$planting_date)) > 300)
+	d$planting_date[i] <- NA
+	d$harvest_date[i] <- NA
+	i <- which(as.numeric(as.Date(d$harvest_date) - as.Date(d$planting_date)) < 40)
+	d$planting_date[i] <- NA
+	d$harvest_date[i] <- NA
+
+	
 	#data type
  ## d$planting_date <- format(as.Date(d$planting_date, format = '%d/%m/%Y'), "%Y-%m-%d")
 ##	d$harvest_date <- format(as.Date(d$harvest_date, format = '%d/%m/%Y'), "%Y-%m-%d")
