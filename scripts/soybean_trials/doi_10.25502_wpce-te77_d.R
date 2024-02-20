@@ -29,7 +29,7 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
+   dset$title <- carobiner::get_title(js)
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
 	
@@ -41,29 +41,28 @@ carob_script <- function(path) {
 	### process file()
 	
 	d <- r[,c("ID","Country","City","REP_NO","DESIGNATION","YIELD","BIOM","PLHT","SWT100","DM","HARVEST", "DFFL")]
-	 colnames(d) <- c("ID", "country", "location", "rep", "variety", "yield", "dmy_total", "plant_height", "grain_weight", "maturity", "harvest", "flowering")
+	 colnames(d) <- c("ID", "country", "adm1", "rep", "variety", "yield", "dmy_total", "plant_height", "grain_weight", "maturity", "harvest", "flowering")
 	
 	 # add columns
 	d$crop <- "soybean" 
 	d$dataset_id <- dataset_id
-	d$trial_id <- paste(d$ID, d$location, sep = "-")
+	d$trial_id <- paste(d$ID, d$adm1, sep = "-")
 	d$ID <- NULL
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
-	 ## Add fertilizer
-	d$N_fertilizer <- NA
-	d$K_fertilizer <- NA
-	d$P_fertilizer <- NA
-	 
-	d$longitude[d$location=="NAMPULA"] <- 39.2707752
-	d$latitude[d$location=="NAMPULA"] <- -14.966969
+	d$location<- "Sofala"  ## GPS coordinate revert function is used here to get location  
+	d$longitude[d$location=="Sofala"] <- 35.52956
+	d$latitude[d$location=="Sofala"] <- -18.66569
 	d$location <- carobiner::fix_name(d$location, "title") 
 	d$country <- carobiner::fix_name(d$country, "title") 
+	## Fix harvest boundary as requested in carob  
 	d$harvest[d$harvest< 45] <- NA
 	d$yield_part <- "seed" 
 
-	d$planting_date <- "2018"
+	## Planting and harvest date are taken from metadata 
+	d$planting_date <- "2018-01-20"
+	d$harvest_date <- "2018-06-18"
 	
 	 # all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
