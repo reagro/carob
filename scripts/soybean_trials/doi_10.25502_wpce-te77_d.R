@@ -46,7 +46,7 @@ carob_script <- function(path) {
 	 # add columns
 	d$crop <- "soybean" 
 	d$dataset_id <- dataset_id
-	d$trial_id <- paste(d$ID, d$location, sep = "-")
+	d$trial_id <- paste(d$ID, d$adm1, sep = "-")
 	d$ID <- NULL
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
