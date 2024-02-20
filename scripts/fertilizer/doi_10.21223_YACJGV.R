@@ -13,12 +13,12 @@ carob_script <- function(path) {
 	uri <- "doi:10.21223/YACJGV"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff  <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		uri=uri,
 		data_citation = "Vandamme, Elke, 2023. Dataset for: Fertilizer response trials to calibrate and cross-validate AKILIMO for potato in Rwanda. https://doi.org/10.21223/YACJGV, International Potato Center, V1, UNF:6:dqyMNI9EnXyX0pNaGvS+hQ== [fileUNF]",
 		publication= NA,
 		data_institutions = "CIP",
@@ -26,15 +26,7 @@ carob_script <- function(path) {
 		carob_contributor="Njogu Mary, Stephen Gichuhi",
 		carob_date="2023-01-22"
 	)
-	
-	
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-    
+	 
 	f1 <- ff[basename(ff) == "Scaling_AKILIMO_yield_data.csv"]
 	r <- read.csv(f1)
 
@@ -47,16 +39,14 @@ carob_script <- function(path) {
   
 	d <- data.frame(country="Rwanda", dataset_id=dataset_id, 
 			crop="potato", yield_part = "tubers",
-			date=r$today, yield=r$tuberY * 1000, 
+			yield=r$tuberY * 1000, 
 			latitude=r$Latitude, longitude=r$Longitude, 
 			elevation=r$Altitude, treatment=r$treat)
  
-	d$date <- as.character(as.Date(d$date,format= "%d-%b-%y"))
+	d$harvest_date <- as.character(as.Date(r$today, format= "%d-%b-%y"))
 	d$trial_id <- as.character(as.integer(as.factor(paste(d$latitude, d$longitude))))
 
-## this is easier to read than nested ifelse	
 ## but we can read this directly from the file 
-## that can avoid mistakes (the fourth P value was 32 instead of 35)
 ##	npk <- data.frame(
 ##		treatment = c("NPK6", "NPK4_MOP2", "NPK4_UREA2", "NPK4_DAP2", "NPK11"), 
 ##		N_fertilizer = c(51, 34, 80, 52, 94), 
@@ -75,15 +65,6 @@ carob_script <- function(path) {
 	i <- d$yield > 100000
 	d$yield[i] <- d$yield[i] / 10
 
-	# EGB: Planting and harvest date
-	# https://climateknowledgeportal.worldbank.org/country/rwanda/climate-data-historical#:~:text=Overall%2C%20the%20country's%20four%20climactic,dry%20season:%20December%20to%20February.
-	d$harvest_date <- d$date
-	d$season <- ifelse(as.integer(format(as.Date(d$harvest_date, "%Y-%m-%d"), "%m")) %in% c(3:10), "Long", "Short")
-	# Substracting from harvest as per:
-	# Using a random number of dates to substract from the harvest, but limited to a range close to the season length.
-	d$planting_date <- as.character(ifelse(d$season == "Short",
-	                                       format(as.Date(d$harvest_date) - rnorm(1, 100, 5), "%Y-%m-%d"),
-	                                       format(as.Date(d$harvest_date) - rnorm(1, 130, 10), "%Y-%m-%d")))
 	carobiner::write_files(dset, d, path=path)
 }
 
