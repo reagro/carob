@@ -22,7 +22,7 @@ carob_script <- function(path) {
 
 ##### dataset level metadata 
 	dset <- data.frame(
-	  carobiner::extract_metadata(js, uri, group="conservation_agriculture", dataset_id=dataset_id),
+	  carobiner::extract_metadata(js, uri, group="conservation_agriculture"),
 	  data_citation="Lilongwe University of Agriculture and Natural Resources, 2021, Performance of Maize Following Groundnut Varieties at Different Densities, https://doi.org/10.7910/DVN/1T4Q3F, Harvard Dataverse, V1, UNF:6:oLZEjX4cmNU+x2ElSIOljA== [fileUNF]",
 	  data_institutions = "International Food Policy Research Institute (IFPRI)",
 	  ## if there is a paper, include the paper's doi here
@@ -66,7 +66,6 @@ carob_script <- function(path) {
 	d$dataset_id <- dataset_id
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
-	d$is_experiment <- TRUE
 	d$irrigated <- FALSE
 
 
@@ -75,8 +74,8 @@ carob_script <- function(path) {
 ##### Time #####
 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
 ## use 	as.character(as.Date()) for dates to assure the correct format.
-	d$planting_date <- as.character(as.Date(2019   ))
-	d$harvest_date  <- as.character(as.Date(  2020  ))
+	d$planting_date <- as.character("2019")
+	d$harvest_date  <- as.character("2020")
 
  
 	#what plant part does yield refer to?
