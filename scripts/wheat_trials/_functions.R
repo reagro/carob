@@ -106,6 +106,8 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 	r$crop <- "wheat"
 	r$variety_code <- r$Gen_name
 		
+		
+		
 	m <- matrix(byrow=TRUE, ncol=2, c(
 		"INTERCROPING", NA,
 		"CLASLERBEEN", "guar",  # cluster bean
@@ -241,6 +243,7 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 		"GREEN MANUDE", "green manure", 
 		"GREEN MANEME", "green manure", 
 		"GREE MANURE", "green manure", 
+		"GREEN MANURING", "green manure", 
 		"GREEM MANURE", "green manure", 
 		"GREEN MANWE", "green manure", 
 		"GREEN MANWERE", "green manure",
@@ -348,10 +351,12 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 		"ROOT", "root crop", 
 		"SAF FLOWER", "safflower", 
 		"DHAINCHA", "sesbania",
+		"CESBANIA I", "sesbania",
 		"SESBANIA I", "sesbania",
 		"SESBANIA INDICA", "sesbania",
 		"SESBANIA SP.", "sesbania",
 		"SESBANIA\\", "sesbania",
+		"SESBANIA ACULEATA", "sesbania",
 		"SEED PRODUCTION", NA,
 		"SINAPIS", "mustard",
 		"SIGA", NA,

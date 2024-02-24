@@ -27,7 +27,7 @@ Landscape Diagnostic Survey (LDS) for rice contains farmer's data on current pro
 	r <- read.csv(f)
 
 	do_LCAS <- carobiner::get_function("do_LCAS", path, group)
-	d <- do_LCAS(r)
+	d <- do_LCAS(r, dataset_id)
 
 #	d$longitude <- d$latitude <- NULL
     carobiner::write_files(path, dset, d)

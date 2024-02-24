@@ -28,7 +28,7 @@ Landscape Diagnostic Survey (LDS) data contains current rice production practice
 	r <- carobiner::change_names(r, c("X", "X.1"), c("O.largestPlotGPS.Latitude", "O.largestPlotGPS.Longitude"))
 
 	do_LCAS <- carobiner::get_function("do_LCAS", path, group)
-	d <- do_LCAS(r)
+	d <- do_LCAS(r, dataset_id)
 	
 	#d$longitude <- d$latitude <- NULL
     carobiner::write_files(path, dset, d)

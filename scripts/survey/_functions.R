@@ -1,5 +1,5 @@
 
-do_LCAS <- function(r) {
+do_LCAS <- function(r, dataset_id) {
 
 	d <- data.frame(
 		date = r$collectionDate,

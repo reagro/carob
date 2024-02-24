@@ -1,9 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
-
 carob_script <- function(path) {
 
 "Description:
@@ -17,18 +13,12 @@ carob_script <- function(path) {
     It is distributed to 70 locations, and contains 50 entries. (2019)]
 
 "
-#### Identifiers
 	uri <- "hdl:11529/10548522"
 	group <- "wheat_trials"
-
-# the script filename should be paste0(dataset_id, ".R")
 	dataset_id <- carobiner::simple_uri(uri)
-
-#### Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=0)
 
-##### dataset level metadata 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group=group),
 		data_citation="Global Wheat Program; IWIN Collaborators; Ammar, Karim; Payne, Thomas, 2020, 51th International Durum Yield Nursery, https://hdl.handle.net/11529/10548522, CIMMYT Research Data & Software Repository Network, V4",
@@ -40,16 +30,8 @@ carob_script <- function(path) {
 		carob_date="2024-02-22"
 	)
 	
-##### PROCESS data records
-
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
-	d <- proc_wheat(ff)
-	d$dataset_id <- dataset_id
-	d$previous_crop<-carobiner::replace_values(d$previous_crop,"sesbania aculeata","sesbania")
-	d$previous_crop<-carobiner::replace_values(d$previous_crop,"cesbania","sesbania")
-	d$previous_crop<-carobiner::replace_values(d$previous_crop,"green manuring","green manure")
-	
-# all scripts must end like this
+	d <- proc_wheat(ff, dataset_id)
 	carobiner::write_files(dset, d, path=path)
 }
 
