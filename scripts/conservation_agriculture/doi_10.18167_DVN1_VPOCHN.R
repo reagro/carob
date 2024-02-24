@@ -8,13 +8,13 @@ carob_script <- function(path) {
 
 "Description:
 
-    [These are the raw data of the paper: Mulch application as the overarching factor explaining increase in soil organic carbon stocks under conservation agriculture in two 8-year-old experiments in Zimbabwe” authored by Armwell Shumba, Regis Chikowo, Christian Thierfelder, Marc Corbeels, Johan Six, Rémi Cardinael and submitted for publication in a peer-reviewed journal.]
+    [These are the raw data of the paper: Mulch application as the overarching factor explaining increase in soil organic carbon stocks under conservation agriculture in two 8-year-old experiments in Zimbabwe. authored by Armwell Shumba, Regis Chikowo, Christian Thierfelder, Marc Corbeels, Johan Six, Rémi Cardinael and submitted for publication in a peer-reviewed journal.]
 
 "
 
 	uri <- "doi:10.18167/DVN1/VPOCHN"
 	dataset_id <- carobiner::simple_uri(uri)
-	group <- "soil_samples"
+	group <- "conservation_agriculture"
 	## dataset level data 
 	dset <- data.frame(
 		dataset_id = dataset_id,
