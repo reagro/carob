@@ -44,19 +44,14 @@ carob_script <- function(path) {
 	r1 <- carobiner::read.excel(f,sheet = 1)
 	r2 <- carobiner::read.excel(f,sheet = 2)
 	
-	
-## process file(s)
-
-## use a subset
-#### about the data #####
-## (TRUE/FALSE)
-
-	d1 <- data.frame(country = r1$Country)
-	d1$dataset_id <- dataset_id
+	d1 <- data.frame(country = r1$Country, dataset_id=dataset_id)
 	d1$on_farm <- TRUE
 	d1$is_survey <- FALSE
 	d1$irrigated <- FALSE
 ## the treatment code	
+
+## This needs to be written out. I do not know what "A1M" means.
+
 	tcodes <- c("CP", "DSM", "BAM", "JPM", "DSMB)", "DSMP", "A1M", "A2G", "B1M", "B2S")
 	d1$treatment <- tcodes[r1$Tmnt.]
 	
@@ -74,14 +69,10 @@ carob_script <- function(path) {
 	d1$latitude <- -17.60859
 	
 
-##### Crop #####
-## normalize variety names
-## see carobiner::fix_name
 	d1$crop <- "maize"
 
-## fertilizer from paper
- 
-print("Shumirai Manzvera check if these are correct for all treatments")
+
+	print("Shumirai Manzvera check if these are correct for all treatments")
   d1$fertilizer_type <- 'Compound-D'
   d1$soil_type <- 'Gleyic luvisols'
   d1$N_fertilizer <- 14+68
@@ -110,7 +101,6 @@ print("Shumirai Manzvera check if these are correct for all treatments")
 
 	print("second dataset needs to be processed")
 		
-# all scripts must end like this
 	carobiner::write_files(dset, d1, path=path)
 
 }
