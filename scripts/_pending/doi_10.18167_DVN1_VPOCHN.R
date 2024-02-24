@@ -13,14 +13,16 @@ carob_script <- function(path) {
 "
 
 	uri <- "doi:10.18167/DVN1/VPOCHN"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
+
+	dataset_id <- carobiner::simple_uri(uri)
+	ff  <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
+
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		uri=uri,
 		data_citation="Shumba, Armwell; Chikowo, Regis; Thierfelder, Christian; Corbeels, Marc; Six, Johan; Cardinael, Rémi, 2023, Data for Mulch application as the overarching factor explaining increase in soil organic carbon stocks under conservation agriculture in two 8-year-old experiments in Zimbabwe, https://doi.org/10.18167/DVN1 /VPOCHN , CIRAD Dataverse, V2",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
@@ -29,34 +31,24 @@ carob_script <- function(path) {
 		# e.g. "on-farm experiment", "survey", "compilation"
    		data_type="experiment", 
 		carob_contributor="Hope Takudzwa Mazungunye",
-		# date of first submission to carob
-		carob_date="2024-02-15",
-		# name(s) of others who made significant improvements
-		revised_by=NA
+		carob_date="2024-02-15"
 	)
 
-## download and read data 
-
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)[1]
-
-
 	f <- ff[basename(ff) == "Shumba_et_al_Raw_data_SOC_paper_vf.xlsx"]
-
-	#r <- read.csv(f)
-	r <- readxl::read_excel(f, sheet = "Soil_profile_BD_1m") |> as.data.frame()
-	r1 <- readxl::read_excel(f, sheet = "SOC_conc_stocks") |> as.data.frame()
-	r2 <- readxl::read_excel(f, sheet = "SOC_change_accum_rates") |> as.data.frame()
-	r3 <- readxl::read_excel(f, sheet = "Seasonal_OC_inputs") |> as.data.frame()
+	r0 <- carobiner::read.excel(f, sheet = "Soil_profile_BD_1m")
+	r1 <- carobiner::read.excel(f, sheet = "SOC_conc_stocks")
+	r2 <- carobiner::read.excel(f, sheet = "SOC_change_accum_rates")
+	r3 <- carobiner::read.excel(f, sheet = "Seasonal_OC_inputs")
 
 	
 ## process file(s)
 
-	d <- data.frame(treatment=r$Treatment, site=r$Site, soil_sample_top=r$depth_cm, rep=r$Rep, soil_bd= r$BD_g_cm3)
-d1 <- data.frame(treatment=r1$Treatment, site=r1$Site, rep=r1$Rep, soil_sample_top=r1$Depth_cm, soil_SOC=r1$SOC_conc_mg_g_1, soil_bd=r$BD_g_cm3)
-d2 <- data.frame(treatment=r2$Treatment, site=r2$Site, rep=r2$Rep, soil_sample_top=r2$Depth_cm)
-d3 <- data.frame(treatment=r3$Treatment, site=r3$Site, rep=r3$Rep, yield=r3$`Grain (kg/ha)`, dmy_roots=r3$Root_biomass_kg_ha1, crop=r3$Crop)
+	d <- data.frame(treatment=r0$Treatment, site=r0$Site, soil_sample_top=r0$depth_cm, rep=r0$Rep, soil_bd= r0$BD_g_cm3)
+	d1 <- data.frame(treatment=r1$Treatment, site=r1$Site, rep=r1$Rep, soil_sample_top=r1$Depth_cm, soil_SOC=r1$SOC_conc_mg_g_1, soil_bd=r$BD_g_cm3)
+	d2 <- data.frame(treatment=r2$Treatment, site=r2$Site, rep=r2$Rep, soil_sample_top=r2$Depth_cm)
+	d3 <- data.frame(treatment=r3$Treatment, site=r3$Site, rep=r3$Rep, yield=r3$`Grain (kg/ha)`, dmy_roots=r3$Root_biomass_kg_ha1, crop=r3$Crop)
+
+### RH: this is surely wrong. These data should be merged by site, treatment, rep...
 
 ##Fixing treatment names 
 d$site<- carobiner::replace_values(d$site,c("DTC","UZF"),c("Domboshava Training Center","University of Zimbabwe farm"))
