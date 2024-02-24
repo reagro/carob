@@ -32,6 +32,9 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
   # 1st get field and location data
 	f <- ff[basename(ff) == "Kiberashi_DT2010_field.csv"]
@@ -80,7 +83,8 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	d1$S_fertilizer <- ifelse(d1$TrtDesc == "NPK+MN", 5, 0)
 	d1$OM_used <- TRUE
 	d1$OM_type <- "farmyard manure"
-	d1$OM_applied <- 1000
+	d1$OM_amount <- 1000
+	
 	d2 <- merge(d, d1, by = "FieldID", all.x = TRUE)
 
 	p <- carobiner::fix_name(gsub("/", "; ", d2$previous_crop), "lower")
@@ -91,7 +95,7 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	d <- d2[,c("country", "location", "site", "trial_id", "latitude", "longitude",
 	            "planting_date", "harvest_date", "season", "on_farm", "is_survey",
 	            "treatment", "rep", "crop", "variety", "previous_crop",
-	            "yield", "residue_yield", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer", "OM_used", "OM_type", "OM_applied")]
+	            "yield", "residue_yield", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "S_fertilizer", "OM_used", "OM_type", "OM_amount")]
 	d$dataset_id <- dataset_id
 
 	d$yield_part <- "grain"

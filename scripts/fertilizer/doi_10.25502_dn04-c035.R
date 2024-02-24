@@ -31,6 +31,9 @@ carob_script <- function(path){
 	ff <- carobiner::get_data(uri,path,group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 	
 	#read the data
 	f <- ff[basename(ff) == "a_general.csv"]
@@ -51,6 +54,22 @@ carob_script <- function(path){
 	d$longitude <- d$gps_latitude
 	d$latitude <- -(d$gps_longitude)
 	d <- d[, c("trial_id", "adm2","adm3", "latitude","longitude")]
+	# EGB:
+	# Completing lat long records...
+	# g <- carobiner::geocode(country = "Mozambique",
+	#                         adm2 = del$adm2,
+	#                         adm3 = ifelse(is.na(del$adm3), del$adm2, del$adm3),
+	#                         location = ifelse(is.na(del$adm3), del$adm2, del$adm3))
+	g <- data.frame(country = c("Mozambique", "Mozambique"),
+	                adm2 = c("Mogovolas", "Gurue"),
+	                adm3 = c("Nametil", "Gurue"),
+	                location = c("Nametil", "Gurue"),
+	                lon = c(39.3379, 36.9875),
+	                lat = c(-15.7088, -15.4651))
+	d[is.na(d$longitude) | is.na(d$latitude) & d$adm2 == "Gurue", "longitude"] <- g[g$adm2 == "Gurue" & g$adm3 == "Gurue", "lon"]
+	d[is.na(d$longitude) | is.na(d$latitude) & d$adm2 == "Mogovolas" & d$adm3 == "Nametil", "longitude"] <- g[g$adm2 == "Mogovolas" & g$adm3 == "Nametil", "lon"]
+	d[is.na(d$longitude) | is.na(d$latitude) & d$adm2 == "Gurue", "latitude"] <- g[g$adm2 == "Gurue" & g$adm3 == "Gurue", "lat"]
+	d[is.na(d$longitude) | is.na(d$latitude) & d$adm2 == "Mogovolas" & d$adm3 == "Nametil", "latitude"] <- g[g$adm2 == "Mogovolas" & g$adm3 == "Nametil", "lat"]
 	
 	#processing the 2nd dataset
 	d1$trial_id <- d1$farm_id

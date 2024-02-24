@@ -17,7 +17,7 @@ The Semi-Arid Wheat Yield Trial (SAWYT) is a replicated yield trial that contain
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   project="CIMMYT Semi-Arid Wheat Yield Trial",	   
+	   project="Semi-Arid Wheat Yield Trial",	   
 	   publication=NA,
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019. 26th Semi-Arid Wheat Yield Trial. https://hdl.handle.net/11529/10548302, CIMMYT Research Data & Software Repository Network, V5",
 	   data_institutions = "CIMMYT",
@@ -31,6 +31,9 @@ The Semi-Arid Wheat Yield Trial (SAWYT) is a replicated yield trial that contain
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=5, minor=0)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 ## process file(s)
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)

@@ -25,6 +25,9 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=4)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   
   # No need to read the table with MIR data
   f <- ff[basename(ff) == "02 soil_samples-data.xlsx"]

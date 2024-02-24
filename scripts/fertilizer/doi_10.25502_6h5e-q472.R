@@ -3,7 +3,6 @@
 ## ISSUES
 # ....
 
-
 carob_script <- function(path) {
   
   "
@@ -47,6 +46,9 @@ carob_script <- function(path) {
   ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id,path,group,major=1,minor = 0)
   dset$license <- carobiner::get_license (js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
  
   #read the data file
   f <- ff[basename(ff) == "data_table.csv"] 
@@ -242,28 +244,24 @@ carob_script <- function(path) {
   d3$B_fertilizer <- 0
   d3$B_fertilizer[d3$treatments_code %in% c("treatment5","treatment6")] <- 5 * 0.11 # Following protocol and K content in Borax
   d3$treatment[d3$treatments_code %in% c("treatment3")] <- paste0("N0", "P", round(d3$P_fertilizer[d3$treatments_code %in% c("treatment4")], 0), "K0")
-  d3$treatment[d3$treatments_code %in% c("treatment4", "treatment5", "treatment6")] <- paste0("N0",
-                                                                                              "P", round(d3$P_fertilizer[d3$treatments_code %in% c("treatment4", "treatment5", "treatment6")], 0),
-                                                                                              "K", round(d3$K_fertilizer[d3$treatments_code %in% c("treatment4", "treatment5", "treatment6")], 0))
+  d3$treatment[d3$treatments_code %in% c("treatment4", "treatment5", "treatment6")] <- 
+		paste0("N0", "P", round(d3$P_fertilizer[d3$treatments_code %in% c("treatment4", "treatment5", "treatment6")], 0), "K", round(d3$K_fertilizer[d3$treatments_code %in% c("treatment4", "treatment5", "treatment6")], 0))
   # # EGB: Process OM
   d3$OM_used <- TRUE
   d3$OM_used[d3$treatments_code == "treatment1"] <- FALSE # Assumed to be control in protocol
   d3$OM_type <- NA
   d3$OM_type[d3$treatments_code != "treatment1"] <- "farmyard manure"
-  d3$OM_applied[d3$treatments_code != "treatment1"] <- 2 * 1000 # According to protocol
-  # # EGB: Standardizing pathogen names
-  # # Need to add pathogens/diseases to the vocabulary
-  # d3$pathogen <- d3$type_of_disease
+  d3$OM_amount[d3$treatments_code != "treatment1"] <- 2 * 1000 # According to protocol
+
+  d3$diseases <- d3$type_of_disease
   
   d4 <- d3[,c("dataset_id", "trial_id", "on_farm", "is_survey",
               "country", "adm1", "adm2", "adm3", "adm4", "adm5", "location", "site", "elevation",
               "crop", "variety", "variety_type", "previous_crop",
               "planting_date", "flowering", "maturity", "harvest", "harvest_date",
               "treatment", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", 
-              "OM_used", "OM_type", "OM_applied",
-              "yield", "yield_part",
-              # "pathogen",
-              "row_spacing", "plant_spacing")]
+              "OM_used", "OM_type", "OM_amount", "diseases",
+              "yield", "yield_part", "row_spacing", "plant_spacing")]
   
   # # EGB: Improved georeferencing
   s <- data.frame(adm1 = c("Western", "Western"),

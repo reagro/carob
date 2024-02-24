@@ -22,8 +22,8 @@ carob_script <- function(path) {
     group=group,
     project=NA,
     uri=uri,
-    data_citation="Project Leader : Thierfelder, Christian (International Maize and Wheat Improvement Center (CIMMYT)),Researcher : Gama, Mphatso (Machinga ADD),Researcher : Muzeka, Richard (Total LandCare (TLC)),Other : Machinga ADD,Other : Total LandCare (TLC)",
-    publication= NA,
+    data_citation="International Maize and Wheat Improvement Center (CIMMYT), 2021. Conservation Agriculture Mother Trials in Malawi, 2020. https://doi.org/10.7910/DVN/QLJUY7, Harvard Dataverse, V1, UNF:6:JnMo2E1FW90D4w8NetHuIg== [fileUNF]",
+    publication= "doi:10.1017/S0014479715000265",
     data_institutions = "CIMMYT",
     data_type="experiment",
     carob_contributor="Fredy Chimire",
@@ -36,7 +36,9 @@ carob_script <- function(path) {
   
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-  # dset$license <- "not specified" #carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   dset$license <- carobiner::get_license(js)
   
   f <- ff[basename(ff) == "AR_MAL_CIMMYT_CAmother_onfarm_2020.csv"]
@@ -50,7 +52,7 @@ carob_script <- function(path) {
   d$dataset_id <- dataset_id
   d$country<- "Malawi"
   d$crop <- "Maize"
-  d$is_experiment <- TRUE
+  d$is_survey <- FALSE
   d$yield_part <- "grain"
   d$fertilizer_type <- "NPS"
   # source: dictionary_AR_MAL_CIMMYT_CAmother_onfarm_2020.csv
@@ -62,18 +64,24 @@ carob_script <- function(path) {
   
   # Gps was found at district level since the villages are not available at map
   # https://www.google.com/maps/search/balaka+malawi++lemu+gps+coordinates/@-14.9319518,34.9463051,17z?entry=ttu
-  
-  lattitude_mapping <- list("Balaka" = c(-14.9318, 34.9511),
-                            "Dowa"   = c(-13.6279, 33.9329),
-                            "machinga" = c(-15.1775, 35.2963),
-                            "Nkhotakota" = c(-12.7037, 34.2570),
-                            "Salima" = c(-13.7114, 34.4461),
-                            "Zomba" = c(-15.3737, 35.3194)) 
-                            
-  d$lattitude <- unlist(lapply(d$Location, function(loc) lattitude_mapping[[loc]][1]))
-  d$longitude <- unlist(lapply(d$Location, function(loc) lattitude_mapping[[loc]][2]))
-  
-  carobiner::write_files(dset, d, path=path)
+
+	d$location <- gsub("machinga", "Machinga", d$location)
+	d$crop <- tolower(d$crop)
+  	d$harvest_date <- as.character(d$harvest_date)
+
+	geo <- list("Balaka" = c(-14.9318, 34.9511),
+              "Dowa"   = c(-13.6279, 33.9329),
+              "Machinga" = c(-15.1775, 35.2963),
+              "Nkhotakota" = c(-12.7037, 34.2570),
+              "Salima" = c(-13.7114, 34.4461),
+              "Zomba" = c(-15.3737, 35.3194)) 
+
+    geo <- t(as.data.frame(geo))
+	colnames(geo) <- c("latitude", "longitude") 
+	d <- merge(d, geo, by.x="location", by.y=0, all.x=TRUE)
+
+                           
+	carobiner::write_files(dset, d, path=path)
 }
 
 

@@ -17,7 +17,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	   dataset_id = dataset_id,
 	   group=group,
 	   uri=uri,
-	   project="CIMMYT Semi-Arid Wheat Yield Trial",	   
+	   project="Semi-Arid Wheat Yield Trial",	   
 	   publication=NA,
 	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, '1st to 10th High Temperature Wheat Yield Trial', https://hdl.handle.net/11529/11089, CIMMYT Research Data & Software Repository Network, V4, UNF:6:LSthho4eES7Tm960eaiEwA== [fileUNF]",
 	   data_institutions = "CIMMYT",
@@ -31,6 +31,9 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=1)
 	dset$license <- carobiner::get_license(js)
+	dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 ## process file(s)
 	sets <- gsub("_RawData.xlsx", "", grep("RawData", basename(ff), value=TRUE))

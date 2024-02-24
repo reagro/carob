@@ -26,7 +26,7 @@ carob_script <- function(path) {
 		## also add a RIS file in references folder (with matching doi)
 		publication= NA,
 		data_institutions = "CIMMYT",
-   		data_type="experiment", 
+   	data_type="experiment", 
 		carob_contributor="Mitchelle Njukuya",
 		# date of first submission to carob
 		carob_date="2023-10-10",
@@ -38,6 +38,9 @@ carob_script <- function(path) {
 	ff <- ff[-grep("^hdl", basename(ff))]
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 
 	get_raw_data <- function(f) {
@@ -141,6 +144,11 @@ carob_script <- function(path) {
 		d$latitude [d$location =="Bidyanandapur"] <- 25.9517
 		d$longitude [d$location =="Urgitola"] <- 88.1411
 		d$latitude [d$location =="Urgitola"] <- 25.0108
+		d$longitude [d$location =="Gaurangapur"] <- 87.878
+		d$latitude [d$location =="Gaurangapur"] <- 22.287
+		d$longitude [d$location =="Kalinagar"] <- 88.316
+		d$latitude [d$location =="Kalinagar"] <- 22.673
+		
 
 		d
 	}

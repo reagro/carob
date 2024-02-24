@@ -25,7 +25,7 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="experiment",
-		carob_contributor="Fredy Chimere",
+		carob_contributor="Fredy Chimire",
 		carob_date="2023-09-10"
 		revised_by="Robert Hijmans (on-going)",
 		revision_date="2023-11-04"
@@ -36,6 +36,9 @@ carob_script <- function(path) {
 	ff	<- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=2)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 	
 	
 	f <- ff[basename(ff) == "Agronomy full data set 13 dec 2019 with nonames.xlsx"]

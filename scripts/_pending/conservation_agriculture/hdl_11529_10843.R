@@ -26,7 +26,7 @@ carob_script <- function(path) {
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
-    carob_contributor="Fredy Chimere",
+    carob_contributor="Fredy Chimire",
     carob_date="2023-08-26"
   )
   
@@ -35,6 +35,9 @@ carob_script <- function(path) {
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
   dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   
   
   f <- ff[basename(ff) == "Henderson 2005.2016.xlsx"]

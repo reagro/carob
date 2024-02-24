@@ -29,15 +29,17 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
 		data_institutions = "IRRI",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-06-02",
-		data_type="NA",
+		data_type=NA,
 		project=NA     
 	)
   
   ## download and read data 
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-  lic <- carobiner::get_license(js)
-  dset$license <- lic$name
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
+	dset$license <- carobiner::get_license(js)
+	dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   
   f <- ff[basename(ff) =="SSNM_Meta-analysis_data.csv"] 
   
@@ -49,7 +51,7 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
 	#RH: do not use numeric indexing!
 	d <- r[,c(4,7,8,9,10,14,15,17,28,29,31,32,34,35,38,41,43,44,49,53,57,62,64)]
   #normalize columns names
-	colnames(d) <-  c("reference","country","location","longitude","latitude","soil_type","soil_pH","soil_SOC","previous_crop","crop", "water_mangement","variety","observation_date","season","tillage","treatment","N_splits","N_fertilizer", "P_fertilizer","K_fertilizer","Zn_fertilizer","rep","yield")
+	colnames(d) <-  c("reference","country","location","longitude","latitude","soil_type","soil_pH","soil_SOC","previous_crop","crop", "water_mangement","variety","observation_date","season","land_prep_method","treatment","N_splits","N_fertilizer", "P_fertilizer","K_fertilizer","Zn_fertilizer","rep","yield")
   
   d[c('planting_date', 'harvest_date')] <- stringr::str_split_fixed(d$observation_date, "-", 2) 
   
@@ -101,7 +103,7 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
   d$latitude = as.numeric(lat[,1]) + as.numeric(lat[,2])/60
   
   # extract relevant columns 
-  d <- d[c("reference","country","location","longitude","latitude","crop","previous_crop","variety","yield","tillage","N_fertilizer", "P_fertilizer","K_fertilizer","N_splits","planting_date","harvest_date","season","soil_pH",'soil_type',"soil_SOC")]
+  d <- d[c("reference","country","location","longitude","latitude","crop","previous_crop","variety","yield","land_prep_method", "N_fertilizer", "P_fertilizer","K_fertilizer","N_splits","planting_date","harvest_date","season","soil_pH",'soil_type',"soil_SOC")]
   # Add columns
   d$dataset_id <- dataset_id
   d$trial_id <- paste0(d$dataset_id,"_",d$country)

@@ -6,6 +6,7 @@
 # ....
 
 
+
 carob_script <- function(path) {
   
   "Description:
@@ -32,8 +33,8 @@ carob_script <- function(path) {
     group=group,
     project=NA,
     uri=uri,
-    data_citation= "Project Leader : Thierfelder, Christian (International Maize and Wheat Improvement Center (CIMMYT)),Researcher : Mwila, Mulundu (Zambian Agriculture Research Institute (ZARI)),Other : International Maize and Wheat Improvement Center (CIMMYT),Other : Zambian Agriculture Research Institute (ZARI)",
-    publication= "doi.org/10.1017/S1742170517000606",
+    data_citation= "International Maize and Wheat Improvement Center (CIMMYT); Zambian Agriculture Research Institute (ZARI), 2022. Conservation Agriculture Mother Trials in Chipata, Lundazi, and Sinda, Zambia, 2021. https://doi.org/10.7910/DVN/RSGLGB, Harvard Dataverse, V1, UNF:6:K3xPUQMwWJQo60b4S31eQA== [fileUNF]",
+    publication= "doi:10.1017/S1742170517000606",
     data_institutions = "CIMMYT",
     data_type="experiment",
     carob_contributor="Fredy Chimire",
@@ -46,7 +47,9 @@ carob_script <- function(path) {
   
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-  # dset$license <- "not specified" #carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   dset$license <- carobiner::get_license(js)
   
   f <- ff[basename(ff) == "AR_ZAM_CIMMYT_CAmother_onfarm_2021.csv"]
@@ -59,25 +62,25 @@ carob_script <- function(path) {
   # for first dataset
   d$dataset_id <- dataset_id
   
-  d$is_experiment <- TRUE
+  d$is_survey <- FALSE
   d$on_farm <- TRUE
   
-  
   d$yield_part <- "grain"
+
+	d$harvest_date <- as.character(d$harvest_date)
+	d$crop <- tolower(d$crop)
   
   # https://www.mindat.org/feature-905632.html
-  lattitude_mapping <- list("Chipata" = c(-14.017,32.65),
-                            "Chiapata"   = c(-14.017,32.65),
-                            "Lundazi" = c(-12.5, 32.75),
-                            "Sinda" = c(-14.187,32.012))
-                            
+	geo <- list("Chipata" = c(-14.017, 32.65),
+              "Chiapata" = c(-14.017, 32.65),
+              "Lundazi" = c(-12.5, 32.75),
+              "Sinda" = c(-14.187, 32.012))
+			  
+    geo <- t(as.data.frame(geo))
+	colnames(geo) <- c("latitude", "longitude")
   
-  d$lattitude <- unlist(lapply(d$adm2, function(loc) lattitude_mapping[[loc]][1]))
-  d$longitude <- unlist(lapply(d$adm2, function(loc) lattitude_mapping[[loc]][2]))
-  
-
-  
-  #carobiner::write_files(dset, d, path=path)
+	d <- merge(d, geo, by.x="adm2", by.y=0, all.x=TRUE)
+	
+   carobiner::write_files(dset, d, path=path)
 }
-carob_script(path)
 

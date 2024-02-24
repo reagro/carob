@@ -30,6 +30,9 @@ carob_script <- function(path){
 	ff <- carobiner::get_data(uri,path,group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
 	dset$license <- carobiner::get_license(js) 
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 	
 	# read the data
 	f <- ff[basename(ff) == "data.csv"]
@@ -122,6 +125,21 @@ carob_script <- function(path){
 	i <- s$location == "Nyamiyaga"
 	s$longitude <- 30.135
 	s$latitude <- -1.6874
+	
+	# EGB:
+	# Defining planting date based on harvest
+	s$planting_date[is.na(s$planting_date)] <- as.character(as.Date(s$harvest_date[is.na(s$planting_date)]) - 95)
+	# Removing entries (6) with NA values for agronomic measurements
+	s <- s[!is.na(s$yield),]
+	# Processing coordinates
+	# gi <- carobiner::geocode(country = "Rwanda", location = unique(s$location))
+	gi <- data.frame(
+		country = c("Rwanda", "Rwanda", "Rwanda", "Rwanda",  "Rwanda", "Rwanda", "Rwanda", "Rwanda", "Rwanda", "Rwanda", "Rwanda", "Rwanda"),
+	    location = c("Mareba", "Musambira", "Nyamiyaga", "Rukara", "Musenyi", "Nyamirama", "Kamonyi", "Nyamata", "Nyarubaka", "Rwinkwavu", "Bugesera", "Kayonza"), 
+	    longitude = c(30.0565, 29.8376, 30.135, 30.4768, 30.0209, 30.521, 29.902, 30.1226, 29.8447, 30.6234, 30.1589, 30.6582), 
+	    latitude = c(-2.2624, -2.0208, -1.6874, -1.7902, -2.1789, -1.956, -2.0279, -2.1496, -2.0831, -1.9464, -2.2329, -1.8616))
+	s <- s[,!(colnames(s) %in% c("longitude", "latitude"))]
+	s <- merge(s, gi, by = c("country", "location"))
 	
   # all scripts should end like this
 	carobiner::write_files(dset, s, path=path)

@@ -41,6 +41,9 @@ carob_script <- function(path) {
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 
 	f1 <- ff[basename(ff) == "legumes_area_and_management.csv"]
@@ -95,7 +98,7 @@ carob_script <- function(path) {
 	k[p %in% c("ssp,ureia", "ssp, ureia", "ssp,ureia,")] <- "SSP; urea"
 	d$fertilizer_type <- k
 	
-	ftab <- carobiner::get_accepted_values("fertilizer", path)[, c("name", "N", "P", "K", "S")]
+	ftab <- carobiner::get_accepted_values("fertilizer_type", path)[, c("name", "N", "P", "K", "S")]
 	ftab <- ftab[ftab$name %in% c("SSP", "urea"), ]
 	fmat <- as.matrix(ftab[,-1]) / 100
 	fr <- matrix(0, ncol=4, nrow=nrow(d))

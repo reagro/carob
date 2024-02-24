@@ -17,7 +17,7 @@ The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that c
 	dset <- data.frame(
 	   dataset_id = dataset_id,
 	   group=group,
-	   project="CIMMYT Elite Selection Wheat Yield Trial",
+	   project="Elite Selection Wheat Yield Trial",
 	   uri=uri,
 	   ## if there is a paper, include the paper's doi here
 	   ## also add a RIS file in references folder (with matching doi)
@@ -38,6 +38,9 @@ The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that c
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=0)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 ## process file(s)
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)

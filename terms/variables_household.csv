@@ -1,0 +1,2 @@
+name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes,obo
+hhid,character,,no,,no,,,no,household id,,

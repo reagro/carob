@@ -34,6 +34,9 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=5) 
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 
 	f <- ff[basename(ff) == "9a Yield data.xlsx"]
@@ -90,10 +93,10 @@ carob_script <- function(path) {
 	OM <- carobiner::read.excel(ff[basename(ff) == "1a Cattle manure lab analysis.xlsx"], skip = 5)
 	d1$OM_used <- d1$Treatment == 8
 	d1$OM_type <- ifelse(d1$Treatment == 8, "farmyard manure", NA)
-	d1$OM_applied <- ifelse(d1$Treatment == 8, 5000, 0)
-	d1$OM_N <- d1$OM_applied*(0.1796/100)*(0.755/100) # OM$K (%)
-	d1$OM_P <- d1$OM_applied*(0.1796/100)*(200.67532467532467/1e+06) # OM$P (ppm)
-	d1$OM_K <- d1$OM_applied*(0.1796/100)*(66.9072/1e+06) # OM$K (ppm)
+	d1$OM_amount <- ifelse(d1$Treatment == 8, 5000, 0)
+	d1$OM_N <- d1$OM_amount*(0.1796/100)*(0.755/100) # OM$K (%)
+	d1$OM_P <- d1$OM_amount*(0.1796/100)*(200.67532467532467/1e+06) # OM$P (ppm)
+	d1$OM_K <- d1$OM_amount*(0.1796/100)*(66.9072/1e+06) # OM$K (ppm)
 
 	# Merge with Soil data ("8a Soil lab data.xlsx")
 	soil <- carobiner::read.excel(ff[basename(ff) == "8a Soil lab data.xlsx"], skip = 12)
@@ -123,7 +126,7 @@ carob_script <- function(path) {
 	     c("Site", "pH", "N (%)", "K (ppm)", "P (ppm)", "Sand (%)", "Clay (%)"),
 	     c("site", "soil_pH", "soil_N", "soil_K", "soil_P_total", "soil_sand", "soil_clay"))
 		 	 
-	d <- d[,c("country", "adm1", "adm2", "adm3", "latitude", "longitude", "site", "planting_date", "harvest_date", "season", "on_farm", "is_survey", "crop", "variety", "variety_code", "dmy_total", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "OM_used", "OM_type", "OM_applied", "OM_N", "OM_P", "OM_K", "soil_pH", "soil_N", "soil_K", "soil_P_total", "soil_sand", "soil_clay", "irrigated", "row_spacing","plant_spacing")]
+	d <- d[,c("country", "adm1", "adm2", "adm3", "latitude", "longitude", "site", "planting_date", "harvest_date", "season", "on_farm", "is_survey", "crop", "variety", "variety_code", "dmy_total", "yield", "residue_yield", "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "OM_used", "OM_type", "OM_amount", "OM_N", "OM_P", "OM_K", "soil_pH", "soil_N", "soil_K", "soil_P_total", "soil_sand", "soil_clay", "irrigated", "row_spacing","plant_spacing")]
 
 	id <- ifelse(d$site == "Kawanda", seq(1,sum(d$site == "Kawanda")), 
 										seq(1,sum(d$site == "Namulonge")))

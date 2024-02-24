@@ -7,18 +7,10 @@
 carob_script <- function(path) {
   
   "
-	Description:
+Description:
 
-  On-farm demonstration plots were set in Zambia to demonstrate the 
-  effects of conservation agriculture (CA) technologies as compared 
-  to the traditional farmers practice (ploughing with a mouldboard plough). 
-  The CA treatments included basins (BA), ripping (RI) and direct seeding 
-  with a direct seeder (DS) and direct seeding with a jab planter (JP). 
-  Also superimposed to the treatments are rotations and intercropping of maize with 
-  a grain legume (either soyabean or cowpea) and these are compared 
-  with continuous maize planting. The study is carried out in various
-  communities of Zambia. Thus, the data set presents yields for maize 
-  and the legumes from these sites over 9 seasons (2006-2015). (2016-12-08)
+  On-farm demonstration plots were set in Zambia to demonstrate the effects of conservation agriculture (CA) technologies as compared to the traditional farmers practice (ploughing with a mouldboard plough). 
+  The CA treatments included basins (BA), ripping (RI) and direct seeding with a direct seeder (DS) and direct seeding with a jab planter (JP). Also superimposed to the treatments are rotations and intercropping of maize with a grain legume (either soyabean or cowpea) and these are compared with continuous maize planting. The study is carried out in various communities of Zambia. Thus, the data set presents yields for maize and the legumes from these sites over 9 seasons (2006-2015). (2016-12-08)
 
 "
   
@@ -32,8 +24,7 @@ carob_script <- function(path) {
 		project=NA,
 		uri=uri,
 		publication=NA,
-		data_citation="Thierfelder, Christian, 2016, Facilitating the widespread adoption of conservation agriculture 
-		in maize-based systems in Zambia, hdl:11529/10825, CIMMYT Research Data & Software Repository Network, V3",
+		data_citation="Thierfelder, Christian, 2016, Facilitating the widespread adoption of conservation agriculture in maize-based systems in Zambia, hdl:11529/10825, CIMMYT Research Data & Software Repository Network, V3",
 		data_institutions = "CIMMYT",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-08-02",
@@ -42,92 +33,78 @@ carob_script <- function(path) {
   
   ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=1)
-  dset$license <- carobiner::get_license(js)
-  
-  f <- ff[basename(ff) == "Summary Zambia On-farm Demonstration 2006-2015.xls"]
-  
-  #read the data
-  
-  r <- carobiner::read.excel(f,sheet = 1) |> as.data.frame()
-  r1 <- carobiner::read.excel(f,sheet = 2) |> as.data.frame()
-  
-  
-  ## process file(s)
-  
-  d1 <- r[,c(2,3,4,18,19,21,22,20)]
-  # name columns with standard names 
-  colnames(d1) <- c("season","adm1","site","treatment","crop","residue_yield","yield","plant_density")
-  d1$crop <- "maize"
-  d2 <- r1[,c(2,3,4,13,14,16,17,15)]
-  colnames(d2) <- c("season","adm1","site","treatment","crop","residue_yield","yield","plant_density")
-  
-  # combine d1 and d2
-  d <- rbind(d1,d2)
-  
-  # add columns
-  d$country <- "Zambia"
-  d$dataset_id <- dataset_id
-  d$trial_id <- paste0(d$dataset_id,"-",d$adm1)
-  d$planting_date  <- "2006"
-  d$harvest_date  <- "2015"
-  d$on_farm <- TRUE
-  d$is_survey <- FALSE
-  d$irrigated <- FALSE
-  #fix residue_yield and plant_density out of the bounds
-  d$residue_yield[d$residue_yield>60000] <- NA
-  d$plant_density[d$plant_density<1000] <- NA
-  # fix name treatment name
-  
-  p <- carobiner::fix_name(d$treatment)
-  p <- gsub("Direct seeder","DS",p)
-  p <- gsub("direct seeder","DS",p)
-  p <- gsub("Direct","DS",p)
-  p <- gsub("Control plot","control",p)
-  #p <- gsub("DS, soybean-maize rotation","DS, maize-soybean rotation",p)
-  #p <- gsub("DS, cowpea-maize rotation","DS, maize-cowpea rotation",p)
-  
-  d$treatment <-  p 
-  
-  # fix crop name
-  e <- carobiner::fix_name(d$crop,"lower")
-  d$crop <- e 
-  d$crop[d$crop=="cowpeas"] <-  "cowpea"
-  #add inter crop crop rotation column 
- 
-  d$intercrops  <- ifelse(d$treatment=="DS, maize/cowpea int" ,"cowpea",
-                ifelse(d$treatment=="DS, maize-cowpea rotation","soybean",
-                ifelse(d$treatment=="Ripper, maize-soybean rotation","cowpea",
-                ifelse(d$treatment=="DS, maize-soybean rotation","soybean",
-                ifelse(d$treatment=="DS, cowpea-maize rotation","soybean",
-                ifelse(d$treatment=="Ripper, soybean-maize rotation","cowpea",
-                ifelse(d$treatment=="DS, soybean-maize rotation","cowpea","no crop")))))))
-  d$crop_rotation <- ifelse(d$intercrops=="cowpea","soybean",
-                ifelse(d$intercrops=="no crop","no crop","cowpea"))
-                                   
-  
-                                                             
-  # add longitude and  latitude
-  d$latitude[d$adm1=="Monze"]  <- -16.2759563
-  d$longitude[d$adm1=="Monze"]  <- 27.4763925
-  d$latitude[d$adm1=="Kabwe"]  <- -14.4571147
-  d$longitude[d$adm1=="Kabwe"]  <- 28.3992336
-  d$latitude[d$adm1=="Chipata"]  <- -13.7478246
-  d$longitude[d$adm1=="Chipata"]  <- 32.6324569
-  d$latitude[d$adm1=="Chibombo"]  <- -14.8569383
-  d$longitude[d$adm1=="Chibombo"]  <- 27.6530228
-  d$latitude[d$adm1=="Lundazi"]  <- -12.4137188
-  d$longitude[d$adm1=="Lundazi"]  <- 33.3487457
-  d$latitude[d$adm1=="Katete"]  <- -14.060241
-  d$longitude[d$adm1=="Katete"]  <- 32.04272
-  
-    # data type 
-    d$season <- as.character(d$season)
-    d$yield <- (as.double(d$yield))
+	ff	<- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=1)
+	dset$license <- carobiner::get_license(js)
+	dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
+	
+	f <- ff[basename(ff) == "Summary Zambia On-farm Demonstration 2006-2015.xls"]
+	
+	#read the data
+	r1 <- carobiner::read.excel(f, sheet = 1, fix=TRUE)
+	colnames(r1) <- tolower(colnames(r1))
+	colnames(r1)[1:4] <- c("id", "year", "adm1", "village")
+	r1[, 5:7] <- NULL
+	colnames(r1) <- gsub(".11", "", colnames(r1))
+	r1$crop.grown <- "maize"
+
+	r2 <- carobiner::read.excel(f, sheet = 2, fix=TRUE)
+	colnames(r2) <- tolower(colnames(r2))
+	colnames(r2)[1:3] <- c("id", "year", "adm1")
+
+	r <- carobiner::bindr(r1, r2)
+	
+	d <- data.frame(
+		adm1 = r$adm1, site=r$village, treatment=r$tmnt, 
+		crop= tolower(r$crop.grown),
+		residue_yield = r$stalk.yield.kg.ha, 
+		yield = r$grain.yield.kg.ha,
+		rep = as.integer(r$site.rep),
+		plant_density = r$final.stand.pl.ha,
+		planting_date = as.character(r$year)
+	)
+	d$crop[d$crop=="cowpeas"] <- "cowpea"
+
+	d$country <- "Zambia"
+	d$dataset_id <- dataset_id
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
+	d$irrigated <- FALSE
 	d$yield_part <- "grain"
-    # all scripts must end like this
-    carobiner::write_files(dset, d, path=path)
+
+	##really??? 
+	###d$planting_date <- "2006"
+	###d$harvest_date	<- "2015"
+
+	d$trial_id <- as.character(as.integer(as.factor(paste(d$crop, d$rep))))
+	
+	p <- carobiner::fix_name(d$treatment)
+	p <- gsub("DS", "direct seeder", p)
+	p <- gsub("Control plot", "control", p)
+	p <- tolower(gsub("^Direct$", "direct seeder",p))
+	d$treatment <- p
+
+	d$intercrops <- ifelse(grepl("maize/cowpea int", p), "cowpea", "no crop")
+	
+	d$crop_rotation <- ifelse(grepl("maize-cowpea rotation", p), "maize; cowpea",
+			ifelse(grepl("maize-soybean rotation", p), "maize; soybean",
+			ifelse(grepl("soybean-maize rotation", p), "maize; soybean", "no crop")))
+													 
+	# add longitude and	latitude
+	geo <- data.frame(adm1=c("Monze","Kabwe","Chipata","Chibombo","Lundazi","Katete"),
+			longitude=c(27.4763925, 28.3992336, 32.6324569, 27.6530228, 33.3487457, 32.04272),
+			 latitude=c(-16.2759563, -14.4571147, -13.7478246, -14.8569383, -12.4137188, -14.060241)) 
+	
+	d <- merge(d, geo, by="adm1", all.x=TRUE)
+
+	# fixes residue_yield and plant_density out of the bounds
+	d$residue_yield[d$residue_yield > 100000] <- NA
+	d$plant_density[d$plant_density == 0] <- NA
+	d <- d[!is.na(d$yield), ]
+
+	carobiner::write_files(dset, d, path=path)
 }
 
 

@@ -14,7 +14,6 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
   
   "
   
-  # registering the dataset
 	uri <- "doi:10.7910/DVN/GXUNAZ"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
@@ -38,83 +37,90 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
 	dset$license <- carobiner::get_license(js)
+	dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 	
 	# reading the data.csv data
 	f <- ff[basename(ff) == "Non responsiveness of crop to fertiliser dat V2.xlsx"]
-	d <- carobiner::read.excel(f)
-	#d <- as.data.frame(d)
-	d$variety <- carobiner::fix_name(d$Var_Type,"title")
-	d$location <- carobiner::fix_name(d$Site, "title")
-	d$`Site ID` <- carobiner::fix_name(d$`Site ID`,"title")
+	r <- carobiner::read.excel(f)
+	
+	d <- data.frame(
+		variety = carobiner::fix_name(r$Var_Type,"title"),
+		location = carobiner::fix_name(r$Site, "title"),
+		crop = tolower(r$Crop_Type),
+		variety_type = tolower(r$Var_Type),
+		trial_id = r$`Field ID`,
+		rep = as.integer(r$Replications),
+		N_fertilizer = r$N,
+		P_fertilizer = r$P...9,
+		K_fertilizer = r$K,
+		soil_pH = r$pH,
+		soil_SOC = r$SOC,
+		soil_P_total = r$P...28,
+		soil_clay = r$Clay,
+		soil_type = r$SoilType,
+		rain = r$Rainfall,
+		reference = r$Dataset
+	)
+	d$SiteID = carobiner::fix_name(r$`Site ID`,"title")
 
+	# country sites based on publication and coordinates
+	cntrlocs <- rbind(
+		data.frame(country="Nigeria", 
+			location=c("Bakori", "Bunkure", "Dandume", "Doguwa", "Faskari", "Funtua", "Giwa", "Ikara", "Kauru", "Lere", "Makarfi", "Soba", "T/wada", "Tofa", "Tudun Wada", "Bauchi", "Calabar", "Ibadan", "Ikenne", "Ikole", "Ikoyi", "Ilora", "Iwo", "Kishi", "Mokwa", "Ogbomosho", "Oyo", "Pamp",  "Yola", "Sepeteri", "Samaru", "Ilorin", "Kafin-Maiyaki", "Yandev", "Dengi", "Tumu")), 
+		data.frame(country="Kenya",  
+			location = c("Kand", "Sidi", "Nai Farm", "Strong", "Cox", "Davidson", "Hulme", "Kiminini", "Leys", "Russell", "Sabwani",  "Menengai")), 
+		data.frame(country="Malawi",  
+			location = c("Kasu", "Nkha", "Thuc", "Balaka", "Bembeke", "Chitedze", "Kanyama", "Lilongwe", "Mlomba", "Mzuzu", "Manjawira", "Tsangano", "Salima")), 
+		data.frame(country="Mali",  location = c("Kolo", "Kont", "Sourou Valley")), 
+		data.frame(country="Tanzania",  location = c("Kibe", "Mbin", "Mpangala")), 
+		data.frame(country="Ghana",  location = c("Kade", "Kpong", "Nyankpala")), 
+		data.frame(country="Mozambique",  location = c("Nampula", "Sussundenga")), 
+		data.frame(country="Benin",  location=c("Niaouli", "Cana", "Warda")), 
+		data.frame(country="Togo",  location=c("Affem", "Sessaro")), 
+		data.frame(country="Côte d'Ivoire",  location=c("Bouake",  "Dabou",  "Guessihio")), 
+		data.frame(country="Ethiopia",  location=c("Aykel",  "Gewane College of Agriculture of the Afar Region",  "Tigray",  "Chilga (wujiraba)",  "Mekelle University",  "Imla")), 
+		data.frame(country="Zimbabwe",  location=c("Dendenyore",  "Hwedza")), 
+
+		data.frame(country=c("Sudan",  "Zambia",  "Cameroon"),  
+			location=c("Gezira Research Station Farm",  "Lusaka",  "Minna"))
+	)
+
+	i <- match(d$location, cntrlocs$location)
+	d$country <- cntrlocs$country[i]
+	j <- is.na(d$country)
+	d$country[j] <- r$COUNTRY[j]
+	d$country[d$country == "Cote d'Ivoire"] <- "Côte d'Ivoire"
+	
 	# swapping back coordinates that are wrongly swapped
-	d$latitude <- ""
-	d$longitude <- ""
+	d$latitude <- NA
+	d$longitude <- NA
 	swapped_coords <- 
-		c("Affem", "Balaka", "Bembeke", "Bouake", "Cana", "Chitedze", "Dabou", "Ibadan", "Gewane College of Agriculture of the Afar Region","Gezira Research Station Farm","Kanyama","Ikenne", "Ikoyi","Ilora","Kade","Kishi","Kpong","Lilongwe","Lusaka","Mlomba","Mpangala","Mzuzu","Nai Farm","Nampula", "Niaouli","Nyankpala","Ogbomosho","Oyo","Tigray","Warda","Tsangano","Tigray","Sussundenga","Strong", "Cox","Davidson","Hulme","Kiminini","Leys","Sessaro","Sourou Valley","Sepeteri","Salima","Russell","Sabwani", "Hwedza","Dendenyore","Imla")
-	d$latitude <- ifelse(d$location %in% swapped_coords, d$Lon, d$Lat)
-	d$longitude <- ifelse(d$location %in% swapped_coords, d$Lat, d$Lon)
-	
+		c("Affem",  "Balaka",  "Bembeke",  "Bouake",  "Cana",  "Chitedze",  "Dabou",  "Ibadan",  "Gewane College of Agriculture of the Afar Region", "Gezira Research Station Farm", "Kanyama", "Ikenne",  "Ikoyi", "Ilora", "Kade", "Kishi", "Kpong", "Lilongwe", "Lusaka", "Mlomba", "Mpangala", "Mzuzu", "Nai Farm", "Nampula",  "Niaouli", "Nyankpala", "Ogbomosho", "Oyo", "Tigray", "Warda", "Tsangano", "Tigray", "Sussundenga", "Strong",  "Cox", "Davidson", "Hulme", "Kiminini", "Leys", "Sessaro", "Sourou Valley", "Sepeteri", "Salima", "Russell", "Sabwani",  "Hwedza", "Dendenyore", "Imla")
+		
+	d$latitude <- ifelse(d$location %in% swapped_coords,  r$Lon,  r$Lat)
+	d$longitude <- ifelse(d$location %in% swapped_coords,  r$Lat,  r$Lon)
 
-	# converting lon lat that are in Degree-Minute-Direction format into numeric inputs
-	d$latt <- as.numeric(sapply(strsplit(sapply(strsplit(d$Lat, "N "), `[`, 1), " "),`[`,1)) + 
-		(as.numeric(sapply(strsplit(sapply(strsplit(d$Lat, "N "), `[`, 1), " "),`[`,2)))/60
-	
-	d$lonn <- as.numeric(sapply(strsplit(sapply(strsplit(d$Lat, "N "), `[`, 2), " "),`[`,1)) + 
-		(as.numeric(sapply(strsplit(sapply(strsplit(d$Lat, "N "), `[`, 2), " "),`[`,2)))/60
-	
-	# creating latitude and longitude inputs
-	condition <- d$Dataset == "Kihara_et al. 2017_Micronutrients dataset" & d$`Site ID` == "Kayode 1984"
-	d$latitude <- as.numeric(ifelse(condition,d$latt,d$latitude))
-	d$longitude <- ifelse(condition,d$lonn,d$longitude)
-	
+	i <- grep("N",  r$Lat)
+	latlon <- t(sapply(strsplit(r$Lat[i],  " "),  \(i) 
+		c(as.numeric(i[1]) + as.numeric(i[2])/60,  as.numeric(i[4]) + as.numeric(i[5])/60)))
+	d[i,  c("latitude",  "longitude")] <- latlon
+	d$latitude <- as.numeric(d$latitude)
+	d$longitude[grep(" and ",  d$longitude)] <- NA
+	d$longitude <- as.numeric(d$longitude)
+
 	d$latitude[d$location == "Calabar"] <- 	4.9795999
-	d$longitude[d$location == "Calabar"] <- 8.3373597
+	d$longitude[d$location == "Calabar"] <- 8.3373597	
 	d$longitude[d$location == "Affem"] <- 1.5
 	d$latitude[d$location == "Affem"] <- 9.15
-	d$longitude[d$`NPK+S+Ca+Mg+Zn+B` == 4214.1] <- 3.867
+	d$longitude[d$location == "Ojeniyi and Kayode"] <- 3.867
 	d$latitude[d$location == "Manjawira"] <- -14.9994263
 	d$longitude[d$location == "Manjawira"] <- 34.8533877
 	d$longitude[d$location == "Sessaro"] <- 1.16700
 	d$latitude[d$location == "Sessaro"] <- 8.6329999999999991
 	d$longitude[d$location == "Samaru"] <- 11.183
 	d$latitude[d$location == "Samaru"] <- 7.63300
-
-	d$country <- carobiner::fix_name(d$COUNTRY,"title")
-	
-	# country sites based on publication and coordinates
-	NGA <- c("Bakori","Bunkure","Dandume","Doguwa","Faskari","Funtua","Giwa","Ikara","Kauru","Lere","Makarfi","Soba","T/wada","Tofa","Tudun Wada","Bauchi","Calabar","Ibadan","Ikenne","Ikole","Ikoyi","Ilora","Iwo","Kishi","Mokwa","Ogbomosho","Oyo","Pamp" ,	"Yola","Sepeteri","Samaru") # nigeria 
-	ZMB <- c("Lusaka") # Zambia
-	CMR <- c("Minna") # Cameroon
-	MOZ <- c("Nampula","Sussundenga") #"Mozambique"
-	BEN <- c("Niaouli","Cana","Warda") # "Benin"
-	KEN <- c("Kand", "Sidi","Nai Farm","Strong","Cox","Davidson","Hulme","Kiminini","Leys","Russell","Sabwani") # "Kenya"
-	MWI <- c("Kasu","Nkha", "Thuc","Balaka","Bembeke","Chitedze","Kanyama","Lilongwe","Mlomba","Mzuzu","Manjawira","Tsangano","Salima") #"Malawi"
-	MLI <- c("Kolo","Kont","Sourou Valley") #"Mali"
-	TZA <- c("Kibe","Mbin","Mpangala") # "Tanzania"
-	TGO <- c("Affem","Sessaro") # "Togo"
-	CIV <- c("Bouake","Dabou") # "Cote d'Ivoire"
-	GHA <- c("Kade","Kpong","Nyankpala") # "Ghana"
-	TUN <- c("Imla") #"Tunisia"
-	ETH <- c("Gewane College of Agriculture of the Afar Region","Tigray")# Ethiopia
-	SDN <- "Gezira Research Station Farm" # sudan
-
-	# filling in countries that are empty
-	d$country <- ifelse(d$location %in%  NGA, "Nigeria",
-				ifelse(d$location %in% ZMB, "Zambia",
-				ifelse(d$location %in% CMR, "Cameroon",
-				ifelse(d$location %in% MOZ, "Mozambique",
-				ifelse(d$location %in% BEN, "Benin",
-				ifelse(d$location %in% KEN, "Kenya",
-				ifelse(d$location %in% MWI, "Malawi",
-				ifelse(d$location %in% TZA, "Tanzania",
-				ifelse(d$location %in% TGO, "Togo",
-				ifelse(d$location %in% CIV, "Cote d'Ivoire",
-				ifelse(d$location %in% GHA, "Ghana",
-				ifelse(d$location %in% TUN, "Tunisia",
-				ifelse(d$location %in% MLI, "Mali",
-				ifelse(d$location %in% ETH, "Ethiopia",
-				ifelse(d$location %in% SDN, "Sudan",d$country)))))))))))))))
 	# fixing NA coordinates
 	d$latitude[d$location == "Dengi"] <- 9.3674857
 	d$longitude[d$location == "Dengi"] <- 9.9627315
@@ -128,82 +134,50 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 	d$longitude[d$location == "Tumu"] <- 11.1076295
 	d$latitude[d$location == "Yandev"] <- 7.36308
 	d$longitude[d$location == "Yandev"] <- 9.04235
-	d$latitude[d$`Site ID` == "Rhodes and Kpaka, 1982"] <- 8.64003498
-	d$longitude[d$`Site ID` == "Rhodes and Kpaka, 1982"] <- -11.8400269
+	d$latitude[d$SiteID == "Rhodes and Kpaka,  1982"] <- 8.64003498
+	d$longitude[d$SiteID == "Rhodes and Kpaka,  1982"] <- -11.8400269
 	d$latitude[d$Dataset == "Kihara_Wkenya"] <- 0.4994716
 	d$longitude[d$Dataset == "Kihara_Wkenya"] <- 34.5698326 # western Kenya
 	d$latitude[d$location == "Guessihio"] <- 6.1090571
 	d$longitude[d$location == "Guessihio"] <- -6.0018931
-	d$latitude <- ifelse(d$location == "Sidi" & is.na(d$latitude),-0.17265,
-					ifelse(d$location == "Kand" & is.na(d$latitude),-0.9227613,
-					ifelse(d$location == "Thuc" & is.na(d$latitude),-15.90298,d$latitude)))
+	d$latitude <- ifelse(d$location == "Sidi" & is.na(d$latitude), -0.17265, 
+					ifelse(d$location == "Kand" & is.na(d$latitude), -0.9227613, 
+					ifelse(d$location == "Thuc" & is.na(d$latitude), -15.90298,  d$latitude)))
 	
-	d$longitude <- ifelse(d$location == "Sidi" & is.na(d$longitude),34.44384,
-					ifelse(d$location == "Kand" & is.na(d$longitude),37.0055,
-					ifelse(d$location == "Thuc" & is.na(d$longitude),35.29974,d$longitude)))
+	d$longitude <- ifelse(d$location == "Sidi" & is.na(d$longitude),  34.44384, 
+					ifelse(d$location == "Kand" & is.na(d$longitude),  37.0055, 
+					ifelse(d$location == "Thuc" & is.na(d$longitude),  35.29974,  d$longitude)))
 	
 	i <- which(d$country == "Nigeria" & d$location == "Mokwa")
 	d$longitude[i] <- 5.0548
 	d$latitude[i] <- 9.2979
-	
-#	i <- which(d$country=="Malawi" & d$latitude > 0)
-#	d$latitude[i] <- -d$latitude[i]
 
-	d <- unique(d) # dropping duplicate entries
-	
-	# no. of rows per dataset 
-	row_khra <- nrow(d[d$Dataset == "Kihara_et al. 2017_Micronutrients dataset",])
-	row_tmsa <- nrow(d[d$Dataset == "TAMASA",])
-	# ensuring trial_id is unique per row
-	d$trial_id <- 
-		ifelse(d$Dataset == "AfSIS_DT", 
-			paste(d$Dataset, d$`Site ID`, d$location, d$variety, sep = "_"),
-		ifelse(d$Dataset == "Generose_Nigeria", 
-			paste(d$Dataset, d$`Site ID`, d$location, d$`Field ID`, d$variety, sep = "_"),
-		ifelse(d$Dataset == "Generose_Togo",
-			paste(d$Dataset, d$`Site ID`, d$location, d$variety, sep = "_"),
-		ifelse(d$Dataset == "Kihara_et al. 2017_Micronutrients dataset",
-			paste0(d$Dataset,"_",d$location,"(",seq(1,row_khra,by = 1),")","_", d$variety),
-		ifelse(d$Dataset == "Kihara_Wkenya",
-			paste(d$Dataset, d$`Site ID`, d$location, d$variety, sep = "_"),
-		ifelse(d$Dataset == "TAMASA",
-			paste0(d$Dataset,"_", d$`Field ID`,"(",seq(1,row_tmsa,by = 1),")","_", d$location,"_", d$variety),
-				d$ID_Micro))))))
-					
-	d$longitude <- as.numeric(d$longitude)
-	d$rep <- as.integer(d$Replications)
-	d$crop <- carobiner::fix_name(d$Crop_Type,"lower")
-	d$N_fertilizer <- d$N
-	d$P_fertilizer <- d$P...9
-	d$K_fertilizer <- d$K
-	d$soil_pH <- d$pH
-	d$soil_SOC <- d$SOC
-	d$soil_P_total <- d$P...28
-	d$soil_clay <- d$Clay
-	d$soil_type <- d$SoilType
-	d$rain <- d$Rainfall
-	d$dataset_id <- dataset_id
-	# selecting variables of interest
-	d <- d[,c("dataset_id","trial_id","country","location","latitude","longitude","crop","variety","rep","NK","NP","NPK","NPK+S+Ca+Mg+Zn+B","PK","NPK+Lime","NPK+Manure","N_fertilizer","P_fertilizer","K_fertilizer",
-				"soil_pH","soil_SOC","soil_P_total","soil_clay","soil_type","rain")]
-	
+	d$longitude[d$location == "Ibadan" & d$longitude == 34.960000] <- 3.867000
+
+	d <- cbind(d,  r[,  c("Abs_Control",  "NK", "NP", "NPK", "NPK+S+Ca+Mg+Zn+B", "PK", "NPK+Lime", "NPK+Manure")])
+	d$id <- 1:nrow(d)
 	# converting dataset from wide to long
-	d <- reshape(d, direction = "long",
-			varying = c("NK","NP","NPK","NPK+S+Ca+Mg+Zn+B","PK","NPK+Lime","NPK+Manure"),
-			v.names = "yield",
-			times = c("NK","NP","NPK","NPK+S+Ca+Mg+Zn+B","PK","NPK+Lime","NPK+Manure"),
-			idvar = "trial_id")
+	d <- reshape(d,  direction = "long", 
+			varying = c("Abs_Control",  "NK", "NP", "NPK", "NPK+S+Ca+Mg+Zn+B", "PK", "NPK+Lime", "NPK+Manure"), 
+			v.names = "yield", 
+			times = c("Abs_Control",  "NK", "NP", "NPK", "NPK+S+Ca+Mg+Zn+B", "PK", "NPK+Lime", "NPK+Manure"), 
+			idvar = "id")
 	# dropping row names indices
 	rownames(d) <- NULL
+	colnames(d)[colnames(d) == "time"] <- "treatment"
+	d$id <- NULL
 	
+	i <- d$treatment == "Abs_Control"
+	d$N_fertilizer[i] <- 0
+	d$P_fertilizer[i] <- 0
+	d$K_fertilizer[i] <- 0
+		
 	# drop yield with NAs
-	d <- d[!is.na(d$yield),]
-	names(d)[19] <- "treatment"
+	d <- d[!is.na(d$yield), ]
 		
 	d$lime <- 0	
 	# this number (500) needs to be checked!
-	d$lime[d$treatment == "NPK+Lime"] <- -500
-	
+	d$lime[d$treatment == "NPK+Lime"] <- NA
 	d$OM_used <- FALSE
 	d$OM_used[d$treatment == "NPK+Manure"] <- TRUE
 	
@@ -212,26 +186,25 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 	d$Mg_fertilizer <- 0
 	d$Zn_fertilizer <- 0
 	d$B_fertilizer <- 0
-
-	# these numbers needs to be checked!
 	i <- d$treatment == "NPK+S+Ca+Mg+Zn+B"
-	d$S_fertilizer[i] <- -10
-	d$Ca_fertilizer[i] <- -10
-	d$Mg_fertilizer[i] <- -10
-	d$Zn_fertilizer[i] <- -10
-	d$B_fertilizer[i] <- -10
+	d$S_fertilizer[i] <- NA
+	d$Ca_fertilizer[i] <- NA
+	d$Mg_fertilizer[i] <- NA
+	d$Zn_fertilizer[i] <- NA
+	d$B_fertilizer[i] <- NA
 	
-	d$country[d$country == "Cote d'Ivoire"] <- "Côte d'Ivoire"
+	d <- d[!is.na(d$N_fertilizer),  ]
+	
+	d$dataset_id <- dataset_id
+	d$planting_date <- as.character(NA)
 	d$on_farm <- TRUE
-	d$country[d$location == "Imla"] <- "Ethiopia"
-	
-	#rearranging
-	d <- d[,c("dataset_id","trial_id","country","location","latitude","longitude","crop","variety","treatment","rep","N_fertilizer","P_fertilizer","K_fertilizer", "S_fertilizer","Ca_fertilizer", "Mg_fertilizer","Zn_fertilizer", "B_fertilizer", "lime", "OM_used", "soil_pH","soil_SOC","soil_P_total","soil_clay","soil_type","rain","yield","on_farm")] 
-	
 	d$yield_part <- "grain"
-	d$yield_part[d$crop %in% c("cowpea", "faba bean", "soybean")] <- "seed"
+	d$yield_part[d$crop %in% c("cowpea",  "faba bean",  "soybean")] <- "seed"
+	d$SiteID <- NULL
 	
-	# all scripts must end like this
+	# removing records without coordinates from Kihara_Wkenya
+	d <- d[!is.na(d$latitude), ]
+	
 	carobiner::write_files(dset, d, path=path)
 }
 

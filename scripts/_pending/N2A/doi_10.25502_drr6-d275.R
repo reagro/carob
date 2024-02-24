@@ -47,6 +47,9 @@ carob_script <- function(path) {
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 
 	f1 <- ff[basename(ff) == "legumes_area_and_management.csv"]
@@ -132,7 +135,7 @@ carob_script <- function(path) {
 ## if that is not correct, what would the proportions be? (and the function would need to be able 
 ## to address that.
 
-	ftab <- carobiner::get_accepted_values("fertilizer", path)
+	ftab <- carobiner::get_accepted_values("fertilizer_type", path)
 ## NPK is undefined (there are many different mixtures) so you need to add that here.
 ## E.g. 
 	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(20, 20, 20, 0)	

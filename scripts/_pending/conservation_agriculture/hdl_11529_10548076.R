@@ -28,7 +28,7 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="on-farm experiment",
-    carob_contributor="Fredy chimire",
+    carob_contributor="Fredy Chimire",
     carob_date="2023-11-22"
   )
   
@@ -39,6 +39,9 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
 
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
   dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   
   get_raw_data <- function(f) {
     r1 <- carobiner::read.excel.hdr(f, sheet ="4- Stand counts & Phenology", skip=4, hdr=2)

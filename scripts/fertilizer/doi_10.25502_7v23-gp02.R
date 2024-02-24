@@ -44,6 +44,9 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id,path,group,major=1,minor = 0)
 	dset$license <- carobiner::get_license (js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
  
 	#read the data file
 	f1 <- ff[basename(ff) == "general.csv"]
@@ -184,7 +187,7 @@ carob_script <- function(path) {
 	d$OM_used <- NA
 	d$OM_used[grepl('\\+', d$treatment)] <- TRUE
 	d$OM_type <- ifelse(d$OM_used == TRUE, "farmyard manure", NA)
-	d$OM_applied <- ifelse(d$OM_used == TRUE,
+	d$OM_amount <- ifelse(d$OM_used == TRUE,
 	((as.numeric(d$manure_kg_plot) / plot_size) * 10000),
 	NA)
 	# Yield
@@ -215,7 +218,7 @@ carob_script <- function(path) {
 	# Subset final
 	d <- d[,c('trial_id','treatment','country','adm1','adm2','longitude','latitude',
 				'date','on_farm','is_survey','crop','variety',
-				'fertilizer_type','N_fertilizer','P_fertilizer','K_fertilizer','OM_used','OM_type','OM_applied', 'planting_date',
+				'fertilizer_type','N_fertilizer','P_fertilizer','K_fertilizer','OM_used','OM_type','OM_amount', 'planting_date',
 				'yield', 'yield_part', 'residue_yield', 'dmy_total',
 				'irrigated', 'row_spacing', 'plant_spacing', 'plant_density')]
 	d$dataset_id <- dataset_id

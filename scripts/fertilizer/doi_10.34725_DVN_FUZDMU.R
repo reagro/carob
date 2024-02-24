@@ -36,6 +36,9 @@ Agricultural Water Management 98: 1364-1372
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, major=4, minor=0, group)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "Ibadan data.xls"]
 	d <- carobiner::read.excel(f)

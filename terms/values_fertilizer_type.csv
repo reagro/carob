@@ -1,31 +1,31 @@
-name,description,formula,N,P,K,S,obo
-basic slag,Basic slag,,NA,NA,NA,NA,
-CAN,Calcium ammonium nitrate,CA-NH4NO3,26,0,0,0,
-C-compound,C-compound,,7,9.156,5.785,6,
-AN,Ammonium nitrate,NH4NO3,34,0,0,0,http://purl.obolibrary.org/obo/CHEBI_63038
-DAP,Diammonium phosphate,(NH4)2HPO4,18,20.1,0,0,http://purl.obolibrary.org/obo/CHEBI_63051
-DAS,Ammonium sulfate,(NH4)2SO4,21,0,0,24,http://purl.obolibrary.org/obo/CHEBI_62946
-D-compound,D-compound,,10,20,10,9,
-ERP,Ethiopian rock phosphate,,0,NA,0,0,
-GRP,Gafsa rock phosphate,,0,NA,0,0,
-gypsum,Gypsum,CaSO4?2H2O,0,0,0,19,http://purl.obolibrary.org/obo/CHEBI_48838
-KCl,Potassium chloride; Muriate of potash (MOP),KCl,0,0,49.8,0,http://purl.obolibrary.org/obo/CHEBI_32588
-KNO,Potassium nitrate,KNO3,13,0,44,0,http://purl.obolibrary.org/obo/CHEBI_63043
-lime,Limestone,CaCO3,0,0,0,0,http://purl.obolibrary.org/obo/ENVO_00002053
-none,,,0,0,0,0,
-NPK,"N, P, K blend",,NA,NA,NA,0,http://purl.obolibrary.org/obo/AGRO_00002046
-NPKS,"N, P, K, S blend",,8,21,7,4,http://purl.obolibrary.org/obo/AGRO_00002046
-NPS,"N, P, S blend",,23,21,0,4,
-PKS,"P, K, S blend",,0,NA,NA,NA,
-SOP,Potassium sulfate,K2SO4,0,0,41.5,18,http://purl.obolibrary.org/obo/CHEBI_32036
-SSP,Superphosphate,(single),0,8.74,0,0,http://purl.obolibrary.org/obo/AGRO_00002064
-sympal,Sympal,,0,23,15,4,
-TSP,Triple superphosphate,,0,19.23,0,0,http://purl.obolibrary.org/obo/AGRO_00002065
-unknown,,,NA,NA,NA,NA,
-urea,Urea,,46,0,0,0,http://purl.obolibrary.org/obo/CHEBI_16199
-ZnSO4,Zinc sulfate,ZnSO4,0,0,0,15,http://purl.obolibrary.org/obo/CHEBI_35176
-S-compound,S-compound,,8,21,7,4,
-MgSO4,Magnesium sulfate,MgSO4,0,0,0,0,
-H3BO3,Boric acid,H3BO3,0,0,0,0,
-CaCO3,Calcium carbonate,CaCO3,0,0,0,0,http://purl.obolibrary.org/obo/CHEBI_3311
-Borax,Disodium tetraborate,Na2B4O7,0,0,0,0,http://purl.obolibrary.org/obo/CHEBI_38892
+name,description,formula,N,P,K,S,B,Mg,Zn,Ca,obo
+basic slag,Basic slag,,NA,NA,NA,NA,NA,NA,NA,NA,
+CAN,Calcium ammonium nitrate,CA-NH4NO3,26,0,0,0,0,0,0,0,
+C-compound,C-compound,,7,9.156,5.785,6,0,0,0,0,
+AN,Ammonium nitrate,NH4NO3,34,0,0,0,0,0,0,0,CHEBI_63038
+DAP,Diammonium phosphate,(NH4)2HPO4,18,20.1,0,0,0,0,0,0,CHEBI_63051
+DAS,Ammonium sulfate,(NH4)2SO4,21,0,0,24,0,0,0,0,CHEBI_62946
+D-compound,D-compound,,10,20,10,9,0,0,0,0,
+ERP,Ethiopian rock phosphate,,0,NA,0,0,0,0,0,0,
+GRP,Gafsa rock phosphate,,0,NA,0,0,0,0,0,0,
+gypsum,Gypsum,CaSO4?2H2O,0,0,0,19,0,0,0,0,CHEBI_48838
+KCl,Potassium chloride; Muriate of potash (MOP),KCl,0,0,49.8,0,0,0,0,0,CHEBI_32588
+KNO,Potassium nitrate,KNO3,13,0,44,0,0,0,0,0,CHEBI_63043
+lime,Limestone,CaCO3,0,0,0,0,0,0,0,0,ENVO_00002053
+none,,,0,0,0,0,0,0,0,0,
+NPK,"N, P, K blend",,NA,NA,NA,0,0,0,0,0,AGRO_00002046
+NPKS,"N, P, K, S blend",,8,21,7,4,0,0,0,0,
+NPS,"N, P, S blend",,23,21,0,4,0,0,0,0,
+PKS,"P, K, S blend",,0,NA,NA,NA,0,0,0,0,
+SOP,Potassium sulfate,K2SO4,0,0,41.5,18,0,0,0,0,CHEBI_32036
+SSP,Superphosphate,(single),0,8.74,0,0,0,0,0,0,AGRO_00002064
+sympal,Sympal,,0,23,15,4,0,0,0,0,
+TSP,Triple superphosphate,,0,19.23,0,0,0,0,0,0,AGRO_00002065
+unknown,,,NA,NA,NA,NA,NA,NA,NA,NA,
+urea,Urea,,46,0,0,0,0,0,0,0,CHEBI_16199
+ZnSO4,Zinc sulfate,ZnSO4,0,0,0,15,0,0,0.365,0,CHEBI_35176
+S-compound,S-compound,,8,21,7,4,0,0,0,0,
+MgSO4,Magnesium sulfate,MgSO4,0,0,0,13.19,0,20.19,0,0,
+H3BO3,Boric acid,H3BO3,0,0,0,0,17.48,0,0,0,
+CaCO3,Calcium carbonate,CaCO3,0,0,0,0,0,0,0,0.4,CHEBI_3311
+Borax,Disodium tetraborate,Na2B4O7,0,0,0,0,11.3,0,0,0,CHEBI_38892

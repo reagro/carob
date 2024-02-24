@@ -1,7 +1,6 @@
 # R script for "carob"
 
 ## ISSUES
-###reference file missing: doi_10.7910_DVN_LTS278
 
 carob_script <- function(path) {
 
@@ -32,6 +31,9 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 	## read the json for version, license, terms of use  
 	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
 	dset$license <- carobiner::get_license(js)[[1]]
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "AGP II 2017.18 RAW DATA.xlsx"] 
 	d <- carobiner::read.excel(f)

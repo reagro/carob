@@ -120,7 +120,7 @@ N2A_monitoring_2 <- function(ff, path) {
 
 ## it is not clear what the quantities refer to if there are multiple products 
 ## that much of each?	
-	ftab <- carobiner::get_accepted_values("fertilizer", path)
+	ftab <- carobiner::get_accepted_values("fertilizer_type", path)
 ## NPK is undefined need to check of 20-20-20 is a good guess
 	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(20, 20, 20, 0)	
 	get_elements <- carobiner::get_function("get_elements_from_product", path, group)
@@ -128,7 +128,7 @@ N2A_monitoring_2 <- function(ff, path) {
 	
 	dd <- cbind(dd, elements)
   
-	dd$OM_applied <- as.numeric(dd$organic_fert_amount)
+	dd$OM_amount <- as.numeric(dd$organic_fert_amount)
 	dd$OM_used <- dd$organic_fert_amount > 0
 	dd$OM_type <- carobiner::fix_name(dd$organic_fert_type, "tolower")
 	dd$OM_type[!dd$OM_used] <- "none"
@@ -152,7 +152,7 @@ N2A_monitoring_2 <- function(ff, path) {
 	dd$rep <- dd$plot_no
  	
 ## to do: also deal with crop_2/variety_2 
-	dd <- dd[, c("id", "farm_id", "rep", "crop", "variety", "inoculated", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "yield", "OM_used", "OM_type", "OM_applied")]
+	dd <- dd[, c("id", "farm_id", "rep", "crop", "variety", "inoculated", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "yield", "OM_used", "OM_type", "OM_amount")]
 	
 	#get the dates information
 	if (!is.null(r4$date_planting_yyyy)) {

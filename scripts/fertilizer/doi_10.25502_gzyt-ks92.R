@@ -33,6 +33,9 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   
   
   f <- ff[basename(ff) == "general.csv"] 
@@ -74,7 +77,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   
   oldnms <- c("farm_id", "grain_weight_kg_shelled_grain_crop_1_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_X.kg","date_of_planting_X","date_of_final_harvest_X","type_of_fertilizer_used_n2africa_plot")  
   
-  newnms <- c("trial_id", "yield1", "yield2","planting_date","harvest_date","fertilizer_type")
+  newnms <- c("trial_id", "yield1", "yield2","pdate","hdate","fertilizer_type")
   
   lst <- list()
   i <- c(1,3)  
@@ -99,7 +102,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   # merge d and d2
   d <- merge(d,d2,bx="trial_id", all.y = T)
   
-  d <- d[, c("country", "trial_id", "location", "longitude", "latitude", "planting_date","harvest_date"
+  d <- d[, c("country", "trial_id", "location", "longitude", "latitude", "pdate","hdate"
              , "crop", "yield","fertilizer_type")]
   # Add columns
   d$dataset_id <- dataset_id
@@ -116,6 +119,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   # Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare;
   # DAP content: 18% of N  and 46% P205 
   #Urea was applied at a rate of 60 kg N/ha in Kenya and Rwanda trials and we assume it was the same in others Trials
+  # EGB: Assuming that 
   d$N_fertilizer <- 0
   d$P_fertilizer <- 0
   d$K_fertilizer <- 0
@@ -140,11 +144,11 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$yield[d$crop=="common bean" & d$k>9000] <- NA
   d <- subset(d,select = -k)
   
-  d$planting_date <- as.character(as.Date(d$planting_date,format='%d/%m/%Y'))
-  d$planting_date <- gsub("1999", "2015", d$planting_date)
+  d$pdate <- as.character(as.Date(d$pdate, format='%d/%m/%Y'))
+  d$pdate <- gsub("1999", "2015", d$pdate)
 
-  d$harvest_date <- as.character(as.Date(d$harvest_date,format='%d/%m/%Y'))
-  d$harvest_date <- gsub("1999", "2015", d$harvest_date)
+  d$hdate <- as.character(as.Date(d$hdate, format='%d/%m/%Y'))
+  d$hdate <- gsub("1999", "2015", d$hdate)
  
   # fix whitespace in variable: location, harvest_date
   d$location[d$location==""] <- NA
@@ -153,6 +157,22 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$yield_part <- "seed"
   d$yield_part[grepl("groundnut",d$crop)] <- "pod"
   
+  # EGB:
+  # Trying to capture and fix most of the planting date missing values.
+  # I am assuming that the same trial_id were planting on the same date.
+  ds <- d[, c("trial_id", "pdate", "hdate")]
+  pdates <- ds[complete.cases(ds[,c("trial_id", "pdate")]), c("trial_id", "pdate")]
+  hdates <- ds[complete.cases(ds[,c("trial_id", "hdate")]), c("trial_id", "hdate")]
+  tdates <- merge(pdates, hdates, by = "trial_id", all = TRUE)
+  tdates <- unique(tdates)
+  del <- merge(d, tdates, by = "trial_id", all.x = TRUE)
+  dd <- del[,c("dataset_id","trial_id","on_farm","is_survey",
+              "country","location","longitude","latitude",
+              "crop","pdate.y","hdate.y","yield","fertilizer_type",
+              "N_fertilizer","P_fertilizer","K_fertilizer","yield_part","irrigated")]
+  dd <- carobiner::change_names(dd, c("pdate.y","hdate.y"), c("planting_date", "harvest_date"))
+
+  
   # all scripts must end like this
-  carobiner::write_files(dset, d, path=path)
+  carobiner::write_files(dset, dd, path=path)
 }

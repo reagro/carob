@@ -33,6 +33,9 @@ carob_script <- function(path) {
    ff <- carobiner::get_data(uri, path, group)
    js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
    dset$license <- "CIMMYT-Licence"#carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
    
    bn <- basename(ff)
    
@@ -46,7 +49,7 @@ carob_script <- function(path) {
    ### process Aman_weed_data file()
    
    dd <- r[,c("Season","Replication","Treatments","SITE","TWbS")]
-   colnames(dd) <- c("season","rep","Treatment","site","weeds_biomass")
+   colnames(dd) <- c("season","rep","Treatment","site","weed_biomass")
    
    treat <- data.frame( treatment=c("Farmers practices + pretilochlor fb two HW","pendimethalim fb HW","Mefenacet + bensulfuron fb HW","Mefenacet + bensulfuron fb MW","Bispyribac-sodium fb HW","penoxsulan fb HW","Mefenacet+bensulfuron fb bispyribac-sodium fb HW",
              "Mefenacet + ben sulfuron fb penoxulam fb HW","MW fb HW","Weed-free by frequent HW"), 
@@ -65,7 +68,7 @@ carob_script <- function(path) {
    d1$planting_date <- "2016-07-15"
    ### process Boro_weed_data file()
    dd2 <- r2[,c("Season","Replication","Treatment","Site","TWbS")]
-   colnames(dd2) <- c("season","rep","Treatment","site","weeds_biomass")
+   colnames(dd2) <- c("season","rep","Treatment","site","weed_biomass")
    
    
    dd2 <- merge(dd2,treat,by="Treatment")
@@ -84,7 +87,7 @@ carob_script <- function(path) {
    d <- rbind(d1,d2)
    
    d$yield <- d$yield*1000  ## kg/ha
-   d$weeds_biomass <- d$weeds_biomass*10 # kg/ha 
+   d$weed_biomass <- d$weed_biomass*10 # kg/ha 
    # add columns
    d$country <- "Bangladesh"
    d$crop <- "rice" 

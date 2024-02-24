@@ -1,45 +1,54 @@
 
 # this is already included in doi_10.7910_DVN_UNLRGC
 
-# "
-	# Description:
-   # The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel 
-   # sites across sub-Saharan Africa using the Land Degradation
-   # Surveillance framework and included also multi-location diagnostic
-   # trials in selected sentinel sites to determine nutrient limitations
-   # and response to improved soil management practices (soil amendments)
-# "
+ "
+	 Description:
+    The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel 
+    sites across sub-Saharan Africa using the Land Degradation
+    Surveillance framework and included also multi-location diagnostic
+    trials in selected sentinel sites to determine nutrient limitations
+    and response to improved soil management practices (soil amendments)
+ "
 
 carob_script <- function(path) {
-	TRUE
+
+	uri <- "doi:10.25502/20180814/1504/HJ"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "fertilizer"
+## dataset level data 
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		uri=uri,
+		publication=NA,
+		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Sidindi SR [Data set]. International Institute of Tropical Agriculture  (IITA). doi:10.25502/20180814/1504/HJ",
+		carob_contributor="Cedric Ngakou",
+		carob_date="2023-02-20",
+		data_type="experiment"
+	)
+
+	d <- data.frame(dataset_id = character(0), rep = integer(0), season = character(0), 
+    country = character(0), site = character(0), treatment = character(0), 
+    longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
+    harvest_date = character(0), trial_id = character(0), crop = character(0), 
+    yield = numeric(0), residue_yield = numeric(0), grain_weight = numeric(0), 
+    previous_crop = character(0), OM_type = character(0), N_fertilizer = numeric(0), 
+    K_fertilizer = numeric(0), P_fertilizer = numeric(0), Zn_fertilizer = numeric(0), 
+    S_fertilizer = numeric(0), yield_part = character(0))
+ 
+ 
+	carobiner::write_files(dset, d, path=path)
 }
 
-# carob_script <- function(path) {
-
-# uri <- "doi:10.25502/20180814/1504/HJ"
-# dataset_id <- carobiner::simple_uri(uri)
-# group <- "fertilizer"
-### dataset level data 
-# dset <- data.frame(
-  # dataset_id = dataset_id,
-  # group=group,
-  # uri=uri,
-  # publication=NA,
-  # data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Sidindi SR [Data set]. International Institute of Tropical Agriculture 
-  # (IITA). doi:10.25502/20180814/1504/HJ",
-  # carob_contributor="Cedric Ngakou",
-  # carob_date="2023-02-20",
-  # data_type="experiment",
-
-  # has_weather=FALSE
-  #  
-# )
 
 ### download and read data 
 
 # ff <- carobiner::get_data(uri, path, group)
 # js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 # dset$license <- carobiner::get_license(js)
+# dset$title <- carobiner::get_title(js)
+#	dset$authors <- carobiner::get_authors(js)
+#	dset$description <- carobiner::get_description(js)
 
 
 # f1 <- ff[basename(ff) == "Sidindi_SR2010_Field.csv"] ## get Field dataset

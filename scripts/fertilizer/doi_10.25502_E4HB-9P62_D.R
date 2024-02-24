@@ -37,6 +37,9 @@ carob_script <- function(path) {
 	ff	 <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 	
 	# reading the data.csv data
 	f <- ff[basename(ff) == "data.csv"]
@@ -91,15 +94,15 @@ carob_script <- function(path) {
 	# Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
 	# and Urea split (50-50) applied at a rate of 60 kg N/ha
 	
-	d$P_fertilizer <- 0 
+	d$P_fertilizer <- 0
 	i <- d$fertilizer_type %in% c("DAP", "TSP", "TSP/KCl", "TSP/KCl/urea")
 	d$P_fertilizer[i] <- 30 
 	
-	d$K_fertilizer <- 0 
+	d$K_fertilizer <- 0
 	i <- grep("KCl", d$fertilizer_type) 
 	d$K_fertilizer[i] <- 30 
 	
-	d$N_fertilizer <- 0 
+	d$N_fertilizer <- 0
 	i <- grep("urea", d$fertilizer_type) 
 	d$N_fertilizer[i] <- 60 
 	
@@ -193,7 +196,7 @@ carob_script <- function(path) {
 	w <- w[,c("dataset_id","trial_id","country","adm2","location","latitude", "longitude","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","grain_weight","dmy_total","residue_yield","yield","fertilizer_type", "N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH","soil_sand","soil_clay","soil_silt","soil_N", "soil_K","soil_SOC", "on_farm")]
 
 	w$yield_part <- "seed"
-  w$N_fertilizer[is.na(w$N_fertilizer)] <- 0
+	w$N_fertilizer[is.na(w$N_fertilizer)] <- 0
   
 	w$soil_pH[w$soil_pH < 3] <- NA
 	w$soil_N[w$soil_N < 1] <- NA

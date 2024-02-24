@@ -36,6 +36,9 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "Donnees_meta-analyse_2020.txt"]
 
@@ -174,9 +177,9 @@ carob_script <- function(path) {
    d$soil_SOC <- as.numeric(gsub(",", ".", ifelse(rr$Initial_soil_C == "?", NA, rr$Initial_soil_C)))/10 # g/kg -> %
    
 ##### Tillage #####   
-  d$tillage <- trimws(tolower(ifelse(rr$tillage == "CT", rr$CT_type, rr$CA_type1)))
-  d$tillage <- gsub("permanent_beds", "permanent beds", d$tillage)
-  d$tillage <- gsub("no-tillage", "no tillage", d$tillage)
+  tillage <- trimws(tolower(ifelse(rr$tillage == "CT", rr$CT_type, rr$CA_type1)))
+  tillage <- gsub("permanent_beds", "permanent beds", tillage)
+  d$land_prep_method <- gsub("no-tillage", "no tillage", tillage)
 # all scripts must end like this
 
 	d <- d[!is.na(d$yield), ] 

@@ -31,6 +31,9 @@ carob_script <- function(path) {
    ff <- carobiner::get_data(uri, path, group)
    js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
    dset$license <- "Open License" # carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
    
    bn <- basename(ff)
    
@@ -39,7 +42,7 @@ carob_script <- function(path) {
    r <- readxl::read_excel(ff[bn=="2006-2010_database_bvlac_bruelle_v01.20201009.xlsx"],sheet=1) |> as.data.frame()
    
    d <- r[,c("id_field","village","crop_season","soil","tillage_system","sow_date","manure","nitrogen","yield","rain_year")]
-        colnames(d) <- c("trial_id","location","season","soil_type","tillage","planting_date","OM_applied","N_fertilizer","yield","rain")
+        colnames(d) <- c("trial_id","location","season","soil_type","tillage","planting_date","OM_amount","N_fertilizer","yield","rain")
    
    ## add columns
    d$country <- "Madagascar"

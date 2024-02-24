@@ -29,6 +29,9 @@ The study was carried out by the International Institute of Tropical Agriculture
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
 	dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 

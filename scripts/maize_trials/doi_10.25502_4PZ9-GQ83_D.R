@@ -31,6 +31,9 @@ carob_script <- function(path) {
    ff <- carobiner::get_data(uri, path, group)
    js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
    dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
    
    bn <- basename(ff)
    
@@ -38,7 +41,7 @@ carob_script <- function(path) {
    r <- read.csv(ff[bn=="Phenotypic characterization data.csv"])  
    
    d <- r[,c("ID","COUNTRY","ENTRY","YEAR","REP","GENOTYPE","POLLEN","DYSK","ASI","PLHT","EHT","PASP","EROT","EASP","YIELD","HUSK")]#
-   colnames(d) <- c("ID","country","variety_code","planting_date","rep","variety","dy_poll","dy_sk","asi","pl_ht","e_ht","p_asp","e_rot","e_asp","yield","husk")#,
+   colnames(d) <- c("ID","country","variety_code","planting_date","rep","variety","dy_poll","silking","asi","plant_height","e_ht","p_asp","e_rot","e_asp","yield","husk")#,
    
    
    # add columns

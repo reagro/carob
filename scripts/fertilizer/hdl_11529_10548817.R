@@ -42,7 +42,10 @@ carob_script <- function(path) {
   
   ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
-  dset$license <- "CIMMYT license"
+  dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   #dset$license <- carobiner::get_license(js)
   
   
@@ -133,8 +136,51 @@ carob_script <- function(path) {
    
   d <- d[, c("trial_id","country", "adm1","adm2","site","latitude","longitude","crop","variety","planting_date","harvest_date","treatment","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","yield_part","yield","grain_weight","dataset_id","on_farm","is_survey","irrigated")]
   
-   # all scripts must end like this
-    carobiner::write_files(dset, d, path=path)
+  # EGB:
+  # Adding approximate coordinates
+  # del <- unique(d[is.na(d$latitude) | is.na(d$longitude), c("country", "adm1", "adm2", "site")])
+  # gi <- carobiner::geocode(country = "India", adm1 = del$adm1, location = del$site)
+  gi <- data.frame(country = c("India", "India", "India", "India", "India", "India", "India", "India", "India", "India", "India", "India"),
+                    adm1 = c("Bihar", "UP", "Bihar", "UP", "UP", "Bihar", "Bihar", "Bihar", "Bihar", "Bihar", "UP", "UP"),
+                    location = c("Raxaul", "Kaptanganj", "Singheshwar", "fazilnagar", "Dudhi", "Halsi", "Piro", "Bandra", "Barauni", "Chakia", "Fazilnagar", "Hata"),
+                    longitude = c(84.8051, 83.6992, 86.8157, 84.0544, 83.0141, 86.0554,
+                            84.3541, 85.6226, 86.0284, 84.9933, 84.0544, 83.6678),
+                    latitude = c(26.9556, 26.9257, 26.0258, 26.6824, 24.1148, 25.0332,
+                            25.3383, 26.0493, 25.4315, 26.4704, 26.6824, 26.8307))
+  del <- merge(d[is.na(d$latitude) | is.na(d$longitude), c("trial_id", "country", "adm2", "site")],
+               gi, by.x = c("country", "site"), by.y = c("country", "location"), all.x = TRUE)
+  del$longitude[del$site == "Gayghat"] <- 84.138
+  del$latitude[del$site == "Gayghat"] <- 25.632
+  del$longitude[del$site == "Ghailadh"] <- 86.687
+  del$latitude[del$site == "Ghailadh"] <- 25.977
+  del$longitude[del$site == "Gharani"] <- 84.573
+  del$latitude[del$site == "Gharani"] <- 25.410
+  del$longitude[del$site == "Gori-Bazar"] <- 83.224
+  del$latitude[del$site == "Gori-Bazar"] <- 26.193
+  del$longitude[del$site == "Kasaya"] <- 83.619
+  del$latitude[del$site == "Kasaya"] <- 26.707
+  del$longitude[del$site == "Padrouna"] <- 83.884
+  del$latitude[del$site == "Padrouna"] <- 26.739
+  del$longitude[del$site == "Ramgharwa"] <- 84.773
+  del$latitude[del$site == "Ramgharwa"] <- 26.875
+  del$longitude[del$site == "Savrhi"] <- 78.790
+  del$latitude[del$site == "Savrhi"] <- 28.853
+  del$longitude[del$site == "Sevarhi"] <- 84.217
+  del$latitude[del$site == "Sevarhi"] <- 26.722
+  del$longitude[del$site == "Surya garha"] <- 86.216
+  del$latitude[del$site == "Surya garha"] <- 25.254
+  del$longitude[del$site == "Tamkuhiraj"] <- 84.164
+  del$latitude[del$site == "Tamkuhiraj"] <- 26.689
+  del$longitude[del$site == "tamkuhiraj"] <- 84.164
+  del$latitude[del$site == "tamkuhiraj"] <- 26.689
+  for (tid in del$trial_id) {
+    el <- del[del$trial_id == tid,]
+    d[d$trial_id == tid, "longitude"] <- el$longitude
+    d[d$trial_id == tid, "latitude"] <- el$latitude
+  }
+  
+  # all scripts must end like this
+  carobiner::write_files(dset, d, path=path)
    
 }
 

@@ -21,13 +21,13 @@ carob_script <- function(path) {
     group=group,
     project="TAMASA",
     uri=uri,
-    data_citation="T Balemi (CIMMYT),M Kebede (CIMMYT) - ORCID: 0000-0003-4953-1585,J Chamberlin (CIMMYT) - ORCID: 0000-0001-9522-3001,B Assefa (CIMMYT),K Workneh (CIMMYT),T Abera (EIAR) - ORCID: 0000-0002-9335-9906,T Tufa (EIAR),G Hailu (EIAR),G Chala (EIAR),G Gurumu (EIAR)",
+    data_citation="T Balemi; M Kebede; J Chamberlin; B Assefa; K Workneh; T Abera; T Tufa; G Hailu; G Chala; G Gurumu, 2017. TAMASA Ethiopia. Agronomy Panel Survey 2016. Yield, soil and agronomy data, https://hdl.handle.net/11529/11013, CIMMYT Research Data & Software Repository Network, V2",
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="survey",
-    carob_contributor="Fredy Chimere",
+    carob_contributor="Fredy Chimire",
     carob_date="2023-08-17"
   )
   
@@ -36,6 +36,9 @@ carob_script <- function(path) {
   ff  <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=3)
   dset$license <- carobiner::get_license(js)
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
   
   
   f <- ff[basename(ff) == "TAMASA_ET_CC_2016F.xlsx"]
