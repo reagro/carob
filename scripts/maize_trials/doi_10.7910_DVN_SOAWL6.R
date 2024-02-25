@@ -13,13 +13,16 @@ carob_script <- function(path) {
   uri <- "doi:10.7910/DVN/SOAWL6"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "maize_trials"
+
+  ff  <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
+  
+
   ## dataset level data 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+	carobiner::extract_metadata(js, uri, group=group),
     project=NA,
-    uri=uri,
-    data_citation="Job Kihara (International Center for Tropical Agriculture - CIAT) - ORCID: https://orcid.org/0000-0002-4394-9553, Sileshi, Gudeta W., Bolo, Peter Omondi (International Center for Tropical Agriculture - CIAT) - ORCID: https://orcid.org/0000-0002-4202-7557, Mutambu, Dominic Mwanzia (International Center for Tropical Agriculture - CIAT) - ORCID: https://orcid.org/0000-0002-5394-5230, Sila, Andrew Musili (International Center for Tropical Agriculture - CIAT) - ORCID: https://orcid.org/0000-0002-3991-8770",
+    data_citation="Job Kihara; Sileshi, Gudeta W.; Bolo, Peter Omondi; Mutambu, Dominic Mwanzia; Sila, Andrew Musili, 2023. Maize grain zinc and iron concentrations as influenced by agronomic management and biophysical factors: a meta-analysis. https://doi.org/10.7910/DVN/SOAWL6, Harvard Dataverse, V1",
     publication= NA,
     data_institutions = "CIAT",
     data_type="experiment",
@@ -27,73 +30,54 @@ carob_script <- function(path) {
     carob_date="2024-2-24"
   )
   
-  
-  
-  ## download and read data 
-  
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-  # dset$license <- "not specified" #carobiner::get_license(js)
-  dset$license <- carobiner::get_license(js)
-  
   # Select sheet with revised data from the text file file 
   f <- ff[basename(ff) == "02a. Maize data for meta_analysis_updated.txt"]
   
  # read dataset
-  r <- read.table(f,header = TRUE, sep = "\t", quote = "",fill = TRUE, na.strings = "")
+  r <- read.table(f, header = TRUE, sep = "\t", quote = "", fill = TRUE, na.strings = "")
   
-  d <- data.frame(country= r$Country,soil_clay= r$Clay,
-                  soil_sand= r$Sand,soil_silt= r$Silt,soil_SOC =r$SOC....,soil_SOM= r$SOM,soil_pH= r$pH,
-                  Zn_fertilizer= r$Zn_Applied_Trt,planting_date= r$Yr_experiment,
-                  soil_pH_CaCl2	=r$pH_CaCl2,site= r$TrialSite,
-                  N_fertilizer= r$N_Applied_Cnt,K_fertilizer= r$K_Applied_Cnt,P_fertilizer= r$P_Applied_Cnt,
-                  irrigated= r$Irrigation_Trt, yield = r$GrainYld_Trt)
+  d <- data.frame(country=r$Country, 
+				  soil_clay=as.numeric(r$Clay),
+                  soil_sand=as.numeric(r$Sand), soil_silt=as.numeric(r$Silt),
+				  soil_SOC=r$SOC...., soil_SOM=r$SOM, soil_pH=r$pH,
+                  Zn_fertilizer=r$Zn_Applied_Trt, planting_date=r$Yr_experiment,
+                  soil_pH_CaCl2=r$pH_CaCl2, site= r$TrialSite,
+                  N_fertilizer=r$N_Applied_Cnt, K_fertilizer= r$K_Applied_Cnt, 
+				  P_fertilizer=r$P_Applied_Cnt,
+                  irrigated= r$Irrigation_Trt, yield = as.numeric(r$GrainYld_Trt))
  
-  
-  
+    
   # for first dataset
   d$dataset_id <- dataset_id
   #zn =233,nfer= 655, p=300
   d$crop <- "maize"
-  # Convert columns to numeric and handle NAs
-  d$planting_date <- substr(gsub("[^0-9]", "", as.character(d$planting_date)), 1, 4)
-  d$planting_date <- !is.na(d$planting_date)
-  d$yield <- as.numeric(gsub("[^0-9.]", 0, d$yield)) * 1000
-  d$yield <- ifelse(is.na(d$yield),0,d$yield)
-  d$soil_clay <- as.numeric(d$soil_clay, na.rm = TRUE)
-  d$soil_sand <- as.numeric(d$soil_sand, na.rm = TRUE)
-  d$soil_silt <- as.numeric(d$soil_silt, na.rm = TRUE)
-  
-  
-  d$Zn_fertilizer <- as.numeric(gsub("[^0-9.]", 0, d$Zn_fertilizer))
-  # Convert columns to numeric, removing NA values
-  d$N_fertilizer <- as.numeric(gsub("[^0-9.]", 0, as.character(d$N_fertilizer)))
-  d$K_fertilizer <- as.numeric(gsub("[^0-9.]", 0, as.character(d$K_fertilizer)))
-  d$P_fertilizer <- as.numeric(gsub("[^0-9.]", 0, as.character(d$P_fertilizer)))
-  
+  d$planting_date[grep("-", d$planting_date)] <- NA
+  d$planting_date[grep("\\.", d$planting_date)] <- NA
+  d$planting_date <- gsub("[^0-9]", "", d$planting_date)
 
+  d$yield <- as.numeric(d$yield) * 1000
+### ???  d$yield <- ifelse(is.na(d$yield),0,d$yield)
+  
+#  d$Zn_fertilizer <- as.numeric(gsub("[^0-9.]", 0, d$Zn_fertilizer))
+#  d$N_fertilizer <- as.numeric(gsub("[^0-9.]", 0, as.character(d$N_fertilizer)))
+#  d$K_fertilizer <- as.numeric(gsub("[^0-9.]", 0, as.character(d$K_fertilizer)))
+#  d$P_fertilizer <- as.numeric(gsub("[^0-9.]", 0, as.character(d$P_fertilizer)))
+
+	d$Zn_fertilizer[grep("yes", d$Zn_fertilizer, ignore.case=TRUE)] <- NA
+	d$Zn_fertilizer <- as.numeric(d$Zn_fertilizer)
+	
+	
   # Convert planting_date to character
   d$planting_date <- as.character(d$planting_date)
-  
-  
   d$striga_trial <- FALSE
   d$borer_trial <- FALSE
   d$striga_infected <- FALSE
-  
-  
-  #d$is_experiment <- TRUE
+ 
   d$yield_part <- "grain"
   d$trial_id <- as.character(as.integer(as.factor(paste(d$country, d$site))))
   
-  # Function to convert encoding to UTF-8
-  convert_to_utf8 <- function(x) {
-    # Convert to UTF-8 encoding
-    encoded_x <- iconv(x, "UTF-8", "UTF-8")
-    return(encoded_x)
-  }
-  
-  # Apply the function to the location column
-  d$site <- sapply(d$site, convert_to_utf8)
+  # Convert to UTF-8 encoding
+  d$site <- sapply(d$site, \(x) iconv(x, "UTF-8", "UTF-8"))
   
   # Remove quotes from elements in the 'r' column
   d$site <- gsub("\"", "", d$site)
@@ -114,7 +98,10 @@ carob_script <- function(path) {
   # Function to convert coordinates to proper GPS format
   
   #geocodes <- carobiner::geocode(country=locs$country,location=locs$location,adm1=locs$adm1)
-  geocode <- carobiner::geocode(country=locs$country,location=locs$site)$df
+ 
+### cannot have "live geocoding" in script 
+
+ geocode <- carobiner::geocode(country=locs$country,location=locs$site)$df
   geocode <- na.omit(geocode) # remove null values
   geocodes <- subset(geocode, !(country %in% c("Bosnia and Herzegovina", "Malaysia")))
   
@@ -123,7 +110,7 @@ carob_script <- function(path) {
   q1 <- subset(geocode, (country %in% c("Bosnia and Herzegovina", "Malaysia")))
   q2 <- rbind(q1,q)
   
-  # manually search for coordinates with Na
+  # manually search for coordinates with NA
   coord <- list("Navsari Agricultural University" = c(20.9250, 72.9079),
                 "Khalsa College Amritsar" = c( 31.6417,74.8358),
                 "Zonal Agriculture Research Station, Navile, Shimoga" = c(14.7007,75.5721),
