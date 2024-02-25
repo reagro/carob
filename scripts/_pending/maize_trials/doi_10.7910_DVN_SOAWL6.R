@@ -2,6 +2,8 @@
 
 # ## ISSUES 
 
+### cannot have "live geocoding" in script 
+
 # ....
 
 
