@@ -1,7 +1,9 @@
 # R script for "carob"
 
 ## ISSUES
-# ....
+# Reading excel files needs to be refined a lot 
+# need to skip rows in begging and end 
+
 
 carob_script <- function(path) {
   
