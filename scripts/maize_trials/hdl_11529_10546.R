@@ -9,44 +9,33 @@ carob_script <- function(path) {
  (Transition Zone Intermediate White Hybrid - CHTHTZIW) conducted in 2007.
 
 "
-#### Identifiers
 	uri <- "hdl:11529/10546"
 	group <- "maize_trials"
-
 	dataset_id <- carobiner::simple_uri(uri)
 
-#### Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
-##### dataset level metadata 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group=group, dataset_id = dataset_id),
+		carobiner::extract_metadata(js, uri, group=group),
 		data_citation="Global Maize Program, 2019, International Intermediate White Hybrid Trial - IIWH0752, https://hdl.handle.net/11529/10546, CIMMYT Research Data & Software Repository Network, V1",
 		data_institutions = "CIMMYT",
 		publication= NA,
-		project="Global Maize Program",
+		project="International intermediate white hybrid trials",
 		data_type= "experiment",
 		carob_contributor= "Mitchelle Njukuya",
 		carob_date="2024-02-27"
 	)
 	
-##### PROCESS data records
 
 	get_data <- function(fname, id,country,longitude,latitude,elevation) {
 	  f <- ff[basename(ff) == fname]
 	  r <- carobiner::read.excel(f) 
-	  r <-r[22:32,2:35]
+	  r <-r[22:31, 2:35]
+		## ?r <- carobiner::read.excel(f, skip=21, n_max=11) 
 	  
 	  d <- data.frame( 
-	    trial_id = id,
-	    crop = "maize",
-	    dataset_id = dataset_id,
-	    on_farm = TRUE,
-	    striga_trial = FALSE, 
-	    striga_infected = FALSE,
-	    borer_trial = FALSE,
-	    yield_part = "grain",
+	    trial_id = as.character(id),
 	    variety=r$BreedersPedigree1,
 	    yield=as.numeric(r$GrainYieldTons_FieldWt)*1000,
 	    asi=as.numeric(r$ASI),
@@ -115,6 +104,13 @@ carob_script <- function(path) {
 	
 	
 	d <- carobiner::bindr(d0, d1, d2, d3, d4, d5, d6, d7, d8)
+	d$crop = "maize",
+	d$dataset_id = dataset_id,
+	d$on_farm = TRUE,
+	d$striga_trial = FALSE, 
+	d$striga_infected = FALSE,
+	d$borer_trial = FALSE,
+	d$yield_part = "grain",
 	
 	
 	carobiner::write_files(dset, d, path=path)
