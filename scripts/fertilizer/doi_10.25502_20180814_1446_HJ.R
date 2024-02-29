@@ -97,11 +97,11 @@ carob_script <- function(path) {
   
   ##### Fertilizers #####
   d$P_fertilizer <- 0
-  d$P_fertilize[d$TrtDesc %in% c("NPK", "NPK+Lime", "NPK+Manure", "NPK+MN", "NP", "PK")] <- as.numeric(30)
+  d$P_fertilizer[d$TrtDesc %in% c("NPK", "NPK+Lime", "NPK+Manure", "NPK+MN", "NP", "PK")] <- as.numeric(30)
   d$K_fertilizer <- 0
-  d$K_fertilize[d$TrtDesc %in% c("NPK", "NPK+Lime", "NPK+Manure", "NPK+MN", "PK", "NK")] <- as.numeric(60)
+  d$K_fertilizer[d$TrtDesc %in% c("NPK", "NPK+Lime", "NPK+Manure", "NPK+MN", "PK", "NK")] <- as.numeric(60)
   d$N_fertilizer <- 0
-  d$N_fertilize[d$TrtDesc %in% c("NPK", "NPK+Lime", "NPK+Manure", "NPK+MN", "NP", "NK")] <- as.numeric(100)
+  d$N_fertilizer[d$TrtDesc %in% c("NPK", "NPK+Lime", "NPK+Manure", "NPK+MN", "NP", "NK")] <- as.numeric(100)
   d$Ca_fertilizer <- 0
   d$Ca_fertilizer[d$TrtDesc %in% c("NPK+MN")] <- as.numeric(10)
   d$Mg_fertilizer <- 0
@@ -123,10 +123,6 @@ carob_script <- function(path) {
   d$OM_type <- NA
   d$OM_type[d$TrtDesc == "NPK+Manure"] <- "farmyard manure"
 
-  ##### in general, add comments to your script if computations are
-  ##### based on information gleaned from metadata, a publication, 
-  ##### or when they are not immediately obvious for other reasons
-  
   ##### Yield #####
   #what plant part does yield refer to?
   d$yield_part <- "cobs"
