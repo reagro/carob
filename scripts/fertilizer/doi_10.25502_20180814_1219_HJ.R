@@ -1,7 +1,9 @@
 # R script for "carob"
 
 ## ISSUES
-# ....
+# many mistakes
+# see doi_10.25502_20180814_1446_HJ.R
+# for a cleaner case
 
 
 carob_script <- function(path) {
