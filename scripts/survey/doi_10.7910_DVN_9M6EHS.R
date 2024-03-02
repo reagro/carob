@@ -27,8 +27,26 @@ The Rural Household Multiple Indicator Survey (RHoMIS) is a standardized farm ho
   
   
 	f <- ff[basename(ff) == "RHoMIS_Full_Data.csv"]
-#	r <- read.csv(f)
+	r <- read.csv(f)
 	
+	# farmland
+	# farmland_owned
+	# farmland_rentedin
+	# farmland_rentedout
+	# cropland_used   # currently used, excluding fallow
+    # cropland_total  # all cropland, including fallow
+	# cropland_used_owned
+    # cropland_total
+	# communal_land
+	# permanent_grassland
+	# 
+
+
+	
+	d <- r[, c("GPS_LON", "GPS_LAT", "GPS_LON", "land_irrigated", "land_ownership", "land_slope", "land_tenure", "landcultivated", "landowned", "landrentin", "landrentout")]
+
+
+
 #	d <- data.frame(
 #		country = r$COUNTRY,
 #		longitude = r$GPS_LON,
