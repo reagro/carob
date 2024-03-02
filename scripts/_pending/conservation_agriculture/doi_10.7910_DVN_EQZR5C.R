@@ -12,14 +12,10 @@ Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020
 
    
 "
-#### Identifiers
 	uri <- "doi:10.7910/DVN/EQZR5C"
 	group <- "conservation_agriculture"
-
-# the script filename should be paste0(dataset_id, ".R")
 	dataset_id <- carobiner::simple_uri(uri)
 
-#### Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
@@ -71,20 +67,17 @@ Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020
 ##### Time #####
 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
 ## use 	as.character(as.Date()) for dates to assure the correct format.
-	d$planting_date <- as.character(as.Date(2019-01-12   ))
-	d$harvest_date  <- as.character(as.Date( 2020-01-09   ))
+	d$planting_date <- as.character(as.Date("2019-01-12"   ))
+	d$harvest_date  <- as.character(as.Date("2020-01-09"   ))
 
 ##### Fertilizers  #####
-	d$N_fertilizer <- 10/40 *100 + 46
-	d$P_fertilizer <-20/40 *100
+	d$N_fertilizer <- 10/40 * 100 + 46
+	d$P_fertilizer <- 20/40 * 100
 	
 
-	#what plant part does yield refer to?
 	d$yield_part <- "grain"
-	
 	d$trial_id<-paste0(d$dataset_id,"_",d$rep)
 	
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
 
