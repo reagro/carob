@@ -3,6 +3,7 @@ planting_date,character,,yes,,no,,,no,"Planting date in ""yyyy-mm-dd"", ""yyyy-m
 emergence_date,character,,no,,no,,,yes,"Emergence date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
 transplanting_date,character,,no,,no,,,yes,"Transplanting date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
 flowering_date,character,,no,,no,,,yes,"Flowering date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
+maturity_date,character,,no,,no,,,yes,"Maturity date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
 harvest_date,character,,no,,no,,,yes,"Harvest date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
 season,character,,no,,no,,,yes,Season name,,
 on_farm,logical,,no,,no,,,yes,Is this observation on farm (not on station),,AGRO_00000601
@@ -51,6 +52,7 @@ irrigated,logical,,no,,no,,,yes,Was the plot irrigated?,,AGRO_00000006
 irrigation_source,character,,no,,no,,,yes,the source of irrigation water,,
 irrigation_number,integer,,no,,no,0,50,yes,How many times was the crop irrigated?,,
 irrigation_amount,numeric,mm,no,,no,0,1000,yes,The total irrigation amount applied to the crop,,
+irrigation_dates,character,,no,,yes,,,yes,"Irrigation dates in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format; separated by ""; """,,
 land_prep_method,character,,no,,no,,,yes,Land preparation (tillage) method used (including no-till),,AGRO_00000322
 planting_method,character,,no,,no,,,yes,Planting (sowing) method,,
 transplanting_method,character,,no,,no,,,yes,(rice) transplanting method,,
@@ -106,6 +108,7 @@ herbicide_timing,character,,no,,no,,,yes,days after (or before) planting on whic
 herbicide_times,integer,,no,,no,,,yes,number of herbicide applications,,
 herbicide_amount,numeric,kg (ai) / ha,no,,no,,,yes,how much herbicide was used?,,
 weeding_times,integer,,no,,no,,,yes,how many times was the crop weeded?,,
+weeding_dates,character,,no,,yes,,,yes,"weeding dates in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format; separated by ""; """,,
 weed_species,character,,no,,no,,,yes,weed species names ,,
 weed_biomass,numeric,kg/ha,no,,no,0,100000,yes,Fresh weight weeds biomass,,
 weed_severity,character,,no,,no,,,yes,how severe was the competition from weeds?,,

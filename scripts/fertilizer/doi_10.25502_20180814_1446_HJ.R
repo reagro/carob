@@ -1,6 +1,7 @@
 # R script for "carob"
 
 # to do: FNAppln and PKAppln
+# also see: "doi:10.7910/DVN/C6DIIC"
 
 
 carob_script <- function(path) {
@@ -60,19 +61,18 @@ carob_script <- function(path) {
 		trial_id = gsub("Sidi2010a", "", r$FieldID),
 		yield_part = "grain",
 		plant_height = r$Plant.height..cm.,
-		dmy_storage = r$Grn_yld_adj 
+		dmy_storage = r$Grn_yld_adj * 1000
 	)
 
 	# fresh weight
-	d$yield = r$dmy_storage / 0.85
-
+	d$yield <- d$dmy_storage / 0.85
 
 	##### Fertilizers #####
 	# according to https://www.sciencedirect.com/science/article/pii/S0167880916302584
 	# "NPK", "NPK+Lime", "NPK+Manure", "NPK+MN", "PK", "NK", "NP"
 	d$N_fertilizer <- d$K_fertilizer <- d$P_fertilizer <- 0
-	d$N_fertilizer[grep("N", r$TrtDesc] <- 100
-	d$K_fertilizer[grep("K", r$TrtDesc] <- 60
+	d$N_fertilizer[grep("N", r$TrtDesc)] <- 100
+	d$K_fertilizer[grep("K", r$TrtDesc)] <- 60
 	d$Ca_fertilizer <- d$Mg_fertilizer <- d$S_fertilizer <- d$Zn_fertilizer <- 0
 	d$P_fertilizer[grep("P", r$TrtDesc)] <- 30
 	d$Ca_fertilizer[r$TrtDesc == "NPK+MN"] <- 10
@@ -94,7 +94,7 @@ carob_script <- function(path) {
 	d$fertilizer_type[r$FType1 != "" & r$FType2 != ""] <- paste0("DAP; urea")
 
 	r$CobFW[r$CobFW == "."] <- NA
-	d$residue_yield <- (10000 * (r$TStoverYld + as.numeric(r$CobFW) / r$Harea)) - d$yield
+	d$residue_yield <- 10000 * (r$TStoverYld + as.numeric(r$CobFW) / r$Harea) - d$yield
 	
 	d$grain_weight <- r$X100GrainDW*10 # Adjusting to 1000 grains
 	
@@ -102,16 +102,26 @@ carob_script <- function(path) {
 	d$previous_crop[d$previous_crop == "sweet potato"] <- "sweetpotato"
 	d$previous_crop <- gsub(", ", "; ", d$previous_crop)
 	d$previous_crop <- gsub("beans", "bean", d$previous_crop)
+	d$previous_crop <- gsub("bean", "common bean", d$previous_crop)
 	d$previous_crop[d$previous_crop == ""] <- NA
 	
-	d$rotation <- apply(r[, c("PCrop1", "P2Crop", "P3Crop", "P4Crop")], 1, \(i) paste(na.omit(i), collapse="; "))
-	d$rotation[d$rotation==""] <- NA
+	d$crop_rotation <- apply(r[, c("PCrop1", "P2Crop", "P3Crop", "P4Crop")], 1, \(i) paste(na.omit(i), collapse="; "))
+	d$crop_rotation[d$crop_rotation==""] <- NA
+	d$crop_rotation <- gsub("sweet potato", "sweetpotato", d$crop_rotation)
+	d$crop_rotation <- gsub("sweetpotatoes", "sweetpotato", d$crop_rotation)
+	d$crop_rotation <- gsub("beans", "common bean", d$crop_rotation)
+	d$crop_rotation <- gsub("bananas", "banana", d$crop_rotation)
+	d$crop_rotation <- gsub(" ;", ";", d$crop_rotation)
+	d$crop_rotation <- gsub(",", ";", d$crop_rotation)
+	d$crop_rotation <- gsub("cowpeas", "cowpea", d$crop_rotation)
+	d$crop_rotation <- gsub("ground nuts", "groundnut", d$crop_rotation)
+
 
 ## the dates are a mess. Different formats and inconstencies with e.g. harvesting after planting, and in different years). Would need to check with author. Perhaps the planting date is correct 
 	pdate1 <- as.Date(r$PlntDa, "%d/%m/%Y")
 	pdate2 <- as.Date(r$PlntDa, "%m/%d/%Y")
 	pdate1[is.na(pdate1)] <- pdate2[is.na(pdate1)]
-	d$planting_date <- pdate1
+	d$planting_date <- as.character(pdate1)
 	
 	d <- d[!is.na(d$yield), ]
 
