@@ -1,0 +1,11 @@
+name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes,obo
+farmland,numeric,ha,no,,no,,,yes,,,
+farmland_owned,numeric,ha,no,,no,,,yes,,,
+farmland_rentedin,numeric,ha,no,,no,,,yes,,,
+farmland_rentedout,numeric,ha,no,,no,,,yes,,,
+cropland_used,numeric,ha,no,,no,,,yes,,,
+cropland_total,numeric,ha,no,,no,,,yes,,,
+cropland_used_owned,numeric,ha,no,,no,,,yes,,,
+cropland_total,numeric,ha,no,,no,,,yes,,,
+communal_land,numeric,ha,no,,no,,,yes,,,
+permanent_grassland,numeric,ha,no,,no,,,yes,,,
