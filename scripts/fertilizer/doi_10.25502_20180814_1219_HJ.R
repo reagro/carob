@@ -1,21 +1,8 @@
 # R script for "carob"
 
-## ISSUES
-# many mistakes
-# see doi_10.25502_20180814_1446_HJ.R
-# for a cleaner case
-
-
 carob_script <- function(path) {
   
-  "
-	Description:
-   The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel 
-   sites across sub-Saharan Africa using the Land Degradation
-   Surveillance framework and included also multi-location diagnostic
-   trials in selected sentinel sites to determine nutrient limitations
-   and response to improved soil management practices (soil amendments)
-"
+#The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments)
   
   uri <- "doi:10.25502/20180814/1219/HJ"
   group <- "fertilizer"
@@ -66,15 +53,14 @@ carob_script <- function(path) {
     trial_id = gsub("Kont2010", "", r$Field),
     yield_part = "grain",
     plant_height = round(r$Plant.height..cm., 2),
-    dmy_storage = r$TCobFW * 1.17
+	# Fresh weight at 15% moisture
+	yield = 1000 * r$TGrainYld / 0.85,
   )
+
+	d$residue_yield <- r$TStoverFW / r$Harea
+	d$dmy_residue <- r$TStoverYld * 1000
   
-  # fresh weight
-  d$grain_weight <- r$TGrainYld * 1000
-  d$yield <- d$dmy_storage / 0.82 # Assuming ~17% moisture
-  
-  ##### Fertilizers #####
-  # according to https://www.sciencedirect.com/science/article/pii/S0167880916302584
+  # Fertilizers according doi:10.1016/j.agee.2016.05.012
   # "NPK", "NPK+Lime", "NPK+Manure", "NPK+MN", "PK", "NK", "NP"
   d$N_fertilizer <- d$K_fertilizer <- d$P_fertilizer <- 0
   d$N_fertilizer[grep("N", r$TrtDesc)] <- 100
@@ -93,34 +79,18 @@ carob_script <- function(path) {
   d$OM_type <- NA
   d$OM_type[r$TrtDesc == "NPK+Manure"] <- "farmyard manure"
   
-  d$residue_yield <- r$TStoverYld * 1000
 
-  ##### Time #####
-  # EGB: Planting dates and harvest dates adjusted to publication information, despite disagreement with reported data
-  sd <- data.frame(do.call(rbind, strsplit(as.character(r$PlntDa),'/')))
-  sd$day <- as.integer(sd$X2)
-  sd$month <- as.integer(sd$X1)
-  sd$year <- as.integer(2009) # As indicated in the publication
-  d$planting_date <- as.character(as.Date(paste(sd$year, sd$month, sd$day, sep = "-")))
-  hd <- data.frame(do.call(rbind, strsplit(as.character(ifelse(r$HarvDa == "", NA, r$HarvDa)),'/')))
-  hd$day <- as.integer(hd$X2)
-  hd$month <- as.integer(hd$X1)
-  hd$year <- as.integer(2009) # According to the publication the year was 2010
-  d$harvest_date <- as.character(as.Date(paste(hd$year, hd$month, hd$day, sep = "-")))
-  r$EmDate <- gsub("2017", "2009", r$EmergDt) # Correcting years to 2009
-  d$emergence <- as.numeric(as.Date(r$EmDate) - as.Date(d$planting_date))
-
-  d <- d[,c("dataset_id", "trial_id", "rep", "on_farm", "is_survey",
-            "country", "adm1", "location", "site", "longitude", "latitude",
-            "treatment", "crop", "variety", "planting_date", "harvest_date",
-            "P_fertilizer", "K_fertilizer", "N_fertilizer",
-            "Ca_fertilizer", "Mg_fertilizer", "S_fertilizer", "Zn_fertilizer",
-            "OM_used", "OM_type", "OM_amount", "lime",
-            "yield_part", "yield", "grain_weight", "residue_yield",
-            "dmy_storage", "irrigated", "emergence", "plant_height")]
+  # using _mac (macronutrients?) dates as they correspond to publication information
+  d$planting_date <- as.character(as.Date(r$PlntDa_mac, "%m/%d/%Y"))
+  d$harvest_date <- as.character(as.Date(r$HarvDa_mac, "%m/%d/%Y"))
+  # Correcting years to 2009
+  r$EmDate <- gsub("2017", "2009", r$EmergDt)
+  d$emergence_date <- as.character(as.Date(r$EmDate))
+  d$emergence <- as.numeric(as.Date(d$emergence_date) - as.Date(d$planting_date))
   
   d <- d[!is.na(d$yield), ]
- 
+
   carobiner::write_files(dataset = dset, records = d, path = path)
 }
+
 
