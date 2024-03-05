@@ -54,7 +54,7 @@ carob_script <- function(path) {
     yield_part = "grain",
     plant_height = round(r$Plant.height..cm., 2),
 	# Fresh weight at 15% moisture
-	yield = 1000 * r$TGrainYld / 0.85,
+	yield = 1000 * r$TGrainYld / 0.85
   )
 
 	d$residue_yield <- r$TStoverFW / r$Harea
