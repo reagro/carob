@@ -1,6 +1,11 @@
 ## ISSUES
 ##P_fertilizer data is in integers meaning it maybe a code for certain amount. This needs to be checked.
+# # EGB: N2Africa data typically applies 30 kg/ha of P and about 60 kg/ha of nitrogen fertilizer.
+# # In this dataset it is assumed these are the amounts, as per most of the protocols for the country and year.
+
 ##Yield and biomass data is recorded as per area but its not clear what area we are working with.We assumed area is 200 m2 but this needs to be re-looked at once we get more feedback from Joost. 
+# # EGB: Although some values seem to be very low, most of the plot_are reported seem to be in m2
+# # as the kg/ha seem to make sense. This could/need to be confirmed
 
 carob_script <- function(path) {
 
