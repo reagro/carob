@@ -1,0 +1,201 @@
+## ISSUES
+##P_fertilizer data is in integers meaning it maybe a code for certain amount. This needs to be checked.
+##Yield and biomass data is recorded as per area but its not clear what area we are working with.We assumed area is 200 m2 but this needs to be re-looked at once we get more feedback from Joost. 
+
+carob_script <- function(path) {
+
+"Description
+Title:  N2Africa farm monitoring - Malawi, 2010 - 2011   
+Abstract: 
+
+N2Africa is to contribute to increasing biological nitrogen fixation and 
+productivity of grain legumes among African smallholder farmers which will 
+contribute to enhancing soil fertility, improving household nutrition and 
+increasing income levels of smallholder farmers. As a vision of success, 
+N2Africa will build sustainable, long-term partnerships to enable African 
+smallholder farmers to benefit from symbiotic N2-fixation by grain legumes 
+through effective production technologies including inoculants and fertilizers 
+adapted to local settings. A strong national expertise in grain legume 
+production and N2-fixation research and development will be the legacy of the 
+project.
+
+The project is implemented in five core countries (Ghana, Nigeria, Tanzania, 
+Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, 
+Mozambique, Kenya & Zimbabwe) as tier one countries.
+"
+	## Process 
+	uri <- "doi:10.25502/8YQ1-DM57/D"
+	dataset_id <- carobiner::simple_uri(uri)
+	group <- "fertilizer"
+	dset <- data.frame(
+		dataset_id = dataset_id,
+		group=group,
+		uri=uri,
+		data_citation="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., 
+		Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai,
+		N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & 
+		Heerwaarden, J. van. (2020). N2Africa farm monitoring - Malawi, 2010 - 2011 
+		[Data set]. International Institute of Tropical Agriculture (IITA). 
+		https://doi.org/10.25502/8YQ1-DM57/D ",
+		publication=NA,
+		carob_contributor="Effie Ochieng'",
+		carob_date="2023-07-27",
+		data_type="survey",
+		data_institutions="IITA",
+		project="N2Africa",
+		revised_by = "Eduardo Garcia Bendito",
+		revision_date = "2024-03-07"
+	)
+
+	## treatment level data 
+	ff  <- carobiner::get_data(uri, path, group)
+
+	## read the json for version, license, terms of use  
+	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
+	dset$license <- carobiner::get_license(js)[[1]]
+  dset$title <- carobiner::get_title(js)
+	dset$authors <- carobiner::get_authors(js)
+	dset$description <- carobiner::get_description(js)
+
+	r0 <- ff[basename(ff) == "a_general.csv"]
+	r1 <- ff[basename(ff) == "b_info_site_1.csv"]
+	r2 <- ff[basename(ff) == "b_info_site_2.csv"]
+	r3 <- ff[basename(ff) == "c_use_of_package_1.csv"]
+	r4 <- ff[basename(ff) == "c_use_of_package_2.csv"]
+	r5 <- ff[basename(ff) == "c_use_of_package_3.csv"]
+	r6 <- ff[basename(ff) == "c_use_of_package_4.csv"]
+	r7 <- ff[basename(ff) == "c_use_of_package_5.csv"]
+	r8 <- ff[basename(ff) == "e_harvest.csv"]
+	r9 <- ff[basename(ff) == "f_treatments.csv"]
+	r10 <- ff[basename(ff) == "d_cropping_calendar.csv"]
+	
+	r0 <- read.csv(r0)
+	r1 <- read.csv(r1)
+	r2 <- read.csv(r2)
+	r3 <- read.csv(r3)
+	r4 <- read.csv(r4)
+	r5 <- read.csv(r5)
+	r6 <- read.csv(r6)
+	r7 <- read.csv(r7)
+	r8 <- read.csv(r8)
+	r9 <- read.csv(r9)
+	r10 <- read.csv(r10)
+	
+	d <- data.frame(dataset_id = dataset_id, trial_id = r4$farm_id, plot_id = r4$plot_no, adm1 = "Central Region")
+	d <- merge(d, r0[,c("farm_id", "country", "district", "vilage")], by.x = "trial_id", by.y = "farm_id")
+	d$adm2 <- paste0(carobiner::fix_name(tolower(d$district), case = "title"), " District")
+	d$site <- carobiner::fix_name(tolower(d$vilage), case = "title")
+	d <- merge(d, r0[,c("farm_id", "gps_altitude")], by.x = "trial_id", by.y = "farm_id")
+	colnames(d)[colnames(d) == "gps_altitude"] <- "elevation"
+	d <- merge(d, r2[,c("farm_id", "main_crop_last_season")], by.x = "trial_id", by.y = "farm_id")
+	colnames(d)[colnames(d) == "main_crop_last_season"] <- "previous_crop"
+	d$previous_crop <- tolower(d$previous_crop)
+	d$previous_crop[d$previous_crop == "sweet potatoes"] <- "sweetpotato"
+	d$previous_crop[d$previous_crop == "fallow"] <- "no crop"
+	d$previous_crop[d$previous_crop == "groundnuts"] <- "groundnut"
+	d <- merge(d, r3[,c("farm_id", "type_of_package", "plot_size")], by.x = "trial_id", by.y = "farm_id")
+	d$crop <- tolower(trimws(gsub("\\+.*","",d$type_of_package)))
+	d$crop[d$crop == "groundnuts"] <- "groundnut"
+	d$crop[d$crop %in% c("s0ya", "soya")] <- "soybean"
+	d$crop[d$crop %in% c("beans", "bean")] <- "common bean"
+	d$crop[d$crop == ""] <- NA
+	d$intercrops <- NA
+	d$intercrops[grep("aize", d$type_of_package)] <- "maize"
+	d$inoculated <- grepl("nocul", d$type_of_package)
+	d$type_of_package <- NULL
+	d <- merge(d, r4[,c("farm_id", "plot_no", "variety_1", "mineral_fert_amount")], by.x = c("trial_id", "plot_id"), by.y = c("farm_id", "plot_no"))
+	colnames(d)[colnames(d) == "variety_1"] <- "variety"
+	d$variety <- tolower(d$variety)
+	d$variety[d$variety == ""] <- NA
+	d$fertilizer_type <- NA
+	d$fertilizer_type[d$mineral_fert_amount == 1] <- "TSP"
+	d$fertilizer_type[d$mineral_fert_amount == 2] <- "TSP; urea"
+	d$N_fertilizer <- 0
+	d$N_fertilizer[d$mineral_fert_amount == 2] <- as.numeric(60*0.46)
+	d$N_splits <- NA
+	d$N_splits[d$mineral_fert_amount == 2] <- 2L
+	d$P_fertilizer <- 0
+	d$P_fertilizer[d$mineral_fert_amount != 0] <- 30L
+	d$K_fertilizer <- NA
+	d$mineral_fert_amount <- NULL
+	d <- merge(d, r8[,c("farm_id", "plot_no", "crop_1_area_harvested", "crop_1_weight_grain")], by.x = c("trial_id", "plot_id"), by.y = c("farm_id", "plot_no"))
+	d$yield <- (d$crop_1_weight_grain/d$crop_1_area_harvested) * 10000 # kg/m2 -> kg/ha
+	d$yield_part <- "grain"
+	d <- merge(d, r10[,c("farm_id", "date_planting_dd", "date_planting_mm", "date_planting_yyyy", "date_harvest_dd", "date_harvest_mm", "date_harvest_yyyy")], by.x = "trial_id", by.y = "farm_id")
+	d$planting_date <- paste0(d$date_planting_yyyy, "-", sprintf("%02d", d$date_planting_mm), "-", sprintf("%02d", d$date_planting_dd))
+	d$planting_date[d$date_planting_dd == 0] <- gsub("00", "01", d$planting_date[d$date_planting_dd == 0])
+	d$harvest_date <- paste0(d$date_harvest_yyyy, "-", sprintf("%02d", d$date_harvest_mm), "-", sprintf("%02d", d$date_harvest_dd))
+	d$harvest_date[d$date_harvest_dd == 0] <- gsub("00", "01", d$harvest_date[d$date_harvest_dd == 0])
+	d$harvest_date[d$harvest_date == "0-01-01"] <- "2011-05-01"
+	d$trial_id <- paste0(d$trial_id, "-", d$plot_id)
+	d[,grep("date_", colnames(d))] <- NULL
+	d$plot_size <- NULL
+	d$crop_1_area_harvested <- NULL
+	d$crop_1_weight_grain <- NULL
+	d$vilage <- NULL
+	d$district <- NULL
+	d$plot_id <- NULL
+	
+	geo <- data.frame(country = c("Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi",
+	                              "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi",
+	                              "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi",
+	                              "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi",
+	                              "Malawi", "Malawi", "Malawi", "Malawi"),
+	                  location = c("Thamolatha", "Mkumbi", "Chipulumba", "Sinoya", "Kasungeni Kapanda",
+	                               "Kakunga", "Kavala", "Kalumpha-Mkwinya", "Kachiteya", "Kathobwa",
+	                               "Katobwa", "Kambatata", "Funwell", "Peni", "Pitala", "Chilola",
+	                               "Kabampanje", "Nthondoni", "Amon", "Kapeta", "Chipembere", "Khote",
+	                               "Thukwi", "Mnusu", "Kapuzira", "Mphunga", "Kaseka", "Thengoliweta",
+	                               "Sangwa", "S4", "Chinguluwe Centre", "S3"),
+	                  lon = c(NA, 33.156, NA, NA, 33.251, NA, 33.766, NA, NA, 33.166, 33.166, NA, NA,
+	                          33.483, 33.094, NA, NA, 33.133, 33.866, 34.297, 33.1765, NA, NA, NA, NA,
+	                          34.2834, 33.45, NA, 32.974, NA, NA, NA), 
+	                  lat = c(NA, -13.534, NA, NA, -13.35, NA, -13.2, NA, NA, -13.55, -13.55, NA, NA,
+	                          -13.183, -13.394, NA, NA, -13.4, -13.366, -12.886, -13.1014, NA, NA, NA,
+	                          NA, -13.6523, -12.666, NA, -13.719, NA, NA, NA))
+	
+	d <-merge(d, geo, by.x = c("country", "site"), by.y = c("country", "location"))
+	colnames(d)[colnames(d) == "lon"] <- "longitude"
+	colnames(d)[colnames(d) == "lat"] <- "latitude"
+	
+	d$longitude[is.na(d$longitude) & d$adm2 == "Mchinji District"] <- 33.055
+	d$latitude[is.na(d$latitude) & d$adm2 == "Mchinji District"] <- -13.963
+	d$longitude[is.na(d$longitude) & d$adm2 == "Salima District"] <- 34.440
+	d$latitude[is.na(d$latitude) & d$adm2 == "Salima District"] <- -13.730
+	
+	d <- d[!is.na(d$crop),]
+
+	carobiner::write_files(dset, d, path=path)
+}
+
+# # EGB:
+# # Geocoding
+# geo <- carobiner::geocode(country = "Malawi", location = unique(d$site))
+# geo$df$lon[geo$df$location == "Mkumbi"] <- 33.156
+# geo$df$lat[geo$df$location == "Mkumbi"] <- -13.534
+# geo$df$lon[geo$df$location == "Kasungeni Kapanda"] <- 33.251
+# geo$df$lat[geo$df$location == "Kasungeni Kapanda"] <- -13.350
+# geo$df$lon[geo$df$location == "Kavala"] <- 33.766
+# geo$df$lat[geo$df$location == "Kavala"] <- -13.2
+# geo$df$lon[geo$df$location == "Kalumpha"] <- 34.1
+# geo$df$lat[geo$df$location == "Kalumpha"] <- -11.6
+# geo$df$lon[geo$df$location %in% c("Kathobwa", "Katobwa")] <- 33.166
+# geo$df$lat[geo$df$location %in% c("Kathobwa", "Katobwa")] <- -13.55
+# geo$df$lon[geo$df$location == "Peni"] <- 33.483
+# geo$df$lat[geo$df$location == "Peni"] <- -13.183
+# geo$df$lon[geo$df$location == "Pitala"] <- 33.094
+# geo$df$lat[geo$df$location == "Pitala"] <- -13.394
+# geo$df$lon[geo$df$location == "Nthondoni"] <- 33.133
+# geo$df$lat[geo$df$location == "Nthondoni"] <- -13.4
+# geo$df$lon[geo$df$location == "Amon"] <- 33.866
+# geo$df$lat[geo$df$location == "Amon"] <- -13.366
+# geo$df$lon[geo$df$location == "Kapeta"] <- 34.297
+# geo$df$lat[geo$df$location == "Kapeta"] <- -12.886
+# geo$df$lon[geo$df$location == "Kaseka"] <- 33.45
+# geo$df$lat[geo$df$location == "Kaseka"] <- -12.666
+# geo$df$lon[geo$df$location == "Sangwa"] <- 32.974
+# geo$df$lat[geo$df$location == "Sangwa"] <- -13.719
+# geo$df$lon[geo$df$location %in% c("S4", "S3")] <- NA
+# geo$df$lat[geo$df$location %in% c("S4", "S3")] <- NA
+# # geo$df$lon[is.na(geo$df$lon)] <- 32.685
+# # geo$df$lat[is.na(geo$df$lat)] <- -13.780
