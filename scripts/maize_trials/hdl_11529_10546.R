@@ -3,12 +3,8 @@
 
 carob_script <- function(path) {
 
-"Description:
-
- Summary results and individual trial results from the International Intermediate White Hybrid - IIWH,
- (Transition Zone Intermediate White Hybrid - CHTHTZIW) conducted in 2007.
-
-"
+#Summary results and individual trial results from the International Intermediate White Hybrid - IIWH, (Transition Zone Intermediate White Hybrid - CHTHTZIW) conducted in 2007.
+ 
 	uri <- "hdl:11529/10546"
 	group <- "maize_trials"
 	dataset_id <- carobiner::simple_uri(uri)
@@ -104,15 +100,15 @@ carob_script <- function(path) {
 	
 	
 	d <- carobiner::bindr(d0, d1, d2, d3, d4, d5, d6, d7, d8)
-	d$crop = "maize",
-	d$dataset_id = dataset_id,
-	d$on_farm = TRUE,
-	d$striga_trial = FALSE, 
-	d$striga_infected = FALSE,
-	d$borer_trial = FALSE,
-	d$yield_part = "grain",
+	d$crop = "maize"
+	d$dataset_id = dataset_id
+	d$on_farm = TRUE
+	d$striga_trial = FALSE 
+	d$striga_infected = FALSE
+	d$borer_trial = FALSE
+	d$yield_part = "grain"
 	
-	
+	d <- d[!is.na(d$yield), ]
 	carobiner::write_files(dset, d, path=path)
 }
 
