@@ -1,5 +1,6 @@
 ## ISSUES
 ##P_fertilizer data is in integers meaning it maybe a code for certain amount. This needs to be checked.
+
 # # EGB: N2Africa data typically applies 30 kg/ha of P and about 60 kg/ha of nitrogen fertilizer.
 # # In this dataset it is assumed these are the amounts, as per most of the protocols for the country and year.
 
@@ -10,32 +11,23 @@
 carob_script <- function(path) {
 
 "Description
-Title:  N2Africa farm monitoring - Malawi, 2010 - 2011   
-Abstract: 
+N2Africa farm monitoring - Malawi, 2010 - 2011   
 
-N2Africa is to contribute to increasing biological nitrogen fixation and 
-productivity of grain legumes among African smallholder farmers which will 
-contribute to enhancing soil fertility, improving household nutrition and 
-increasing income levels of smallholder farmers. As a vision of success, 
-N2Africa will build sustainable, long-term partnerships to enable African 
-smallholder farmers to benefit from symbiotic N2-fixation by grain legumes 
-through effective production technologies including inoculants and fertilizers 
-adapted to local settings. A strong national expertise in grain legume 
-production and N2-fixation research and development will be the legacy of the 
-project.
+N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success,  
+N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project.
 
-The project is implemented in five core countries (Ghana, Nigeria, Tanzania, 
-Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, 
-Mozambique, Kenya & Zimbabwe) as tier one countries.
+The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 "
-	## Process 
+
 	uri <- "doi:10.25502/8YQ1-DM57/D"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+
+	dataset_id <- carobiner::simple_uri(uri)
+	ff  <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::extract_metadata(js, uri, group),
 		data_citation="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., 
 		Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai,
 		N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & 
@@ -52,39 +44,29 @@ Mozambique, Kenya & Zimbabwe) as tier one countries.
 		revision_date = "2024-03-07"
 	)
 
-	## treatment level data 
-	ff  <- carobiner::get_data(uri, path, group)
-
-	## read the json for version, license, terms of use  
-	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
-	dset$license <- carobiner::get_license(js)[[1]]
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-
-	r0 <- ff[basename(ff) == "a_general.csv"]
-	r1 <- ff[basename(ff) == "b_info_site_1.csv"]
-	r2 <- ff[basename(ff) == "b_info_site_2.csv"]
-	r3 <- ff[basename(ff) == "c_use_of_package_1.csv"]
-	r4 <- ff[basename(ff) == "c_use_of_package_2.csv"]
-	r5 <- ff[basename(ff) == "c_use_of_package_3.csv"]
-	r6 <- ff[basename(ff) == "c_use_of_package_4.csv"]
-	r7 <- ff[basename(ff) == "c_use_of_package_5.csv"]
-	r8 <- ff[basename(ff) == "e_harvest.csv"]
-	r9 <- ff[basename(ff) == "f_treatments.csv"]
-	r10 <- ff[basename(ff) == "d_cropping_calendar.csv"]
+	f0 <- ff[basename(ff) == "a_general.csv"]
+	#f1 <- ff[basename(ff) == "b_info_site_1.csv"]
+	f2 <- ff[basename(ff) == "b_info_site_2.csv"]
+	f3 <- ff[basename(ff) == "c_use_of_package_1.csv"]
+	f4 <- ff[basename(ff) == "c_use_of_package_2.csv"]
+	#f5 <- ff[basename(ff) == "c_use_of_package_3.csv"]
+	#f6 <- ff[basename(ff) == "c_use_of_package_4.csv"]
+	#f7 <- ff[basename(ff) == "c_use_of_package_5.csv"]
+	f8 <- ff[basename(ff) == "e_harvest.csv"]
+	#f9 <- ff[basename(ff) == "f_treatments.csv"]
+	f10 <- ff[basename(ff) == "d_cropping_calendar.csv"]
 	
-	r0 <- read.csv(r0)
-	r1 <- read.csv(r1)
-	r2 <- read.csv(r2)
-	r3 <- read.csv(r3)
-	r4 <- read.csv(r4)
-	r5 <- read.csv(r5)
-	r6 <- read.csv(r6)
-	r7 <- read.csv(r7)
-	r8 <- read.csv(r8)
-	r9 <- read.csv(r9)
-	r10 <- read.csv(r10)
+	r0 <- read.csv(f0)
+	#r1 <- read.csv(f1)
+	r2 <- read.csv(f2)
+	r3 <- read.csv(f3)
+	r4 <- read.csv(f4)
+	#r5 <- read.csv(f5)
+	#r6 <- read.csv(f6)
+	#r7 <- read.csv(f7)
+	r8 <- read.csv(f8)
+	#r9 <- read.csv(f9)
+	r10 <- read.csv(f10)
 	
 	d <- data.frame(dataset_id = dataset_id, trial_id = r4$farm_id, plot_id = r4$plot_no, adm1 = "Central Region")
 	d <- merge(d, r0[,c("farm_id", "country", "district", "vilage")], by.x = "trial_id", by.y = "farm_id")
@@ -98,12 +80,14 @@ Mozambique, Kenya & Zimbabwe) as tier one countries.
 	d$previous_crop[d$previous_crop == "sweet potatoes"] <- "sweetpotato"
 	d$previous_crop[d$previous_crop == "fallow"] <- "no crop"
 	d$previous_crop[d$previous_crop == "groundnuts"] <- "groundnut"
+
 	d <- merge(d, r3[,c("farm_id", "type_of_package", "plot_size")], by.x = "trial_id", by.y = "farm_id")
 	d$crop <- tolower(trimws(gsub("\\+.*","",d$type_of_package)))
 	d$crop[d$crop == "groundnuts"] <- "groundnut"
 	d$crop[d$crop %in% c("s0ya", "soya")] <- "soybean"
 	d$crop[d$crop %in% c("beans", "bean")] <- "common bean"
 	d$crop[d$crop == ""] <- NA
+
 	d$intercrops <- NA
 	d$intercrops[grep("aize", d$type_of_package)] <- "maize"
 	d$inoculated <- grepl("nocul", d$type_of_package)
@@ -112,6 +96,7 @@ Mozambique, Kenya & Zimbabwe) as tier one countries.
 	colnames(d)[colnames(d) == "variety_1"] <- "variety"
 	d$variety <- tolower(d$variety)
 	d$variety[d$variety == ""] <- NA
+
 	d$fertilizer_type <- NA
 	d$fertilizer_type[d$mineral_fert_amount == 1] <- "TSP"
 	d$fertilizer_type[d$mineral_fert_amount == 2] <- "TSP; urea"
@@ -121,8 +106,9 @@ Mozambique, Kenya & Zimbabwe) as tier one countries.
 	d$N_splits[d$mineral_fert_amount == 2] <- 2L
 	d$P_fertilizer <- 0
 	d$P_fertilizer[d$mineral_fert_amount != 0] <- 30L
-	d$K_fertilizer <- NA
+	d$K_fertilizer <- 0
 	d$mineral_fert_amount <- NULL
+	
 	d <- merge(d, r8[,c("farm_id", "plot_no", "crop_1_area_harvested", "crop_1_weight_grain")], by.x = c("trial_id", "plot_id"), by.y = c("farm_id", "plot_no"))
 	d$yield <- (d$crop_1_weight_grain/d$crop_1_area_harvested) * 10000 # kg/m2 -> kg/ha
 	d$yield_part <- "grain"
@@ -140,28 +126,23 @@ Mozambique, Kenya & Zimbabwe) as tier one countries.
 	d$vilage <- NULL
 	d$district <- NULL
 	d$plot_id <- NULL
+	d$country <- "Malawi"
 	
-	geo <- data.frame(country = c("Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi",
-	                              "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi",
-	                              "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi",
-	                              "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi", "Malawi",
-	                              "Malawi", "Malawi", "Malawi", "Malawi"),
-	                  location = c("Thamolatha", "Mkumbi", "Chipulumba", "Sinoya", "Kasungeni Kapanda",
-	                               "Kakunga", "Kavala", "Kalumpha-Mkwinya", "Kachiteya", "Kathobwa",
-	                               "Katobwa", "Kambatata", "Funwell", "Peni", "Pitala", "Chilola",
-	                               "Kabampanje", "Nthondoni", "Amon", "Kapeta", "Chipembere", "Khote",
-	                               "Thukwi", "Mnusu", "Kapuzira", "Mphunga", "Kaseka", "Thengoliweta",
-	                               "Sangwa", "S4", "Chinguluwe Centre", "S3"),
-	                  lon = c(NA, 33.156, NA, NA, 33.251, NA, 33.766, NA, NA, 33.166, 33.166, NA, NA,
-	                          33.483, 33.094, NA, NA, 33.133, 33.866, 34.297, 33.1765, NA, NA, NA, NA,
-	                          34.2834, 33.45, NA, 32.974, NA, NA, NA), 
-	                  lat = c(NA, -13.534, NA, NA, -13.35, NA, -13.2, NA, NA, -13.55, -13.55, NA, NA,
-	                          -13.183, -13.394, NA, NA, -13.4, -13.366, -12.886, -13.1014, NA, NA, NA,
-	                          NA, -13.6523, -12.666, NA, -13.719, NA, NA, NA))
+	geo <- data.frame(
+	    location = c("Thamolatha", "Mkumbi", "Chipulumba", "Sinoya", "Kasungeni Kapanda",
+			"Kakunga", "Kavala", "Kalumpha-Mkwinya", "Kachiteya", "Kathobwa",
+			"Katobwa", "Kambatata", "Funwell", "Peni", "Pitala", "Chilola",
+			"Kabampanje", "Nthondoni", "Amon", "Kapeta", "Chipembere", "Khote",
+			"Thukwi", "Mnusu", "Kapuzira", "Mphunga", "Kaseka", "Thengoliweta",
+			"Sangwa", "S4", "Chinguluwe Centre", "S3"),
+	    longitude = c(NA, 33.156, NA, NA, 33.251, NA, 33.766, NA, NA, 33.166, 33.166, NA, NA,
+			33.483, 33.094, NA, NA, 33.133, 33.866, 34.297, 33.1765, NA, NA, NA, NA,
+			34.2834, 33.45, NA, 32.974, NA, NA, NA), 
+	    latitude = c(NA, -13.534, NA, NA, -13.35, NA, -13.2, NA, NA, -13.55, -13.55, NA, NA,
+			-13.183, -13.394, NA, NA, -13.4, -13.366, -12.886, -13.1014, NA, NA, NA,
+			NA, -13.6523, -12.666, NA, -13.719, NA, NA, NA))
 	
-	d <-merge(d, geo, by.x = c("country", "site"), by.y = c("country", "location"))
-	colnames(d)[colnames(d) == "lon"] <- "longitude"
-	colnames(d)[colnames(d) == "lat"] <- "latitude"
+	d <- merge(d, geo, by.x = "site", by.y = "location")
 	
 	d$longitude[is.na(d$longitude) & d$adm2 == "Mchinji District"] <- 33.055
 	d$latitude[is.na(d$latitude) & d$adm2 == "Mchinji District"] <- -13.963
