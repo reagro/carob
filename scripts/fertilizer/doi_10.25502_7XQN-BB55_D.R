@@ -1,37 +1,28 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
 
-"
-Nutrient omission trials cassava root yield data from Nigeria and Tanzania
-ACAI is a 5 year Bill & Melinda Gates Foundation funded project in 5 countries in Africa (Nigeria and Tanzania) providing tailored agronomic advice to small scale cassava growers in the target countries. The project delivers agronomic solutions to improve cassava root yield and quality and the necessary knowledge base and applications for accessing this knowledge to cassava scaling partners and ultimately farmers in the target countries while instituting the necessary capacity and skills for national system scientists to engage in transformative cassava agronomy.
-"
+"Nutrient omission trials cassava root yield data from Nigeria and Tanzania
+ACAI is a 5 year Bill & Melinda Gates Foundation funded project in 5 countries in Africa (Nigeria and Tanzania) providing tailored agronomic advice to small scale cassava growers in the target countries. The project delivers agronomic solutions to improve cassava root yield and quality and the necessary knowledge base and applications for accessing this knowledge to cassava scaling partners and ultimately farmers in the target countries while instituting the necessary capacity and skills for national system scientists to engage in transformative cassava agronomy."
+
 	uri <- "doi:10.25502/7XQN-BB55/D"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-	## dataset level data 
-	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
-	   project=NA,
-	   uri=uri,
-	   data_citation="Pypers, P., Vanlauwe, B., Tariku, M., Ampadu-Boakye, T., Kreye, C., Hauser, S., Baijukya, F., & Ogunsanmi, T. (2020). Nutrient omission trials cassava root yield data from Nigeria and Tanzania [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/7XQN-BB55/D",
-	   publication= NA,
-	   data_institutions = "IITA",
-	   carob_contributor="Robert Hijmans",
-	   carob_date="2023-07-07",
-	   data_type="on-farm experiment"
-	)
-
-## download and read data 
 
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
+
+	## dataset level data 
+	dset <- data.frame(
+		carobiner::extract_metadata(js, uri, group),
+		project=NA,
+		data_citation="Pypers, P., Vanlauwe, B., Tariku, M., Ampadu-Boakye, T., Kreye, C., Hauser, S., Baijukya, F., & Ogunsanmi, T. (2020). Nutrient omission trials cassava root yield data from Nigeria and Tanzania [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/7XQN-BB55/D",
+		publication= NA,
+		data_institutions = "IITA",
+		carob_contributor="Robert Hijmans",
+		carob_date="2023-07-07",
+		data_type="on-farm experiment"
+	)
 
 	f <- ff[basename(ff) == "ACAI_FR_forCKAN_2022.csv"]
 	r <- read.csv(f)
