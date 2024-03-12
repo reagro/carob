@@ -27,27 +27,20 @@ carob_script <- function(path) {
   uri <- "doi:10.21223/P3/OTYRIV"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "potato_trials"
-  
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group= group,
-    project=NA,
-    uri=uri,
-    data_citation="Gastelo, Manuel; Diaz, Luis; Bastos, Maria; Quispe, Katherine; Bonierbale, Merideth, 2018, Dataset for: Advanced clones of group B3 cycle 3, population B with late blight resistance in Oxapampa, 2012, https://doi.org/10.21223/P3/OTYRIV, International Potato Center, V1, UNF:6:GGc8BnXtoJfgbqD77Cr0ug== [fileUNF]",
-    publication= "",
-    data_institutions = "International Potato Center (CIP)",
-    # e.g. "on-farm experiment", "survey", "compilation"
-    data_type="experiment", 
-    carob_contributor="Stephen Gichuhi",
-    carob_date="2024-03-08",
-    revised_by=""
-  )
-  
-  ## download and read data 
-  
+ 
   ff  <- carobiner::get_data (uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
-  dset$license <- carobiner::get_license(js)
+  
+  dset <- data.frame(
+  	carobiner::extract_metadata(js, uri, group),
+    data_citation="Gastelo, Manuel; Diaz, Luis; Bastos, Maria; Quispe, Katherine; Bonierbale, Merideth, 2018. Dataset for: Advanced clones of group B3 cycle 3, population B with late blight resistance in Oxapampa, 2012. https://doi.org/10.21223/P3/OTYRIV, International Potato Center, V1, UNF:6:GGc8BnXtoJfgbqD77Cr0ug== [fileUNF]",
+    publication= "",
+    data_institutions = "CIP",
+    data_type="experiment", 
+    carob_contributor="Stephen Gichuhi",
+    carob_date="2024-03-08"
+  )
+  
   
   f <- ff[basename(ff) == "PTLate_blight092012_OXAPMP_exp8.xlsx"]
   
