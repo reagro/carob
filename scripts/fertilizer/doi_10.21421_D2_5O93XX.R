@@ -33,7 +33,7 @@ carob_script <- function(path) {
 		group=group,
 		uri=uri,
 		publication="doi:10.12692/ijb/9.1.291-302",
-		carob_contributor="Eduardo Garcia Bendito",
+		carob_contributor="Effie Ochieng’",
 		carob_date="2021-07-06",
 		data_type="experiment",
 		data_institutions=NA,
