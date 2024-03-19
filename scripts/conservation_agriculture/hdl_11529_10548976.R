@@ -1,0 +1,62 @@
+# R script for "carob"
+
+
+carob_script <- function(path) {
+
+"The dataset contains experimental data from the San Juan Cotzocon research platform in Oaxaca, Mexico. The database contains data on maize yield, management, profitability and phenology in relation to 8 evaluated treatments. The treatments differed in tillage (disk harrow, zero tillage or permanent raised beds), residue management (removing all or leaving all), fertilization (conventional and soil analysis based) and crop rotation (monoculture maize or rotation with legume)"
+
+	uri <- "hdl:11529/10548976"
+	group <- "conservation_agriculture"
+	dataset_id <- carobiner::simple_uri(uri)
+
+	ff  <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
+
+	dset <- data.frame(
+		carobiner::extract_metadata(js, uri, group=group),
+		data_citation="Fonteyne, Simon; Guera, Ouorou Ganni Mariel; Villa Alcántara, 
+		Jonatan; Núñez Peñaloza, Omar; Verhulst, Nele, 2023. Maize yield and profitability 
+		in a 5 year conservation agriculture experiment in Papaloapan, Oaxaca. 
+		https://hdl.handle.net/11529/10548976, CIMMYT Research Data & Software Repository 
+		Network, V1",
+		data_institutions = "CIMMYT",
+		publication= NA,
+		project=NA,
+		data_type= "experiment",
+		carob_contributor= "Shumirai Manzvera",
+		carob_date="2024-03-14"
+	)
+	
+	f <- ff[basename(ff) == "DAT-SJCotzoconExperiments.xlsx"]
+	r <- carobiner::read.excel(f, sheet="San Juan Cotzocon_OAX")
+
+	d <- data.frame(crop="maize", adm1=r$Estado, 
+			latitude=r$Latitud, longitude=r$Longitud, 
+            elevation=r$Altitud, treatment=r$Name_tr, 
+			rep=as.integer(r$Num_Rep), 
+			crop_rotation="maize; velvet bean; kidney bean",
+	        variety=r$Variety, 
+			plant_density=r$Seed_dens,
+	        K_fertilizer=r$Fert_K,
+			P_fertilizer=r$Fert_P,
+			N_fertilizer=r$Fert_N,
+			row_spacing=r$Row_dist,
+	        land_prep_method=r$Till, 
+			plant_height=r$Height,
+			planting_date=as.character(r$Sowing_date),
+			emergence_date=as.character(r$Emergence_date),
+	        harvest_date=as.character(r$Harvest_date),
+			yield=r$Yield_moist,
+			trial_id="1", 
+			yield_part="grain" 
+		)
+ 
+	d$dataset_id <- dataset_id
+	d$on_farm <- FALSE
+	d$is_survey <- FALSE
+	d$irrigated <- FALSE
+	d$country <- "Mexico"
+
+	carobiner::write_files(dset, d, path=path)
+}
+
