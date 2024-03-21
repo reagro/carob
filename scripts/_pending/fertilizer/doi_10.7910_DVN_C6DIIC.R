@@ -9,7 +9,6 @@
 # But this dataset has the soil chemistry data. 
 # So we should probably use this file as a basis and enrich with the other data sources
 
-## CN:  Regarding the overlapping issue, I noticed that,experience was carry out in the place different from others AfSIS data (doi_10.25502_20180814_1219_HJ.R,doi_10.25502_20180814_1446_HJ.R, ...), so i things its can be added as new data set 
 
 carob_script <- function(path) {
   
