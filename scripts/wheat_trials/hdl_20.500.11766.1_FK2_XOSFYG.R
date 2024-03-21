@@ -70,6 +70,5 @@ carob_script <- function(path) {
 	d$dataset_id <- dataset_id
 	d$trial_id <- "1"
 
-	carobiner::write_files (dset, d, path=path)
- 
+	carobiner::write_files (path, dset, d) 
 }

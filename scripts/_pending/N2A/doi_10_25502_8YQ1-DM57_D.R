@@ -99,7 +99,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 
 	d$fertilizer_type <- NA
 	d$fertilizer_type[d$mineral_fert_amount == 1] <- "TSP"
-	d$fertilizer_type[d$mineral_fert_amount == 2] <- "TSP; urea"
+	d$fertilizer_type[d$mineral_fert_amount == 2] <- "TSP;urea"
 	d$N_fertilizer <- 0
 	d$N_fertilizer[d$mineral_fert_amount == 2] <- as.numeric(60*0.46)
 	d$N_splits <- NA
