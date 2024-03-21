@@ -13,6 +13,7 @@ carob_script <- function(path) {
 
 	## dataset level data 
 	dset <- data.frame(
+		carobiner::extract_metadata(js, uri, group=group),
 		project="AfSIS", 
 		publication= "doi:10.1016/j.agee.2016.05.012",
 		data_institutions = "IITA", 
@@ -22,17 +23,17 @@ carob_script <- function(path) {
 		data_type="experiment"
     )
 	f1 <- ff[basename(ff) == "Kasungu_DT2011_field.csv"]
-	f2 <- ff[basename(ff) == "Kasungu_DT2011_plant.csv"]
-	f3 <- ff[basename(ff) == "Kasungu_DT2011_plot.csv"]	
+	f2 <- ff[basename(ff) == "Kasungu_DT2011_plot.csv"]	
+#	fx <- ff[basename(ff) == "Kasungu_DT2011_plant.csv"]
 	r1 <- read.csv(f1)
 	r2 <- read.csv(f2)
-	r3 <- read.csv(f3)
+#	r3 <- read.csv(f3)
 		
 	## process file(s)
 	d1 <- r1[, c("Site", "Cluster", "Field", "Flat", "Flong", "Village", "Season", "Soil.texture.class", "TCrop", "PCrop1", "FType1", "MType1")]
 	colnames(d1) <- c("site", "cluster", "field", "latitude", "longitude", "location", "season", "soil_type", "crop", "previous_crop", "fertilizer_type", "OM_type")
 
-	d2 <- r3[, c("Cluster", "Field", 'Rep', 'TrtDesc', 'Adj.StoverYld', 'Grn.yld.adj')]
+	d2 <- r2[, c("Cluster", "Field", 'Rep', 'TrtDesc', 'Adj.StoverYld', 'Grn.yld.adj')]
 	colnames(d2) <- c("cluster", "field", "rep", "treatment", "residue_yield", "yield")
 
 	#merge d1 and d2
@@ -43,9 +44,9 @@ carob_script <- function(path) {
 	
 	# fix fertilizer_type name
 	p <- d$fertilizer_type
-	p <- gsub("\\+\\+|\\+|-|&", "; ", p)
-	p <- gsub(";", "; ", p)
-	p <- gsub(";  ", "; ", p)
+	p <- gsub("\\+\\+|\\+|-|&", ";", p)
+	p <- gsub(";", ";", p)
+	p <- gsub(";  ", ";", p)
 	p <- gsub("D Compound|D.Comp", "D-compound", p)
 	p <- gsub("Urea", "urea", p)
 	p[p == ""] <- "none"
@@ -108,6 +109,6 @@ carob_script <- function(path) {
 	d$yield_part <- "grain"
 
 	# all scripts must end like this	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(path, dset, d)
 }
 

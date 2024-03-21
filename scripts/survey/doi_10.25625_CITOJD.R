@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	group <- "survey"
   
 	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
