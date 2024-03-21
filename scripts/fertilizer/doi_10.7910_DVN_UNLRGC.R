@@ -1,9 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# not clear what is meant with replicate. See  table(d$Rep) 
-# not clear what is meant with "season" (1 or 2) needs to be changed into months
-
 
 carob_script <- function(path) {
 
@@ -21,17 +17,15 @@ Notes
 	citation could be improved to include the underlying data sources.
 "
 
-	## Process 
 	uri <- "doi:10.7910/DVN/UNLRGC"
-	cleanuri <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 
-	dataset_id <- paste0(cleanuri)
-	## dataset level data 
+	dataset_id <- carobiner::simple_uri(uri)
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::extract_metadata(js, uri, group=group),
 		data_citation="Kihara, Job, 2016. Replication Data for: Maize response to macronutrients and potential for profitability in sub-Saharan Africa, https://doi.org/10.7910/DVN/UNLRGC",
 		publication="doi:10.1007/s10705-015-9717-2",
 		carob_contributor="Camila Bonilla",
@@ -41,77 +35,61 @@ Notes
 		data_institutions="CIAT"
 	)
 
-	## treatment level data 
-	ff <- carobiner::get_data(uri, path, group)
-
-	## read the json for version, license, terms of use  
-	js <- carobiner::get_metadata(cleanuri, path, major=1, minor=3, group)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-
-	## the AFSIS data 
-
-	f <- ff[basename(ff) == "Kihara et al.2015_AFSIS_Data.xlsx"]
-	d <- as.data.frame(readxl::read_excel(f))
-	#"Site', 'Cluster', 'Season', 'Field', 'FieldID', 'TrtDesc', 'TCrop', 'FLat', 'FLong', 'Plot', 'PlotID', 'Trt', 'Rep', 'HarvestArea', 'TGrainYld_Uncorr"
-	
+	## the AFSIS data is not processed because it is also included elsewhere
+	## ISSUES
 	# not clear what is meant with replicate. See  table(d$Rep) 
+	# not clear what is meant with "season" (1 or 2) needs to be changed into months
+
+	# f <- ff[basename(ff) == "Kihara et al.2015_AFSIS_Data.xlsx"]
+	# d <- as.data.frame(readxl::read_excel(f))
+	# # not clear what is meant with replicate. See  table(d$Rep) 
+	# d <- d[, c('Site', 'Cluster', 'FieldID', 'TrtDesc', 'Rep', 'TCrop', 'FLat', 'FLong', 'TGrainYld_Uncorr')]
+	# colnames(d) <- c('location', 'site', 'field', 'treatment', 'rep', 'crop', 'latitude', 'longitude', 'yield')
+	# d[d=="NA"] <- NA
+	# d$trial_id <- paste0("AFSIS_", d$field)
+
+	# lat <- as.numeric(d$latitude)
+	# lon <- as.numeric(d$longitude)
 	
-	d <- d[, c('Site', 'Cluster', 'FieldID', 'TrtDesc', 'Rep', 'TCrop', 'FLat', 'FLong', 'TGrainYld_Uncorr')]
-	colnames(d) <- c('location', 'site', 'field', 'treatment', 'rep', 'crop', 'latitude', 'longitude', 'yield')
-	d[d=="NA"] <- NA
-	d$trial_id <- paste0("AFSIS_", d$field)
+	# i <- which(abs(lat) > 90)
+	# lat[i] <- as.numeric(paste0(substr(d$latitude[i], 1, 2), ".", substr(d$latitude[i], 3, 6)))
+	# lon[i] <- -1 * as.numeric(paste0(substr(d$longitude[i], 1, 1), ".", substr(d$longitude[i], 2, 6)))
+	# d$latitude <- round(lat, 5)
+	# d$longitude <- round(lon, 5)
+	# d$crop <- tolower(d$crop)
+	# d$planting_date <- substr(d$field, 5, 8)	
+	# d$planting_date[d$planting_date %in% c('10LR', '10SR')] <- "2010"
+	# # months can be estimated from LR and SR 
+	# d$yield <- round(d$yield*1000)
+	# d$K_fertilizer <- d$P_fertilizer <- d$N_fertilizer <- 0
+	# d$N_fertilizer[grep("N", d$treatment)] <- 100
+	# d$K_fertilizer[grep("K", d$treatment)] <- 60 
+	# d$P_fertilizer[grep("P", d$treatment)] <- 30
+	# #d$fertilizer <- ""
+	# d$country <- NA
+	# d$country[d$location=="Nkhata Bay" | d$location=="Thuchila" | d$location=="Kasungu"] <- "Malawi"
+	# d$country[d$location=="Kiberashi"| d$location=="Mbinga"] <- "Tanzania"
+	# d$country[d$location=="Finkolo"] <- "Mali"
+	# d$country[d$location=="Pampaida"] <- "Nigeria"
+	# d$country[d$location=="Sidindi"] <- "Kenya"
+	# i <- d$country == "Malawi" & d$location == "Thuchila"
+	# d$longitude[i] <- 35.355
+	# d$latitude[i] <- -15.904
+	# i <- d$country == "Kenya" & d$location == "Sidindi"
+	# d$longitude[i] <- 34.389
+	# d$latitude[i] <- 0.154
 
-	lat <- as.numeric(d$latitude)
-	lon <- as.numeric(d$longitude)
+	# d$dataset_id <- dataset_id
+	# d$on_farm <- TRUE
+	# d$is_survey <- FALSE
+	# d$field <- NULL
+	# d$site <- as.character(d$site)
+
+	# # not clear what these mean
+	# d$rep <- NULL
 	
-	i <- which(abs(lat) > 90)
-	lat[i] <- as.numeric(paste0(substr(d$latitude[i], 1, 2), ".", substr(d$latitude[i], 3, 6)))
-	lon[i] <- -1 * as.numeric(paste0(substr(d$longitude[i], 1, 1), ".", substr(d$longitude[i], 2, 6)))
-	d$latitude <- round(lat, 5)
-	d$longitude <- round(lon, 5)
-	d$crop <- tolower(d$crop)
-
-	d$planting_date <- substr(d$field, 5, 8)	
-	d$planting_date[d$planting_date %in% c('10LR', '10SR')] <- "2010"
-	# months can be estimated from LR and SR 
-
-	d$yield <- round(d$yield*1000)
-		
-	d$K_fertilizer <- d$P_fertilizer <- d$N_fertilizer <- 0
-	d$N_fertilizer[grep("N", d$treatment)] <- 100
-	d$K_fertilizer[grep("K", d$treatment)] <- 60 
-	d$P_fertilizer[grep("P", d$treatment)] <- 30
-	#d$fertilizer <- ""
-
-	d$country <- NA
-	d$country[d$location=="Nkhata Bay" | d$location=="Thuchila" | d$location=="Kasungu"] <- "Malawi"
-	d$country[d$location=="Kiberashi"| d$location=="Mbinga"] <- "Tanzania"
-	d$country[d$location=="Finkolo"] <- "Mali"
-	d$country[d$location=="Pampaida"] <- "Nigeria"
-	d$country[d$location=="Sidindi"] <- "Kenya"
-
-	i <- d$country == "Malawi" & d$location == "Thuchila"
-	d$longitude[i] <- 35.355
-	d$latitude[i] <- -15.904
-	i <- d$country == "Kenya" & d$location == "Sidindi"
-	d$longitude[i] <- 34.389
-	d$latitude[i] <- 0.154
-
-
-	d$dataset_id <- dataset_id
-	d$on_farm <- TRUE
-	d$is_survey <- FALSE
-	d$field <- NULL
-	d$site <- as.character(d$site)
-
-	# not clear what these mean
-	d$rep <- NULL
-	
-	d$yield_part <- "grain"
-	afsis_data <- d
+	# d$yield_part <- "grain"
+	# afsis_data <- d
 
 ###############################
 	## FAO data 
@@ -208,8 +186,9 @@ Notes
 	# most likely here
 	zz$K_fertilizer[is.na(zz$K_fertilizer)] <- 0
 
-	affao <- carobiner::bindr(afsis_data, zz)
-	carobiner::write_files(dset, affao, path=path)
+	carobiner::write_files(dset, zz, path=path)
+##	affao <- carobiner::bindr(afsis_data, zz)
+##	carobiner::write_files(dset, affao, path=path)
 }
 
 

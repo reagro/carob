@@ -7,7 +7,7 @@
 carob_script <- function(path) {
   
   "Description:
-    The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveilllance framework and inlcuded also multi-location diagnostic trials in selected sentiale sites to determine nutrient limitations and response to improved soil management practices (soil amendments).
+    The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments).
   "
   
 	uri <- "doi:10.25502/20180814/1446/HJ"
@@ -92,6 +92,9 @@ carob_script <- function(path) {
 	d$fertilizer_type[r$FType1 != ""] <- "DAP"
 	d$fertilizer_type[r$FType2 != ""] <- "urea"
 	d$fertilizer_type[r$FType1 != "" & r$FType2 != ""] <- paste0("DAP; urea")
+	i <- d$N_fertilizer == 0 & d$K_fertilizer == 0 & d$P_fertilizer == 0
+	d$fertilizer_type[i] <- "none"
+	
 
 	r$CobFW[r$CobFW == "."] <- NA
 	d$residue_yield <- 10000 * (r$TStoverYld + as.numeric(r$CobFW) / r$Harea) - d$yield
@@ -117,7 +120,7 @@ carob_script <- function(path) {
 	d$crop_rotation <- gsub("ground nuts", "groundnut", d$crop_rotation)
 
 
-## the dates are a mess. Different formats and inconstencies with e.g. harvesting after planting, and in different years). Would need to check with author. Perhaps the planting date is correct 
+## the dates are a mess. Different formats and inconsistencies with e.g. harvesting after planting, and in different years). Would need to check with author. Perhaps the planting date is correct 
 	pdate1 <- as.Date(r$PlntDa, "%d/%m/%Y")
 	pdate2 <- as.Date(r$PlntDa, "%m/%d/%Y")
 	pdate1[is.na(pdate1)] <- pdate2[is.na(pdate1)]

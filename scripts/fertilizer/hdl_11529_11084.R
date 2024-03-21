@@ -8,9 +8,7 @@
 
 carob_script <- function(path) {
 
-"Description:
-
-Working with 64 farmers in eight production environments, we examined yield response to three genotypes, BG25 and BG27 (with salinity - and heat - tolerant traits) and BG21 (local check), across a gradient of sowing dates, grouped as 'early' (sown before 15 December) and 'late' (after 15 December), under 0, 100 and 133 and 0, 67 and 100 kg N ha-1 for early- and late-sowing groups, respectively. 
+"Working with 64 farmers in eight production environments, we examined yield response to three genotypes, BG25 and BG27 (with salinity - and heat - tolerant traits) and BG21 (local check), across a gradient of sowing dates, grouped as 'early' (sown before 15 December) and 'late' (after 15 December), under 0, 100 and 133 and 0, 67 and 100 kg N ha-1 for early- and late-sowing groups, respectively. 
 
 Across environments and genotypes, yield ranged from 2.11 to 4.77 t ha-1(mean: 3.9 t ha-1) under early-sowing, and from 0.83 to 4.27 t ha-1(mean: 2.74 t ha-1) under late-sowing. Wheat performance varied with environment (1.68 - 4.77 t ha-1 at 100 kg N ha-1across sowing groups); the lowest yields found where early sowing was delayed and soil salinity levels were elevated. Small but significant (P less than 0.001) yield differences (0.22 t ha-1) were found between 100 and 133 kg N ha-1 for the early-sowing group, though no difference was found between 67and 100 kg N ha-1 for late-sowing. Combining early- and late-sowing groups, significant environment x N rate and sowing-group x N rate interactions (both P less than 0.001) for 100 kg N ha-1 indicated the importance of site-and time-specific N management in these stress-prone environments.
 

@@ -4,19 +4,18 @@
 
 carob_script <- function(path) {
 
-"
-Description:
-The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments)
-"
+# The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments)
+
 
 	uri <- "doi:10.25502/20180814/1239/HJ"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-  ## dataset level data 
+
+	dataset_id <- carobiner::simple_uri(uri)
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::extract_metadata(js, uri, group=group),
 		project="AFSIS",
 		publication= NA,
 		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Mbinga [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1239/HJ",
@@ -46,9 +45,6 @@ The AFSIS project aimed to establish an  Africa Soil Information system. Data wa
   # group <- "fertilizer"
   ### dataset level data 
   # dset <- data.frame(
-    # dataset_id = dataset_id,
-    # group=group,
-    # uri=uri,
     # publication= NA,
     # data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Mbinga [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1239/HJ",
     # data_institutions = "IITA",
