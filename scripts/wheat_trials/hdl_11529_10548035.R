@@ -14,8 +14,8 @@ carob_script <- function(path) {
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group=group),
-		project="International Durum Yield Nurseries",
-		data_citation="Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019, 1st to 10th High Rainfall Wheat Yield Trial, https://hdl.handle.net/11529/10548195, CIMMYT Research Data & Software Repository Network, V4, UNF:6:1bUNVa1OpwFsogRFMSF4vQ== [fileUNF]",
+		project="International Durum Yield Nursery",
+		data_citation="Global Wheat Program; IWIN Collaborators; Ammar, Karim; Payne, Thomas, 2018. 48th International Durum Yield Nursery. https://hdl.handle.net/11529/10548035, CIMMYT Research Data & Software Repository Network, V6, UNF:6:We1N1Ahrfm2fdFVA19ud3A== [fileUNF]",
 		publication=NA,
 		data_institutions = "CIMMYT",
 		data_type="experiment", 
