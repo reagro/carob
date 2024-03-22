@@ -6,12 +6,7 @@
 
 carob_script <- function(path) {
 
-"
-	Description:
-
-    CIMMYT and IITA. 2017. TAMASA Tanzania Agronomic Panel Survey for 2016. Version 1. Taking Maize Agronomy to Scale Project, CIMMYT and IITA. Tabular dataset (2016)
-
-"
+"CIMMYT and IITA. 2017. TAMASA Tanzania Agronomic Panel Survey for 2016. Version 1. Taking Maize Agronomy to Scale Project, CIMMYT and IITA. Tabular dataset (2016)"
 
 	uri <- "hdl:11529/10548235"
 	dataset_id <- carobiner::simple_uri(uri)
