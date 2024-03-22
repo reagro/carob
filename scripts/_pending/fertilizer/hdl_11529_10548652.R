@@ -6,11 +6,9 @@
 
 carob_script <- function(path) {
 
-"Description:
+"This experiments were established with different rates of nitrogen in order to generate a wide range of values for NDVI and grain yield in order to develop a calibration model for the GreenSeeker in Yaqui Valley. (2022-03-28)"
 
-    [This experiments were established with different rates of nitrogen in order to generate a wide range of values for NDVI and grain yield in order to develop a calibration model for the GreenSeeker in Yaqui Valley. (2022-03-28)]"
-
-	uri <- "doi:11529/10548652"
+	uri <- "hdl:11529/10548652"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	

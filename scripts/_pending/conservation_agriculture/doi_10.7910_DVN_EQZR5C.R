@@ -8,10 +8,8 @@ carob_script <- function(path) {
 
 "International Maize and Wheat Improvement Center (CIMMYT); 
 Zambian Agriculture Research Institute (ZARI), 2021,
-Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020
+Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020"
 
-   
-"
 	uri <- "doi:10.7910/DVN/EQZR5C"
 	group <- "conservation_agriculture"
 	dataset_id <- carobiner::simple_uri(uri)
@@ -21,11 +19,11 @@ Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020
 
 ##### dataset level metadata 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group="conservation_agriculture", dataset_id=dataset_id),
+		carobiner::extract_metadata(js, uri, group="conservation_agriculture"),
 		data_citation="Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020, https://doi.org/10.7910/DVN/EQZR5C, Harvard Dataverse, V1, UNF:6:OAYMpK4cYPCnzPEmfE+rNQ== [fileUNF]",
 		data_institutions = "CIMMYT",
 		publication= NA,
-		project=NA,
+		project="Africa Rising",
 		data_type= "on-farm experiment",
 		carob_contributor= "Shumirai Manzvera",
 		carob_date="2024-02-29"

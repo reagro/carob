@@ -21,7 +21,7 @@ Sustainable intensification of mixed crop-livestock systems is a key pathway tow
 	dset <- data.frame(
 		dataset_id = dataset_id,
 		group=group,
-		project=NA,
+		project="Africa Rising",
 		uri=uri,
 		data_citation="International Maize and Wheat Improvement Center (CIMMYT); Zambia Agricultural Research Institute (ZARI); Grassroots Trust; Catholic Relief Services (CRS), 2016. Sustainable Intensification of Low-Input Agriculture Systems in Zambia.  https://doi.org/10.7910/DVN/FVEISH, Harvard Dataverse, V1, UNF:6:Zg8Rrg8Lz4Zw4Z5UVG+A5Q== [fileUNF]",
 		publication= NA,
