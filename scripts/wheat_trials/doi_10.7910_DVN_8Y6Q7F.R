@@ -32,8 +32,6 @@ carob_script <- function(path) {
 			yield = r$Yield*1000, rain=r$prec,
 			crop="wheat", yield_part="grain", country="South Africa")
 	
-#### about the data #####
-
 	d$dataset_id <- dataset_id
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE

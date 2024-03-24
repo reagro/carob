@@ -27,14 +27,15 @@ carob_script <- function(path) {
 	r <- readxl::read_excel(f, sheet = "Data")
   
 	d <- data.frame(
-		crop="wheat", yield_part="grain", 
-		yield= r$YLD*1000, 
-        variety = as.character(r$Genotype),
+		crop = "durum wheat", 
+		yield_part = "grain", 
+		yield = r$YLD*1000, 
+		variety = as.character(r$Genotype),
 		treatment = r$TEnv,
 		trial_id = "1",
-        planting_date= as.character((r$Year)), 
-		rep= as.integer(r$Rep),
-        plant_height= as.numeric(r$PHT),
+		planting_date = as.character(r$Year), 
+		rep = as.integer(r$Rep),
+		plant_height = as.numeric(r$PHT),
 		dataset_id = dataset_id,
 		irrigated = TRUE,
 		country = "Mexico",

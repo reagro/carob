@@ -3,8 +3,7 @@
 
 carob_script <- function(path) {
   
-"Description:
-Adoption of agronomic practices based on zero tillage and residue retention is increasing, due to their potential for climate change adaptation and mitigation. Genotype by tillage interactions for yield are not well understood. Fourteen CIMMYT bread (Triticum aestivum) and durum (Triticum turgidum) wheat genotypes, created between 1964 and 2011, were tested for yield and agronomic performance at CIMMYT’s experimental station near Ciudad Obregon, Mexico, over nine years (harvest years 2010 to 2018). Treatments included conventional and permanent raised beds with full and reduced irrigation. The dataset contains data on wheat performance (days to emergence, flowering and maturity, plant height, harvest index, grain yield, thousand grain weight, test weight, NDVI), performance traits calculated from these data (e.g. number of grains per m2, number of grains per spike, grain production rate from flowering to maturity) and daily weather data during the study period (precipitation, maximum and minimum temperature). This is an updated version of a dataset published in Honsdorf et al. (2018), where we have added three more years of data (harvest years 2016, 2017 and 2018) and one additional bread wheat genotype, Borlaug 100 (created in 2011) that was tested only in the six last years of the experiment (harvest years 2013 to 2018). (2021-12-14)
+"Adoption of agronomic practices based on zero tillage and residue retention is increasing, due to their potential for climate change adaptation and mitigation. Genotype by tillage interactions for yield are not well understood. Fourteen CIMMYT bread (Triticum aestivum) and durum (Triticum turgidum) wheat genotypes, created between 1964 and 2011, were tested for yield and agronomic performance at CIMMYT’s experimental station near Ciudad Obregon, Mexico, over nine years (harvest years 2010 to 2018). Treatments included conventional and permanent raised beds with full and reduced irrigation. The dataset contains data on wheat performance (days to emergence, flowering and maturity, plant height, harvest index, grain yield, thousand grain weight, test weight, NDVI), performance traits calculated from these data (e.g. number of grains per m2, number of grains per spike, grain production rate from flowering to maturity) and daily weather data during the study period (precipitation, maximum and minimum temperature). This is an updated version of a dataset published in Honsdorf et al. (2018), where we have added three more years of data (harvest years 2016, 2017 and 2018) and one additional bread wheat genotype, Borlaug 100 (created in 2011) that was tested only in the six last years of the experiment (harvest years 2013 to 2018). (2021-12-14)
 "
   
 	uri <- "hdl:11529/10548636"
@@ -28,28 +27,35 @@ Adoption of agronomic practices based on zero tillage and residue retention is i
 	f <- ff[basename(ff) == "PUB-201-DIB_2021-Data_2021-12-12_corrected.xlsx"]
 	
 	r1 <- carobiner::read.excel(f,sheet = "Genotype list", skip = 3)
-	d1 <- data.frame(GID=r1$`Germplasm ID`, variety=r1$Name, variety_code=r1$`Selection History`)
-
 	r2 <- carobiner::read.excel(f, sheet = "Data", skip = 2)
-	
-	## use a subset
-	d <- data.frame(GID=r2$GID, trial_id=r2$year, planting_date=as.character(r2$SOW),
-					emergence=r2$EMER, flowering=r2$FLO, maturity=r2$MAT, plant_height=r2$HEI, 
-					yield=r2$YLD)
+
+	d1 <- data.frame(
+		GID = r1$`Germplasm ID`, 
+		variety = r1$Name, 
+		variety_code = r1$`Selection History`
+	)
+
+	d <- data.frame(
+		GID = r2$GID, 
+		trial_id = r2$year, 
+		planting_date = as.character(r2$SOW),
+		emergence = r2$EMER, 
+		flowering = r2$FLO, 
+		maturity = r2$MAT, 
+		plant_height = r2$HEI, 
+		yield = r2$YLD)
 					
 	d$flowering[d$flowering == "NA"] <- NA
 	d$flowering <- as.integer(d$flowering)
-
-					
+				
 	#BW -> Bread Wheat, DW -> Durum Wheat
-	d$variety_type <- ifelse(r2$type == "BW", "bread wheat", "durum wheat")
+	d$crop <- ifelse(r2$type == "BW", "wheat", "durum wheat")
 
 	#excel sheet for abbreviations indicated the following system names:
 	treatcode = c("PB-FI", "PB-RI", "CB-RI", "CB-FI")
 	treatname = c("Permanents beds, Full irrigation", "Permanents beds, Reduced irrigation", "Conventional tilled beds, Reduced irrigation", "Conventional tilled beds, Full irrigation")
- 
-	d$treatment <- treatname[match(r2$syst, treatcode)]
 
+	d$treatment <- treatname[match(r2$syst, treatcode)]
  
 	#Information on fertilizer application rates was found in the publication 
 	d$P_fertilizer <- 23
@@ -66,7 +72,6 @@ Adoption of agronomic practices based on zero tillage and residue retention is i
 	d$site <- "Ciudad Obregón"
 	d$longitude <- -109.926
 	d$latitude <- 27.368
-	d$crop <- "wheat"
 
 	d$yield_part <- "grain"
 	d$trial_id <- as.character(d$trial_id)
@@ -75,7 +80,6 @@ Adoption of agronomic practices based on zero tillage and residue retention is i
 	d$is_survey <- FALSE
 	d$irrigated <- TRUE
 	
-
 	d <- merge(d, d1, by= "GID", all.x=TRUE)
 	d$GID <- NULL
 	
