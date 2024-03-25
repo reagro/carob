@@ -14,13 +14,12 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10842"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		uri=uri,
-		data_citation='Thierfelder, Christian; Blessing Mhlanga, 2016, "Monitoring and evaluation of the effects over time of conservation agriculture practices on crop yield, soil quality, weeds, pests and diseases., https://hdl.handle.net/11529/10842, CIMMYT Research Data & Software Repository Network, V1"',
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= NA,
@@ -30,21 +29,13 @@ carob_script <- function(path) {
 		carob_date="2023-08-01"
 	)
 
-## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "Domboshawa 2010.2016.xlsx"]
 
 	r1 <- carobiner::read.excel(f,sheet = 1)
 	r2 <- carobiner::read.excel(f,sheet = 2)
 	
-	d1 <- data.frame(country = r1$Country, dataset_id=dataset_id)
 	d1$on_farm <- TRUE
 	d1$is_survey <- FALSE
 	d1$irrigated <- FALSE

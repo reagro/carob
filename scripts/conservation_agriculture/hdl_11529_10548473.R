@@ -9,13 +9,13 @@ carob_script <- function(path) {
 
 	dataset_id <- carobiner::simple_uri(uri)
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0) 
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		data_citation="Verhulst, Nele; Ammar, Karim; Honsdorf, Nora; Govaerts, Bram; Crossa, Jose; Vargas, Mateo, 2020. Parallel selection of durum wheat in conventional and zero tillage. https://hdl.handle.net/11529/10548473, CIMMYT Research Data & Software Repository Network, V1, UNF:6:C+bZEedQtaH9ce54/PaaNA== [fileUNF]",
+		#data_citation="Verhulst, Nele; Ammar, Karim; Honsdorf, Nora; Govaerts, Bram; Crossa, Jose; Vargas, Mateo, 2020. Parallel selection of durum wheat in conventional and zero tillage. https://hdl.handle.net/11529/10548473, CIMMYT Research Data & Software Repository Network, V1, UNF:6:C+bZEedQtaH9ce54/PaaNA== [fileUNF]",
 		publication=NA,
 		data_institutions = "CIMMYT",
 		data_type="experiment", 

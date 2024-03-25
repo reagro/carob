@@ -13,13 +13,13 @@ carob_script <- function(path) {
 	uri <- "doi:10.21223/YACJGV"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		data_citation = "Vandamme, Elke, 2023. Dataset for: Fertilizer response trials to calibrate and cross-validate AKILIMO for potato in Rwanda. https://doi.org/10.21223/YACJGV, International Potato Center, V1, UNF:6:dqyMNI9EnXyX0pNaGvS+hQ== [fileUNF]",
+		#data_citation = "Vandamme, Elke, 2023. Dataset for: Fertilizer response trials to calibrate and cross-validate AKILIMO for potato in Rwanda. https://doi.org/10.21223/YACJGV, International Potato Center, V1, UNF:6:dqyMNI9EnXyX0pNaGvS+hQ== [fileUNF]",
 		publication= NA,
 		data_institutions = "CIP",
 		data_type="experiment", 

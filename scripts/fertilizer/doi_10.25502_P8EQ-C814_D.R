@@ -10,14 +10,12 @@ carob_script <- function(path) {
     uri <- "doi:10.25502/P8EQ-C814/D"
     dataset_id <- carobiner::simple_uri(uri)
     group <- "fertilizer"
+    ff <- carobiner::get_data(uri, path, group)
+    js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
       ## dataset level data 
     dset <- data.frame(
-        dataset_id = dataset_id,
-        group=group,
-        uri=uri,
+		carobiner::extract_metadata(js, uri, group),
         publication= NA, #"DOI:10.1564/v27_oct_04"
-        data_citation = "Hauser, S. (2020). Cassava Weed Management Data - Agronomy Trials 2014 [dataset]. International Institute of Tropical Agriculture (IITA).
-        https://doi.org/10.25502/P8EQ-C814/D",
         data_institutions = "IITA",
         carob_contributor="Cedric Ngakou",
         carob_date="2023-09-19",
@@ -25,13 +23,6 @@ carob_script <- function(path) {
         project=NA 
     )
       
-    ## download and read data 
-    ff <- carobiner::get_data(uri, path, group)
-    js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-    dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
     # read the dataset
     r1 <- read.csv(ff[basename(ff)=="Agro2014_1stSeason_All_Locations_Cas_Datafile_Rft.csv"])
     r2 <- read.csv(ff[basename(ff)=="Agro2014_2ndSeason_All_Locations_Cas_Datafile_Rft.csv"])
@@ -125,7 +116,6 @@ carob_script <- function(path) {
 	d$land_prep_method <- tolower(d$land_prep_method)
 	d$uid <- NULL
 	
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	
 }

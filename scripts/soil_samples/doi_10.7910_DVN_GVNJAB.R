@@ -6,12 +6,11 @@ carob_script <- function(path) {
   uri <- "doi:10.7910/DVN/GVNJAB"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "soil_samples"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=4)
   dset <- data.frame(
-    dataset_id =dataset_id,
-    group=group,
+		carobiner::extract_metadata(js, uri, group),
     project= NA,
-    uri=uri,
-    data_citation="Piikki, Kristin; Söderström, Mats; Sommer, Rolf; Da Silva, Mayesse, 2019, 'Physical topsoil properties in Murugusi, Western Kenya', https://doi.org/10.7910/DVN/GVNJAB, Harvard Dataverse, V1, UNF:6:Lxx21ICZO4yG59/xN+m8WQ== [fileUNF]",
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)
     publication= NA,
@@ -22,12 +21,6 @@ carob_script <- function(path) {
   )
   
   ## download data from the uri provided
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=4)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   # No need to read the table with MIR data
   f <- ff[basename(ff) == "02 soil_samples-data.xlsx"]
@@ -44,7 +37,6 @@ carob_script <- function(path) {
 	d$longitude <- v[,1]
   
 	d$country <-  'Kenya'
-    d$dataset_id =dataset_id
 	
 	d$soil_sample_top <- 0
 	d$soil_sample_bottom <- 20

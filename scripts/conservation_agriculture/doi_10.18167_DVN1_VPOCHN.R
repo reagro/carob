@@ -16,14 +16,14 @@ These are the raw data of the paper: 'Mulch application as the overarching facto
   group <- "conservation_agriculture"
   
   dataset_id <- carobiner::simple_uri(uri)
-  ff  <- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   
   ## dataset level data 
   dset <- data.frame(
     carobiner::extract_metadata(js, uri, group),
     project = NA,
-    data_citation ="Shumba, Armwell; Chikowo, Regis; Thierfelder, Christian; Corbeels, Marc; Six, Johan; Cardinael, Rémi, 2023, Data for Mulch application as the overarching factor explaining increase in soil organic carbon stocks under conservation agriculture in two 8-year-old experiments in Zimbabwe, https://doi.org/10.18167/DVN1 /VPOCHN , CIRAD Dataverse, V2",
+    #data_citation ="Shumba, Armwell; Chikowo, Regis; Thierfelder, Christian; Corbeels, Marc; Six, Johan; Cardinael, Rémi, 2023, Data for Mulch application as the overarching factor explaining increase in soil organic carbon stocks under conservation agriculture in two 8-year-old experiments in Zimbabwe, https://doi.org/10.18167/DVN1 /VPOCHN , CIRAD Dataverse, V2",
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)
     publication = "doi:10.1016/j.agee.2022.108207",

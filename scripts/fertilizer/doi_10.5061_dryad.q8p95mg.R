@@ -11,31 +11,21 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	uri <- "doi:10.5061/dryad.q8p95mg"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
   ## data set level data0
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::extract_metadata(js, uri, group),
 		publication= "doi:10.1007/s10705-018-9915-9",
 		project="Optimizing Fertilizer Use in Africa",
-		data_citation = "Kaizzi, K. C. et al. (2018), Data from: Bean yield and economic response to fertilizer in eastern and southern Africa, Dryad, Dataset, https://doi.org/10.5061/dryad.q8p95mg",
 		data_institutions = "University of Nebraska - Lincoln",
 		carob_contributor="Rachel Mukami",
 		carob_date="2023-07-06",
-		data_type="on_farm & on_station")
-
-	## download and read data
-
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
+		data_type="on_farm & on_station"
+	)
 
 	# reading the datasets
-	ff <- carobiner::get_data(uri, path, group)
 	f <- ff[basename(ff) == "ESA Bean Nutrient Response Dataset.xlsx"]
 
 ### Kenya
@@ -198,7 +188,6 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	z <- z[,!(colnames(z) %in% c("longitude", "latitude"))]
 	z <- merge(z, gi, by = c("country", "location"))
 	
-	# all scripts must end like this
 	carobiner::write_files(path, dset, z)
 }
 
@@ -209,7 +198,7 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 # 	purl <- "https://xxxx"
 # 	path <- "c:/"
 # 	did <- "doi_10.5061_dryad.q8p95mg"
-# 	fpdf <- carobiner::get_more_data(purl, did, path, group="fertilizer")
+#		carobiner::extract_metadata(js, uri, group),
 # 
 # 	extract_from_pdf <- function(f, pages) {
 # 		p <- package_name::extract_areas(f, pages = pages)

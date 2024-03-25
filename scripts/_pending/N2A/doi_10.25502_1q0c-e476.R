@@ -20,13 +20,12 @@ carob_script <- function(path) {
 	uri <- "https://doi.org/10.25502/1q0c-e476"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project="N2Africa",
-		uri=uri,
-		data_citation="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa use survey - Zimbabwe, 2012 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/2KNK-Y279",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= NA,
@@ -36,14 +35,7 @@ carob_script <- function(path) {
 		carob_date="2023-07-12",
 	)
 
-## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 
 	f1 <- ff[basename(ff) == "legumes_area_and_management.csv"]
@@ -61,7 +53,6 @@ carob_script <- function(path) {
 	## you can use carobiner::fix_name()
 	
 	d <- data.frame(
-	  dataset_id = dataset_id,
 	  trial_id = r$farm_id, 
 	  on_farm = TRUE,
 	  is_survey = TRUE,
@@ -149,7 +140,6 @@ carob_script <- function(path) {
 	                                34.074, 34.338, 33.701, 34.338, 34.074))
 
 	d <- merge(d, sss, by = c("country", "adm1", "site"), all.x=TRUE)
-# all scripts must end like this
 	carobiner::write_files(dset, dd, path=path)
 }
 

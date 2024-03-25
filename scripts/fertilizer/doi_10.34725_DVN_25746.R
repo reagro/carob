@@ -19,12 +19,11 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	uri <- "doi:10.34725/DVN/25746"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		data_citation = "Sileshi, G.; Debusho, Legesse Kassa; Akinnifesi, Festus K., 2014. Replication data for: Can Integration of Legume Trees Increase Yield Stability in Rainfed Maize Cropping Systems in Southern Africa? https://doi.org/10.34725/DVN/25746, World Agroforestry (ICRAF)",
-		group = group,
-		uri = uri,
+		carobiner::extract_metadata(js, uri, group),
 		publication = "doi:10.2134/agronj2012.0063",
 		carob_contributor = "Camila Bonilla",
 		carob_date="2021-06-01",
@@ -33,14 +32,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 		project=NA
 	)
 
-## download and read data 
 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "Sileshi Stab analysis data.xlsx"]
 	# process file(s)

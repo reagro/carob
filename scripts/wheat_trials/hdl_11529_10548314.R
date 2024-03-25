@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		carobiner::extract_metadata(js, uri, group),
 		project="High Temperature Wheat Yield Trial",
 		publication = NA,
-		data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019. 17th High Temperature Wheat Yield Trial. https://hdl.handle.net/11529/10548314, CIMMYT Research Data & Software Repository Network, V5",
+		#data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019. 17th High Temperature Wheat Yield Trial. https://hdl.handle.net/11529/10548314, CIMMYT Research Data & Software Repository Network, V5",
 		data_institutions = "CIMMYT",
 		carob_contributor="Andrew Sila",
 		carob_date="2023-05-03",

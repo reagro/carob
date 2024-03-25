@@ -16,7 +16,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		data_citation="Verhulst, Nele; Honsdorf, Nora; Mulvaney, Michael J.; Singh, Ravi; Ammar, Karim; Govaerts, Bram, 2021, Nine years of data on genotype by tillage interaction and performance progress for 14 bread and 13 durum wheat genotypes on irrigated raised beds in Mexico, https://hdl.handle.net/11529/10548636, CIMMYT Research Data & Software Repository Network, V2",
+		#data_citation="Verhulst, Nele; Honsdorf, Nora; Mulvaney, Michael J.; Singh, Ravi; Ammar, Karim; Govaerts, Bram, 2021, Nine years of data on genotype by tillage interaction and performance progress for 14 bread and 13 durum wheat genotypes on irrigated raised beds in Mexico, https://hdl.handle.net/11529/10548636, CIMMYT Research Data & Software Repository Network, V2",
 		publication="doi.org/10.1016/j.fcr.2017.11.011" ,
 		data_institutions = "CIMMYT",
 		data_type="experiment", 
@@ -83,7 +83,7 @@ carob_script <- function(path) {
 	d <- merge(d, d1, by= "GID", all.x=TRUE)
 	d$GID <- NULL
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(path, dset, d)
 }
 
 

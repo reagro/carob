@@ -18,13 +18,12 @@ carob_script <- function(path) {
   uri <- "hdl:11529/10548832"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
   ## dataset level data 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+		carobiner::extract_metadata(js, uri, group),
     project=NA,
-    uri=uri,
-    data_citation="Thierfelder, Christian (CIMMYT) - ORCID: 0000-0002-6306-7670,Mhlanga, Blessing (CIMMYT) - ORCID: 0000-0003-4587-795X",
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
@@ -32,14 +31,7 @@ carob_script <- function(path) {
     carob_date="2023-08-21"
   )
   
-  ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   
   f <- ff[basename(ff) == "DATA SA 2005 to 2019.xls"]
@@ -153,7 +145,6 @@ carob_script <- function(path) {
    d$planting_date <- as.character(d$planting_date)
    d <- d[,c(-5,-6)] # remove columns 5 and 6
   
-  # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
 }
 

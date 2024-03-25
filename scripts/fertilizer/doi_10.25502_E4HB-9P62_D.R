@@ -17,29 +17,21 @@ carob_script <- function(path) {
 	uri <- "doi:10.25502/E4HB-9P62/D"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff	 <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   
 	## data set level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project="N2Africa",
-		uri=uri,
 		publication=NA,
-		data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Rwanda, 2010 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/E4HB-9P62/D",
 		data_institutions = "IITA",
 		carob_contributor="Rachel Mukami",
 		carob_date="2022-08-07",
 		data_type = "on-farm experiment"
     )
   
-  ## download and read data 
   
-	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	# reading the data.csv data
 	f <- ff[basename(ff) == "data.csv"]
@@ -202,7 +194,6 @@ carob_script <- function(path) {
 	w$soil_N[w$soil_N < 1] <- NA
 	w$soil_K[w$soil_K < 1] <- NA
 	
-	# all scripts must end like this
 	carobiner::write_files(dset, w, path=path)
 }
 

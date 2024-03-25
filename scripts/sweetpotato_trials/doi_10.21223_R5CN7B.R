@@ -2,23 +2,17 @@
 
 carob_script <- function(path) {
    
-   "
-	Description:
-	The purpose of this study was to estimate the genetic gains for yield and quality traits in sweetpotatoes. The field evaluation was conducted in San Ramon 2016, 2018A, 2018B; Huaral 2016, 2019A, 2019B; Ica 2016, 2019A, 2019B and Satipo 2016, 2018A, 2018B evaluating 17 clones (Abigail, Adriano, Alexander, Arne, Atacama, Benjamin, Caplina, Costanero, Huambachero, INA-100, Isabel, Jonathan, Milagrosa, PZ06.120, Sumi, Tacna, Yarada) and 3 checks (Cemsa, Dagga, Salyboro). 
-	Each of the trials was harvested at 90 and then 120 days.
-"
+"The purpose of this study was to estimate the genetic gains for yield and quality traits in sweetpotatoes. The field evaluation was conducted in San Ramon 2016, 2018A, 2018B; Huaral 2016, 2019A, 2019B; Ica 2016, 2019A, 2019B and Satipo 2016, 2018A, 2018B evaluating 17 clones (Abigail, Adriano, Alexander, Arne, Atacama, Benjamin, Caplina, Costanero, Huambachero, INA-100, Isabel, Jonathan, Milagrosa, PZ06.120, Sumi, Tacna, Yarada) and 3 checks (Cemsa, Dagga, Salyboro).  Each of the trials was harvested at 90 and then 120 days."
    
    uri <-  "doi:10.21223/R5CN7B"
    dataset_id <- carobiner::simple_uri(uri)
    group <- "sweetpotato_trials"
+   ff <- carobiner::get_data(uri, path, group)
+   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
    ## dataset level data 
    dset <- data.frame(
-      dataset_id = dataset_id,
-      group=group,
-      uri=uri,
+		carobiner::extract_metadata(js, uri, group),
       publication= NA,# 
-      data_citation ="Gruneberg, Wolfgang; Eyzaguirre, Raul; Diaz, Federico, 2021, Dataset for: Modified Demonstration Trials for Genetic Gain Data for Yield and Quality Traits,
-      https://doi.org/10.21223/R5CN7B, International Potato Center, V1, UNF:6:JC+l2q8p2lvvocGYZ0351A== [fileUNF]",
       data_institutions = "CIP",
       carob_contributor="Cedric Ngakou",
       carob_date="2023-11-02",
@@ -26,13 +20,6 @@ carob_script <- function(path) {
       project=NA 
    )
    
-   ## download and read data 
-   ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-   dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
    
    bn <- basename(ff)
    
@@ -79,7 +66,6 @@ carob_script <- function(path) {
    d$rep <- as.integer(d$rep)
    d$harvest <- as.numeric(d$harvest)
    d$harvest_date<- as.character(as.Date(d$planting_date) +d$harvest)
-   # all scripts must end like this
    carobiner::write_files(dset, d, path=path)
    
 }

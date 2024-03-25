@@ -2,22 +2,18 @@
 
 carob_script <- function(path) {
    
-   "
-	Description:
-	Dataset recording the observation of different variables related to rice growth, weeds, nitrogen content in rice biomass and grains, rice yield, macrofauna and grub countings, and nematodes under 3 different rotations (one with rice followed by groundnut, one with rice followed by a cereal-legume mixture, one with rice followed by a legume mixture) and a rice monocropping during 4 years.in Malagasy highlands Climatic data (monthly) for the 4 years of the trial are also included (rainfall, temperature).
+"Dataset recording the observation of different variables related to rice growth, weeds, nitrogen content in rice biomass and grains, rice yield, macrofauna and grub countings, and nematodes under 3 different rotations (one with rice followed by groundnut, one with rice followed by a cereal-legume mixture, one with rice followed by a legume mixture) and a rice monocropping during 4 years.in Malagasy highlands Climatic data (monthly) for the 4 years of the trial are also included (rainfall, temperature).
 "
    
    uri <-  "doi:10.18167/DVN1/XYOHRP"
    dataset_id <- carobiner::simple_uri(uri)
    group <- "fertilizer" 
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 
    dset <- data.frame(
-      dataset_id = dataset_id,
-      group=group,
-      uri=uri,
+		carobiner::extract_metadata(js, uri, group),
       publication= NA,
-      data_citation ="Ripoche, Aude; Autfray, Patrice; Rabary, Bodo; Randriamanantsoa, Richard; Trap, Jean; Sauvadet, Marie; Letourmy, Philippe; Blanchart, Eric; Randriamandimbisoa Christian, 2021, Ecosystem functions in rainfed rice based short rotations in Malagasy highlands,
-      https://doi.org/10.18167/DVN1/XYOHRP",
       data_institutions = "CIRAD",
       carob_contributor="Cedric Ngakou",
       carob_date="2023-10-15",
@@ -25,18 +21,10 @@ carob_script <- function(path) {
       project=NA 
    )
    
-   ## download and read data 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
    
 	r1 <- carobiner::read.excel(ff[basename(ff)=="DonneesDATAVERSE_F1.xlsx"], sheet="DataBiomassYieldN")  
 	d1 <- data.frame(
 		crop = "rice", 
-		dataset_id = dataset_id,
 		country = "Madagascar",
 		season = as.character(r1$Season),
 		crop_rotation = r1$Rotation, 

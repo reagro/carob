@@ -2,24 +2,17 @@
 
 carob_script <- function(path) {
   
-  "Description:
-
-   Summary results and individual trial results from the International Late Yellow Hybrid - ILYH, 
-   (Mid-altitude / Subtropical Three Way Crosses Yellow Hybrids, with High Concentrations of Provitamins A 
-   (especially beta-carotene) - CHTSPROA) conducted in 2012.
-
-"
+"Summary results and individual trial results from the International Late Yellow Hybrid - ILYH, (Mid-altitude / Subtropical Three Way Crosses Yellow Hybrids, with High Concentrations of Provitamins A (especially beta-carotene) - CHTSPROA) conducted in 2012."
   
 	uri <- "hdl:11529/10667"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "maize_trials"
-	## dataset level data 
+
+	dataset_id <- carobiner::simple_uri(uri)
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		uri=uri,
-		data_citation="Global Maize Program, 2019, International Late Yellow Hybrid - ILYH1231, https://hdl.handle.net/11529/10667, CIMMYT Research Data & Software Repository Network, V1",
 		publication= NA,
 		data_institutions = "CIMMYT,GMP,CGIAR",
 		data_type="experiment", 
@@ -28,19 +21,10 @@ carob_script <- function(path) {
 		carob_date="2023-01-30",
 		revised_by="Robert Hijmans"
 	)
-  
-  ## download and read data 
-
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-  
+    
 	#f <- ff[basename(ff) == "12CHTSPROA-Locations.xls"]
 	#locs <- carobiner::read.excel(f) 
-
+	
 	get_data <- function(fname, id) {
 		f <- ff[basename(ff) == fname]
 		r <- carobiner::read.excel(f, fix_names=TRUE, n_max=24) 
@@ -48,7 +32,6 @@ carob_script <- function(path) {
 		d <- data.frame( 
 			trial_id = id,
 			crop = "maize",
-			dataset_id = dataset_id,
 			on_farm = TRUE,
 			striga_trial = FALSE, 
 			striga_infected = FALSE,
@@ -94,7 +77,7 @@ carob_script <- function(path) {
 	d1$planting_date <- "2013-01-05"
 	d1$harvest_date  <- "2013-06-14"
   
-	d2 <- get_data("12CHTSPROA12-1.xls", "2")
+	d2 <- get_data("12CHTSPROA12-1.xls", "2")  
     d2$country <- "Bolivia"
 	d2$location <- "Muyupampa" 
 	d2$longitude <- -63.75
@@ -121,7 +104,7 @@ carob_script <- function(path) {
 	d4$planting_date <- "2012-10-15"
 	d4$harvest_date  <- "2013-01-30"
       
-	d5 <- get_data("12CHTSPROA18-1.xls", "5")
+	d5 <- get_data("12CHTSPROA18-1.xls", "5")	  
 	d5$country <- "Ghana"
 	d5$location <- "Kwadaso" 
 	d5$longitude <- -1.65
@@ -130,7 +113,7 @@ carob_script <- function(path) {
 	d5$planting_date <- "2012-10-15"
 	d5$harvest_date  <- "2013-01-30"
   
-	d6 <- get_data("12CHTSPROA19-1.xls", "6")
+	d6 <- get_data("12CHTSPROA19-1.xls", "6")  
 	d6$country <- "Myanmar"
 	d6$location <- "Yezin" 
 	d6$longitude <- 96
@@ -155,6 +138,7 @@ carob_script <- function(path) {
 ##  dd <- merge(d1, d2, all = TRUE)
 ##  dd <- merge(dd, d3, all = TRUE)
    
-    carobiner::write_files(dset, d, path=path)
+	d$dataset_id = dataset_id
+	carobiner::write_files(dset, d, path=path)
 }
 

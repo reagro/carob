@@ -6,12 +6,11 @@ carob_script <- function(path) {
   uri <- "doi:10.7910/DVN/FPPDCG"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "soil_samples"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   dset <- data.frame(
-    dataset_id =dataset_id,
-    group=group,
+		carobiner::extract_metadata(js, uri, group),
     project= NA,
-    uri=uri,
-    data_citation="Sila, Andrew; Keith Shepherd; Ganesh Pokharyl, 2019, 'Evaluating regression-kriging for mid-infrared spectroscopy prediction of soil properties in western Kenya', https://doi.org/10.7910/DVN/FPPDCG, Harvard Dataverse, DRAFT VERSION ]",
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)
     publication= NA,
@@ -22,12 +21,6 @@ carob_script <- function(path) {
   )
   
   ## download data from the uri provided
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-  dset$license <- carobiner::get_license(js)$name
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
  
   ##RH why not?
   # No need to read the table with MIR data

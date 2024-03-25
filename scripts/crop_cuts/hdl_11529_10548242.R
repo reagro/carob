@@ -16,28 +16,20 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10548242"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "crop_cuts"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
+		carobiner::extract_metadata(js, uri, group),
 	   project="TAMASA",
-	   uri=uri,
 	   publication=NA,
-	   data_citation = 'Craufurd, Peter; Karwani, George; Masuki, Kenneth, 2019, "TAMASA TZ APS 2017 CC MaizeYield v3", hdl:11529/10548242, CIMMYT Research Data & Software Repository Network, V2, UNF:6:FARtQ7xWh1m0+YYceI+wnw== [fileUNF]',
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   carob_date="2021-09-17",
 	   data_type="survey"
 	)
 
-## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "TAMASA_TZ_APS_2017_CC_MaizeYield.xlsx"]
 	r <- carobiner::read.excel(f, sheet = "Raw data", n_max = 1738)

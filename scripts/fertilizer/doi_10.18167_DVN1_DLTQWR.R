@@ -17,13 +17,12 @@ carob_script <- function(path) {
 	uri <- "doi:10.18167/DVN1/DLTQWR"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
+		carobiner::extract_metadata(js, uri, group),
 	   project=NA,
-	   uri=uri,
-	   data_citation="Corbeels, Marc; Naudin, Krishna; Whitbread, Anthony M.; Kühne, Ronald; Letourmy, Philippe, 2020. Data for: Conservation agriculture in Sub-Saharan Africa, crop yields from experiments, https://doi.org/10.18167/DVN1/DLTQWR",
 	   publication= "doi:10.1038_s43016-020-0114-x",
 	   data_institutions = "CIRAD",
 	   carob_contributor="Eduardo Garcia Bendito",
@@ -31,14 +30,7 @@ carob_script <- function(path) {
 	   data_type="compilation"
 	)
 
-## download and read data 
 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "Donnees_meta-analyse_2020.txt"]
 
@@ -180,7 +172,6 @@ carob_script <- function(path) {
   tillage <- trimws(tolower(ifelse(rr$tillage == "CT", rr$CT_type, rr$CA_type1)))
   tillage <- gsub("permanent_beds", "permanent beds", tillage)
   d$land_prep_method <- gsub("no-tillage", "no tillage", tillage)
-# all scripts must end like this
 
 	d <- d[!is.na(d$yield), ] 
 	carobiner::write_files(dset, d, path=path)

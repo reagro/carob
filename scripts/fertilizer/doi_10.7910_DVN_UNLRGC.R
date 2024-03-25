@@ -26,7 +26,7 @@ Notes
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group=group),
-		data_citation="Kihara, Job, 2016. Replication Data for: Maize response to macronutrients and potential for profitability in sub-Saharan Africa, https://doi.org/10.7910/DVN/UNLRGC",
+		#data_citation="Kihara, Job, 2016. Replication Data for: Maize response to macronutrients and potential for profitability in sub-Saharan Africa, https://doi.org/10.7910/DVN/UNLRGC",
 		publication="doi:10.1007/s10705-015-9717-2",
 		carob_contributor="Camila Bonilla",
 		carob_date="2021-05-31",

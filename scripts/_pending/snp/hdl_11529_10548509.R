@@ -12,13 +12,13 @@ carob_script <- function(path) {
 	group <- "snp"
 
 	dataset_id <- carobiner::simple_uri(uri)
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		data_citation="Sukumaran, Sivakumar, 2020, Physiological pre-breeding crossing block dataset, https://hdl.handle.net/11529/10548509, CIMMYT Research Data & Software Repository Network, V1, UNF:6:zXWmVpPwNsYZNjlM1Pd6sQ== [fileUNF]",
+		#data_citation="Sukumaran, Sivakumar, 2020, Physiological pre-breeding crossing block dataset, https://hdl.handle.net/11529/10548509, CIMMYT Research Data & Software Repository Network, V1, UNF:6:zXWmVpPwNsYZNjlM1Pd6sQ== [fileUNF]",
 		publication=NA,
 		data_institutions = "CIMMYT",
 		data_type="experiment", 

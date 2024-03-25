@@ -15,13 +15,12 @@ carob_script <- function(path) {
 	uri <- "doi:10.7910/DVN/8AJQJJ"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		data_citation="Kihara, Job; Sileshi, Gudeta W.; Nziguheba, Generose; Kinyua, Michael; Zingore, Shamie; Sommer, Rolf, 2017. Replication Data for: Application of secondary nutrients and micronutrients increases crop yields in sub-Saharan Africa. https://doi.org/10.7910/DVN/8AJQJJ, Harvard Dataverse, V1",
-		uri=uri,
 		publication= "doi:10.1007/s13593-017-0431-0",
 		data_institutions = "CIAT",
 		carob_contributor="Cedric Ngakou",
@@ -29,14 +28,7 @@ carob_script <- function(path) {
 		data_type="compilation"
  	)
 
-## download and read data 
 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "02. Micronutrients_SSA_Publication data.xlsx"]
 	r <- carobiner::read.excel(f) 
@@ -191,7 +183,6 @@ carob_script <- function(path) {
 	
 	d <- d[!is.na(d$yield), ]
 
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
 

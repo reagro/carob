@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-# specify path parameter
 
 carob_script <- function(path) {
 
@@ -11,41 +8,29 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10548205"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_trials"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
+		carobiner::extract_metadata(js, uri, group),
 	   project="High Rainfall Wheat Yield Trial",
-	   uri=uri,
 	   publication = "doi:10.1016/j.fcr.2020.107742",
-	   data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2022, '13th High Rainfall Wheat Yield Trial', hdl:11529/10548205, CIMMYT Research Data & Software Repository Network, V1",
+	   #data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2022, '13th High Rainfall Wheat Yield Trial', hdl:11529/10548205, CIMMYT Research Data & Software Repository Network, V1",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Andrew Sila",
 	   carob_date="2023-05-03",
 	   
-	   ## something like randomized control...
 	   data_type="on-station experiment"
 	    
 	    
 	)
 
-## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
-## process file(s)
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
-	d <- proc_wheat(ff)
-	d$dataset_id <- dataset_id
-
+	d <- proc_wheat(ff, dataset_id)
 	d$heading[d$heading > 300] <- NA
 
-# all scripts must end like this
 	carobiner::write_files(path, dset, d)
 	
 }

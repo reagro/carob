@@ -1,22 +1,17 @@
 
 carob_script <- function(path) {
    
-   "
-	Description:
-	Experiments were installed in La Libertad, with the objective of identifying clones with high potential for being varieties applying the Participatory Varietal Selection methodology. For the period 2016-2017, 18 clones with high resistance to late blight were planted, belonging to the B population and developed in the International Potato Center together with Two control varieties, Amarilis and Yungay (susceptible). Finally, in the harvest 5 clones with high yield, low glycoalkaloid content and good organoleptic quality were selected as a result of the Participatory Variety Selection of the farmers and the analysis of mixed models and BLUPs for the yield data. 
-	The 5 selected clones were planted again in the period 2017-2018 and through the Participatory Varietal Selection three promising clones were selected (CIP308488.92, CIP308495.227 and CIP308478.59).
+"Experiments were installed in La Libertad, with the objective of identifying clones with high potential for being varieties applying the Participatory Varietal Selection methodology. For the period 2016-2017, 18 clones with high resistance to late blight were planted, belonging to the B population and developed in the International Potato Center together with Two control varieties, Amarilis and Yungay (susceptible). Finally, in the harvest 5 clones with high yield, low glycoalkaloid content and good organoleptic quality were selected as a result of the Participatory Variety Selection of the farmers and the analysis of mixed models and BLUPs for the yield data. The 5 selected clones were planted again in the period 2017-2018 and through the Participatory Varietal Selection three promising clones were selected (CIP308488.92, CIP308495.227 and CIP308478.59).
 "
    uri <- "doi:10.21223/GZI7PD"
    dataset_id <- carobiner::simple_uri(uri)
    group <- "potato_trials"
+   ff <- carobiner::get_data(uri, path, group)
+   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
    ## dataset level data 
    dset <- data.frame(
-      dataset_id = dataset_id,
-      group=group,
-      uri=uri,
+		carobiner::extract_metadata(js, uri, group),
       publication= NA,#"DOI:10.1007/s11540-021-09495-z",
-      data_citation ="Gastelo, Manuel; Burgos, Gabriela; Bastos, Maria; Quispe, Katherine; Zum Felde, Thomas; Otiniano, Ronald; Perez, Juan Miguel, 2020, Dataset for: SET 3: Participatory Varietal Selection of Late Blight Resistant Potato Clones, 
-      https://doi.org/10.21223/GZI7PD, International Potato Center, V1, UNF:6:Glqx95sgajtACBM1ZDkoIg== [fileUNF]",
       data_institutions = "CIP",
       carob_contributor="Cedric Ngakou",
       data_type="experiment",
@@ -24,16 +19,8 @@ carob_script <- function(path) {
       carob_date="2023-12-09"
    )
    
-   ## download and read data 
-   ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-   dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
    
    ff <- ff[grep("PTPVS", basename(ff))]
-   # read and process files
    process <- function(f) {
       r <- carobiner::read.excel(f, sheet="F4_harvest_mother")
       r <- r[, c("REP", "INSTN", "TTYNA")]
@@ -84,7 +71,6 @@ carob_script <- function(path) {
    
    d$planting_date<- "2016" 
    d$planting_date[d$season=="2017-2018"]<- "2017"
-   # all scripts must end like this
    carobiner::write_files(dset, d, path=path)
    
 }

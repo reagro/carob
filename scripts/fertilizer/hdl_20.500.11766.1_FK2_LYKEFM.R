@@ -15,14 +15,12 @@ Final dataset from agronomic experiment in Gumara Maksegnit (2016), as elaborate
    uri <- "hdl:20.500.11766.1/FK2/LYKEFM"
    dataset_id <- carobiner::simple_uri(uri)
    group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
    ## dataset level data 
    dset <- data.frame(
-      dataset_id = dataset_id, 
-      group=group, 
+		carobiner::extract_metadata(js, uri, group),
       project=NA, 
-      uri=uri, 
-      data_citation="Ayalew, Baye, 2020, Determination of rate and timing of N application on bread wheat,
-      https://hdl.handle.net/20.500.11766.1/FK2/LYKEFM, MELDATA, V2", 
       publication= NA, 
       data_institutions = "ICARDA", 
       data_type="on-farm experiment", 
@@ -31,13 +29,6 @@ Final dataset from agronomic experiment in Gumara Maksegnit (2016), as elaborate
       
    )
    
-   ## download and read data 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
    
   ## process file(s)
     
@@ -103,7 +94,6 @@ Final dataset from agronomic experiment in Gumara Maksegnit (2016), as elaborate
    
    # assuming it was in dm and convert into cm
    d$plant_height <- d$plant_height * 10
-   # all scripts must end like this
    carobiner::write_files(dset, d, path=path)	
 }
 

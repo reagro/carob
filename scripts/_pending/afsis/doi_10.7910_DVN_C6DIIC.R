@@ -20,13 +20,13 @@ carob_script <- function(path) {
 	group <- "fertilizer" 
 
 	dataset_id <- carobiner::simple_uri(uri)
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=5)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group=group),
 		project= "AfSIS", 
-		data_citation="Kihara, Job; Huising, Jeroen; Nziguheba, Generose; Zingore, Shamie, 2018. Omission trials conducted in 5 countries under AfSIS Phase 1 under CIAT. https://doi.org/10.7910/DVN/C6DIIC, Harvard Dataverse, V2, UNF:6:6Z4vk7GAnLOMtwkK6uparQ== [fileUNF]",
+		#data_citation="Kihara, Job; Huising, Jeroen; Nziguheba, Generose; Zingore, Shamie, 2018. Omission trials conducted in 5 countries under AfSIS Phase 1 under CIAT. https://doi.org/10.7910/DVN/C6DIIC, Harvard Dataverse, V2, UNF:6:6Z4vk7GAnLOMtwkK6uparQ== [fileUNF]",
 		publication = "doi:10.1016/j.agee.2016.05.012",
 		data_institutions = "CIAT",
 		data_type="Multi-location trials",

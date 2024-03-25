@@ -9,13 +9,13 @@ carob_script <- function(path) {
 	group <- "wheat_trials"
 
 	dataset_id <- carobiner::simple_uri(uri)
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
 		project="International Durum Yield Nursery",
-		data_citation="Global Wheat Program; IWIN Collaborators; Ammar, Karim; Payne, Thomas, 2020. 40th International Durum Yield Nursery. https://hdl.handle.net/11529/10548292, CIMMYT Research Data & Software Repository Network, V1",
+		#data_citation="Global Wheat Program; IWIN Collaborators; Ammar, Karim; Payne, Thomas, 2020. 40th International Durum Yield Nursery. https://hdl.handle.net/11529/10548292, CIMMYT Research Data & Software Repository Network, V1",
 		publication=NA,
 		data_institutions = "CIMMYT",
 		data_type="experiment", 
@@ -26,7 +26,5 @@ carob_script <- function(path) {
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff, dataset_id)
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(path, dset, d)
 }
-	
-	

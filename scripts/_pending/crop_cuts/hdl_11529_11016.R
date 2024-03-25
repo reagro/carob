@@ -14,12 +14,12 @@ carob_script <- function(path) {
 	group <- "crop_cuts"
 	dataset_id <- carobiner::simple_uri(uri)
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group=group),
-		data_citation="Balemi T. and Kebede M., Tufa T., and Gurumu G. 2017. TAMASA Ethiopia. Yield, soil and agronomy data from farmers’ maize fields collected by EIAR, 2015 season.  International Maize and Wheat Improvement Centre (CIMMYT), Ethiopia.",
+		#data_citation="Balemi T. and Kebede M., Tufa T., and Gurumu G. 2017. TAMASA Ethiopia. Yield, soil and agronomy data from farmers’ maize fields collected by EIAR, 2015 season.  International Maize and Wheat Improvement Centre (CIMMYT), Ethiopia.",
 		publication= NA,
 		project=NA,
 		data_type= "survey",

@@ -9,13 +9,13 @@ The objective of this survey was to identify the major wheat productivity and pr
 	uri <- "hdl:11529/10548615"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "survey"
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 	dset <- data.frame(
   		carobiner::extract_metadata(js, uri, group),
 		project="CSISA",
-		data_citation="Gokul P. Paudel; Andrew J. McDonald, 2021. Data on identifying sustainable wheat productivity drivers in Nepal’s Terai. https://hdl.handle.net/11529/10548615, CIMMYT Research Data & Software Repository Network, V1, UNF:6:w5/k07NPArxJgX7NKnRMTA== [fileUNF]",
+		#data_citation="Gokul P. Paudel; Andrew J. McDonald, 2021. Data on identifying sustainable wheat productivity drivers in Nepal’s Terai. https://hdl.handle.net/11529/10548615, CIMMYT Research Data & Software Repository Network, V1, UNF:6:w5/k07NPArxJgX7NKnRMTA== [fileUNF]",
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="survey", 

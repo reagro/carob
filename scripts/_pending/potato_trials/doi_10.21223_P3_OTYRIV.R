@@ -28,12 +28,12 @@ carob_script <- function(path) {
   dataset_id <- carobiner::simple_uri(uri)
   group <- "potato_trials"
  
-  ff  <- carobiner::get_data (uri, path, group)
+  ff <- carobiner::get_data (uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
   
   dset <- data.frame(
   	carobiner::extract_metadata(js, uri, group),
-    data_citation="Gastelo, Manuel; Diaz, Luis; Bastos, Maria; Quispe, Katherine; Bonierbale, Merideth, 2018. Dataset for: Advanced clones of group B3 cycle 3, population B with late blight resistance in Oxapampa, 2012. https://doi.org/10.21223/P3/OTYRIV, International Potato Center, V1, UNF:6:GGc8BnXtoJfgbqD77Cr0ug== [fileUNF]",
+    #data_citation="Gastelo, Manuel; Diaz, Luis; Bastos, Maria; Quispe, Katherine; Bonierbale, Merideth, 2018. Dataset for: Advanced clones of group B3 cycle 3, population B with late blight resistance in Oxapampa, 2012. https://doi.org/10.21223/P3/OTYRIV, International Potato Center, V1, UNF:6:GGc8BnXtoJfgbqD77Cr0ug== [fileUNF]",
     publication= "",
     data_institutions = "CIP",
     data_type="experiment", 

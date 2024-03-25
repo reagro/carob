@@ -15,7 +15,6 @@ Phosphorus was applied at rate of 0 or 20 kg P ha-1. P fertilizer application in
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
-		data_citation = "Hakeem Ayinde Ajeigbe; Alpha Y. Kamara; Kunihya Ayuba; Abubakar H.Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to plant density and phosphorous application in the Sudan Savanna zone of Wudil, Nigeria. https://doi.org/10.21421/D2/5O93XX",
 		publication = "doi:10.12692/ijb/9.1.291-302",
 		carob_contributor = "Effie Ochieng'",
 		carob_date = "2021-07-06",

@@ -22,13 +22,12 @@ carob_script <- function(path) {
   uri <- "doi:10.25502/r6sb-2f47"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   ## dataset level data 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+		carobiner::extract_metadata(js, uri, group),
     project="N2Africa",
-    uri=uri,
-    data_citation="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa focal adapt trial, 2017 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/R6SB-2F47",
     publication=NA,
     data_institutions = "IITA",
     data_type="survey", # or, e.g. "on-farm experiment", "survey", "compilation"
@@ -36,14 +35,7 @@ carob_script <- function(path) {
 	carob_date="2023-09-30"
   )
   
-  ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   #read the data
   f <- ff[basename(ff) == "data_table.csv"]
@@ -65,7 +57,7 @@ carob_script <- function(path) {
   d$location <- r$sector_ward
   d$crop <- carobiner::replace_values(d$crop,c("soya_bean","faba_bean","bush_bean","climbing_bean"), c("soybean","faba bean","common bean","common bean"))
   # # EGB: Try to include crop rotation since information is available
-  rotations <- data.frame(str_split_fixed(d$crop_rotation, " ", 5))
+  rotations <- data.frame(stringr::str_split_fixed(d$crop_rotation, " ", 5))
   rotations[rotations==""] <- NA
   for (col in 1:ncol(rotations)) {
     # # EGB: Removing fallow, other, vegetables, and khat from rotation
@@ -163,7 +155,6 @@ carob_script <- function(path) {
   
   cat("efyrouwa: lat and lon for 277 locations to be filled \n    some points are not accurate\n    NPK rates to be filled\n    find plot lengths and widths\n")
 
-  # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
 }
 

@@ -13,13 +13,12 @@ Under CSISA Phase II, Nutrient Omission Plot Technique (NOPT) trials were conduc
 	uri <- "hdl:11529/10911"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
-	   uri=uri,
+		carobiner::extract_metadata(js, uri, group),
 	   publication=NA,
-	   data_citation = "Sheetal Sharma, 2017. Nutrient Omission Plot Technique Trials from Bihar, Uttar Pradesh and Odisha. https://hdl.handle.net/11529/10911, CIMMYT Research Data & Software Repository Network, V2",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Robert Hijmans",
 	   carob_date="2024-01-27",
@@ -27,14 +26,7 @@ Under CSISA Phase II, Nutrient Omission Plot Technique (NOPT) trials were conduc
 	   project=NA
  	)
 
-## download and read data 
 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f1 <- ff[basename(ff) == "CSISA_NOPT_Rice_RawDataFINAL.csv"]
 	f2 <- ff[basename(ff) == "CSISA_NOPT_Wheat_RawDataFINAL.csv"]
@@ -45,7 +37,6 @@ Under CSISA Phase II, Nutrient Omission Plot Technique (NOPT) trials were conduc
 	
 	d <- data.frame(
 		country = "India",
-		dataset_id = dataset_id,
 		crop=tolower(r$Crop), previous_crop = tolower(r$PCRP),
 		yield_part = "grain",
 		season=tolower(r$Season), trial_id = r$SiteID, 

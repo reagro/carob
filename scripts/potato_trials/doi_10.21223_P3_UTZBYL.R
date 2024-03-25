@@ -10,14 +10,12 @@ carob_script <- function(path) {
 	uri <- "doi:10.21223/P3/UTZBYL"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "potato_trials"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
-	   uri=uri,
+		carobiner::extract_metadata(js, uri, group),
 	   publication= NA,# 
-	   data_citation ="Salas, Elisa; Juarez, Henry; Giraldo, Diana; Amoros, Walter; Simon, Reinhard; Bonierbale, Merideth, 2017, Dataset for: Models of analysis stability and definition of environments with GIS, 
-	   https://doi.org/10.21223/P3/UTZBYL, International Potato Center, V1",
 	   data_institutions = "IITA",
 	   carob_contributor="Cedric Ngakou",
 	   data_type="experiment",
@@ -25,18 +23,10 @@ carob_script <- function(path) {
 	   carob_date="2023-10-30"
 	)
 
-	## download and read data 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	ff <- ff[grep("^PTYL200", basename(ff))]
 	bn <- basename(ff)
 
-	# read and process files
 	proc_fun <- function(f) {
 		r <- carobiner::read.excel(f, sheet="Fieldbook")
 		# this is marketable yield, total tuber yield not reported
@@ -95,7 +85,6 @@ carob_script <- function(path) {
 	d$crop <- "potato"
 	d$yield_part <- "tubers" 
 
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
 

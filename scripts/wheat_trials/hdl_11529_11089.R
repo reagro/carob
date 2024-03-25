@@ -9,24 +9,20 @@ carob_script <- function(path) {
 	group <- "wheat_trials"
 
 	dataset_id <- carobiner::simple_uri(uri)
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=1)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
 		project="High Temperature Wheat Yield Trial",	   
 		publication=NA,
-		data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019. 1st to 10th High Temperature Wheat Yield Trial., https://hdl.handle.net/11529/11089, CIMMYT Research Data & Software Repository Network, V4, UNF:6:LSthho4eES7Tm960eaiEwA== [fileUNF]",
 		data_institutions = "CIMMYT",
 		carob_contributor="Andrew Sila",
 		carob_date="2023-05-03",
 		data_type="on-station experiment"
  	)
 
-## download and read data 
 
-
-## process file(s)
 	sets <- gsub("_RawData.xlsx", "", grep("RawData", basename(ff), value=TRUE))
 	sets <- gsub("_RawData.xls", "", sets)
 

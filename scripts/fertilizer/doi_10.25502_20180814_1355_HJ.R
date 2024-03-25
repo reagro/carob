@@ -17,7 +17,7 @@ The AFSIS project aimed to establish an  Africa Soil Information system. Data wa
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group=group),
 		publication=NA,
-		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Nkhata Bay S2 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1355/HJ",
+		#data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Nkhata Bay S2 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1355/HJ",
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-02-19",

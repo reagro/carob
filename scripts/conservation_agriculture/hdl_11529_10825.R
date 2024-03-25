@@ -17,28 +17,20 @@ Description:
 	uri <- "hdl:11529/10825"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
+	ff	<- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		uri=uri,
 		publication=NA,
-		data_citation="Thierfelder, Christian, 2016, Facilitating the widespread adoption of conservation agriculture in maize-based systems in Zambia, hdl:11529/10825, CIMMYT Research Data & Software Repository Network, V3",
 		data_institutions = "CIMMYT",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-08-02",
 		data_type="on-station experiment"
     )
   
-  ## download and read data 
   
-	ff	<- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=1)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	f <- ff[basename(ff) == "Summary Zambia On-farm Demonstration 2006-2015.xls"]
 	

@@ -1,38 +1,25 @@
-#################################################################################
-#N2Africa was aimed at increasing biological nitrogen fixation and productivity
-#of grain legumes through effective production technologies including inoculants
-#and fertilizers adapted to local settings which was aimed at increasing soil
-#fertility.The trails were conducted in 11 African countries
-#################################################################################
 
 carob_script <- function(path){
+
+"N2Africa was aimed at increasing biological nitrogen fixation and productivity of grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings which was aimed at increasing soil fertility.The trails were conducted in 11 African countries."
 
 	uri <- "doi:10.25502/q4wa-ap97/d"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri,path,group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
 	
-	#dataset level data
-	
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group = group,
+		carobiner::extract_metadata(js, uri, group),
 		project="N2Africa",  
-		uri = uri,
 		publication = NA,
-		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Rwanda, 2011 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/Q4WA-AP97/D",
 		carob_contributor = "Effie Ochieng'",
 		carob_date="2022-08-12",
-		data_type = "fertilizer",
+		data_type = "on-farm experiment",
 		data_institutions="IITA"
 	)
 	
-	# download and read data 
-	ff <- carobiner::get_data(uri,path,group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
-	dset$license <- carobiner::get_license(js) 
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	# read the data
 	f <- ff[basename(ff) == "data.csv"]

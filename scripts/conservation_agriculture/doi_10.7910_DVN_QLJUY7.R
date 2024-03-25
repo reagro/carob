@@ -16,13 +16,12 @@ carob_script <- function(path) {
   uri <- "doi:10.7910/DVN/QLJUY7"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
   ## dataset level data 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+		carobiner::extract_metadata(js, uri, group),
     project=NA,
-    uri=uri,
-    data_citation="International Maize and Wheat Improvement Center (CIMMYT), 2021. Conservation Agriculture Mother Trials in Malawi, 2020. https://doi.org/10.7910/DVN/QLJUY7, Harvard Dataverse, V1, UNF:6:JnMo2E1FW90D4w8NetHuIg== [fileUNF]",
     publication= "doi:10.1017/S0014479715000265",
     data_institutions = "CIMMYT",
     data_type="experiment",
@@ -32,14 +31,7 @@ carob_script <- function(path) {
   
   
   
-  ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-  dset$license <- carobiner::get_license(js)
   
   f <- ff[basename(ff) == "AR_MAL_CIMMYT_CAmother_onfarm_2020.csv"]
   

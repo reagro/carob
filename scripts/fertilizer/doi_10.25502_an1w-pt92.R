@@ -16,14 +16,12 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   uri <- "doi:10.25502/an1w-pt92"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   ## dataset level data 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    uri=uri,
+		carobiner::extract_metadata(js, uri, group),
     publication= NA, 
-    data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa impact survey - Zimbabwe, 2013 [dataset]. International Institute of Tropical Agriculture (IITA). 
-    https://doi.org/10.25502/AN1W-PT92" ,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
     carob_date="2023-08-20",
@@ -31,14 +29,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
     project=NA 
   )
   
-  ## download and read data 
   
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   
   f <- ff[basename(ff) == "a_general_1.csv"] 
@@ -228,6 +219,5 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$planting_date <- as.character(format(as.Date("2012-12-01"), "%Y-%m"))
   d$harvest_date <- as.character(format(as.Date("2012-12-01") + 120, "%Y-%m"))
   
-  # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
 }

@@ -8,13 +8,12 @@ carob_script <- function(path) {
 	group <- "wheat_trials"
 
 	dataset_id <- carobiner::simple_uri(uri)
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		data_citation="Aaron M. Shew; Jesse B. Tack; L. Lanier Nalley; Petronella Chaminuka, 2020. Replication Data for: Yield reduction under climate warming varies among wheat cultivars in South Africa, https://doi.org/10.7910/DVN/8Y6Q7F, Harvard Dataverse, V1, UNF:6:fbTkoas09MkUw1KLVuDc2g== [fileUNF]",
 		publication=NA,
 		data_institutions = "SARC",
    		data_type="experiment", 
@@ -25,7 +24,7 @@ carob_script <- function(path) {
 
 	f <- ff[basename(ff) == "RegressionDataFinal.dta"]
 	r <- haven::read_dta(f)
-## use a subset
+
 	d <- data.frame(site=r$Site, adm1=r$Province, variety=r$Cultivar, 
 			rep=as.integer(r$Replicate), planting_date=r$plant_date, 
 			flowering_date=r$Flower_Date, harvest_date=r$Harvest_date,
@@ -71,7 +70,7 @@ carob_script <- function(path) {
 ### avoid subsetting like this
 ###	d <- d[, c("trial_id", "country", "site", "adm1", "variety", "rep", "yield_part", "crop", "yield", "planting_date", "flowering_date", "harvest_date", "longitude", "latitude", "dataset_id")]
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(path, dset, d)
 }
 
 

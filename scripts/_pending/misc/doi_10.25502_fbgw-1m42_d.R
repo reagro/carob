@@ -14,13 +14,12 @@ Increasing organic matter/carbon contents of soils is one option from a basket o
 	uri <- "doi:10.25502/FBGW-1M42/D"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		uri=uri,
-		data_citation="Roobroeck, D., Rebbeca, H.-N., John-Baptist, T., & Jackson, M. (2019). IITA-ADC biochar study Uganda on Sorghum [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/FBGW-1M42/D",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication=NA,
@@ -29,14 +28,7 @@ Increasing organic matter/carbon contents of soils is one option from a basket o
 		carob_contributor="Shumirai Manzvera"  
 	)
 
-## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	
 ## process file(s)
@@ -49,7 +41,6 @@ Increasing organic matter/carbon contents of soils is one option from a basket o
 	d <- data.frame(biomass_stems=r$Yield_straw_dry_ton_ha_1,
 					yield=r$Yield_grain_dry_ton_ha_1,
 					plant_height=r$Avg_Hgt_in_quadrant_m,
-					dataset_id= dataset_id
 				)
 
 
@@ -66,7 +57,6 @@ Increasing organic matter/carbon contents of soils is one option from a basket o
 	d$yield_part <- "grain"
 
 	
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
 

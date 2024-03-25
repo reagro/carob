@@ -9,14 +9,14 @@ carob_script <- function(path) {
 
 	group <- "wheat_trials"
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=5, minor=0)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group=group),
 		project=NA,
 		publication="doi:20.500.11766/4516",
-		data_citation = "Karrou, Mohammed; Daoui, Khalid; Razouk, Rachid; Boutfirass, Mohamed; Bahri, Abdeljabar, 2015. Experimental results on land and water productivity in rainfed areas in Morocco. https://hdl.handle.net/20.500.11766.1/FK2/XOSFYG",
+		#data_citation = "Karrou, Mohammed; Daoui, Khalid; Razouk, Rachid; Boutfirass, Mohamed; Bahri, Abdeljabar, 2015. Experimental results on land and water productivity in rainfed areas in Morocco. https://hdl.handle.net/20.500.11766.1/FK2/XOSFYG",
 		data_institutions = "ICARDA",
 		carob_contributor="Samar Attaher",
 		carob_date="2023-03-15",

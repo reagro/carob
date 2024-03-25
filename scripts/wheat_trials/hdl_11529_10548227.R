@@ -8,14 +8,14 @@ carob_script <- function(path) {
 	group <- "wheat_trials"
 
 	dataset_id <- carobiner::simple_uri(uri)
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group=group),
 		project="High Rainfall Wheat Yield Trial",
 		publication = "doi:10.1016/j.fcr.2020.107742",
-		data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019. 26th High Rainfall Wheat Yield Trial. https://hdl.handle.net/11529/10548227, CIMMYT Research Data & Software Repository Network, V3",
+		#data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019. 26th High Rainfall Wheat Yield Trial. https://hdl.handle.net/11529/10548227, CIMMYT Research Data & Software Repository Network, V3",
 		data_institutions = "CIMMYT",
 		carob_contributor="Andrew Sila",
 		carob_date="2023-05-03",
@@ -33,5 +33,5 @@ carob_script <- function(path) {
 	
 	
 # all scripts must end like this
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(path, dset, d)
 }

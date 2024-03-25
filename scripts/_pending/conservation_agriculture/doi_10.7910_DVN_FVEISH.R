@@ -17,13 +17,12 @@ Sustainable intensification of mixed crop-livestock systems is a key pathway tow
 	uri <- "doi:10.7910/DVN/FVEISH"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
+	ff	<- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project="Africa Rising",
-		uri=uri,
-		data_citation="International Maize and Wheat Improvement Center (CIMMYT); Zambia Agricultural Research Institute (ZARI); Grassroots Trust; Catholic Relief Services (CRS), 2016. Sustainable Intensification of Low-Input Agriculture Systems in Zambia.  https://doi.org/10.7910/DVN/FVEISH, Harvard Dataverse, V1, UNF:6:Zg8Rrg8Lz4Zw4Z5UVG+A5Q== [fileUNF]",
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="survey", # or, e.g. "on-farm experiment", "survey", "compilation"
@@ -32,14 +31,7 @@ Sustainable intensification of mixed crop-livestock systems is a key pathway tow
 		revised_by=as.character(NA)
 	)
 	
-	## download and read data 
 	
-	ff	<- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	TRUE
 }

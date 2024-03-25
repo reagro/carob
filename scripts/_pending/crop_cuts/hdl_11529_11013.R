@@ -15,13 +15,12 @@ carob_script <- function(path) {
   uri <- "hdl:11529/11013"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "crop_cuts"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=3)
   ## dataset level data 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+		carobiner::extract_metadata(js, uri, group),
     project="TAMASA",
-    uri=uri,
-    data_citation="T Balemi; M Kebede; J Chamberlin; B Assefa; K Workneh; T Abera; T Tufa; G Hailu; G Chala; G Gurumu, 2017. TAMASA Ethiopia. Agronomy Panel Survey 2016. Yield, soil and agronomy data, https://hdl.handle.net/11529/11013, CIMMYT Research Data & Software Repository Network, V2",
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)
     publication= NA,
@@ -31,14 +30,7 @@ carob_script <- function(path) {
     carob_date="2023-08-17"
   )
   
-  ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=3)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   
   f <- ff[basename(ff) == "TAMASA_ET_CC_2016F.xlsx"]
@@ -103,7 +95,6 @@ carob_script <- function(path) {
 #    mergeddf <- merge(d, geocodes2, by=c("country","adm2"),all.x=TRUE)
 
     
-    # all scripts must end like this
    carobiner::write_files(dset, d, path=path)
 }
 

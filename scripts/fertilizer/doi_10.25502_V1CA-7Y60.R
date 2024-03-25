@@ -21,27 +21,19 @@ inoculants and fertilizers adapted to local settings.
 	uri <- "doi:10.25502/V1CA-7Y60"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id, 
-		group=group, 
-		uri=uri, 
+		carobiner::extract_metadata(js, uri, group),
 		project="N2Africa",	
 		publication=NA, 
-		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa diagnostic trial, 2012 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/V1CA-7Y60", 
 		data_institutions = "IITA", 
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-06-01",
 		data_type="experiment"
 	)
 	
-	## download and read data 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	f <- ff[basename(ff) == "data_table.csv"] 
 	

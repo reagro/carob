@@ -11,13 +11,12 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10548767"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		uri=uri,
-		data_citation="Patra, Kiranmoy; Parihar, CM; Nayak, HS; Rana, Biswajit; Singh, VK; Krishnan, P.; Pandey, Renu; Mandal, B.N.; Rathi, N.; Meena, B.R.; Singh, L.K.; Sidhu, HS; Jat, ML, 2022, Crop performance and nitrogen use-efficiency in maize under conservation agriculture coupled with sub-surface drip fertigation,
 		https://hdl.handle.net/11529/10548767, CIMMYT Research Data & Software Repository Network, V1",
 		publication= NA,
 		data_institutions = "CIMMYT",
@@ -26,14 +25,7 @@ carob_script <- function(path) {
 		carob_date="2023-09-15"
 	)
 
-## download and read data 
 #path <- "C:/carob"### always set to the working direction 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
-	dset$license <- carobiner::get_license(js)[1]
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	## ## CN 
 	#It is no advance to read the data from local computer 
@@ -91,6 +83,5 @@ carob_script <- function(path) {
 	##data type
 	d$yield<-  as.numeric(d$yield)
 	d$yield<- d$yield*1000 # convert in kg/ha
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }

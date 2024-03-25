@@ -8,14 +8,12 @@ carob_script <- function(path) {
    uri <- "doi:10.21223/P3/FHUVF9"
    dataset_id <- carobiner::simple_uri(uri)
    group <- "potato_trials"
+   ff <- carobiner::get_data(uri, path, group)
+   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=4)
    ## dataset level data 
    dset <- data.frame(
-      dataset_id = dataset_id,
-      group=group,
-      uri=uri,
+		carobiner::extract_metadata(js, uri, group),
       publication= NA,
-      data_citation ="Salas, Elisa; Montanez, Ana; Juarez, Henry; Amoros, Walter; Burgos, Gabriela; Ccanto, Raul; Scurrah, Maria; De Haan, Stef; Bonierbale, Merideth, 2017, Dataset for: Stability analysis for yield on 40 native potato cultivars, 
-      https://doi.org/10.21223/P3/FHUVF9, International Potato Center, V1",
       data_institutions = "CIP",
       carob_contributor="Cedric Ngakou",
       data_type="experiment",
@@ -23,16 +21,8 @@ carob_script <- function(path) {
       carob_date="2023-12-12"
    )
    
-   ## download and read data 
-   ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=4)
-   dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
    
    ff <- ff[grep("PTYL", basename(ff))]
-   # read and process files
 
    process <- function(f) {
       r <- carobiner::read.excel(f, sheet="Fieldbook")
@@ -92,7 +82,6 @@ carob_script <- function(path) {
    # fix lon and lat coordinate
    d$longitude[d$longitude==-14.75289]<- -74.75289
    
-   # all scripts must end like this
    carobiner::write_files(dset, d, path=path)
    
 }

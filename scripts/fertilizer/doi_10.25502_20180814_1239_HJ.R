@@ -15,17 +15,16 @@ carob_script <- function(path) {
 	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group=group),
+		carobiner::extract_metadata(js, uri, group),
 		project="AFSIS",
 		publication= NA,
-		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Mbinga [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1239/HJ",
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-02-15",
 		data_type="experiment"
 	)
 	
-	d <- data.frame(dataset_id = character(0), rep = integer(0), season = character(0), 
+	d <- data.frame(dataset_id = character(0), rep = integer(0), season = character(0), 	
     country = character(0), site = character(0), treatment = character(0), 
     longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
     harvest_date = character(0), trial_id = character(0), crop = character(0), 
@@ -46,7 +45,6 @@ carob_script <- function(path) {
   ### dataset level data 
   # dset <- data.frame(
     # publication= NA,
-    # data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Mbinga [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1239/HJ",
     # data_institutions = "IITA",
     # carob_contributor="Cedric Ngakou",
     # carob_date="2023-02-15",
@@ -56,14 +54,7 @@ carob_script <- function(path) {
     #  
   # )
   
-  ### download and read data 
   
-  # ff <- carobiner::get_data(uri, path, group)
-  # js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  # dset$license <- carobiner::get_license(js)
-  #dset$title <- carobiner::get_title(js)
-	#dset$authors <- carobiner::get_authors(js)
-	#dset$description <- carobiner::get_description(js)
   
   
   # f1 <- ff[basename(ff) == "Mbinga_DT2010_field.csv"]## get field data 
@@ -150,7 +141,6 @@ carob_script <- function(path) {
   
   # d$harvest_date <- format(as.Date(d$harvest_date, format = "%m/%d/%Y"), "%Y-%m-%d")
   
-  # all scripts must end like this
   
   # carobiner::write_files(dset, d, path=path)
   

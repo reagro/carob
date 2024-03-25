@@ -29,13 +29,12 @@ The data set presents yields for maize and the legumes from these sites over 10 
 	uri <- "hdl:11529/10829"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		uri=uri,
-		data_citation='Thierfelder, Christian, 2016, "Options available for the management of drought-tolerant maize varieties and conservation agriculture practices in Malawi", https://hdl.handle.net/11529/10829, CIMMYT Research Data & Software Repository Network, V1',
 		publication=NA,
 		data_institutions = "CIMMYT",
 		data_type="on-farm experiment",
@@ -44,14 +43,7 @@ The data set presents yields for maize and the legumes from these sites over 10 
 		revised_by=c("Effie Ochieng', Robert Hijmans")
 	)
 
-## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	f <- ff[basename(ff) == "Summary files Malawi 2005-15..xlsx"]
 	
@@ -183,7 +175,6 @@ The data set presents yields for maize and the legumes from these sites over 10 
 	d$planting_date <- as.character(NA)
 	
 	d <- d[!is.na(d$yield), ]
-	# all scripts must end like this
 	carobiner::write_files(dset,  d,  path=path)
 }
 

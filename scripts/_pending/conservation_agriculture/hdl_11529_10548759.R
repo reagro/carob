@@ -5,13 +5,12 @@ carob_script <- function(path)
 	uri <- "hdl:11529/10548759"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
  
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		uri=uri,
-		data_citation="Jat, Hanuman S.; Choudhary, Madhu; Datta, Ashim; Kakraliya, Suresh K.; McDonald, Andrew J.; Jat, ML; Sharma, Parbodh C., 2022, Long-term conservation agriculture helps in the reclamation of sodic soils in major agri-food systems, https://hdl.handle.net/11529/10548759, CIMMYT Research Data & Software Repository Network, V1",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= "doi:10.1002/ldr.4321",
@@ -22,12 +21,6 @@ carob_script <- function(path)
 	)
 
 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-	dset$license <- carobiner::get_license(js)[[1]]
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 
 	f <- ff[basename(ff) == "Jat et al 2022 Final row data for LDD_SK.xlsx"]

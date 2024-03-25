@@ -7,13 +7,12 @@ carob_script <- function(path) {
   uri <- "doi:10.7910/DVN/BCYGY7"
   group <- "wheat_trials"
 
-  ff  <- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   dataset_id <- carobiner::simple_uri(uri)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 
   dset <- data.frame(
 	carobiner::extract_metadata(js, uri, group),
-    data_citation="International Livestock Research Institute (ILRI), 2020. Variations in Food Feed Traits of Bread Wheat Varieties for Ethiopia, https://doi.org/10.7910/DVN/BCYGY7, Harvard Dataverse, V1, UNF:6:bVlmNu8NCBncswKeQLgz1A== [fileUNF]",
     project=NA,
     publication= NA,
     data_institutions = "ILRI",
@@ -54,6 +53,6 @@ carob_script <- function(path) {
 	)
 	d <- merge(d, coord, by="location")
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(path, dset, d)
 }
 

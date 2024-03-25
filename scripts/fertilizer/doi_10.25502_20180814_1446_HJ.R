@@ -14,13 +14,13 @@ carob_script <- function(path) {
 	group <- "fertilizer" 
 
 	dataset_id <- carobiner::simple_uri(uri)
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group=group),
 		project= "AfSIS", 
-		data_citation="Huising, J. (2018). Africa Soil Information System - Phase 1, Sidindi LR [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1446/HJ",
+		#data_citation="Huising, J. (2018). Africa Soil Information System - Phase 1, Sidindi LR [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1446/HJ",
 		publication = "doi:10.1016/j.agee.2016.05.012",
 		data_institutions = "IITA",
 		data_type="Multi-location trials",

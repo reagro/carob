@@ -15,13 +15,12 @@ The objective of the study is to test different plant arrangements between maize
   uri <- "doi:10.7910/DVN/O69RDX"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
   ## dataset level data 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+		carobiner::extract_metadata(js, uri, group),
     project=NA,
-    uri=uri,
-    data_citation= "International Maize and Wheat Improvement Center (CIMMYT); Zambian Agriculture Research Institute (ZARI), 2021. Gliricidia Intercropping Trial On-Station Under Conservation Agriculture, 2020. https://doi.org/10.7910/DVN/O69RDX, Harvard Dataverse, V1, UNF:6:23bY0zo49o7Fxy/jrhNtiA== [fileUNF]",
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
@@ -30,14 +29,7 @@ The objective of the study is to test different plant arrangements between maize
   )
    
   
-  ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-  dset$license <- carobiner::get_license(js)
   
   f <- ff[basename(ff) == "AR_ZAM_CIMMYT_Gliricidia_onstation_2020.csv"]
   

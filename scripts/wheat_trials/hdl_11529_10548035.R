@@ -15,7 +15,6 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group=group),
 		project="International Durum Yield Nursery",
-		data_citation="Global Wheat Program; IWIN Collaborators; Ammar, Karim; Payne, Thomas, 2018. 48th International Durum Yield Nursery. https://hdl.handle.net/11529/10548035, CIMMYT Research Data & Software Repository Network, V6, UNF:6:We1N1Ahrfm2fdFVA19ud3A== [fileUNF]",
 		publication=NA,
 		data_institutions = "CIMMYT",
 		data_type="experiment", 
@@ -27,6 +26,6 @@ carob_script <- function(path) {
 	d <- proc_wheat(ff, dataset_id)
 	d$crop <- "durum wheat"
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(path, dset, d)
 }
 

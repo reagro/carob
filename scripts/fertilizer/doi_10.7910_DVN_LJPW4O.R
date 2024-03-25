@@ -14,12 +14,11 @@ carob_script <- function(path) {
 	uri <- "doi:10.7910/DVN/LJPW4O"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=5) 
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   data_citation = "Sommer, Rolf; Kihara, Job; Kinyua, Michael, 2019, Response of maize to N and P in two trials in Uganda, https://doi.org/10.7910/DVN/LJPW4O, Harvard Dataverse",
-	   group=group,
-	   uri=uri,
+		carobiner::extract_metadata(js, uri, group),
 	   publication=NA,
 	   carob_contributor="Eduardo Garcia Bendito",
 	   carob_date="2021-06-18",
@@ -29,14 +28,7 @@ carob_script <- function(path) {
     
 	)
 
-## download and read data 
 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=5) 
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 
 	f <- ff[basename(ff) == "9a Yield data.xlsx"]
@@ -134,7 +126,6 @@ carob_script <- function(path) {
 	d$trial_id <- paste0(d$trial_id, "-", id)
 	d$dataset_id <- dataset_id
 	d$yield_part <- "grain"
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 
 }
