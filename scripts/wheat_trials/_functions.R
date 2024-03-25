@@ -187,7 +187,7 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 		"CROTOTERIA (ABONO VERDE)", "crotalaria", 		
 		"CROTOTERIA", "crotalaria",
 		"DEHNEHA", NA,
-		"DURUM WHEAT", "wheat",
+		"DURUM WHEAT", "durum wheat",
 		"BREAD WHEAT", "wheat",
 		"TRIGO HARI", "wheat",
 		"WEED FREE FALLOW", "no crop",

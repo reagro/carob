@@ -25,6 +25,8 @@ International Durum Yield Nurseries (IDYN) are replicated yield trials designed 
 	
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff, dataset_id)
+	d$crop <- "durum wheat"
+	
 	carobiner::write_files(path, dset, d)
 }
 
