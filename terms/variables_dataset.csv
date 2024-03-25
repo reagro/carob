@@ -1,9 +1,9 @@
 name,required,description,NAok
 dataset_id,yes,id (normalized uri),no
 uri,yes,the uri of the dataset,no
-authors,no,dataset authors,no
+authors,yes,dataset authors,no
 title,yes,title,no
-description,no,description,no
+description,yes,description,no
 group,yes,Carob group,no
 license,yes,license that comes with the data,no
 carob_contributor,yes,name(s) of contributers of this script,no
@@ -15,3 +15,4 @@ project,yes,project that this dataset belongs to (if any),yes
 carob_date,yes,date of first contribution to Carob,no
 revised_by,no,name(s) of contributers who made significant changes,no
 revision_date,no,date of last revision,no
+data_published,no,date the data was published,yes
