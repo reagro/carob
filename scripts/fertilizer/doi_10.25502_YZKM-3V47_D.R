@@ -19,8 +19,9 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 "
 
 	uri <- "doi:10.25502/YZKM-3V47/D"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+
+	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	## dataset level data 
@@ -43,6 +44,7 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 	#m <- read.csv(f)
 
 	d <- data.frame(
+		dataset_id = dataset_id,
 		record_id =r$ID,
 		trial_id = "1",
 		treatment= apply(r[, c("Planting_date", "Harvest_date", "Fertilizer", "Cassava_variety")], 1, paste, collapse="_"),
@@ -84,6 +86,7 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 
 	pdates <- paste0("2017-", c("04", "06", "08"))
 	d$planting_date <- pdates[d$planting_date]
+	d$dataset_id <- dataset_id
 
 	carobiner::write_files(dset, d, path=path)
 }

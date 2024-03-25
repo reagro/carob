@@ -11,8 +11,9 @@ carob_script <- function(path) {
  "
   
 	uri <- "hdl:11529/10547997"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
+
+	dataset_id <- carobiner::simple_uri(uri)
 	ff	<- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
  	dset <- data.frame(
@@ -130,5 +131,6 @@ carob_script <- function(path) {
 	dd <- lapply(ff, fun)
 	dd <- do.call(rbind, dd)
 
+	dd$dataset_id <- dataset_id
 	carobiner::write_files(dset, dd, path=path)
 }
