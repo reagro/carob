@@ -13,7 +13,7 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 #	fgrn <- ff[basename(ff) == "29 HRWYT_GrnYld.xls"]
 #	geno <- read.csv(fgeno, sep = "\t")
 #	grn <- read.csv(fgrn, sep = "\t")
-	
+
 	fenv <- ff[grep("EnvData.xls", basename(ff))]
 	floc <- ff[grep("Loc_data.xls", basename(ff))]
 	fraw <- ff[grep("RawData.xls", basename(ff))]
@@ -47,8 +47,14 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 	raw$Value[raw$Value %in% c("1B/1B", "7+9/17+18", "2.1+12", "2.1+10")] <- NA   
 
 	raw$Value <- as.numeric(raw$Value)
+	i <- colSums(!is.na(raw))
+	raw <- raw[, i>0]
+	
 	raw <- aggregate(Value ~ ., data=raw, mean, na.rm=TRUE)
 
+	i <- match(c("Trait.name", "Trial.name"), names(raw))
+	
+	vars <- vars[vars %in% colnames(raw)]
 	raw <- reshape(raw, idvar=vars[-c(1:2)], timevar = "Trait.name", direction = "wide")
 	colnames(raw) <- gsub("Value.","", colnames(raw))
 
@@ -87,13 +93,19 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 	}
 	
 	r$heading <- r$DAYS_TO_HEADING
-	season <- as.numeric(r$harvest_date - r$planting_date)	
-	h <- which((r$heading > 150) & (r$heading > (season + 15)))
-	r$heading[h] <- NA
-
+	if (!is.null(r$heading)) {
+		season <- as.numeric(r$harvest_date - r$planting_date)	
+		h <- which((r$heading > 150) & (r$heading > (season + 15)))
+		r$heading[h] <- NA
+	}
 	
 # other variables
-	r$IRRIGATED <- r$IRRIGATED != "NO"
+	if (is.null(r$IRRIGATED))  {
+		r$IRRIGATED <- as.logical(NA)	
+	} else {
+		r$IRRIGATED <- r$IRRIGATED != "NO"
+	}
+	
 	r$Rep <- as.integer(r$Rep)
 	r$planting_date <- as.character(r$planting_date)
 	i <- is.na(r$planting_date)
@@ -102,13 +114,29 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 
 	r$on_farm <- FALSE
 	r$is_survey <- FALSE
-	r$row_spacing <- as.numeric(r$SPACE_BTN_ROWS_SOWN)
+	if (is.null(r$SPACE_BTN_ROWS_SOWN)) {
+		r$row_spacing <- as.numeric(NA)	
+	} else {
+		r$row_spacing <- as.numeric(r$SPACE_BTN_ROWS_SOWN)
+	}
 	r$crop <- "wheat"
 	r$variety_code <- r$Gen_name
-		
-		
-		
+
 	m <- matrix(byrow=TRUE, ncol=2, c(
+		"VICIA FABA", "faba bean", 
+		"FABABEAN", "faba bean", 
+		"FABAE BEAN", "faba bean", 
+		"FABA VULGARIS", "faba bean", 
+		"G'NUT", "groundnut",
+		"PEARL MILLET", "pearl millet",
+		"SEAOME", "sesame",
+		"SUGAR BEATTREFOIL", "sugar beet",
+	
+		"CHICK-PEA", "chickpea",
+		"COW PEA", "cowpea",
+		"MOUNG BEAN", "mung bean",
+		"BLACK-GRAM", "black gram",
+		
 		"INTERCROPING", NA,
 		"CLASLERBEEN", "guar",  # cluster bean
 		"P. / LEGUME", "legume",
@@ -128,6 +156,7 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 		"AMAN RICE", "rice",
 		"AMAN RCIE", "rice",
 		"AMARANTO", "amaranth",
+		"AMARANTHUS", "amaranth",
 		"ARVEJAS PARA CONGELADO", "pea",
 		"ARVEJA", "pea",
 		"AVENA+VICI", "oats; vetch", 
@@ -366,6 +395,8 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 		"SOGO", "sorghum",
 		"SORGO", "sorghum", 
 		"SORGO FORR", "sorghum", 
+		"SORGO FORRAGE", "sorghum", 
+		"FORAGE SORGHUM", "sorghum", 
 		"SAYABEAN", "soybean", 
 		"SOJA BEANS", "soybean", 
 		"SOYBEAN JS-335", "soybean", 
@@ -396,6 +427,7 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 		"SOYA- OIL SEED", "soybean",
 		"SUNFLOVER", "sunflower",
 		"SUNFLOWER (HELIANTHUS ANNUUS L)", "sunflower",
+		"SUNFLOWER; COMPOSITAE", "sunflower",
 		"SUNHANP", "sunn hemp",
 		"SAMHAMP", "sunn hemp",
 		"SANNHEMP", "sunn hemp",
@@ -409,9 +441,10 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 		"SUN-HAMP", "sunn hemp", 
 		"SUNHAMP", "sunn hemp",
 		"SUNHAMN", "sunn hemp", 
-		"SUNFLOWER; COMPOSITAE", "sunflower",
 		"SUN-HAMP", "sunn hemp", 
 		"SANHAMP", "sunn hemp", 
+		"SUN HEMP", "sunn hemp", 
+		"SUNNHEMP", "sunn hemp", 
 		"SUNHIMP", "sunn hemp", 
 		"SUNHAMP", "sunn hemp",
 		"SUNHEMP", "sunn hemp",
@@ -464,7 +497,7 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 
 	prcrop <- r$USE_OF_FIELD_SPECIFY_CROP
 	if (is.null(prcrop)) {
-		r$previous_crop <- NA	
+		r$previous_crop <- as.character(NA)	
 	} else {
 		prcrop <- trimws(gsub("\\s+", " ", prcrop))
 		h <- cbind(1:nrow(r), match(prcrop, m[,1])) |> na.omit()
@@ -473,7 +506,11 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 	}
 	# Convert yield in ton/ha to kg/ha
 	r$yield <- as.numeric(r$GRAIN_YIELD) * 1000 
-	r$grain_weight <- as.numeric(r$`1000_GRAIN_WEIGHT`)
+	if (is.null(r$`1000_GRAIN_WEIGHT`)) {
+		r$grain_weight <- as.numeric(NA)	
+	} else {
+		r$grain_weight <- as.numeric(r$`1000_GRAIN_WEIGHT`)
+	}
 	
 	# Extract columns with NPK fertilizers
 	fertfun <- function(x, v) {

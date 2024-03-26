@@ -13,7 +13,6 @@ carob_script <- function(path) {
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
-		#data_citation="Global Wheat Program; IWIN Collaborators; Ammar, Karim; Payne, Thomas, 2021, 52nd International Durum Yield Nursery, https://hdl.handle.net/11529/10548601, CIMMYT Research Data & Software Repository Network, V4",
 		data_institutions = "CIMMYT",
 		publication=NA,
 		project="International Durum Yield Nursery",

@@ -16,7 +16,7 @@ carob_script <- function(path) {
 		carobiner::extract_metadata(js, uri, group),
 		data_institutions = "CIMMYT",
 		publication= NA,
-		project="International Durum Yield Nurseries",
+		project="International Durum Yield Nursery",
 		data_type= "experiment",
 		carob_contributor= "Blessing Dzuda",
 		carob_date="2024-03-14"
