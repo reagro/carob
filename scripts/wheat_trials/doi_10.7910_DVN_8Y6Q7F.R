@@ -36,10 +36,9 @@ carob_script <- function(path) {
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
 
-##### Location #####
+## Location
 	#g <-unique(d[,c("country","site")])
-	#g1<-carobiner::geocode(country = g$country,location = g$site,service = "nominatim")
-	#manually extracting geo coordinates using dput
+	#g1 <- carobiner::geocode(country = g$country, location = g$site, service = "nominatim")
 	#dput(g1)
 
 	gg <- data.frame(
@@ -66,9 +65,6 @@ carob_script <- function(path) {
 	d$harvest_date  <- as.character(d$harvest_date)
 	d$flowering_date <- as.character(d$flowering_date)
 	d$trial_id <- as.character(as.integer(as.factor(paste(d$longitude, d$latitude, d$planting_date))))
-	
-### avoid subsetting like this
-###	d <- d[, c("trial_id", "country", "site", "adm1", "variety", "rep", "yield_part", "crop", "yield", "planting_date", "flowering_date", "harvest_date", "longitude", "latitude", "dataset_id")]
 	
 	carobiner::write_files(path, dset, d)
 }

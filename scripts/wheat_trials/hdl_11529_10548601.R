@@ -4,6 +4,7 @@ carob_script <- function(path) {
 
 "International Durum Yield Nurseries (IDYN) are replicated yield trials designed to measure the yield potential and adaptation of superior CIMMYT-bred spring durum wheat germplasm that have been developed from tests conducted under irrigation and induced stressed cropping conditions in northwest Mexico. These materials have been subjected to numerous diseases (leaf, stem and yellow rust; Septoria tritici blotch) and varied growing environments. It is distributed to 70 locations, and contains 50 entries. (2020)"
 
+
 	uri <- "hdl:11529/10548601"
 	group <- "wheat_trials"
 	dataset_id <- carobiner::simple_uri(uri)
