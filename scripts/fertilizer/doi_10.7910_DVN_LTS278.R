@@ -12,11 +12,10 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 	uri <- "doi:10.7910/DVN/LTS278"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
-		data_citation="Atnafu, Obsa, 2020. Replication Data for: Response of Maize to blended fertilizer, https://doi.org/10.7910/DVN/LTS278",
+		carobiner::extract_metadata(js, uri, group),
 		publication=NA,
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2021-08-26",
@@ -26,14 +25,8 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 	)
 
 	## treatment level data 
-	ff <- carobiner::get_data(uri, path, group)
 
 	## read the json for version, license, terms of use  
-	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
-	dset$license <- carobiner::get_license(js)[[1]]
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "AGP II 2017.18 RAW DATA.xlsx"] 
 	d <- carobiner::read.excel(f)

@@ -9,13 +9,12 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 	uri <- "doi:10.25502/szwf-he08"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "maize_trials"	
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
 		
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri = uri,
-		data_citation="Badu-Apraku Baffour, R. Asiedu, A.O. Talabi, M.A.B. Fakorede, Y. Fasanmade, M. Gedil, & C. Magorokosho. (2018). Yield gains and associated changes in an early yellow bi-parental maize population following Genomic Selection for Striga resistance and drought tolerance [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/SZWF-HE08 ",
+		carobiner::extract_metadata(js, uri, group),
  	    publication="doi:10.1186/s12870-019-1740-z",
 		carob_contributor = "Siyabusa Mkuhlani",
 		carob_date="2024-17-01",
@@ -24,13 +23,6 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 		data_institutions="IITA"
 	)
 
-	## download and read data 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	read_data <- function(f) {
 		r <- read.csv(f)

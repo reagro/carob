@@ -15,13 +15,12 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/2223085"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
+	ff	<- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=2)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		uri=uri,
-		data_citation="Nyagumbo, Isaiah; Rusinamhodzi, Leonard; Mupangwa, W; Njeru, John; Craufurd, Peter; Nhambeni, B; Dias, Domingos; Kamalongo, Donwell; Siyeni, Dyton; Ngwira, Amos; Sariah, John; Ngatoluwa, Rama; Makoko, B; Ayaga, George; Micheni, Alfred; Nkonge, Charles; Atomsa, TB; Bedru, Beshir; Kanampiu, Fred, 2017. SIMLESA. On-station and on-farm agronomy data from 2010 to 2019. https://hdl.handle.net/11529/2223085, CIMMYT Research Data & Software Repository Network",
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="experiment",
@@ -31,14 +30,7 @@ carob_script <- function(path) {
 		revision_date="2023-11-04"
 	)
 	
-	## download and read data 
 	
-	ff	<- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=2)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	
 	f <- ff[basename(ff) == "Agronomy full data set 13 dec 2019 with nonames.xlsx"]
@@ -130,7 +122,6 @@ carob_script <- function(path) {
 	d$is_experiment <- TRUE
 	d$irrigated <- FALSE
  
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	#carob_script(path)
 }

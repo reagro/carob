@@ -17,13 +17,12 @@ carob_script <- function(path) {
   uri <- "doi:10.25502/RGB5-GA15/D"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   ## dataset level data 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    uri=uri,
+		carobiner::extract_metadata(js, uri, group),
     publication=NA,
-    data_citation = "Huising, J. (2019). OCP validation trials for maize fertilizers, Bayero University Kano - Nigeria [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/RGB5-GA15/D" ,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
     carob_date="2023-02-27",
@@ -32,13 +31,6 @@ carob_script <- function(path) {
      
   )
   
-  ## download and read data 
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   f1 <- ff[basename(ff) == "BUK_T1_VT_yieldatharvest_summ.csv"] # dataset from team1
   f2 <- ff[basename(ff) == "BUK-T2_VT_yieldatharvest_summ.csv"] # dataset from team2
@@ -122,7 +114,6 @@ carob_script <- function(path) {
 #data type
   d$yield <- as.numeric(d$yield)
   d <- d[!is.na(d$yield), ]
-  # all scripts must end like this
  carobiner::write_files(dset, d, path=path)
  
 }

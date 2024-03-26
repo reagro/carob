@@ -14,13 +14,12 @@ Description:
 	uri <- "doi:10.25502/pakr-y904/d"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	  ## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::extract_metadata(js, uri, group),
 		publication=NA,
-		data_citation = "Huising, J. (2019). OCP validation trials for maize fertilizers, OCP - Nigeria [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/PAKR-Y904/D",
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-04-10",
@@ -28,13 +27,6 @@ Description:
 		project=NA    
 	)
   
-	## download and read data 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	f <- ff[basename(ff) == "OCP_Yld-data&covariates_complete.csv"] 
 	
@@ -107,7 +99,6 @@ Description:
 	d$yield <- as.numeric(d$yield)
 	d$soil_SOC <- d$soil_SOC / 10
 
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	
 }

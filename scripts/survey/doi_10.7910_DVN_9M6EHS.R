@@ -8,14 +8,14 @@ carob_script <- function(path) {
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "survey"
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
 
 	## dataset level data 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
 		project="RHoMIS",
-		data_citation="-, RHoMIS, 2019. The Rural Household Multiple Indicator Survey (RHoMIS) data of 13,310 farm households in 21 countries. https://doi.org/10.7910/DVN/9M6EHS, Harvard Dataverse, V3, UNF:6:ZnVw+OfivEtIKcZWC9iwgw== [fileUNF]",
+		#data_citation="-, RHoMIS, 2019. The Rural Household Multiple Indicator Survey (RHoMIS) data of 13,310 farm households in 21 countries. https://doi.org/10.7910/DVN/9M6EHS, Harvard Dataverse, V3, UNF:6:ZnVw+OfivEtIKcZWC9iwgw== [fileUNF]",
 		publication= "doi:10.1038/s41597-020-0388-8",
 		data_institutions = "ILRI",
 		data_type="survey", 

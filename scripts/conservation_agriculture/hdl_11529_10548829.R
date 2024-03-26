@@ -36,13 +36,12 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10548829"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id =dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project= NA,
-		uri=uri,
-		data_citation="Mhlanga, Blessing; Pellegrino, Elisa; Thierfelder, Christian; Ercoli, Laura, 2022, Conservation agriculture practices lead to diverse weed communities and higher maize grain yield in Southern Africa, https://hdl.handle.net/11529/10548829, CIMMYT Research Data & Software Repository Network, V1",
 		publication= "doi.org/10.1016/j.fcr.2022.108724",
 		data_institutions = "CIMMYT",
 		data_type="on-farm experiment", 
@@ -51,7 +50,6 @@ carob_script <- function(path) {
 		revised_by = "Effie Ochieng'"  
 	)
 
-## download and read data 
  # path <- ("C:/carob/wd/data/raw/maize_trials")
 
 	# f <- "C:/carob/scripts/maize_trials/path/to/your/carob/folder/data/raw/maize_trials/doi_11529_10548829"
@@ -63,14 +61,7 @@ carob_script <- function(path) {
 	
 	
 	# efyrouwa: read the file as below instead, path should never be in the script
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
-	## download and read data 
 	f <- ff[basename(ff) == "DATA DTC UZ - 2019 2020 2021.xlsx"]
 	r <- carobiner::read.excel(f, sheet = 3)
 	
@@ -128,7 +119,6 @@ carob_script <- function(path) {
 	d <- r[,c("trial_id","country","adm1","adm2","latitude","longitude","treatment","crop","dmy_total", "yield","yield_part","planting_date","dataset_id","on_farm","soil_clay","soil_sand","soil_silt","soil_SOC","row_spacing","plant_spacing","N_fertilizer","P_fertilizer","K_fertilizer")] 
 	
 
-  # all scripts must end like this
   	carobiner::write_files(dset, d, path=path)
  }
  

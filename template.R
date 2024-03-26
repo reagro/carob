@@ -6,11 +6,10 @@
 
 carob_script <- function(path) {
 
-"Description:
-
-    [copy the abstract from the repo]
-
 "
+[copy the abstract from the repo]
+"
+
 #### Identifiers
 	uri <- "doi:10xxx/yyy"
 	group <- "___"
@@ -25,7 +24,6 @@ carob_script <- function(path) {
 ##### dataset level metadata 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
-		data_citation="",
 		data_institutions = "",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
@@ -116,7 +114,7 @@ carob_script <- function(path) {
 	d$yield_part <- 
 	
 # all scripts must end like this
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(path, dset, d)
 }
 
 ## now test your function in a _clean_ R environment (no packages loaded, no other objects available)

@@ -18,13 +18,12 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
   uri <- "hdl:11529/10548076"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
+  ff	<- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
   ## dataset level data 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+		carobiner::extract_metadata(js, uri, group),
     project="Rabi (winter) crops-all nodes-Long term trial (LT)-Rangpur-Bangladesh",
-    uri=uri,
-    data_citation= "Islam S., Gathala M.K., Tiwari T.P., Timsina J., Laing, A.M., Maharjan S., Chowdhury A.K., Bhattacharya, P.M., Dhar, T., Mitra B., Kumar S., Srivastwa P.K., Dutta S.K., Shrestha R., Manandhar S., Sherestha S.R., Paneru P., Siddquie, N.-E.-A., Hossain A., Islam R., Ghosh A.K., Rahman M.A., Kumar U., Rao K.K., Gérard B., 2019.",
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="on-farm experiment",
@@ -32,16 +31,9 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
     carob_date="2023-11-22"
   )
   
-  ## download and read data 
   
-  ff	<- carobiner::get_data(uri, path, group)
   ff <- ff[grep("Rangpur", basename(ff))] # Taking Wheat and maize files
 
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   get_raw_data <- function(f) {
     r1 <- carobiner::read.excel.hdr(f, sheet ="4- Stand counts & Phenology", skip=4, hdr=2)
@@ -81,7 +73,6 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
                     site = paste("site ", r$Site.No),
                     country= "Bangladesh",
                     adm2 = "Rangpur", # district provided in the excel
-                    dataset_id=dataset_id,
                     S_fertilizer= 0,
                     Zn_fertilizer= r$ZnSO4.kg.ha,
                     lime =0, gypsum =r$Gypsum.kg.ha

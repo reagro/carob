@@ -13,15 +13,12 @@ TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 	uri <- "hdl:11529/10548307"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "crop_cuts"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project="TAMASA",
-		uri=uri,
-		data_citation="Masuki, Kenneth; Chamberlin, Jordan, 2019, Tamasa APS Tanzania 2016, https://hdl.handle.net/11529/10548307, CIMMYT Research Data & Software Repository Network, V1, UNF:6:ROFhHRpFl3nj0rn+rxjaIA== [fileUNF]",
-		## if there is a paper, include the paper's doi here
-		## also add a RIS file in references folder (with matching doi)
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="survey",
@@ -30,13 +27,6 @@ TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 		revised_by="Robert Hijmans"
 	)
 
-## download and read data 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	getdf <- function(r) {
 

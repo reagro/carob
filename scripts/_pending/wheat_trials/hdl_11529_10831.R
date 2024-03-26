@@ -14,12 +14,11 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
 	uri <- "hdl:11529/10831"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_trials"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	dset <- data.frame(
-		dataset_id = dataset_id, 
-		group=group, 
-		uri=uri, 
+		carobiner::extract_metadata(js, uri, group),
 		publication= "doi:10.2135/cropsci2016.06.0558",
-		data_citation = "Sukumaran, Sivakumar; Crossa, Jose; Jarquín, Diego; Reynolds, Matthew, 2016. Yield data for pedigree-based prediction models with genotype × environment interaction in multi-environment trials of CIMMYT wheat. hdl:11529/10831. CIMMYT Research Data & Software Repository Network, V1", 
 		data_institutions = "CIMMYT", 
 		carob_contributor="Cedric Ngakou", 
 		data_type="on-station experiment",
@@ -27,13 +26,6 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
 		carob_date="2023-10-19"		
 	)
   
-	## download and read data 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	f1 <- ff[basename(ff) == "1SATYN.csv"] 
 	f2 <- ff[basename(ff) == "1WYCYT.csv"]

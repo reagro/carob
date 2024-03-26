@@ -10,13 +10,12 @@ This dataset contains output of the research for South Sudan.
 	uri <- "doi:10.25502/20180730/1420/MA"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "maize_trials"	
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
 		
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		data_citation = "Menkir, A. (2018). Grain Yield and Other Agronomic Traits of International Maize Trials – South Sudan, 2011 - 2012 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180730/1420/MA",
-		uri = uri,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Robert Hijmans",
 		carob_date="2023-07-03",
@@ -26,13 +25,6 @@ This dataset contains output of the research for South Sudan.
 	)
 
 	
-	## download and read data 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 

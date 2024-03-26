@@ -18,13 +18,12 @@ carob_script <- function(path) {
   uri <- "hdl:11529/10548052"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "simulation"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   ## dataset level data 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+		carobiner::extract_metadata(js, uri, group),
     project=NA,
-    uri=uri,
-    data_citation="Gaydon, Don; Laing, Alison; Poulton, Perry; SRFSI team, 2018. 7.2-APSIM-BARI OFRD-Rangpur-on-station research trials-SRFSI Project-ACIAR-CIMMYT, https://hdl.handle.net/11529/10548052, CIMMYT Research Data & Software Repository Network, V2",
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)
     publication= NA,
@@ -34,14 +33,7 @@ carob_script <- function(path) {
     carob_date="2023-09-30"
   )
   
-  ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  dset$license <- "not specified" #carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   
   f <- ff[basename(ff) == "APSIM-IrrXN- rabi maize 2015-16-SRFSI-OFRD-Rangpur.xlsx"]
@@ -232,7 +224,6 @@ carob_script <- function(path) {
 
 print("many more variables need to be included")  
  
-  # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
   carobiner::write_files(dset, d1, path=path)
   carobiner::write_files(dset, d2, path=path)

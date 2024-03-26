@@ -4,26 +4,24 @@ carob_script <- function(path) {
 
 "
 Description:
-The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel 
-sites across sub-Saharan Africa using the Land Degradation
-Surveillance framework and included also multi-location diagnostic
-trials in selected sentinel sites to determine nutrient limitations
-and response to improved soil management practices (soil amendments) "
+The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments) "
 
 	uri <- "doi:10.25502/20180814/1355/HJ"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-	## dataset level data 
+
+	dataset_id <- carobiner::simple_uri(uri)
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
+
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
-	   uri=uri,
-	   publication=NA,
-	   data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Nkhata Bay S2 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1355/HJ",
-	   data_institutions = "IITA",
-	   carob_contributor="Cedric Ngakou",
-	   carob_date="2023-02-19",
-	   data_type="experiment"
+		carobiner::extract_metadata(js, uri, group=group),
+		publication=NA,
+		#data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Nkhata Bay S2 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1355/HJ",
+		data_institutions = "IITA",
+		carob_contributor="Cedric Ngakou",
+		carob_date="2023-02-19",
+		data_type="experiment"
 	)
 
 	d <- data.frame(dataset_id = character(0), rep = integer(0), season = character(0), 
@@ -43,14 +41,6 @@ and response to improved soil management practices (soil amendments) "
 
 
 ### download and read data 
-
-# ff <- carobiner::get_data(uri, path, group)
-# js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-# dset$license <- carobiner::get_license(js)
-# dset$title <- carobiner::get_title(js)
-#	dset$authors <- carobiner::get_authors(js)
-#	dset$description <- carobiner::get_description(js)
-
 
 # f1 <- ff[basename(ff) == "Nkhata Bay_S2_Field.csv"] ## get Field dataset
 # f2 <- ff[basename(ff) == "Nkhata Bay_S2_Plant.csv"] ## get Plant dataset

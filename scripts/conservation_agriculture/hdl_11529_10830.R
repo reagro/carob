@@ -27,13 +27,12 @@ sharp bread. (2016-12-08)
   uri <- "hdl:11529/10830" 
   dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
   ## dataset level data 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+		carobiner::extract_metadata(js, uri, group),
     project=NA,
-    uri=uri,
-    data_citation="Thierfelder, Christian, 2016, Increase in sustainable agricultural production in Mozambique through drought tolerant maize and conservation agriculture, https://hdl.handle.net/11529/10830, CIMMYT Research Data & Software Repository Network, V1",
     publication= "https://doi.org/10.1017/S1742170515000332",
     data_institutions = "IITA",
     data_type="experiment", 
@@ -41,14 +40,7 @@ sharp bread. (2016-12-08)
     carob_date="2023-11-21"
   )
   
-  ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   
   f <- ff[basename(ff) == "Summary Mozambique On-farm Demonstration 2006-2015.xlsx" ]
@@ -106,7 +98,6 @@ sharp bread. (2016-12-08)
    
     
     
-    # all scripts must end like this
     carobiner::write_files(dset, dd2, path=path)
 }
 

@@ -12,13 +12,12 @@ carob_script <- function(path) {
    uri <-  "doi:10.21223/P3/4FTDO8"
    dataset_id <- carobiner::simple_uri(uri)
    group <- "lateblight"
+   ff <- carobiner::get_data(uri, path, group)
+   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
    ## dataset level data 
    dset <- data.frame(
-      dataset_id = dataset_id,
-      group=group,
-      uri=uri,
+		carobiner::extract_metadata(js, uri, group),
       publication= NA,# 
-      data_citation ="Gastelo, Manuel; Bonierbale, Merideth; Landeo, Juan; Diaz, Luis, 2016, Dataset for: Stability of resistance and yield of 15 advanced clones across environments in Peru, 
       https://doi.org/10.21223/P3/4FTDO8, International Potato Center, V1",
       data_institutions = "CIP",
       carob_contributor="Cedric Ngakou",
@@ -27,17 +26,9 @@ carob_script <- function(path) {
       project=NA 
    )
    
-   ## download and read data 
-   ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
-   dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
    
    bn <- basename(ff)
    
-   # read and process files
    lst <- list()
    for (i in c(5:11)){
 
@@ -88,7 +79,6 @@ carob_script <- function(path) {
    ##data type
    d$rep <- as.integer(d$rep)
    
-   # all scripts must end like this
    carobiner::write_files(dset, d, path=path)
    
 }

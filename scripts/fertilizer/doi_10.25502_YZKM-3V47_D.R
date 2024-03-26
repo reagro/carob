@@ -19,15 +19,15 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 "
 
 	uri <- "doi:10.25502/YZKM-3V47/D"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+
+	dataset_id <- carobiner::simple_uri(uri)
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
+		carobiner::extract_metadata(js, uri, group),
 	   project=NA,
-	   uri=uri,
-	   data_citation="Hauser, S., Kreye, C., Salako, F. K., Ologunde, O., Adebayo, O. E., Busari, M. A., & Olowokere, O. E. (2023). Cassava storage root yield as affected by planting and harvest date and fertilizer and variety in SW Nigeria [Data set]. IITA. https://doi.org/10.25502/YZKM-3V47/D",
 	   # this DOI is currently not active
 	   publication = NA, #"doi:10.37722/AAHAE.2022403",
 	   data_institutions = "IITA",
@@ -36,14 +36,7 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 	   data_type="experiment"
 	)
 
-## download and read data 
 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "Staggered planting FUNNAB"]
 	r <- read.csv(f)
@@ -93,6 +86,7 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 
 	pdates <- paste0("2017-", c("04", "06", "08"))
 	d$planting_date <- pdates[d$planting_date]
+	d$dataset_id <- dataset_id
 
 	carobiner::write_files(dset, d, path=path)
 }

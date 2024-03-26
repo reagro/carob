@@ -2,26 +2,17 @@
 
 carob_script <- function(path) {
    
-   "
-	Description:
-	Drought and Striga are principal constraints to maize (Zea mays L.) production in sub-Saharan Africa. An early yellow maize population, TZE-Y Pop DT STR, which had undergone five cycles of selection for resistance to Striga, followed by three cycles of improvement for drought tolerance, was investigated for yield gains, changes in genetic variance, and interrelationships
-	among traits under drought stress and optimum environments. Two hundred and forty S1 lines comprising 60 each from the base population and subsequent populations from three selection cycles improved for grain yield and drought tolerance were assessed under drought and optimal environments in Nigeria from 2010 to 2012. Genetic improvements in grain yield of 423 and 518 kg ha−1 cycle−1
-	were achieved under drought stress and optimal environments. Predicted improvements in selection for yield were 348 and 377 kg ha−1 cycle−1 under drought stress and optimum environments, respectively. The highest yield observed in C3 was accompanied by reduced days to silking and anthesis–silking interval, improved plant aspect and ear aspect, and increased plant height and ears per plant across research environments, as well as improved stay-green characteristic under drought.
-	The level of genetic variability for yield and a few other traits were maintained under drought and optimal environments in the population.The presence of residual genetic variability for yield and other assayed traits in C3 indicated that progress could be made from future selection in the population depending on the ability of breeders to identify outstanding genotypes and the precision level of experimentation. Substantial improvement has been made in yield and drought tolerance in C3 of the population.
-	
-"
+"Drought and Striga are principal constraints to maize (Zea mays L.) production in sub-Saharan Africa. An early yellow maize population, TZE-Y Pop DT STR, which had undergone five cycles of selection for resistance to Striga, followed by three cycles of improvement for drought tolerance, was investigated for yield gains, changes in genetic variance, and interrelationships among traits under drought stress and optimum environments. Two hundred and forty S1 lines comprising 60 each from the base population and subsequent populations from three selection cycles improved for grain yield and drought tolerance were assessed under drought and optimal environments in Nigeria from 2010 to 2012. Genetic improvements in grain yield of 423 and 518 kg ha−1 cycle−1 were achieved under drought stress and optimal environments. Predicted improvements in selection for yield were 348 and 377 kg ha−1 cycle−1 under drought stress and optimum environments, respectively. The highest yield observed in C3 was accompanied by reduced days to silking and anthesis–silking interval, improved plant aspect and ear aspect, and increased plant height and ears per plant across research environments, as well as improved stay-green characteristic under drought. The level of genetic variability for yield and a few other traits were maintained under drought and optimal environments in the population.The presence of residual genetic variability for yield and other assayed traits in C3 indicated that progress could be made from future selection in the population depending on the ability of breeders to identify outstanding genotypes and the precision level of experimentation. Substantial improvement has been made in yield and drought tolerance in C3 of the population."
    
 	uri <-  "doi:10.25502/20181101/1128/BB"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "maize_trials" 
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id, 
-		group=group, 
-		uri=uri, 
+		carobiner::extract_metadata(js, uri, group),
 		publication= NA, # 
-		data_citation ="Baffour Badu-Apraku. (2018). Genetic Variances and Heritabilities of Early Yellow Maize Population Following Cycles of Improvement for Striga Resistance and Drought Tolerance [dataset]. International Institute of Tropical Agriculture (IITA).
-		https://doi.org/10.25502/20181101/1128/BB", 
 		data_institutions = "IITA", 
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-10-11", 
@@ -29,13 +20,6 @@ carob_script <- function(path) {
 		project=NA 
 	)
 	
-	## download and read data 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	bn <- basename(ff)
 	
@@ -82,7 +66,6 @@ carob_script <- function(path) {
 	d$variety_code <- as.character(d$variety_code)
 	d$planting_date <- as.character(d$planting_date)
 	
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	
 }

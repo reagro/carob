@@ -16,7 +16,7 @@ ACAI is a 5 year Bill & Melinda Gates Foundation funded project in 5 countries i
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		data_citation="Pypers, P., Vanlauwe, B., Tariku, M., Ampadu-Boakye, T., Kreye, C., Hauser, S., Baijukya, F., & Ogunsanmi, T. (2020). Nutrient omission trials cassava root yield data from Nigeria and Tanzania [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/7XQN-BB55/D",
+		#data_citation="Pypers, P., Vanlauwe, B., Tariku, M., Ampadu-Boakye, T., Kreye, C., Hauser, S., Baijukya, F., & Ogunsanmi, T. (2020). Nutrient omission trials cassava root yield data from Nigeria and Tanzania [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/7XQN-BB55/D",
 		publication= NA,
 		data_institutions = "IITA",
 		carob_contributor="Robert Hijmans",

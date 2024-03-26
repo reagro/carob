@@ -8,13 +8,12 @@ The study was carried out by the International Institute of Tropical Agriculture
 	uri <- "doi:10.25502/20180830/1745/MA"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "maize_trials"	
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
 		
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		data_citation = "Menkir, A. (2018). Grain Yield and Other Agronomic Traits of International Maize Trials – Republic of Benin, 2016 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180830/1745/MA",
-		uri = uri,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
 		carob_date="2021-06-03",
@@ -24,13 +23,6 @@ The study was carried out by the International Institute of Tropical Agriculture
 	)
 
 	
-	## download and read data 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 

@@ -5,25 +5,18 @@
 
 carob_script <- function(path) {
    
-   "
-Description
+"The objectives of this study were to describe an Acelerated breeding scheme, ABS, for sweetpotato and to investigate the efficiency of this breeding scheme for selecting high-yielding and well-adapted orange-fleshed sweetpotato (OFSP) cultivars with high β-carotene content. More than 198,500 seeds from two crossing blocks were germinated and rapidly multiplied for evaluations in observation trials at four breeding locations in Mozambique. Breeding clones with storage root yields above 10 t/ha were advanced to preliminary and advanced yield trials across four sites and for three years. As a result, 64 high-yielding OFSP breeding clones were selected and evaluated in four mega-environments following a randomized complete block design with three replicates at Angónia, Chókwè, Gurué, and Umbelúzi. Field agronomic data and storage root quality data were collected. Data from multi-environment trials were subjected to single site and combined analysis of variance as well as to stability analysis using AMMI and regression."
 
-The objectives of this study were to describe an Acelerated breeding scheme, ABS, for sweetpotato and to investigate the efficiency of this breeding scheme for selecting high-yielding and well-adapted orange-fleshed sweetpotato (OFSP) cultivars with high β-carotene content. More than 198,500 seeds from two crossing blocks were germinated and rapidly multiplied for evaluations in observation trials at four breeding locations in Mozambique.
-Breeding clones with storage root yields above 10 t/ha were advanced to preliminary and advanced yield trials across four sites and for three years. As a result, 64 high-yielding OFSP breeding clones were selected and evaluated in four mega-environments following a randomized complete block design with three replicates at Angónia, Chókwè, Gurué, and Umbelúzi. Field agronomic data and storage root quality data were collected. Data from multi-environment trials were subjected to single site and combined analysis of variance as well as to stability analysis using AMMI and regression.
-
-"
    ## Process 
    uri <- "doi:10.21223/P3/OIQSOC"
    dataset_id <- carobiner::simple_uri(uri)
    group <- "sweetpotato_trials"
+   ff <- carobiner::get_data(uri, path, group)
+   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=7)
    dataset_id <- dataset_id
    ## dataset level data 
    dset <- data.frame(
-      dataset_id = dataset_id,
-      group=group,
-      uri=uri,
-      data_citation="Andrade, Maria; Naico, Abdul; Ricardo, Jose; Alvaro, Abilio; Makunde, Godwill; Low, Jan; Ortiz, Rodomiro; Gruneberg, Wolfgang, 2017, Replication Data for: Release of orange-fleshed sweetpotato (Ipomoea batatas [l.] Lam.) cultivars in Mozambique through an accelerated breeding scheme,
-      https://doi.org/10.21223/P3/OIQSOC, International Potato Center, V1",
+		carobiner::extract_metadata(js, uri, group),
       publication=NA,#"DOI:10.1017/S002185961600099X",
       data_institutions="CIP",
       carob_contributor="Cedric Ngakou",
@@ -33,13 +26,6 @@ Breeding clones with storage root yields above 10 t/ha were advanced to prelimin
      
    )
    
-   ## download and read data 
-   ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=7)
-   dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
    
    bn <- basename(ff)
    

@@ -13,12 +13,11 @@ carob_script <- function(path) {
 	uri <- "doi:10.5061/dryad.j3tx95xhc"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff	 <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
+	js <- carobiner::get_metadata(dataset_id, path, group)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
-		data_citation="Ludemann, Cameron et al. (2022), Data from: Estimating maize harvest index and nitrogen concentrations in grain and residue using globally available data, Dryad, Dataset, https://doi.org/10.5061/dryad.j3tx95xhc",
+		carobiner::extract_metadata(js, uri, group),
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= "doi:10.1016/j.fcr.2022.108578",
@@ -29,14 +28,7 @@ carob_script <- function(path) {
 		project=NA
 	)
   
-	## download and read data 
 	
-	ff	 <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
-	js <- carobiner::get_metadata(dataset_id, path, group)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	f <- ff[basename(ff) == "MAIZE_DATA_HI_CPN_CRN_FIELD_CROPS_RESEARCH_2022.csv"][1]
 	e <- ff[basename(ff) == "DATA_ID_MAIZE_DATA_HI_CPN_CRN_FIELD_CROPS_RESEARCH_2022.csv"][1]
@@ -165,6 +157,5 @@ carob_script <- function(path) {
 	x <- x[!is.na(x$yield), ]
 	x$planting_date <- as.character(NA)
 	
-	# all scripts must end like this
 	carobiner::write_files(dset, x, path=path)
 }

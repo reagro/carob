@@ -8,12 +8,12 @@ carob_script <- function(path) {
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "survey"
   
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
-		data_citation="Naeher, Dominik; Albanna, Basma; Kumar, Abhijeet; Vollmer, Sebastian, 2023. Household and plot-level survey data on adoption, outcomes, and perceptions of early sown wheat and zero tillage in Northwest India. https://doi.org/10.25625/CITOJD, GRO.data, V1, UNF:6:5l5PoTiAWRas7QFCI+GcBA== [fileUNF]",
+		#data_citation="Naeher, Dominik; Albanna, Basma; Kumar, Abhijeet; Vollmer, Sebastian, 2023. Household and plot-level survey data on adoption, outcomes, and perceptions of early sown wheat and zero tillage in Northwest India. https://doi.org/10.25625/CITOJD, GRO.data, V1, UNF:6:5l5PoTiAWRas7QFCI+GcBA== [fileUNF]",
 		publication= NA,
 		data_institutions = "Göttingen",
 		data_type="survey", 

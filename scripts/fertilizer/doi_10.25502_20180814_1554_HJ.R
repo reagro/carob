@@ -2,140 +2,103 @@
 
 
 carob_script <- function(path) {
- "
-Description:
-The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments)
+"The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments)
 "
-  
-   uri <- "doi:10.25502/20180814/1554/HJ"
-   dataset_id <- carobiner::simple_uri(uri)
-   group <- "fertilizer"
-  ## dataset level data 
-   dset <- data.frame(
-     dataset_id = dataset_id,
-     group=group,
-     uri=uri,
-     publication=NA,
-     data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Tuchila S2 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1554/HJ",
-     data_institutions = "IITA",
-     carob_contributor="Cedric Ngakou",
-     carob_date="2023-02-15",
-     data_type="experiment"
-   )
-  
-  ## download and read data 
-  
-	d <- data.frame(dataset_id = character(0), rep = integer(0), season = character(0), 
-    country = character(0), site = character(0), treatment = character(0), 
-    longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
-    harvest_date = character(0), trial_id = character(0), crop = character(0), 
-    yield = numeric(0), residue_yield = numeric(0), grain_weight = numeric(0), 
-    previous_crop = character(0), OM_type = character(0), N_fertilizer = numeric(0), 
-    K_fertilizer = numeric(0), P_fertilizer = numeric(0), Zn_fertilizer = numeric(0), 
-    S_fertilizer = numeric(0), yield_part = character(0))
- 
-  	carobiner::write_files(dset, d, path=path)
-}
 
-  
-  
-  
-  # ff <- carobiner::get_data(uri, path, group)
-  # js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  # dset$license <- carobiner::get_license(js)
-  # dset$title <- carobiner::get_title(js)
-#	dset$authors <- carobiner::get_authors(js)
-#	dset$description <- carobiner::get_description(js)
-  
-  
-  # f1 <- ff[basename(ff) == "Tuchila_S2_Field.csv"] ## get Field dataset 
-  # f2 <- ff[basename(ff) == "Tuchila_S2_Plant.csv"] ## get plant dataset
-  # f3 <- ff[basename(ff) == "Tuchila_S2_Plot.csv"] ## get plot dataset
+	uri <- "doi:10.25502/20180814/1554/HJ"
+	group <- "fertilizer"
+
+	dataset_id <- carobiner::simple_uri(uri)
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
+
+  ## dataset level data 
+	dset <- data.frame(
+		carobiner::extract_metadata(js, uri, group=group),
+		publication=NA,
+		#data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Tuchila S2 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1554/HJ",
+		project = NA,
+		data_institutions = "IITA",
+		carob_contributor="Cedric Ngakou",
+		carob_date="2023-02-15",
+		data_type="experiment"
+	)
+    
+	f1 <- ff[basename(ff) == "Tuchila_S2_Field.csv"] ## get Field dataset 
+	f2 <- ff[basename(ff) == "Tuchila_S2_Plot.csv"] ## get plot dataset
+	#fx <- ff[basename(ff) == "Tuchila_S2_Plant.csv"] ## get plant dataset
  
    # read the dataset
-  # d1 <- read.csv(f1)
-  # d2 <- read.csv(f2)
-  # d3 <- read.csv(f3)
-  #d <- readxl::read_excel(f) |> as.data.frame()
+	r1 <- read.csv(f1)
+	r2 <- read.csv(f2)
+	#rx <- read.csv(fx)
   
-  # process file(s)
-  #d <- carobiner::change_names(d, from, to)
-  # d1$dataset_id <- dataset_id
-  # d3$dataset_id <- dataset_id
+	d1 <- data.frame(
+		dataset_id = dataset_id,
+		trial_id = r1$ID,
+		location = r1$Village,
+		latitude = r1$Flat,
+		longitude = r1$Flong, 
+		variety_type = r1$TCVariety,
+		previous_crop = r1$PCrop1,
+		OM_type = r1$MType1,
+  #fertilizer_type = r1$FType1
+		site = r1$Site,
+		country = "Malawi",
+		crop = "maize",
+		yield_part = "grain",
+		FieldID = r1$FieldID
+	)
+
+	d1$OM_used= ifelse(d1$OM_type %in% c("", "None"), FALSE, TRUE)
   
-  #process field dataset
-  
-  # d1$trial_id <- c(paste0(d1$dataset_id,"-",d1$ID))
-  
-  # d1$location <- d1$Village
-  
-  # d1$latitude <- d1$Flat
-  
-  # d1$longitude <- d1$Flong
-  
-  # d1$variety_type <- d1$TCVariety
-  
-  # d1$previous_crop <- d1$PCrop1
-  
-  # d1$OM_type <- d1$MType1
-  
-  #d1$fertilizer_type <- d1$FType1
-  # add column
-  # d1$site <- d1$Site
-  # d1$country <- "Malawi"
-  # d1$crop <- "maize"
-  # d1$OM_used=ifelse(d1$OM_type== "None","FALSE",
-                   # ifelse(d1$OM_type=="NA", "FALSE ", "TRUE" ))
-  
-  
-  # p <- carobiner::fix_name(gsub("/", "; ", d1$previous_crop), "lower")
-  # p <- gsub("maize\\+pigion peas", "maize; pigeon pea", p)
+	p <- carobiner::fix_name(gsub("/", ";", d1$previous_crop), "lower")
+	p <- gsub("maize\\+pigion peas", "maize;pigeon pea", p)
   ### RH should this also be pigeon pea?
-  # p <- gsub("maize\\+peas", "maize; peas", p)
-  # p <- gsub("pigion pea", "pigeon pea", p)
-  # d1$previous_crop <- p
+	p <- gsub("maize\\+peas", "maize;peas", p)
+	p <- gsub("pigion pea", "pigeon pea", p)
+	d1$previous_crop <- p
 ### ??? please do not remove data. If you do not know how to fix it, ask for help. 
 ### d1 <- replace(d1,d1=='maize+peas',NA)
-  # d1 <- d1[,c("dataset_id","trial_id","location","site","country",
-             # "latitude","longitude","crop","variety_type","previous_crop",
-             # "OM_type","OM_used")]
   
   #process plot data 
+   
+	d2 <- data.frame(
+		rep = r2$Rep,
+		treatment = r2$TrtDesc,
+		yield = r2$TGrainYld_adj * 1000,
+		residue_yield = r2$AdjTStoverYld * 1000,
+		season = as.character(r2$Season),
+		FieldID = r2$FieldID
+	)
+  	d2$N_fertilizer <- ifelse(r2$TrtDesc=="Control", 0,
+                        ifelse(r2$TrtDesc=="PK", 0, 100))
   
-  # d3$rep <- d3$Rep
+	d2$K_fertilizer <- ifelse(r2$TrtDesc=="Control", 0,
+                        ifelse(r2$TrtDesc=="NP", 0, 60))
   
-  # d3$treatment <- d3$TrtDesc
-  # d3$yield <- (d3$TGrainYld_adj)*1000
-  # d3$residue_yield <- (d3$AdjTStoverYld)*1000
-  # d3$season <- d3$Season
+	d2$P_fertilizer <- ifelse(r2$TrtDesc=="Control", 0,
+                        	ifelse(r2$TrtDesc=="NK", 0, 30))
   
-  # d3$N_fertilizer <- ifelse(d3$TrtDesc=="Control",0,
-                          # ifelse(d3$TrtDesc=="PK",0,100))
+	d2$Zn_fertilizer <- ifelse(r2$TrtDesc=="NPK+MN", 3, 0)
   
-  # d3$K_fertilizer <- ifelse(d3$TrtDesc=="Control",0,
-                          # ifelse(d3$TrtDesc=="NP",0,60))
+	d2$S_fertilizer <- ifelse(r2$TrtDesc=="NPK+MN", 5, 0)
   
-  # d3$P_fertilizer <- ifelse(d3$TrtDesc=="Control",0,
-                          # ifelse(d3$TrtDesc=="NK",0,30))
-  
-  # d3$Zn_fertilizer <- ifelse(d3$TrtDesc=="NPK+MN",3,0)
-  
-  # d3$S_fertilizer <- ifelse(d3$TrtDesc=="NPK+MN",5,0)
-  
-  # d3=transform(d3,N_splits=ifelse(d3$N_fertilizer>0,3,0))
+	d2$N_splits <- ifelse(d2$N_fertilizer > 0, 3L, 0L)
 
-  # d3 <- d3[,c("dataset_id","rep","treatment","season","yield","residue_yield","N_fertilizer",
-            # "K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
+
 
   #merge all the data
-  # d <- merge(d1,d3,by="dataset_id", all.x = TRUE)
-  # data type
-   # d$season <- as.character(d$season)
-   # d$OM_type <- as.character(d$OM_type)
-   # d$OM_used <- as.logical(d$OM_used)
-  
-  # fill whitespace in observation 
-   # d <- replace(d, d=='', NA)
-  # all scripts must end like this
-  # carobiner::write_files(dset, d, path=path)
-# }
+## ??What now??
+##	d <- merge(d1,d3,by="dataset_id", all.x = TRUE)
+#	data type
+# 	d$OM_type <- as.character(d$OM_type)
+ #	d$OM_used <- as.logical(d$OM_used)
+
+	d <- merge(d1, d2, by="FieldID")
+	d$FieldID <- NULL
+	#fill whitespace in observation 
+# 	d <- replace(d, d=='', NA)
+
+	carobiner::write_files(dset, d, path=path)
+}

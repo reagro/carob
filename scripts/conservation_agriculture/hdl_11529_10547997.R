@@ -5,25 +5,20 @@
 #RH: perhaps we should capture more management variables 
 
 
-# ....
-
-
 carob_script <- function(path) {
   
-  "Description:
-Farmer participatory on-farm trials with CA technologies comparing with farmersâ€™ practices (CT), were conducted in several fields in each community. Likewise, farmer-participatory alternative cropping systems trials were conducted comparing to existing systems and to find out suitable and more profitable cropping systems, prioritized to increase visibility and to avoid implementation and management problems that emerge when utilizing small plots with significant edge effects. Most trials were replicated in several fields within each community and were farmer-managed with backstopping from project staff and NARES partners. Project partners and staff coordinated monitoring and data acquisition. Where possible, collaborating farmers were selected by the community, and the project worked with existing farmer groups, with groups of both men and women farmers.
-  "
+"Farmer participatory on-farm trials with CA technologies comparing with farmersâ€™ practices (CT), were conducted in several fields in each community. Likewise, farmer-participatory alternative cropping systems trials were conducted comparing to existing systems and to find out suitable and more profitable cropping systems, prioritized to increase visibility and to avoid implementation and management problems that emerge when utilizing small plots with significant edge effects. Most trials were replicated in several fields within each community and were farmer-managed with backstopping from project staff and NARES partners. Project partners and staff coordinated monitoring and data acquisition. Where possible, collaborating farmers were selected by the community, and the project worked with existing farmer groups, with groups of both men and women farmers.
+ "
   
 	uri <- "hdl:11529/10547997"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
-	## dataset level data 
-	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+
+	dataset_id <- carobiner::simple_uri(uri)
+	ff	<- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
+ 	dset <- data.frame(
+		carobiner::extract_metadata(js, uri, group),
 		project="Rabi (winter) crops-all nodes-Alternative cropping systems trial-Sunsari-Nepal",
-		uri=uri,
-		data_citation= "Gathala, Mahesh K.; Tiwari, Thakur P.; Islam, Saiful; Shrestha, Renuka; Shrestha, H.K.; Manandhar, S.; Shrestha, Shukra Raj, 2018. 4.4-Rabi (winter) crops-all nodes-Alternative cropping systems trial-Sunsari-Nepal. https://hdl.handle.net/11529/10547997, CIMMYT Research Data & Software Repository Network, V1",
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="on-farm experiment",
@@ -33,18 +28,11 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 		revision_date="2023-11-04"
 	)
 	
-	## download and read data 
 	
-	ff	<- carobiner::get_data(uri, path, group)
 	## is duplicate??: Maize-Rabi 2015-16-ACS-Saalbani-Sunsar.xlsx"
 	sf <- c('Kidneybean-Rabi 2015-16-ACS-Saalbani-Sunsari.xlsx', 'Maize-Rabi 2015-16-ACS-Saalbani-Sunsari.xlsx', 'Maize-Rabi 2016-17-ACS-Bhokraha-Sunsari.xlsx', 'Maize-Rabi 2016-17-ACS-Saalbani-Sunsari.xlsx', 'Mustard-Rabi 2015-16-ACS-Saalbani-Sunsari.xlsx', 'Potato-Rabi 2016-17-ACS-Bhokraha-Sunsari.xlsx', 'Sunflower-Rabi 2016-17-ACS-Saalbani-Sunsari.xlsx')
 	ff <- ff[basename(ff) %in% sf]
 
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 		
 	get_raw_data <- function(f) {
 		r1 <- carobiner::read.excel.hdr(f, sheet ="4- Stand counts & Phenology", skip=4, hdr=2)
@@ -81,7 +69,6 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 			site = paste("site ", r$Site.No),
 			country= "Nepal",
 			adm2 = "Sunsari", # district provided in the excel
-			dataset_id=dataset_id,
 			S_fertilizer= 0,
 			Zn_fertilizer= 0,
 			lime =0, gypsum =0
@@ -144,5 +131,6 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	dd <- lapply(ff, fun)
 	dd <- do.call(rbind, dd)
 
+	dd$dataset_id <- dataset_id
 	carobiner::write_files(dset, dd, path=path)
 }

@@ -11,12 +11,11 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
 	uri <- "doi:10.21421/D2/EYFR2F"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
   
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
-		data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Jerome Jonah; Ayuba Kunihya, 2019. Sorghum productivity and water use under phosphorus fertilization in the sudan savanna of Nigeria. https://doi.org/10.21421/D2/EYFR2F, ICRISAT Dataverse, V1",
+		carobiner::extract_metadata(js, uri, group),
 		publication=NA, # "http://oar.icrisat.org/id/eprint/10842" Is the reference
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
@@ -26,14 +25,8 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
 	)
   
   ## treatment level data 
-  ff <- carobiner::get_data(uri, path, group)
   
   ## read the json for version, license, terms of use  
-  js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
-  dset$license <- carobiner::get_license(js) 
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   f <- ff[basename(ff) == "Data file of Sorghum Phosphorus trial Kano Nigeria.xlsx"]
   d <- carobiner::read.excel(f)

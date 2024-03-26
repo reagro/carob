@@ -7,20 +7,20 @@
 carob_script <- function(path) {
   
   "Description:
-    The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveilllance framework and inlcuded also multi-location diagnostic trials in selected sentiale sites to determine nutrient limitations and response to improved soil management practices (soil amendments).
+    The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments).
   "
   
 	uri <- "doi:10.25502/20180814/1446/HJ"
 	group <- "fertilizer" 
 
 	dataset_id <- carobiner::simple_uri(uri)
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group=group),
 		project= "AfSIS", 
-		data_citation="Huising, J. (2018). Africa Soil Information System - Phase 1, Sidindi LR [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1446/HJ",
+		#data_citation="Huising, J. (2018). Africa Soil Information System - Phase 1, Sidindi LR [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1446/HJ",
 		publication = "doi:10.1016/j.agee.2016.05.012",
 		data_institutions = "IITA",
 		data_type="Multi-location trials",
@@ -92,6 +92,9 @@ carob_script <- function(path) {
 	d$fertilizer_type[r$FType1 != ""] <- "DAP"
 	d$fertilizer_type[r$FType2 != ""] <- "urea"
 	d$fertilizer_type[r$FType1 != "" & r$FType2 != ""] <- paste0("DAP; urea")
+	i <- d$N_fertilizer == 0 & d$K_fertilizer == 0 & d$P_fertilizer == 0
+	d$fertilizer_type[i] <- "none"
+	
 
 	r$CobFW[r$CobFW == "."] <- NA
 	d$residue_yield <- 10000 * (r$TStoverYld + as.numeric(r$CobFW) / r$Harea) - d$yield
@@ -117,7 +120,7 @@ carob_script <- function(path) {
 	d$crop_rotation <- gsub("ground nuts", "groundnut", d$crop_rotation)
 
 
-## the dates are a mess. Different formats and inconstencies with e.g. harvesting after planting, and in different years). Would need to check with author. Perhaps the planting date is correct 
+## the dates are a mess. Different formats and inconsistencies with e.g. harvesting after planting, and in different years). Would need to check with author. Perhaps the planting date is correct 
 	pdate1 <- as.Date(r$PlntDa, "%d/%m/%Y")
 	pdate2 <- as.Date(r$PlntDa, "%m/%d/%Y")
 	pdate1[is.na(pdate1)] <- pdate2[is.na(pdate1)]

@@ -18,13 +18,12 @@ carob_script <- function(path) {
   uri <- "doi:10.7910/DVN/NZW56Q"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
   ## dataset level data 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+		carobiner::extract_metadata(js, uri, group),
     project=NA,
-    uri=uri,
-    data_citation="International Maize and Wheat Improvement Center (CIMMYT), 2020, Conservation Agriculture Mother Trials in Malawi, https://doi.org/10.7910/DVN/NZW56Q, Harvard Dataverse, V2, UNF:6:3aVA30+F7m2MeLgav1F6XQ== [fileUNF]",
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)
     publication= NA,
@@ -34,14 +33,7 @@ carob_script <- function(path) {
     carob_date="2024-01-16"
   )
   
-  ## download and read data 
   
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   
   f <- ff[basename(ff) == "003_AR_MAL_CIMMYT_CAmother_onfarm_2019_Data.csv"]

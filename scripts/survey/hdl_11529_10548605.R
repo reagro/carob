@@ -10,12 +10,12 @@ Landscape Diagnostic Survey (LDS) for rice contains farmer's data on current pro
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "survey"
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
 		project="CSISA",
-		data_citation="Ajay, Anurag; Craufurd, Peter; Sharma, Sachin; Ranjan, Harshit; Samaddar, Arindam; Poudel, Gokul; Malik, RK; Singh, Balwinder; Panneerselvam, P; Singh, AK; Rai, Ashok; Keil, Alwin; McDonald, Andrew, 2021. Data on farmers’ rice production practices during 2017 monsoon season from eastern states of India. https://hdl.handle.net/11529/10548605, CIMMYT Research Data & Software Repository Network, V1, UNF:6:kSBKzH9G+QMBbV7uXfhfOA== [fileUNF]",
+		#data_citation="Ajay, Anurag; Craufurd, Peter; Sharma, Sachin; Ranjan, Harshit; Samaddar, Arindam; Poudel, Gokul; Malik, RK; Singh, Balwinder; Panneerselvam, P; Singh, AK; Rai, Ashok; Keil, Alwin; McDonald, Andrew, 2021. Data on farmers’ rice production practices during 2017 monsoon season from eastern states of India. https://hdl.handle.net/11529/10548605, CIMMYT Research Data & Software Repository Network, V1, UNF:6:kSBKzH9G+QMBbV7uXfhfOA== [fileUNF]",
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="survey", 

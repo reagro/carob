@@ -12,13 +12,13 @@ carob_script <- function(path) {
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "survey"
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
 		project="CSISA",
-		data_citation="Ajay, Anurag; Craufurd, Peter; Sharma, Sachin; Ranjan, Harshit; Poudel, Gokul; Malik, RK; Singh, Balwinder; Singh, AK; Samaddar, Arindam; Rai, Ashok; Keil, Alwin; McDonald, Andrew, 2020, Landscape diagnostic survey data of wheat production practices and yield of 2018 from eastern India, https://hdl.handle.net/11529/10548507, CIMMYT Research Data & Software Repository Network, V1, UNF:6:ACX3w1PnF4Otyf++Z6mO3g== [fileUNF]",
+		#data_citation="Ajay, Anurag; Craufurd, Peter; Sharma, Sachin; Ranjan, Harshit; Poudel, Gokul; Malik, RK; Singh, Balwinder; Singh, AK; Samaddar, Arindam; Rai, Ashok; Keil, Alwin; McDonald, Andrew, 2020, Landscape diagnostic survey data of wheat production practices and yield of 2018 from eastern India, https://hdl.handle.net/11529/10548507, CIMMYT Research Data & Software Repository Network, V1, UNF:6:ACX3w1PnF4Otyf++Z6mO3g== [fileUNF]",
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="survey", 

@@ -16,7 +16,7 @@ carob_script <- function(path) {
   dataset_id <- carobiner::simple_uri(uri)
   group <- "maize_trials"
 
-  ff  <- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
   
 
@@ -24,7 +24,7 @@ carob_script <- function(path) {
   dset <- data.frame(
 	carobiner::extract_metadata(js, uri, group=group),
     project=NA,
-    data_citation="Job Kihara; Sileshi, Gudeta W.; Bolo, Peter Omondi; Mutambu, Dominic Mwanzia; Sila, Andrew Musili, 2023. Maize grain zinc and iron concentrations as influenced by agronomic management and biophysical factors: a meta-analysis. https://doi.org/10.7910/DVN/SOAWL6, Harvard Dataverse, V1",
+    #data_citation="Job Kihara; Sileshi, Gudeta W.; Bolo, Peter Omondi; Mutambu, Dominic Mwanzia; Sila, Andrew Musili, 2023. Maize grain zinc and iron concentrations as influenced by agronomic management and biophysical factors: a meta-analysis. https://doi.org/10.7910/DVN/SOAWL6, Harvard Dataverse, V1",
     publication= NA,
     data_institutions = "CIAT",
     data_type="experiment",

@@ -12,14 +12,12 @@ carob_script <- function(path) {
 	uri <- "doi:10.25502/7e5e-c521"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::extract_metadata(js, uri, group),
 		publication= NA, 
-		data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa focal adapt trial, 2015 [Data set]. International Institute of Tropical Agriculture (IITA).
-		https://doi.org/10.25502/7E5E-C521",
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-07-14",
@@ -27,13 +25,6 @@ carob_script <- function(path) {
 		project=NA 
 	)
 	
-	## download and read data 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	f <- ff[basename(ff) == "data_table.csv"] 
 	# read the dataset
@@ -220,7 +211,6 @@ carob_script <- function(path) {
 	d$yield_part <- "seed"
 	d$yield_part[grepl("groundnut",d$crop)] <- "pod"
 	
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	
 }

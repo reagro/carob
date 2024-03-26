@@ -9,16 +9,12 @@ carob_script <- function(path) {
 	group <- "conservation_agriculture"
 	dataset_id <- carobiner::simple_uri(uri)
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group=group),
-		data_citation="Fonteyne, Simon; Guera, Ouorou Ganni Mariel; Villa Alcántara, 
-		Jonatan; Núñez Peñaloza, Omar; Verhulst, Nele, 2023. Maize yield and profitability 
-		in a 5 year conservation agriculture experiment in Papaloapan, Oaxaca. 
-		https://hdl.handle.net/11529/10548976, CIMMYT Research Data & Software Repository 
-		Network, V1",
+		#data_citation="Fonteyne, Simon; Guera, Ouorou Ganni Mariel; Villa Alcántara, Jonatan; Núñez Peñaloza, Omar; Verhulst, Nele, 2023. Maize yield and profitability in a 5 year conservation agriculture experiment in Papaloapan, Oaxaca. https://hdl.handle.net/11529/10548976, CIMMYT Research Data & Software Repository Network, V1",
 		data_institutions = "CIMMYT",
 		publication= NA,
 		project=NA,

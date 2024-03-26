@@ -13,27 +13,19 @@ carob_script <- function(path) {
 	uri <- "doi:10.25502/HNKM-Y645/D"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff	 <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id, 
-		group=group, 
+		carobiner::extract_metadata(js, uri, group),
 		project="N2Africa", 
-		uri=uri, 
 		publication= NA, 
-		data_citation="Engoke, C. N. S., Stephen, K.-B., Wiredu, A. N., & John, O. (2022). Inoculant, nitrogen and phosphorus improves photosynthesis and water use efficiency in soybean production- Legume cropping systems [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/HNKM-Y645/D", 
 		data_institutions = "IITA", 
 		carob_contributor="Effie Ochieng'", 
 		carob_date="2023-07-12",
 		data_type="on-farm experiment"
 	)
 
-	## download and read data 	
-	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	
 	f <- ff[basename(ff) == "Canon data.csv"]
@@ -98,7 +90,6 @@ carob_script <- function(path) {
 	# Removing 1 single observation without yield...
 	dd <- dd[!is.na(dd$yield), ]
 	
-	# all scripts must end like this
 	
 	carobiner::write_files(dset, dd, path=path)
 

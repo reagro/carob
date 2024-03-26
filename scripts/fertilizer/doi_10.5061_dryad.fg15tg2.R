@@ -14,27 +14,19 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 	uri <- "doi:10.5061/dryad.fg15tg2"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project = "Optimization of Fertilizer Recommendations in Africa",
-		uri=uri,
 		publication= "doi:10.2134/agronj2018.04.0268",
 		data_institutions = "University of Nebraska-Lincoln",
-		data_citation = "Wortmann, Charles S. et al. (2018). Data from: Maize-nutrient response functions for Eastern and Southern Africa, Dryad, Dataset, https://doi.org/10.5061/dryad.fg15tg2",
 		carob_contributor="Effie Ochieng' and Rachel Mukami",
 		carob_date="2023-03-20",
 		data_type="experiment"
 	)
 	
-	## download and read data 
-	ff <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "ESA Maize Fertilizer Response Data.xlsx"][1]
 	d <- readxl::read_xlsx(f, sheet = 2)
@@ -269,7 +261,6 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 	z$yield_part <- "grain"
 	# one spurious outlier
 	z$grain_weight[z$grain_weight == 34210] <- 342.1
-	# all scripts must end like this
 	carobiner::write_files(dset, z, path=path)
 }
 

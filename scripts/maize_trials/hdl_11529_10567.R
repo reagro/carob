@@ -14,13 +14,13 @@ carob_script <- function(path) {
   dataset_id <- carobiner::simple_uri(uri)
   
   #### Download data 
-  ff  <- carobiner::get_data(uri, path, group)
+  ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   
   ##### dataset level metadata 
   dset <- data.frame(
     carobiner::extract_metadata(js, uri, group=group),
-    data_citation="Global Maize Program, 2019, International Late Both Hybrid Trial - ILBH0651, https://hdl.handle.net/11529/10567, CIMMYT Research Data & Software Repository Network, V1",
+    #data_citation="Global Maize Program, 2019, International Late Both Hybrid Trial - ILBH0651, https://hdl.handle.net/11529/10567, CIMMYT Research Data & Software Repository Network, V1",
     data_institutions = "CIMMYT",
     publication= NA,
     project="Global Maize Program",

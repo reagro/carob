@@ -17,14 +17,12 @@ carob_script <- function(path) {
 	uri <- "doi:10.25502/20180814/1154/HJ"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff	 <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::extract_metadata(js, uri, group),
 		publication=NA,#  10.1016/j.agee.2016.05.012
-		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Koloko [Data set]. International Institute of Tropical Agriculture 
-		(IITA). doi:10.25502/20180814/1154/HJ" ,
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-02-22",
@@ -32,14 +30,7 @@ carob_script <- function(path) {
 		project=NA
 	)
 	
-	## download and read data 
 	
-	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	
 	f1 <- ff[basename(ff) == "Koloko_DT2009_field.csv"] # get Field dataset 

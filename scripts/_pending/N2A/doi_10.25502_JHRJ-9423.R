@@ -13,15 +13,15 @@ carob_script <- function(path){
   uri <- "doi:10.25502/JHRJ-9423"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "variety_performance"
+  ff <- carobiner::get_data(uri,path,group)
+  js <- carobiner::get_metadata(dataset_id, path, group)
   
   
   dset <- data.frame (
-    dataset_id = dataset_id,
     group = group,
     uri = uri,
     project="N2Africa",
     publication = NA,
-    data_citation =" Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat,
   P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira,
   L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, 
   K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa farm 
@@ -34,12 +34,6 @@ carob_script <- function(path){
     )
   
   #extract the data
-  ff <- carobiner::get_data(uri,path,group)
-  js <- carobiner::get_metadata(dataset_id, path, group)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   #read the data
   f <- ff[basename(ff) == "a_general.csv"]

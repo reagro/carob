@@ -14,3 +14,4 @@ potato_trials,crop; soil,potato variety trials
 sweetpotato_trials,crop; soil,sweetpotato variety trials
 soybean_trials,crop; soil,soybean variety trials
 survey,crop; soil; pesticide,household and agronomic surveys
+weeds,crop,weed management trials

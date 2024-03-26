@@ -18,33 +18,24 @@ carob_script <- function(path){
   uri <- "doi:10.25502/QMSB-P921"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   
   ## dataset level data
   
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+		carobiner::extract_metadata(js, uri, group),
     project="N2Africa",
-    uri=uri,
     publication= NA,
-    data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa demo - Ghana, 2014 [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/QMSB-P921",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
     carob_date="2023-08-15",
     data_type="survey demonstration trials"
   )
   
-  ## download and read data
-  
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   
-  ###download and read data
+  
   
   f <- ff[basename(ff) == "general.csv"]
   f1 <- ff[basename(ff) == "experiment.csv"]

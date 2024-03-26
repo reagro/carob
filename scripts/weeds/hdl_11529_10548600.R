@@ -2,26 +2,17 @@
 
 carob_script <- function(path) {
    
-   "
-	Description:
-	The database contains data about on-farm trials with transplanted rice were conducted during monsoon (‘Aman’) season in 2016 and 2017 and winter (‘Boro’) season in 2016 to 2017 
-	in agroecological zones (AEZs) 11 and 12 of south-west Bangladesh with ten treatments - seven herbicide-based IWM options, one mechanical weed control-based option, and two checks – farmers’
-	current weed control practice and weed-free, to assess effects on weed control, grain yield, labor use, and profitability. (2021-07-09)
-   
-"
+"The database contains data about on-farm trials with transplanted rice were conducted during monsoon ('Aman') season in 2016 and 2017 and winter ('Boro') season in 2016 to 2017 in agroecological zones (AEZs) 11 and 12 of south-west Bangladesh with ten treatments - seven herbicide-based IWM options, one mechanical weed control-based option, and two checks – farmers' current weed control practice and weed-free, to assess effects on weed control, grain yield, labor use, and profitability. (2021-07-09)"
    
    uri <-  "hdl.handle.net/11529/10548600"
    dataset_id <- carobiner::simple_uri(uri)
    group <- "rice_trials" 
+   ff <- carobiner::get_data(uri, path, group)
+   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
    ## dataset level data 
    dset <- data.frame(
-      dataset_id = dataset_id,
-      group=group,
-      uri=uri,
+		carobiner::extract_metadata(js, uri, group),
       publication= NA,
-      data_citation = "Ahmed,Sharif; Kumar,Virender; Alam,Murshedul; Dewan,Mahbubur Rahman; Bhuiya,Khairul Alam; Saha,Abhijit; Miajy,Abu Abdullah; Singh,Sudhanshu; Timsina,Jagadish; Krupnik,Timothy J., 2021, Replication Data for: Integrated weed management in transplanted rice: Options for addressing labor constraints and improving farmers’ income in Bangladesh,
-      https://hdl.handle.net/11529/10548600, CIMMYT Research Data & Software Repository Network, V1,
-      UNF:6:HmO/JVvcmNC7pPO6MNVZJQ== [fileUNF]",
       data_institutions = "CIMMYT",
       carob_contributor="Cedric Ngakou",
       carob_date="2023-09-27",
@@ -29,13 +20,6 @@ carob_script <- function(path) {
       project=NA 
    )
    
-   ## download and read data 
-   ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-   dset$license <- "CIMMYT-Licence"#carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
    
    bn <- basename(ff)
    
@@ -106,7 +90,6 @@ carob_script <- function(path) {
    
    d$yield_part <- "grain" 
    
-   # all scripts must end like this
    carobiner::write_files(dset, d, path=path)
    
 }

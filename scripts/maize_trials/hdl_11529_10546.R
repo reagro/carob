@@ -9,12 +9,12 @@ carob_script <- function(path) {
 	group <- "maize_trials"
 	dataset_id <- carobiner::simple_uri(uri)
 
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group=group),
-		data_citation="Global Maize Program, 2019, International Intermediate White Hybrid Trial - IIWH0752, https://hdl.handle.net/11529/10546, CIMMYT Research Data & Software Repository Network, V1",
+		#data_citation="Global Maize Program, 2019, International Intermediate White Hybrid Trial - IIWH0752, https://hdl.handle.net/11529/10546, CIMMYT Research Data & Software Repository Network, V1",
 		data_institutions = "CIMMYT",
 		publication= NA,
 		project="International intermediate white hybrid trials",

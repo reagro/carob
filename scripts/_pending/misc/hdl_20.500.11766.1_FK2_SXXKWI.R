@@ -15,13 +15,12 @@ carob_script <- function(path) {
 	uri <- "hdl:20.500.11766.1/FK2/SXXKWI"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		uri=uri,
-		data_citation="",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= "",
@@ -32,14 +31,7 @@ carob_script <- function(path) {
 		carob_date="2023-10-27" 
 	)
 
-## download and read data 
   path<-C/carob
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 
 	f <- ff[basename(ff) == "_____________"]
@@ -103,7 +95,6 @@ carob_script <- function(path) {
 	d$intercrops< "vetch"
 	#plant height
 	d$plant_height<-d$Plant_height
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
 

@@ -1,28 +1,19 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
-## should also be written to fertilizer
-
-## review by Cedric Ngakou
 
 carob_script <- function(path) {
 
-"Description:
-Farmer participatory on-farm trials with CA technologies comparing with farmersâ€™ practices (CT), were conducted in several fields in each community. Likewise, farmer-participatory validation trials were conducted comparing to existing practices and to find out suitable and more profitable crop production practices, prioritized to increase visibility and to avoid implementation and management problems that emerge when utilizing small plots with significant edge effects. Most trials were replicated in several fields within each community and were farmer-managed with backstopping from project staff and NARES partners. Project partners and staff coordinated monitoring and data acquisition. Where possible, collaborating farmers were selected by the community, and the project worked with existing farmer groups, with groups of both men and women farmers.
+"Farmer participatory on-farm trials with CA technologies comparing with farmersâ€™ practices (CT), were conducted in several fields in each community. Likewise, farmer-participatory validation trials were conducted comparing to existing practices and to find out suitable and more profitable crop production practices, prioritized to increase visibility and to avoid implementation and management problems that emerge when utilizing small plots with significant edge effects. Most trials were replicated in several fields within each community and were farmer-managed with backstopping from project staff and NARES partners. Project partners and staff coordinated monitoring and data acquisition. Where possible, collaborating farmers were selected by the community, and the project worked with existing farmer groups, with groups of both men and women farmers.
 "
 
 	uri <- "hdl:11529/10548007"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
-	## dataset level data 
+	ff <- carobiner::get_data(uri, path, group)
+	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset <- data.frame(
-		dataset_id = dataset_id, 
-		group=group, 
+		carobiner::extract_metadata(js, uri, group),
 		project=NA, 
-		uri=uri, 
-		data_citation='Gathala, Mahesh K.; Tiwari, Thakur P.; Islam, Saiful; Khan, A.S.M.; Anwar, Mazharul; Hossain, Illias; Siddique, Nur-E-A; Hossain, Shakhawat; Rahman, Mohammad Atiqur, 2018. 6.1-Rabi (winter) crops-all nodes-Validation trials-Rajshahi-Bangladesh.  https://hdl.handle.net/11529/10548007, CIMMYT Research Data & Software Repository Network, V2', 
 		publication= NA, 
 		data_institutions = "CIMMYT", 
 		data_type="on-farm experiment", 
@@ -32,20 +23,10 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 		revision_date="2023-11-03"
 	)
 
-## download and read data 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
-	
 	ff <- ff[grep("Rajshahi", basename(ff))]
-	## process file(s)
+
 	## process Rabi maize 2015-16-DS&BP-all nodes Rajshahi files
-
-
 	proc <- function(f) {
 		r1 <- carobiner::read.excel.hdr(f, sheet ="2 - Site information", skip=5, hdr=3)
 		d1 <- data.frame(
@@ -123,7 +104,6 @@ Farmer participatory on-farm trials with CA technologies comparing with farmersâ
 	
 ##data type
 
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)	
 }
 

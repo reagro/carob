@@ -16,13 +16,12 @@ carob_script <- function(path) {
   uri <- "doi:20.500.11766.1/FK2/LYKEFM"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
+  ff <- carobiner::get_data(uri, path, group)
+  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
   ## dataset level data 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    uri=uri,
+		carobiner::extract_metadata(js, uri, group),
     publication="hdl:20.500.11766/5084",
-    data_citation = "Ayalew, Baye, 2020, Determination of rate and timing of N application on bread wheat, hdl:20.500.11766.1/FK2/LYKEFM",
     data_institutions = "ICARDA",
     carob_contributor="Eduardo Garcia Bendito",
     carob_date="2022-01-20",
@@ -30,14 +29,7 @@ carob_script <- function(path) {
 		project=NA  
 	)
   
-  ## download and read data 
   
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   # Process both trial/farm sites in a loop, since both have the same structure. Then append them together
   
@@ -83,7 +75,6 @@ carob_script <- function(path) {
     dd <- rbind(dd,d) 
   }
 	dd$yield_part <- "grain"  
-  # all scripts must end like this
   carobiner::write_files(dset, dd, path=path)
 }
 

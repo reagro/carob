@@ -6,39 +6,25 @@
 
 carob_script <- function(path) {
   
-  "Description:
-
-    Many soils on smallholder farms in Malawi have poor soil organic matter content. This results in poor maize productivity when sufficient mineral fertilizers are not added. Building soil organic matter requires improving both cereal and legume crops primary productivity through mineral fertilizers, and retaining the associated crop residues on the cropped lands. These residues decompose to provide mineral N to crops grown in sequence, as well as being an important source for SOM capitalization. Residues of legumes crops have a narrow C/N ration and are hypothesized to improve N cycling and benefit the rotational crop, whereas residues of maize, which have a wide C/N ratio, promote immobilization. While this knowledge is widely known, what is not clear is the interaction between crop residue quality, quantity and soil water management on maize productivity and mineral N dynamics. The data will address the following: 1. Does incorporating soil water enhancing technologies increase/reduce the immobilization potential of maize residues? 2. What is the effect of varying the quantity of the crop residues incorporated (both maize and legumes) on mineral N dynamics, soil water content and maize productivity; 3. For farmers with limited fertilizer use (50% NP), how detrimental is use of maize residues (X0, X1, X2), with or without water conservation measures; 4. What is the fertilizer substitution value of different quantity residues generated from a groundnut/pigeonpea doubled up system?
-
-	This data is for the residue generation phase
-
-"
+"Many soils on smallholder farms in Malawi have poor soil organic matter content. This results in poor maize productivity when sufficient mineral fertilizers are not added. Building soil organic matter requires improving both cereal and legume crops primary productivity through mineral fertilizers, and retaining the associated crop residues on the cropped lands. These residues decompose to provide mineral N to crops grown in sequence, as well as being an important source for SOM capitalization. Residues of legumes crops have a narrow C/N ration and are hypothesized to improve N cycling and benefit the rotational crop, whereas residues of maize, which have a wide C/N ratio, promote immobilization. While this knowledge is widely known, what is not clear is the interaction between crop residue quality, quantity and soil water management on maize productivity and mineral N dynamics. The data will address the following: 1. Does incorporating soil water enhancing technologies increase/reduce the immobilization potential of maize residues? 2. What is the effect of varying the quantity of the crop residues incorporated (both maize and legumes) on mineral N dynamics, soil water content and maize productivity; 3. For farmers with limited fertilizer use (50% NP), how detrimental is use of maize residues (X0, X1, X2), with or without water conservation measures; 4. What is the fertilizer substitution value of different quantity residues generated from a groundnut/pigeonpea doubled up system? This data is for the residue generation phase"
   
   uri <- "doi:10.7910/DVN/1A6WMD"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
-  # dataset level data 
-  dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    project=NA,
-    uri=uri,
-    data_citation="International Institute of Tropical Agriculture (IITA), 2023, Assessing the Effect of Residue Quantity and Quality, and Water Conservation on Maize Productivity and Nitrogen Dynamics on Smallholder Farms in Malawi, https://doi.org/10.7910/DVN/1A6WMD, Harvard Dataverse, V1, UNF:6:3Chcr949v7E4fbqU8ULAsQ== [fileUNF]",
-    publication= "doi.org/10.1016/j.fcr.2021.108225",
-    data_institutions = "IITA,IFPRI",
-    data_type="on-farm experiment", 
-    carob_contributor="Mitchelle Njukuya",
-    carob_date="2024-01-09"
-  )
-  
-  ## download and read data 
-  
+  dataset_id <- carobiner::simple_uri(uri)
   ff <- carobiner::get_data(uri, path, group)
   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
+
+  # dataset level data 
+	dset <- data.frame(
+		carobiner::extract_metadata(js, uri, group),
+		project=NA,
+		publication= "doi.org/10.1016/j.fcr.2021.108225",
+		data_institutions = "IITA;IFPRI",
+		data_type="on-farm experiment", 
+		carob_contributor="Mitchelle Njukuya",
+		carob_date="2024-01-09"
+	)
+  
   
   
   f <- ff[basename(ff) == "NewDesign_gnut yields.csv"]

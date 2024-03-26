@@ -10,12 +10,12 @@ Landscape Diagnostic Survey (LDS) data contains current rice production practice
 	group <- "survey"
 
 	dataset_id <- carobiner::simple_uri(uri)
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
 	dset <- data.frame( 
 		carobiner::extract_metadata(js, uri, group),
 		project="CSISA",
-		data_citation="Ajay, Anurag; Craufurd, Peter; Sharma, Sachin; Malik, RK; Singh, AK; Samaddar, Arindam; Singh, Balwinder; Paudel, Gokul; Panneerselvam, Peramaiyan; Rai, Ashok; McDonald, Andrew, 2022. Large-scale data of crop production practices applied by farmers on their largest rice plot during 2018 in eight Indian states. https://hdl.handle.net/11529/10548656, CIMMYT Research Data & Software Repository Network, V3",
+		#data_citation="Ajay, Anurag; Craufurd, Peter; Sharma, Sachin; Malik, RK; Singh, AK; Samaddar, Arindam; Singh, Balwinder; Paudel, Gokul; Panneerselvam, Peramaiyan; Rai, Ashok; McDonald, Andrew, 2022. Large-scale data of crop production practices applied by farmers on their largest rice plot during 2018 in eight Indian states. https://hdl.handle.net/11529/10548656, CIMMYT Research Data & Software Repository Network, V3",
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="survey",
