@@ -52,11 +52,9 @@ carob_script <- function(path) {
 	
 #### about the data #####
 ## (TRUE/FALSE)
-
 	d$dataset_id <- dataset_id
 	d$on_farm <- 
 	d$is_survey <- 
-	d$is_experiment <- 
 	d$irrigated <- 
 ## the treatment code	
 	d$treatment <- 
