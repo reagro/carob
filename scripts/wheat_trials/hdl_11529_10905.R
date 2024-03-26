@@ -43,7 +43,11 @@ carob_script <- function(path) {
 	pds <- c(paste0(90:96, "-", 91:97), "00-01")
 	rpl <- c(1990:1996, 2000)
 	for (i in 1:length(pds)) dd$planting_date <- gsub(pds[i], rpl[i], dd$planting_date)
-	dd$planting_date[dd$planting_date == "202000-04"] <- NA
+	dd$planting_date[dd$planting_date == "202000-04"] <- "1999"
+
+
+	i <- which(dd$location == "Alameda Del Obispo" & dd$planting_date == "1994-11-23")
+	dd$yield[i] <- 	dd$yield[i] / 100
 
 	carobiner::write_files(path, dset, dd)
 }

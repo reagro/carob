@@ -124,7 +124,7 @@ proc_wheat <- function(ff, dataset_id=NULL) {
 
 	m <- matrix(byrow=TRUE, ncol=2, c(
 		"VICIA FABA", "faba bean", 
-		"FABABEAN", "faba bean", 
+		"FABABEEN", "faba bean", 
 		"FABAE BEAN", "faba bean", 
 		"FABA VULGARIS", "faba bean", 
 		"G'NUT", "groundnut",
