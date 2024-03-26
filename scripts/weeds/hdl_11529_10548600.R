@@ -4,7 +4,7 @@ carob_script <- function(path) {
    
 "The database contains data about on-farm trials with transplanted rice were conducted during monsoon ('Aman') season in 2016 and 2017 and winter ('Boro') season in 2016 to 2017 in agroecological zones (AEZs) 11 and 12 of south-west Bangladesh with ten treatments - seven herbicide-based IWM options, one mechanical weed control-based option, and two checks – farmers' current weed control practice and weed-free, to assess effects on weed control, grain yield, labor use, and profitability. (2021-07-09)"
    
-   uri <-  "hdl.handle.net/11529/10548600"
+   uri <- "hdl:11529/10548600"
    dataset_id <- carobiner::simple_uri(uri)
    group <- "rice_trials" 
    ff <- carobiner::get_data(uri, path, group)
@@ -12,26 +12,23 @@ carob_script <- function(path) {
    ## dataset level data 
    dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
-      publication= NA,
-      data_institutions = "CIMMYT",
-      carob_contributor="Cedric Ngakou",
-      carob_date="2023-09-27",
-      data_type="experiment",
-      project=NA 
-   )
+		publication= NA,
+		data_institutions = "CIMMYT",
+		carob_contributor="Cedric Ngakou",
+		carob_date="2023-09-27",
+		data_type="experiment",
+		project=NA 
+	)
    
    
-   bn <- basename(ff)
+	bn <- basename(ff)
+ 	r <- read.csv(ff[bn=="Aman_weed_data.csv"]) 
+	r1 <- read.csv(ff[bn=="Aman_Yield_and_economics.csv"]) 
+	r2 <- read.csv(ff[bn=="Boro_weed_data.csv"]) 
+	r3 <- read.csv(ff[bn=="Boro_yield_and_economics-1.csv"])
    
-   # read the dataset
-   r <- read.csv(ff[bn=="Aman_weed_data.csv"]) 
-   r1 <- read.csv(ff[bn=="Aman_Yield_and_economics.csv"]) 
-   
-   r2 <- read.csv(ff[bn=="Boro_weed_data.csv"]) 
-   r3 <- read.csv(ff[bn=="Boro_yield_and_economics-1.csv"])
-   
-   ### process Aman_weed_data file()
-   
+   ### process Aman_weed_data file
+ 
    dd <- r[,c("Season","Replication","Treatments","SITE","TWbS")]
    colnames(dd) <- c("season","rep","Treatment","site","weed_biomass")
    

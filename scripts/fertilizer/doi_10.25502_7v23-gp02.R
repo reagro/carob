@@ -22,7 +22,7 @@ carob_script <- function(path) {
 			
 "
 
-	uri <- "doi.org/10.25502/7v23-gp02"
+	uri <- "doi:10.25502/7v23-gp02"
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
