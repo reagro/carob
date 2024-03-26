@@ -14,7 +14,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::extract_metadata(js, uri, group),
 		project=NA,
-		publication=NA,
+		publication="doi:10.1038/s41467-020-18317-8",
 		data_institutions = "SARC",
    		data_type="experiment", 
 		carob_contributor="Blessing Dzuda",
