@@ -1,32 +1,29 @@
 # R script for "carob"
 
-## ISSUES
-# 1. Coordinates could not be found by the geocode, manually entered coordinates
-#    for respective sites, coordinates extracted from geonames website.
-# 2. 2 entries in yield had NA values. Replaced NA values with 0.
 
+# there are four subtreatments but only three are described
+# what is subtreatment 0? Or is that 1, but then what is subtreatment 3?
+
+# also need to process the soil profile temperature, moisture and NDVI data.
+
+# It is not clear how you can get to the amount of N from the amount of D-compound and AN
+# if D-comp is 10% N and AN is 34% you get 
+#200 * .1 + .34 * 46 =  35.64
+#200 * .1 + .34 * 220 =  94.8
+ 
 
 carob_script <- function(path) {
 
-"
-[Conservation agriculture involves reduced tillage, diversification of plant associations, and retention of crop residues to maintain soil cover. However, there is knowledge gap on the appropriate rate of application and interactive effect of residues and nitrogen as in some situations cases of nitrogen lock-up have been reported. This present data set addresses the effects of different nitrogen and residue levels on maize productivity, soil temperature, soil moisture and soil structure in contrasting soil types over 6 seasons. The trials were set across southern Africa i.e. Malawi, Mozambique, Zambia and Zimbabwe. The treatments were as follows: Main treatments: 1. Conventional tillage 2. No-tillage, 0 t/ha residues 3. No-tillage, 2 t/ha residues 4. No-tillage, 4 t/ha residues 5. No-tillage, 6 t/ha residues 6. No-tillage, 8 t/ha residues, Subtreatments: 1. 0 N 2. 30N (200 kg/ha Compound D – 46 kg/ha AN 3. 90N (200 kg/ha Compound D –220 kg/ha AN) The measured attributes are as follows: 1. Maize and grain yields 2. Soil profile temperature 3. Soil profile mositure 4. Normalized difference vegetation index (NDVI)]
-"
+"Conservation agriculture involves reduced tillage, diversification of plant associations, and retention of crop residues to maintain soil cover. However, there is knowledge gap on the appropriate rate of application and interactive effect of residues and nitrogen as in some situations cases of nitrogen lock-up have been reported. This present data set addresses the effects of different nitrogen and residue levels on maize productivity, soil temperature, soil moisture and soil structure in contrasting soil types over 6 seasons. The trials were set across southern Africa i.e. Malawi, Mozambique, Zambia and Zimbabwe. The treatments were as follows: Main treatments: 1. Conventional tillage 2. No-tillage, 0 t/ha residues 3. No-tillage, 2 t/ha residues 4. No-tillage, 4 t/ha residues 5. No-tillage, 6 t/ha residues 6. No-tillage, 8 t/ha residues, Subtreatments: 1. 0 N 2. 30N (200 kg/ha Compound D – 46 kg/ha AN 3. 90N (200 kg/ha Compound D –220 kg/ha AN) The measured attributes are as follows: 1. Maize and grain yields 2. Soil profile temperature 3. Soil profile mositure 4. Normalized difference vegetation index (NDVI)"
 
-#### Identifiers
+
 	uri <- "hdl:11529/10868"
 	group <- "conservation_agriculture"
 
-# the script filename should be paste0(dataset_id, ".R")
-	dataset_id <- carobiner::simple_uri(uri)
+	ff	<- carobiner::get_data(uri, path, group)
 
-#### Download data 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-
-##### dataset level metadata 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
-		data_citation="Thierfelder, Christian; Mhlanga, Blessing, 2017, Interaction effects of different residue and nitrogen levels on maize growth, yield, soil parameters, and N leaching, https://hdl.handle.net/11529/10868, CIMMYT Research Data & Software Repository Network, V1",
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		data_institutions = "CIMMYT",
 		publication=NA,
 		project=NA,
@@ -35,75 +32,60 @@ carob_script <- function(path) {
 		carob_date="2024-03-26"
 	)
 	
-##### PROCESS data records
-
-# read data 
-
 	f <- ff[basename(ff) == "Residue Level Trial.xlsx"]
 	r <- carobiner::read.excel(f)
 
-## process file(s)
-
-## use a subset
-	d <- data.frame(crop="maize", 
-					        country=r$Country,
-					        site=r$Site,
-					        planting_date=r$Season,
-					        treatment=r$Treatment,
-					        rep=r$Replicate,
-					        dmy_total=r$`Biomass (kg/ha)`,
-					        yield_part="grain",
-					        yield=r$`Grain (kg/ha)`)
-
+	d <- data.frame(
+			crop="maize", 
+			country=r$Country,
+	        site=r$Site,
+	        planting_date=as.character(r$Season),
+	        treatment=r$Treatment,
+	        rep=as.integer(r$Replicate),
+	        dmy_total=r$`Biomass (kg/ha)`,
+	        yield_part="grain",
+	        yield=r$`Grain (kg/ha)`
+		)
 	
-#### about the data #####
-## (TRUE/FALSE)
-
-	d$dataset_id <- dataset_id
 	d$on_farm <-FALSE
 	d$is_survey <- FALSE
-	d$is_experiment <- TRUE
 	d$irrigated <- FALSE
 
-	d$site<-carobiner::replace_values(d$site,"DTC","Domboshawa Training Centre")
-	d$site<-carobiner::replace_values(d$site,"MFTC","Monze Farmer Training Centre")
-	d$site<-carobiner::replace_values(d$site,"SRS","Sussundenga Research Station")
-	d$site<-carobiner::replace_values(d$site,"UZ","University of Zimbabwe")
-	
-	
-##### Location #####
-## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
-##
-	d$latitude[d$site=="Domboshawa Training Centre"]<- 31.1253
-	d$latitude[d$site=="Monze Farmer Training Centre"]<- 27.4733
-	d$latitude[d$site=="Monze"]<- 27.4733
-	d$latitude[d$site=="Chitedze"]<- 33.8525
-	d$latitude[d$site=="Makoholi"]<- 30.7715
-	d$latitude[d$site=="Sussundenga Research Station"]<- 33.2953
-	d$latitude[d$site=="University of Zimbabwe"]<- 31.0546
-	
-	d$longitude[d$site=="Domboshawa Training Centre"]<- -17.6738
-	d$longitude[d$site=="Monze Farmer Training Centre"]<- -16.2803
-	d$longitude[d$site=="Monze"]<- -16.2803
-	d$longitude[d$site=="Chitedze"]<- -13.8362
-	d$longitude[d$site=="Makoholi"]<- -19.8330
-	d$longitude[d$site=="Sussundenga Research Station"]<- -19.4130
-	d$longitude[d$site=="University of Zimbabwe"]<- -17.7824
-	
-	d$trial_id<- paste0(d$dataset_id,"_",d$rep)
-	
-	##### Time #####
-	## time can be year (four characters), year-month (7 characters) or date (10 characters).
-	d$planting_date <- as.character(as.Date(d$planting_date))
-	
-	##### Yield #####
+	d$land_prep_method = "none"
+	d$land_prep_method[d$treatment == 1] <- "conventional"
+	d$residue_prevcrop <- 0
+	d$residue_prevcrop <- pmax(0, (d$treatment - 2)) * 2000
+
+	i <- r$subtreatment
+	i[i ==0] <- NA
+	d$N_fertilizer = c(0, 30, 90)[i]
+	i[i>1] <- 2
+	d$P_fertilizer = c(0, 40)[i]
+	d$K_fertilizer = c(0, 20)[i]
+	d$S_fertilizer = c(0, 18)[i]
+
+	d$fertilizer_type = ifelse(is.na(i), "none", "D-compound; AN")
+
+	d <- d[d$yield != "-", ]
 	d$yield <- as.numeric(d$yield)
-	d$yield[is.na(d$yield)] <-0
+
+	tments <- c("conventional tillage", "no-tillage, 0 t/ha residue", "no-tillage, 2 t/ha residue", "no-tillage, 4 t/ha residue", "no-tillage, 6 t/ha residue", "no-tillage, 8 t/ha residue")
+	d$treatment <- tments[d$treatment]
+
+	d$site <- carobiner::replace_values(d$site, "DTC", "Domboshawa Training Centre")
+	d$site <- carobiner::replace_values(d$site, "MFTC", "Monze Farmer Training Centre")
+	d$site <- carobiner::replace_values(d$site, "SRS", "Sussundenga Research Station")
+	d$site <- carobiner::replace_values(d$site, "UZ", "University of Zimbabwe")
+		
+	geo <- data.frame(
+		site = c("Makoholi", "Domboshawa Training Centre", "University of Zimbabwe", "Sussundenga Research Station", "Monze", "Monze Farmer Training Centre", "Chitedze"), 
+		longitude = c(30.7715, 31.1253, 31.0546, 33.2953, 27.4733, 27.4733, 33.8525),
+		latitude = c(-19.833, -17.6738, -17.7824, -19.413, -16.2803, -16.2803, -13.8362)
+	)
 	
-	d$treatment<- as.character(d$treatment)
-	d$rep<-as.integer(d$rep)
+	d <- merge(d, geo, by="site")
+	d$trial_id <- as.character(as.integer(as.factor(d$site)))
 	
-# all scripts must end like this
 	carobiner::write_files(path, dset, d)
 }
 
