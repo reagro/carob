@@ -15,13 +15,11 @@ Description:
 "
   
 	uri <- "hdl:11529/10825"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
 	ff	<- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=3, minor=1),
 		project=NA,
 		publication=NA,
 		data_institutions = "CIMMYT",
@@ -60,7 +58,7 @@ Description:
 	d$crop[d$crop=="cowpeas"] <- "cowpea"
 
 	d$country <- "Zambia"
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE

@@ -6,11 +6,9 @@ carob_script <- function(path) {
 	uri <- "doi:10.7910/DVN/GVNJAB"
 	group <- "soil_samples"
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=4)
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=4),
 		project= NA,
 		publication= NA,
 		data_institutions = "CIAT",
@@ -37,7 +35,7 @@ carob_script <- function(path) {
 	
 	d$soil_sample_top <- 0
 	d$soil_sample_bottom <- 20
-	d$dataset_id <- dataset_id
+	
 	
 	carobiner::write_files(dset, d, path=path)
 }

@@ -13,16 +13,14 @@ carob_script <- function(path) {
   Human Zn and Fe deficiencies can be reduced through agronomic biofortification, but information on factors influencing maize grain-Zn and -Fe levels remains scant. This analysis: (1) Establishes the global distribution of Zn and Fe concentrations in maize grain; (2) Assesses different agronomic practices’ contributions to increasing maize-grain Zn and Fe levels; and (3) Identifies key biophysical factors to guide agronomic biofortification. Using 1,332 data points in 102 published papers from 24 countries, we estimated a 24% probability of grain-Zn concentrations exceeding the benchmark target of 38 mg kg−1."
   
   uri <- "doi:10.7910/DVN/SOAWL6"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "maize_trials"
 
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
   
 
   ## dataset level data 
   dset <- data.frame(
-	carobiner::extract_metadata(js, uri, group=group),
+  	carobiner::read_metadata(uri, path, group, major=1, minor=1),
     project=NA,
     #data_citation="Job Kihara; Sileshi, Gudeta W.; Bolo, Peter Omondi; Mutambu, Dominic Mwanzia; Sila, Andrew Musili, 2023. Maize grain zinc and iron concentrations as influenced by agronomic management and biophysical factors: a meta-analysis. https://doi.org/10.7910/DVN/SOAWL6, Harvard Dataverse, V1",
     publication= NA,
@@ -50,7 +48,7 @@ carob_script <- function(path) {
  
     
   # for first dataset
-  d$dataset_id <- dataset_id
+  
   #zn =233,nfer= 655, p=300
   d$crop <- "maize"
   d$planting_date[grep("-", d$planting_date)] <- NA

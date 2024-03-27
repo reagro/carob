@@ -8,12 +8,10 @@ carob_script <- function(path) {
 	uri <-  "doi:10.18167/DVN1/XYOHRP"
 	group <- "fertilizer" 
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		publication= NA,
 		data_institutions = "CIRAD",
 		carob_contributor="Cedric Ngakou",
@@ -69,7 +67,7 @@ carob_script <- function(path) {
 
 message("should also process soil and weather data")
 
-	d$dataset_id <- dataset_id
+	
 	carobiner::write_files(path, dset, d)
    
 }

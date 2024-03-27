@@ -11,13 +11,11 @@ carob_script <- function(path) {
   "
   
 	uri <- "doi:10.25502/HNKM-Y645/D"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="N2Africa", 
 		publication= NA, 
 		data_institutions = "IITA", 
@@ -76,7 +74,6 @@ carob_script <- function(path) {
 	dd$planting_date <- ifelse(dd$season =="Y1617S", "2016", "2017")
 	dd$harvest_date	 <- ifelse(dd$season =="Y1617S", "2017", "2018")
 	dd$yield_part <- "seed"
-	dd$dataset_id <- dataset_id
 	dd$on_farm <- TRUE
 	dd$is_survey <- FALSE
 	dd$crop <- "soybean"

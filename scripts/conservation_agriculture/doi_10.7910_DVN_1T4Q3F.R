@@ -7,12 +7,10 @@ carob_script <- function(path) {
 
 	uri <- "doi:10.7910/DVN/1T4Q3F"
 	group <- "conservation_agriculture"
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 
 	dset <- data.frame(
-	  carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 	  #data_citation="Lilongwe University of Agriculture and Natural Resources, 2021, Performance of Maize Following Groundnut Varieties at Different Densities, https://doi.org/10.7910/DVN/1T4Q3F, Harvard Dataverse, V1, UNF:6:oLZEjX4cmNU+x2ElSIOljA== [fileUNF]",
 	  data_institutions = "International Food Policy Research Institute (IFPRI)",
 	  publication= NA,
@@ -56,7 +54,7 @@ carob_script <- function(path) {
 	
 #### about the data #####
 	d$country<- "Malawi"
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE

@@ -12,12 +12,10 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
 "
   
 	uri <- "hdl:11529/10831"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_trials"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		publication= "doi:10.2135/cropsci2016.06.0558",
 		data_institutions = "CIMMYT", 
 		carob_contributor="Cedric Ngakou", 
@@ -95,7 +93,7 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
 	d$location[d$location=="Pirsabak"] <- "Pir Sabak" 
 
 
-	d$dataset_id <- dataset_id
+	
 	d$trial_id <- paste0(d$dataset_id, "-", d$code)
 	
 	d$crop <- "wheat"

@@ -8,14 +8,12 @@ carob_script <- function(path) {
 " N2Africa is to contribute to increasing biological nitrogen fixation  and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The dataset is N2Africa agronomy trials - Uganda, 2016, I Crop: Climbing bean Crop system: intercropped with banana vs. sole"
 	
   uri <- "doi:10.25502/6h5e-q472"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id,path,group,major=1,minor = 0)
  
    ## dataset level data 
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri,path,group,major=1,minor = 0),
     project="N2Africa",
     publication=NA,
     data_institutions = "IITA",
@@ -187,7 +185,6 @@ carob_script <- function(path) {
   colnames(d3)[68] <- "yield"
   
   # # EGB: Fixing and adding
-  d3$dataset_id <- dataset_id
   d3$on_farm <- TRUE
   d3$is_survey <- TRUE
   d3$variety_type <- "climbing"
@@ -230,7 +227,7 @@ carob_script <- function(path) {
 
   d3$diseases <- d3$type_of_disease
   
-  d4 <- d3[,c("dataset_id", "trial_id", "on_farm", "is_survey",
+  d4 <- d3[,c("trial_id", "on_farm", "is_survey",
               "country", "adm1", "adm2", "adm3", "adm4", "adm5", "location", "site", "elevation",
               "crop", "variety", "variety_type", "previous_crop",
               "planting_date", "flowering", "maturity", "harvest", "harvest_date",

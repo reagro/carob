@@ -1,5 +1,5 @@
 
-do_LCAS <- function(r, dataset_id) {
+do_LCAS <- function(r) {
 
 	d <- data.frame(
 		date = r$collectionDate,
@@ -21,8 +21,7 @@ do_LCAS <- function(r, dataset_id) {
 		previous_crop_residue = r$D.q407_cropResiduePcnt,
 		previous_crop_burnt = r$D.q408_residueBurnt == "yes",
 		land_prep_method = r$D.q411_LandPrep,
-		is_survey = TRUE,
-		dataset_id = dataset_id
+		is_survey = TRUE
 	)
 	
 	d$trial_id <- as.character(1:nrow(d))

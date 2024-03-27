@@ -11,15 +11,13 @@ carob_script <- function(path) {
 	"Description:
 	 Farmer participatory on-farm trials with CA technologies comparing with farmers’ practices (CT), were conducted in several fields in each community. Likewise, farmer-participatory validation trials were conducted comparing to existing practices and to find out suitable and more profitable crop production practices, prioritized to increase visibility and to avoid implementation and management problems that emerge when utilizing small plots with significant edge effects. Most trials were replicated in several fields within each community and were farmer-managed with backstopping from project staff and NARES partners. Project partners and staff coordinated monitoring and data acquisition. Where possible, collaborating farmers were selected by the community, and the project worked with existing farmer groups, with groups of both men and women farmers
 	ff	<- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 		"
 	
 	uri <- "hdl:11529/10548008"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="Rabi (winter) crops-all nodes- Validation trials -Rangpur-Bangladesh",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
@@ -100,7 +98,7 @@ carob_script <- function(path) {
 	
 	
 	#add columns
-	d$dataset_id <- dataset_id
+	
 	d$country <- "Bangladesh"
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE

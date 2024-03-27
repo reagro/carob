@@ -9,14 +9,12 @@ carob_script <- function(path) {
 "
 
 	uri <- "hdl:11529/10548507"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "survey"
 
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="CSISA",
 		#data_citation="Ajay, Anurag; Craufurd, Peter; Sharma, Sachin; Ranjan, Harshit; Poudel, Gokul; Malik, RK; Singh, Balwinder; Singh, AK; Samaddar, Arindam; Rai, Ashok; Keil, Alwin; McDonald, Andrew, 2020, Landscape diagnostic survey data of wheat production practices and yield of 2018 from eastern India, https://hdl.handle.net/11529/10548507, CIMMYT Research Data & Software Repository Network, V1, UNF:6:ACX3w1PnF4Otyf++Z6mO3g== [fileUNF]",
 		publication= NA,
@@ -30,7 +28,7 @@ carob_script <- function(path) {
 	r <- read.csv(f)
 	
 	do_LCAS <- carobiner::get_function("do_LCAS", path, group)
-	d <- do_LCAS(r, dataset_id)
+	d <- do_LCAS(r)
 	
 #	d$longitude <- d$latitude <- NULL
     carobiner::write_files(path, dset, d)

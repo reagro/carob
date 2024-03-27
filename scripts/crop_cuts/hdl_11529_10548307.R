@@ -11,13 +11,11 @@ TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 "
 
 	uri <- "hdl:11529/10548307"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "crop_cuts"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project="TAMASA",
 		publication= NA,
 		data_institutions = "CIMMYT",
@@ -133,7 +131,7 @@ TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 	
 	d <- carobiner::bindr(d12, d34)
 	
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- FALSE
 	d$is_survey <- TRUE
 	d$irrigated <- FALSE
@@ -147,7 +145,6 @@ TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 ## including deeper layer, and records not matched.
 
 	soil <- carobiner::bindr(d2, d4)
-	soil$dataset_id <- dataset_id
 	dset$group <- "soil_samples"	
 	carobiner::write_files(dset, soil, path=path)
 

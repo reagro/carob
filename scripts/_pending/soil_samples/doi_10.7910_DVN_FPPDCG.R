@@ -4,12 +4,10 @@ carob_script <- function(path) {
   "Description:Data for soil samples collected from WKIEMP project and analyzed at ICRAF using infrared spectroscopy methods and wet chemistry at Crop Nutrition labs"
   
   uri <- "doi:10.7910/DVN/FPPDCG"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "soil_samples"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=1, minor=0),
     project= NA,
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)
@@ -63,7 +61,7 @@ carob_script <- function(path) {
 	# d$soil_pH_KCl <- NULL
 	# d$soil_pH_CaCl2 <- NULL
 	# d$soil_P_available <- NULL
-	# d$dataset_id <- dataset_id
+	# 
 	# d$trial_id <- NA
 	# d$crop <- NA
 	# d$yield_part <- NA

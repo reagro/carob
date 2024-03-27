@@ -5,12 +5,10 @@ carob_script <- function(path) {
 "Maize crop cut data from farmer's field collected at Odisha plateau ecology."
 
 	uri <- "hdl:11529/11054"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "crop_cuts"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="CSISA",
 		publication= NA,
 		data_institutions = "CIMMYT",
@@ -29,7 +27,6 @@ carob_script <- function(path) {
 #   names(m) <- mm[,1]
 	
 	d <- data.frame(
-		dataset_id=dataset_id,
 		crop="maize", yield_part="grain", season=r$SEASON, 
 		country = "India", adm1="Odisha", adm2 = r$DIST, 
 		longitude = r$LON, latitude=r$LAT,

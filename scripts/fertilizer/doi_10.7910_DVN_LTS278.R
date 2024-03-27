@@ -10,12 +10,10 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 
 	## Process 
 	uri <- "doi:10.7910/DVN/LTS278"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, major=1, minor=0, group),
 		publication=NA,
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2021-08-26",
@@ -107,8 +105,6 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 	dv$planting_date[i] <- '2017'
 	dv$harvest_date[i] <- '2018'
 
-	#Format data set
-	dv$dataset_id <- "doi_10.7910_DVN_LTS278"
 	dv$crop <- 'maize'
 	dv$on_farm <- TRUE
 	dv$is_survey <- FALSE

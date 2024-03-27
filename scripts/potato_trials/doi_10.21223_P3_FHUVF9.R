@@ -6,13 +6,11 @@ carob_script <- function(path) {
    Samples were prepared and analysed for Fe and Zn by inductively coupled plasma-optical emission spectrophotometry (ICP-OES) using an ARL 3580B ICP (ARL, Switzerland) (Burgos et al., 2007). Statistical analyses were performed using SAS software (SAS. 2003). ANOVA was performed using combined data for all environments. The Additive Main Effects and Multiplicative Interaction model (AMMI) was used for studying Genotype X Enviroment interaction, examining genotypic yield stability and adaptation (Crossa et al., 2002).
    "
    uri <- "doi:10.21223/P3/FHUVF9"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "potato_trials"
    ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=4)
    ## dataset level data 
    dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+   	carobiner::read_metadata(uri, path, group, major=1, minor=4),
       publication= NA,
       data_institutions = "CIP",
       carob_contributor="Cedric Ngakou",
@@ -70,7 +68,7 @@ carob_script <- function(path) {
    d<- d[!is.na(d$yield),] ## remove NA in yield
  
    ## add columns
-   d$dataset_id <- dataset_id
+   
    d$country <- "Peru"
    d$trial_id <- paste(d$adm3, d$variety, sep = "_")
    d$irrigated <- FALSE

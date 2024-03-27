@@ -9,13 +9,11 @@ carob_script <- function(path) {
 "Description:Agronomy of 100 fields is part of APS(AgronomyPanelSurvey) Study (2016)"
 
 	uri <- "hdl:11529/10548392"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "crop_cuts"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project= "TAMASA",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
@@ -35,7 +33,7 @@ carob_script <- function(path) {
 
 #### about the data #####
 ## (TRUE/FALSE)
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- FALSE
 	d$is_survey <- TRUE
 	d$is_experiment <- FALSE
@@ -103,7 +101,7 @@ carob_script <- function(path) {
 	#### about the data #####
 	## (TRUE/FALSE)
 	
-	d$dataset_id <- dataset_id
+	
 	d2$on_farm <- FALSE
 	d2$is_survey <- TRUE
 	d2$is_experiment <- FALSE

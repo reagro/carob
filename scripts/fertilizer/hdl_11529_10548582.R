@@ -9,12 +9,10 @@ Randomized complete block design for four environments (ENV) that combined tilla
 "
   
 	uri <- "hdl:11529/10548582"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		publication="doi:10.1016/j.fcr.2021.108310",
 		data_institutions = "CIMMYT",
 		carob_contributor="Effie Ochieng'",
@@ -30,7 +28,7 @@ Randomized complete block design for four environments (ENV) that combined tilla
 	d$country <- "Mexico"
 	d$adm1 <- "Sonora"
 	d$adm2 <- "Cajeme"
-	d$trial_id <- dataset_id
+	d$trial_id <- "1"
 	d$latitude <- 27.369444
 	d$longitude <- -109.930833
 	# EGB: Adding planting_date
@@ -92,70 +90,10 @@ Randomized complete block design for four environments (ENV) that combined tilla
 		"fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer",
 		"residue_yield", "grain_weight", "irrigated", "land_prep_method", "plant_density")]
 	
-	d$dataset_id <- dataset_id
+	
 	d$yield_part <- "grain"
 	d <- d[!is.na(d$yield), ]
 	carobiner::write_files(dset, d, path=path)
 	
 }
-
-## dup from cons_ag
-
-  # uri <- "hdl:11529/10548582"
-  # dataset_id <- carobiner::simple_uri(uri)
-  # group <- "conservation_agriculture"
-  # ## dataset level data 
-  # dset <- data.frame(
-#		carobiner::extract_metadata(js, uri, group),
-    # project=NA,
-    # publication= NA,
-    # data_institutions = "CIMMYT",
-    # data_type="experiment",
-    # carob_contributor="Fredy Chimire",
-    # carob_date="2023-12-12"
-  # )
-  
-
-  
-  
-  # f <- ff[basename(ff) == "DAT-PUB-214DrySow.xlsx"]
-  
-  # # Select sheet with revised data from the excel file 
-  # r <- carobiner::read.excel(f, sheet = "Wheat")
-  
-  # d <- data.frame(harvest_date=r$Year,rep=r$REP,dmy_residue=r$STRAW,dmy_total = r$BIOMASS, yield = r$`YIELD 12%`)
-  
-  # # for first dataset
-  # d$dataset_id <- dataset_id
-  # d$country<- "Mexico"
-  # d$treatment <- as.character(r$FERT)
-  # d$N_fertilizer <-factor(r$FERT, levels = 1:6, labels = c(0, 120, 180,180,240,240))
-  # d$latitude <-  27.3687  
-  # https://www.google.com/maps/place/Campo+Experimental+Norman+E.+Borlaug/@27.3684654,-109.9280195,17z/data=!4m14!1m7!3m6!1s0x86c8181464933267:0x39ffb81d18b2b774!2sCampo+Experimental+Norman+E.+Borlaug!8m2!3d27.3684654!4d-109.9280195!16s%2Fg%2F1hc5dzgvq!3m5!1s0x86c8181464933267:0x39ffb81d18b2b774!8m2!3d27.3684654!4d-109.9280195!16s%2Fg%2F1hc5dzgvq?entry=ttu
-  # d$longitude <- -109.9281
-  
-
-  # d$yield_part <- "grain"
-  # d$crop <- "wheat"
-  
-  # d$N_splits <- as.integer(factor(r$FERT, levels = c(1,2,3,4,5,6), labels = c(0, 2, 2,1,2,1)))
-  # d$grain_weight <- r$TKW
-  # d$trial_id <- paste(1:nrow(d),d$N_fertilizer,sep = '_')
-  # d$harvest_date <- as.character(d$harvest_date)
-  # d$rep <- as.integer(d$rep)
-  # d$dmy_residue[!grepl("^\\d+$", d$dmy_residue, perl = TRUE)] <- "0"
-  # d$dmy_residue <- as.numeric(d$dmy_residue)
-  # d$dmy_total[!grepl("^\\d+$", d$dmy_total, perl = TRUE)] <- "0"
-  
-  # d$dmy_total <- as.numeric(d$dmy_total)
-  # d$N_fertilizer <- as.numeric(d$N_fertilizer)
-  
-  # d$grain_weight[!grepl("^\\d+$", d$grain_weight, perl = TRUE)] <- "0"
-  
-  
-  # d$grain_weight <- as.numeric(d$grain_weight)
-  # d$yield[d$yield == '.'] <- NA
-  # d$yield <- as.numeric(d$yield)
-  # carobiner::write_files(dset, d, path=path)
-# }
 

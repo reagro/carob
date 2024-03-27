@@ -17,15 +17,13 @@ carob_script <- function(path) {
   uri <- "doi:10.25502/ec86-2t29"
   group <- "fertilizer"
   
-  dataset_id <- carobiner::simple_uri(uri)
   
   #### Download data 
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=1)
   
   ##### dataset level metadata 
   dset <- data.frame(
-    carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=3, minor=1),
     #data_citation="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Uganda, 2016, II [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/EC86-2T29",
     data_institutions = "IITA",
     publication= NA,
@@ -56,7 +54,7 @@ carob_script <- function(path) {
         disease_severity=r$severity_disease, 
 		trial_id=r$SN)
 
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
   

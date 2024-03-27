@@ -11,13 +11,11 @@ carob_script <- function(path) {
 "
    
    uri <-  "doi:10.25502/A5YJ-B820/D"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "fertilizer" 
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
    ## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=3),
 		publication= NA,#https://doi.org/10.1016/j.fcr.2023.109056
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
@@ -45,7 +43,7 @@ carob_script <- function(path) {
 	# add columns
 	d$country <- "Democratic Republic of the Congo"
 	d$crop <- "cassava" 
-	d$dataset_id <- dataset_id
+	
 	d$trial_id <- paste(d$ID,d$location,sep = "-")
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE

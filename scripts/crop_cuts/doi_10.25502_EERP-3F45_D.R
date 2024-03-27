@@ -11,13 +11,11 @@ carob_script <- function(path) {
 Herein we assessed the productivity and usage of biomass waste from: maize, sorghum, rice, millet and groundnut crops; specifically quantifying straw, shanks, chaff and shells, based on measurements from multiple farmer fields and census/surveys in eastern Uganda"
 
    uri <- "doi:10.25502/EERP-3F45/D"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "crop_cuts"
    ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
    ## dataset level data 
    dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+   	carobiner::read_metadata(uri, path, group, major=2, minor=0),
       project=NA, 
       publication= NA, 
       data_institutions = "IITA", 
@@ -43,7 +41,7 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
    
    #add columns
    d$crop<- "groundnut"
-   d$dataset_id <- dataset_id
+   
    d$country <- "Uganda"
    ##CN :I used the reverse function on GPS coordinate to obtain the location knowing long and lat coordinate.
    d$location<- "Nakasongola"
@@ -53,8 +51,8 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
    d$inoculated <- FALSE
    d$yield_part <- "grain" 
    ## add long and lat
-   d$longitude <- as.numeric(js$result$coverage_y)
-   d$latitude <- as.numeric(js$result$coverage_x)
+#   d$longitude <- as.numeric(js$result$coverage_y)
+#   d$latitude <- as.numeric(js$result$coverage_x)
    
    d$planting_date <- c("2016-02", "2017-02")[d$season]
    d$harvest_date <- c("2016-06", "2017-06")[d$season]	

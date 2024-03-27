@@ -11,10 +11,8 @@
 carob_script <- function(path){
 
   uri <- "doi:10.25502/JHRJ-9423"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "variety_performance"
   ff <- carobiner::get_data(uri,path,group)
-  js <- carobiner::get_metadata(dataset_id, path, group)
   
   
   dset <- data.frame (

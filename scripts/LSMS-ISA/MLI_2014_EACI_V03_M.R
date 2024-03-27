@@ -19,13 +19,11 @@ return( TRUE)
 	ht  <- httr::GET(url)
 
 	uri <- "doi:______"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- ""
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 	   publication="publication doi",
 	   contributor="Your name",
 	   data_type="___"
@@ -41,8 +39,8 @@ return( TRUE)
 	
 	# process file(s)
 	d <- carobiner::change_names(d, from, to)
-	d$dataset_id <- dataset_id
+	
 
-	carobiner::write_files(dset, d, path, dataset_id, group)
+	carobiner::write_files(path, dset, d)
 	TRUE
 }

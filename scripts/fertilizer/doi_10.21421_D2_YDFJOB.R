@@ -10,13 +10,11 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
   ## Process 
  
 	uri <- "doi:10.21421/D2/YDFJOB"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
   
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, major=1, minor=0, group),
 		publication=NA,#"issn-2315-5094",
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
@@ -39,7 +37,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	colnames(e) <- c('year', 'adm1','rep','P_fertilizer','variety','yield','dmy_stems','grain_weight')
 	e$country <- "Nigeria"
 	e$crop <- "sorghum"
-	e$dataset_id <- dataset_id
+	
 	e$trial_id <- paste0('P_fert_', e$adm1)
 	e$on_farm <- FALSE
 	e$is_survey <- FALSE

@@ -23,14 +23,12 @@ carob_script <- function(path) {
 "
 
 	uri <- "doi:10.25502/7v23-gp02"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id,path,group,major=1,minor = 0)
  
 	 ## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri,path,group,major=1,minor = 0),
 		project="N2Africa",
 		publication=NA,
 		data_institutions = "IITA",
@@ -213,7 +211,7 @@ carob_script <- function(path) {
 				'fertilizer_type','N_fertilizer','P_fertilizer','K_fertilizer','OM_used','OM_type','OM_amount', 'planting_date',
 				'yield', 'yield_part', 'residue_yield', 'dmy_total',
 				'irrigated', 'row_spacing', 'plant_spacing', 'plant_density')]
-	d$dataset_id <- dataset_id
+	
 	
 	d <- d[!is.na(d$yield), ]
 	d <- d[!is.na(d$N_fertilizer), ]

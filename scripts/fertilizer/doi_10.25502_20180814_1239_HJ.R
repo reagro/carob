@@ -10,12 +10,10 @@ carob_script <- function(path) {
 	uri <- "doi:10.25502/20180814/1239/HJ"
 	group <- "fertilizer"
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="AFSIS",
 		publication= NA,
 		data_institutions = "IITA",
@@ -24,7 +22,7 @@ carob_script <- function(path) {
 		data_type="experiment"
 	)
 	
-	d <- data.frame(dataset_id = character(0), rep = integer(0), season = character(0), 	
+	d <- data.frame(rep = integer(0), season = character(0), 	
     country = character(0), site = character(0), treatment = character(0), 
     longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
     harvest_date = character(0), trial_id = character(0), crop = character(0), 
@@ -40,7 +38,6 @@ carob_script <- function(path) {
 # carob_script <- function(path) {
   
   # uri <- "doi:10.25502/20180814/1239/HJ"
-  # dataset_id <- carobiner::simple_uri(uri)
   # group <- "fertilizer"
   ### dataset level data 
   # dset <- data.frame(
@@ -69,8 +66,6 @@ carob_script <- function(path) {
   
   # process file(s)
   #d <- carobiner::change_names(d, from, to)
-  # d1$dataset_id <- dataset_id
-  # d3$dataset_id <- dataset_id
 
     # process plot data
   
@@ -96,7 +91,7 @@ carob_script <- function(path) {
   
   # d3=transform(d3,N_splits=ifelse(d3$N_fertilizer>0,3,0))
   
-  # d3 <- d3[,c("dataset_id","rep","season","treatment","trial_id","yield","residue_yield","grain_weight","N_fertilizer",
+  # d3 <- d3[,c("rep","season","treatment","trial_id","yield","residue_yield","grain_weight","N_fertilizer",
             # "K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
   # process field data
   
@@ -107,11 +102,11 @@ carob_script <- function(path) {
   # d1$OM_type <- d1$MType1
   # d1$previous_crop <- d1$PCrop1
   # d1$site <- d1$Site
-  # d1 <- d1[,c("dataset_id","site","longitude","latitude","planting_date","harvest_date","previous_crop","OM_type")]
+  # d1 <- d1[,c("site","longitude","latitude","planting_date","harvest_date","previous_crop","OM_type")]
  
   # merge dataset
   
-  # d <- merge(d1,d3,by="dataset_id", all.x = TRUE)
+  # d <- merge(d1,d3,by=all.x = TRUE)
   
   #add column
   # d$country <- "Tanzania"
@@ -133,7 +128,7 @@ carob_script <- function(path) {
   # d$grain_weight <- as.numeric(d$grain_weight)
   
   #d$OM_used <- as.character(d$OM_used)
-  # d <- d[,c("dataset_id","rep","season","country","site","treatment","longitude","latitude","planting_date",
+  # d <- d[,c("rep","season","country","site","treatment","longitude","latitude","planting_date",
           # "harvest_date","trial_id","crop","yield","residue_yield","grain_weight","previous_crop","OM_type","N_fertilizer",
             # "K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
   # change date format

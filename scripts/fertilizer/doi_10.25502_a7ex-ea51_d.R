@@ -4,13 +4,11 @@ carob_script <- function(path){
 "N2Africa was aimed at increasing biological nitrogen fixation and productivity of grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings which was aimed at increasing soil fertility.The trails were conducted in 11 african countries"
 
 	uri <- "doi:10.25502/a7ex-ea51/d"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri,path,group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major = 1, minor = 0),
 		project="N2Africa",
 		publication = "doi:10.1016/j.agee.2017.08.015",
 		carob_contributor = "Effie Ochieng'",
@@ -110,7 +108,7 @@ carob_script <- function(path){
 	# combining the processed data sets to one
 	e <- merge(d1, d, by = "trial_id")
 	
-	e$dataset_id <- dataset_id
+	
 	e$yield_part <- "seed"
 	
 	# all scripts should end like this

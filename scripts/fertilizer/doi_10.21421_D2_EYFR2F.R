@@ -9,13 +9,11 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   ## Process 
  
 	uri <- "doi:10.21421/D2/EYFR2F"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
   
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, major=1, minor=0, group),
 		publication=NA, # "http://oar.icrisat.org/id/eprint/10842" Is the reference
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
@@ -58,7 +56,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
               planting_date = c("2014-07-07","2015-07-04","2014-07-19","2015-07-20"),
               harvest_date   = c("2014","2015","2014","2015"))
   d <- merge(d,ss, by = "year", all.x = TRUE)
-  d$dataset_id <- dataset_id
+  
   d$trial_id <- paste0('P_fert_', d$Location)
   d$on_farm <- TRUE
   d$is_survey <- FALSE
@@ -85,7 +83,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   }
   
   
-  d <- d[,c("dataset_id","country", "adm1",'location',"latitude","longitude","trial_id", "planting_date","on_farm","soil_pH","soil_SOC","soil_P_available","soil_sand","soil_clay","soil_silt","is_survey","rep","crop", "variety","residue_yield", "yield", "grain_weight","N_fertilizer","P_fertilizer","K_fertilizer","fertilizer_type")]  
+  d <- d[,c("country", "adm1",'location',"latitude","longitude","trial_id", "planting_date","on_farm","soil_pH","soil_SOC","soil_P_available","soil_sand","soil_clay","soil_silt","is_survey","rep","crop", "variety","residue_yield", "yield", "grain_weight","N_fertilizer","P_fertilizer","K_fertilizer","fertilizer_type")]  
 
 	d$yield_part <- "grain"
 

@@ -15,11 +15,9 @@ carob_script <- function(path) {
 "
 	uri <- "hdl:11529/10554"
 	group <- "maize_trials"
-	dataset_id <- carobiner::simple_uri(uri)
 	ff	<- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group=group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		#data_citation="Global Maize Program, 2018, International Late White Hybrid Trial - ILWH0607, https://hdl.handle.net/11529/10554, CIMMYT Research Data & Software Repository Network, V1",
 		data_institutions = "CIMMYT",
 		publication= NA,
@@ -35,8 +33,7 @@ carob_script <- function(path) {
 		data.frame( 
 			trial_id = id,
 			crop = "maize",
-			dataset_id = dataset_id,
-			on_farm = TRUE,
+				on_farm = TRUE,
 			striga_trial = FALSE, 
 			striga_infected = FALSE,
 			borer_trial = FALSE,

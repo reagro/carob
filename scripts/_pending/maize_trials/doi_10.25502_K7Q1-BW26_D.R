@@ -11,13 +11,11 @@ carob_script <- function(path) {
 "
 	
 	uri <-  "doi:10.25502/K7Q1-BW26/D"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "maize_trials" 
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=3),
 		publication= NA,#DOI: 10.1038/s41598-019-50345-3
 		https://doi.org/10.25502/K7Q1-BW26/D",
 		data_institutions = "IITA",
@@ -39,7 +37,7 @@ carob_script <- function(path) {
 	
 	d$country <- "Nigeria"
 	d$crop <- "maize" 
-	d$dataset_id <- dataset_id
+	
 	d$trial_id <- paste(d$ID,d$location,sep = "-")
 	d$yield_part <- "grain" 
 	d$on_farm <- TRUE

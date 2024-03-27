@@ -18,14 +18,12 @@ carob_script <- function(path){
   
   # registering the dataset
   uri <- "doi:10.25502/VMVB-SN23/D"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   
   # The metadata at the dataset level
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="N2Africa",
 		publication="doi:10.21955/gatesopenres.1115299.1",
 		data_institutions = "IITA",
@@ -157,7 +155,6 @@ carob_script <- function(path){
   
   # combining into 1 final dataset
   z <- Reduce(function(...) merge(..., all=T), list(d,d2))
-  z$dataset_id <- dataset_id
   z$on_farm <- TRUE
   
   # lats and longs extracted from geonames.org
@@ -188,7 +185,7 @@ carob_script <- function(path){
 	z <- z[!is.na(z$yield),] # dropping entries without yield output
 	#rearranging the data 
 	
-	z <- z[,c("dataset_id","trial_id","country","location","latitude","longitude","elevation","rep","treatment","crop","variety", "planting_date","harvest_date","inoculated","grain_weight","dmy_roots","dmy_total","fertilizer_type","N_fertilizer","N_splits",
+	z <- z[, c("trial_id","country","location","latitude","longitude","elevation","rep","treatment","crop","variety", "planting_date","harvest_date","inoculated","grain_weight","dmy_roots","dmy_total","fertilizer_type","N_fertilizer","N_splits",
 	"P_fertilizer","K_fertilizer","residue_yield","yield","on_farm")] 
 	
 	z$yield_part <- "seed"

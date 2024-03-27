@@ -27,13 +27,11 @@ The data set presents yields for maize and the legumes from these sites over 10 
 "
 
 	uri <- "hdl:11529/10829"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
 		publication=NA,
 		data_institutions = "CIMMYT",
@@ -68,7 +66,7 @@ The data set presents yields for maize and the legumes from these sites over 10 
 
 #joining tables
 	d <- carobiner::bindr(d1,  d2,  d3)
-	d$dataset_id <- dataset_id
+	
 	d$harvest_date <- as.character(d$harvest_date)
 	d$yield_part <- "grain"
 	d$country <- "Malawi"

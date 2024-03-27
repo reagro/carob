@@ -8,13 +8,11 @@ carob_script <- function(path) {
 	
 "
 	uri <- "doi:10.21223/P3/UTZBYL"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "potato_trials"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 	   publication= NA,# 
 	   data_institutions = "IITA",
 	   carob_contributor="Cedric Ngakou",
@@ -75,7 +73,7 @@ carob_script <- function(path) {
 	d$yield <- d$yield * 1000 ## kg/ha
 
 	## add columns
-	d$dataset_id <- dataset_id
+	
 	d$country <- "Peru"
 	d$trial_id <- paste(d$adm3, d$planting_date, sep = "_")
 	d$irrigated <- FALSE

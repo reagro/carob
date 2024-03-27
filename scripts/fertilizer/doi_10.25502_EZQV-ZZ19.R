@@ -6,13 +6,11 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 "
           
 	uri <- "doi:10.25502/EZQV-ZZ19"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri,path,group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major = 1, minor = 0),
 		project="N2Africa",
 		publication = 'doi.org/10.1016/j.agee.2017.08.015',
 		carob_contributor = "Andrew Sila",
@@ -135,7 +133,6 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	d1 <- d1[,c("trial_id","country","latitude","longitude","adm1","adm2","location","date","harvest_date","is_survey","on_farm")]	
 	
 	df <- merge(d1, d0, by = "trial_id", all = TRUE)
-	df$dataset_id <- dataset_id
 	df$yield_part <- "seed"
 	
 	##efyrouwa: How can we incorporate r3 with df??

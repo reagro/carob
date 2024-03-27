@@ -12,13 +12,11 @@ carob_script <- function(path) {
 "
   
   uri <- "doi:10.25502/FP7H-3038"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "cassava"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   ## dataset level data 
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     project=NA,
     publication= "",
     data_institutions = "IITA",
@@ -39,7 +37,7 @@ carob_script <- function(path) {
 
   d$trial_id <- d$observationUnitName
   d$rep <- d$replicate
-  d$dataset_id <- dataset_id
+  
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$crop <- "cassava"
@@ -58,7 +56,7 @@ carob_script <- function(path) {
   d[which(!is.na(d$cassava.bacterial.blight.incidence.3.month.evaluation.CO_334.0000178), c("disease"))] <- "cassava_bacterial_blight"
     
 
-    carobiner::write_files(dset, d, path, dataset_id, group)
+    carobiner::write_files(path, dset, d, path)
 }
 
 

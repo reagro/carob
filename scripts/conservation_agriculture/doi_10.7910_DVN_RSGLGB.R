@@ -25,13 +25,11 @@ carob_script <- function(path) {
   Animal traction (AT) ripline seeding with maize rotated with legumes"
   
   uri <- "doi:10.7910/DVN/RSGLGB"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
   ## dataset level data 
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=1, minor=2),
     project=NA,
     publication= "doi:10.1017/S1742170517000606",
     data_institutions = "CIMMYT",
@@ -52,7 +50,7 @@ carob_script <- function(path) {
   d <- data.frame(country= r$Country,harvest_date=r$Year,rep= r$Rep,crop= r$Cropgrown,treatment= r$Description,adm2=r$District,location=r$Camp,dmy_total = r$Biomassyield, yield = r$Grainyield)
   
   # for first dataset
-  d$dataset_id <- dataset_id
+  
   
   d$is_survey <- FALSE
   d$on_farm <- TRUE

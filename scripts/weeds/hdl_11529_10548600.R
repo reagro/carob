@@ -5,13 +5,11 @@ carob_script <- function(path) {
 "The database contains data about on-farm trials with transplanted rice were conducted during monsoon ('Aman') season in 2016 and 2017 and winter ('Boro') season in 2016 to 2017 in agroecological zones (AEZs) 11 and 12 of south-west Bangladesh with ten treatments - seven herbicide-based IWM options, one mechanical weed control-based option, and two checks – farmers' current weed control practice and weed-free, to assess effects on weed control, grain yield, labor use, and profitability. (2021-07-09)"
    
    uri <- "hdl:11529/10548600"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "rice_trials" 
    ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
    ## dataset level data 
    dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+   	carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication= NA,
 		data_institutions = "CIMMYT",
 		carob_contributor="Cedric Ngakou",
@@ -72,8 +70,8 @@ carob_script <- function(path) {
    # add columns
    d$country <- "Bangladesh"
    d$crop <- "rice" 
-   d$dataset_id <- dataset_id
-   d$trial_id <- paste(d$site,d$dataset_id,sep = "-")
+   
+   d$trial_id <- d$site
    d$on_farm <- TRUE
    d$is_survey <- FALSE
    d$irrigated <- FALSE

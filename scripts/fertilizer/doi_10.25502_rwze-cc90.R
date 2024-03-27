@@ -12,14 +12,12 @@ improving household nutrition and increasing income levels of smallholder farmer
 carob_script <- function(path) {
   
 	uri <- "doi:10.25502/rwze-cc90"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff	<- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	 
 	## data set level data
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="N2Africa",
 		publication=NA,
 		data_institutions = "IITA",
@@ -29,7 +27,7 @@ carob_script <- function(path) {
 	)
 	
 	
-	d <- data.frame(dataset_id = character(0), rep = integer(0), season = character(0), 
+	d <- data.frame(rep = integer(0), season = character(0), 
     country = character(0), site = character(0), treatment = character(0), 
     longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
     harvest_date = character(0), trial_id = character(0), crop = character(0), 
@@ -118,7 +116,7 @@ carob_script <- function(path) {
 	# z$crop <- ifelse(z$trial_id %in% d2$trial_id,d2$crop,NA)
  
  
-	# z <- z[,c("dataset_id","trial_id","season","country","adm1","adm2","adm3","crop","variety",
+	# z <- z[,c("trial_id","season","country","adm1","adm2","adm3","crop","variety",
 						# "planting_date","harvest_date","inoculated","fertilizer_type","N_fertilizer","P_fertilizer",
 						# "grain_weight","yield","row_spacing","plant_spacing","on_farm","is_survey","longitude","latitude")]
 	

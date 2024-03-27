@@ -6,14 +6,12 @@ carob_script <- function(path) {
 "
    
 	uri <- "doi:10.25502/wpce-te77/d"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "soybean_trials"
 
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		publication= NA,
 		#data_citation = "Chigeza, G. (2019). Advanced Variety Trials (AVT), Mozambique- 2018 [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/WPCE-TE77/D",
 		data_institutions = "IITA",
@@ -39,7 +37,7 @@ carob_script <- function(path) {
 	d$crop <- "soybean" 
 	d$yield_part <- "seed" 
 
-	d$dataset_id <- dataset_id
+	
 	d$trial_id <- paste(d$ID, d$adm1, sep = "-")
 	d$ID <- NULL
 	d$on_farm <- TRUE

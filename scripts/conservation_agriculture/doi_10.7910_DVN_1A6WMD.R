@@ -10,13 +10,11 @@ carob_script <- function(path) {
   
   uri <- "doi:10.7910/DVN/1A6WMD"
   group <- "conservation_agriculture"
-  dataset_id <- carobiner::simple_uri(uri)
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 
   # dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
 		publication= "doi.org/10.1016/j.fcr.2021.108225",
 		data_institutions = "IITA;IFPRI",
@@ -42,7 +40,7 @@ carob_script <- function(path) {
 				  
   d$treatment <- carobiner::replace_values(d$treatment,"Groundnut/pigeonpea","groundnut/pigeonpea")
   d$crop <- carobiner::replace_values(d$crop,"Groundnut","groundnut")
-  d$dataset_id <- dataset_id
+  
   d$on_farm <- TRUE
   d$is_experiment <- TRUE
   d$trial_id <- d$Treatment.number
@@ -63,7 +61,7 @@ carob_script <- function(path) {
   d$plant_density <- "164 000"
   
    # do not do this:
-  d <- d[,c("year","dataset_id","on_farm","is_experiment","country","location","adm1","adm2","longitude","latitude","planting_date","treatment","rep","crop","variety","N_fertilizer","plant_density","dym_residue","dym_total","yield","yield_part")]
+  d <- d[,c("year", "on_farm","is_experiment","country","location","adm1","adm2","longitude","latitude","planting_date","treatment","rep","crop","variety","N_fertilizer","plant_density","dym_residue","dym_total","yield","yield_part")]
    
     # all scripts must end like this
     carobiner::write_files(dset, d, path=path)

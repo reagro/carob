@@ -19,13 +19,11 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	uri <- "hdl:11529/11084"
 	group <- "fertilizer"
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group=group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project = "CSISA",
 		#data_citation = "Timothy J. Krupnik; Zia Uddin Ahmed; Jagadish Timsina; Md. Shahjahan; A.S.M. Alanuzzaman Kurishi; Azahar A. Miah; B.M. Saidur Rahman; Mahesh K. Gathala; Andrew J. McDonald, 2017. Forgoing the fallow in Bangladesh's stress-prone coastal deltaic environments: Effect of sowing date, nitrogen, and genotype on wheat yield in farmers' fields.  https://hdl.handle.net/11529/11084, CIMMYT Research Data & Software Repository Network, V1",
 		publication = "doi.org/10.1016/j.fcr.2014.09.019",
@@ -44,7 +42,6 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 		season = r$SEASON,
 		N_fertilizer = r$Nitrogen_.kg.ha.,
 		variety = r$GENOTYPE,
-		dataset_id = dataset_id,
 		on_farm = TRUE,
 		irrigated = TRUE,
 		irrigation_number = 1,

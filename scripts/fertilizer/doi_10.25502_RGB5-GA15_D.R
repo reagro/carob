@@ -15,13 +15,11 @@ carob_script <- function(path) {
 "
 
   uri <- "doi:10.25502/RGB5-GA15/D"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   ## dataset level data 
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     publication=NA,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
@@ -92,7 +90,7 @@ carob_script <- function(path) {
                             ifelse(d$treatment == "OCPF1", 5,
                                    ifelse(d$treatment=="OCPF2",9,0)))
   # add Columns 
-  d$dataset_id <- dataset_id
+  
   d$country <- "Nigeria"
   d$crop <- "maize"
 	d$yield_part <- "grain"
@@ -110,7 +108,7 @@ carob_script <- function(path) {
   d$harvest_date <- "2017-11-01"
   d$season <- "2017"
   
-  d$trial_id <- paste0(dataset_id, '-', d$Location)
+  d$trial_id <- d$Location
 #data type
   d$yield <- as.numeric(d$yield)
   d <- d[!is.na(d$yield), ]

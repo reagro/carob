@@ -18,13 +18,11 @@ The sample size for this survey is 1052 households and the inputs use were asked
 (2017)"
 
 	uri <- "hdl:11529/10968"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "survey"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=3)
 
 	dset <- data.frame(
-  		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=4, minor=3),
 		project="CSISA",
 		#data_citation="Gokul Paudel; Shashish Maharjan; David Guerena; Ashok Rai; Andrew James McDonald, 2017. Nepal Rice Crop Cut and Survey Data 2016. https://hdl.handle.net/11529/10968, CIMMYT Research Data & Software Repository Network, V4",
 		publication= NA,

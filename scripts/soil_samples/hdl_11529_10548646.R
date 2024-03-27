@@ -7,14 +7,12 @@ The Soil Intelligence System (SIS-India) mid-IR (MIR) dataset contains MIR spect
 "
   
 	uri <- "hdl:11529/10548646"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "soil_samples"
 	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   
 	## data set level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="CSISA",
 		publication=NA,
 		data_institutions = "CIMMYT",
@@ -53,7 +51,7 @@ The Soil Intelligence System (SIS-India) mid-IR (MIR) dataset contains MIR spect
 	# Remove negative B values
 	d$soil_B[d$soil_B < 0] <- NA
 	
-	d$dataset_id <- dataset_id
+	
 	d$trial_id <- "1"
 	
 	# Drop id, original_id, year and district columns from d

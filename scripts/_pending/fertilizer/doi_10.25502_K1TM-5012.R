@@ -12,13 +12,11 @@ carob_script <- function(path) {
 "
   
   uri <- "doi:10.25502/K1TM-5012"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   ## dataset level data 
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     publication= NA, 
     https://doi.org/10.25502/K1TM-5012" ,
     data_institutions = "IITA",
@@ -253,7 +251,7 @@ carob_script <- function(path) {
   d$intercrops[d$intercrops==""] <- NA
   d <- d[!is.na(d$crop), ]
 #  d$yield_part <- "seed"
-  d$dataset_id <- dataset_id
+  
   d$country <- "Rwanda"
 	d$crop <- fix_cropnames(carobiner::fix_name(trimws(d$crop), "lower"))
 	d <- d[!(d$crop %in% c("fallow")),]

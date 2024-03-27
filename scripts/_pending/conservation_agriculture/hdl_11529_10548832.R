@@ -16,13 +16,11 @@ carob_script <- function(path) {
   "
   
   uri <- "hdl:11529/10548832"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
   ## dataset level data 
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=1, minor=1),
     project=NA,
     publication= NA,
     data_institutions = "CIMMYT",
@@ -45,7 +43,7 @@ carob_script <- function(path) {
   # efyrouwa: you can use carobiner::change_names, 
   # look at the documentation on the function above to understand better.
   d <- carobiner::change_names(r,c("Location","Season","Rep","Clay","Sand","OrgC","Biomass","Grain","System","Nitrogen","Phosphorus","Potassium"),c("location","planting_date","rep","soil_clay","soil_sand","soil_SOC","dmy_total","yield","treatment", "soil_N", "soil_P_total","soil_K"))
-  d$dataset_id <- dataset_id
+  
   d$on_farm <- FALSE
   d$is_survey <- FALSE
   d$irrigated <- FALSE

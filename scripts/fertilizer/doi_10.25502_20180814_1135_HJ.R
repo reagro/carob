@@ -12,12 +12,10 @@ carob_script <- function(path) {
 	uri <- "doi:10.25502/20180814/1135/HJ"
 	group <- "fertilizer"
 	
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group=group),
+		carobiner::read_metadata(uri, path, group),
 		publication=NA,
 		#data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kiberashi [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1135/HJ",
 		data_institutions = "IITA",
@@ -46,7 +44,6 @@ carob_script <- function(path) {
 	## should be crop names
 	##intercrops = r1$CS
 		previous_crop = r1$PCrop1,
-		dataset_id = dataset_id,
 		yield_part = "grain",
 		FieldID = r1$FieldID
 	)

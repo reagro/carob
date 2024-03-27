@@ -20,12 +20,10 @@ Notes
 	uri <- "doi:10.7910/DVN/UNLRGC"
 	group <- "fertilizer"
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group=group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=3),
 		#data_citation="Kihara, Job, 2016. Replication Data for: Maize response to macronutrients and potential for profitability in sub-Saharan Africa, https://doi.org/10.7910/DVN/UNLRGC",
 		publication="doi:10.1007/s10705-015-9717-2",
 		carob_contributor="Camila Bonilla",
@@ -79,7 +77,7 @@ Notes
 	# d$longitude[i] <- 34.389
 	# d$latitude[i] <- 0.154
 
-	# d$dataset_id <- dataset_id
+	# 
 	# d$on_farm <- TRUE
 	# d$is_survey <- FALSE
 	# d$field <- NULL
@@ -158,7 +156,6 @@ Notes
 #	dataset_id <- paste0(cleanuri, "-fao")
 #	dset$dataset_id <- dataset_id
 
-	zz$dataset_id <- dataset_id
 	zz$on_farm <- NA
 	zz$is_survey <- FALSE
 	zz$crop <- "maize"

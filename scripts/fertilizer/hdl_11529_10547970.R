@@ -11,12 +11,10 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10547970"
 	group <- "fertilizer"
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA,
 		publication= NA,
 		data_institutions = "CIMMYT",
@@ -139,7 +137,6 @@ carob_script <- function(path) {
 	dd <- lapply(ff, fun)
 	dd <- do.call(rbind, dd)
 	dd$crop <- gsub("kidneybean", "kidney bean", dd$crop)
-	dd$dataset_id = dataset_id
 
 	carobiner::write_files(dset, dd, path=path)
 }

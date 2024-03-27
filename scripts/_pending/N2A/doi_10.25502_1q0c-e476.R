@@ -18,13 +18,11 @@ carob_script <- function(path) {
 "
 
 	uri <- "https://doi.org/10.25502/1q0c-e476"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="N2Africa",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)

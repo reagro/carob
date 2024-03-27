@@ -19,12 +19,10 @@ carob_script <- function(path) {
 	uri <- "doi:10.7910/DVN/C6DIIC"
 	group <- "fertilizer" 
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=5)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group=group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=5),
 		project= "AfSIS", 
 		#data_citation="Kihara, Job; Huising, Jeroen; Nziguheba, Generose; Zingore, Shamie, 2018. Omission trials conducted in 5 countries under AfSIS Phase 1 under CIAT. https://doi.org/10.7910/DVN/C6DIIC, Harvard Dataverse, V2, UNF:6:6Z4vk7GAnLOMtwkK6uparQ== [fileUNF]",
 		publication = "doi:10.1016/j.agee.2016.05.012",
@@ -60,7 +58,7 @@ carob_script <- function(path) {
 	d$dmy_residue <- (d$dmy_residue)*1000 ## in Kg/ha 
 	d$dmy_yield <-NULL
 	### Add columns 
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE

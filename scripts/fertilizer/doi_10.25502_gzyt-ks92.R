@@ -11,13 +11,11 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 "
   
   uri <- "doi:10.25502/gzyt-ks92"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   ## dataset level data 
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     publication= NA, 
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
@@ -96,7 +94,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d <- d[, c("country", "trial_id", "location", "longitude", "latitude", "pdate","hdate"
              , "crop", "yield","fertilizer_type")]
   # Add columns
-  d$dataset_id <- dataset_id
+  
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$irrigated <- FALSE
@@ -157,7 +155,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   tdates <- merge(pdates, hdates, by = "trial_id", all = TRUE)
   tdates <- unique(tdates)
   del <- merge(d, tdates, by = "trial_id", all.x = TRUE)
-  dd <- del[,c("dataset_id","trial_id","on_farm","is_survey",
+  dd <- del[,c("trial_id","on_farm","is_survey",
               "country","location","longitude","latitude",
               "crop","pdate.y","hdate.y","yield","fertilizer_type",
               "N_fertilizer","P_fertilizer","K_fertilizer","yield_part","irrigated")]

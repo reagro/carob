@@ -19,13 +19,11 @@ inoculants and fertilizers adapted to local settings.
 "
   
 	uri <- "doi:10.25502/V1CA-7Y60"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="N2Africa",	
 		publication=NA, 
 		data_institutions = "IITA", 
@@ -127,7 +125,7 @@ inoculants and fertilizers adapted to local settings.
 			, "harvest_date", "crop", "previous_crop", "variety", "inoculated", "treatment", "row_spacing", "plant_spacing", "yield", "residue_yield", "plant_density")]
 
 # Add columns
-	d$dataset_id <- dataset_id	 
+		 
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE

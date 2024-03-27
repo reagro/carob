@@ -13,13 +13,11 @@ carob_script <- function(path) {
 "
 
 	uri <- "doi:10.15482/USDA.ADC/1529411"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA,
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
@@ -49,7 +47,7 @@ carob_script <- function(path) {
 #### about the data #####
 ## (TRUE/FALSE)
 
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- TRUE
 	d$is_survey <-FALSE 
 	d$is_experiment <- TRUE

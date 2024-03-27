@@ -14,13 +14,11 @@ carob_script <- function(path) {
 "
 
 	uri <- "hdl:11529/10548242"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "crop_cuts"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 	   project="TAMASA",
 	   publication=NA,
 	   data_institutions = "CIMMYT",
@@ -47,7 +45,7 @@ carob_script <- function(path) {
 	d$is_survey <- TRUE
 	d$crop <- "maize"
 	d$yield_part <- "grain"
-	d$dataset_id <- dataset_id
+	
 
     d <- d[!is.na(d$longitude) & !is.na(d$latitude),]
     d <- d[!is.na(d$yield),]

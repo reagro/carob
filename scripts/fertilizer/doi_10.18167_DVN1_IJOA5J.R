@@ -11,13 +11,11 @@ carob_script <- function(path) {
 "
   
 	uri <- "doi:10.18167/DVN1/IJOA5J" 
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		publication= "doi:10.1016/j.fcr.2020.108052",
 		data_institutions = "CIRAD",
 		data_type="experiment", 
@@ -128,7 +126,6 @@ carob_script <- function(path) {
 	f <- merge(d,d1, by = c("Site","Field","Treatment","Treatment_desc","System","Cowpea_variety","Fertilizer","Year"), all.x = T)
 	f$variety <- f$Cowpea_variety
 	f$trial_id <- paste(1:nrow(f),f$Treatment_desc)
-	f$dataset_id <- dataset_id
 	f$grain_weight <- as.numeric(f$grain_weight)
 	f$yield <- as.numeric(f$yield)
 	f$N_splits <- as.integer(f$N_splits)

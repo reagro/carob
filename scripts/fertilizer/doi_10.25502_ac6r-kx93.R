@@ -5,15 +5,13 @@
 carob_script <- function(path){
 
 	uri <- "doi:10.25502/ac6r-kx93"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri,path,group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
 
 #dataset level data
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),	
+		carobiner::read_metadata(uri, path, group, major = 1, minor = 0),
 		project="N2Africa",
 		publication = 'doi.org/10.1016/j.agee.2017.08.015',
 		carob_contributor = "Andrew Sila",
@@ -340,7 +338,7 @@ h_year <- 2014 # harvest year
 	d$trial_id <- ifelse (d$trial_id == "",NA, d$trial_id)
 	d$crop = "soybean"
 	d$yield_part <- "seed"
-	d$dataset_id <- dataset_id
+	
 	# all scripts should end like this
 	
 	carobiner::write_files(dset, d, path=path)

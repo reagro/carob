@@ -9,13 +9,11 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 "
  
 	uri <- "doi:10.25502/hwdb-p578"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri,path,group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
 	 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major = 1, minor = 0),
         project="N2Africa",
 		publication = NA,
 		carob_contributor = "Effie Ochieng'",
@@ -27,7 +25,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	n2afun <- carobiner::get_function("N2A_monitoring_1", path, group)
 	d <- n2afun(ff)
 
-	d$dataset_id <- dataset_id
+	
 
 	d$adm2 <- carobiner::replace_values(d$adm2, 
 			c("Maica","Tsangano-Fonte boa"),
@@ -75,7 +73,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	d$crop[i] <- "groundnut"
 	d$yield_part[i] <- "pod"
 	
-	d$dataset_id <- dataset_id
+	
 	
 		
 	# all scripts should end like this

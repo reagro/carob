@@ -10,13 +10,11 @@ carob_script <- function(path) {
 "
    
    uri <-  "doi:10.18167/DVN1/2EHEQT"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "conservation_agriculture" 
    ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
    ## dataset level data 
    dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+   	carobiner::read_metadata(uri, path, group, major=1, minor=2),
       publication= NA,# DOI:10.1017/S0014479714000155
       https://doi.org/10.18167/DVN1/2EHEQT, CIRAD Dataverse, V1, UNF:6:KODF5Pm0fcTqCAFwrvBLRA== [fileUNF]",
       data_institutions = "CIRAD",
@@ -38,7 +36,7 @@ carob_script <- function(path) {
    ## add columns
    d$country <- "Madagascar"
    d$crop <- "rice"
-   d$dataset_id <- dataset_id
+   
    d$yield_part <- "grain" 
    d$on_farm <- TRUE
    d$irrigated <- TRUE

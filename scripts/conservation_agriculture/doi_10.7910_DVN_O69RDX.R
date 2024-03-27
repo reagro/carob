@@ -13,13 +13,11 @@ The objective of the study is to test different plant arrangements between maize
 3. Doubled up Maize-Groundnut rotation with Gliricidia [Maize/Gliricidia (Dispersed shading spacing; 10m x 5m)/pigeonpea – Groundnuts/Gliricidia/Pigeonpea] "
   
   uri <- "doi:10.7910/DVN/O69RDX"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
   ## dataset level data 
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=1, minor=2),
     project=NA,
     publication= NA,
     data_institutions = "CIMMYT",
@@ -39,7 +37,7 @@ The objective of the study is to test different plant arrangements between maize
   d <- data.frame(country= r$Country,harvest_date=r$Year,rep= r$Rep,crop= r$Crop,intercrops=r$Intercrop,adm2=r$District,location=r$Location,dmy_total = r$biomass, yield = r$grainyield)
   
   # for first dataset
-  d$dataset_id <- dataset_id
+  
   
   d$is_experiment <- TRUE
   d$on_farm <- TRUE

@@ -1,7 +1,7 @@
 
 carob_script <- function(path){
   
-  "
+"
  Title: N2Africa demo - Ghana, 2014
  
  Description: N2Africa is to contribute to increasing biological nitrogen fixation and productivity 
@@ -16,15 +16,13 @@ carob_script <- function(path){
   "
   
   uri <- "doi:10.25502/QMSB-P921"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   
   ## dataset level data
   
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=1, minor=0),
     project="N2Africa",
     publication= NA,
     data_institutions = "IITA",
@@ -32,10 +30,6 @@ carob_script <- function(path){
     carob_date="2023-08-15",
     data_type="survey demonstration trials"
   )
-  
-  
-  
-  
   
   f <- ff[basename(ff) == "general.csv"]
   f1 <- ff[basename(ff) == "experiment.csv"]
@@ -181,45 +175,32 @@ carob_script <- function(path){
 
   # merge dataframes
   rr <- merge(r,r2,by = "trial_id",all = TRUE)
+
   z <- merge(r1,rr,by="trial_id",all.x = TRUE)
   z$fertilizer_type[!is.na(z$fertilizer_type)] <- "TSP"
-  z$dataset_id <- dataset_id
   z$yield_part <- "seed"
   z$is_survey <- TRUE
   
   # Adding the processed coordinates
   
   # coords based on adm3
-  adm3 <- data.frame(country = c("Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana"), 
+  adm3 <- data.frame(country = "Ghana", 
                      adm3 = c("Apurimzua", "Atuba", "Azumsapeliga", "Azupupung", 
-                                                    "Baadabogu", "Baadaboo", "Bazua", "Bazunde", "Beka", "Bihinaayili", 
-                                                    "Booduori", "Botingli", "Boya Natinga", "Bulungu", "Bunglung", 
-                                                    "Challam", "Damdu", "Kangba-Jedo", "Dorimon", "Piisie", "Gamaga", 
-                                                    "Gbeongo", "Gbung", "Googo Natinga", "Gumbo", "Gumbo Nagure", 
-                                                    "Gumyoko", "Guzongo", "Kangba", "Kambontooni", "Tampieni", "Koduziegu", 
-                                                    "Kojokpere", "Kpantori", "Kpatia", "Kuboku", "Kubuko", "Kulogtingre", 
-                                                    "Kushegu", "Lamboya", "Lamboya-Gozicse", "Limpua", "Chebaa", 
-                                                    "Zamboge", "Balienia", "Kaleo Puli", "Toure", "Fian", "Issa", 
-                                                    "Nyugluu", "Tabiesi", "Wogu", "Nafkolga", "Nalogu", "Natinga", 
-                                                    "Nyolgo", "Nyoli", "Domugjile", "Ombo", "Pase", "Sakpari", "Salpiiga", 
-                                                    "Sambolongo", "Sankpiem", "Sapeliga", "Savelugu", "T - Natinga", 
-                                                    "Tambiigu", "Tansia", "Tetaku", "Tilli", "Varempere", "Varempare", 
-                                                    "Yalugu #1", "Yemo", "Binilobdo", "Chirifoyili", "Gbemba", "Gundogu", 
-                                                    "Kulkpanga", "Pion", "Sakpegu", "Yizegu", "Yong", "Zaago2", "Zambogu", 
-                                                    "Zeego", "Zuoyanga #1", "Zuoyanga #2"), 
+                           "Baadabogu", "Baadaboo", "Bazua", "Bazunde", "Beka", "Bihinaayili", 
+                            "Booduori", "Botingli", "Boya Natinga", "Bulungu", "Bunglung", 
+                      "Challam", "Damdu", "Kangba-Jedo", "Dorimon", "Piisie", "Gamaga", 
+                      "Gbeongo", "Gbung", "Googo Natinga", "Gumbo", "Gumbo Nagure", 
+                      "Gumyoko", "Guzongo", "Kangba", "Kambontooni", "Tampieni", "Koduziegu", 
+                      "Kojokpere", "Kpantori", "Kpatia", "Kuboku", "Kubuko", "Kulogtingre", 
+                      "Kushegu", "Lamboya", "Lamboya-Gozicse", "Limpua", "Chebaa", 
+                      "Zamboge", "Balienia", "Kaleo Puli", "Toure", "Fian", "Issa", 
+                      "Nyugluu", "Tabiesi", "Wogu", "Nafkolga", "Nalogu", "Natinga", 
+                      "Nyolgo", "Nyoli", "Domugjile", "Ombo", "Pase", "Sakpari", "Salpiiga", 
+                      "Sambolongo", "Sankpiem", "Sapeliga", "Savelugu", "T - Natinga", 
+                      "Tambiigu", "Tansia", "Tetaku", "Tilli", "Varempere", "Varempare", 
+                      "Yalugu #1", "Yemo", "Binilobdo", "Chirifoyili", "Gbemba", "Gundogu", 
+                      "Kulkpanga", "Pion", "Sakpegu", "Yizegu", "Yong", "Zaago2", "Zambogu", 
+                      "Zeego", "Zuoyanga #1", "Zuoyanga #2"), 
                      lat = c(NA, NA,NA, NA, NA, NA, 10.99234, 10.9027, 7.23761, NA, NA, NA, NA, NA,9.59576, NA, 9.62618, NA, 
                              10.03436, NA, NA, NA, NA, NA, 10.84746, NA, 10.98779, 11.06855, NA, NA, NA, NA, NA, NA, 9.52346, 
                              10.90625, NA, NA, NA, 10.92047, NA, NA, NA, NA, NA, NA, NA, 10.39255, 10.39158,NA, NA, 10.12611, 
@@ -227,21 +208,21 @@ carob_script <- function(path){
                              NA, 11.04479,NA, NA, NA, NA, NA, NA, 9.66881, NA, NA, NA, NA, NA, 9.63998,NA, NA, 9.34033, NA, 
                              NA, NA, NA, NA), 
                      lon = c(NA, NA, NA, 
-                                           NA, NA, NA, -0.36334, -0.52334, 0.5309, NA, NA, NA, NA, NA, -0.79683, 
-                                           NA, -0.78115, NA, -2.68827, NA, NA, NA, NA, NA, -0.47232, NA, 
-                                           -0.34812, -0.37938, NA, NA, NA, NA, NA, NA, -0.02967, -0.48492, 
-                                           NA, NA, NA, -0.51791, NA, NA, NA, NA, NA, NA, NA, -2.46857, -2.33412, 
-                                           NA, NA, 0.15167, NA, NA, -0.08333, NA, -2.49473, NA, -2.51148, 
-                                           -2.7109, -0.35663, NA, NA, NA, -0.30687, -0.8253, NA, -0.3415, 
-                                           NA, NA, NA, NA, NA, NA, -0.50991, NA, NA, NA, NA, NA, -0.06531, 
-                                           NA, NA, -0.81915, NA, NA, NA, NA, NA))
+                              NA, NA, NA, -0.36334, -0.52334, 0.5309, NA, NA, NA, NA, NA, -0.79683, 
+                              NA, -0.78115, NA, -2.68827, NA, NA, NA, NA, NA, -0.47232, NA, 
+                              -0.34812, -0.37938, NA, NA, NA, NA, NA, NA, -0.02967, -0.48492, 
+                              NA, NA, NA, -0.51791, NA, NA, NA, NA, NA, NA, NA, -2.46857, -2.33412, 
+                              NA, NA, 0.15167, NA, NA, -0.08333, NA, -2.49473, NA, -2.51148, 
+                              -2.7109, -0.35663, NA, NA, NA, -0.30687, -0.8253, NA, -0.3415, 
+                              NA, NA, NA, NA, NA, NA, -0.50991, NA, NA, NA, NA, NA, -0.06531, 
+                              NA, NA, -0.81915, NA, NA, NA, NA, NA))
   
   z <- merge(z,adm3,by= c("country","adm3"),all.x = TRUE)
 
-  z$latitude <- z$lat
-  z$longitude <- z$lon
-  
-  z <- z[,1:29]
+  isna <- is.na(z$latitude) | is.na(z$longitude)
+  z$latitude <- ifelse(isna, z$lat, z$latitude)
+  z$longitude <- ifelse(isna,z$lon, z$longitude)
+  z$lat <- z$lon <- NULL
   
   # coordinates based on adm2
   
@@ -253,19 +234,19 @@ carob_script <- function(path){
   
   z <- merge(z,adm2,by= c("country","adm2"),all.x = TRUE)
   
-  z$latitude <- ifelse(is.na(z$latitude) | is.na(z$longitude),z$lat,z$latitude)
-  z$longitude <- ifelse(is.na(z$latitude) | is.na(z$longitude),z$lon, z$longitude)
+  isna <- is.na(z$latitude) | is.na(z$longitude)
+  z$latitude <- ifelse(isna, z$lat, z$latitude)
+  z$longitude <- ifelse(isna,z$lon, z$longitude)
+  z$lat <- z$lon <- NULL
   
   
   # dropping inputs without treatment, residue yield and yield information
   
-  i <- complete.cases(z[,c("treatment","residue_yield","yield"),])
+  i <- complete.cases(z[,c("treatment", "yield"),])
   z <- z[i,]
   
   # final data set
   
-  z <- z[,c("dataset_id","trial_id","country","adm1","adm2","adm3","latitude","longitude","elevation","crop","variety","planting_date","harvest_date","treatment","inoculated","inoculant","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer",
-            "OM_used","OM_type","OM_amount","row_spacing","plant_spacing","residue_yield","yield","yield_part","is_survey")]
   
   carobiner::write_files(dset, z, path=path)
 }

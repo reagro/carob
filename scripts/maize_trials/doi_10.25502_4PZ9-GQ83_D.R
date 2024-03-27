@@ -10,12 +10,10 @@ Cluster analysis separated the maize germplasm into five major groups, different
    uri <-  "doi:10.25502/4PZ9-GQ83/D"
    group <- "maize_trials" 
 
-   dataset_id <- carobiner::simple_uri(uri)
    ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
 
    dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+   	carobiner::read_metadata(uri, path, group, major=1, minor=3),
       publication= "doi:10.1080/15427528.2019.1674760",
       data_institutions = "IITA",
       carob_contributor="Cedric Ngakou",
@@ -40,7 +38,7 @@ Cluster analysis separated the maize germplasm into five major groups, different
    d$country[d$country=="GH"] <- "Ghana"
    d$country[d$country=="IM"] <- "Nigeria"
    d$crop <- "maize" 
-   d$dataset_id <- dataset_id
+   
    d$trial_id <- paste(d$ID,d$country,sep = "-")
    d$yield_part <- "grain"
    d$on_farm <- TRUE

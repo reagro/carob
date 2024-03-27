@@ -9,28 +9,21 @@ carob_script <- function(path) {
 
    ## Process 
    uri <- "doi:10.21223/P3/OIQSOC"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "sweetpotato_trials"
    ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=7)
-   dataset_id <- dataset_id
-   ## dataset level data 
+
    dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
-      publication=NA,#"DOI:10.1017/S002185961600099X",
-      data_institutions="CIP",
-      carob_contributor="Cedric Ngakou",
-      carob_date="2023-11-29",
-      data_type="Experiment",
-      project=NA
-     
+		carobiner::read_metadata(uri, path, group, major=1, minor=7),
+		publication="doi:10.1017/S002185961600099X",
+		project=NA,
+		data_institutions="CIP",
+		carob_contributor="Cedric Ngakou",
+		carob_date="2023-11-29",
+		data_type="Experiment"
    )
    
-   
-   bn <- basename(ff)
-   
    ## process file(s)
-   r <- carobiner::read.excel(ff[bn=="Multilocational trials with 64 clones at 4 sites .xls"])
+   r <- carobiner::read.excel(ff[basename(ff)=="Multilocational trials with 64 clones at 4 sites .xls"])
    r$treatment<- r$`Geno Name`
    d<- r[,c("Year","Locality","treatment","RYTHa","Biomass","RVY")]
    colnames(d) <- c("planting_date","location","treatment","yield","dmy_total","dmy_leaves") 
@@ -40,7 +33,7 @@ carob_script <- function(path) {
    d$crop <- "sweetpotato" 
    d$row_spacing <- 90  # from #doi:10.1017/S002185961600099X
    d$plant_spacing <- 30    
-   d$dataset_id <- dataset_id
+   
    d$trial_id <- paste(d$location,d$treatment,sep = "_")
    d$yield_part <- "roots"
    d$on_farm <- TRUE
@@ -77,7 +70,7 @@ carob_script <- function(path) {
   d$planting_date<- paste(d$planting_date,"10",sep = "-")  
   d$harvest_date<- "2010-03" 
   
-   carobiner::write_files(dset, d, path=path)
+   carobiner::write_files(path, dset, d)
 }
 
 

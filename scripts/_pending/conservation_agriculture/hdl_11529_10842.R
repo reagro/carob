@@ -12,13 +12,11 @@ carob_script <- function(path) {
 "
 
 	uri <- "hdl:11529/10842"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project=NA,
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)

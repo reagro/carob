@@ -7,13 +7,11 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10548473"
 	group <- "conservation_agriculture"
 
-	dataset_id <- carobiner::simple_uri(uri)
 
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0) 
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0) ,
 		project=NA,
 		#data_citation="Verhulst, Nele; Ammar, Karim; Honsdorf, Nora; Govaerts, Bram; Crossa, Jose; Vargas, Mateo, 2020. Parallel selection of durum wheat in conventional and zero tillage. https://hdl.handle.net/11529/10548473, CIMMYT Research Data & Software Repository Network, V1, UNF:6:C+bZEedQtaH9ce54/PaaNA== [fileUNF]",
 		publication=NA,
@@ -36,7 +34,6 @@ carob_script <- function(path) {
 		planting_date = as.character(r$Year), 
 		rep = as.integer(r$Rep),
 		plant_height = as.numeric(r$PHT),
-		dataset_id = dataset_id,
 		irrigated = TRUE,
 		country = "Mexico",
 		adm1 = "Sonora",

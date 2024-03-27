@@ -4,15 +4,14 @@ carob_script <- function(path) {
 
 "Description:B3C0 is the initial cycle of recombination of group B3- Population B. This population has been derived from population A. R genes have been eliminated from this group and horizontal resistance has been retained. Currently, these clones are being used on the variety selection in developing countries. This group of clones were planted in a randomized complete block design (RCBD) with 2 replicates at Comas, located at 2400 to 2788 masl in Junin situated in the Central mountain ranges in Peru. The trials were established at Comas due to the high disease pressure of late blight present in the area and used to screen selected potato genotypes for resistance to this disease."
 
+
 	uri <- "doi:10.21223/P3/TNNRYW"
 	group <- "lateblight"
 	
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=3),
 		project=NA,
 		publication= NA,
 		data_institutions = "CIP",
@@ -25,7 +24,7 @@ carob_script <- function(path) {
 	dates <- as.character(as.Date(c("2002-02-03", "2002-02-13", "2002-02-21", "2002-02-28", "2002-03-07")))
 
 	proc_lb <- carobiner::get_function("proc_breeding_trial", path, group)
-	p <- proc_lb(f, dates, dataset_id)
+	p <- proc_lb(f, dates)
 	d <- p$d
 
 ##### Location #####

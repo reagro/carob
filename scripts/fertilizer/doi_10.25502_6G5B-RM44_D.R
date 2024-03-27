@@ -9,15 +9,13 @@ carob_script <- function(path){
   "
   
 uri <- "doi:10.25502/6G5B-RM44/D"
-dataset_id <- carobiner::simple_uri(uri)
 group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 ## dataset level data
 
 dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 	project="N2Africa",
 	publication= NA,
 	data_institutions = "IITA",
@@ -124,7 +122,6 @@ dset <- data.frame(
 	d4 <- Reduce(function(...) merge(..., all=T), list(d,d1,d2))
 	names(d4)[1] <- "trial_id"
 	d4$on_farm <- TRUE
-	d4$dataset_id <- dataset_id
 	d4 <- d4[complete.cases(d4$yield), ]
 
 	# Fertilizer rates: TSP and DAP will be applied using a uniform rate of 30 kg P per hectare; KCl at 30 kg K/ha 
@@ -140,7 +137,7 @@ dset <- data.frame(
 
 	d4$K_fertilizer <- ifelse(grepl("KCl", d4$fertilizer_type), 30, 0)
 	d4$N_splits <- ifelse(grepl("urea",d4$fertilizer_type), 2L, 0L)
-	d4 <- d4[, c("dataset_id","trial_id","country","location","latitude", "longitude", "elevation","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","plant_density","grain_weight","dmy_roots","dmy_total", "residue_yield","yield","fertilizer_type","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH", "soil_K", "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm")]
+	d4 <- d4[, c("trial_id","country","location","latitude", "longitude", "elevation","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","plant_density","grain_weight","dmy_roots","dmy_total", "residue_yield","yield","fertilizer_type","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH", "soil_K", "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm")]
 
 	d4$yield_part <- "seed"
 

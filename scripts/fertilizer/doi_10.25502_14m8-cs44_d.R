@@ -10,14 +10,12 @@ improving household nutrition and increasing income levels of smallholder farmer
 carob_script <- function(path) {
   
   uri <- "doi:10.25502/14m8-cs44/d"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   
   ## data set level data
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 	project="N2Africa",
     publication=NA,
     data_institutions = "IITA",
@@ -28,7 +26,7 @@ carob_script <- function(path) {
   
  
   
-	d <- data.frame(dataset_id = character(0), rep = integer(0), season = character(0), 
+	d <- data.frame(rep = integer(0), season = character(0), 
     country = character(0), site = character(0), treatment = character(0), 
     longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
     harvest_date = character(0), trial_id = character(0), crop = character(0), 
@@ -159,11 +157,10 @@ carob_script <- function(path) {
   # ##z$longitude <- 34.30153
   # ##z$latitude <- -13.25431
 
-  # z$dataset_id <- dataset_id
   # z$country <- "Malawi"
   # z$crop[is.na(z$crop)] <- "common bean" # filled NAs in crops with common bean
   
-  # z <- z[,c("dataset_id","trial_id","season","country","adm1","adm2","adm3","latitude","longitude","elevation","crop","variety",
+  # z <- z[,c("trial_id","season","country","adm1","adm2","adm3","latitude","longitude","elevation","crop","variety",
             # "planting_date","inoculated","OM_used","OM_type","OM_amount","fertilizer_type",
             # "N_fertilizer","P_fertilizer","K_fertilizer","yield","row_spacing","plant_spacing",
             # "on_farm","is_survey")]

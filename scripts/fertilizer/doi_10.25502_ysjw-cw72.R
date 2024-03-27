@@ -12,13 +12,11 @@ carob_script <- function(path) {
 "
   
   uri <- "doi:10.25502/ysjw-cw72"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   ## dataset level data 
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     publication= NA, 
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
@@ -86,7 +84,7 @@ carob_script <- function(path) {
   d <- d[,c("trial_id", "country","season","adm2","adm3", "crop","variety","yield","inoculated","OM_amount","fertilizer_type","fertilizer_amount","row_spacing","plant_spacing","planting_date")]
   
   # Add columns
-  d$dataset_id <- dataset_id
+  
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$irrigated <- FALSE

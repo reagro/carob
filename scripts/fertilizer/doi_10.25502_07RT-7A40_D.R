@@ -10,14 +10,12 @@ carob_script <- function(path) {
     
 ####
 	uri <- "doi:10.25502/07RT-7A40/d"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	## dataset level data. Internal annotation for CAROB 
 	dset <- data.frame(
 		data_institutions = "IITA",
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication=NA,
 		carob_contributor="Henry Juarez",
 		carob_date="2022-03-24",
@@ -35,9 +33,9 @@ carob_script <- function(path) {
 	colnames(e) <- c("site", "variety")
 	
 	# process file(s)
-	e$dataset_id <- dataset_id
+	
 	e$country <- "Nigeria"
-	e$trial_id <- "1" #paste0(dataset_id, "-", d$ID) ###
+	e$trial_id <- "1" 
 		 
 	e$latitude <- 10.26858
 	e$longitude <- 7.78896

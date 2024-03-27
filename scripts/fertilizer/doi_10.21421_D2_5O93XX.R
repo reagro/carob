@@ -8,13 +8,11 @@ Phosphorus was applied at rate of 0 or 20 kg P ha-1. P fertilizer application in
 	uri <- "doi:10.21421/D2/5O93XX"
 	group <- "fertilizer"
 
-	dataset_id <- carobiner::simple_uri(uri)
 
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication = "doi:10.12692/ijb/9.1.291-302",
 		carob_contributor = "Effie Ochieng'",
 		carob_date = "2021-07-06",
@@ -28,7 +26,6 @@ Phosphorus was applied at rate of 0 or 20 kg P ha-1. P fertilizer application in
 	r <- data.frame(readxl::read_excel(f))
 	
 	d <- data.frame(
-		dataset_id = dataset_id,
 		country = "Nigeria",
 		adm1 = "Kano",
 		adm2 = "Wudil",

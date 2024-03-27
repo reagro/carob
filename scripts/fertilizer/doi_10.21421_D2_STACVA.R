@@ -9,13 +9,11 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   ## Process 
  
 	uri <- "doi:10.21421/D2/STACVA"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=1, group)
   
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, major=1, minor=1, group),
 		publication=NA,
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
@@ -40,7 +38,6 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	e$planting_date <- as.character(e$planting_date)
 	e$country <-  "Nigeria"
 	e$crop <- "groundnut"
-	e$dataset_id <- dataset_id
 	e$trial_id <- paste0("gnut_fert_phosph_", e$location)
 	e$adm1 <- 'Kano'
 	e$site <- "Wudil"
@@ -51,7 +48,6 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	e$P_fertilizer[e$treatment=='F1'] <- 0
 	e$P_fertilizer[e$treatment=='F2'] <- 20
 	#names(e)
-	##e <- e[c("dataset_id","country", "adm1", 'location', "trial_id", "planting_date","on_farm", "is_survey", "rep", "crop", "variety_type","yield", "residue_yield")]  
 	
 	 #RH: SM please check 
 	e$plant_density <- 2 * c(44444, 66667, 133333)[e$plant_density/10]

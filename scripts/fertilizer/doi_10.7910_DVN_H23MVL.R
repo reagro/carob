@@ -6,23 +6,16 @@
 
 carob_script <- function(path) {
   
-  "
-Data sets included in the database evaluated Site-Specific Nutrient Management (SSNM) and Farmers’ 
-Fertilizer Practice (FFP) on maize, rice and wheat in Africa and Asia. Information captured includes,
-with countries, cropping systems, crop type, seasons, climatic conditions, number of replications, 
-number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer rates, grain yield, agronomic efficiency of N (AEN), partial factor of productivity N (PFP N), total fertilizer cost (TFC), gross return, and gross return above fertilizer cost (GRF).
-(2020-10-27)
-   
+"Data sets included in the database evaluated Site-Specific Nutrient Management (SSNM) and Farmers’  Fertilizer Practice (FFP) on maize, rice and wheat in Africa and Asia. Information captured includes, with countries, cropping systems, crop type, seasons, climatic conditions, number of replications, number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer rates, grain yield, agronomic efficiency of N (AEN), partial factor of productivity N (PFP N), total fertilizer cost (TFC), gross return, and gross return above fertilizer cost (GRF).
+(2020-10-27)   
 "
   
 	uri <- "doi:10.7910/DVN/H23MVL"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication=NA,
 		data_institutions = "IRRI",
 		carob_contributor="Cedric Ngakou",
@@ -96,8 +89,7 @@ number of nitrogen (N) splits, N, phosphorus (P) and potassium (K) fertilizer ra
   # extract relevant columns 
   d <- d[c("reference","country","location","longitude","latitude","crop","previous_crop","variety","yield","land_prep_method", "N_fertilizer", "P_fertilizer","K_fertilizer","N_splits","planting_date","harvest_date","season","soil_pH",'soil_type',"soil_SOC")]
   # Add columns
-  d$dataset_id <- dataset_id
-  d$trial_id <- paste0(d$dataset_id,"_",d$country)
+  
   d$on_farm <- FALSE
   d$is_survey <- TRUE
   d$irrigated <- FALSE

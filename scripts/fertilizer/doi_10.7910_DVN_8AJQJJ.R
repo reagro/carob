@@ -13,13 +13,11 @@ carob_script <- function(path) {
 "
 
 	uri <- "doi:10.7910/DVN/8AJQJJ"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project=NA,
 		publication= "doi:10.1007/s13593-017-0431-0",
 		data_institutions = "CIAT",
@@ -51,7 +49,7 @@ carob_script <- function(path) {
 
 #	d <- data.frame("irrigated" = as.logical(ifelse(rr$`Watering Regime` == 'Irrigated', TRUE, FALSE)))
 	d <- data.frame("irrigated" = rr$`Watering Regime` == 'Irrigated')
-	d$dataset_id <- dataset_id
+	
 	# d$on_farm <- 
 	d$is_survey <- FALSE
 ## the treatment code	

@@ -3,13 +3,11 @@
 carob_script <- function(path) 
 
 	uri <- "hdl:11529/10548759"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
  
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
@@ -29,7 +27,7 @@ carob_script <- function(path)
 	d <- r[4:15, 1:8]
 
 
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$is_experiment <- TRUE
@@ -89,7 +87,7 @@ carob_script <- function(path)
 
 	d$yield_part <- NA
 	
-	d <- d[,c("dataset_id", "on_farm", "is_experiment", "treatment", "crop", "crop_rotation", "elevation", "longitude", "latitude", "crop", "crop_rotation", "P_fertilizer","K_fertilizer", "N_fertilizer", "fertlizer_type")]
+	d <- d[,c("on_farm", "is_experiment", "treatment", "crop", "crop_rotation", "elevation", "longitude", "latitude", "crop", "crop_rotation", "P_fertilizer","K_fertilizer", "N_fertilizer", "fertlizer_type")]
 	
 	carobiner::write_files(dset, d, path=path)
 }

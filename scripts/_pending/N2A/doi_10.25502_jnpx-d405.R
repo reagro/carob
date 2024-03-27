@@ -17,15 +17,13 @@ carob_script <- function(path){
   "
   
   uri <- "doi.org/10.25502/jnpx-d405"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   
   ## dataset level data
   
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=1, minor=0),
     project="N2Africa",
     publication= NA,
     data_institutions = "IITA",

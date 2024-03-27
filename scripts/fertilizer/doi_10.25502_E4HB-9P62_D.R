@@ -15,14 +15,12 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 carob_script <- function(path) {
   
 	uri <- "doi:10.25502/E4HB-9P62/D"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   
 	## data set level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="N2Africa",
 		publication=NA,
 		data_institutions = "IITA",
@@ -131,7 +129,6 @@ carob_script <- function(path) {
 	
 	# combining into 1 data set
 	w <- Reduce(function(...) merge(..., all=T), list(x,x1,x2))
-	w$dataset_id <- dataset_id
 	w$on_farm <- TRUE
 
 	## Long	and Lat based on Location using GPS Coordinates
@@ -185,7 +182,7 @@ carob_script <- function(path) {
 	w$planting_date <- as.character(w$planting_date)
 	w$residue_yield <- as.numeric(w$residue_yield)
  
-	w <- w[,c("dataset_id","trial_id","country","adm2","location","latitude", "longitude","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","grain_weight","dmy_total","residue_yield","yield","fertilizer_type", "N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH","soil_sand","soil_clay","soil_silt","soil_N", "soil_K","soil_SOC", "on_farm")]
+	w <- w[,c("trial_id","country","adm2","location","latitude", "longitude","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","grain_weight","dmy_total","residue_yield","yield","fertilizer_type", "N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH","soil_sand","soil_clay","soil_silt","soil_N", "soil_K","soil_SOC", "on_farm")]
 
 	w$yield_part <- "seed"
 	w$N_fertilizer[is.na(w$N_fertilizer)] <- 0

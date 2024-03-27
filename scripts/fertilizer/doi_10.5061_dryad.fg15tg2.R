@@ -12,13 +12,11 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 "
   
 	uri <- "doi:10.5061/dryad.fg15tg2"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project = "Optimization of Fertilizer Recommendations in Africa",
 		publication= "doi:10.2134/agronj2018.04.0268",
 		data_institutions = "University of Nebraska-Lincoln",
@@ -244,7 +242,6 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 	dd3 <- merge(dd2,d3, all = TRUE)
 	z <- merge(dd3,d4, all = TRUE)
 	
-	z$dataset_id <- dataset_id
 	z$on_farm <- TRUE
 	z$is_survey <- FALSE
 	z$irrigated <- FALSE

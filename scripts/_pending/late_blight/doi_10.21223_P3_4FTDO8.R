@@ -10,13 +10,11 @@ carob_script <- function(path) {
 "
    
    uri <-  "doi:10.21223/P3/4FTDO8"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "lateblight"
    ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
    ## dataset level data 
    dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+   	carobiner::read_metadata(uri, path, group, major=1, minor=3),
       publication= NA,# 
       https://doi.org/10.21223/P3/4FTDO8, International Potato Center, V1",
       data_institutions = "CIP",
@@ -59,7 +57,7 @@ carob_script <- function(path) {
    d$crop <- "potato"
    d$pathogen <- "Phytophthora infestans"
    ## add columns
-   d$dataset_id <- dataset_id
+   
    d$country <- "Peru"
    d$adm1 <- "Junin"
    d$adm2 <- "concepcion"

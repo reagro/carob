@@ -13,13 +13,11 @@ Final dataset from agronomic experiment in Gumara Maksegnit (2016), as elaborate
 "
    
    uri <- "hdl:20.500.11766.1/FK2/LYKEFM"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
    ## dataset level data 
    dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=0),
       project=NA, 
       publication= NA, 
       data_institutions = "ICARDA", 
@@ -63,7 +61,7 @@ Final dataset from agronomic experiment in Gumara Maksegnit (2016), as elaborate
     d$Treatment1 <- d$year <- NULL
     #add columns
 	d$crop <- "wheat"
-	d$dataset_id <- dataset_id
+	
 	d$country <- "Ethiopia"
 	d$location <- "Gumara Maksegnit"
 	d$on_farm <- TRUE

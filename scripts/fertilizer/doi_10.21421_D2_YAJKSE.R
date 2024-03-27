@@ -9,13 +9,11 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   ## Process 
  
   uri <- "doi:10.21421/D2/YAJKSE"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
   
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, major=1, minor=0, group),
 		publication="doi:10.12692_ijb_9.1.291-302",
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
@@ -40,7 +38,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	e$planting_date <- as.character(e$planting_date)
 	e$country <-  "Nigeria"
 	e$crop <- "groundnut"
-	e$dataset_id <- dataset_id
+	
 	e$trial_id <- paste0("gnut_dens_phosph_", e$location)
 	e$adm1 <- "Kano"
 	e$site <- "Minjibir"

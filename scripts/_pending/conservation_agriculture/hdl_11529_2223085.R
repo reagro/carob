@@ -13,13 +13,11 @@ carob_script <- function(path) {
 	"
 	
 	uri <- "hdl:11529/2223085"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
 	ff	<- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=2)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=3, minor=2),
 		project=NA,
 		publication= NA,
 		data_institutions = "CIMMYT",
@@ -115,7 +113,7 @@ carob_script <- function(path) {
 #	d1 <- merge(d1,geocodes1,by=c("country","site"))
 	
 	d <- carobiner::bindr(d2, d2) 
-	d$dataset_id <- dataset_id
+	
 	d$crop <- "maize"
 	d$yield_part <- "grain"
 	d$is_survey <- FALSE

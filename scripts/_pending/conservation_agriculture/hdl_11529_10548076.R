@@ -16,13 +16,11 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
   "
   
   uri <- "hdl:11529/10548076"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
   ff	<- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
   ## dataset level data 
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=2, minor=2),
     project="Rabi (winter) crops-all nodes-Long term trial (LT)-Rangpur-Bangladesh",
     publication= NA,
     data_institutions = "CIMMYT",

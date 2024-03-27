@@ -10,13 +10,11 @@ This dataset is a result of a household survey of farmers who engaged with the A
 "
 
 	uri <- "doi:10.7910/DVN/TZKTCK"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "survey"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=3)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=3),
 		project="AfricaRising",
 		publication= NA,
 		data_institutions = "ILRI",

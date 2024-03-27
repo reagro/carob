@@ -9,15 +9,13 @@ improving household nutrition and increasing income levels of smallholder farmer
 " 
 
 	uri <- "doi:10.25502/X2H1-AT51/D"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   
   ## dataset level data 
   
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="N2Africa",
 		publication= "doi:10.1080/23311932.2020.1722353",
 		data_institutions = "IITA",
@@ -144,8 +142,6 @@ improving household nutrition and increasing income levels of smallholder farmer
 	d7 <- merge(d6,d4,by = "trial_id",all.x = TRUE)
 	f <- merge(d,d7,by = "trial_id",all.x = TRUE)
 	
-	f$dataset_id <- dataset_id
- 
 	# Fertilizer rates: DAP will be applied using a rate of 25 kg DAP per hectare; DAP has 18:46:0 composition
 	# calculating amount of P in DAP applied assuming that any +P input refers to DAP application; 
 	
@@ -169,7 +165,7 @@ improving household nutrition and increasing income levels of smallholder farmer
 	f$on_farm <- TRUE
 	f$yield_part <- "seed"
 	
-	f <- f[,c("dataset_id","trial_id","country","adm3","location","site","planting_date","harvest_date",
+	f <- f[,c("trial_id","country","adm3","location","site","planting_date","harvest_date",
 			"rep","treatment","crop","variety","previous_crop","yield","residue_yield","dmy_total",
 			"grain_weight","plant_density","soil_pH","soil_SOC","soil_N","soil_sand","soil_clay","rain",
 			"fertilizer_type","P_fertilizer","N_fertilizer","K_fertilizer","inoculated","row_spacing",

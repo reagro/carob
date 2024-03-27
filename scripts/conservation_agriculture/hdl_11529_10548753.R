@@ -11,12 +11,10 @@ Lower GWP under CSAPs resulted in 36–44% lower emission intensity (383 kg CO2 
 "
 
 	uri <- "hdl:11529/10548753"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
 		publication= NA,
 		data_institutions = "CIMMYT",
@@ -66,7 +64,7 @@ Lower GWP under CSAPs resulted in 36–44% lower emission intensity (383 kg CO2 
 	d$site <- "Karnal"
 	d$longitude <- 76.990547
 	d$latitude <- 29.685629
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- TRUE

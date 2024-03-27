@@ -14,13 +14,11 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 "
   
   uri <- "doi:10.25502/s0ra-cz37"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
   ## dataset level data 
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     publication= NA, 
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
@@ -95,7 +93,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   # #merge d and d4
   # d <- merge(d,d4,by="trial_id",all.x = T)
   # Add columns
-  d$dataset_id <- dataset_id
+  
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$irrigated <- FALSE

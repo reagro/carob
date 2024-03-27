@@ -15,13 +15,11 @@ carob_script <- function(path) {
 "
   
 	uri <- "doi:10.25502/20180814/1154/HJ"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		publication=NA,#  10.1016/j.agee.2016.05.012
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
@@ -76,8 +74,8 @@ carob_script <- function(path) {
 	#Add columns 
 	d$OM_type <- NA
 	d$OM_used <- FALSE
-	d$dataset_id <- dataset_id
-	d$trial_id <- paste0(d$dataset_id,"-",d$location)
+	
+	d$trial_id <- as.character(as.integer(as.factor(d$location)))
 	d$OM_type[grepl("+MN",d$treatment)] <- "farmyard manure"
 	d$OM_used[grepl("farmyard manure",d$OM_type)] <- TRUE
 	# previous crop name normalization 

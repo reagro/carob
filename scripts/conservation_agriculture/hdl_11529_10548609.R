@@ -13,13 +13,11 @@ carob_script <- function(path) {
 "
 	uri <- "hdl:11529/10548609"
 	group <- "conservation_agriculture"
-	dataset_id <- carobiner::simple_uri(uri)
 
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		#data_citation="Verhulst, Nele; Saldivia Tejeda, Abel; Guan, Taiyu; Fonteyne, Simon, 2021, Yield of maize, wheat and barley planted on wide and narrow permanent beds, under irrigated and rainfed conditions in Mexico, https://hdl.handle.net/11529/10548609, CIMMYT Research Data & Software Repository Network, V1, UNF:6:bMwiJ4W0pL9LG8olmN3meA== [fileUNF]",
 		data_institutions = "CIMMYT",
 		publication=NA,
@@ -45,7 +43,7 @@ carob_script <- function(path) {
 		irrigated = r$Water_Regime
 	)
 	
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$irrigated <- TRUE

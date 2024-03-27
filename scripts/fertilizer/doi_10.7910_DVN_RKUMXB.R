@@ -23,14 +23,12 @@ K. Habtegebrial & B. R. Singh (2009) Response of Wheat Cultivars to Nitrogen and
 "
 
 	uri <- "doi:10.7910/DVN/RKUMXB"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
 	
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=2),
 	   publication=NA,
 	   carob_contributor="Camila Bonilla",
 	   carob_date="2021-06-01",
@@ -60,7 +58,7 @@ K. Habtegebrial & B. R. Singh (2009) Response of Wheat Cultivars to Nitrogen and
 
 ## add some columns
 	d$country <- "Ethiopia"
-	d$dataset_id <- dataset_id
+	
 	
 	d$on_farm <- FALSE	
 	i <- d$trial_type == "Farmer managed"

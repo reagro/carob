@@ -7,14 +7,12 @@ carob_script <- function(path) {
   Performance trials (N=52) in two zones (West Shewa and Jimma) in Ethiopia. Trials comprise four nutrient management treatments, namely control withzero fertilizer ; and three fertilizer recommendations to achieve the same  target yield based on regional fertilizer recommendation, a Nutrient Expert      (IPNI software) based recommendation and a soil-test NE based recommendation. Trials were conducted on-farm with four plots per farm. Observations  include biomass and grain yields, as well as pre-sowing pH, nitrogen and phosphorus levels. Some N & K data are missing."
 
 	uri <- "hdl:11529/11012"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="TAMASA",
 		#data_citation="T Balemi; M Kebede; T Abera; G Hailu; J Rurinda; G Gurumu, 2017, TAMASA Ethiopia. Performance trial dataset for validating maize nutrient management recommendations, 2016 season., https://hdl.handle.net/11529/11012, CIMMYT Research Data & Software Repository Network, V2",
 		publication=NA,
@@ -43,7 +41,7 @@ carob_script <- function(path) {
 	colnames(dt) <- c("location", "soil_P_available", "treatment", "N_fertilizer", "P_fertilizer", "K_fertilizer")
 	dt$location <- carobiner::fix_name(dt$location, case = "title")
   
-	d <- data.frame(dataset_id = dataset_id, trial_id = as.character(rep(1:(nrow(r)/4), each = 4)),
+	d <- data.frame( trial_id = as.character(rep(1:(nrow(r)/4), each = 4)),
 	                country = "Ethiopia", adm1 = r$Region, adm2 = r$Zone, adm3 = r$Districts,
 	                location = r$Location, elevation = r$Altitude, 
 	                treatment = r$Treatments,
@@ -108,7 +106,7 @@ carob_script <- function(path) {
 	
 	d$planting_date <- "2016-05-01"
 	
-	d <- d[,c("dataset_id", "trial_id", "country", "adm1", "adm2", "adm3", "location", "longitude", "latitude", "elevation",
+	d <- d[,c("trial_id", "country", "adm1", "adm2", "adm3", "location", "longitude", "latitude", "elevation",
 	          "crop", "variety", "treatment", "planting_date", "N_fertilizer", "P_fertilizer", "K_fertilizer",
 	          "yield", "yield_part", "dmy_total", "soil_pH", "soil_N", "soil_P_available")]
 	

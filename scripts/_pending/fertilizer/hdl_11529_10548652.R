@@ -9,14 +9,12 @@ carob_script <- function(path) {
 "This experiments were established with different rates of nitrogen in order to generate a wide range of values for NDVI and grain yield in order to develop a calibration model for the GreenSeeker in Yaqui Valley. (2022-03-28)"
 
 	uri <- "hdl:11529/10548652"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=0)
 	
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=4, minor=0),
 		project=NA,
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
@@ -48,7 +46,7 @@ carob_script <- function(path) {
 	"Z250 .xlsx", sheet = "Data 250 P1", 
 	"Z250 .xlsx", sheet = "Data 250 P2") 
 
-	d$dataset_id <- dataset_id
+	
 	
 	
 	d$on_farm <- FALSE

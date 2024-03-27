@@ -9,14 +9,12 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 "
 
 	uri <- "doi:10.5061/dryad.q8p95mg"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
   ## data set level data0
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication= "doi:10.1007/s10705-018-9915-9",
 		project="Optimizing Fertilizer Use in Africa",
 		data_institutions = "University of Nebraska - Lincoln",
@@ -138,7 +136,6 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	z <- rbind(d1, d2, d3, d4)
 	z$rep <- as.integer(z$rep)
 	z$crop <- "common bean"
-	z$dataset_id <- dataset_id
 	z$inoculated <- FALSE
 	z$yield_part <- "grain"
 	z$irrigated <- FALSE
@@ -198,7 +195,6 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 # 	purl <- "https://xxxx"
 # 	path <- "c:/"
 # 	did <- "doi_10.5061_dryad.q8p95mg"
-#		carobiner::extract_metadata(js, uri, group),
 # 
 # 	extract_from_pdf <- function(f, pages) {
 # 		p <- package_name::extract_areas(f, pages = pages)

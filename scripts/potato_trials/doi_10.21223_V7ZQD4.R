@@ -9,13 +9,11 @@ carob_script <- function(path) {
 	
 "
    uri <- "doi:10.21223/V7ZQD4"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "potato_trials"
    ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
    ## dataset level data 
    dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+   	carobiner::read_metadata(uri, path, group, major=1, minor=1),
       publication= NA,
       data_institutions = "CIP",
       carob_contributor="Cedric Ngakou",
@@ -42,7 +40,7 @@ carob_script <- function(path) {
    d$harvest<- 120
    d$plant_density <- as.numeric(n$`Planting_density_(plants/Ha)`)  
    ## add columns
-   d$dataset_id <- dataset_id
+   
    d$country <- "Peru"
    d$location<- "Lastly-Huancayo" # get from metadata
    d$trial_id <- paste(d$location, d$variety, sep = "_")

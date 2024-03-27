@@ -11,13 +11,11 @@ carob_script <- function(path) {
 "
   
 	uri <- "doi:10.5061/dryad.j3tx95xhc"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff	 <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
-	js <- carobiner::get_metadata(dataset_id, path, group)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group),
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= "doi:10.1016/j.fcr.2022.108578",
@@ -82,8 +80,6 @@ carob_script <- function(path) {
 	x$yield <- d$CPY * 1000 
 	x$yield_part <- "grain"
 	
-	x$dataset_id <- dataset_id
-
 	i <- which(is.na(x$reference) & x$adm1 == "Veracruz")
 	x$longitude[i] <- -x$longitude[i]
 

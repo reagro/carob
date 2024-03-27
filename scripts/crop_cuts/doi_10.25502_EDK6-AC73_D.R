@@ -12,13 +12,11 @@ carob_script <- function(path) {
 Herein we assessed the productivity and usage of biomass waste from: maize, sorghum, rice, millet and groundnut crops; specifically quantifying straw, shanks, chaff and shells, based on measurements from multiple farmer fields and census/surveys in eastern Uganda"
 
    uri <- "doi:10.25502/EDK6-AC73/D"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "crop_cuts"
    ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
    ## dataset level data 
    dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+   	carobiner::read_metadata(uri, path, group, major=2, minor=0),
       project=NA, 
       publication= NA, 
       data_institutions = "IITA", 
@@ -27,11 +25,7 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
       data_type="survey"
    )
    
-   
-   bn <- basename(ff)
-   ## process file(s)
-   
-   r <- read.csv(ff[bn=="Millet_biomass_sampling.csv"])
+   r <- read.csv(ff[basename(ff)=="Millet_biomass_sampling.csv"])
    d<- r[,c("Season","Quadrant_ID","Density_plant_m_2","Yield_grain_dry_ton_ha_1","Yield_straw_dry_ton_ha_1")]
    colnames(d)<- c("season","trial_id","plant_density","yield","dmy_residue")
    
@@ -45,7 +39,7 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
    ## the data says "millet". Given that this is in Uganda, 
    ## presumably this refers to finger millet 
    d$crop<- "finger millet"
-   d$dataset_id <- dataset_id
+   
    d$country <- "Uganda"
    ##CN :I used the reverse function on GPS coordinate to obtain the location knowing long and lat coordinate.
    d$location<- "Nakasongola"
@@ -55,8 +49,8 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
    d$inoculated <- FALSE
    d$yield_part <- "grain" 
    ## add long and lat
-   d$longitude <- as.numeric(js$result$coverage_y)
-   d$latitude <- as.numeric(js$result$coverage_x)
+#   d$longitude <- as.numeric(js$result$coverage_y)
+#   d$latitude <- as.numeric(js$result$coverage_x)
    
    d$planting_date <- c("2016-02", "2017-02")[d$season]
    d$harvest_date <- c("2016-06", "2017-06")[d$season]	

@@ -11,15 +11,13 @@ carob_script <- function(path) {
   uri <- "hdl:11529/10567"
   group <- "maize_trials"
   
-  dataset_id <- carobiner::simple_uri(uri)
   
   #### Download data 
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
   
   ##### dataset level metadata 
   dset <- data.frame(
-    carobiner::extract_metadata(js, uri, group=group),
+  	carobiner::read_metadata(uri, path, group, major=1, minor=0),
     #data_citation="Global Maize Program, 2019, International Late Both Hybrid Trial - ILBH0651, https://hdl.handle.net/11529/10567, CIMMYT Research Data & Software Repository Network, V1",
     data_institutions = "CIMMYT",
     publication= NA,
@@ -52,15 +50,13 @@ carob_script <- function(path) {
     d$planting_date <- "2006-05-02"
     d$harvest_date  <- "2006-12-05"
     
-    d$dataset_id = dataset_id
     d$on_farm = TRUE
     d$striga_trial = FALSE
     d$striga_infected = FALSE
     d$borer_trial = FALSE
-    d$trial_id <- paste0(d$dataset_id,"_",r$Entry)
-      
-  
-  carobiner::write_files(dset, d, path=path)
+    d$trial_id <- "1"
+		
+	carobiner::write_files(dset, d, path=path)
 }
 
 

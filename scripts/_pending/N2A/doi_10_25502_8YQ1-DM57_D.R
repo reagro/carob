@@ -22,12 +22,10 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	uri <- "doi:10.25502/8YQ1-DM57/D"
 	group <- "fertilizer"
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, major=1, minor=0, group),
 		#data_citation="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., 
 		Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai,
 		N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & 
@@ -68,7 +66,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	#r9 <- read.csv(f9)
 	r10 <- read.csv(f10)
 	
-	d <- data.frame(dataset_id = dataset_id, trial_id = r4$farm_id, plot_id = r4$plot_no, adm1 = "Central Region")
+	d <- data.frame( trial_id = r4$farm_id, plot_id = r4$plot_no, adm1 = "Central Region")
 	d <- merge(d, r0[,c("farm_id", "country", "district", "vilage")], by.x = "trial_id", by.y = "farm_id")
 	d$adm2 <- paste0(carobiner::fix_name(tolower(d$district), case = "title"), " District")
 	d$site <- carobiner::fix_name(tolower(d$vilage), case = "title")

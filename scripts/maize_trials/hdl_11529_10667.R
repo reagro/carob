@@ -7,11 +7,9 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10667"
 	group <- "maize_trials"
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project=NA,
 		publication= NA,
 		data_institutions = "CIMMYT,GMP,CGIAR",
@@ -138,7 +136,6 @@ carob_script <- function(path) {
 ##  dd <- merge(d1, d2, all = TRUE)
 ##  dd <- merge(dd, d3, all = TRUE)
    
-	d$dataset_id = dataset_id
 	carobiner::write_files(dset, d, path=path)
 }
 

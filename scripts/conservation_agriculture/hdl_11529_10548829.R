@@ -34,13 +34,11 @@ carob_script <- function(path) {
 "
 
 	uri <- "hdl:11529/10548829"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project= NA,
 		publication= "doi.org/10.1016/j.fcr.2022.108724",
 		data_institutions = "CIMMYT",
@@ -86,7 +84,6 @@ carob_script <- function(path) {
 	g <- gsub("NT", "no_tillage", g)
 	r$treatment <- g
 	r$yield_part <- "grain"
-	r$dataset_id <- dataset_id
 	r$trial_id <- paste(seq(1:nrow(r)),r$treatment)
 	r$on_farm <- TRUE
 	
@@ -116,7 +113,7 @@ carob_script <- function(path) {
 	r$K_fertilizer <- 9.6
   
 	
-	d <- r[,c("trial_id","country","adm1","adm2","latitude","longitude","treatment","crop","dmy_total", "yield","yield_part","planting_date","dataset_id","on_farm","soil_clay","soil_sand","soil_silt","soil_SOC","row_spacing","plant_spacing","N_fertilizer","P_fertilizer","K_fertilizer")] 
+	d <- r[,c("trial_id", "country","adm1","adm2","latitude","longitude","treatment","crop","dmy_total", "yield","yield_part","planting_date", "on_farm", "soil_clay","soil_sand","soil_silt","soil_SOC","row_spacing","plant_spacing","N_fertilizer","P_fertilizer","K_fertilizer")] 
 	
 
   	carobiner::write_files(dset, d, path=path)

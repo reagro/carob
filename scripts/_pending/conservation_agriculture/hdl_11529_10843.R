@@ -14,13 +14,11 @@ carob_script <- function(path) {
   "
   
   uri <- "hdl:11529/10843"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
   ## dataset level data 
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=2, minor=2),
     project=NA,
     publication= NA,
     data_institutions = "CIMMYT",
@@ -42,7 +40,7 @@ carob_script <- function(path) {
   # selecting columns of interest which match the carob standard format
   d <- d[,c("Harvest year","Country","Location","Crop","Rep","Grainy ield","Trial name","Label")]
   
-  d$dataset_id <- dataset_id
+  
   d$on_farm <- FALSE
   d$is_survey <- FALSE
   d$is_experiment <- TRUE

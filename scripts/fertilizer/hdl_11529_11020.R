@@ -11,13 +11,11 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 "
 
 	uri <- "hdl:11529/11020"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 	   publication=NA,
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
@@ -117,7 +115,7 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 #	          "yield", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "OM_type", "OM_amount", "soil_type", "soil_pH", "soil_SOC",
 #	          "soil_N", "soil_K", "soil_P_total")]
 	
-	d$dataset_id <- dataset_id
+	
 	d$yield_part <- "grain"
 	d$crop_cut <- TRUE
 	

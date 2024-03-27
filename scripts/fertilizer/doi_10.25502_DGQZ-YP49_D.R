@@ -5,13 +5,11 @@ carob_script <- function(path){
 "N2Africa was aimed at increasing biological nitrogen fixation and productivity of grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings which was aimed at increasing soil fertility.The trails were conducted in 11 african countries"
   
 	uri <- "doi:10.25502/DGQZ-YP49/D"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri,path,group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
 	
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major = 1, minor = 0),
 		project = "N2Africa",
 		publication = NA,
 		carob_contributor = "Effie Ochieng'",
@@ -109,7 +107,6 @@ carob_script <- function(path){
 	s <- merge(d, d1, by = "trial_id")
 	q <- merge(s, d2, by = "trial_id")
 	
-	q$dataset_id <- dataset_id
 	q$yield_part <- "seed"
 	
 	q$latitude[q$location == "Migori"] <- -1.0

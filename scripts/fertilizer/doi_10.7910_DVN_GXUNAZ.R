@@ -15,14 +15,12 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
   "
   
 	uri <- "doi:10.7910/DVN/GXUNAZ"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
   
   # The metadata at the dataset level
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=2),
 		project=NA,
 		publication= NA,
 		data_institutions = "CIAT",
@@ -188,7 +186,7 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 	
 	d <- d[!is.na(d$N_fertilizer),  ]
 	
-	d$dataset_id <- dataset_id
+	
 	d$planting_date <- as.character(NA)
 	d$on_farm <- TRUE
 	d$yield_part <- "grain"

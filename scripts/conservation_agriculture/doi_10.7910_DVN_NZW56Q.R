@@ -16,13 +16,11 @@ carob_script <- function(path) {
 "
   
   uri <- "doi:10.7910/DVN/NZW56Q"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
   ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
   ## dataset level data 
   dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+  	carobiner::read_metadata(uri, path, group, major=2, minor=0),
     project=NA,
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)
@@ -68,7 +66,7 @@ carob_script <- function(path) {
   d$variety[d$crop=="cowpea"] <- "Sudan"
   d$variety[d$crop=="pigeon pea"] <- "Mtawajuni"
   
-  d$dataset_id <- dataset_id
+  
   d$trial_id <- as.character(d$trial_id)
   d$on_farm <- TRUE
   d$is_survey <- FALSE
@@ -99,11 +97,7 @@ carob_script <- function(path) {
 
   d <- merge(d, geo, by=c("country", "adm2"), all.x=TRUE)  
 
-  
-#  d <- d[,c("dataset_id","on_farm","is_experiment","trial_id","country","location","adm1",
-#          "longitude","latitude","crop","variety","treatment","plant_density","planting_date",
-#          "harvest_date","fertlizer_type","residue_yield","yield","yield_part")]  
-    
+      
     carobiner::write_files(dset, d, path=path)
 }
 

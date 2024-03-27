@@ -12,12 +12,10 @@ carob_script <- function(path) {
 	uri <- "doi:10.7910/DVN/OF7M9D"
 	group <- "rice_trials"
 	
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project=NA,
 		publication=NA,
 		data_institutions="AfricaRice",
@@ -42,8 +40,8 @@ carob_script <- function(path) {
     d$country <- gsub("Cote d'Ivoire", "Côte d'Ivoire", d$country)
 	d$yield <- d$yield * 1000
 
-    d$dataset_id <- dataset_id
-    d$trial_id <- paste0(dataset_id, '-', dd$country)
+    
+    d$trial_id <- dd$country
     
 	## RH: these are not trial start and end dates 
 	#d$planting_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredStart[[4]]

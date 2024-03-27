@@ -15,13 +15,11 @@ carob_script <- function(path) {
 
 
 	uri <- "doi:10.18167/DVN1/DLTQWR"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
 	## dataset level data 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 	   project=NA,
 	   publication= "doi:10.1038_s43016-020-0114-x",
 	   data_institutions = "CIRAD",
@@ -51,8 +49,8 @@ carob_script <- function(path) {
 #### about the data #####
 
 	d <- data.frame("on_farm" = ifelse(rr$Study_type == "on-farm", TRUE, FALSE))
-	d$dataset_id <- dataset_id
-	d$trial_id <- paste0(d$dataset_id, "_", rr$ref)
+	
+	d$trial_id <- paste0(rr$ref)
 ## the treatment code	
 	d$treatment <- paste0("N", ifelse(as.numeric(gsub(",", ".", rr$Applied_N)) > 0, paste0("N", floor(as.numeric(gsub(",", ".", rr$Applied_N)))), 0),
 	                      "P", ifelse(as.numeric(gsub(",", ".", rr$Applied_P)) > 0, paste0("P", floor(as.numeric(gsub(",", ".", rr$Applied_P)))), 0),

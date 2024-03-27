@@ -9,11 +9,9 @@ Drought is a key maize (Zea mays L.) production constraint in sub-Saharan Africa
 	uri <- "doi:10.25502/20181101/1228/BB"
 	group <- "maize_trials"
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA, 
 		publication= NA, 
 		carob_contributor="Cedric Ngakou", 
@@ -41,7 +39,7 @@ Drought is a key maize (Zea mays L.) production constraint in sub-Saharan Africa
 	r11$season <- r1$Study
 	
 	d	 <- rbind(rr, r11)
-	d$dataset_id <- dataset_id
+	
 	d$country <- "Nigeria"
 	# Fix country name base on location 
 	p <- carobiner::fix_name(gsub("/", "; ", d$location))
