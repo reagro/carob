@@ -1,0 +1,33 @@
+name,description,purpose
+unknown,,any
+conventional,,tillage
+deep,,tillage
+none,,any
+reduced,,tillage
+ridge,,tillage
+strip,,tillage
+surface ,,irrigation
+basin ,,irrigation
+border ,,irrigation
+continuous flooding,,irrigation
+furrow ,,irrigation
+uncontrolled flooding,,irrigation
+bubbler ,,irrigation
+drip ,,irrigation
+pitcher ,,irrigation
+subsurface drip ,,irrigation
+subsurface textile ,,irrigation
+sprinkler ,,irrigation
+center pivot sprinkler ,,irrigation
+sprinkler by lateral move,,irrigation
+sprinkler by side roll,,irrigation
+puddling,,puddling
+broadcasting,,seeding
+line sowing,,seeding
+dibbling,,seeding
+monocrop,,intercropping
+mixed,,intercropping
+relay,,intercropping
+row,,intercropping
+strip,,intercropping
+within-row ,,intercropping
