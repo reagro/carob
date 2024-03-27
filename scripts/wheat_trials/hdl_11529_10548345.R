@@ -6,25 +6,21 @@ carob_script <- function(path) {
 
 	uri <- "hdl:11529/10548345"
 	group <- "wheat_trials"
-	dataset_id <- carobiner::simple_uri(uri)
 
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=0)
 
 	dset <- data.frame(
-	  carobiner::extract_metadata(js, uri, group=group),
-	  #data_citation="Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019. 39th Elite Selection Wheat Yield Trial, https://hdl.handle.net/11529/10548345, CIMMYT Research Data & Software Repository Network, V4",
-	  data_institutions = "CIMMYT",
-	  publication=NA,
-	  project="Elite Selection Wheat Yield Trial",
-	  data_type= "experiment",
-	  carob_contributor= "Robert Hijmans",
-	  carob_date="2024-03-22"
+		carobiner::read_metadata(uri, path, group, major=4, minor=0),
+		data_institutions = "CIMMYT",
+		publication=NA,
+		project="Elite Selection Wheat Yield Trial",
+		data_type= "experiment",
+		carob_contributor= "Robert Hijmans",
+		carob_date="2024-03-22"
 	)
 	
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
-	d <- proc_wheat(ff, dataset_id)
-	d$previous_crop[d$previous_crop=="maize cerial"] <- "maize"
+	d <- proc_wheat(ff)
 	
 	carobiner::write_files(path, dset, d)
 }

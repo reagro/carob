@@ -7,13 +7,11 @@ carob_script <- function(path) {
 "
 
 	uri <- "hdl:11529/10548584"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_trials"
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=0)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=4, minor=0),
 		project="Elite Selection Wheat Yield Trial",
 		publication = NA,
 		data_institutions = "CIMMYT",
@@ -23,6 +21,6 @@ carob_script <- function(path) {
 	)
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
-	d <- proc_wheat(ff, dataset_id)
+	d <- proc_wheat(ff)
 	carobiner::write_files(path, dset, d)
 }

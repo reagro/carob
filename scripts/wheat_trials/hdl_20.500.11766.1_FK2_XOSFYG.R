@@ -5,18 +5,15 @@ carob_script <- function(path) {
 "The dataset contains the result of a series of experiments conducted in Morocco between 2014 and 2015, about land and water productivity.  The overall objective of this study is the sustainable increase of wheat yield in dry areas of WANA. The purpose is the development of options that improve the adaptation of wheat to high temperature and drought."
 
 	uri <- "hdl:20.500.11766.1/FK2/XOSFYG"
-	dataset_id <- carobiner::simple_uri(uri)
 
 	group <- "wheat_trials"
 
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=5, minor=0)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group=group),
+		carobiner::read_metadata(uri, path, group, major=5, minor=0),
 		project=NA,
 		publication="doi:20.500.11766/4516",
-		#data_citation = "Karrou, Mohammed; Daoui, Khalid; Razouk, Rachid; Boutfirass, Mohamed; Bahri, Abdeljabar, 2015. Experimental results on land and water productivity in rainfed areas in Morocco. https://hdl.handle.net/20.500.11766.1/FK2/XOSFYG",
 		data_institutions = "ICARDA",
 		carob_contributor="Samar Attaher",
 		carob_date="2023-03-15",
@@ -67,7 +64,7 @@ carob_script <- function(path) {
 	d$irrigation_amount[i] <- 275
 	d$irrigation_number[i] <- 5L
 
-	d$dataset_id <- dataset_id
+	
 	d$trial_id <- "1"
 
 	carobiner::write_files (path, dset, d) 

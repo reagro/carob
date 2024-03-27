@@ -8,12 +8,10 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/11089"
 	group <- "wheat_trials"
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=1)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=4, minor=1),
 		project="High Temperature Wheat Yield Trial",	   
 		publication=NA,
 		data_institutions = "CIMMYT",
@@ -35,7 +33,7 @@ carob_script <- function(path) {
 	}
 
 	dd <- do.call(carobiner::bindr, d)
-	dd$dataset_id <- dataset_id
+	d
 
 	dd$planting_date[dd$planting_date == "92-93"] <- "1992"
 	dd$planting_date[dd$planting_date == "99-00"] <- "1999"

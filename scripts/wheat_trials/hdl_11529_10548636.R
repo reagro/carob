@@ -8,16 +8,13 @@ carob_script <- function(path) {
   
 	uri <- "hdl:11529/10548636"
 	group <- "wheat_trials"
-	dataset_id <- carobiner::simple_uri(uri)
 
 	ff	<- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA,
-		#data_citation="Verhulst, Nele; Honsdorf, Nora; Mulvaney, Michael J.; Singh, Ravi; Ammar, Karim; Govaerts, Bram, 2021, Nine years of data on genotype by tillage interaction and performance progress for 14 bread and 13 durum wheat genotypes on irrigated raised beds in Mexico, https://hdl.handle.net/11529/10548636, CIMMYT Research Data & Software Repository Network, V2",
-		publication="doi.org/10.1016/j.fcr.2017.11.011" ,
+		publication="doi:10.1016/j.fcr.2017.11.011" ,
 		data_institutions = "CIMMYT",
 		data_type="experiment", 
 		carob_contributor="Mitchelle Njukuya",
@@ -75,7 +72,7 @@ carob_script <- function(path) {
 
 	d$yield_part <- "grain"
 	d$trial_id <- as.character(d$trial_id)
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- TRUE

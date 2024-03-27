@@ -7,15 +7,12 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10548209"
 	group <- "wheat_trials"
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		project="High Rainfall Wheat Yield Trial",
 		publication = "doi:10.1016/j.fcr.2020.107742",
-		#data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019. 17th High Rainfall Wheat Yield Trial. https://hdl.handle.net/11529/10548209, CIMMYT Research Data & Software Repository Network, V2",
 		data_institutions = "CIMMYT",
 		carob_contributor="Andrew Sila",
 		carob_date="2023-05-03",
@@ -23,7 +20,7 @@ carob_script <- function(path) {
 	)
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
-	d <- proc_wheat(ff, dataset_id)
+	d <- proc_wheat(ff)
 
 #Note:  ATHIENOY is in the UN buffer zone between Cyprus and N Cyprus. GADM needs to updated for that.
 	carobiner::write_files(path, dset, d)

@@ -8,11 +8,9 @@ carob_script <- function(path) {
 	group <- "wheat_trials"
 
 	ff <- carobiner::get_data(uri, path, group)
-	dataset_id <- carobiner::simple_uri(uri)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project=NA,
 		publication= NA,
 		data_institutions = "ILRI",
@@ -34,7 +32,7 @@ carob_script <- function(path) {
 	d3 <- data.frame(location=r3$Site, variety=r3$Wheat.Variety, dmy_residue=r3$Straw.yield..ton.ha. * 1000, yield=r3$Grain.yield..ton.ha. * 1000)
 
 	d <- rbind(d12, d3) 
-	d$dataset_id <- dataset_id
+	
 	d$crop <- "wheat"
 	d$planting_date <- "2016"
 	d$country <- "Ethiopia"

@@ -7,15 +7,12 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10548590"
 	group <- "wheat_trials"
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=0)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=4, minor=0),
 		project="International Bread Wheat Screening Nursery",	   
 		publication=NA,
-		#data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2021. 53rd International Bread Wheat Screening Nursery. https://hdl.handle.net/11529/10548590, CIMMYT Research Data & Software Repository Network, V4",
 		data_institutions = "CIMMYT",
 		carob_contributor="Robert Hijmans",
 		carob_date="2023-10-02",
@@ -23,7 +20,7 @@ carob_script <- function(path) {
  	)
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
-	d <- proc_wheat(ff, dataset_id)
+	d <- proc_wheat(ff)
 	carobiner::write_files(path, dset, d)
 }
 

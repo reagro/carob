@@ -7,15 +7,12 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10548314"
 	group <- "wheat_trials"
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=5, minor=0)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=5, minor=0),
 		project="High Temperature Wheat Yield Trial",
 		publication = NA,
-		#data_citation = "Global Wheat Program; IWIN Collaborators; Singh, Ravi; Payne, Thomas, 2019. 17th High Temperature Wheat Yield Trial. https://hdl.handle.net/11529/10548314, CIMMYT Research Data & Software Repository Network, V5",
 		data_institutions = "CIMMYT",
 		carob_contributor="Andrew Sila",
 		carob_date="2023-05-03",
@@ -24,7 +21,7 @@ carob_script <- function(path) {
 
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
-	d <- proc_wheat(ff, dataset_id)
+	d <- proc_wheat(ff)
 
 	d$harvest_date[which(d$harvest_date == "2049-06-12")] <- "2019-06-12"
 

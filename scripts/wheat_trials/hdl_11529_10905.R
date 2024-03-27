@@ -9,13 +9,11 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10905"
 	group <- "wheat_trials"
 
-	dataset_id <- carobiner::simple_uri(uri)
 
 	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=3, minor=0),
 		data_institutions = "CIMMYT",
 		publication= NA,
 		project="International Durum Screening Nursery",
@@ -36,7 +34,7 @@ carob_script <- function(path) {
 
 	dd <- do.call(carobiner::bindr, d)
 	
-	dd$dataset_id <- dataset_id
+	d
 	dd$crop <- "durum wheat"
 
 	dd$soil_pH[dd$soil_pH < 2 | dd$soil_pH > 10] <- NA
