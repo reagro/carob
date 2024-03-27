@@ -7,12 +7,10 @@ carob_script <- function(path) {
 	uri <- "doi:10.7910/DVN/8Y6Q7F"
 	group <- "wheat_trials"
 
-	dataset_id <- carobiner::simple_uri(uri)
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project=NA,
 		publication="doi:10.1038/s41467-020-18317-8",
 		data_institutions = "SARC",
@@ -31,7 +29,6 @@ carob_script <- function(path) {
 			yield = r$Yield*1000, rain=r$prec,
 			crop="wheat", yield_part="grain", country="South Africa")
 	
-	d$dataset_id <- dataset_id
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE

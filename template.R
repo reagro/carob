@@ -14,16 +14,13 @@ carob_script <- function(path) {
 	uri <- "doi:10xxx/yyy"
 	group <- "___"
 
-# the script filename should be paste0(dataset_id, ".R")
-	dataset_id <- carobiner::simple_uri(uri)
-
 #### Download data 
 	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
 
 ##### dataset level metadata 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		# change the major and minor versions if you see a warning
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institutions = "",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
@@ -52,7 +49,6 @@ carob_script <- function(path) {
 	
 #### about the data #####
 ## (TRUE/FALSE)
-	d$dataset_id <- dataset_id
 	d$on_farm <- 
 	d$is_survey <- 
 	d$irrigated <- 
