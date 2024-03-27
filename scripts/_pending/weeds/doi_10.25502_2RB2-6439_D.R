@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 ## RH the treatments and the temporal info need to be extracted
 
 carob_script <- function(path) {

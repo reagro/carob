@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 carob_script <- function(path) {
 
 "Description:

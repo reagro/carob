@@ -1,10 +1,4 @@
-
 # R script for "carob"
-
-## ISSUES
-# ....
-
-
 
 carob_script <- function(path) {
 
@@ -16,13 +10,13 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
    ff <- carobiner::get_data(uri, path, group)
    ## dataset level data 
    dset <- data.frame(
-   	carobiner::read_metadata(uri, path, group, major=2, minor=0),
-      project=NA, 
-      publication= NA, 
-      data_institutions = "IITA", 
-      carob_contributor="Cedric Ngakou", 
-      carob_date="2023-11-21", 
-      data_type="survey"
+		carobiner::read_metadata(uri, path, group, major=2, minor=0),
+		project=NA, 
+		publication= NA, 
+		data_institutions = "IITA", 
+		carob_contributor="Cedric Ngakou", 
+		carob_date="2023-11-21", 
+		data_type="survey"
    )
    
    r <- read.csv(ff[basename(ff)=="Millet_biomass_sampling.csv"])
@@ -54,7 +48,6 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
    
    d$planting_date <- c("2016-02", "2017-02")[d$season]
    d$harvest_date <- c("2016-06", "2017-06")[d$season]	
-   d$season <- c("Feb-June 2016", "Feb-June 2017")[d$season]
    
    carobiner::write_files(dset, d, path=path)
 }

@@ -4,7 +4,7 @@
 ## standardize variable names specific to this dataset
 
 
-intmztrial_striga <- function(ff, sf=NULL, id=NULL) {
+intmztrial_striga <- function(ff, sf=NULL) {
 
 	doit <- function(sf, striga=FALSE, borer=FALSE) {
 		d  <- read.csv(sf)
@@ -189,9 +189,6 @@ intmztrial_striga <- function(ff, sf=NULL, id=NULL) {
 	} else {
 		sf <- grep(sf, ff, ignore.case=TRUE, value=TRUE)
 		d <- doit(sf)
-	}
-	if (!is.null(id)) {
-		d$dataset_id = id
 	}
 	
 	d <- carobiner::change_names(d, c("pl_ht", "dy_sk", "dy_tass"), 

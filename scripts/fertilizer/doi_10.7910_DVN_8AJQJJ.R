@@ -1,9 +1,6 @@
 # R script for "carob"
 # test
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
