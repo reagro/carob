@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
 
   N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, 
   improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder
@@ -16,7 +16,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   uri <- "doi:10.25502/an1w-pt92"
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
-  ## dataset level data 
+ 
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     publication= NA, 

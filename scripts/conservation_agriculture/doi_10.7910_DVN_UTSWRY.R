@@ -8,7 +8,7 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
   This study contains data originated from on-farm trials that were conducted to test and demonstrate the crop yield and economic benefits derived from manual and animal traction conservation agriculture (CA) systems on smallholder farms where the ridge and furrow tillage system is the traditional practice. The farm trials were conducted at six farms in Chipata, Lundazi, and Sinda districts of the eastern province of Zambia. In each site, the trials were replicated four times and had two general treatment sets:1) manual CA; and 2) animal traction CA.
 
 The manual CA system trial consisted of three treatments and these treatments were compared with conventional ridge and furrow practice at each farmer's field. The four treatments including control were:
@@ -26,7 +26,7 @@ Animal traction (AT) ripline seeding with maize rotated with legumes"
   uri <- "doi:10.7910/DVN/UTSWRY"
   group <- "conservation_agriculture"
   ff <- carobiner::get_data(uri, path, group)
-  ## dataset level data 
+ 
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=1, minor=1),
     project=NA,

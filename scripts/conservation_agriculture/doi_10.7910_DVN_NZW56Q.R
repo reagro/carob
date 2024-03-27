@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
 
     [This dataset is a result of a study that was carried out in nine on-farm sites of Central and Southern Malawi to understand and compare the effects of different cropping systems (conservation agriculture (CA) and conventional) on soil physical and chemical parameters and long-term maize productivity. Six experiments were established in each target community. Each experiment had three treatments at one farm and was treated as a replicate, plot sizes were 0.1 ha per treatment. The treatments were as follows:
 1. Conventional control plot consisting of the traditional ridge and furrow land preparation planted with continuous monocrop maize (CPM). The residues were managed using methods commonly practiced in each extension planning area; i.e., the residues were incorporated into the ridges. Continuous monocrop maize was planted on the ridges.
@@ -15,7 +15,7 @@ carob_script <- function(path) {
   uri <- "doi:10.7910/DVN/NZW56Q"
   group <- "conservation_agriculture"
   ff <- carobiner::get_data(uri, path, group)
-  ## dataset level data 
+ 
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=0),
     project=NA,

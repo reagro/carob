@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
 
-"Description:
+"
 
 These are the raw data of the paper: 'Mulch application as the overarching factor explaining increase in soil organic carbon stocks under conservation agriculture in two 8-year-old experiments in Zimbabwe.' authored by Armwell Shumba, Regis Chikowo, Christian Thierfelder, Marc Corbeels, Johan Six, Rémi Cardinael and submitted for publication in a peer-reviewed journal.]
 
@@ -14,7 +14,7 @@ These are the raw data of the paper: 'Mulch application as the overarching facto
   
   ff <- carobiner::get_data(uri, path, group)
   
-  ## dataset level data 
+ 
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     project = NA,

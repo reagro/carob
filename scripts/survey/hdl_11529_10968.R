@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
 
-"Description:
+"
 The major objectives of this rice crop cuts and survey were to:
 (i) identify major rice yield determinants in western terai districts of Nepal and
 

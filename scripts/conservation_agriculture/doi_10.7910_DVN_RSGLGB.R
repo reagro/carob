@@ -1,15 +1,13 @@
 # R script for "carob"
 
 # ## ISSUES 
-# New fertiliser type which is not in carob
 #Fertiliser amount are given as ratios 
 # ....
 
 
-
 carob_script <- function(path) {
   
-  "Description:
+  "
   This study contains data originating from on-farm trials that were conducted to test and demonstrate the crop yield and economic benefits derived from manual and animal traction conservation agriculture (CA) systems on smallholder farms where the ridge and furrow tillage system is the traditional practice. The farm trials were conducted at six farms in Chipata, Lundazi, and Sinda districts of the eastern province of Zambia. At each site, the trials were replicated four times and had two general treatment sets:1) manual CA; and 2) animal traction CA.
 
   The manual CA system trial consisted of three treatments and these treatments were compared with conventional ridge and furrow practice at each farmer's field. The four treatments including control were:
@@ -27,7 +25,7 @@ carob_script <- function(path) {
   uri <- "doi:10.7910/DVN/RSGLGB"
   group <- "conservation_agriculture"
   ff <- carobiner::get_data(uri, path, group)
-  ## dataset level data 
+ 
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=1, minor=2),
     project=NA,
@@ -39,15 +37,17 @@ carob_script <- function(path) {
   )
   
   
-  
-  
-  
-  f <- ff[basename(ff) == "AR_ZAM_CIMMYT_CAmother_onfarm_2021.csv"]
+	f <- ff[basename(ff) == "AR_ZAM_CIMMYT_CAmother_onfarm_2021.csv"]
   
   # Select sheet with revised data from the excel file 
-  r <- read.csv(f)
+	r <- read.csv(f)
   
-  d <- data.frame(country= r$Country,harvest_date=r$Year,rep= r$Rep,crop= r$Cropgrown,treatment= r$Description,adm2=r$District,location=r$Camp,dmy_total = r$Biomassyield, yield = r$Grainyield)
+	d <- data.frame(
+		country= r$Country, harvest_date=r$Year,
+		rep= r$Rep, crop= r$Cropgrown, treatment= r$Description,
+		adm2=r$District, location=r$Camp,
+		dmy_total = r$Biomassyield, yield = r$Grainyield
+	)
   
   # for first dataset
   

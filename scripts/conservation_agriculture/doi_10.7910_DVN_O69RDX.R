@@ -1,12 +1,10 @@
 # R script for "carob"
 
-# ## ISSUES 
-# ....
 
 
 carob_script <- function(path) {
   
-"Description:
+"
 The objective of the study is to test different plant arrangements between maize and Gliricidia sepium and evaluate its effects on soil quality and productivity. Below is the list of treatments applied during the experiment.
 1. Traditional Maize- Groundnuts rotation [with half recommended fertilizer on maize, no fertilizer on groundnuts]
 2. Maize-Groundnut rotation with Gliricidia [ Maize/Gliricidia (COMACO’s Gliricidia spacing: 5m x 1m) – Groundnuts/Gliricidia]
@@ -15,7 +13,7 @@ The objective of the study is to test different plant arrangements between maize
   uri <- "doi:10.7910/DVN/O69RDX"
   group <- "conservation_agriculture"
   ff <- carobiner::get_data(uri, path, group)
-  ## dataset level data 
+ 
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=1, minor=2),
     project=NA,

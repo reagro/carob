@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
 
 	Summary results and individual trial results from the International Late Both Hybrid - ILBH, (Transition Zone by Subtropical Intersynthetic Non-Conventional Hybrids - CHTTZLWY) conducted in 2006. "
   

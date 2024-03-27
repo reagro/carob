@@ -1,7 +1,7 @@
 
 carob_script <- function(path) {
   
-  "Description:Data for soil samples collected from WKIEMP project and analyzed at ICRAF using infrared spectroscopy methods and wet chemistry at Crop Nutrition labs"
+  "Data for soil samples collected from WKIEMP project and analyzed at ICRAF using infrared spectroscopy methods and wet chemistry at Crop Nutrition labs"
   
   uri <- "doi:10.7910/DVN/FPPDCG"
   group <- "soil_samples"

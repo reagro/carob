@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
 
-"Description:
+"
 
     Final dataset from agronomic experiment in Gumara Maksegnit (2016), as elaborated by GARC researchers in charge for this trial (Alemu Tarekegn and Yengusie Demsew). Please contact author and contact person at ICARDA to obtain more detailed metadata or to propose collaboration.
 

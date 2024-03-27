@@ -3,7 +3,7 @@
 # 
 carob_script <- function(path) {
   
-  "Description:
+  "
 
     Data from crop-cuts as part of the Agronomy Panel Survey (APS) implemented in Oromia in three Zones (East Wollega, West Showa and Jimma). The APS included 16 peasant associations and 76 communities across the western part of Ethiopia in 56 randomly selected 1 X 1 km areas from eight 10km x 10 km sampling grids. Replicated crop cuts were made on farmers maize fields and yield measured. Soil samples were also collected but have not been analysed yet.
 
@@ -12,7 +12,7 @@ carob_script <- function(path) {
   uri <- "hdl:11529/11013"
   group <- "crop_cuts"
   ff <- carobiner::get_data(uri, path, group)
-  ## dataset level data 
+ 
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=3),
     project="TAMASA",

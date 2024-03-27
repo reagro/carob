@@ -10,7 +10,7 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
 • APSIM is an internationally well-recognized cropping systems models for scientists. An SRFSI team conducted many on-station trials in partners’ research station, which managed by SRFSI NARES partners’ scientists for validation of APSIM. The models simulated biophysical performances on the systems on a daily basis in terms of crop yields, water use, soil dynamics, climate, the fate of nutrients, and residues management. • APSIM was regionally validated using also results from on-farm experiments; validated models were used to explore the profitability, sustainability, and risk reduction potential of technological options under different contemporary and future climate scenarios. Using actual, historical, and predicted sets of climate data, the model was used to explore technology effects, sustainability, and riskiness over longer time periods than possible for field results in a 4-year project. Researchers from the region developed expertise in the use of the APSIM model, and the modeling effort was supported by CSIRO scientists
 
 "
@@ -18,7 +18,7 @@ carob_script <- function(path) {
   uri <- "hdl:11529/10548052"
   group <- "simulation"
   ff <- carobiner::get_data(uri, path, group)
-  ## dataset level data 
+ 
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     project=NA,

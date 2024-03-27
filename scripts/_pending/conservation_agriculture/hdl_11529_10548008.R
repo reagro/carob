@@ -1,14 +1,12 @@
 # R script for "carob"
 
-# ## ISSUES 
-# ....
 
 ## The sites are not georeferenced. Need to ask the authors 
 
 
 carob_script <- function(path) {
   
-	"Description:
+	"
 	 Farmer participatory on-farm trials with CA technologies comparing with farmers’ practices (CT), were conducted in several fields in each community. Likewise, farmer-participatory validation trials were conducted comparing to existing practices and to find out suitable and more profitable crop production practices, prioritized to increase visibility and to avoid implementation and management problems that emerge when utilizing small plots with significant edge effects. Most trials were replicated in several fields within each community and were farmer-managed with backstopping from project staff and NARES partners. Project partners and staff coordinated monitoring and data acquisition. Where possible, collaborating farmers were selected by the community, and the project worked with existing farmer groups, with groups of both men and women farmers
 	ff	<- carobiner::get_data(uri, path, group)
 		"

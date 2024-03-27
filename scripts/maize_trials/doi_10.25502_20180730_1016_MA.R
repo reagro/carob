@@ -2,7 +2,7 @@
 # border tbd
 
 carob_script <- function(path) {
-"Description:
+"
 This is an international study that contains data on yield and other Agronomic traits of maize including borer and striga attacks on maize in Africa.
 
 The study was carried out by the International Institute of Tropical Agriculture between 1989 and 2015 in over thirty African countries.

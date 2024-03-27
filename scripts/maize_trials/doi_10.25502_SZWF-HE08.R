@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
 
-"Description:
+"
 Yield gains and associated changes in an early yellow bi-parental maize population following Genomic Selection for Striga resistance and drought tolerance."
 				
 	uri <- "doi:10.25502/szwf-he08"

@@ -2,7 +2,7 @@
    
 carob_script <- function(path) {
       
-"Description:
+"
    The ‘Sustainable Weed Management Technologies for Nigeria’ was a 5-year project that was developed and assessed with smallholder farmer participation modern, relevant and appropriate cassava weed management technologies suitable for sustainable intensification in major agro-ecological (humid rainforest,
    forest transition savanna and southern Guinea savanna) and socio-economic conditions of Nigeria. An important goal of the project was to help smallholder cassava growers achieve sustainable increases in their productivity and incomes through the development and adoption of improved weed control methods
 "
@@ -10,7 +10,7 @@ carob_script <- function(path) {
     uri <- "doi:10.25502/P8EQ-C814/D"
     group <- "fertilizer"
     ff <- carobiner::get_data(uri, path, group)
-      ## dataset level data 
+     
     dset <- data.frame(
     	carobiner::read_metadata(uri, path, group, major=2, minor=1),
         publication= NA, #"DOI:10.1564/v27_oct_04"

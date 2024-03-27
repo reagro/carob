@@ -6,7 +6,7 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
     The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments).
   "
   

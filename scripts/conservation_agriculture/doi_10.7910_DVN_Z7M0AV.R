@@ -1,12 +1,10 @@
 # R script for "carob"
 
-# ## ISSUES 
-# ....
 
 
 carob_script <- function(path) {
   
-  "Description:
+  "
   The present data is from a long-term trial set at Msekera Research Station in Zambia to monitor and evaluate the long-term effects of conservation agriculture practices on soil quality, soil water dynamics, weeds, pests/diseases, and crop yield. This trial was conducted from 2012 to 2020. The ten treatments including control were:
   
 T1: Control plot 1 (CPM1): traditional farmers practice mouldboard plough on the flat, maize as a sole crop, no residue retention, stubble incorporated into the row for the following season.
@@ -23,7 +21,7 @@ T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on
   uri <- "doi:10.7910/DVN/Z7M0AV"
   group <- "conservation_agriculture"
   ff <- carobiner::get_data(uri, path, group)
-  ## dataset level data 
+ 
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=1, minor=2),
     project=NA,

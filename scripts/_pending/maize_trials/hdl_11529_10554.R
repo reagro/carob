@@ -7,7 +7,7 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
 
     Summary results and individual trial results from the International Late White Hybrid - ILWH,
     (Elite Tropical Late White Normal and QPM Hybrid Trial - CHTTW) conducted in 2006.

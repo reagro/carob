@@ -8,7 +8,7 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
    uri <- "doi:10.25502/EDK6-AC73/D"
    group <- "crop_cuts"
    ff <- carobiner::get_data(uri, path, group)
-   ## dataset level data 
+  
    dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		project=NA, 

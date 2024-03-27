@@ -1,7 +1,7 @@
 
 
 carob_script <- function(path) {
-"Description:
+"
 This is an international study that contains data on yield and other agronomic traits of maize including striga attacks on maize in Africa.
 
 The study was carried out by the International Institute of Tropical Agriculture in 2016 in eight African countries and one asian country.
@@ -22,12 +22,9 @@ The study was carried out by the International Institute of Tropical Agriculture
 		data_institutions="IITA"
 	)
 
-
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
 
 	d <- mzfun(ff)
-
-	
 
 	d$country[d$location == "Oyo"] <- "Nigeria" #?!
 	i <- d$location == "Babile"

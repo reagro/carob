@@ -11,7 +11,7 @@
 
 carob_script <- function(path) {
 
-"Description:
+"
 
     N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility,
     improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable,

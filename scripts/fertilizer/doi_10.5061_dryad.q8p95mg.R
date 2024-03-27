@@ -20,7 +20,7 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 		data_institutions = "University of Nebraska - Lincoln",
 		carob_contributor="Rachel Mukami",
 		carob_date="2023-07-06",
-		data_type="on_farm & on_station"
+		data_type="on farm & on station"
 	)
 
 	# reading the datasets
@@ -145,37 +145,14 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	z$yield <- z$yield*1000
 
 
-#	z <- merge(z, d5, by = "trial_id", all.x = TRUE)
-#	z <- merge(z, d6, by = "trial_id", all.x = TRUE)
-#	z <- merge(z, d6, by = "trial_id", all.x = TRUE)
-
-#	z$latitude <- gsub("[^-0-9.]", "", z$latitude)
-#	z$latitude <- as.numeric(z$latitude)
-#	z$longitude <- as.numeric(z$longitude)
-#	z$elevation <- as.numeric(z$elevation)
-#	z$soil_pH <- as.numeric(z$soil_pH)
-#	z$soil_SOC <- as.numeric(z$soil_SOC)
-#	z$soil_SOC[z$soil_SOC > 20] <- NA
-#	z$soil_P_total <- as.numeric(z$soil_P_total)
-#	z$soil_K <- as.numeric(z$soil_K)
-#	z$soil_Mg <- as.numeric(z$soil_Mg)
-
-#	z$latitude <- ifelse(z$trial_id == "E_Busegerwa_Mushikiri_14B", -2.1889,
-#					ifelse(z$trial_id == "ENGOMAUFITUB15b", -2.1664,
-#					ifelse(z$trial_id == "E_Busegerwa_Musenyi_14B", -2.1789, z$latitude)))
-
-#	z$longitude <- ifelse (z$trial_id == "E_Busegerwa_Mushikiri_14B", 30.6852,
-#					ifelse(z$trial_id == "ENGOMAUFITUB15b", 30.5392,
-#					ifelse(z$trial_id == "E_Busegerwa_Musenyi_14B", 30.0209, z$longitude)))
-
 	z$planting_date <- as.character(z$planting_date)
 	
 	# EGB:
 	# Adding (approximate) coordinates
 	# go <- unique(z[,c("country", "adm1", "adm2", "location")])
 	# gi <- carobiner::geocode(country = go$country,
-	#                          location = ifelse(is.na(go$location) & is.na(go$adm2), go$adm1,
-	#                                            ifelse(is.na(go$location) & is.na(go$adm1), go$adm2, go$location)))
+	#                 location = ifelse(is.na(go$location) & is.na(go$adm2), go$adm1,
+	#                  ifelse(is.na(go$location) & is.na(go$adm1), go$adm2, go$location)))
 	gi <- data.frame(
 		country = c("Mozambique", "Rwanda", "Rwanda", "Rwanda", "Tanzania", "Tanzania", "Tanzania", "Zambia", "Zambia", "Zambia", "Zambia", "Zambia"),
 	    location = c("Gurue", "Iburasirazuba", "Amajyepfo", "Amajyaruguru", "Selian", "Karangai", "Uyole", "Mt.Makulu", "Kasama", "Mufulira", "Msekera", "Mt. Makulu"), 

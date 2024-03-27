@@ -6,7 +6,7 @@
 
 carob_script <- function(path) {
 
-"Description:
+"
 Under CSISA Phase II, Nutrient Omission Plot Technique (NOPT) trials were conducted in eight districts of Bihar, ten districts of Uttar Pradesh and ten districts of Odisha. Partner institutions include Bihar Agriculture University (BAU), Banaras Hindu University (BHU), Orissa University of Agriculture and Technology (OUAT), Central Rice Research Institute (CRRI), Odisha.
 "
 

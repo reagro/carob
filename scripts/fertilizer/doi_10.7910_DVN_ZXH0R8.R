@@ -2,7 +2,7 @@
 
 carob_script <- function(path) {
 
-"Description:
+"
     The dataset is meant for developing fertilizer management decision support tool for an effective crop-nutrient management. The dataset is developed on the basis of landscape targeting on-farm trials on crop-nutrient response and crop yield gap assessment across the Africa Rising target districts and other scaling up locations in the Ethiopian highlands.
 "
 

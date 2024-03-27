@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
 
-"Description:Agronomy of 100 fields is part of APS(AgronomyPanelSurvey) Study (2016)"
+"Agronomy of 100 fields is part of APS(AgronomyPanelSurvey) Study (2016)"
 
 	uri <- "hdl:11529/10548392"
 	group <- "crop_cuts"

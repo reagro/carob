@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
 
-"Description:
+"
 TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 "
 

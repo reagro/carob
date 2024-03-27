@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
 
-"Description:
+"
 
     [We investigated the effect of bed width on grain yield under irrigated and rainfed conditions, for crops grown on permanent beds, where the top of the raised beds is not tilled. The study included nine sites in Central Mexico, where wide and narrow permanent beds were compared at the same site for at least three consecutive crop cycles. Six trials were selected under rainfed conditions in the states of Queretaro, Guanajuato, Michoacan, and State of Mexico, and three more with irrigation, which were located in Guanajuato and Queretaro. The data were collected in different periods, from 2007 to 2019. The database contains yield data for maize (Zea mays L.), wheat (Trititcum aestivum L.) and barley (Hordeum vulgare L.) planted on wide and narrow permanent beds.]
 

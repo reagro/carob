@@ -7,7 +7,7 @@
 
 carob_script <- function(path) {
 	
-	"Description:
+	"
 	The file contains on-farm and on-station agronomy data sets generated in Eastern and Southern Africa between 2010 and 2016 under the Sustainable Intensification of Maize-Legume systems in Eastern and Southern Africa (SIMLESA) project. The five countries involved were Ethiopia, Kenya, Tanzania, Malawi and Mozambique. The experimental trials tested the performance of various Conservation Agriculture based maize-legume intercrops or rotations relative to the commonly practiced conventional till farmer practice systems. In most of the tested cropping systems, the conventional farmer practice involved tillage using the moldboard plough, the manual hand hoe or in some cases the ridge and furrow system. Conservation Agriculture involved reduced soil disturbance, provision of soil cover and the use of leguminous crop rotations or intercrops. Crop establishment techniques involved hoe prepared planting basins or stations, ripping using animal traction, direct seeding using the dibble stick, jab planters, or animal traction direct seeding equipment. Crop management in terms of planting date, plant populations, fertilization, pest and weed control, were similar across all tested cropping systems. Experiments were mostly run in the same locations over the seven year period in order to also get an understanding of how the systems performance changed over time. On-station data has 43 variables and 1114 observations On-farm data has 43 variables and 5242 observations (2017-12-17)
 
 	"

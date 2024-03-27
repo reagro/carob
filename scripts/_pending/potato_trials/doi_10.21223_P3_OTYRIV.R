@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
 
     The B3C3 population came from crossing the elite clones of B3C2 population, in 2011 
     under quarantine greenhouses at La Molina. For this, 30,000 genotypes (60 families with 

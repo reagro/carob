@@ -12,7 +12,7 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
   Omission trials conducted in 5 countries under AfSIS Phase 1 under CIAT
   "
 			

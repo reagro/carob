@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
 
 Summary results and individual trial results from the International Late Yellow Variety - ILYV, 
 (Tropical Late Yellow Normal and QPM Synthetic Variety Trial - EVT13S) conducted in 2006

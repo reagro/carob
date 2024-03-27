@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
 
-"Description:
+"
 Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 area in Bako in 2015 conducted by EIAR and CIMMYT. Replicated crop cuts of 16m2 in farmers fields along with addition data on agronomy, household characteristics, fertilizer use, variety, and soil analysis.
 "
 

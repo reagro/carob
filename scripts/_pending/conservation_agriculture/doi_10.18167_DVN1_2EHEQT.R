@@ -12,7 +12,7 @@ carob_script <- function(path) {
    uri <-  "doi:10.18167/DVN1/2EHEQT"
    group <- "conservation_agriculture" 
    ff <- carobiner::get_data(uri, path, group)
-   ## dataset level data 
+  
    dset <- data.frame(
    	carobiner::read_metadata(uri, path, group, major=1, minor=2),
       publication= NA,# DOI:10.1017/S0014479714000155
