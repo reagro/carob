@@ -72,10 +72,10 @@ carob_script <- function(path) {
 	tments <- c("conventional tillage", "no-tillage, 0 t/ha residue", "no-tillage, 2 t/ha residue", "no-tillage, 4 t/ha residue", "no-tillage, 6 t/ha residue", "no-tillage, 8 t/ha residue")
 	d$treatment <- tments[d$treatment]
 
-	d$site <- carobiner::replace_values(d$site, "DTC", "Domboshawa Training Centre")
-	d$site <- carobiner::replace_values(d$site, "MFTC", "Monze Farmer Training Centre")
-	d$site <- carobiner::replace_values(d$site, "SRS", "Sussundenga Research Station")
-	d$site <- carobiner::replace_values(d$site, "UZ", "University of Zimbabwe")
+	d$site <- carobiner::replace_values(d$site, 
+			c("DTC", "MFTC", "SRS", "UZ"),
+			c("Domboshawa Training Centre",  "Monze Farmer Training Centre", 
+					"Sussundenga Research Station", "University of Zimbabwe"))
 		
 	geo <- data.frame(
 		site = c("Makoholi", "Domboshawa Training Centre", "University of Zimbabwe", "Sussundenga Research Station", "Monze", "Monze Farmer Training Centre", "Chitedze"), 
