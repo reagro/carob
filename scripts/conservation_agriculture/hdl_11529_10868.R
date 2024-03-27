@@ -83,7 +83,7 @@ carob_script <- function(path) {
 		latitude = c(-19.833, -17.6738, -17.7824, -19.413, -16.2803, -16.2803, -13.8362)
 	)
 	
-	d <- merge(d, geo, by="site")
+	d <- merge(d, geo, by="site", all.x = TRUE)
 	d$trial_id <- as.character(as.integer(as.factor(d$site)))
 	
 	carobiner::write_files(path, dset, d)
