@@ -18,7 +18,7 @@ inoculants and fertilizers adapted to local settings.
 	uri <- "doi:10.25502/V1CA-7Y60"
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="N2Africa",	

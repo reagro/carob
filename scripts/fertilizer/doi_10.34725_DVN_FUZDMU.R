@@ -11,7 +11,7 @@ Water availability is a major constraint to crop production in sub-Saharan Afric
 	uri <- "doi:10.34725/DVN/FUZDMU"
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, major=4, minor=0, group),
 		publication = "doi:10.1016/j.agwat.2011.04.002",

@@ -12,7 +12,7 @@ carob_script <- function(path) {
 	uri <- "hdl:20.500.11766.1/FK2/P024VP"
 	group <- "conservation group"
 	ff <- carobiner::get_data(uri, path, group)
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		project=NA,

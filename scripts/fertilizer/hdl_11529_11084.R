@@ -21,7 +21,7 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project = "CSISA",

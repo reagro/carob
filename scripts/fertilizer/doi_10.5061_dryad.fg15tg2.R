@@ -14,7 +14,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 	uri <- "doi:10.5061/dryad.fg15tg2"
 	group <- "fertilizer"
 	ff <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project = "Optimization of Fertilizer Recommendations in Africa",

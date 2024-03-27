@@ -13,7 +13,7 @@ carob_script <- function(path) {
 	
 	uri <- "hdl:11529/10548008"
 	group <- "conservation_agriculture"
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="Rabi (winter) crops-all nodes- Validation trials -Rangpur-Bangladesh",

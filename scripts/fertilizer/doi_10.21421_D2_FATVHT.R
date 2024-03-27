@@ -12,7 +12,7 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 	uri <- "doi:10.21421/D2/FATVHT"
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication="doi:10.1155/2018/7676058",

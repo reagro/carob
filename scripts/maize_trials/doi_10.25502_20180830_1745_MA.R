@@ -9,7 +9,7 @@ The study was carried out by the International Institute of Tropical Agriculture
 	group <- "maize_trials"	
 	ff <- carobiner::get_data(uri, path, group)
 		
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, major=2, minor=1, group),
  	    publication="doi:10.1016/j.jenvman.2017.06.058",

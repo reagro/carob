@@ -26,7 +26,7 @@ K. Habtegebrial & B. R. Singh (2009) Response of Wheat Cultivars to Nitrogen and
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
 	
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=2),
 	   publication=NA,

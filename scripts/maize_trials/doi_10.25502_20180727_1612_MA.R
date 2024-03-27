@@ -10,7 +10,7 @@ The study was carried out by the International Institute of Tropical Agriculture
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, major=2, minor=1, group),
 		#data_citation="Menkir, A. (2018). Grain Yield and Other Agronomic Traits of International Maize Trials – Chad, 1996 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180727/1612/MA",

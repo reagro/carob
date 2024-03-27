@@ -12,7 +12,7 @@ This dataset is a result of a household survey of farmers who engaged with the A
 	uri <- "doi:10.7910/DVN/TZKTCK"
 	group <- "survey"
 	ff <- carobiner::get_data(uri, path, group)
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=3),
 		project="AfricaRising",

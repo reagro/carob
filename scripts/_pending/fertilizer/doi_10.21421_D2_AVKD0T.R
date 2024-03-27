@@ -20,7 +20,7 @@ The experiment was established in 1986 and continued until 2018 at the ICRISAT S
 	uri <- "doi:10.21421/D2/AVKD0T"
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 	   publication="doi:10.21421/D2/AVKD0T",

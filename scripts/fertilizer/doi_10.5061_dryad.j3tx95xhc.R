@@ -10,7 +10,7 @@ carob_script <- function(path) {
 	uri <- "doi:10.5061/dryad.j3tx95xhc"
 	group <- "fertilizer"
 	ff	 <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group),
 		## if there is a paper, include the paper's doi here

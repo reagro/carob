@@ -10,7 +10,7 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 	uri <- "hdl:11529/11020"
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 	   publication=NA,

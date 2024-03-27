@@ -14,7 +14,7 @@ carob_script <- function(path) {
 	uri <- "doi:10.25502/20180814/1154/HJ"
 	group <- "fertilizer"
 	ff	 <- carobiner::get_data(uri, path, group)
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		publication=NA,#  10.1016/j.agee.2016.05.012

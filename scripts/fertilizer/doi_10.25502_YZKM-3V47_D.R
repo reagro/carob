@@ -22,7 +22,7 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 	group <- "fertilizer"
 
 	ff <- carobiner::get_data(uri, path, group)
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 	   project=NA,

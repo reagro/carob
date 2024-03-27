@@ -9,8 +9,7 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 	uri <- "doi:10.25502/szwf-he08"
 	group <- "maize_trials"	
 	ff <- carobiner::get_data(uri, path, group)
-		
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, major=2, minor=1, group),
  	    publication="doi:10.1186/s12870-019-1740-z",
@@ -20,7 +19,6 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 		project="CGIAR Research Program on Maize",
 		data_institutions="IITA"
 	)
-
 
 	read_data <- function(f) {
 		r <- read.csv(f)

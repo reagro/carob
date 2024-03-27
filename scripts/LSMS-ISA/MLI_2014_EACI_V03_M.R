@@ -18,7 +18,7 @@ return( TRUE)
 	uri <- "doi:______"
 	group <- ""
 	ff <- carobiner::get_data(uri, path, group)
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 	   publication="publication doi",

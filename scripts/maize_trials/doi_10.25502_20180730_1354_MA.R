@@ -14,7 +14,7 @@ This dataset contains output of the research for Sierra Leone.
 
 	ff <- carobiner::get_data(uri, path, group)
 		
-	## dataset level data 
+
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, major=2, minor=1, group),
 		#data_citation = "Menkir, A. (2018). Grain Yield and Other Agronomic Traits of International Maize Trials – Sierra Leone, 1990 - 2013 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180730/1354/MA",
