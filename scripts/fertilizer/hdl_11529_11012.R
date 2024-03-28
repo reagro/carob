@@ -18,7 +18,7 @@ carob_script <- function(path) {
 		publication=NA,
 		data_institutions = "CIMMYT",
 		data_type="experiment", 
-		carob_contributor="Njogu Mary",
+		carob_contributor="Mary Njogu",
 		carob_date="2023-02-20",
 		revised_by = "Eduardo Garcia Bendito",
 		revision_date = "2024-03-05"
