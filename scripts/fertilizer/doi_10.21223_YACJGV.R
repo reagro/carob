@@ -1,14 +1,8 @@
 # R script for "carob"
 
-## ISSUES
-# yield corrected in two cases after inspecting 
-# other yield values in the same trial (location)
-
-
 carob_script <- function(path) {
 	  
-"
-	Fertilizer response trials to compare the performance of 5 'best-bet' fertilizer recommendations with the current blanket recommendation in multiple locations and farms. The best-bets differ in N:P:K ratios and rates and are designed based on assumptions on how fertilizer responses may vary across locations and fields. The five treatments are compared in each site with only the reference treatment replicated. Tuber yield as well as secondary agronomic data were assessed. Data were collected using the ODK-based digital data collection tool 'Smart Agronomy Data Management System (SAnDMan)'."
+"Fertilizer response trials to compare the performance of 5 'best-bet' fertilizer recommendations with the current blanket recommendation in multiple locations and farms. The best-bets differ in N:P:K ratios and rates and are designed based on assumptions on how fertilizer responses may vary across locations and fields. The five treatments are compared in each site with only the reference treatment replicated. Tuber yield as well as secondary agronomic data were assessed. Data were collected using the ODK-based digital data collection tool 'Smart Agronomy Data Management System (SAnDMan)'."
 	  
 	uri <- "doi:10.21223/YACJGV"
 	group <- "fertilizer"
@@ -17,7 +11,6 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project=NA,
-		#data_citation = "Vandamme, Elke, 2023. Dataset for: Fertilizer response trials to calibrate and cross-validate AKILIMO for potato in Rwanda. https://doi.org/10.21223/YACJGV, International Potato Center, V1, UNF:6:dqyMNI9EnXyX0pNaGvS+hQ== [fileUNF]",
 		publication= NA,
 		data_institutions = "CIP",
 		data_type="experiment", 
@@ -30,11 +23,7 @@ carob_script <- function(path) {
 
 	f2 <- ff[basename(ff) == "DataDictionary_SA-VAP-1.xlsx"]  
 	fert <- carobiner::read.excel(f2, sheet="Fertilizer treatments", skip=1)
-	
-	## use a subset
-## do not use column numbers. Always use names. Numbers cannot be directly interpreted. 
-## 	d <- r[,c(7,54,3,14,16,17)]
-  
+	 
 	d <- data.frame(country="Rwanda", 
 			crop="potato", yield_part = "tubers",
 			yield=r$tuberY * 1000, 
@@ -44,7 +33,7 @@ carob_script <- function(path) {
 	d$harvest_date <- as.character(as.Date(r$today, format= "%d-%b-%y"))
 	d$trial_id <- as.character(as.integer(as.factor(paste(d$latitude, d$longitude))))
 
-## but we can read this directly from the file 
+## we can read this directly from the file 
 ##	npk <- data.frame(
 ##		treatment = c("NPK6", "NPK4_MOP2", "NPK4_UREA2", "NPK4_DAP2", "NPK11"), 
 ##		N_fertilizer = c(51, 34, 80, 52, 94), 
@@ -59,7 +48,8 @@ carob_script <- function(path) {
 
 	d <- merge(d, fert, by="treatment")
 	
-## fixing two cases 
+## fixing two cases after inspecting 
+## other yield values in the same trial (location)
 	i <- d$yield > 100000
 	d$yield[i] <- d$yield[i] / 10
 

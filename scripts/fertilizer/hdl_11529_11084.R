@@ -25,7 +25,6 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project = "CSISA",
-		#data_citation = "Timothy J. Krupnik; Zia Uddin Ahmed; Jagadish Timsina; Md. Shahjahan; A.S.M. Alanuzzaman Kurishi; Azahar A. Miah; B.M. Saidur Rahman; Mahesh K. Gathala; Andrew J. McDonald, 2017. Forgoing the fallow in Bangladesh's stress-prone coastal deltaic environments: Effect of sowing date, nitrogen, and genotype on wheat yield in farmers' fields.  https://hdl.handle.net/11529/11084, CIMMYT Research Data & Software Repository Network, V1",
 		publication = "doi.org/10.1016/j.fcr.2014.09.019",
 		data_institutions = "CIMMYT; IRRI; IFPRI",
 		data_type = "experiment", 

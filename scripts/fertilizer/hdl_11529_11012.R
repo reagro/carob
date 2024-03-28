@@ -2,9 +2,7 @@
 
 carob_script <- function(path) {
   
-  
-  "
-  Performance trials (N=52) in two zones (West Shewa and Jimma) in Ethiopia. Trials comprise four nutrient management treatments, namely control withzero fertilizer ; and three fertilizer recommendations to achieve the same  target yield based on regional fertilizer recommendation, a Nutrient Expert      (IPNI software) based recommendation and a soil-test NE based recommendation. Trials were conducted on-farm with four plots per farm. Observations  include biomass and grain yields, as well as pre-sowing pH, nitrogen and phosphorus levels. Some N & K data are missing."
+"Performance trials (N=52) in two zones (West Shewa and Jimma) in Ethiopia. Trials comprise four nutrient management treatments, namely control withzero fertilizer ; and three fertilizer recommendations to achieve the same  target yield based on regional fertilizer recommendation, a Nutrient Expert (IPNI software) based recommendation and a soil-test NE based recommendation. Trials were conducted on-farm with four plots per farm. Observations  include biomass and grain yields, as well as pre-sowing pH, nitrogen and phosphorus levels. Some N & K data are missing."
 
 	uri <- "hdl:11529/11012"
 	group <- "fertilizer"
@@ -14,7 +12,6 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="TAMASA",
-		#data_citation="T Balemi; M Kebede; T Abera; G Hailu; J Rurinda; G Gurumu, 2017, TAMASA Ethiopia. Performance trial dataset for validating maize nutrient management recommendations, 2016 season., https://hdl.handle.net/11529/11012, CIMMYT Research Data & Software Repository Network, V2",
 		publication=NA,
 		data_institutions = "CIMMYT",
 		data_type="experiment", 
@@ -23,97 +20,99 @@ carob_script <- function(path) {
 		revised_by = "Eduardo Garcia Bendito",
 		revision_date = "2024-03-05"
 	)
-  
+
   
 	f <- ff[basename(ff) == "TAMASA_ET_PT_2016F.xlsx"]
 	r <- carobiner::read.excel(f, sheet = 5, fix=TRUE)
-	t <- carobiner::read.excel(f, sheet = 6, fix=TRUE)[,c(1,4,8:11)]
+	tr <- carobiner::read.excel(f, sheet = 6, fix=TRUE)[,c(1,4,8:11)]
 	
-	# Pre-process treatment levels
-	dt <- reshape(t, direction = "long", varying = list(names(t)[3:6]))[,1:4]
-	colnames(dt) <- c("location", "soil_P_available", "treatment", "fertilizer")
-	rownames(dt) <- 1:nrow(dt)
-	dt$treatment[dt$treatment == 1] <- "Control"
-	dt$treatment[dt$treatment == 2] <- "NE Recommendation"
-	dt$treatment[dt$treatment == 3] <- "Regional Recommendation"
-	dt$treatment[dt$treatment == 4] <- "Soil Test Based Recommendation"
-	dt <- cbind(dt[1:3], do.call(rbind, strsplit(dt$fertilizer, "-", fixed = TRUE)))
-	colnames(dt) <- c("location", "soil_P_available", "treatment", "N_fertilizer", "P_fertilizer", "K_fertilizer")
-	dt$location <- carobiner::fix_name(dt$location, case = "title")
+	# process treatment levels
+	vars <- c('Control', 'NE.Recomm', 'Regional.Recom', 'Soil.Test.Based.Recom')
+	dtr <- reshape(tr, direction = "long", varying = list(vars))[,1:4]
+	colnames(dtr) <- c("location", "soil_P_available", "treatment", "fertilizer")
+	rownames(dtr) <- NULL
+
+	dtr$treatment <- c("Control", "NE Recommendation", "Regional Recommendation", "Soil Test Based Recommendation")[dtr$treatment]
+	
+	dtr <- cbind(dtr[1:3], do.call(rbind, strsplit(dtr$fertilizer, "-", fixed = TRUE)))
+	colnames(dtr) <- c("location", "soil_P_available", "treatment", "N_fertilizer", "P_fertilizer", "K_fertilizer")
+	dtr$location <- carobiner::fix_name(dtr$location, case = "title")
+	dtr$N_fertilizer <- as.numeric(dtr$N_fertilizer)
+	dtr$P_fertilizer <- as.numeric(dtr$P_fertilizer)
+	dtr$K_fertilizer <- as.numeric(dtr$K_fertilizer)
+
   
-	d <- data.frame( trial_id = as.character(rep(1:(nrow(r)/4), each = 4)),
-	                country = "Ethiopia", adm1 = r$Region, adm2 = r$Zone, adm3 = r$Districts,
-	                location = r$Location, elevation = r$Altitude, 
-	                treatment = r$Treatments,
-	                crop = "maize",  variety = "Hybrid",
-	                yield_part = "grain",
-	                soil_pH = as.numeric(r$pH))
+	d <- data.frame( 
+			trial_id = as.character(rep(1:(nrow(r)/4), each = 4)),
+	        country = "Ethiopia", 
+			adm1 = r$Region, adm2 = r$Zone, adm3 = r$Districts,
+	        location = r$Location, elevation = r$Altitude, 
+	        treatment = r$Treatments,
+	        crop = "maize",  variety_type = "hybrid", yield_part = "grain",
+	        soil_pH = r$pH
+		)
+		
+	d$soil_pH[d$soil_pH == "."] <- NA
+	d$soil_pH <- as.numeric(d$soil_pH)
 	
 	d$yield <- r$Kernel.yield.kg.ha
 	d$dmy_total <- (as.numeric(r$Total.Biomass.Weight.kg)/(18/10000))*0.875
 	# d$residue_yield <- as.numeric(r$Field.Weight.of.subsample.3.stalk.kg)/(18/10000)
 
+	r$TN.pct[r$TN.pct == "."] <- NA
 	d$soil_N <- (as.numeric(r$TN.pct) * 10000)
 	d$soil_P_available <- (as.numeric(r$Av.P.ppm))
-	
-	for (row in 1:nrow(d)) {
-	  if (is.na(d$elevation[row])) {
-	    d$elevation[row] <- d$elevation[row-1]
-	    d$soil_pH[row] <- round(d$soil_pH[row-1], 2)
-	    d$soil_N[row] <- d$soil_N[row-1]
-	    d$soil_P_available[row] <- d$soil_P[row-1]
-	  }
-	}
-	
+		
 	d$location <- carobiner::fix_name(d$location, case = "title")
+
+	svars <- c("elevation", "soil_pH", "soil_N", "soil_P_available")
+	x <- d[, c("trial_id", svars)]
+	x <- x[!is.na(x$elevation), ]
+	i <- match(d$trial_id, x$trial_id)
+	d[, svars] <- x[i, svars]
+
+	d <- merge(d, dtr, by = c("location", "treatment", "soil_P_available"), all.x = TRUE)
 	
-	d <- merge(d, dt, by = c("location", "treatment", "soil_P_available"), all.x = TRUE)
-	d$N_fertilizer <- as.numeric(d$N_fertilizer)
-	d$P_fertilizer <- as.numeric(d$P_fertilizer)
-	d$K_fertilizer <- as.numeric(d$K_fertilizer)
-	
-	# # EGB: Merge with coordinates (see below)
-	geo <- data.frame(country = c("Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia",
-	                              "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia",
-	                              "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia",
-	                              "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia", "Ethiopia",
-	                              "Ethiopia", "Ethiopia", "Ethiopia"),
-	                  adm2 = c("West Showa", "Jimma", "Jimma", "West Showa", "Jimma", 
-	                           "Jimma", "West Showa", "West Showa", "West Showa", "West Showa", 
-	                           "Jimma", "West Showa", "Jimma", "Jimma", "Jimma", "Jimma", "West Showa", 
-	                           "West Showa", "West Showa", "West Showa", "West Showa", "West Showa", 
-	                           "West Showa", "Jimma", "West Showa", "Jimma", "Jimma"),
-	                  adm3 = c("Ilu galen", "Kersa", "Tiro Afeta", "Bako Tibe", "Sekoru", "Sekoru", "Bako Tibe", 
-	                           "Bako Tibe", "Bako Tibe", "Gobu sayo", "Kersa", "Bako Tibe", 
-	                           "Tiro Afeta", "Tiro Afeta", "Sekoru", "Kersa", "Bako Tibe", "Bako Tibe", 
-	                           "Bako Tibe", "Gobu sayo", "Bako Tibe", "Gobu sayo", "Bako Tibe", 
-	                           "Kersa", "Bako Tibe", "Omo Nada", "Sekoru"),
-	                  location = c("Ale wara ilu",
-	                               "Babo", "Babo", "Bachera Oda Gibe", "Bore", "Chala", "Dambi Dima",
-	                               "Dambi Gobu", "Gajo Kuyi", "Gambela Tare", "Ganda Girma", "Gudina Walkite",
-	                               "Hajelo", "Hejelo", "Liben", "Merewa", "Oda Gibe", "Oda Haro", 
-	                               "Oda Korma", "Ongobo Bakanisa", "Saden Kite", "Sombo Kejo", "Tarkanfata Gibe",
-	                               "Tikurbalto", "Tulu Sangota", "Waktola", "Walmara"),
-	                  longitude = c(37.19, 35.1962, 35.1962, 37.156, 38.6222, 37.4179, 38.9667, 36.603, 37.032,
-	                                34.57, 37.073, 37.218, 37.329, 37.329, 40.7091, 36.9167, 37.126, 35.522,
-	                                37.156, 36.897, 37.156, 37.031, 37.517, 37.073, 37.156, 37.194, 38.5769),
-	                  latitude = c(9.13, 9.4744, 9.4744, 9.0662, 6.3596, 7.9257, 3.5667, 10.15, 9.175, 8.248,
-	                               7.748, 9.021, 7.916, 7.916, 4.5484, 7.6833, 9.05, 8.543, 9.0662, 9.086, 9.0662, 
-	                               9.779, 9.753, 7.748, 9.0662, 7.726, 9.0572))
+	## see below for coordinates source
+	geo <- data.frame(  
+			adm2 = c("West Showa", "Jimma", "Jimma", "West Showa", "Jimma", 
+				"Jimma", "West Showa", "West Showa", "West Showa", "West Showa", 
+				"Jimma", "West Showa", "Jimma", "Jimma", "Jimma", "Jimma", "West Showa", 
+				"West Showa", "West Showa", "West Showa", "West Showa", "West Showa", 
+				"West Showa", "Jimma", "West Showa", "Jimma", "Jimma"),
+	        adm3 = c("Ilu galen", "Kersa", "Tiro Afeta", "Bako Tibe", "Sekoru", "Sekoru", "Bako Tibe", 
+				"Bako Tibe", "Bako Tibe", "Gobu sayo", "Kersa", "Bako Tibe", 
+				"Tiro Afeta", "Tiro Afeta", "Sekoru", "Kersa", "Bako Tibe", "Bako Tibe", 
+				"Bako Tibe", "Gobu sayo", "Bako Tibe", "Gobu sayo", "Bako Tibe", 
+				"Kersa", "Bako Tibe", "Omo Nada", "Sekoru"),
+	        location = c("Ale wara ilu",
+				"Babo", "Babo", "Bachera Oda Gibe", "Bore", "Chala", "Dambi Dima",
+				"Dambi Gobu", "Gajo Kuyi", "Gambela Tare", "Ganda Girma", "Gudina Walkite",
+				"Hajelo", "Hejelo", "Liben", "Merewa", "Oda Gibe", "Oda Haro", 
+				"Oda Korma", "Ongobo Bakanisa", "Saden Kite", "Sombo Kejo", "Tarkanfata Gibe",
+				"Tikurbalto", "Tulu Sangota", "Waktola", "Walmara"),
+	        longitude = c(37.19, 35.1962, 35.1962, 37.156, 38.6222, 37.4179, 38.9667, 36.603, 37.032,
+				34.57, 37.073, 37.218, 37.329, 37.329, 40.7091, 36.9167, 37.126, 35.522,
+				37.156, 36.897, 37.156, 37.031, 37.517, 37.073, 37.156, 37.194, 38.5769),
+	        latitude = c(9.13, 9.4744, 9.4744, 9.0662, 6.3596, 7.9257, 3.5667, 10.15, 9.175, 8.248,
+				7.748, 9.021, 7.916, 7.916, 4.5484, 7.6833, 9.05, 8.543, 9.0662, 9.086, 9.0662, 
+				9.779, 9.753, 7.748, 9.0662, 7.726, 9.0572)
+		)
+
 	geo$location <- carobiner::fix_name(geo$location, case = "title")
 	
-	d <- merge(d, geo, by = c("country", "adm2", "adm3", "location"), all.x = TRUE)
+	d <- merge(d, geo, by = c("adm2", "adm3", "location"), all.x = TRUE)
 	
-	d$planting_date <- "2016-05-01"
-	
-	d <- d[,c("trial_id", "country", "adm1", "adm2", "adm3", "location", "longitude", "latitude", "elevation",
-	          "crop", "variety", "treatment", "planting_date", "N_fertilizer", "P_fertilizer", "K_fertilizer",
-	          "yield", "yield_part", "dmy_total", "soil_pH", "soil_N", "soil_P_available")]
+	# metadata specifies Start: 2016-05-01 ; End: 2016-12-01
+	# but that cannot be the planting and harvest dates for all sites
+	d$planting_date <- "2016"
+	d$harvest_date <- "2016"
+	d$treatment <- tolower(d$treatment)
 	
 	carobiner::write_files(dset, d, path=path)
 }
 
-# # EGB:
+
 # # Geocoding
 # h <- unique(d[,c("adm2", "adm3", "location")])
 # h1 <- carobiner::geocode("Ethiopia", location = unique(h$location))
