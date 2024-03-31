@@ -19,19 +19,17 @@ carob_script <- function(path) {
 		data_type="on-station experiment"
     )
   
-  
-	
-	f <- ff[basename(ff) == "Summary Zambia On-farm Demonstration 2006-2015.xls"]
+  	f <- ff[basename(ff) == "Summary Zambia On-farm Demonstration 2006-2015.xls"]
 	
 	#read the data
-	r1 <- carobiner::read.excel(f, sheet = 1, fix=TRUE)
+	r1 <- carobiner::read.excel(f, sheet="Zambia all sites all maize", fix=TRUE)
 	colnames(r1) <- tolower(colnames(r1))
 	colnames(r1)[1:4] <- c("id", "year", "adm1", "village")
 	r1[, 5:7] <- NULL
 	colnames(r1) <- gsub(".11", "", colnames(r1))
 	r1$crop.grown <- "maize"
 
-	r2 <- carobiner::read.excel(f, sheet = 2, fix=TRUE)
+	r2 <- carobiner::read.excel(f, sheet="Zambia all legume all years", fix=TRUE)
 	colnames(r2) <- tolower(colnames(r2))
 	colnames(r2)[1:3] <- c("id", "year", "adm1")
 
@@ -39,7 +37,7 @@ carob_script <- function(path) {
 	
 	d <- data.frame(
 		adm1 = r$adm1, site=r$village, treatment=r$tmnt, 
-		crop= tolower(r$crop.grown),
+		crop = tolower(r$crop.grown),
 		residue_yield = r$stalk.yield.kg.ha, 
 		yield = r$grain.yield.kg.ha,
 		rep = as.integer(r$site.rep),
@@ -54,18 +52,39 @@ carob_script <- function(path) {
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
 	d$yield_part <- "grain"
+	d$yield_part[d$crop != "maize"] = "seed"
 
 	##really??? 
 	###d$planting_date <- "2006"
 	###d$harvest_date	<- "2015"
 
-	d$trial_id <- as.character(as.integer(as.factor(paste(d$crop, d$rep))))
+	d$trial_id <- paste0(d$crop, "_", r$site.rep)
 	
 	p <- carobiner::fix_name(d$treatment)
 	p <- gsub("DS", "direct seeder", p)
 	p <- gsub("Control plot", "control", p)
+	p <- gsub("check", "control", p)
+	p <- gsub("dibble stick", "dibbling stick", p)
+	p <- gsub("jabplanter", "jab planter", p)
 	p <- tolower(gsub("^Direct$", "direct seeder",p))
+
+	p[p=="basin"] <- "basins"
+
 	d$treatment <- p
+
+	pp <- sapply(strsplit(p, ","), \(i) i[1])
+
+	d$planting_implement <- pp
+	d$planting_implement[!(d$planting_implement %in% c("direct seeder", "jab planter", "dibbling stick"))] <- NA
+
+	d$land_prep_method <- "none"
+	d$land_prep_method[pp=="control"] <- "ploughing"
+	d$land_prep_method[pp=="ripper"] <- "ripping"
+	d$land_prep_method[pp=="basins"] <- "basins"
+
+	d$land_prep_implement <- "none"
+	d$land_prep_implement[pp=="control"] <- "mouldboard plough" 
+	d$land_prep_implement[pp=="ripper"] <- "ripper"
 
 	d$intercrops <- ifelse(grepl("maize/cowpea int", p), "cowpea", "no crop")
 	

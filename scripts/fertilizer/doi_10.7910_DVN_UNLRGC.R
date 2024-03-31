@@ -3,18 +3,16 @@
 
 carob_script <- function(path) {
 
-"Description
-	Kihara, J., Huising, J., Nziguheba, G. et al. Maize response to macronutrients and potential for profitability in sub-Saharan Africa. Nutr Cycl Agroecosyst 105, 171–181 (2016).
+"Kihara, J., Huising, J., Nziguheba, G. et al. Maize response to macronutrients and potential for profitability in sub-Saharan Africa. Nutr Cycl Agroecosyst 105, 171–181 (2016).
 
-	Abstract: The objective of this study was to determine the attainable maize grain response to and potential of profitability of N, P and K application in SSA using boundary line approaches. Data from experiments conducted in SSA under AfSIS project (2009–2012) and from FAO trials database (1969–1996) in 15 countries and constituting over 375 different experimental locations and 6600 data points are used. 
+Abstract: The objective of this study was to determine the attainable maize grain response to and potential of profitability of N, P and K application in SSA using boundary line approaches. Data from experiments conducted in SSA under AfSIS project (2009–2012) and from FAO trials database (1969–1996) in 15 countries and constituting over 375 different experimental locations and 6600 data points are used. 
 
-	There are two datasets, AFSIS and FAO. 
+There are two datasets, AFSIS and FAO. 
 
-	AFSIS has more detail than the public AFSIS data so we used these. 
-	AFSIS has data for five countries, each with one or two sites. Sites have subsites, referred to as 'cluster' . 
+AFSIS has more detail than the public AFSIS data so we used these. 
+AFSIS has data for five countries, each with one or two sites. Sites have subsites, referred to as 'cluster' . 
 
-Notes 
-	citation could be improved to include the underlying data sources.
+Notes: citation could be improved to include the underlying data sources.
 "
 
 	uri <- "doi:10.7910/DVN/UNLRGC"

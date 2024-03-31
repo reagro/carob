@@ -28,7 +28,7 @@ yield,numeric,kg/ha,yes,,no,0,150000,no,"Fresh weight biomass of the main harves
 residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight of the above ground biomass except for the harvestable parts at maturity, per ha",,AGRO_00000164 
 grain_weight,numeric,g,no,,no,0,1000,yes,1000 grain weight,,TO_0000382
 fertilizer_type,character,,no,fertilizer_type,yes,,,yes,Name of fertilizer used,,CHEBI_33287
-fertilizer_date,character,,no,,no,,,,"Date of fertilizer applications. Possibly followed by ""(product; amount)""",,
+fertilizer_date,character,,no,,no,,,yes,"Date of fertilizer applications. Possibly followed by ""(product; amount)""",,
 N_fertilizer,numeric,kg/ha,fertilizer,,no,0,600,no,N applied in inorganic fertilizer,,AGRO_00000158
 N_splits,integer,,no,,no,0,5,yes,Number of splits in the N_fertilizer application,,
 P_fertilizer,numeric,kg/ha,fertilizer,,no,0,250,no,"P applied in inorganic fertilizer (as P, not P2O5)",,AGRO_00000160 
@@ -57,6 +57,7 @@ irrigation_dates,character,,no,,yes,,,yes,"Irrigation dates in ""yyyy-mm-dd"", "
 land_prep_method,character,,no,method,no,,,yes,Land preparation (tillage) method used (including no-till),,AGRO_00000322
 land_prep_implement,character,,no,implement,yes,,,yes,Land preparation (tillage) implement(s) used,,
 planting_method,character,,no,method,no,,,yes,Planting (sowing) method,,
+planting_implement,character,,no,implement,no,,,yes,Planting (sowing) implement used,,
 transplanting_method,character,,no,method,no,,,yes,(rice) transplanting method,,
 uncertainty,numeric,,no,,no,0,,yes,Measure of noise in data ,,
 uncertainty_type,character,,no,,no,,,yes,Type of noise measure,,

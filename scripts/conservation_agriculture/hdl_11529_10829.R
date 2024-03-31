@@ -3,25 +3,7 @@
 
 carob_script <- function(path) {
 
-"
-The present data is based on on-farm demonstration sites set in Malawi to demonstrate 
-the best options available at the moment for the management of drought-tolerant maize 
-varieties and conservation agriculture practices in Balaka, Machinga and Zomba 
-communities. Crop yields in southern Africa are generally low compared to the world 
-average and the average of developing regions. Thus, this calls for the identification 
-of more sustainable strategies that are capable of increasing yields. Amongst the 
-possible strategies is conservation agriculture (CA). This data is a subset of a larger
-data set from southern Africa that seeks to demonstrate the effects of CA technologies 
-as compared to the traditional farmers' practices. The CA treatments included: 1. Farmers
-check. Traditional land preparation (ridges) and maize management. Residues may be grazed,
-removed, burned or incorporated into the ridges. 2. Conservation Agriculture – sole maize. 
-No tillage, no burning. Previous year’s ridges retained (but not reformed). Residue retained 
-(mulch). 3. Conservation Agriculture – maize/legume intercrop. No tillage, no burning.
-Previous year’s ridges retained (but not reformed). Residue retained (mulch). 
-The data set presents yields for maize and the legumes from these sites over 10 seasons 
-(2005-2015). (2016-12-08)
-
-"
+"The present data is based on on-farm demonstration sites set in Malawi to demonstrate the best options available at the moment for the management of drought-tolerant maize varieties and conservation agriculture practices in Balaka, Machinga and Zomba communities. Crop yields in southern Africa are generally low compared to the world average and the average of developing regions. Thus, this calls for the identification of more sustainable strategies that are capable of increasing yields. Amongst the possible strategies is conservation agriculture (CA). This data is a subset of a larger data set from southern Africa that seeks to demonstrate the effects of CA technologies as compared to the traditional farmers' practices. The CA treatments included: 1. Farmers check. Traditional land preparation (ridges) and maize management. Residues may be grazed, removed, burned or incorporated into the ridges. 2. Conservation Agriculture – sole maize. No tillage, no burning. Previous year’s ridges retained (but not reformed). Residue retained (mulch). 3. Conservation Agriculture – maize/legume intercrop. No tillage, no burning. Previous year’s ridges retained (but not reformed). Residue retained (mulch). The data set presents yields for maize and the legumes from these sites over 10 seasons (2005-2015). (2016-12-08)"
 
 	uri <- "hdl:11529/10829"
 	group <- "conservation_agriculture"

@@ -1,4 +1,5 @@
 name,description,purpose
+none,,any
 unknown,,any
 broadcast spreader,,fertilizing
 furrow opener,,fertilizing
@@ -24,13 +25,15 @@ chisel plough,,plowing
 cultivator,,plowing
 disc plough,,plowing
 hand-held hoe,,plowing
-paraplough,,plowing
+para plough,,plowing
 spade plough,,plowing
 subsoiler,,plowing
-mouldboard,,plowing; ridging
+mouldboard plough,,plowing; ridging
 ridging plough,,plowing; ridging
+ripper,,ripping
 bucket broadcaster,,seeding
 dibbling stick,,seeding
+direct seeder,,seeding
 drum seeder,,seeding
 jab planter,,seeding
 seed drill,,seeding

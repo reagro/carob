@@ -1,11 +1,14 @@
 name,description,purpose
 unknown,,any
-conventional,,tillage
-deep,,tillage
 none,,any
-reduced,,tillage
-ridge,,tillage
-strip,,tillage
+conventional,,land_prep
+deep ploughing,,land_prep
+reduced tillage,,land_prep
+ridge tillage,,land_prep
+strip tillage,,land_prep
+basins,,land_prep
+ripping,,land_prep
+ploughing,,land_prep
 surface ,,irrigation
 basin ,,irrigation
 border ,,irrigation
