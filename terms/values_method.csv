@@ -9,6 +9,7 @@ strip tillage,,land_prep
 basins,,land_prep
 ripping,,land_prep
 ploughing,,land_prep
+raised beds,,land_prep
 surface ,,irrigation
 basin ,,irrigation
 border ,,irrigation

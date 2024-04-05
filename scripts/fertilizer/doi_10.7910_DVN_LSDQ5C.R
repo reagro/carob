@@ -18,7 +18,7 @@ Ministry of Agriculture and Rural Development (MADR).
 
 #### Identifiers
 	uri <- "doi:10.7910/DVN/LSDQ5C"
-	group <- "conservation_agriculture"
+	group <- "fertilizer"
 
 #### Download data 
 	ff  <- carobiner::get_data(uri, path, group)
