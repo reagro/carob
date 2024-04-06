@@ -7,7 +7,6 @@
 #["days_to_maturity", type: integer, unit:days]
 #adding the suffix "_intercrop" after variables names to represent the intcroping expemints paramters] 
 
-path <-setwd (".") 
 carob_script <- function(path) {
 
 "
@@ -108,5 +107,4 @@ carob_script <- function(path) {
 d <- merge(d1, d2, by="record_id", all=TRUE)
   
 carobiner::write_files (path, dset, d) 
-  #carobiner::write_files (dset, d, path=path)
-}
+ }
