@@ -3,7 +3,7 @@
 # ISSUES
 
 # both r2 and r4 have yield, but they do not match!
-# no data on plant density per species for the intercrops
+
 
 carob_script <- function(path) {
 
@@ -64,13 +64,13 @@ The trial includes 40 faba bean varieties and 2  wheat varieties that are grown 
 	d1$variety_wheat[grepl("Miki", r1$VarietyCombination)] <- "Miki"
 
 	d1$intercrops <- "none"
-	d1$intercrops[r1$NumberOfPlantSpecies==2] <- "faba bean; durum wheat"
+	d1$intercrops[r1$NumberOfPlantSpecies==2] <- "yes"
 
 	d3 <- data.frame(
 		record_id = r3$PlotCode,
 		crop = ifelse(r3$PlantPartner == "Cereal", "wheat", "faba bean"),
 		harvest_date = as.character(as.Date(paste(r3$Year, r3$MonthGrainYield, r3$DayGrainYield, sep="-"))),
-		density = r3$PlantsEmergence_m2 * 10000,
+		plant_density = r3$PlantsEmergence_m2 * 10000,
 		yield2 = r3$GrainYield
 	)
 
@@ -97,7 +97,7 @@ The trial includes 40 faba bean varieties and 2  wheat varieties that are grown 
 
 	dwheat <- data.frame(
 		record_id = r2$PlotCode,
-		crop = "wheat",
+		crop = "durum wheat",
 		flowering = r2$DFLRWT, 
 		maturity = r2$DMATWT, 
 		plant_height = r2$WTPLHT, 
@@ -120,6 +120,9 @@ The trial includes 40 faba bean varieties and 2  wheat varieties that are grown 
 	d$yield2 <- NULL
 	
 	d$record_id <- as.integer(as.factor(d$record_id))
+	i <- d$intercrop == "yes"
+	d$intercrops[i & d$crop=="durum wheat"] <- "faba bean"
+	d$intercrops[i & d$crop=="faba bean"] <- "durum wheat"
 	
 	carobiner::write_files (path, dset, d)
 }
