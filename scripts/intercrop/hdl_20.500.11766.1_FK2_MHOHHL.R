@@ -3,8 +3,7 @@
 # ISSUES
 
 # both r2 and r4 have yield, but they do not match!
-# no data on (relative) plant density or the intercropping method
-
+# no data on plant density per species for the intercrops
 
 carob_script <- function(path) {
 
@@ -69,10 +68,11 @@ The trial includes 40 faba bean varieties and 2  wheat varieties that are grown 
 
 	d3 <- data.frame(
 		record_id = r3$PlotCode,
-		harvest_date = as.character(as.Date(paste(r3$Year, r3$MonthGrainYield, r3$DayGrainYield, sep="-")))
+		crop = ifelse(r3$PlantPartner == "Cereal", "wheat", "faba bean"),
+		harvest_date = as.character(as.Date(paste(r3$Year, r3$MonthGrainYield, r3$DayGrainYield, sep="-"))),
+		density = r3$PlantsEmergence_m2 * 10000,
+		yield2 = r3$GrainYield
 	)
-
-	d13 <- merge(d1, d3, "record_id")
 
 	dfaba <- data.frame(
 		record_id = r2$PlotCode,
@@ -105,14 +105,20 @@ The trial includes 40 faba bean varieties and 2  wheat varieties that are grown 
 		yield = r2$WTGY
 	) 
 	
-	dfaba <- merge(d13, dfaba, by="record_id", all.x=TRUE)
-	dwheat <- merge(d13, dwheat,  by="record_id", all.y=TRUE)
+	dfaba <- merge(d1, dfaba, by="record_id", all.x=TRUE)
+	dwheat <- merge(d1, dwheat,  by="record_id", all.y=TRUE)
 		
 	dwheat$variety <- dwheat$variety_wheat
 	
 	d <- carobiner::bindr(dfaba, dwheat)
 	d <- d[!is.na(d$yield), ]
 	d$variety_wheat <- NULL
+
+	d <- merge(d, d3, c("record_id", "crop"), all.x=TRUE)
+# Not good:
+#	plot(d$yield, d$yield2)
+	d$yield2 <- NULL
+	
 	d$record_id <- as.integer(as.factor(d$record_id))
 	
 	carobiner::write_files (path, dset, d)
