@@ -3,9 +3,10 @@
 carob_script <- function(path) {
   
   "Description: Survey at multiple locations in Tanzania (600 to 2100 m) to establish baseline yields at farm level. (2016)"
+  
   uri <- "hdl:11529/10548220"
   dataset_id <- carobiner::simple_uri(uri)
-  group <- "maize_trials"
+  group <- "crop_cuts"
   ff  <- carobiner::get_data(uri, path, group)
   dset <- data.frame(
     carobiner::read_metadata(uri, path, group, major=2, minor=0),
