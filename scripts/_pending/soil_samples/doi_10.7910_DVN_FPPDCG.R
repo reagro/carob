@@ -18,7 +18,9 @@ carob_script <- function(path) {
     data_institutions = "CIAT",
     data_type="on-farm experiment", 
     carob_contributor="Andrew Sila", 
-    carob_date="2023-09-28"
+    carob_date="2023-09-28",
+    revised_by = "Maru Njogu",
+    revision_date = "2024-04-08"
   )
   
   ## download data from the uri provided
@@ -47,10 +49,36 @@ carob_script <- function(path) {
   rd <- which(colnames(d1) %in% c("Nitrogen.acid", "ExNa", 'ExBas', "ESR", "ESP", "CaMg"))
   
   d1 <- d1[,-rd]
-  
+ 
 	hd <- c('soil_N','soil_total_carbon', 'soil_SOC', 'soil_pH','soil_Al','soil_B','soil_Cu','soil_Fe','soil_Mn','soil_P_total', 'soil_S','soil_Zn', 'soil_Ca','soil_Mg','soil_K', 'soil_EC', 'soil_ExAc')
 	
 	colnames(d1) <- c('SSN', hd)
+	
+	d1$soil_N <- as.numeric(d1$soil_N)
+	d1$soil_SOC <- as.numeric(d1$soil_SOC)
+	d1$soil_total_carbon <- as.numeric(d1$soil_total_carbon)
+	d1$soil_pH <- as.numeric(d1$soil_pH)
+	d1$soil_B <- as.numeric(d1$soil_B)
+	d1$soil_Cu <- as.numeric(d1$soil_Cu)
+	d1$soil_Zn <- as.numeric(d1$soil_Zn)
+	d1$soil_Ca <- as.numeric(d1$soil_Ca)
+	d1$soil_Mg <- as.numeric(d1$soil_Mg)
+	d1$soil_K <- as.numeric(d1$soil_K)
+	d1$soil_EC <- as.numeric(d1$soil_EC)
+	d1$soil_ExAc <- as.numeric(d1$soil_ExAc)
+	
+	
+	
+	d1$country <- 'Kenya'
+	d1$trial_id <- d1$SSN
+	d1$dataset_id <- dataset_id
+	geo <- carobiner::geocode(country = "Kenya", location = "Nyando")
+	d1$longitude <- geo$df$lon
+	d1$latitude <- geo$df$lat
+	
+	# Drop first column with SSN
+	d1 <- d1[,-1]
+	
 	
 	# Select from d2 , records from cluster 1 and plot 1 which were analyzed for wet chemistry
 	d2 <- subset(d2, Plot == '1')
