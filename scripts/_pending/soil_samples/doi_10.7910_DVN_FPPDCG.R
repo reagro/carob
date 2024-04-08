@@ -19,7 +19,11 @@ carob_script <- function(path) {
     data_type="on-farm experiment", 
     carob_contributor="Andrew Sila", 
     carob_date="2023-09-28",
+<<<<<<< HEAD
     revised_by = "Mary Njogu",
+=======
+    revised_by = "Maru Njogu",
+>>>>>>> 26f0c1eb46758dded82ea4edae40b92a940b89f9
     revision_date = "2024-04-08"
   )
   
