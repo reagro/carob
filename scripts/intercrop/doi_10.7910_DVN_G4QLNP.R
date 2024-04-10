@@ -30,7 +30,6 @@ cropping system (sole maize, sole pigeonpea, maize-pigeonpea, maize-gliricidia, 
 	r2 <- colMeans(read.csv(f2))
 	rownames(r2) <- NULL
 	
-	
 	d <- data.frame(
 		record_id=r1$Plots30,
 		rep=r1$Blk,
@@ -106,6 +105,8 @@ cropping system (sole maize, sole pigeonpea, maize-pigeonpea, maize-gliricidia, 
 	wpea <- pea
 	wpea$yield_part <- "wood"
 	wpea$yield <- wpea$pwyield
+	wpea <- wpea[!is.na(wpea$yield), ]
+	wpea <- wpea[wpea$yield > 0, ]
 	
 	gli <- d[grepl("gliricidia", d$treatment), ]
 	gli$crop <- "gliricidia"
