@@ -96,6 +96,7 @@ faba bean,Vicia faba,,yes,seed,pulses,,6500,faba beans,c_10722
 fenugreek,Trigonella foenum-graecum,,yes,seed,spices,,5500,fenugreek,c_b8cb7919
 fiber crop,spp,,no,stems; leaves,fibre_crops,,,fibre crops,c_2876
 fig,,,yes,fruit,fruits,,,figs,c_10840
+fig-leaf gourd,Cucurbita ficifolia,,yes,fruit,fruits,,,,
 finger millet,Eleusine coracana,,yes,grain,cereals,,6000,finger millet,c_2904
 flax,Linum usitatissimum,,yes,seed; stems,oil_seeds; fibre_crops,,,flax,c_2970
 forage crop,,,no,above_ground,fodder_crops,,,forage,c_36108
