@@ -1,8 +1,7 @@
 # R script for "carob"
 
 ## ISSUES
-# the description speaks of a liming treatment, but the data do not seem to include that.
-
+# the fruit trees in the MIAF system are not capture yet
 
 carob_script <- function(path) {
 
