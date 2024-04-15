@@ -148,7 +148,7 @@ previous_crop_residue_perc,numeric,%,no,,no,0,100,yes,percentage of residue of p
 previous_crop_burnt,logical,,no,,no,,,yes,was the residue of the previous crop burnt?,,
 crop_price,numeric,,no,,no,0,10,yes,current crop price when sold to market,,
 fertilizer_price,character,,no,,no,,,yes,price paid for fertilizer(s). E.g (urea=1; DAP=1.2),,
-currency,character,,no,,no,,,yes,currency used for prices,,
+currency,character,,no,currency,no,,,yes,currency used for prices,,
 flood_stress,character,,no,,no,,,yes,how severe was the damage from flooding?,,
 drought_stress,character,,no,,no,,,yes,how severe was the damage from drought?,,
 spike_density,numeric,spikes/ha,no,,no,1,3100000,yes,Number of spikes per ha,,
