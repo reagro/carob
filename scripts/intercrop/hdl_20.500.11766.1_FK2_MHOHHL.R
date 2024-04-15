@@ -2,7 +2,7 @@
 
 # ISSUES
 
-# both r2 and r4 have yield, but they do not match!
+# both r2 and r3 have yield, but they do not match!
 
 
 carob_script <- function(path) {

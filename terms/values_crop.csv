@@ -96,6 +96,7 @@ faba bean,Vicia faba,,yes,seed,pulses,,6500,faba beans,c_10722
 fenugreek,Trigonella foenum-graecum,,yes,seed,spices,,5500,fenugreek,c_b8cb7919
 fiber crop,spp,,no,stems; leaves,fibre_crops,,,fibre crops,c_2876
 fig,,,yes,fruit,fruits,,,figs,c_10840
+fig-leaf gourd,Cucurbita ficifolia,,yes,fruit,fruits,,,,
 finger millet,Eleusine coracana,,yes,grain,cereals,,6000,finger millet,c_2904
 flax,Linum usitatissimum,,yes,seed; stems,oil_seeds; fibre_crops,,,flax,c_2970
 forage crop,,,no,above_ground,fodder_crops,,,forage,c_36108
@@ -103,6 +104,7 @@ forage legume,spp,,no,forage,fodder_crops,,,,
 foxtail millet,Setaria italica,,yes,grain,cereals,,,,
 garlic,Allium sativum,,yes,tuber,vegetables,,,garlic,c_11091
 ginger,,,yes,tuber,spices,,,ginger,c_11157
+gliricidia,Gliricidia sepium,,yes,wood,fuel,,,,
 globe artichoke,,,yes,,vegetables,,,globe artichokes,c_11171
 goji berry,,,yes,fruit,fruits,,,goji berries,c_caacd4d4
 gomenzer,Brassica carinata,,yes,leaves,vegetables,,2300,,
@@ -198,7 +200,7 @@ pepper,Capsicum spp,,yes,seed,spices,,100000,pepper,c_25495
 peppermint,,,yes,leaves,culinary_herbs,,,peppermint,c_ae411b49
 perilla,Perilla frutescens,,yes,seed,oil_seeds,,,perilla seed,c_04f3705c
 phacelia,Phacelia tanacetifolia,,yes,above_ground,green_manures,,,,
-pigeon pea,Cajanus cajan,,yes,seed,pulses,,7000,pigeon peas,c_13356
+pigeon pea,Cajanus cajan,,yes,seed,pulses,,12000,pigeon peas,c_13356
 pineapple,,,yes,fruit,fruits,,,pineapples,c_13394
 pistachio,,,yes,seed,nuts,,,pistachios,c_13413
 plantain,,,yes,,vegetables,,,plantains,c_5989

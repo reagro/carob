@@ -13,6 +13,6 @@ cassava_trials,crop; soil,cassava variety trials
 potato_trials,crop; soil,potato variety trials
 sweetpotato_trials,crop; soil,sweetpotato variety trials
 soybean_trials,crop; soil,soybean variety trials
-survey,crop; soil; pesticide,household and agronomic surveys
-weeds,crop,weed management trials
-intercrop,crop; soil; pesticide,intercropping trials
+survey,crop; soil,household and agronomic surveys
+weeds,crop; soil,weed management trials
+intercrop,crop; soil,intercropping trials
