@@ -18,7 +18,7 @@ do_LCAS <- function(r) {
 		soil_texture = r$D.q401_soilTexture,
 		soil_quality = r$D.q403_soilPerception,
 		landscape_position = r$D.q402_drainClass,
-		previous_crop_residue = r$D.q407_cropResiduePcnt,
+		previous_crop_residue_perc = r$D.q407_cropResiduePcnt,
 		previous_crop_burnt = r$D.q408_residueBurnt == "yes",
 		land_prep_method = r$D.q411_LandPrep,
 		is_survey = TRUE

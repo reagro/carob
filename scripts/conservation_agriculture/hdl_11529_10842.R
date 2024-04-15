@@ -85,7 +85,7 @@ T10: Crop rotation B2 (B2S): direct seeding with animal drawn seeder, maize-sunf
 	d$irrigated <- FALSE
 	d$soil_type <- "sandy"
 
-	d$previous_crop_residue <- 100
+	d$previous_crop_residue_perc <- 100
 
 ## this could be added by using the residue from the previous year for the same plot
 ##	d$residue_prevcrop <- 
