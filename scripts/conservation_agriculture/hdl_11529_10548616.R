@@ -64,7 +64,7 @@ carob_script <- function(path) {
 			row_spacing=as.numeric(r$Row_dist),
 			rain=as.numeric(r$Precip),
 			variety=r$Variety,
-			previous_crop_residue=r$Res_perc,
+			previous_crop_residue_perc=r$Res_perc,
 			land_prep_method=r$Till,
 			crop_rotation=tolower(r$Crop_rotation),
 			treatment=r$Name_tr,
