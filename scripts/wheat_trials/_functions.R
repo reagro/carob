@@ -544,7 +544,7 @@ proc_wheat <- function(ff) {
 	
 	r$SOIL_PH <- if(is.null(r$SOIL_PH_ACTUAL_VALUE)) {NULL} else {as.numeric(r$SOIL_PH_ACTUAL_VALUE)}
 	
-	r$height <- r$PLANT_HEIGHT 
+	r$plant_height <- r$PLANT_HEIGHT 
 	r$sterility <- r$STERILITY_INDEX
 		
 	r$bird_damage <- r$BIRD_DAMAGE_PER_PLOT
@@ -608,7 +608,7 @@ proc_wheat <- function(ff) {
 	#fix colnames with uppercase
 	r <- carobiner::change_names(r, 
 		c("soil_ph", "h_tritici_repentis", "feconcentration", "znconcentration","n_fertilizer", "n_splits", "p_fertilizer", "k_fertilizer", "soil_om"),
-		c("soil_pH", "H_tritici_repentis", "Fe_concentration", "Zn_concentration",  "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_OM"), must_have=FALSE)
+		c("soil_pH", "H_tritici_repentis", "grain_Fe", "grain_Zn",  "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "soil_OM"), must_have=FALSE)
 
 	r
 
