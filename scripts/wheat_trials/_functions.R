@@ -122,13 +122,23 @@ proc_wheat <- function(ff) {
 	r$crop <- "wheat"
 	r$variety_code <- r$Gen_name
 
+
 	m <- matrix(byrow=TRUE, ncol=2, c(
+		"MAIZ/PAPA", "maize;potato" ,
+		"ROUGH PRO", NA, 
+		"ZALLON", NA,
+		"GRANPEA", "grass pea",
+		"GRASSPEA", "grass pea",
+		"BERSEEN", "berseem clover",
+		"EGYPTION", "berseem clover",
 		"VICIA FABA", "faba bean", 
+		"FABA VULGARIS, VICIA FABA", "faba bean", 
 		"FABABEEN", "faba bean", 
 		"FABAE BEAN", "faba bean", 
 		"FABA VULGARIS", "faba bean", 
 		"G'NUT", "groundnut",
 		"PEARL MILLET", "pearl millet",
+		"PEARL-MILL", "pearl millet",
 		"SEAOME", "sesame",
 		"SUGAR BEATTREFOIL", "sugar beet",
 	
@@ -140,6 +150,7 @@ proc_wheat <- function(ff) {
 		"INTERCROPING", NA,
 		"CLASLERBEEN", "guar",  # cluster bean
 		"P. / LEGUME", "legume",
+		"LEGUMS.", "legume",
 		"LEGUME: FABA BEAN", "faba bean",
 		"LEGUME, FABA BEAN", "faba bean",
 		"AJOS", "garlic",
@@ -184,6 +195,7 @@ proc_wheat <- function(ff) {
 		"CEREAL (MAGI)", "cereal",  #ragi?
 		"CEREAL (MAYIL)", "cereal", #rice?
 		"CEAREALS", "cereal",
+		"CEREALES", "cereal",
 		"CEREAL (RICE)", "rice",
 		"CEREAL  (RICE)", "rice",
 		"CICER ARIETINUM", "chickpea",
@@ -232,6 +244,7 @@ proc_wheat <- function(ff) {
 		"VICIA FABA", "faba bean",
 		"FEET FOLLOWED BY MU", NA,
 		"FIELD PEAS", "pea",
+		"PEAS BARBY BLEND", "pea",
 		"FIELD BEANS", "lablab",
 		"FODDER", "forage legume",
 		"FOOD LEGUMES", "legume",
@@ -388,8 +401,10 @@ proc_wheat <- function(ff) {
 		"SESBANIA I", "sesbania",
 		"SESBANIA INDICA", "sesbania",
 		"SESBANIA SP.", "sesbania",
+		"SESBANIASP", "sesbania",
 		"SESBANIA\\", "sesbania",
 		"SESBANIA ACULEATA", "sesbania",
+		"SESBANIA AS GM", "sesbania",
 		"SEED PRODUCTION", NA,
 		"SINAPIS", "mustard",
 		"SIGA", NA,
@@ -419,6 +434,7 @@ proc_wheat <- function(ff) {
 		"SUGAR BEET", "sugar beet",
 		"SUGERBEET", "sugar beet",
 		"SUGARR BEETS", "sugar beet",
+		"SUGAR BEAT", "sugar beet",
 		"SIJA", "soybean",
 		"SOJA", "soybean",
 		"SOJA CICLO CORTO", "soybean",
@@ -462,6 +478,7 @@ proc_wheat <- function(ff) {
 		"TRAMANRICE", "rice",
 		"TREBOL BLANCO", "white clover", 
 		"TREBOL ROJO", "red clover",
+		"TREFOIL", "clover",		
 		"TREFOIL CLOVER", "clover",		
 		"TREBOL-SOJA", "clover; soybean",
 		"TRIGO", "wheat", 
@@ -484,6 +501,7 @@ proc_wheat <- function(ff) {
 		"VIGRA RADIATA", "mung bean", 
 		"V. RADIATA MOONG", "mung bean", 
 		"VES", "vetch",
+		"BEZA", "vetch",
 		"VEZA", "vetch",
 		"VEGETABLE", "vegetables",
 		"VEGATEABLES", "vegetables",
