@@ -1,6 +1,5 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
 
 "CIMMYT and IITA. 2017. TAMASA Tanzania Agronomic Panel Survey for 2016. Version 1. Taking Maize Agronomy to Scale Project, CIMMYT and IITA. Tabular dataset (2016)"
@@ -11,15 +10,13 @@ carob_script <- function(path) {
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
-	   project="TAMASA",
-	   publication=NA,
-	   data_institutions = "CIMMYT",
-	   carob_contributor="Effie Ochieng'",
-	   carob_date="2021-09-17",
-	   data_type="survey"
+		project="TAMASA",
+		publication=NA,
+		data_institutions = "CIMMYT",
+		carob_contributor="Effie Ochieng'",
+		carob_date="2021-09-17",
+		data_type="survey"
 	)
-
-
 
 	f <- ff[basename(ff) == "TZ_TAMASA_APS_2017_Yield_MetaData.xlsx"]
 	r <- carobiner::read.excel(f, sheet = "Corrected-Raw-Data", n_max = 1835)
