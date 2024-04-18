@@ -58,8 +58,8 @@ carob_script <- function(path) {
 
 	e$yield <- d$yield
 		
-	e$flowering <- as.numeric(d$flw50)
-	e$silking <- d$slk50
+	e$flowering_days <- as.numeric(d$flw50)
+	e$silking_days <- d$slk50
 	
 	carobiner::write_files(dset, e, path=path)
 

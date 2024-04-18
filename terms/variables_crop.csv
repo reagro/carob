@@ -67,15 +67,15 @@ row_spacing,numeric,cm,no,,no,0,150,yes,Distance between rows,,
 plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,AGRO_00000316
 plant_density,numeric,plants/ha,no,,no,1000,3100000,yes,Number of plants per ha,,PCO_0000079
 rain,numeric,mm,no,,no,0,3000,yes,Total rainfall between planting and harvest,,ENVO_01000830
-dto_emergence,numeric,,no,,no,3,90,yes,Days to emergence (after planting),,
-heading,numeric,,no,,no,25,300,yes,Days to heading (after planting),,
-flowering,numeric,,no,,no,15,250,yes,Days to flowering (after planting),,TO_0000344
-anthesis,numeric,,no,,no,30,125,yes,Days to anthesis (after planting). Anthesis occurs when pollen is released,,
-silking,numeric,,no,,no,30,125,yes,Days to silking (after planting),,
-asi,numeric,days,no,,no,-7,30,yes,Anthesis silling interval,,
-tassling,numeric,,no,,no,30,125,yes,Days to tassling (after planting),,
-maturity,numeric,,no,,no,45,300,yes,Days to maturity (after planting),,
-harvest,numeric,,no,,no,45,300,yes,Days to harvest (after planting),,
+emergence_days,numeric,days,no,,no,3,90,yes,Days to emergence (after planting),,
+heading_days,numeric,days,no,,no,25,300,yes,Days to heading (after planting),,
+flowering_days,numeric,days,no,,no,15,250,yes,Days to flowering (after planting),,TO_0000344
+anthesis_days,numeric,days,no,,no,30,125,yes,Days to anthesis (after planting). Anthesis occurs when pollen is released,,
+silking_days,numeric,days,no,,no,30,125,yes,Days to silking (after planting),,
+asi,numeric,days,no,,no,-7,30,yes,Anthesis silking interval,,
+tassling_days,numeric,days,no,,no,30,125,yes,Days to tassling (after planting),,
+maturity_days,numeric,days,no,,no,45,300,yes,Days to maturity (after planting),,
+harvest_days,numeric,days,no,,no,45,300,yes,Days to harvest (after planting),,
 plant_height,numeric,cm,no,,no,10,350,yes,Maximum plant height,,
 ear_height,numeric,cm,no,,no,10,200,yes,height of first ear,,
 pathogen,character,,no,pathogen,yes,,,yes,Name of the pathogen studied,,

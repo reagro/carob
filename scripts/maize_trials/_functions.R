@@ -191,10 +191,10 @@ intmztrial_striga <- function(ff, sf=NULL) {
 		d <- doit(sf)
 	}
 	
-	d <- carobiner::change_names(d, c("pl_ht", "dy_sk", "dy_tass", "e_ht"), 
-				c("plant_height", "silking", "tassling", "ear_height"), must_have=FALSE)
+	d <- carobiner::change_names(d, c("pl_ht", "dy_sk", "dy_tass", "e_ht", "anthesis"), 
+				c("plant_height", "silking_days", "tassling_days", "ear_height", "anthesis_days"), must_have=FALSE)
 
-	if (!is.null(d$tassling)) d$tassling <- as.numeric(d$tassling)
+	if (!is.null(d$tassling_days)) d$tassling_days <- as.numeric(d$tassling_days)
 	
 	i <- is.na(d$plant_density)
 	d$plant_density[i] <- d$plstin[i]
@@ -211,7 +211,7 @@ intmztrial_striga <- function(ff, sf=NULL) {
 	d$yieldin <- NULL
 	
 	d$yield[d$yield < 0] <- NA
-	for (v in c("silking", "tassling", "anthesis", "plant_height")) {
+	for (v in c("silking_days", "tassling_days", "anthesis_days", "plant_height")) {
 		if (!is.null(d[[v]])) d[[v]][d[[v]] < 10] <- NA
 	}
 	

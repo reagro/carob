@@ -21,7 +21,7 @@ carob_script <- function(path) {
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)	
-	d$heading[d$heading < 0] <- NA
+	d$heading_days[d$heading_days < 0] <- NA
 
 	carobiner::write_files(path, dset, d)
 }

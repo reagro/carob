@@ -77,8 +77,8 @@ The trial includes 40 faba bean varieties and 2  wheat varieties that are grown 
 	dfaba <- data.frame(
 		record_id = r2$PlotCode,
 		crop = "faba bean",
-		flowering = r2$DFLRFB, 
-		maturity = r2$DMATFB , 
+		flowering_days = r2$DFLRFB, 
+		maturity_days = r2$DMATFB , 
 		plant_height= r2$FBPLHT,
 		yield_part = "seed",
 		yield = r2$FBGY, #kg/ha
@@ -98,8 +98,8 @@ The trial includes 40 faba bean varieties and 2  wheat varieties that are grown 
 	dwheat <- data.frame(
 		record_id = r2$PlotCode,
 		crop = "durum wheat",
-		flowering = r2$DFLRWT, 
-		maturity = r2$DMATWT, 
+		flowering_days = r2$DFLRWT, 
+		maturity_days = r2$DMATWT, 
 		plant_height = r2$WTPLHT, 
 		yield_part="grain",
 		yield = r2$WTGY

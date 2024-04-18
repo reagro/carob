@@ -3,38 +3,34 @@
 carob_script <- function(path) {
   
 " N2Africa is to contribute to increasing biological nitrogen fixation  and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The dataset is N2Africa agronomy trials - Uganda, 2016, I Crop: Climbing bean Crop system: intercropped with banana vs. sole"
-	
-  uri <- "doi:10.25502/6h5e-q472"
-  group <- "fertilizer"
-  ff <- carobiner::get_data(uri, path, group)
- 
+
+	uri <- "doi:10.25502/6h5e-q472"
+	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
   
-  dset <- data.frame(
-  	carobiner::read_metadata(uri,path,group,major=1,minor = 0),
-    project="N2Africa",
-    publication=NA,
-    data_institutions = "IITA",
-    carob_contributor="Samar Attaher",
-    carob_date="2023-08-06",
-    data_type="experiment"
-  )
+	dset <- data.frame(
+		carobiner::read_metadata(uri,path,group,major=1,minor = 0),
+		project="N2Africa",
+		publication=NA,
+		data_institutions = "IITA",
+		carob_contributor="Samar Attaher",
+		carob_date="2023-08-06",
+		data_type="experiment"
+	)
   
- 
-  #read the data file
-  f <- ff[basename(ff) == "data_table.csv"] 
-  # read the dataset
-  d <- data.frame(read.csv(f))
+	f <- ff[basename(ff) == "data_table.csv"] 
+	d <- read.csv(f)
 
 ##RH this should not be done using column indices. There is no way to recover if the data changes
 
   #change the columns names...********issue: the original names returns errors in columns selection**********  
-  colnames(d)[2] <- "trial_id"
-  colnames(d)[8:9] <- c("country","adm2")
-  colnames(d)[11:13] <- c("latitude","longitude","elevation")
-  colnames(d)[16:19] <- c("site","farm_size_ha","farm_size_unit","crop")
-  colnames(d)[28:29] <- c("fertilizer_type","OM_type")
-  colnames(d)[83:86] <- c("field_slop","farmer_perception_fertility","relative_fertility","drainage_level")
-  colnames(d)[92:109] <- c("previous_crop","other_previous_crop","fertilizer_type_previous_season","organic_fertilizer_previous_season",
+	colnames(d)[2] <- "trial_id"
+	colnames(d)[8:9] <- c("country","adm2")
+	colnames(d)[11:13] <- c("latitude","longitude","elevation")
+	colnames(d)[16:19] <- c("site","farm_size_ha","farm_size_unit","crop")
+	colnames(d)[28:29] <- c("fertilizer_type","OM_type")
+	colnames(d)[83:86] <- c("field_slop","farmer_perception_fertility","relative_fertility","drainage_level")
+	colnames(d)[92:109] <- c("previous_crop","other_previous_crop","fertilizer_type_previous_season",		"organic_fertilizer_previous_season",
                           "inoculated_previous_season","area_harvested_previous_season","unit_area_harvested_previous_season",
                           "yield_previous_season","unit_yield_previous_season","previous_crop_before_previous_season",
                           "other_previous_crop_before_previous_season","fertilizer_type_before_previous_season",
@@ -145,26 +141,13 @@ carob_script <- function(path) {
   d3 <- data.frame(d2[1:64], stack(d2[65:ncol(d2)]))
   colnames(d3)[65:66] <- c("treatments","treatments_code")
 
-  d3$variety <- "Nabe12c"
-  d3$variety [d3$treatments_code== "treatment1" |d3$treatments_code== "treatment2"|d3$treatments_code== "treatment5"] <- "Kabweseri" 
-  d3$variety [d3$SN==1 & d3$treatments_code== "treatment1"] <- "Nabe12c"
-  d3$variety [d3$SN==1 & d3$treatments_code== "treatment2"] <- "Nabe12c"
-  d3$variety [d3$SN==1 & d3$treatments_code== "treatment5"] <- "Nabe12c"
-  d3$variety [d3$SN==1 & d3$treatments_code== "treatment3"] <- "Mubano / kabweseri"
-  d3$variety [d3$SN==1 & d3$treatments_code== "treatment4"] <- "Mubano / kabweseri"
-  d3$variety [d3$SN==1 & d3$treatments_code== "treatment6"] <- "Mubano / kabweseri"
-  d3$variety [d3$SN==2 & d3$treatments_code== "treatment1"] <- "Mubano/kabweseri"
-  d3$variety [d3$SN==2 & d3$treatments_code== "treatment2"] <- "Mubano/kabweseri"
-  d3$variety [d3$SN==2 & d3$treatments_code== "treatment5"] <- "Mubano/kabweseri"
-  d3$variety [d3$SN==6 & d3$treatments_code== "treatment1"] <- "Mubano/kabweseri"
-  d3$variety [d3$SN==6 & d3$treatments_code== "treatment2"] <- "Mubano/kabweseri"
-  d3$variety [d3$SN==6 & d3$treatments_code== "treatment5"] <- "Mubano/kabweseri"
-  d3$variety [d3$SN==10 & d3$treatments_code== "treatment1"] <- "Mubano/kabweseri"
-  d3$variety [d3$SN==10 & d3$treatments_code== "treatment2"] <- "Mubano/kabweseri"
-  d3$variety [d3$SN==10 & d3$treatments_code== "treatment5"] <- "Mubano/kabweseri"
-  d3$variety [d3$SN==12 & d3$treatments_code== "treatment1"] <- "Mubano/kabweseri"
-  d3$variety [d3$SN==12 & d3$treatments_code== "treatment2"] <- "Mubano/kabweseri"
-  d3$variety [d3$SN==12 & d3$treatments_code== "treatment5"] <- "Mubano/kabweseri"
+ 	d3$variety <- "Nabe12c"
+	tr125 <- c("treatment1", "treatment2", "treatment5")
+	d3$variety [d3$treatments_code %in% tr125] <- "Kabweseri" 
+	d3$variety [d3$SN==1 & d3$treatments_code %in% tr125] <- "Nabe12c"
+	d3$variety [d3$SN==1 & (d3$treatments_code %in% c("treatment3", "treatment4", "treatment6"))] <- "Mubano;Kabweseri"
+	d3$variety [(d3$SN %in% c(2,6,10,12)) & (d3$treatments_code %in% tr125)] <- "Mubano;Kabweseri"
+
   
   #collecting grain yield per plots and converting it to yield per hectar for each treatment
 #  colnames(d)[c(461,476,491,506,513,520)]
@@ -172,34 +155,37 @@ carob_script <- function(path) {
 	tos <- paste0("yield_plot", 1:6)
 	d <- carobiner::change_names(d, froms, tos, TRUE)
   
-  dy <- d[,c("SN", "yield_plot1","yield_plot2","yield_plot3","yield_plot4","yield_plot5","yield_plot6")] 
-  dy1 <- data.frame(dy[1], stack(dy[2:ncol(dy)]))
-  dy1$yield <- dy1$values*(10000/36)   # from reference reports the area of the plot is 36 meter square 
-  colnames(dy1)[3] <- "plot_number"
-  d3 <- cbind(d3,dy1$plot_number,dy1$yield)
-  d3[c('other', 'plot_n')] <- stringr::str_split_fixed(d3$`dy1$plot_number`,'_',2)             
-  d3 <- subset( d3, select = -c(other,`dy1$plot_number`))
-  colnames(d3)[68] <- "yield"
+	dy <- d[,c("SN", "yield_plot1","yield_plot2","yield_plot3","yield_plot4","yield_plot5","yield_plot6")] 
+	dy1 <- data.frame(dy[1], stack(dy[2:ncol(dy)]))
+	# reference reports the area of the plot is 36 meter square 
+	dy1$yield <- dy1$values*(10000/36) 
+	colnames(dy1)[3] <- "plot_number"
+	d3 <- cbind(d3,dy1$plot_number,dy1$yield)
+	d3[c('other', 'plot_n')] <- stringr::str_split_fixed(d3$`dy1$plot_number`,'_',2)             
+	d3 <- subset( d3, select = -c(other,`dy1$plot_number`))
+	colnames(d3)[68] <- "yield"
   
   # # EGB: Fixing and adding
-  d3$on_farm <- TRUE
-  d3$is_survey <- TRUE
-  d3$variety_type <- "climbing"
-  d3$yield_part <- "seed"
-  # Add dates
-  d3$planting_date <- as.character(as.Date(as.character(d3$planting_date), format = "%d-%b-%y"))
-  d3$flowering <- as.integer(difftime(as.Date(as.character(d3$flowering_date), format = "%d-%b-%y"),
-                                      as.Date(as.character(d3$planting_date), format = "%Y-%m-%d"),
-                                      units = "days"))
-  d3$maturity <- as.integer(difftime(as.Date(as.character(d3$maturity), format = "%d-%b-%y"),
-                                     as.Date(as.character(d3$planting_date), format = "%Y-%m-%d"),
-                                     units = "days"))
-  d3$maturity <- ifelse(d3$maturity < 0, 365 + d3$maturity, d3$maturity) # Due to negative erroneous values (?)
-  d3$harvest <- as.integer(difftime(as.Date(as.character(d3$harvest_date_date), format = "%d-%b-%y"),
-                                    as.Date(as.character(d3$planting_date), format = "%Y-%m-%d"),
-                                    units = "days"))
-  d3$harvest <- ifelse(d3$harvest < 0, 365 + d3$harvest, d3$harvest) # Due to negative erroneous values (?)
-  d3$harvest_date <- as.character(as.Date(as.character(d3$harvest_date_date), format = "%d-%b-%y"))
+	  d3$on_farm <- TRUE
+	  d3$is_survey <- TRUE
+	  d3$variety_type <- "climbing"
+	  d3$yield_part <- "seed"
+	  # Add dates
+		d3$planting_date <- as.character(as.Date(as.character(d3$planting_date), format = "%d-%b-%y"))
+		d3$harvest_date <- as.character(as.Date(as.character(d3$harvest_date_date), format = "%d-%b-%y"))
+
+## do not compute new variables at this point of processing.
+#	  d3$flowering <- as.integer(difftime(as.Date(as.character(d3$flowering_date), format = "%d-%b-%y"),
+ #                                     as.Date(as.character(d3$planting_date), format = "%Y-%m-%d"),
+#                                      units = "days"))
+#  d3$maturity <- as.integer(difftime(as.Date(as.character(d3$maturity_date), format = "%d-%b-%y"),
+#                                     as.Date(as.character(d3$planting_date), format = "%Y-%m-%d"),
+#                                     units = "days"))
+#  d3$maturity <- ifelse(d3$maturity < 0, 365 + d3$maturity, d3$maturity) # Due to negative erroneous values (?)
+#  d3$harvest <- as.integer(difftime(as.Date(as.character(d3$harvest_date_date), format = "%d-%b-%y"),
+#                                    as.Date(as.character(d3$planting_date), format = "%Y-%m-%d"),
+#                                    units = "days"))
+#  d3$harvest <- ifelse(d3$harvest < 0, 365 + d3$harvest, d3$harvest) # Due to negative erroneous values (?)
   # Add treatments and fertilizers
   d3$treatment <- NA
   d3$treatment[d3$treatments_code %in% c("treatment1", "treatment2")] <- "N0P0K0"
@@ -227,7 +213,7 @@ carob_script <- function(path) {
   d4 <- d3[,c("trial_id", "on_farm", "is_survey",
               "country", "adm1", "adm2", "adm3", "adm4", "adm5", "location", "site", "elevation",
               "crop", "variety", "variety_type", "previous_crop",
-              "planting_date", "flowering", "maturity", "harvest", "harvest_date",
+              "planting_date", "harvest_date",
               "treatment", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", 
               "OM_used", "OM_type", "OM_amount", "diseases",
               "yield", "yield_part", "row_spacing", "plant_spacing")]

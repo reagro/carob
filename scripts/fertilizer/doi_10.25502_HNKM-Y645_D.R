@@ -58,7 +58,7 @@ carob_script <- function(path) {
 ## this is much clearer and less error-prone approach
 
 	d1$nodule_weight <- NA
-	d2$flowering <- d2$grain_weight <- d2$plant_height <- d2$maturity <- d2$harvest <- NA
+#	d2$flowering_days <- d2$grain_weight <- d2$plant_height <- d2$maturity_days <- d2$harvest_days <- NA
 	
 	dd <- rbind(d1, d2)		
 	

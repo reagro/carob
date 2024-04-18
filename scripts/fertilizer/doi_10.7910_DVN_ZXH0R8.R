@@ -70,10 +70,10 @@ carob_script <- function(path) {
 		x$K_fertilizer <- d$K.fertilizer.amount..kg.ha.
 		x$Zn_fertilizer <- d$Zn.fertilizer.amount..kg.ha.
 		x$S_fertilizer <- d$S.fertilizer.amount..kg.ha.
-		x$emergence <- d$Days.to.emergency
-		x$heading <- d$Days.to.heading
-		x$flowering <- d$Days.to.flowering
-		x$maturity <- d$Days.to.maturity		
+		x$emergence_days <- d$Days.to.emergency
+		x$heading_days <- d$Days.to.heading
+		x$flowering_days <- d$Days.to.flowering
+		x$maturity_days <- d$Days.to.maturity		
 		x$trial_id <- paste0(trialname, x$location)
 		if (is.null(d$village.Kebele)) {
 			x$location <- d$village

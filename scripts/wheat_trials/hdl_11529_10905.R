@@ -8,8 +8,6 @@ carob_script <- function(path) {
 
 	uri <- "hdl:11529/10905"
 	group <- "wheat_trials"
-
-
 	ff  <- carobiner::get_data(uri, path, group)
 
 	dset <- data.frame(
@@ -33,8 +31,6 @@ carob_script <- function(path) {
 	}
 
 	dd <- do.call(carobiner::bindr, d)
-	
-	d
 	dd$crop <- "durum wheat"
 
 	dd$soil_pH[dd$soil_pH < 2 | dd$soil_pH > 10] <- NA

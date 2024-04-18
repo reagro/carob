@@ -93,7 +93,7 @@ carob_script <- function(path) {
 
 		i <- grep("Date.of.50.anthesis", names(r))
 		if (length(i) != 0) {
-			d$flowering_date = as.character(as.Date(r[,i]))
+			d$anthesis_date = as.character(as.Date(r[,i]))
 		}
 		d	
 	}

@@ -36,14 +36,14 @@ carob_script <- function(path) {
 		GID = r2$GID, 
 		trial_id = r2$year, 
 		planting_date = as.character(r2$SOW),
-		emergence = r2$EMER, 
-		flowering = r2$FLO, 
-		maturity = r2$MAT, 
+		emergence_days = r2$EMER, 
+		flowering_days = r2$FLO, 
+		maturity_days = r2$MAT, 
 		plant_height = r2$HEI, 
 		yield = r2$YLD)
 					
-	d$flowering[d$flowering == "NA"] <- NA
-	d$flowering <- as.integer(d$flowering)
+	d$flowering_days[d$flowering_days == "NA"] <- NA
+	d$flowering_days <- as.integer(d$flowering_days)
 				
 	#BW -> Bread Wheat, DW -> Durum Wheat
 	d$crop <- ifelse(r2$type == "BW", "wheat", "durum wheat")

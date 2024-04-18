@@ -11,23 +11,17 @@ carob_script <- function(path) {
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
-	   project="High Rainfall Wheat Yield Trial",
-	   publication = "doi:10.1016/j.fcr.2020.107742",
-	   data_institutions = "CIMMYT",
-	   carob_contributor="Andrew Sila",
-	   carob_date="2023-05-03",
-	   
-	   data_type="on-station experiment"
-	    
-	    
+		project="High Rainfall Wheat Yield Trial",
+		publication = "doi:10.1016/j.fcr.2020.107742",
+		data_institutions = "CIMMYT",
+		carob_contributor="Andrew Sila",
+		carob_date="2023-05-03",	   
+		data_type="on-station experiment"
 	)
-
-
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)
-	d$heading[d$heading > 300] <- NA
+	d$heading_days[d$heading_days > 300] <- NA
 
 	carobiner::write_files(path, dset, d)
-	
 }

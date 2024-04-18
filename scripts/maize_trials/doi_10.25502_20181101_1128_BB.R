@@ -25,7 +25,7 @@ carob_script <- function(path) {
 	r <- read.csv(ff[bn=="20181029aao_S1_Yellow_lines_BBA_DS.csv"])  
 	
 	d1 <- r[, c("ID", "Country", "Location", "Study", "Year", "Rep", "Entry", "Pedigree", "Yield", "ASI", "PLTH", "EHT", "PASP", "EASP", "DS", "HC")]#
-	colnames(d1) <- c("ID", "country", "location", "treatment", "planting_date", "rep", "variety_code", "variety", "yield", "asi", "plant_height", "e_ht", "p_asp", "e_asp", "silking", "husk")#, 
+	colnames(d1) <- c("ID", "country", "location", "treatment", "planting_date", "rep", "variety_code", "variety", "yield", "asi", "plant_height", "e_ht", "p_asp", "e_asp", "silking_days", "husk")#, 
 	
 	
 	# read Yellow_lines_BBA_ww dataset
@@ -33,7 +33,7 @@ carob_script <- function(path) {
 	
 	d2 <- r1[, c("ID", "country", "Location", "Study", "YEAR", "Rep", "Entry", "Pedigree", "YIELD", "ASI", "PLTH", "EHT", "PASP", "EASP", "DS", "HC")]#
 
-	colnames(d2) <- c("ID", "country", "location", "treatment", "planting_date", "rep", "variety_code", "variety", "yield", "asi", "plant_height", "e_ht", "p_asp", "e_asp", "silking", "husk")#, 
+	colnames(d2) <- c("ID", "country", "location", "treatment", "planting_date", "rep", "variety_code", "variety", "yield", "asi", "plant_height", "e_ht", "p_asp", "e_asp", "silking_days", "husk")#, 
 	
 	# append d1 and d2
 	d <- rbind(d1, d2)
