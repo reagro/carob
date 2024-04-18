@@ -602,10 +602,7 @@ proc_wheat <- function(ff) {
 	i <- grep("Karaj", d$location)
 	d$latitude[i] <- 35.802
 
-	tolow <- function(x) {
-		if (is.null(x)) NULL else tolower(x)
-	}
-
+	tolow <- function(x) if (is.null(x)) NULL else tolower(x)
 
 	d$plant_height <- r$plant_height
 	d$sterility_index <- r$sterility_index		
