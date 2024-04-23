@@ -2,7 +2,9 @@
 
 # ISSUES
 # not useful without coordinates
-# fertilizer amount is specified 
+# fertilizer amount is specified
+#the fertilizer is given as "amount of Inorganic fertilizer" it however does do not give the  specifics
+#it is not specified if the units are referring to Nitrogen or phosphorus or pottasium 
 
 
 carob_script <- function(path) {
@@ -18,6 +20,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		#data_citation="Balemi T. and Kebede M., Tufa T., and Gurumu G. 2017. TAMASA Ethiopia. Yield, soil and agronomy data from farmers’ maize fields collected by EIAR, 2015 season.  International Maize and Wheat Improvement Centre (CIMMYT), Ethiopia.",
+		data_institutions = "CIMMYT",
 		publication= NA,
 		project=NA,
 		data_type= "survey",
@@ -46,26 +49,23 @@ carob_script <- function(path) {
 		soil_Fe=r$`Fe  (mg/kg)`,
 	    soil_sample_top= 0,
 	    soil_sample_bottom= 20,
-## not correct
-##		latitude=9.005401,
-##		longitude=38.763611,
+## corrected coordinates
+	latitude=6.58,
+  longitude=42.12,
 		trial_id="1",
 		yield_part="grain",
 		on_farm = TRUE,
-		is_survey = TRUE
-		irrigated <- as.logical(NA)
+		is_survey = TRUE,
+		irrigated <- FALSE
 	)
 
 	qdr <- r[, grep("Quadrant\\(.)-Grain yield kg/ha", colnames(r))]
 	qdr[qdr == "."] <- NA
 	d$yield <- rowMeans(sapply(qdr, as.numeric), na.rm = TRUE)
-	
-### ??? where does this come from?
-##	d$planting_date <- as.character(as.Date(  "2015-10-01"  ))
-##	d$harvest_date  <- as.character(as.Date(  "2015-12-31"  ))
 
 	d$harvest_date <- "2015"
 	
 	carobiner::write_files(dset, d, path=path)
 }
+
 
