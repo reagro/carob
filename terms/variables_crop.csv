@@ -1,10 +1,10 @@
 name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes,obo
 planting_date,character,,yes,,no,,,no,"Planting date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,AGRO_00010099
 emergence_date,character,,no,,no,,,yes,"Emergence date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
-transplanting_date,character,,no,,no,,,yes,"Transplanting date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
+transplanting_date,character,,no,,no,,,yes,"Transplanting date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,AGRO_00010131
 flowering_date,character,,no,,no,,,yes,"Flowering date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
 maturity_date,character,,no,,no,,,yes,"Maturity date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
-harvest_date,character,,no,,no,,,yes,"Harvest date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
+harvest_date,character,,no,,no,,,yes,"Harvest date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,AGRO_00010128
 season,character,,no,,no,,,yes,Season name,,
 on_farm,logical,,no,,no,,,yes,Is this observation on farm (not on station),,AGRO_00000601
 is_survey,logical,,no,,no,,,yes,Is this observation from a survey (not an experiment),,
@@ -13,9 +13,9 @@ rep,integer,,no,,no,,,yes,"Replication number (1, 2, 3, ...) For this specific o
 crop,character,,yes,crop,no,,,yes,Crop name(s),,AGRO_00000325
 variety,character,,no,,no,,,yes,Variety name,,
 variety_code,character,,no,,no,,,yes,Variety code (used by breeders),,
-variety_type,character,,no,,no,,,yes,"variety grouping (e.g. climbing/bush) and/or ""improved/landrace""",,
+variety_type,character,,no,,no,,,yes,"variety grouping (e.g. climbing/bush) and/or ""improved/landrace""",,AGRO_00000616
 intercrops,character,,no,crop,yes,,,yes,Other crop grown together with the main crop,,
-previous_crop,character,,no,crop,yes,,,yes,Crop grown on this plot in the prior season,,
+previous_crop,character,,no,crop,yes,,,yes,Crop grown on this plot in the prior season,,AGRO_00000592
 crop_rotation,character,,no,crop,yes,,,yes,Crops grown in rotation on this plot,,
 dmy_roots,numeric,kg/ha,no,,no,0,5000,yes,Dry-weight biomass of fine roots per ha,,
 dmy_stems,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of stems per ha,,
@@ -23,12 +23,12 @@ dmy_leaves,numeric,kg/ha,no,,no,0,20000,yes,Dry-weight biomass of leaves per ha,
 dmy_storage,numeric,kg/ha,no,,no,0,50000,yes,Dry-weight biomass of storage organs per ha,,
 dmy_total,numeric,kg/ha,no,,no,0,100000,yes,Dry-weight total biomass per ha,,
 dmy_residue,numeric,kg/ha,no,,no,0,100000,yes,Dry-weight residue biomass per ha,,
-yield_part,character,,yes,yield_part,no,,,no,"The part of the crop that ""yield"" refer to (e.g. grain, tubers, roots, leaves, fruit)",,
+yield_part,character,,yes,yield_part,no,,,no,"The part of the crop that ""yield"" refers to (e.g. grain, tubers, roots, leaves, fruit)",,
 yield,numeric,kg/ha,yes,,no,0,150000,no,"Fresh weight biomass of the main harvestable parts at maturity, per ha",,AGRO_00000176 
 residue_yield,numeric,kg/ha,no,,no,0,60000,yes,"Fresh weight of the above ground biomass except for the harvestable parts at maturity, per ha",,AGRO_00000164 
 grain_weight,numeric,g,no,,no,0,1000,yes,1000 grain weight,,TO_0000382
 fertilizer_type,character,,no,fertilizer_type,yes,,,yes,Name of fertilizer used,,CHEBI_33287
-fertilizer_date,character,,no,,no,,,yes,"Date of fertilizer applications. Possibly followed by ""(product; amount)""",,
+fertilizer_date,character,,no,,no,,,yes,"Date of fertilizer applications. Possibly followed by ""(product; amount)""",,AGRO_00010143
 N_fertilizer,numeric,kg/ha,fertilizer,,no,0,600,no,N applied in inorganic fertilizer,,AGRO_00000158
 N_splits,integer,,no,,no,0,5,yes,Number of splits in the N_fertilizer application,,
 P_fertilizer,numeric,kg/ha,fertilizer,,no,0,250,no,"P applied in inorganic fertilizer (as P, not P2O5)",,AGRO_00000160 
@@ -51,81 +51,85 @@ OM_K,numeric,kg/ha,no,,no,0,,yes,K applied in organic fertilizer,,AGRO_00000201
 inoculated,logical,,no,,no,,,yes,Was the field inoculated (with Rhizobium),,
 inoculant,character,,no,,no,,,yes,Name of the inoculant product,,
 irrigated,logical,,no,,no,,,yes,Was the plot irrigated?,,AGRO_00000006
-irrigation_source,character,,no,,no,,,yes,the source of irrigation water,,
-irrigation_method,character,,no,method,no,,,yes,the irrigation method,,
-irrigation_number,integer,,no,,no,0,50,yes,How many times was the crop irrigated?,,
-irrigation_amount,numeric,mm,no,,no,0,1000,yes,The total irrigation amount applied to the crop,,
-irrigation_dates,character,,no,,yes,,,yes,"Irrigation dates in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format; separated by ""; """,,
+irrigation_source,character,,no,,no,,,yes,the source of irrigation water,,AGRO_00000009
+irrigation_method,character,,no,method,no,,,yes,the irrigation method,,AGRO_00000054
+irrigation_number,integer,,no,,no,0,50,yes,How many times was the crop irrigated?,,AGRO_00010015
+irrigation_amount,numeric,mm,no,,no,0,1000,yes,The total irrigation amount applied to the crop,,AGRO_00000010
+irrigation_dates,character,,no,,yes,,,yes,"Irrigation dates in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format; separated by ""; """,,AGRO_00010126
 land_prep_method,character,,no,method,no,,,yes,Land preparation (tillage) method used (including no-till),,AGRO_00000322
-land_prep_implement,character,,no,implement,yes,,,yes,Land preparation (tillage) implement(s) used,,
-planting_method,character,,no,method,no,,,yes,Planting (sowing) method,,
-planting_implement,character,,no,implement,no,,,yes,Planting (sowing) implement used,,
-transplanting_method,character,,no,method,no,,,yes,(rice) transplanting method,,
+land_prep_implement,character,,no,implement,yes,,,yes,Land preparation (tillage) implement(s) used,,AGRO_00000224
+planting_method,character,,no,method,no,,,yes,Planting (sowing) method,,AGRO_00000231
+planting_implement,character,,no,implement,no,,,yes,Planting (sowing) implement used,,AGRO_00000232
+transplanting_method,character,,no,method,no,,,yes,(rice) transplanting method,,AGRO_00000229
 uncertainty,numeric,,no,,no,0,,yes,Measure of noise in data ,,
 uncertainty_type,character,,no,,no,,,yes,Type of noise measure,,
-row_spacing,numeric,cm,no,,no,0,150,yes,Distance between rows,,
+row_spacing,numeric,cm,no,,no,0,150,yes,Distance between rows,AGRO_00000318,
+plot_area,numeric,m2,no,,no,0,,yes,Area of the plot in square meter,,AGRO_00000302
+plot_lenght,numeric,m,no,,no,0,,yes, Lenght of the plot in meter,.AGRO_00000307,
+plot_width,numeric,m,no,,no,0,,yes, Width of the plot in meter,,AGRO_00000308
 plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,AGRO_00000316
-plant_density,numeric,plants/ha,no,,no,1,3100000,yes,Number of plants per ha,,PCO_0000079
+plant_density,numeric,plants/ha,no,,no,1000,3100000,yes,Number of plants per ha,,PCO_0000079
 rain,numeric,mm,no,,no,0,3000,yes,Total rainfall between planting and harvest,,ENVO_01000830
-emergence,numeric,,no,,no,3,90,yes,Days to emergence (after planting),,
-heading,numeric,,no,,no,25,300,yes,Days to heading (after planting),,
-flowering,numeric,,no,,no,15,250,yes,Days to flowering (after planting),,TO_0000344
-anthesis,numeric,,no,,no,30,125,yes,Days to anthesis (after planting). Anthesis occurs when pollen is released,,
-silking,numeric,,no,,no,30,125,yes,Days to silking (after planting),,
-tassling,numeric,,no,,no,30,125,yes,Days to tassling (after planting),,
-maturity,numeric,,no,,no,45,300,yes,Days to maturity (after planting),,
-harvest,numeric,,no,,no,45,300,yes,Days to harvest (after planting),,
-plant_height,numeric,cm,no,,no,10,350,yes,Maximum plant height,,
+emergence_days,numeric,days,no,,no,3,90,yes,Days to emergence (after planting),,
+heading_days,numeric,days,no,,no,25,300,yes,Days to heading (after planting),,
+flowering_days,numeric,days,no,,no,15,250,yes,Days to flowering (after planting),,TO_0000344
+anthesis_days,numeric,days,no,,no,30,125,yes,Days to anthesis (after planting). Anthesis occurs when pollen is released,,
+silking_days,numeric,days,no,,no,30,125,yes,Days to silking (after planting),,
+asi,numeric,days,no,,no,-7,30,yes,Anthesis silking interval,,
+tassling_days,numeric,days,no,,no,30,125,yes,Days to tassling (after planting),,TO_0000629
+maturity_days,numeric,days,no,,no,45,300,yes,Days to maturity (after planting),,TO_0000469
+harvest_days,numeric,days,no,,no,45,300,yes,Days to harvest (after planting),,
+plant_height,numeric,cm,no,,no,10,350,yes,Maximum plant height,,TO_0000207
+ear_height,numeric,cm,no,,no,10,200,yes,height of first ear,,
 pathogen,character,,no,pathogen,yes,,,yes,Name of the pathogen studied,,
 AUDPC,numeric,,no,,no,0,150,yes,Area under the disease progress curve,,
 rAUDPC,numeric,,no,,no,0,1,yes,Area under the disease progress curve divided by the non-diseased season length,,
-nodule_weight,numeric,?,no,,no,0,,yes,Fresh weight or root nodules,,
-leaf_N,numeric,mg/kg,no,,no,0,1000,yes,nitrogen in leaf,,
-leaf_K,numeric,mg/kg,no,,no,0,100,yes,potassium in leaf,,
-leaf_P,numeric,mg/kg,no,,no,0,100,yes,phosphorous in leaf,,
-leaf_S,numeric,mg/kg,no,,no,0,50,yes,sulphur in leaf,,
-leaf_Mg,numeric,mg/kg,no,,no,0,50,yes,calcium in leaf,,
-leaf_Ca,numeric,mg/kg,no,,no,0,50,yes,iron in leaf,,
-leaf_Fe,numeric,mg/kg,no,,no,0,50,yes,zinc in leaf,,
-leaf_Zn,numeric,mg/kg,no,,no,0,50,yes,zinc in leaf,,
-leaf_Cu,numeric,mg/kg,no,,no,0,50,yes,copper in leaf,,
-leaf_Mn,numeric,mg/kg,no,,no,0,50,yes,manganese in leaf,,
-leaf_B,numeric,mg/kg,no,,no,0,50,yes,boron in leaf,,
-leaf_Al,numeric,mg/kg,no,,no,0,50,yes,aluminium in leaf,,
-grain_N,numeric,mg/kg,no,,no,0,100,yes,nitrogen in grain,,
-grain_K,numeric,mg/kg,no,,no,0,100,yes,potassium in grain,,
-grain_P,numeric,mg/kg,no,,no,0,100,yes,phosphorous in grain,,
-grain_S,numeric,mg/kg,no,,no,0,50,yes,sulphur in grain,,
-grain_Mg,numeric,mg/kg,no,,no,0,50,yes,calcium in grain,,
-grain_Ca,numeric,mg/kg,no,,no,0,50,yes,iron in grain,,
-grain_Fe,numeric,mg/kg,no,,no,0,300,yes,zinc in grain,,
-grain_Zn,numeric,mg/kg,no,,no,0,500,yes,zinc in grain,,
-grain_Cu,numeric,mg/kg,no,,no,0,50,yes,copper in grain,,
-grain_Mn,numeric,mg/kg,no,,no,0,50,yes,manganese in grain,,
-grain_B,numeric,mg/kg,no,,no,0,50,yes,boron in grain,,
-grain_Al,numeric,mg/kg,no,,no,0,50,yes,aluminium in grain,,
+nodule_weight,numeric,?,no,,no,0,,yes,Fresh weight or root nodules,,TO_0000899
+leaf_N,numeric,mg/kg,no,,no,0,1000,yes,nitrogen content in leaf,,TO_0000543
+leaf_K,numeric,mg/kg,no,,no,0,100,yes,potassium content in leaf,,
+leaf_P,numeric,mg/kg,no,,no,0,100,yes,phosphorous content in leaf,,TO_0001025
+leaf_S,numeric,mg/kg,no,,no,0,50,yes,sulphur content in leaf,,
+leaf_Mg,numeric,mg/kg,no,,no,0,50,yes,calcium content in leaf,,
+leaf_Ca,numeric,mg/kg,no,,no,0,50,yes,iron content in leaf,,
+leaf_Fe,numeric,mg/kg,no,,no,0,50,yes,zinc content in leaf,,
+leaf_Zn,numeric,mg/kg,no,,no,0,50,yes,zinc content in leaf,,
+leaf_Cu,numeric,mg/kg,no,,no,0,50,yes,copper content in leaf,,
+leaf_Mn,numeric,mg/kg,no,,no,0,50,yes,manganese content in leaf,,
+leaf_B,numeric,mg/kg,no,,no,0,50,yes,boron content in leaf,,
+leaf_Al,numeric,mg/kg,no,,no,0,50,yes,aluminium content in leaf,,
+grain_N,numeric,mg/kg,no,,no,0,100,yes,nitrogen content in grain,,TO_0003068
+grain_K,numeric,mg/kg,no,,no,0,100,yes,potassium content in grain,,TO_0003056
+grain_P,numeric,mg/kg,no,,no,0,100,yes,phosphorous content in grain,,TO_0003082
+grain_S,numeric,mg/kg,no,,no,0,50,yes,sulphur content in grain,,
+grain_Mg,numeric,mg/kg,no,,no,0,50,yes,magnesium content in grain,,
+grain_Ca,numeric,mg/kg,no,,no,0,50,yes,calcium content in grain,,
+grain_Fe,numeric,mg/kg,no,,no,0,300,yes,iron content in grain,,
+grain_Zn,numeric,mg/kg,no,,no,0,500,yes,zinc content in grain,,
+grain_Cu,numeric,mg/kg,no,,no,0,50,yes,copper content in grain,,
+grain_Mn,numeric,mg/kg,no,,no,0,50,yes,manganese content in grain,,
+grain_B,numeric,mg/kg,no,,no,0,50,yes,boron content in grain,,
+grain_Al,numeric,mg/kg,no,,no,0,50,yes,aluminium content in grain,,
 grain_protein,numeric,%,no,,no,1,60,yes,% protein in grain,,
-residue_N,numeric,kg/ha,no,,no,0,1000,yes,nitrogen in residue,,
-soil_constraint,character,,no,,no,,,yes,soil constriaint (e.g. saline),,
+residue_N,numeric,kg/ha,no,,no,0,1000,yes,nitrogen content in residue,,
 season_constraint,character,,no,,no,,,yes,"a constraint that occurred in this particular season (e.g. drought, flood)",,
 herbicide_used,logical,,no,,no,,,yes,was a herbicide used?,,
 herbicide_product,character,,no,herbicides,yes,,,yes,name(s) of the active ingredient of the herbicide,,
 herbicide_timing,character,,no,,no,-30,200,yes,days after (or before) planting on which herbicide was used; multiple applications separated by ;,,
 herbicide_times,integer,,no,,no,0,5,yes,number of herbicide applications,,
 herbicide_dates,character,,no,,yes,,,yes,"herbicide appliacation dates in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format; separated by ""; """,,
-herbicide_amount,numeric,kg (ai) / ha,no,,no,0,100,yes,how much herbicide was used?,,
+herbicide_amount,numeric,kg (ai) / ha,no,,no,0,100,yes,how much herbicide was used?,,AGRO_00000662
 herbicide_implement,character,,no,implement,no,,,yes,the implement (machine) used,,
-weeding_times,integer,,no,,no,0,10,yes,how many times was the crop weeded?,,
-weeding_dates,character,,no,,yes,,,yes,"weeding dates in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format; separated by ""; """,,
+weeding_times,integer,,no,,no,0,10,yes,how many times was the crop weeded?,,AGRO_00010018
+weeding_dates,character,,no,,yes,,,yes,"weeding dates in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format; separated by ""; """,,AGRO_00000562
 weed_species,character,,no,,no,,,yes,weed species names ,,
 weed_biomass,numeric,kg/ha,no,,no,0,100000,yes,Fresh weight weeds biomass,,
 weed_severity,character,,no,,no,,,yes,how severe was the competition from weeds?,,
-weed_implement,character,,no,implement,no,,,yes,the implement (machine) used,,
+weed_implement,character,,no,implement,no,,,yes,the implement (machine) used,,AGRO_00002006
 insecticide_used,logical,,no,,no,,,yes,was an insecticide used?,,
 insecticide_product,character,,no,insecticides,yes,,,yes,name(s) of the active ingredient of the insecticide,,
 insecticide_timing,integer,,no,,no,-30,200,yes,days after (or before) planting on which insecticide was used,,
 insecticide_times,integer,,no,,no,0,12,yes,number of insecticide applications,,
-insecticide_amount,numeric,kg (ai) / ha,no,,no,,,yes,how much insecticide was used?,,
+insecticide_amount,numeric,kg (ai) / ha,no,,no,,,yes,how much insecticide was used?,,AGRO_00000663
 insecticide_implement,character,,no,implement,no,,,yes,the implement (machine) used,,
 pest_severity,character,,no,,no,,,yes,how severe was the pest damage?,,
 pest_species,character,,no,,no,,,yes,name(s) of relevant pest(s),,
@@ -139,15 +143,16 @@ fungicide_implement,character,,no,implement,no,,,yes,the implement (machine) use
 disease_severity,character,,no,,no,,,yes,how severe was the disease damage?,,
 diseases,character,,no,,no,,,yes,name(s) of relevant disease(s),,
 residue_prevcrop,numeric,kg/ha,no,,no,,,yes,how much residue of the previous crop is on the field?,,
-mulch,numeric,kg/ha,no,,no,,,yes,how much mulch is on the field?,,
+mulch,numeric,kg/ha,no,,no,,,yes,how much mulch is on the field?,,AGRO_00010013
 seed_source,character,,no,,no,,,yes,source of the seed used,,
-seed_amount,numeric,kg/ha,no,,no,0,1000,yes,amount of seed used,,
+seed_amount,numeric,kg/ha,no,,no,0,1000,yes,amount of seed used (seeding rate),,AGRO_00000202
 crop_cut,logical,,no,,no,,,yes,was the yield (in a survey) determined with a crop cut?,,
-previous_crop_residue,numeric,%,no,,no,0,100,yes,percentage of residue of previous crop that stayed on the field,,
+previous_crop_residue_weight,numeric,kg/ha,no,,no,0,10000,yes,weight of residue of previous crop that stayed on the field,,
+previous_crop_residue_perc,numeric,%,no,,no,0,100,yes,percentage of residue of previous crop that stayed on the field,,
 previous_crop_burnt,logical,,no,,no,,,yes,was the residue of the previous crop burnt?,,
 crop_price,numeric,,no,,no,0,10,yes,current crop price when sold to market,,
 fertilizer_price,character,,no,,no,,,yes,price paid for fertilizer(s). E.g (urea=1; DAP=1.2),,
-currency,character,,no,,no,,,yes,currency used for prices,,
+currency,character,,no,currency,no,,,yes,currency used for prices,,
 flood_stress,character,,no,,no,,,yes,how severe was the damage from flooding?,,
 drought_stress,character,,no,,no,,,yes,how severe was the damage from drought?,,
 spike_density,numeric,spikes/ha,no,,no,1,3100000,yes,Number of spikes per ha,,

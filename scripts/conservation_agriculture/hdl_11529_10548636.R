@@ -3,18 +3,18 @@
 
 carob_script <- function(path) {
   
-"Adoption of agronomic practices based on zero tillage and residue retention is increasing, due to their potential for climate change adaptation and mitigation. Genotype by tillage interactions for yield are not well understood. Fourteen CIMMYT bread (Triticum aestivum) and durum (Triticum turgidum) wheat genotypes, created between 1964 and 2011, were tested for yield and agronomic performance at CIMMYT’s experimental station near Ciudad Obregon, Mexico, over nine years (harvest years 2010 to 2018). Treatments included conventional and permanent raised beds with full and reduced irrigation. The dataset contains data on wheat performance (days to emergence, flowering and maturity, plant height, harvest index, grain yield, thousand grain weight, test weight, NDVI), performance traits calculated from these data (e.g. number of grains per m2, number of grains per spike, grain production rate from flowering to maturity) and daily weather data during the study period (precipitation, maximum and minimum temperature). This is an updated version of a dataset published in Honsdorf et al. (2018), where we have added three more years of data (harvest years 2016, 2017 and 2018) and one additional bread wheat genotype, Borlaug 100 (created in 2011) that was tested only in the six last years of the experiment (harvest years 2013 to 2018). (2021-12-14)
-"
+"Adoption of agronomic practices based on zero tillage and residue retention is increasing, due to their potential for climate change adaptation and mitigation. Genotype by tillage interactions for yield are not well understood. Fourteen CIMMYT bread (Triticum aestivum) and durum (Triticum turgidum) wheat genotypes, created between 1964 and 2011, were tested for yield and agronomic performance at CIMMYT’s experimental station near Ciudad Obregon, Mexico, over nine years (harvest years 2010 to 2018). Treatments included conventional and permanent raised beds with full and reduced irrigation. The dataset contains data on wheat performance (days to emergence, flowering and maturity, plant height, harvest index, grain yield, thousand grain weight, test weight, NDVI), performance traits calculated from these data (e.g. number of grains per m2, number of grains per spike, grain production rate from flowering to maturity) and daily weather data during the study period (precipitation, maximum and minimum temperature). This is an updated version of a dataset published in Honsdorf et al. (2018), where we have added three more years of data (harvest years 2016, 2017 and 2018) and one additional bread wheat genotype, Borlaug 100 (created in 2011) that was tested only in the six last years of the experiment (harvest years 2013 to 2018). (2021-12-14)"
+  
   
 	uri <- "hdl:11529/10548636"
-	group <- "wheat_trials"
+	group <- "conservation_agriculture"
 
 	ff	<- carobiner::get_data(uri, path, group)
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA,
-		publication="doi:10.1016/j.fcr.2017.11.011" ,
+		publication="doi:10.1016/j.fcr.2017.11.011",
 		data_institutions = "CIMMYT",
 		data_type="experiment", 
 		carob_contributor="Mitchelle Njukuya",
@@ -36,14 +36,14 @@ carob_script <- function(path) {
 		GID = r2$GID, 
 		trial_id = r2$year, 
 		planting_date = as.character(r2$SOW),
-		emergence = r2$EMER, 
-		flowering = r2$FLO, 
-		maturity = r2$MAT, 
+		emergence_days = r2$EMER, 
+		flowering_days = r2$FLO, 
+		maturity_days = r2$MAT, 
 		plant_height = r2$HEI, 
 		yield = r2$YLD)
 					
-	d$flowering[d$flowering == "NA"] <- NA
-	d$flowering <- as.integer(d$flowering)
+	d$flowering_days[d$flowering_days == "NA"] <- NA
+	d$flowering_days <- as.integer(d$flowering_days)
 				
 	#BW -> Bread Wheat, DW -> Durum Wheat
 	d$crop <- ifelse(r2$type == "BW", "wheat", "durum wheat")
@@ -53,6 +53,7 @@ carob_script <- function(path) {
 	treatname = c("Permanents beds, Full irrigation", "Permanents beds, Reduced irrigation", "Conventional tilled beds, Reduced irrigation", "Conventional tilled beds, Full irrigation")
 
 	d$treatment <- treatname[match(r2$syst, treatcode)]
+ 	d$land_prep_method <- ifelse("PB" %in% r2$syst, "permanent beds", "conventional tilled beds")
  
 	#Information on fertilizer application rates was found in the publication 
 	d$P_fertilizer <- 23

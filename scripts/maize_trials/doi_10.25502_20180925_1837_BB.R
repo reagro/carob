@@ -10,7 +10,6 @@ The study was carried out by the International Institute of Tropical Agriculture
 	uri <- "doi:10.25502/20180925/1837/BB"
 	group <- "maize_trials"	
 	ff <- carobiner::get_data(uri, path, group)
-		
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, major=2, minor=1, group),
@@ -22,11 +21,8 @@ The study was carried out by the International Institute of Tropical Agriculture
 		data_institutions="IITA"
 	)
 
-
-
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
-	d <- mzfun(ff, sf="Mali.csv")
-		
+	d <- mzfun(ff, sf="Mali.csv")	
 	
 	i <- d$location == "Sapu"
 	d$country[i] <- "Gambia"

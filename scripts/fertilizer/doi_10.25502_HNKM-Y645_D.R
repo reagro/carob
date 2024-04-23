@@ -1,14 +1,7 @@
 
 carob_script <- function(path) {
 
-  "
-  	The project proposes to use win-win public-private partnership approaches to disseminate improved
-  	legume seeds and complementary crop management practices developed under PARTI collaboration over 
-  	the past six years. Through PARTI partnerships, 5 varieties of soybean were released. 
-  	Most of the varieties are drought tolerant, resistant to endemic pests and diseases, have end-user preferred 
-  	traits, and show significant increases in yields on farmers’ fields.
-  
-  "
+"The project proposes to use win-win public-private partnership approaches to disseminate improved legume seeds and complementary crop management practices developed under PARTI collaboration over the past six years. Through PARTI partnerships, 5 varieties of soybean were released. Most of the varieties are drought tolerant, resistant to endemic pests and diseases, have end-user preferred traits, and show significant increases in yields on farmers’ fields."
   
 	uri <- "doi:10.25502/HNKM-Y645/D"
 	group <- "fertilizer"
@@ -24,8 +17,6 @@ carob_script <- function(path) {
 		data_type="on-farm experiment"
 	)
 
-	
-	
 	f <- ff[basename(ff) == "Canon data.csv"]
 	r1 <- read.csv(f)
 	f <- ff[basename(ff) == "Biomass Analysis.csv"]
@@ -33,10 +24,12 @@ carob_script <- function(path) {
 		
 	from1 <- c("Country", "Loc", "Treatment", "Variety", "pH_value", "Nitrogen", "Rep", "Yld_FW_kg_ha", "Harvested_Biomass_kg_ha", "Days_to_Flowering_R1", "Days_to_Full_Maturity_R8", "Days_to_Harvest", "Season")
 	d1 <- carobiner::change_names(r1[,from1], from1,
-		c("country", "adm1", "treatment", "variety", "P_fertilizer", "N_fertilizer", "rep", "yield", "residue_yield", "flowering", "maturity", "harvest", "season"))
+		c("country", "adm1", "treatment", "variety", "P_fertilizer", "N_fertilizer", "rep", "yield", "residue_yield", "flowering_days", "maturity_days", "harvest_days", "season"))
 	
 	#d1$inoculated <- ifelse(d1$Inoculant == "Yes", TRUE, FALSE)
 	d1$inoculated <- r1$Inoculant == "Yes"
+
+	d1$harvest_days[d1$harvest_days == 0] <- NA
 	
 	d1$grain_weight <- 1000 * r1$Seed_Weiht_sqm_g / r1$Seeds_sqm # for 1000 seeds
 	d1$plant_density <- 10000 * r1$PLST #to get plant population/ha
@@ -52,13 +45,10 @@ carob_script <- function(path) {
 	d2$plant_density <- 10000 * r2$PLST
 	d2$trial_id <- paste(1:nrow(d2), d2$adm1, d2$treatment, sep = "_")
 
-# this was not missing 	
 	d2$inoculated <- grepl("Inoc", d2$treatment)
 
-## this is much clearer and less error-prone approach
-
 	d1$nodule_weight <- NA
-	d2$flowering <- d2$grain_weight <- d2$plant_height <- d2$maturity <- d2$harvest <- NA
+	d2$flowering_days <- d2$grain_weight <- d2$plant_height <- d2$maturity_days <- d2$harvest_days <- NA
 	
 	dd <- rbind(d1, d2)		
 	

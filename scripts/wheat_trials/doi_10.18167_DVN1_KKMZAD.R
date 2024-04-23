@@ -24,9 +24,9 @@ carob_script <- function(path) {
 				
 	d <- data.frame(
 		planting_date=as.character(r$year), 
-		plant_density=r$V1, 
+		plant_density=r$V1 * 10000, 
 		spike_density=r$V2,
-		heading=r$V4, 
+		heading_days=r$V4, 
 		plant_height =r$V6, 
 		dmy_total= r$V8*1000, 
 		yield=r$V10*1000, 

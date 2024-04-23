@@ -17,12 +17,9 @@ carob_script <- function(path) {
 	   data_type="on-station experiment"
  	)
 
-## download and read data 
-
-
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)
-# all scripts must end like this
+
 	carobiner::write_files(path, dset, d)
 }
 

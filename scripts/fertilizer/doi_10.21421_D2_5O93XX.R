@@ -46,7 +46,7 @@ Phosphorus was applied at rate of 0 or 20 kg P ha-1. P fertilizer application in
 		N_fertilizer = 0,
 		P_fertilizer = ifelse(r$Fertilizer == "F1", 0, 20),
 		K_fertilizer = 0,
-		flowering = r$flw50,
+		flowering_days = r$flw50,
 		plant_spacing = r$Spacing,
 		row_spacing = 75 # from the reference
 	)	

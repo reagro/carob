@@ -83,10 +83,8 @@ carob_script <- function(path) {
   # Correcting years to 2009
   r$EmDate <- gsub("2017", "2009", r$EmergDt)
   d$emergence_date <- as.character(as.Date(r$EmDate))
-  d$emergence <- as.numeric(as.Date(d$emergence_date) - as.Date(d$planting_date))
   
   d <- d[!is.na(d$yield), ]
-
   carobiner::write_files(dataset = dset, records = d, path = path)
 }
 

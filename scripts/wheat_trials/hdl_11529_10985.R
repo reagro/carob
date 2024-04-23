@@ -11,15 +11,13 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=4, minor=1),
-	   project="Semi-Arid Wheat Yield Trial",	   
-	   publication=NA,
-	   data_institutions = "CIMMYT",
-	   carob_contributor="Robert Hijmans",
-	   carob_date="2023-06-30",
-	   data_type="on-station experiment"
+		project="Semi-Arid Wheat Yield Trial",	   
+		publication=NA,
+		data_institutions = "CIMMYT",
+		carob_contributor="Robert Hijmans",
+		carob_date="2023-06-30",
+		data_type="on-station experiment"
  	)
-
-
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)
