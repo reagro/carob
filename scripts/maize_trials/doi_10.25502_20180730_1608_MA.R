@@ -4,14 +4,12 @@ carob_script <- function(path) {
 
 The study was carried out by the International Institute of Tropical Agriculture between 1989 and 2015 in over thirty African countries.
 
-This dataset contains output of the research for Zimbabwe.
-"
+This dataset contains output of the research for Zimbabwe."
 
 	uri <- "doi:10.25502/20180730/1608/MA"
 	group <- "maize_trials"	
 	ff <- carobiner::get_data(uri, path, group)
 		
-
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, major=2, minor=1, group),
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
@@ -22,12 +20,8 @@ This dataset contains output of the research for Zimbabwe.
 		data_institutions="IITA"
 	)
 
-
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
-
 	d <- mzfun(ff)
-	
-	
 
 	d$location[d$location=='Harare1'] <- "Harare"
 	d$longitude[d$location=='Harare'] <- 31.05

@@ -63,10 +63,6 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	d$flowering_date <- as.character(as.Date(r$FLOWERING_DATE, "%d/%m/%y"))
 	d$maturity_date <- as.character(as.Date(r$X.90._Maturity_Date_.Month.Day.Year., "%m/%d/%y"))
 
-	d$emergence <- as.integer(as.Date(d$emergence_date) - as.Date(d$planting_date))
-	d$flowering <- as.integer(as.Date(d$flowering_date) - as.Date(d$planting_date))
-	d$maturity <- as.integer(as.Date(d$maturity_date) - as.Date(d$planting_date))
-
 	w1 <- as.character(as.Date(r$WEEDING_DATE_1, "%d/%m/%y"))
 	w2 <- as.character(as.Date(r$WEEDING_DATE_2, "%d/%m/%y"))
 	w <- paste0(w1, "; ", w2)

@@ -96,6 +96,7 @@ faba bean,Vicia faba,,yes,seed,pulses,,6500,faba beans,c_10722
 fenugreek,Trigonella foenum-graecum,,yes,seed,spices,,5500,fenugreek,c_b8cb7919
 fiber crop,spp,,no,stems; leaves,fibre_crops,,,fibre crops,c_2876
 fig,,,yes,fruit,fruits,,,figs,c_10840
+fig-leaf gourd,Cucurbita ficifolia,,yes,fruit,fruits,,,,
 finger millet,Eleusine coracana,,yes,grain,cereals,,6000,finger millet,c_2904
 flax,Linum usitatissimum,,yes,seed; stems,oil_seeds; fibre_crops,,,flax,c_2970
 forage crop,,,no,above_ground,fodder_crops,,,forage,c_36108
@@ -167,10 +168,10 @@ mung bean,Vigna radiata,,yes,seed,pulses,,,mung beans,c_4988
 mushrooms,,,yes,,vegetables,,,mushrooms,c_2487
 muskmelon,,,yes,fruit,fruits,,,muskmelons,c_12487
 mustard,,,yes,seed,spices,,,mustard seed,c_fd07a050
+napa shak,Malva verticillata,,yes,leaves,vegetables,,,,
 napier grass,Cenchrus purpureus,Pennisetum purpureum,yes,above_ground,fodder_crops,,,,
 nectarine,,,yes,fruit,fruits,,,nectarines,c_5100
 niger ,Guizotia abyssinica,sunflecks,yes,seed,oil_seeds,,,,
-no crop,,fallow,yes,,other,,,,
 noug,Guziota scarba,,yes,seed,oil_seeds,,5000,noug seed,c_12827
 nutmeg,,,yes,seed,spices,,,nutmegs,c_23169
 oats,Avena sativa,,yes,grain,cereals,,13450,oats,c_5287
@@ -218,6 +219,7 @@ rambutan,,,yes,fruit,fruits,,,rambutans,c_13754
 ramie,,,yes,,fibre_crops,,,ramie,c_6442
 rapeseed,Brassica napus,,yes,seed,oil_seeds,,5000,rapeseed,c_25499
 raspberry,,,yes,fruit,fruits,,,raspberries,c_6458
+red amaranth,Amaranthus cruentus,,yes,leaves; seed,vegetables,,,,
 red clover,Trifolium pratense,,yes,above_ground,green_manures; feed_crops,,,,
 red currant,,,yes,fruit,fruits,,,red currants,c_6479
 rhubarb,,,yes,,vegetables,,,rhubarb,c_11089
@@ -288,4 +290,4 @@ white lupin,Lupinus albus,,yes,seed,pulses,,,,
 winter melon,,,yes,fruit,fruits,,,winter melons,c_acf09bff
 yam,Dioscorea cayenensis,,yes,tuber,root_tuber,,60000,yams,c_8478
 pasture,,,yes,above_ground,fodder_crops,,,,
-none,,,yes,,,,,,
+none,,fallow,yes,,other,,,,

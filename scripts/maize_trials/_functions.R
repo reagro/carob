@@ -12,6 +12,7 @@ intmztrial_striga <- function(ff, sf=NULL) {
 		d$x <- NULL
 		names(d)[1] <- "id"
 		d$id <- NULL
+		d$gwt <- NULL
 		if (!is.null(d$str_rat1)) {
 			d$str_ra1_in <- NULL
 			d$str_ra1_un <- NULL
@@ -35,8 +36,8 @@ intmztrial_striga <- function(ff, sf=NULL) {
 		}
 		
 		d <- carobiner::change_names(d, 
-		 c("trl_titl", "entry", "entryno", "instinf", "bltin_m", "bltun_m", "x1000gwt", "x_1000gwt", "cobdamco", "cobdamrt", "borerdmrat", "sbdamat"), 
-		 c("trial_name", "variety", "variety_code", "instin", "blight_in", "blight_un", "grain_weight", "grain_weight", "cob_dam_co", "cob_dam_rt", "borer_dam_rat", "sb_dam_rat")
+		 c("trl_titl", "entry", "entryno", "instinf", "bltin_m", "bltun_m", "x1000gwt", "x_1000gwt", "cobdamco", "cobdamrt", "borerdmrat", "sbdamat", "nitr_rat"), 
+		 c("trial_name", "variety", "variety_code", "instin", "blight_in", "blight_un", "grain_weight", "grain_weight", "cob_dam_co", "cob_dam_rt", "borer_dam_rat", "sb_dam_rat", "grain_N")
 		 , must_have=FALSE)
 
 		d$planting_date <- d$year
@@ -136,7 +137,7 @@ intmztrial_striga <- function(ff, sf=NULL) {
 		} else {
 			d$grain_weight <- as.numeric(d$grain_weight)	
 		}
-		qv <- c("yield", "pl_ht", "e_ht", "asi", "gwt", "dy_sk", "p_asp", "p_harv", "e_asp", "husk", "rl", "sl", "e_rot", "rust", "anthesis", "moist", "pl_st")
+		qv <- c("yield", "pl_ht", "e_ht", "asi", "dy_sk", "p_asp", "p_harv", "e_asp", "husk", "rl", "sl", "e_rot", "rust", "anthesis", "moist", "pl_st")
 		for (v in qv) {
 			if (!is.null(d[[v]])) {
 				d[[v]][d[[v]] == "."] <- NA
@@ -155,13 +156,13 @@ intmztrial_striga <- function(ff, sf=NULL) {
 
 		if (inherits(d$latitude, "character")) {
 			d$latitude <- trimws(d$latitude)
-			d$latitude <- gsub(" ", "", d$latitude)
+			d$latitude <- gsub(" ", "", d$latitude)
 			d$latitude[d$latitude == ""] <- NA
 			d$latitude <- as.numeric(d$latitude)
 		}
 		if (inherits(d$longitude, "character")) {
 			d$longitude <- trimws(d$longitude)
-			d$longitude <- gsub(" ", "", d$longitude)
+			d$longitude <- gsub(" ", "", d$longitude)
 			d$longitude[d$longitude == ""] <- NA
 			d$longitude <- as.numeric(d$longitude)
 		}
@@ -191,16 +192,22 @@ intmztrial_striga <- function(ff, sf=NULL) {
 		d <- doit(sf)
 	}
 	
-	d <- carobiner::change_names(d, c("pl_ht", "dy_sk", "dy_tass"), 
-				c("plant_height", "silking", "tassling"), must_have=FALSE)
+	d <- carobiner::change_names(d, c("pl_ht", "dy_sk", "dy_tass", "pl_st", "anthesis", "e_ht"), 
+				c("plant_height", "silking_days", "tassling_days", "plant_density", "anthesis_days", "ear_height"), must_have=FALSE)
 
-	if (!is.null(d$tassling)) d$tassling <- as.numeric(d$tassling)
+	if (!is.null(d$grain_N)) d$grain_N <- as.numeric(d$grain_N)
+	if (!is.null(d$tassling_days)) d$tassling_days <- as.numeric(d$tassling_days)
+	if (!is.null(d$plant_density)) d$plant_density <- as.numeric(d$plant_density) * 10000
+	if (!is.null(d$anthesis_days)) d$anthesis_days <- round(d$anthesis_days)
 
 	d$yield[d$yield < 0] <- NA
-	for (v in c("silking", "tassling", "anthesis", "plant_height")) {
+	for (v in c("silking_days", "tassling_days", "anthesis_days", "plant_height")) {
 		if (!is.null(d[[v]])) d[[v]][d[[v]] < 10] <- NA
 	}
 	
+	d <- carobiner::change_names(d, c("gwt"), 
+				c("grain_weight"), must_have=FALSE)
+	
+	
 	d
 }
-

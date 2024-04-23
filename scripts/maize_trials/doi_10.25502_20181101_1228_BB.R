@@ -27,13 +27,13 @@ Drought is a key maize (Zea mays L.) production constraint in sub-Saharan Africa
 	r1 <- read.csv(f1)
 	
 	rr <- r[, c("Country", "Location", "Rep", "YR", "YIELD", "POLLEN", "DYSK", "PLHT", "EHT", "PASP", "EROT", "ASI", "EASP")]	
-	colnames(rr) <- c("country", "location", "rep", "planting_date", "yield", "tassling", "silking", "plant_height", "e_ht", "p_asp", "erot", "asi", "e_asp")
+	colnames(rr) <- c("country", "location", "rep", "planting_date", "yield", "tassling_days", "silking_days", "plant_height", "e_ht", "p_asp", "erot", "asi", "e_asp")
 	
 	rr$trial_id <- paste0(r$Pedigree, '-', r$ENV)
 	rr$season <- r$Study
 	
 	r11 <- r1[, c("Country", "LOC", "Rep", "YEAR", "YIELD", "POLLEN", "DYSK", "PLHT", "EHT", "PASP", "EROT", "ASI", "EASP")]	
-	colnames(r11) <- c("country", "location", "rep", "planting_date", "yield", "tassling", "silking", "plant_height", "e_ht", "p_asp", "erot", "asi", "e_asp")
+	colnames(r11) <- c("country", "location", "rep", "planting_date", "yield", "tassling_days", "silking_days", "plant_height", "e_ht", "p_asp", "erot", "asi", "e_asp")
 	
 	r11$trial_id <- paste0(r1$Pedigree, '-', r1$ENV)
 	r11$season <- r1$Study

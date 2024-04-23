@@ -28,7 +28,7 @@ carob_script <- function(path) {
 	### process file()
 	
 	d <- r[,c("ID","Country", "City", "REP_NO", "DESIGNATION", "YIELD", "BIOM", "PLHT", "SWT100", "DM","HARVEST", "DFFL")]
-	 colnames(d) <- c("ID", "country", "location", "rep", "variety", "yield", "dmy_total", "plant_height", "grain_weight", "maturity", "harvest", "flowering")
+	 colnames(d) <- c("ID", "country", "location", "rep", "variety", "yield", "dmy_total", "plant_height", "grain_weight", "maturity_days", "harvest_days", "flowering_days")
 
 	d$location <- carobiner::fix_name(d$location, "title") 
 	d$country <- carobiner::fix_name(d$country, "title") 

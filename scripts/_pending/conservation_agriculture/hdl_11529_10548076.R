@@ -99,7 +99,7 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
     
     i <- grep("Date.of.50.anthesis", names(r))
     if (length(i) != 0) {
-      d$flowering_date = as.character(as.Date(r[,i]))
+      d$anthesis_date = as.character(as.Date(r[,i]))
     }
     d	
   }
