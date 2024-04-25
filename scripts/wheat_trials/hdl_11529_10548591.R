@@ -20,7 +20,11 @@ years, the crop must respond appropriately (water responsive) with higher yields
 more favorable conditions. Constrains including leaf, stem and yellow rusts, and
 Septoria spp., Fusarium spp., Pyrenophora tritici-repentis tan spot, nematodes 
 and root rots must be considered. It is distributed to 120 locations, and contains
+<<<<<<< HEAD
 150-250 entries. (2020)]
+=======
+150-250 entries. (2021)]
+>>>>>>> d77575c4388fb142b1ed514d81db20bca06bb9eb
 "
 
 #### Identifiers
@@ -35,19 +39,31 @@ and root rots must be considered. It is distributed to 120 locations, and contai
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		data_institutions = "CIMMYT",
 		publication= NA,
+<<<<<<< HEAD
 		project="Semi-Arid Wheat Screening Nursery",
+=======
+		project=NA,
+>>>>>>> d77575c4388fb142b1ed514d81db20bca06bb9eb
 		data_type= "experiment",
 		carob_contributor= "Blessing Dzuda",
 		carob_date="2024-04-25"
 	)
 	
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d77575c4388fb142b1ed514d81db20bca06bb9eb
 ## process file(s)
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)	
 	d$crop <- "durum wheat"
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> d77575c4388fb142b1ed514d81db20bca06bb9eb
 	carobiner::write_files(path, dset, d)
 }
 
