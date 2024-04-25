@@ -1,0 +1,145 @@
+# R script for "carob"
+
+
+carob_script <- function(path) {
+  
+  "Farmer participatory on-farm trials with CA technologies comparing with farmers’ practices (CT), 
+  were conducted in several fields in each community. 
+  Likewise, farmer-participatory alternative cropping systems trials were conducted comparing to existing systems and
+  to find out suitable and more profitable cropping systems, prioritized to increase visibility and
+  to avoid implementation and management problems that emerge when utilizing small plots with significant edge effects.
+  Most trials were replicated in several fields within each community and were farmer-managed with backstopping from project staff and NARES partners.
+  Project partners and staff coordinated monitoring and data acquisition. 
+  Where possible, collaborating farmers were selected by the community, and the project worked with existing farmer groups, with groups of both men and women farmers."
+  
+  uri <- "hdl:11529/10547966"
+  group <- "conservation_agriculture"
+  ff <- carobiner::get_data(uri, path, group)
+  dset <- data.frame(
+    carobiner::read_metadata(uri, path, group, major=2, minor=1),
+    project=NA, 
+    publication= "doi.org/10.1016/j.fcr.2019.04.005", 
+    data_institutions = "CIMMYT", 
+    data_type="on-farm experiment", 
+    carob_contributor="Mitchelle Njukuya", 
+    carob_date="2024-04-25"
+  )
+  
+  f <- ff[basename(ff) == "Wheat & Maize  2014-15-LT-Puranigarel-Purnea.xlsx"]
+  f1 <- ff[basename(ff) == "Wheat & maize  2015-16-LT-Puranigarel-Purnea .xlsx"]
+  f2 <- ff[basename(ff) == "Wheat & Maize  2016-17-LT-Puranigarel-Purnea.xlsx"]
+  f3 <- ff[basename(ff) == "Wheat & Maize 2014-15-LT-Dogachi-Purnea.xlsx"]
+  f4 <- ff[basename(ff) == "Wheat & Maize 2014-15-LT-Katheli-Purnea.xlsx"]
+  f5 <- ff[basename(ff) == "Wheat & Maize 2014-15-LT-Tikapatti-Purnea.xlsx"]
+  f6 <- ff[basename(ff) == "Wheat & Maize 2015-16-LT-Dogachi-Purnea.xlsx"]
+  f7 <- ff[basename(ff) == "Wheat & Maize 2015-16-LT-Katheli-Purnea.xlsx"]
+  f8 <- ff[basename(ff) == "Wheat & Maize 2015-16-LT-Tikapatti-Purnea.xlsx"]
+  f9 <- ff[basename(ff) == "Wheat & Maize 2015-16-LT-Udaynagar-Purnea .xlsx"]
+  f10 <- ff[basename(ff) == "Wheat & Maize 2016-17-LT-Dogachi-Prunea.xlsx"]
+  f11 <- ff[basename(ff) == "Wheat & Maize 2016-17-LT-Katheli-Purnea.xlsx"]
+  f12 <- ff[basename(ff) == "Wheat & Maize 2016-17-LT-Tikapatti-Purnea.xlsx"]
+  f13 <- ff[basename(ff) == "Wheat & Maize 2016-17-LT-Udaynagar-Purnea.xlsx"]
+ 
+    ## process all Wheat and Maize -Purnea files
+  
+  sort_data <- function(f) {
+   
+    r1 <- carobiner::read.excel.hdr(f, sheet ="4- Stand counts & Phenology", skip=4, hdr=3)
+    colnames(r1) <- gsub("Date.of.harvest.dd.mm.yy","Datw.of.harvest.dd.mm.yy",colnames(r1))
+    colnames(r1) <- gsub("X.6","Node",colnames(r1))
+    
+    d1 <- data.frame(
+      treatment=r1$Tmnt, 
+      trial_id=paste0(r1$Node, "_", r1$Site.No), 
+      location=r1$Node,
+      variety=r1$Variety,
+      row_spacing=r1$Row.spacing.cm,
+      crop=tolower(r1$Crop),
+      planting_date=as.character(r1$Date.of.seeding.dd.mm.yy),
+      harvest_date=as.character(r1$Datw.of.harvest.dd.mm.yy))
+    
+    
+    
+    r2 <- carobiner::read.excel.hdr(f, sheet ="6 - Fertilizer amounts ", skip=4, hdr=3)
+    
+    colnames(r2) <- gsub("P.kg.ha|P.2O5.kg.ha","P2O5.kg.ha",colnames(r2))
+    colnames(r2) <- gsub("K.kg.ha","K2O.kg.ha",colnames(r2))
+    colnames(r2) <- gsub("Zn.kg.ha","ZnSO4.kg.ha",colnames(r2))
+    
+    d2 <- data.frame(
+      treatment=r2$Tmnt,
+      location=r2$Node,
+      trial_id=paste0(r2$Node, "_", r2$Site.No),
+      N_fertilizer=r2$N.kg.ha, 
+      P_fertilizer=r2$P2O5.kg.ha / 2.29,
+      K_fertilizer=r2$K2O.kg.ha /  1.2051,
+      Zn_fertilizer=r2$ZnSO4.kg.ha) 
+    
+    d2$fertilizer_type <- apply(r2[, grep("Application_Product.used", names(r2))], 1, 
+                                \(i) paste(unique(i), collapse="; "))
+    
+    
+    
+    string0 <- readxl::excel_sheets(f)[grep("Grain Harvest",readxl::excel_sheets(f))]
+    r3 <- carobiner::read.excel.hdr(f, sheet = string0, skip=4, hdr=3)	
+    
+    colnames(r3) <- gsub("Gy.t.ha|Grain.Yield.t.Ha|Calculation_Grain.Yield.t.ha|Grain.Yield.t.ha","Grain.yield.t.ha",colnames(r3))
+    colnames(r3) <- gsub("Biomass.t.ha","Biomass",colnames(r3))
+    
+    string6 = "Starw.t.ha"
+    ifelse(string6 %in% colnames(r3), r3$Starw.t.ha <- r3$Starw.t.ha,
+           r3$Starw.t.ha <- NA)
+    d3 <- data.frame(
+      treatment=r3$Tmnt,
+      location=r3$Node,
+      trial_id=paste0(r3$Node, "_", r3$Site.No), 
+      
+      yield=r3$Grain.yield.t.ha * 1000,
+      residue_yield=r3$Starw.t.ha * 1000,
+      dmy_total=r3$Biomass * 1000)
+    
+    ## merge all 
+    dd <- merge(d1, d2, by=c("treatment", "trial_id","location"), all.x=TRUE)
+    dd <- merge(dd, d3, by=c("treatment", "trial_id","location"), all.x=TRUE) }
+  
+  d0 <- sort_data(f)
+  d1 <- sort_data(f1)
+  d2 <- sort_data(f2)
+  d3 <- sort_data(f3)
+  d4 <- sort_data(f4)
+  d5 <- sort_data(f5)
+  d6 <- sort_data(f6)
+  d7 <- sort_data(f7)
+  d8 <- sort_data(f8)
+  d9 <- sort_data(f9)
+  d10 <- sort_data(f10)
+  d11 <- sort_data(f11)
+  d12 <- sort_data(f12)
+  d13 <- sort_data(f13)
+  
+  d <- rbind(d0,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13)
+  
+  #add columns
+  
+  d$country <- "India"
+  d$on_farm <- TRUE
+  d$is_survey <- FALSE
+  d$irrigated <- TRUE
+  d$yield_part <- "grain" 
+  d$fertilizer_type <- gsub("MOP|urea+MOP|Mop|mop", "KCl", d$fertilizer_type)
+  d$fertilizer_type <- gsub("Urea|UREA", "urea", d$fertilizer_type)
+  d$fertilizer_type <- gsub("Zinc sulphate", "ZnSO4", d$fertilizer_type)
+  d$crop <- gsub("rabi maize", "maize", d$crop)
+  d$location <- gsub("Takapati","Tikapatti", d$location)
+  
+  geo= data.frame(location=c("Puranigarel", "Dogachi", "Katheli" , "Tikapatti", "Udaynagar"), 
+                  latitude=c(25.8799, 24.0110, 23.9759, 26.0944, 22.4917), 
+                  longitude=c(25.8799, 88.5202, 78.3306, -86.2764, 76.2655))
+  
+  d <- merge(d, geo, by="location", all.x = TRUE)  
+  
+  
+  carobiner::write_files(dset, d, path=path)	
+}
+
+
