@@ -1,9 +1,7 @@
 
 # to do: extract more variables of interest. 
 # not yet included from raw$Trait.name
-# AGRONOMIC_SCORE, SELECTED_CHECK_MARK, LODGING_PERCENT_HARVESTED_AREA, TEST_WEIGHT, YRWarriorRace, SPIKE_LENGTH, GERMINATION_%, CHLOROPHYLL, GRAIN_PROTEIN, Normalized Difference Vegetation Index, GRAIN APPEARANCE SCORE, PHENOL REACTION SCORE, Canopy Temperature, ABOVE_GROUND_BIOMASS, TILLERS BY METER, GRAINS/SPIKE, TILLERS BY M2, SPIKES_M2, GLUTEN_CONTENT, GRAIN_MOISTURE, SEDIMENTATION_INDEX
-
-# also can use more variables from env data such as irrigation 
+# AGRONOMIC_SCORE, SELECTED_CHECK_MARK, LODGING_PERCENT_HARVESTED_AREA, TEST_WEIGHT, YRWarriorRace, SPIKE_LENGTH, GERMINATION_%, CHLOROPHYLL, GRAIN_PROTEIN, Normalized Difference Vegetation Index, GRAIN APPEARANCE SCORE, PHENOL REACTION SCORE, Canopy Temperature, ABOVE_GROUND_BIOMASS, TILLERS BY METER, GRAINS/SPIKE, TILLERS BY M2, SPIKES_M2, GLUTEN_CONTENT, GRAIN_MOISTURE, SEDIMENTATION_INDEX "EMERGENCE_DELAY_BY_DRY_SEED_BED", "FOLIAR_DISEASE_DEVELOPMENT" "FROST_DAMAGE_SPIKE"  "FUNGICIDE" "FUNGICIDE_PRODUCT(S)" "HERBICIDE" "HERBICIDE_DAMAGE"           "HERBICIDE_PRODUCT(S)"[28] "INSECT_DAMAGE""IRRIGATED" "LENGTH_OF_ROWS_HARVESTED" "LODGING"   "MAJOR_WEED_SPECIES"         "NO_OF_ROWS_HARVESTED"    "OTHER_CHEMICAL(S)"[37] "OTHER_COMMENTS_AND_OBSERVATIONS" "OTHER_MICRONUTRIENT_TOXICITY/DEFICIENCY_Y/N"   "PESTICIDE" "PESTICIDE_PRODUCT(S)"       "ROOT_DISEASE_DEVELOPMENT"  "SOIL_ALUMINIUM_TOXICITY"    "SPACE_BTN_ROWS_HARVESTED"  "SPIKE_DISEASE_DEVELOPMENT"  "WEATHER_COMMENTS"           "WEED_PROBLEM"  "YIELD_FACTOR"  "LODGING"  "FERTILIZER_APPLIED"
 
 
 proc_wheat <- function(ff) {
@@ -95,6 +93,24 @@ proc_wheat <- function(ff) {
 		latitude = r$latitude
 	)
 	
+	if (!is.null(r$precipitation_on_crop)) {
+		d$rain <- as.numeric(r$precipitation_on_crop)
+	}
+	if (!is.null(r$estimate_of_total_water_applied_by_irrigation)) {
+		d$irrigation_amount <- as.numeric(r$estimate_of_total_water_applied_by_irrigation)
+	}
+	irn1 <- as.numeric(r$number_pre_sowing_irrigations)
+	irn2 <- as.numeric(r$number_post_sowing_irrigations)
+	if (!is.null(irn1) | !is.null(irn2)) {
+		if (is.null(irn1)) irn1 <- 0
+		if (is.null(irn2)) irn2 <- 0
+		d$irrigation_number <- as.integer(irn1) + as.integer(irn2)
+	}
+	
+	if (!is.null(r$emergence_date)) {
+		d$emergence_date <- as.character(as.Date(r$emergence_date, "%b %d %Y"))
+	}
+
 	if (!is.null(r$harvest_starting_date)) {
 		d$harvest_date <- as.Date(r$harvest_starting_date, "%b %d %Y")
 	} else {

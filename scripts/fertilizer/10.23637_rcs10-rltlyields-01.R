@@ -50,8 +50,7 @@ Period 1 (1962-1980): four lime levels with and without fertilizer P and K. Magn
 	d$longitude <- -0.377
 	d$latitude <- 51.81 
 	
-	d$crop <- gsub("spring ", "", d$crop)
-	d$crop <- gsub("winter ", "", d$crop)
+	d$crop <- gsub("spring |winter ", "", d$crop)
 	d$crop <- carobiner::replace_values(d$crop, 
 			c("fallow", "potatoes", "beans", "oilseed rape", "lupins", "linseed"), 
 			c("none", "potato", "faba bean", "rapeseed", "white lupin", "flax"))
