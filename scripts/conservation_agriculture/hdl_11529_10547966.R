@@ -81,10 +81,8 @@ carob_script <- function(path) {
 		dd <- merge(dd, d3, by=c("treatment", "trial_id","location"), all.x=TRUE) 
 	}
 
-	d <- lapply(ff, proc_data)
+	d <- lapply(grep("xlsx$", ff, value=TRUE), proc_data)
 	d <- do.call(rbind, d)
-  
-  #add columns
   
 	d$country <- "India"
 	d$on_farm <- TRUE
