@@ -21,7 +21,7 @@ carob_script <- function(path) {
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)	
   
-	i <- d$irrigation_amount == 2800
+	i <- which(d$irrigation_amount == 2800)
 	d$irrigation_amount[i] <- d$irrigation_amount[i] / 10
   
 	i <- d$location == "Nobaria"
