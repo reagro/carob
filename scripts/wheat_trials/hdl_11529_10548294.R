@@ -1,7 +1,8 @@
 
 carob_script <- function(path) {
   
-  "The WYCYT international nurseries are the result of research conducted to raise the yield potential of spring wheat through the strategic crossing of physiological traits related to source and sink potential in wheat. These trials have been phenotyped in the major wheat-growing mega environments through the International Wheat Improvement Network (IWIN) and the Cereal System Initiative for South Asia (CSISA) network, which included a total of 136 environments (site-year combinations) in major spring wheat-growing countries such as Bangladesh, China, Egypt, India, Iran, Mexico, Nepal, and Pakistan. (2016)"
+"The WYCYT international nurseries are the result of research conducted to raise the yield potential of spring wheat through the strategic crossing of physiological traits related to source and sink potential in wheat. These trials have been phenotyped in the major wheat-growing mega environments through the International Wheat Improvement Network (IWIN) and the Cereal System Initiative for South Asia (CSISA) network, which included a total of 136 environments (site-year combinations) in major spring wheat-growing countries such as Bangladesh, China, Egypt, India, Iran, Mexico, Nepal, and Pakistan. (2016)"
+
   uri <- "hdl:11529/10548294"
   group <- "wheat_trials"
   ff  <- carobiner::get_data(uri, path, group)
@@ -18,8 +19,6 @@ carob_script <- function(path) {
   
   proc_wheat <- carobiner::get_function("proc_wheat", path, group)
   d <- proc_wheat(ff)	
-  
-  
   
   carobiner::write_files(path, dset, d)
 }

@@ -18,12 +18,7 @@ carob_script <- function(path) {
   
   proc_wheat <- carobiner::get_function("proc_wheat", path, group)
   d <- proc_wheat(ff)	
-  d$previous_crop[d$previous_crop == "rice (cereal)"] <- "rice"
-  d <- subset(d, maturity_days >= 45)
-  d <- subset(d, maturity_days <=  300)
-  
 
   carobiner::write_files(path, dset, d)
 }
-carob_script(path)
 
