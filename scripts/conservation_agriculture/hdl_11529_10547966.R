@@ -83,6 +83,21 @@ carob_script <- function(path) {
 
 	d <- lapply(grep("xlsx$", ff, value=TRUE), proc_data)
 	d <- do.call(rbind, d)
+	
+	#assigning treatments 
+	
+	treatcode = c("CTW","ZTW","CTTPR-CTM","CTTPR-CTW","CTTPR-ZTM","CTTPR-ZTW","FP",
+	              "UPTR-ZTM","UPTR-ZTW","ZT","ZTDSR-ZTM","ZTDSR-ZTW","ZTTPR_ZTW","CTM",
+	              "ZTM","UPTPR-ZTM","UPTPR-ZTW","CTPR-ZTW","CTPTR-CTW","CTPTR-ZTW","CTPTR ZCTW","UPPTR-ZTW")
+	
+	treatname = c("Conventional tillage wheat","Zero tillage maize","Conservation tillage transplanted puddle rice_CTM",
+	              "Conservation tillage transplanted puddle rice_Conventional tillage wheat",
+	              "Conservation tillage transplanted puddle rice_Zero tillage maize","Conservation tillage transplanted puddle rice_Zero tillage wheat",
+	              "FP","UPTR_Zero tillage maize","Zero tillage","ZTDSR_Zero tillage maize","ZTDSR_Zero tillage wheat","ZTTPR_Zero tillage wheat","CTM",
+	              "Zero tillage maize","Unpuddle transplanted rice_Zero tillage maize","UPTPR_Zero tillage wheat","CTPR_Zero tillage wheat",
+	              "CTPTR_Conventional tillage wheat","CTPTR_Zero tillage wheat","CTPTR ZCTW","UPPTR_Zero tillage wheat")
+	
+	d$treatment <- treatname[match(d$treatment,treatcode)]
   
 	d$country <- "India"
 	d$on_farm <- TRUE
@@ -94,10 +109,11 @@ carob_script <- function(path) {
 	d$fertilizer_type <- gsub("Zinc sulphate", "ZnSO4", d$fertilizer_type)
 	d$crop <- gsub("rabi maize", "maize", d$crop)
 	d$location <- gsub("Takapati","Tikapatti", d$location)
+	d$location <- gsub("Dogachi","Dogachhi", d$location)
   
-	geo <- data.frame(location=c("Puranigarel", "Dogachi", "Katheli" , "Tikapatti", "Udaynagar"), 
-                  latitude=c(25.8799, 24.0110, 23.9759, 26.0944, 22.4917), 
-                  longitude=c(25.8799, 88.5202, 78.3306, -86.2764, 76.2655))
+	geo <- data.frame(location=c("Puranigarel", "Dogachhi", "Katheli" , "Tikapatti", "Udaynagar"), 
+                  latitude=c(25.7711, 24.6722, 23.9759, 26.0944, 22.4917), 
+                  longitude=c(87.4822, 88.4500, 78.3306, -86.2764, 76.2655))
   
 	d <- merge(d, geo, by="location", all.x = TRUE)  
   
