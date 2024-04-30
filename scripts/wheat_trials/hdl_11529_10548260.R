@@ -1,8 +1,9 @@
 
 carob_script <- function(path) {
   
-  "CIMMYT annually distributes improved germplasm developed by its researchers and partners in international nurseries trials and experiments. The High Rainfall Wheat Screening Nursery (HRWSN) contains spring bread wheat (Triticum aestivum) germplasm adapted to high rainfall areas (Mega-environment 2). (2017)"
-  uri <- "hdl:11529/10548256"
+"CIMMYT annually distributes improved germplasm developed by its researchers and partners in international nurseries trials and experiments. The High Rainfall Wheat Screening Nursery (HRWSN) contains spring bread wheat (Triticum aestivum) germplasm adapted to high rainfall areas (Mega-environment 2). (2012)"
+  
+  uri <- "hdl:11529/10548260"
   group <- "wheat_trials"
   ff  <- carobiner::get_data(uri, path, group)
   
@@ -18,7 +19,6 @@ carob_script <- function(path) {
   
   proc_wheat <- carobiner::get_function("proc_wheat", path, group)
   d <- proc_wheat(ff)	
-  d <- subset(d, yield < 2800)
   
   carobiner::write_files(path, dset, d)
 }
