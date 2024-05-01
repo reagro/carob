@@ -99,8 +99,8 @@ proc_wheat <- function(ff) {
 	if (!is.null(r$estimate_of_total_water_applied_by_irrigation)) {
 		d$irrigation_amount <- as.numeric(r$estimate_of_total_water_applied_by_irrigation)
 	}
-	irn1 <- as.numeric(r$number_pre_sowing_irrigations)
-	irn2 <- as.numeric(r$number_post_sowing_irrigations)
+	irn1 <- r$number_pre_sowing_irrigations
+	irn2 <- r$number_post_sowing_irrigations
 	if (!is.null(irn1) | !is.null(irn2)) {
 		if (is.null(irn1)) irn1 <- 0
 		if (is.null(irn2)) irn2 <- 0

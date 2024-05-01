@@ -86,11 +86,11 @@ carob_script <- function(path) {
 	d$land_prep_implement[pp=="control"] <- "mouldboard plough" 
 	d$land_prep_implement[pp=="ripper"] <- "ripper"
 
-	d$intercrops <- ifelse(grepl("maize/cowpea int", p), "cowpea", "no crop")
+	d$intercrops <- ifelse(grepl("maize/cowpea int", p), "cowpea", "none")
 	
 	d$crop_rotation <- ifelse(grepl("maize-cowpea rotation", p), "maize; cowpea",
 			ifelse(grepl("maize-soybean rotation", p), "maize; soybean",
-			ifelse(grepl("soybean-maize rotation", p), "maize; soybean", "no crop")))
+			ifelse(grepl("soybean-maize rotation", p), "maize; soybean", "none")))
 													 
 	# add longitude and	latitude
 	geo <- data.frame(adm1=c("Monze","Kabwe","Chipata","Chibombo","Lundazi","Katete"),

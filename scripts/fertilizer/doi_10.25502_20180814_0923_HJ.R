@@ -60,7 +60,7 @@ carob_script <- function(path) {
 	p <- carobiner::fix_name(d$previous_crop)
 	p <- gsub("Sweetpotatoes", "sweetpotato", p)
 	p <- gsub("SWEET POTATOES", "sweetpotato", p)
-	p <- gsub("No", "no crop", p)
+	p <- gsub("No", "none", p)
 	p <- gsub("G/nuts", "groundnut", p)
 	p <- gsub("Cassava", "cassava", p)
 	p <- gsub("Maize", "maize", p)
