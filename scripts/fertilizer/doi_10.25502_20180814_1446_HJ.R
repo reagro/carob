@@ -18,7 +18,6 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project= "AfSIS", 
-		#data_citation="Huising, J. (2018). Africa Soil Information System - Phase 1, Sidindi LR [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1446/HJ",
 		publication = "doi:10.1016/j.agee.2016.05.012",
 		data_institutions = "IITA",
 		data_type="Multi-location trials",

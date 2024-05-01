@@ -12,7 +12,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major = 1, minor = 0),
 		project="N2Africa",
-		publication = 'doi.org/10.1016/j.agee.2017.08.015',
+		publication = "doi:10.1016/j.agee.2017.08.015",
 		carob_contributor = "Andrew Sila",
 		carob_date="2023-07-17",
 		data_type = "on farm experiment",

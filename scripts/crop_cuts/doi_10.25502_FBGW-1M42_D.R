@@ -20,12 +20,8 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
       data_type="survey"
       
    )
-   
-   
-   bn <- basename(ff)
-   ## process file(s)
-   
-   r <- read.csv(ff[bn=="Sorghum_biomass_sampling.csv"])
+    
+   r <- read.csv(ff[basename(ff)=="Sorghum_biomass_sampling.csv"])
    d<- r[,c("Season","Qudrant_ID","Density_plant_m_2","Yield_grain_dry_ton_ha_1","Yield_straw_dry_ton_ha_1")]
    colnames(d)<- c("season","trial_id","plant_density","yield","dmy_residue")
    

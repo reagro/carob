@@ -19,10 +19,8 @@ carob_script <- function(path) {
    )
    
    
-   bn <- basename(ff)
-   
    # read file
-   r <- carobiner::read.excel(ff[bn=="Genetic_Gain_Trials_Peru_Cost_Amazon_90_120_days_full_data_.xlsx"])  
+   r <- carobiner::read.excel(ff[basename(ff)=="Genetic_Gain_Trials_Peru_Cost_Amazon_90_120_days_full_data_.xlsx"])  
    
    d<- r[,c("trial_name","planting_date","season","loc","cipno","geno","harvest","rep","rytha","fe","zn","ca","mg","bytha","fytha")]
    colnames(d)<- c("trial_id","planting_date","season","location","variety","treatment","harvest","rep","yield","leaf_Fe","leaf_Zn","leaf_Ca","leaf_Mg","residue_yield","dmy_leaves")

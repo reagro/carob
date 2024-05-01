@@ -24,7 +24,6 @@ carob_script <- function(path) {
   ##### dataset level metadata 
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=3, minor=1),
-    #data_citation="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Uganda, 2016, II [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/EC86-2T29",
     data_institutions = "IITA",
     publication= NA,
     project="N2Africa",

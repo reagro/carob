@@ -15,7 +15,6 @@ Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020"
 ##### dataset level metadata 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
-		#data_citation="Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020, https://doi.org/10.7910/DVN/EQZR5C, Harvard Dataverse, V1, UNF:6:OAYMpK4cYPCnzPEmfE+rNQ== [fileUNF]",
 		data_institutions = "CIMMYT",
 		publication= NA,
 		project="Africa Rising",

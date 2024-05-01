@@ -14,7 +14,6 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group),
 		publication=NA,
-		#data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kiberashi [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1135/HJ",
 		data_institutions = "IITA",
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2021-10-06",

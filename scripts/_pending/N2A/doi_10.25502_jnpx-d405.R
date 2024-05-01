@@ -16,7 +16,7 @@ carob_script <- function(path){
  Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   "
   
-  uri <- "doi.org/10.25502/jnpx-d405"
+  uri <- "doi:10.25502/jnpx-d405"
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
   
@@ -31,10 +31,6 @@ carob_script <- function(path){
     carob_date="2023-07-25",
     data_type="on_farm survey demonstration trials"
   )
-  
-  
-  
-  
   
   f <- ff[basename(ff) == "data_table.csv"]
   d <- data.frame(read.csv(f))

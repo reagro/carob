@@ -25,7 +25,7 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project = "CSISA",
-		publication = "doi.org/10.1016/j.fcr.2014.09.019",
+		publication = "doi:10.1016/j.fcr.2014.09.019",
 		data_institutions = "CIMMYT; IRRI; IFPRI",
 		data_type = "experiment", 
 		carob_contributor = "Mitchelle Njukuya",
@@ -107,7 +107,7 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	d$yield <- dot_numeric(r$Grain_yield_moisture_adjusted_.T.ha.) * 1000
 
 	# EGB:
-	# compare average grain weight to table 7 of doi.org/10.1016/j.fcr.2014.09.019
+	# compare average grain weight to table 7 of doi:10.1016/j.fcr.2014.09.019
 	# aggregate(d$grain_weight, c("UPAZILLA_NAME", "YEAR"), mean, na.rm=TRUE) 
 
 	
