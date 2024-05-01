@@ -44,6 +44,9 @@ carob_script <- function(path) {
 	#planting dates sourced from publication
 	d$planting_date <- "2017"
 	d$N_fertilizer <- 34.5
+	### not in publication ???
+	d$P_fertilizer <- as.numeric(NA)
+	d$K_fertilizer <- as.numeric(NA)
 	d$yield_part <- "seed"
 	d$plant_density <- 164000
   
