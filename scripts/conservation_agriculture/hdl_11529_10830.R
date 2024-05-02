@@ -13,7 +13,7 @@ is kept in the ground, there is no preparation of the ground, and the sowing is 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
-		publication= "https://doi.org/10.1017/S1742170515000332",
+		publication= "doi:10.1017/S1742170515000332",
 		data_institutions = "IITA",
 		data_type="experiment", 
 		carob_contributor="Effie Ochieng'",

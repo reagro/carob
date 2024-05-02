@@ -26,12 +26,6 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, major=1, minor=0, group),
-		#data_citation="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., 
-		Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai,
-		N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & 
-		Heerwaarden, J. van. (2020). N2Africa farm monitoring - Malawi, 2010 - 2011 
-		[Data set]. International Institute of Tropical Agriculture (IITA). 
-		https://doi.org/10.25502/8YQ1-DM57/D ",
 		publication=NA,
 		carob_contributor="Effie Ochieng'",
 		carob_date="2023-07-27",

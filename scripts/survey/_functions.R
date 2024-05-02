@@ -111,7 +111,7 @@ do_LCAS <- function(r) {
 
 	d$previous_crop <- carobiner::replace_values(d$previous_crop, 
 		c("fallow", "other", "bajra", "jowar", "greenmanure", "greengram", "pulses", "mungbean"), 
-		c("no crop", NA, "pearl millet", "sorghum", "green manure", "mung bean", "pulse", "mung bean"), 
+		c("none", NA, "pearl millet", "sorghum", "green manure", "mung bean", "pulse", "mung bean"), 
 		FALSE)
 
 

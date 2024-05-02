@@ -15,8 +15,7 @@ carob_script <- function(path) {
   
    dset <- data.frame(
    	carobiner::read_metadata(uri, path, group, major=1, minor=2),
-      publication= NA,# DOI:10.1017/S0014479714000155
-      https://doi.org/10.18167/DVN1/2EHEQT, CIRAD Dataverse, V1, UNF:6:KODF5Pm0fcTqCAFwrvBLRA== [fileUNF]",
+      publication= "doi:10.1017/S0014479714000155",
       data_institutions = "CIRAD",
       carob_contributor="Cedric Ngakou",
       carob_date="2023-10-18",
@@ -24,11 +23,8 @@ carob_script <- function(path) {
       project=NA 
    )
    
-   
-   bn <- basename(ff)
-   
-   
-   r <- readxl::read_excel(ff[bn=="2006-2010_database_bvlac_bruelle_v01.20201009.xlsx"],sheet=1) |> as.data.frame()
+ 
+   r <- readxl::read_excel(ff[basename(ff)=="2006-2010_database_bvlac_bruelle_v01.20201009.xlsx"],sheet=1) |> as.data.frame()
    
    d <- r[,c("id_field","village","crop_season","soil","tillage_system","sow_date","manure","nitrogen","yield","rain_year")]
         colnames(d) <- c("trial_id","location","season","soil_type","tillage","planting_date","OM_amount","N_fertilizer","yield","rain")
@@ -47,11 +43,11 @@ carob_script <- function(path) {
    d$OM_used <- TRUE
 
    # fix long and lat
-   Geo <- data.frame(location=c("Antsahamamy","Ambohimiarina","Ambohitsilaozana","Ambongabe","Ampitatsimo"),
+   geo <- data.frame(location=c("Antsahamamy","Ambohimiarina","Ambohitsilaozana","Ambongabe","Ampitatsimo"),
                     lat=c(-18.9185449,-21.3561474,-17.7013574,-17.706648,-18.6728924),
                     lon=c(47.5591672,47.5679899,48.4656547,48.1885083,47.4563563))
   
-    d <- merge(d,Geo,by="location")
+    d <- merge(d, geo, by="location")
    
    d$longitude <- d$lon
    d$latitude <- d$lat
@@ -65,7 +61,7 @@ carob_script <- function(path) {
    d$season[i2] <- "2007-2008"
    d$season[i3] <- "2009-2010"
    
-   # fix fertilize
+   # fix fertilizer
    d$P_fertilizer <- 0 
    d$K_fertilizer <- 0  
    

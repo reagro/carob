@@ -23,7 +23,6 @@ carob_script <- function(path) {
 
 
 	ff <- ff[grep("^PTYL200", basename(ff))]
-	bn <- basename(ff)
 
 	proc_fun <- function(f) {
 		r <- carobiner::read.excel(f, sheet="Fieldbook")

@@ -99,8 +99,8 @@ proc_wheat <- function(ff) {
 	if (!is.null(r$estimate_of_total_water_applied_by_irrigation)) {
 		d$irrigation_amount <- as.numeric(r$estimate_of_total_water_applied_by_irrigation)
 	}
-	irn1 <- as.numeric(r$number_pre_sowing_irrigations)
-	irn2 <- as.numeric(r$number_post_sowing_irrigations)
+	irn1 <- r$number_pre_sowing_irrigations
+	irn2 <- r$number_post_sowing_irrigations
 	if (!is.null(irn1) | !is.null(irn2)) {
 		if (is.null(irn1)) irn1 <- 0
 		if (is.null(irn2)) irn2 <- 0
@@ -145,6 +145,9 @@ proc_wheat <- function(ff) {
 
 
 	m <- matrix(byrow=TRUE, ncol=2, c(
+		"rice (cereal)", "rice",
+		"peanut (arachis)", "groundnut",
+		"no crop", "none",
 		"b napus", "rapeseed",
 		"maiz/papa", "maize;potato",
 		"rough pro", NA, 
@@ -252,11 +255,11 @@ proc_wheat <- function(ff) {
 		"durum wheat", "durum wheat",
 		"bread wheat", "wheat",
 		"trigo hari", "wheat",
-		"weed free fallow", "no crop",
-		"fellow", "no crop",		
-		"fallow", "no crop",
-		"weedy fallow", "no crop",
-		"fallowed", "no crop",
+		"weed free fallow", "none",
+		"fellow", "none",		
+		"fallow", "none",
+		"weedy fallow", "none",
+		"fallowed", "none",
 		"fababean", "faba bean",
 		"faba been", "faba bean",
 		"faba vulgaris", "faba bean",
@@ -495,6 +498,7 @@ proc_wheat <- function(ff) {
 		"symhemp", "sunn hemp",
 		"super beat", "sugar beet",
 		"sweet potatos", "sweetpotato",
+		"sweet potatoes", "sweetpotato",
 		"tramanrice", "rice",
 		"trebol blanco", "white clover", 
 		"trebol rojo", "red clover",
@@ -526,7 +530,7 @@ proc_wheat <- function(ff) {
 		"vegetable", "vegetables",
 		"vegateables", "vegetables",
 		"water melon", "watermelon",
-		"weeds", "no crop",
+		"weeds", "none",
 		"zea mays", "maize",
 		"cereal", "cereal", 		
 		"beans", "common bean",

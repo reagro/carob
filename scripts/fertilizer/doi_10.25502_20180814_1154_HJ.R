@@ -80,7 +80,7 @@ carob_script <- function(path) {
 	p <- carobiner::fix_name(d$previous_crop,"lower")
 	p <- gsub("kolokoland",NA,p)
 	p <- gsub("millet","pearl millet",p)
-	p[p == ""] <- "no crop"
+	p[p == ""] <- "none"
 	p[p =="groundnuts(aracide)"] <- "groundnut"
 	d$previous_crop <- p
 	# fix crop name

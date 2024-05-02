@@ -18,11 +18,8 @@ carob_script  <- function(path) {
 		project=NA 
 	)
 	
-	
-	bn <- basename(ff)
-	
 	# read file
-	r <- carobiner::read.excel(ff[bn=="Drought_06_08.xls"])  
+	r <- carobiner::read.excel(ff[basename(ff)=="Drought_06_08.xls"])  
 	
 	d <- r[,c("YEAR","TREATMENT","REP","CULTIVAR","RYTHA","FYTHA","BIOM")]
 	colnames(d) <- c("planting_date","irrigation","rep","treatment","yield","dmy_leaves","dmy_total")

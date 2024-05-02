@@ -5,6 +5,7 @@ carob_script <- function(path) {
   
 "Farmer participatory on-farm trials with CA technologies comparing with farmers’ practices (CT), were conducted in several fields in each community. Likewise, farmer-participatory alternative cropping systems trials were conducted comparing to existing systems and to find out suitable and more profitable cropping systems, prioritized to increase visibility and to avoid implementation and management problems that emerge when utilizing small plots with significant edge effects. Most trials were replicated in several fields within each community and were farmer-managed with backstopping from project staff and NARES partners. Project partners and staff coordinated monitoring and data acquisition. Where possible, collaborating farmers were selected by the community, and the project worked with existing farmer groups, with groups of both men and women farmers."
   
+  
 	uri <- "hdl:11529/10547966"
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
@@ -12,7 +13,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA, 
-		publication= "doi.org/10.1016/j.fcr.2019.04.005", 
+		publication= "doi:10.1016/j.fcr.2019.04.005", 
 		data_institutions = "CIMMYT", 
 		data_type="on-farm experiment", 
 		carob_contributor="Mitchelle Njukuya", 
@@ -23,9 +24,9 @@ carob_script <- function(path) {
     ## process all Wheat and Maize -Purnea files  
 	proc_data <- function(f) {
    
-		r1 <- carobiner::read.excel.hdr(f, sheet ="4- Stand counts & Phenology", skip=4, hdr=3)
-		colnames(r1) <- gsub("Date.of.harvest.dd.mm.yy","Datw.of.harvest.dd.mm.yy",colnames(r1))
-		colnames(r1) <- gsub("X.6","Node",colnames(r1))
+		suppressWarnings(r1 <- carobiner::read.excel.hdr(f, sheet ="4- Stand counts & Phenology", skip=4, hdr=3))
+		colnames(r1) <- gsub("Date.of.harvest.dd.mm.yy", "Datw.of.harvest.dd.mm.yy", colnames(r1))
+		colnames(r1) <- gsub("X.6", "Node", colnames(r1))
 		
 		d1 <- data.frame(
 			treatment=r1$Tmnt, 
@@ -37,12 +38,15 @@ carob_script <- function(path) {
 			planting_date=as.character(r1$Date.of.seeding.dd.mm.yy),
 			harvest_date=as.character(r1$Datw.of.harvest.dd.mm.yy)
 		)
-
+		if (d1$location[1] == "Rabi maize") {
+			d1$location <- r1$Site.No.Unique.farmer.ID
+		}
+		
 		r2 <- carobiner::read.excel.hdr(f, sheet ="6 - Fertilizer amounts ", skip=4, hdr=3)
 		
-		colnames(r2) <- gsub("P.kg.ha|P.2O5.kg.ha","P2O5.kg.ha",colnames(r2))
-		colnames(r2) <- gsub("K.kg.ha","K2O.kg.ha",colnames(r2))
-		colnames(r2) <- gsub("Zn.kg.ha","ZnSO4.kg.ha",colnames(r2))
+		colnames(r2) <- gsub("P.kg.ha|P.2O5.kg.ha", "P2O5.kg.ha", colnames(r2))
+		colnames(r2) <- gsub("K.kg.ha", "K2O.kg.ha", colnames(r2))
+		colnames(r2) <- gsub("Zn.kg.ha", "ZnSO4.kg.ha", colnames(r2))
 		
 		d2 <- data.frame(
 			treatment=r2$Tmnt,
@@ -77,14 +81,36 @@ carob_script <- function(path) {
 		)
 		
 		## merge all 
-		dd <- merge(d1, d2, by=c("treatment", "trial_id","location"), all.x=TRUE)
-		dd <- merge(dd, d3, by=c("treatment", "trial_id","location"), all.x=TRUE) 
+		dd <- merge(d1, d2, by=c("treatment", "trial_id", "location"), all.x=TRUE)
+		dd <- merge(dd, d3, by=c("treatment", "trial_id", "location"), all.x=TRUE) 
 	}
 
-	d <- lapply(ff, proc_data)
-	d <- do.call(rbind, d)
-  
-  #add columns
+	fx <- grep("xlsx$", ff, value=TRUE)
+	dx <- lapply(fx, proc_data)
+	d <- do.call(rbind, dx)
+	
+	i <- which(substr(d$planting_date, 1, 1) == 4)
+	d$planting_date[i] <- as.character(as.Date("1899-12-31") + as.integer(d$planting_date[i]))
+	d$planting_date[d$planting_date=="0"] <- NA
+	i <- which(substr(d$harvest_date, 1, 1) == 4)
+	d$harvest_date[i] <- as.character(as.Date("1899-12-31") + as.integer(d$harvest_date[i]))
+	d$harvest_date[d$harvest_date=="0"] <- NA
+	d$harvest_date[d$harvest_date=="N/A"] <- NA
+	d$harvest_date[d$harvest_date=="14-04-16"] <- "2016-04-14"
+	
+	
+	treatcode = c("CTW", "ZTW", "CTTPR-CTM", "CTTPR-CTW", "CTTPR-ZTM", "CTTPR-ZTW", "FP", 
+	              "UPTR-ZTM", "UPTR-ZTW", "ZT", "ZTDSR-ZTM", "ZTDSR-ZTW", "ZTTPR_ZTW", "CTM", 
+	              "ZTM", "UPTPR-ZTM", "UPTPR-ZTW", "CTPR-ZTW", "CTPTR-CTW", "CTPTR-ZTW", "CTPTR ZCTW", "UPPTR-ZTW")
+	
+	treatname = c("Conventional tillage wheat", "Zero tillage wheat", "Conservation tillage transplanted puddle riced_CTM", 
+	              "Conservation tillage transplanted puddled rice_Conventional tillage wheat", 
+	              "Conservation tillage transplanted puddled rice_Zero tillage maize", "Conservation tillage transplanted puddled rice_Zero tillage wheat", 
+	              "FP", "UPTR_Zero tillage maize", "Zero tillage", "ZTDSR_Zero tillage maize", "ZTDSR_Zero tillage wheat", "ZTTPR_Zero tillage wheat", "CTM", 
+	              "Zero tillage maize", "Unpuddled transplanted rice_Zero tillage maize", "UPTPR_Zero tillage wheat", "CTPR_Zero tillage wheat", 
+	              "CTPTR_Conventional tillage wheat", "CTPTR_Zero tillage wheat", "CTPTR ZCTW", "UPPTR_Zero tillage wheat")
+	
+	d$treatment <- treatname[match(d$treatment,treatcode)]
   
 	d$country <- "India"
 	d$on_farm <- TRUE
@@ -94,14 +120,20 @@ carob_script <- function(path) {
 	d$fertilizer_type <- gsub("MOP|urea+MOP|Mop|mop", "KCl", d$fertilizer_type)
 	d$fertilizer_type <- gsub("Urea|UREA", "urea", d$fertilizer_type)
 	d$fertilizer_type <- gsub("Zinc sulphate", "ZnSO4", d$fertilizer_type)
+	d$fertilizer_type <- gsub("\\+", ";", d$fertilizer_type)
 	d$crop <- gsub("rabi maize", "maize", d$crop)
 	d$location <- gsub("Takapati","Tikapatti", d$location)
+	d$location <- gsub("Dogachi","Dogachhi", d$location)
   
-	geo <- data.frame(location=c("Puranigarel", "Dogachi", "Katheli" , "Tikapatti", "Udaynagar"), 
-                  latitude=c(25.8799, 24.0110, 23.9759, 26.0944, 22.4917), 
-                  longitude=c(25.8799, 88.5202, 78.3306, -86.2764, 76.2655))
+	geo <- data.frame(
+		location=c("Puranigarel", "Dogachhi", "Katheli" , "Tikapatti", "Udaynagar"), 
+        latitude=c(25.7711, 24.6722, 23.9759, 26.0944, 22.4917), 
+        longitude=c(87.4822, 88.4500, 78.3306, 86.2764, 76.2655)
+	)
   
 	d <- merge(d, geo, by="location", all.x = TRUE)  
+	d <- d[!is.na(d$yield), ]
+	d <- d[d$yield > 0, ]
   
 	carobiner::write_files(dset, d, path=path)	
 }

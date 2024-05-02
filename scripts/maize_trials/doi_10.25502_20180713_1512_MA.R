@@ -13,7 +13,6 @@ The study was carried out by the International Institute of Tropical Agriculture
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, major=2, minor=1, group),
-		#data_citation = "Menkir, A. & Olufisola Oladipo. (2018). Grain Yield & Other Agronomic Traits of International Maize Trials [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180713/1512/MA",
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Robert Hijmans",
 		carob_date="2023-07-03",

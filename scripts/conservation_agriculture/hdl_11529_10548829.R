@@ -40,7 +40,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project= NA,
-		publication= "doi.org/10.1016/j.fcr.2022.108724",
+		publication= "doi:10.1016/j.fcr.2022.108724",
 		data_institutions = "CIMMYT",
 		data_type="on-farm experiment", 
 		carob_contributor="Hope Takudzwa Mazungunye"  ,
