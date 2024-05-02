@@ -23,8 +23,9 @@ carob_script <- function(path) {
 	d <- proc_wheat(ff)	
 	d$crop <- "wheat"
 	
+	## yield much too high
 	i <- which(d$location %in% c("Sharkia Station", "Gujarat Agic Univ, Junagadh"))
-	d$yield[i] <- d$yield[i] / 10
+	d <- d[-i,]
 	
 	carobiner::write_files(path, dset, d)
 }
