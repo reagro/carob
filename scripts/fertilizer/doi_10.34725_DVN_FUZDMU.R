@@ -1,28 +1,19 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 carob_script <- function(path) {
 
 "
-	Description:
+Gudeta W. Sileshi, Festus K. Akinnifesi, Oluyede C. Ajayi, Bart Muys, 2011. Integration of legume trees in maize-based cropping systems improves rain use efficiency and yield stability under rain-fed agriculture, Agricultural Water Management 98: 1364-1372
 
-Gudeta W. Sileshi, Festus K. Akinnifesi, Oluyede C. Ajayi, Bart Muys, 2011. Integration of legume trees in maize-based cropping systems improves rain use efficiency and yield stability under rain-fed agriculture,
-Agricultural Water Management 98: 1364-1372
-
- Water availability is a major constraint to crop production in sub-Saharan Africa (SSA) where agriculture is predominantly rain-fed. This study aimed to investigate the effect of the nitrogen-fixing legume tree Leucaena (Leucaena leucocephala) and ino rganic fertilizer on rain use efficiency (RUE), a robust measure of productivity and land degradation, in three long-term (11–12 years) experiments conducted in Zambia and Nigeria. On the two Zambian sites, sole maize (Zea mays) grown continuously (for 11–12 years) with the recommended fertilizer achieved the highest RUE (3.9–4.6 kg ha−1 mm−1) followed by maize intercropped with Leucaena (2.5–3.4 kg ha−1 mm−1). This translated to 192–383% increase in RUE over the control (maize grown without nutrient inputs), which is the de facto resource-poor farmers’ practice. RUE was more stable in fully fertilized sole maize on the first Zambian site and not statistically different from the maize–Leucaena associations on the second site. On the Nigerian site, RUE was higher in maize planted between Leucaena hedgerows supplemented with 50% of the recommended fertilizer (3.9 kg ha−1 mm−1), maize grown between Leucaena hedgerows without fertilizer (3.0 kg ha−1 mm−1) and sole maize receiving the recommended fertilizer (2.8 kg ha−1 mm−1), which translated to increases in RUE of 202%, 139% and 85%, respectively, over the control. RUE was more stable in the maize grown between Leucaena hedgerows than in the fully fertilized maize. On all sites RUE was least stable in the control. Yield stability in the maize–Leucaena association was not significantly different from the fully fertilized maize on the Zambian sites. On the Nigerian site, maize yields were more stable in maize grown in Leucaena hedgerows than in fully fertilized sole maize. Supplementation of maize grown in Leucaena hedgerows with 50% of the recommended fertilizers resulted in greater yield stability. It is concluded that intercropping cereals with legume trees and supplementation with inorganic fertilizer can increase rain use efficiency and yield stability in rain-fed agriculture in SSA. (2011-07)
+Water availability is a major constraint to crop production in sub-Saharan Africa (SSA) where agriculture is predominantly rain-fed. This study aimed to investigate the effect of the nitrogen-fixing legume tree Leucaena (Leucaena leucocephala) and ino rganic fertilizer on rain use efficiency (RUE), a robust measure of productivity and land degradation, in three long-term (11–12 years) experiments conducted in Zambia and Nigeria. On the two Zambian sites, sole maize (Zea mays) grown continuously (for 11–12 years) with the recommended fertilizer achieved the highest RUE (3.9–4.6 kg ha−1 mm−1) followed by maize intercropped with Leucaena (2.5–3.4 kg ha−1 mm−1). This translated to 192–383% increase in RUE over the control (maize grown without nutrient inputs), which is the de facto resource-poor farmers’ practice. RUE was more stable in fully fertilized sole maize on the first Zambian site and not statistically different from the maize–Leucaena associations on the second site. On the Nigerian site, RUE was higher in maize planted between Leucaena hedgerows supplemented with 50% of the recommended fertilizer (3.9 kg ha−1 mm−1), maize grown between Leucaena hedgerows without fertilizer (3.0 kg ha−1 mm−1) and sole maize receiving the recommended fertilizer (2.8 kg ha−1 mm−1), which translated to increases in RUE of 202%, 139% and 85%, respectively, over the control. RUE was more stable in the maize grown between Leucaena hedgerows than in the fully fertilized maize. On all sites RUE was least stable in the control. Yield stability in the maize–Leucaena association was not significantly different from the fully fertilized maize on the Zambian sites. On the Nigerian site, maize yields were more stable in maize grown in Leucaena hedgerows than in fully fertilized sole maize. Supplementation of maize grown in Leucaena hedgerows with 50% of the recommended fertilizers resulted in greater yield stability. It is concluded that intercropping cereals with legume trees and supplementation with inorganic fertilizer can increase rain use efficiency and yield stability in rain-fed agriculture in SSA. (2011-07)
 "
 
 	uri <- "doi:10.34725/DVN/FUZDMU"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-	## dataset level data 
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		data_citation="Gudeta W Sileshi; Festus K. Akinnifesi; Oluyede C. Ajayi; Bart Muys, 2011. Replication data for: Integration of legume trees in maize-based cropping systems improves rain use efficiency and yield stability under rain-fed agriculture, https://doi.org/10.34725/DVN/FUZDMU, World Agroforestry (ICRAF)",
-		group = group,
-		uri = uri,
+		carobiner::read_metadata(uri, path, major=4, minor=0, group),
 		publication = "doi:10.1016/j.agwat.2011.04.002",
 		carob_contributor = "Camila Bonilla",
 		carob_date="2021-06-01",
@@ -31,14 +22,7 @@ Agricultural Water Management 98: 1364-1372
 		project=NA
 	)
 
-## download and read data 
 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, major=4, minor=0, group)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "Ibadan data.xls"]
 	d <- carobiner::read.excel(f)
@@ -137,7 +121,7 @@ Agricultural Water Management 98: 1364-1372
 	d$fertilizer_type <- "none"
 	d$fertilizer_type[d$N_fertilizer > 0] <- "urea; NPK"
 	
-	d$dataset_id <- dataset_id
+	
 	d$trial_id <- paste0(d$treatment, "-", d$site)
 
 	carobiner::write_files(dset, d, path=path)

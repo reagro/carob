@@ -1,6 +1,6 @@
 
 
-proc_breeding_trial <- function(f, dates, dataset_id) {
+proc_breeding_trial <- function(f, dates) {
 
 	d <- carobiner::read.excel(f, sheet = "Fieldbook") 
 
@@ -10,7 +10,6 @@ proc_breeding_trial <- function(f, dates, dataset_id) {
 	x <- reshape(d[, c("record_id", lbvars)], direction="long", varying =lbvars, v.names="severity", timevar="step")
 	x$time <- dates[x$step]
 	x$step <- x$id <- NULL
-	x$dataset_id <- dataset_id
 	
 	d[, lbvars] <- NULL	
 	d <- carobiner::change_names(d, 
@@ -29,11 +28,10 @@ proc_breeding_trial <- function(f, dates, dataset_id) {
 	d$trial_id <- "1"
 	d$crop <- "potato"
 	d$pathogen <- "Phytophthora infestans"
-	d$dataset_id <- dataset_id
 
 # excluding variables perhaps of interest such as 
 # 'NTP', 'SAUDPC', 'NoMTWP', 'TTWP', 'MTWP', 'MTYNA',
-	d <- d[, c('dataset_id', 'record_id', 'rep', 'variety', 'AUDPC', 'rAUDPC',  'yield', 'on_farm', 'is_survey', 'irrigated', 'treatment', 'trial_id', 'crop', 'pathogen')] 
+	d <- d[, c('record_id', 'rep', 'variety', 'AUDPC', 'rAUDPC',  'yield', 'on_farm', 'is_survey', 'irrigated', 'treatment', 'trial_id', 'crop', 'pathogen')] 
 	
 	d$yield_part <- "tubers"
 	

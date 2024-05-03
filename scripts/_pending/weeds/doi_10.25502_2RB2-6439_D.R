@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 ## RH the treatments and the temporal info need to be extracted
 
 carob_script <- function(path) {
@@ -22,16 +19,12 @@ carob_script <- function(path) {
 "
   
 	uri <- "doi:10.25502/2RB2-6439/D"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "weeds"
-	## dataset level data 
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
-		publication= NA, #"DOI:10.1564/v27_oct_04"
-		data_citation = "Hauser, S. (2020). Cassava Weed Management Data - Agronomy Trials 2015 [Data set]. International Institute of Tropical 
-		Agriculture (IITA). https://doi.org/10.25502/2RB2-6439/D",
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
+		publication= "doi:10.1564/v27_oct_04"
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-06-25",
@@ -39,13 +32,6 @@ carob_script <- function(path) {
 		project=NA 
 	)
 	
-	## download and read data 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	f <- ff[basename(ff) == "Agro2015_1st_Season_All_Locations_Cas_Datafile_Rft.csv"] 
 	f1 <- ff[basename(ff) == "Agro2015_2nd_Season_All_Locations_Cas_Datafile_Rft.csv"] 
@@ -113,7 +99,7 @@ carob_script <- function(path) {
 	
 	# Add columns
  
-	d$dataset_id <- dataset_id
+	
 	d$country <- "Nigeria"
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
@@ -146,7 +132,6 @@ carob_script <- function(path) {
 	d$harvest_date[is.na(d$harvest_date)] <- "2016" 
 	d$tillage <- tolower(d$tillage)
 	
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)	
 }
 

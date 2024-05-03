@@ -9,16 +9,12 @@ carob_script <- function(path) {
 	
 "
    uri <- "doi:10.21223/V7ZQD4"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "potato_trials"
-   ## dataset level data 
+   ff <- carobiner::get_data(uri, path, group)
+  
    dset <- data.frame(
-      dataset_id = dataset_id,
-      group=group,
-      uri=uri,
+   	carobiner::read_metadata(uri, path, group, major=1, minor=1),
       publication= NA,
-      data_citation ="Gastelo, Manuel; Bastos, Maria; Quispe, Katherine, 2021, Dataset for: Phenotypic stability of potato tuber yield components under climate change conditions in advanced clones from population B3C3 in Huancayo,
-      https://doi.org/10.21223/V7ZQD4, International Potato Center, V1, UNF:6:vA28no+bTPcftGNmkhAcgA== [fileUNF]",
       data_institutions = "CIP",
       carob_contributor="Cedric Ngakou",
       data_type="experiment",
@@ -26,16 +22,8 @@ carob_script <- function(path) {
       carob_date="2024-02-26"
    )
    
-   ## download and read data 
-   ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-   dset$license <- carobiner::get_license(js)
-   dset$title <- carobiner::get_title(js)
-   dset$authors <- carobiner::get_authors(js)
-   dset$description <- carobiner::get_description(js)
    
    f <- ff[grep("01_PTYield", basename(ff))]
-   # read and process files
       r <- carobiner::read.excel(f)
       d <- r[, c("REP", "INSTN", "TTYNA")]
       colnames(d) <- c("rep", "variety", "yield")
@@ -52,7 +40,7 @@ carob_script <- function(path) {
    d$harvest<- 120
    d$plant_density <- as.numeric(n$`Planting_density_(plants/Ha)`)  
    ## add columns
-   d$dataset_id <- dataset_id
+   
    d$country <- "Peru"
    d$location<- "Lastly-Huancayo" # get from metadata
    d$trial_id <- paste(d$location, d$variety, sep = "_")
@@ -71,7 +59,6 @@ carob_script <- function(path) {
    d$longitude <- -75.2100953
    d$planting_date<- as.character(format(as.Date(n$Planting,format= "%d/%m/%Y"),"%Y-%m-%d")) 
    d$harvest_date<- as.character(format(as.Date(n$Harvest,format= "%d/%m/%Y"),"%Y-%m-%d"))
-   # all scripts must end like this
    carobiner::write_files(dset, d, path=path)
 }
 

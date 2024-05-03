@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
@@ -13,30 +10,20 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 "
 
 	uri <- "doi:10.21421/D2/FATVHT"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-	## dataset level data 
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication="doi:10.1155/2018/7676058",
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2021-06-29",
-		data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Productivity and water use efficiency of Sorghum [Sorghum bicolor (L.) Moench] grown under different nitrogen applications in Sudan Savanna Zone, Nigeria. https://doi.org/10.21421/D2/FATVHT",
 		data_type="experiment",
 		data_institutions="ICRISAT",
 		project=NA		   
  	)
 
-## download and read data 
 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "Data file of Sorghum N trial Kano Nigeria.xlsx"]
 
@@ -46,7 +33,7 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 	d$adm1 <- "Kano"
 	d$adm2 <- ifelse(d$Location == "BUK", "Gezawa", "Minjibir")
 	d$location <- d$Location
-	d$trial_id <- paste0(dataset_id, '-', d$Location)
+	d$trial_id <- d$Location
 	d$latitude <- ifelse(d$Location == "BUK", 8.5922, 8.5978)
 	d$longitude <- ifelse(d$Location == "BUK", 12.0034, 12.1733)
 	# As reported in the associated publication:
@@ -88,10 +75,9 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 	d$row_spacing <- 75 
 
 	d <- d[,c(18:43)]
-	d$dataset_id <- dataset_id
+	
 	d$yield_part <- "grain"
 
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 
 }

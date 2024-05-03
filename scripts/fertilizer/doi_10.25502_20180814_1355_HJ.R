@@ -4,29 +4,24 @@ carob_script <- function(path) {
 
 "
 Description:
-The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel 
-sites across sub-Saharan Africa using the Land Degradation
-Surveillance framework and included also multi-location diagnostic
-trials in selected sentinel sites to determine nutrient limitations
-and response to improved soil management practices (soil amendments) "
+The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments) "
 
 	uri <- "doi:10.25502/20180814/1355/HJ"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-	## dataset level data 
+
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
-	   uri=uri,
-	   publication=NA,
-	   data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Nkhata Bay S2 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1355/HJ",
-	   data_institutions = "IITA",
-	   carob_contributor="Cedric Ngakou",
-	   carob_date="2023-02-19",
-	   data_type="experiment"
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
+		publication=NA,
+		#data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Nkhata Bay S2 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1355/HJ",
+		data_institutions = "IITA",
+		carob_contributor="Cedric Ngakou",
+		carob_date="2023-02-19",
+		data_type="experiment"
 	)
 
-	d <- data.frame(dataset_id = character(0), rep = integer(0), season = character(0), 
+	d <- data.frame(rep = integer(0), season = character(0), 
     country = character(0), site = character(0), treatment = character(0), 
     longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
     harvest_date = character(0), trial_id = character(0), crop = character(0), 
@@ -43,14 +38,6 @@ and response to improved soil management practices (soil amendments) "
 
 
 ### download and read data 
-
-# ff <- carobiner::get_data(uri, path, group)
-# js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-# dset$license <- carobiner::get_license(js)
-# dset$title <- carobiner::get_title(js)
-#	dset$authors <- carobiner::get_authors(js)
-#	dset$description <- carobiner::get_description(js)
-
 
 # f1 <- ff[basename(ff) == "Nkhata Bay_S2_Field.csv"] ## get Field dataset
 # f2 <- ff[basename(ff) == "Nkhata Bay_S2_Plant.csv"] ## get Plant dataset
@@ -83,7 +70,7 @@ and response to improved soil management practices (soil amendments) "
 # d1$OM_used=ifelse(d1$OM_type== "None","FALSE",
                   # ifelse(d1$OM_type=="NA", "FALSE ", "TRUE" ))
 
-# d1 <- d1[,c("dataset_id","trial_id","location","country",
+# d1 <- d1[,c("trial_id","location","country",
            # "latitude","longitude","crop","soil_type","previous_crop",
            # "OM_type","OM_used")]
 
@@ -114,11 +101,11 @@ and response to improved soil management practices (soil amendments) "
 
 # d3=transform(d3,N_splits=ifelse(d3$N_fertilizer>0,3,0))
 
-# d3 <- d3[,c("dataset_id","site","rep","treatment","season","yield","residue_yield","N_fertilizer",
+# d3 <- d3[,c("site","rep","treatment","season","yield","residue_yield","N_fertilizer",
           # "K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
 
 #merge all the data
-# d <- merge(d1,d3,by="dataset_id", all.x = TRUE)
+# d <- merge(d1,d3,by=all.x = TRUE)
 # data type
 # d$season <- as.character(d$season)
 # d$OM_type <- as.character(d$OM_type)

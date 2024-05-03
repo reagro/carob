@@ -32,8 +32,13 @@ github <- paste0("https://github.com/reagro/carob/blob/master/scripts/", group, 
 script <- paste0('<a href="', github, '">R script</a>')
 
 f <- paste0("data/clean/", group, "/", suri, ".csv")
-d <- read.csv(f) 
+if (!file.exists(f)) {
+  knitr::knit_exit()
+}
+```
 
+```{r setup2, include=FALSE}
+d <- read.csv(f) 
 m <- read.csv(gsub(".csv$", "_meta.csv", f))
 
 treatments <- unique(d[ , grep("_fertilizer|lime|OM_applied", colnames(d))])
@@ -67,8 +72,8 @@ if (all(c("longitude", "latitude") %in% colnames(locs))) {
   xy <- cbind(0,0)[0,]
   haveXY <- FALSE
 }
-     
-pub <- ifelse(is.na(m$publication), "", paste0('You can also consult the accompanying <a href="', carobiner:::http_address(carobiner::simple_uri(m$publication, reverse=FALSE)), '">paper</a>.'))
+   
+pub <- ifelse(is.na(m$publication), "", paste0('You can also consult the accompanying <a href="', carobiner:::http_address(m$publication), '">paper</a>.'))
 ```
 
 

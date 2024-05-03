@@ -9,13 +9,11 @@ Landscape Diagnostic Survey (LDS) data contains current rice production practice
 	uri <- "hdl:11529/10548656"
 	group <- "survey"
 
-	dataset_id <- carobiner::simple_uri(uri)
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=0)
+	ff <- carobiner::get_data(uri, path, group)
 	dset <- data.frame( 
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=3, minor=0),
 		project="CSISA",
-		data_citation="Ajay, Anurag; Craufurd, Peter; Sharma, Sachin; Malik, RK; Singh, AK; Samaddar, Arindam; Singh, Balwinder; Paudel, Gokul; Panneerselvam, Peramaiyan; Rai, Ashok; McDonald, Andrew, 2022. Large-scale data of crop production practices applied by farmers on their largest rice plot during 2018 in eight Indian states. https://hdl.handle.net/11529/10548656, CIMMYT Research Data & Software Repository Network, V3",
+		#data_citation="Ajay, Anurag; Craufurd, Peter; Sharma, Sachin; Malik, RK; Singh, AK; Samaddar, Arindam; Singh, Balwinder; Paudel, Gokul; Panneerselvam, Peramaiyan; Rai, Ashok; McDonald, Andrew, 2022. Large-scale data of crop production practices applied by farmers on their largest rice plot during 2018 in eight Indian states. https://hdl.handle.net/11529/10548656, CIMMYT Research Data & Software Repository Network, V3",
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="survey",
@@ -28,7 +26,7 @@ Landscape Diagnostic Survey (LDS) data contains current rice production practice
 	r <- carobiner::change_names(r, c("X", "X.1"), c("O.largestPlotGPS.Latitude", "O.largestPlotGPS.Longitude"))
 
 	do_LCAS <- carobiner::get_function("do_LCAS", path, group)
-	d <- do_LCAS(r, dataset_id)
+	d <- do_LCAS(r)
 	
 	#d$longitude <- d$latitude <- NULL
     carobiner::write_files(path, dset, d)

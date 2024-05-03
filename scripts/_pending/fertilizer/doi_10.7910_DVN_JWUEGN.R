@@ -20,13 +20,11 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   ## Process 
  
   uri <- "doi:10.7910/DVN/JWUEGN"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
+  ff <- carobiner::get_data(uri, path, group)
   
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    uri=uri,
+  	carobiner::read_metadata(uri, path, major=1, minor=0, group),
     publication=NA,
     carob_contributor="Siyabusa Mkuhlani",
     carob_date="2021-08-26",
@@ -34,14 +32,8 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
        )
   
   ## treatment level data 
-  ff  <- carobiner::get_data(uri, path, group)
   
   ## read the json for version, license, terms of use  
-  js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
-  dset$license <- "CC0 1.0 Universal"
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   ## the AFSIS data 
   f <- ff[basename(ff) == "Responses of upland NERICA rice varieties to nitrogen and plant density.xlsx"]

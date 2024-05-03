@@ -1,25 +1,19 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
-"Description:
+"
 Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 area in Bako in 2015 conducted by EIAR and CIMMYT. Replicated crop cuts of 16m2 in farmers fields along with addition data on agronomy, household characteristics, fertilizer use, variety, and soil analysis.
 "
 
 	uri <- "hdl:11529/11020"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-	## dataset level data 
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group=group,
-	   uri=uri,
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 	   publication=NA,
-	   data_citation = "T Balemi; M Kebede; T Tufa; G Gurumu, 2017. TAMASA Ethiopia. Yield, soil and agronomy data from 70 farmers’ maize fields in Bako, Ethiopia, 2015 season. https://hdl.handle.net/11529/11020, CIMMYT Research Data & Software Repository Network, V1",
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   carob_date="2022-11-02",
@@ -27,14 +21,7 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 	   project=NA
  	)
 
-## download and read data 
 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "TAMASA_ET_CC_2015_BakoF.xlsx"]
 
@@ -125,12 +112,11 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 #	          "yield", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "OM_used", "OM_type", "OM_amount", "soil_type", "soil_pH", "soil_SOC",
 #	          "soil_N", "soil_K", "soil_P_total")]
 	
-	d$dataset_id <- dataset_id
+	
 	d$yield_part <- "grain"
 	d$crop_cut <- TRUE
 	
 	d <- d[!is.na(d$yield), ]
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 
 }

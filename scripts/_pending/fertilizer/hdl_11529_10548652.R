@@ -1,26 +1,18 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
-"Description:
+"This experiments were established with different rates of nitrogen in order to generate a wide range of values for NDVI and grain yield in order to develop a calibration model for the GreenSeeker in Yaqui Valley. (2022-03-28)"
 
-    [This experiments were established with different rates of nitrogen in order to generate a wide range of values for NDVI and grain yield in order to develop a calibration model for the GreenSeeker in Yaqui Valley. (2022-03-28)]"
-
-	uri <- "doi:11529/10548652"
-	dataset_id <- carobiner::simple_uri(uri)
+	uri <- "hdl:11529/10548652"
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
 	
-	## dataset level data 
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group= group,
+		carobiner::read_metadata(uri, path, group, major=4, minor=0),
 		project=NA,
-		uri= uri,
-		data_citation="Ortíz-Monasterio Rosas, José Iván, 2022, Maize experiment with increasing rates of nitrogen to develop a calibration for the GreenSeeker in Yaqui Valley, https://hdl.handle.net/11529/10548652, CIMMYT Research Data & Software Repository Network, V4",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= "Maize experiment with increasing rates of nitrogen to develop a calibration for the GreenSeeker in Yaqui Valley",
@@ -30,13 +22,6 @@ carob_script <- function(path) {
 		carob_date = "2023-11-02"
 	)
 
-## download and read data 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=4, minor=0)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	ss <- c("AB250.xlsx", "", 
 	"AB250.xlsx", sheet = "AB250C1", 
@@ -58,7 +43,7 @@ carob_script <- function(path) {
 	"Z250 .xlsx", sheet = "Data 250 P1", 
 	"Z250 .xlsx", sheet = "Data 250 P2") 
 
-	d$dataset_id <- dataset_id
+	
 	
 	
 	d$on_farm <- FALSE
@@ -205,7 +190,6 @@ carob_script <- function(path) {
 	d<- d[, c("country","adm1","site","latitude","longitude","elevation","planting_date","crop","rep","treatment","plant_density","N_fertilizer","yield","yield_part","dmy_total")]
 	
 	
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
 

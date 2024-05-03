@@ -1,27 +1,21 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
-"Description:
+"
 
     This dataset consists of growth and yield data for each season when sorghum [Sorghum bicolor (L.)] was grown at the USDA-ARS Conservation and Production Laboratory (CPRL), Soil and Water Management Research Unit (SWMRU) research weather station, Bushland, Texas 
 
 "
 
 	uri <- "doi:10.15482/USDA.ADC/1529411"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
-	## dataset level data 
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA,
-		uri=uri,
-		data_citation="https://doi.org/10.13031/2013.21321",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= "",
@@ -32,14 +26,7 @@ carob_script <- function(path) {
 		carob_date="2023-10-06" 
 	)
 
-## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 
 	f <- ff[basename(ff) == "_____________"]
@@ -57,7 +44,7 @@ carob_script <- function(path) {
 #### about the data #####
 ## (TRUE/FALSE)
 
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- TRUE
 	d$is_survey <-FALSE 
 	d$is_experiment <- TRUE
@@ -91,7 +78,6 @@ carob_script <- function(path) {
 	#what plant part does yield refer to?
 	 
 	
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
 

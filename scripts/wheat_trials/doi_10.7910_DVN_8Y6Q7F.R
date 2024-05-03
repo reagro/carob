@@ -2,54 +2,40 @@
 
 carob_script <- function(path) {
 
-"Description: The authors acknowledge and thank the South Africa Agricultural Research Council (ARC) for making the original data available for this study. ARC data in this repository can be used to replicate a forthcoming study on wheat yields and climate change in South Africa. Should the data be used beyond replication, ARC must be acknowledged."
+"The authors acknowledge and thank the South Africa Agricultural Research Council (ARC) for making the original data available for this study. ARC data in this repository can be used to replicate a forthcoming study on wheat yields and climate change in South Africa. Should the data be used beyond replication, ARC must be acknowledged."
 
 	uri <- "doi:10.7910/DVN/8Y6Q7F"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "wheat_trials"
+
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project=NA,
-		uri=uri,
-		data_citation="Aaron M. Shew; Jesse B. Tack; L. Lanier Nalley; Petronella Chaminuka, 2020. Replication Data for: Yield reduction under climate warming varies among wheat cultivars in South Africa, https://doi.org/10.7910/DVN/8Y6Q7F, Harvard Dataverse, V1, UNF:6:fbTkoas09MkUw1KLVuDc2g== [fileUNF]",
-		publication=NA,
+		publication="doi:10.1038/s41467-020-18317-8",
 		data_institutions = "SARC",
    		data_type="experiment", 
 		carob_contributor="Blessing Dzuda",
 		carob_date="2024-01-24"
 	)
 
-## download and read data 
-
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-	
 
 	f <- ff[basename(ff) == "RegressionDataFinal.dta"]
 	r <- haven::read_dta(f)
-## use a subset
+
 	d <- data.frame(site=r$Site, adm1=r$Province, variety=r$Cultivar, 
 			rep=as.integer(r$Replicate), planting_date=r$plant_date, 
 			flowering_date=r$Flower_Date, harvest_date=r$Harvest_date,
 			yield = r$Yield*1000, rain=r$prec,
 			crop="wheat", yield_part="grain", country="South Africa")
 	
-#### about the data #####
-
-	d$dataset_id <- dataset_id
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
 
-##### Location #####
+## Location
 	#g <-unique(d[,c("country","site")])
-	#g1<-carobiner::geocode(country = g$country,location = g$site,service = "nominatim")
-	#manually extracting geo coordinates using dput
+	#g1 <- carobiner::geocode(country = g$country, location = g$site, service = "nominatim")
 	#dput(g1)
 
 	gg <- data.frame(
@@ -77,10 +63,7 @@ carob_script <- function(path) {
 	d$flowering_date <- as.character(d$flowering_date)
 	d$trial_id <- as.character(as.integer(as.factor(paste(d$longitude, d$latitude, d$planting_date))))
 	
-### avoid subsetting like this
-###	d <- d[, c("trial_id", "country", "site", "adm1", "variety", "rep", "yield_part", "crop", "yield", "planting_date", "flowering_date", "harvest_date", "longitude", "latitude", "dataset_id")]
-	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(path, dset, d)
 }
 
 

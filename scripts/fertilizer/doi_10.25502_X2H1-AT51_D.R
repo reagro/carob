@@ -1,45 +1,29 @@
 carob_script <- function(path){
   
-  "
-Title: N2Africa agronomy trials - Ethiopia, 2013
+"
+N2Africa agronomy trials - Ethiopia, 2013
   
 Description: N2Africa is to contribute to increasing biological nitrogen fixation and productivity 
 of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, 
-improving household nutrition and increasing income levels of smallholder farmers. As a vision of success,
-N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit 
-from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants
-and fertilizers adapted to local settings. A strong national expertise in grain legume production and 
-N2-fixation research and development will be the legacy of the project. The project is implemented in 
-five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, 
-Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
-
+improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 " 
+
 	uri <- "doi:10.25502/X2H1-AT51/D"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
   
-  ## dataset level data 
+ 
   
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="N2Africa",
 		publication= "doi:10.1080/23311932.2020.1722353",
-		data_citation = "Vanlauwe, Bernard, Samuel, A.-N., Endalkachew, W., Peter, E., Freddy, B., Jean-Marie, S., Paul, W., Regis, C., Lloyd, P., Nkeki, K., Theresa, A.-B., Esther, R., Fred, K., Ken, G., Edward, B., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Ehtiopia, 2013 [Data set].
-		International Institute of Tropical Agriculture (IITA). doi:10.25502/X2H1-AT51/D",
 		data_institutions = "IITA",
 		carob_contributor="Rachel Mukami",
 		carob_date="2022-08-13",
 		data_type = "on-farm experiment"
     )
   
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	# The activities.csv, nutr_deficiency_pest_disease.csv,pesticide_biocide_use.csv datasets don't 
 	# contain additional info as their important information is already represented in datasets below.
@@ -158,8 +142,6 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 	d7 <- merge(d6,d4,by = "trial_id",all.x = TRUE)
 	f <- merge(d,d7,by = "trial_id",all.x = TRUE)
 	
-	f$dataset_id <- dataset_id
- 
 	# Fertilizer rates: DAP will be applied using a rate of 25 kg DAP per hectare; DAP has 18:46:0 composition
 	# calculating amount of P in DAP applied assuming that any +P input refers to DAP application; 
 	
@@ -183,7 +165,7 @@ Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
 	f$on_farm <- TRUE
 	f$yield_part <- "seed"
 	
-	f <- f[,c("dataset_id","trial_id","country","adm3","location","site","planting_date","harvest_date",
+	f <- f[,c("trial_id","country","adm3","location","site","planting_date","harvest_date",
 			"rep","treatment","crop","variety","previous_crop","yield","residue_yield","dmy_total",
 			"grain_weight","plant_density","soil_pH","soil_SOC","soil_N","soil_sand","soil_clay","rain",
 			"fertilizer_type","P_fertilizer","N_fertilizer","K_fertilizer","inoculated","row_spacing",

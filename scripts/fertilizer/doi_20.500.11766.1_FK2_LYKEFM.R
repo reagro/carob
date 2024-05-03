@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
   
@@ -14,15 +11,12 @@ carob_script <- function(path) {
 "
     
   uri <- "doi:20.500.11766.1/FK2/LYKEFM"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
-  ## dataset level data 
+  ff <- carobiner::get_data(uri, path, group)
+ 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    uri=uri,
+  	carobiner::read_metadata(uri, path, group, major=2, minor=0),
     publication="hdl:20.500.11766/5084",
-    data_citation = "Ayalew, Baye, 2020, Determination of rate and timing of N application on bread wheat, hdl:20.500.11766.1/FK2/LYKEFM",
     data_institutions = "ICARDA",
     carob_contributor="Eduardo Garcia Bendito",
     carob_date="2022-01-20",
@@ -30,14 +24,7 @@ carob_script <- function(path) {
 		project=NA  
 	)
   
-  ## download and read data 
   
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   # Process both trial/farm sites in a loop, since both have the same structure. Then append them together
   
@@ -46,10 +33,10 @@ carob_script <- function(path) {
     d <- read.csv(f, sep=";")
     farm <- gsub("_s_.*", "", gsub(".csv", "", basename(f))) # Get the name of the farm only
     # process file(s)
-    d$dataset_id <- dataset_id
+    
     d$country <- "Ethiopia"
     d$site <- farm
-    d$trial_id <- paste0(dataset_id, "_", farm)
+    d$trial_id <- as.character(farm)
     # "The GPS coordinate reference system is unknown" --> (read.csv(ff[basename(ff) == "DataDictionary_Introduction.csv"], sep = ";")[,11])
     # It's assumed to be EPSG:32637 since this is a common system in Ethiopia and the coordinates match a farming region.
     d$latitude <- ifelse(farm == "Mandie", 12.4215, 12.3971)
@@ -79,11 +66,10 @@ carob_script <- function(path) {
     d$plant_spacing <- 20 
 
     # Subset to columns of interest
-    d <- d[,c("dataset_id", "country", "site", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "treatment", "rep", "crop", "yield", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "plant_spacing")]
+    d <- d[,c("country", "site", "trial_id", "latitude", "longitude", "planting_date", "harvest_date", "on_farm", "is_survey", "treatment", "rep", "crop", "yield", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "plant_spacing")]
     dd <- rbind(dd,d) 
   }
 	dd$yield_part <- "grain"  
-  # all scripts must end like this
   carobiner::write_files(dset, dd, path=path)
 }
 

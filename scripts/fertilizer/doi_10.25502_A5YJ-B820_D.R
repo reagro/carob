@@ -2,25 +2,16 @@
 
 carob_script <- function(path) {
    
-   "
-	Description:
-	The use of mineral fertilizer and organic inputs with an improved and local variety of cassava allow firstly to identify nutrient limitations to cassava production, and secondly to investigate the effects of variety and combined application of mineral and organic inputs on cassava growth and yields in the highland conditions of the Democratic Republic of Congo (DR Congo). Data on growth parameters, yields and yield components of the improved and local varieties of cassava, economic analysis and soil parameters, collected during two growing cycles of cassava are presented. 
-	The data support a research article which is under review “Increased cassava growth and yields through improved variety use and fertilizer application in the highlands of South Kivu, Democratic Republic of Congo” [1]. Data on plant height and diameter was measured throughout the growing period of the crop while the data on the storage root, stem, tradable storage root and non-tradable storage root was determined at 12 months after planting (MAP) of the field experiments. The economic analysis was performed using a simplified financial analysis where the additional benefits
-	were calculated relative to the respective control treatments while the total costs included the purchasing prices of fertilizer and the additional net benefits, the revenue from the increased storage root yields due to fertilizer application. The value cost ratio (VCR) was calculated as the additional net benefits over the cost of fertilizer purchase.
-	
-"
+"The use of mineral fertilizer and organic inputs with an improved and local variety of cassava allow firstly to identify nutrient limitations to cassava production, and secondly to investigate the effects of variety and combined application of mineral and organic inputs on cassava growth and yields in the highland conditions of the Democratic Republic of Congo (DR Congo). Data on growth parameters, yields and yield components of the improved and local varieties of cassava, economic analysis and soil parameters, collected during two growing cycles of cassava are presented. 
+The data support a research article which is under review “Increased cassava growth and yields through improved variety use and fertilizer application in the highlands of South Kivu, Democratic Republic of Congo” [1]. Data on plant height and diameter was measured throughout the growing period of the crop while the data on the storage root, stem, tradable storage root and non-tradable storage root was determined at 12 months after planting (MAP) of the field experiments. The economic analysis was performed using a simplified financial analysis where the additional benefits were calculated relative to the respective control treatments while the total costs included the purchasing prices of fertilizer and the additional net benefits, the revenue from the increased storage root yields due to fertilizer application. The value cost ratio (VCR) was calculated as the additional net benefits over the cost of fertilizer purchase."
    
    uri <-  "doi:10.25502/A5YJ-B820/D"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "fertilizer" 
-   ## dataset level data 
+	ff <- carobiner::get_data(uri, path, group)
+  
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
-		publication= NA,#https://doi.org/10.1016/j.fcr.2023.109056
-		data_citation ="Wivine, M., Birindwa, D., Pypers, P., Swennen, R., Vanlauwe, B., & Merckx, R. (2023). Datasets on yield components of fertilized improved and local varieties of Cassava grown in the highlands of South Kivu, DR Congo [dataset]. International Institute of Tropical Agriculture (IITA).
-		https://doi.org/10.25502/A5YJ-B820/D",
+		carobiner::read_metadata(uri, path, group, major=1, minor=3),
+		publication= "doi:10.1016/j.fcr.2023.109056",
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-10-01",
@@ -28,19 +19,10 @@ carob_script <- function(path) {
 		project=NA 
 	)
 	
-	## download and read data 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-	
-	bn <- basename(ff)
 	
 	# read the dataset
-	r1 <- read.csv(ff[bn=="Variety&Fertilizer_Effect_Data.csv"])  
-	r2 <- read.csv(ff[bn=="Nutrient response_Data.csv"])  
+	r1 <- read.csv(ff[basename(ff)=="Variety&Fertilizer_Effect_Data.csv"])  
+	r2 <- read.csv(ff[basename(ff)=="Nutrient response_Data.csv"])  
 	
 	### process Variety&Fertilizer file()
 	
@@ -54,7 +36,7 @@ carob_script <- function(path) {
 	# add columns
 	d$country <- "Democratic Republic of the Congo"
 	d$crop <- "cassava" 
-	d$dataset_id <- dataset_id
+	
 	d$trial_id <- paste(d$ID,d$location,sep = "-")
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
@@ -90,7 +72,6 @@ carob_script <- function(path) {
 	d$yield_part <- "roots" 
 	d$planting_date <- ifelse(d$season == "LR2014", "2014", "2015")
 	
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	
 }

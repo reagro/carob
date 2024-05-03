@@ -1,52 +1,25 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 	
-	"
-	Description:
+"N2Africa is to contribute to increasing biological nitrogen fixation  and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project."
 
-	N2Africa is to contribute to increasing biological nitrogen fixation 
-	and productivity of grain legumes among African smallholder farmers 
-	which will contribute to enhancing soil fertility, improving household
-	nutrition and increasing income levels of smallholder farmers. 
-	As a vision of success, N2Africa will build sustainable, long-term 
-	partnerships to enable African smallholder farmers to benefit from 
-	symbiotic N2-fixation by grain legumes through effective production 
-	technologies including inoculants and fertilizers adapted to local settings. 
-	A strong national expertise in grain legume production and N2-fixation research 
-	and development will be the legacy of the project.
-			
-"
-
-	uri <- "doi.org/10.25502/7v23-gp02"
-	dataset_id <- carobiner::simple_uri(uri)
+	uri <- "doi:10.25502/7v23-gp02"
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
  
 	 ## dataset level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri,path,group,major=1,minor = 0),
 		project="N2Africa",
-		uri=uri,
 		publication=NA,
-		data_citation = 'Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Uganda, 2016, I [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/6H5E-Q472',
 		data_institutions = "IITA",
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2023-08-21",
 		data_type="experiment"
 	)
 	
-	## download and read data 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id,path,group,major=1,minor = 0)
-	dset$license <- carobiner::get_license (js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
  
 	#read the data file
 	f1 <- ff[basename(ff) == "general.csv"]
@@ -221,7 +194,7 @@ carob_script <- function(path) {
 				'fertilizer_type','N_fertilizer','P_fertilizer','K_fertilizer','OM_used','OM_type','OM_amount', 'planting_date',
 				'yield', 'yield_part', 'residue_yield', 'dmy_total',
 				'irrigated', 'row_spacing', 'plant_spacing', 'plant_density')]
-	d$dataset_id <- dataset_id
+	
 	
 	d <- d[!is.na(d$yield), ]
 	d <- d[!is.na(d$N_fertilizer), ]

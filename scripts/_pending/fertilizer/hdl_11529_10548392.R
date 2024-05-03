@@ -1,23 +1,17 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
-"Description:Agronomy of 100 fields is part of APS(AgronomyPanelSurvey) Study (2016)"
+"Agronomy of 100 fields is part of APS(AgronomyPanelSurvey) Study (2016)"
 
 	uri <- "hdl:11529/10548392"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "crop_cuts"
-	## dataset level data 
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project= "TAMASA",
-		uri=uri,
-		data_citation="Kebede Mesfin, 2020, TAMASA Agronomy Of 100 Fields Ethiopia, https://hdl.handle.net/11529/10548392, CIMMYT Research Data & Software Repository Network, V1, UNF:6:7dCgjyXCytcBgdc+1s0T5A== [fileUNF]",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= NA,
@@ -27,13 +21,6 @@ carob_script <- function(path) {
 		carob_date="2023-08-24"
 	)
 
-## download and read data 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "TAMASA_ET_CC_2015_BakoF.xlsx"]
 	r <- carobiner::read.excel(f, sheet = "Raw_Data")	
@@ -43,7 +30,7 @@ carob_script <- function(path) {
 
 #### about the data #####
 ## (TRUE/FALSE)
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- FALSE
 	d$is_survey <- TRUE
 	d$is_experiment <- FALSE
@@ -111,7 +98,7 @@ carob_script <- function(path) {
 	#### about the data #####
 	## (TRUE/FALSE)
 	
-	d$dataset_id <- dataset_id
+	
 	d2$on_farm <- FALSE
 	d2$is_survey <- TRUE
 	d2$is_experiment <- FALSE
@@ -198,7 +185,6 @@ carob_script <- function(path) {
 	#yield
 	d4$yield <- d4$`Grain yield (kg/ha)`
 	
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
 

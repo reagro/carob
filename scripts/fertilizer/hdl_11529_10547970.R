@@ -1,46 +1,27 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
-"Description:
-
-    [Farmers’ participatory researchers managed long-term trails aimed to improve the productivity, profitability, and sustainability of smallholder agriculture in the EGP by activities carried out to address the objectives: 1. Understand farmer circumstances with respect to cropping systems, natural and economic resources base, livelihood strategies, and capacity to bear risk and undertake technological innovation. 2. Develop with farmers more productive and sustainable technologies that are resilient to climate risks and profitable for small holders. 3. Facilitate widespread adoption of sustainable, resilient, and more profitable farming systems. (2018-02-18)]
-
-"
+"Farmers’ participatory researchers managed long-term trails aimed to improve the productivity, profitability, and sustainability of smallholder agriculture in the EGP by activities carried out to address the objectives: 1. Understand farmer circumstances with respect to cropping systems, natural and economic resources base, livelihood strategies, and capacity to bear risk and undertake technological innovation. 2. Develop with farmers more productive and sustainable technologies that are resilient to climate risks and profitable for small holders. 3. Facilitate widespread adoption of sustainable, resilient, and more profitable farming systems. (2018-02-18)]"
 
 	uri <- "hdl:11529/10547970"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-	## dataset level data 
+
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA,
-		uri=uri,
-		data_citation="Gathala, Mahesh K.; Tiwari, Thakur P.; Islam, Saiful; Chowdhury, Apurba K.; Bhattacharya, Prateek M.; Das, K.K.; Dhar, Tapamay; Pradhan, K.; Sinha, A.K.; Ghosh, Arunava; Mitra, B.; Chattopadhyay, C., 2018, '2.8-Rabi (winter) crops-all nodes-Long term trial (LT)-Malda-West Bengal', https://hdl.handle.net/11529/10547970, CIMMYT Research Data & Software Repository Network, V2",
-		## if there is a paper, include the paper's doi here
-		## also add a RIS file in references folder (with matching doi)
 		publication= NA,
 		data_institutions = "CIMMYT",
-   	data_type="experiment", 
+		data_type="experiment", 
 		carob_contributor="Mitchelle Njukuya",
-		# date of first submission to carob
 		carob_date="2023-10-10",
 		revised_by="Robert Hijmans"
 	)
 
-## download and read data 
-	ff  <- carobiner::get_data(uri, path, group)
 	ff <- ff[-grep("^hdl", basename(ff))]
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 
 	get_raw_data <- function(f) {
@@ -68,7 +49,7 @@ carob_script <- function(path) {
 	}
 
 
-#################################################### 4- Stand counts & Phenology #############################################	
+### 4- Stand counts & Phenology #####
 
 	process_data <- function(r) {
 
@@ -83,10 +64,9 @@ carob_script <- function(path) {
 			dmy_total = r$Biomass.t.ha * 1000,
 			residue_yield = r$Straw.yield.t.ha * 1000,
 			yield = r$Grain.yield.t.ha * 1000,
-			emergence= r$X100pct.emergence.DAS,
-			flowering= r$X50pct.anthesis.DAS,
-			maturity = r$X80pct.physiological.maturity.DAS,
-			dataset_id = dataset_id,
+			emergence_days = r$X100pct.emergence.DAS,
+			anthesis_days = r$X50pct.anthesis.DAS,
+			maturity_days = r$X80pct.physiological.maturity.DAS,
 			N_fertilizer = r$N.kg.ha,
 			P_fertilizer = r$P2O5.kg.ha / 2.29,
 			K_fertilizer = r$K2O.kg.ha / 1.2051,
@@ -148,8 +128,6 @@ carob_script <- function(path) {
 		d$latitude [d$location =="Gaurangapur"] <- 22.287
 		d$longitude [d$location =="Kalinagar"] <- 88.316
 		d$latitude [d$location =="Kalinagar"] <- 22.673
-		
-
 		d
 	}
 	

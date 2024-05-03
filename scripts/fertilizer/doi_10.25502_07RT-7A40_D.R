@@ -1,24 +1,18 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
   
-  "Description:Maize response to N and P. Tofa, A., Kamara, A. Y., Babaji, B. A., Ademulegun, T. D., & Aliyu, K. T. (2021). Maize response to N and P [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/07RT-7A40/D"
+  "Maize response to N and P. Tofa, A., Kamara, A. Y., Babaji, B. A., Ademulegun, T. D., & Aliyu, K. T. (2021). Maize response to N and P [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/07RT-7A40/D"
     
 ####
 	uri <- "doi:10.25502/07RT-7A40/d"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff	 <- carobiner::get_data(uri, path, group)
 	## dataset level data. Internal annotation for CAROB 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		data_citation = "Tofa, A., Kamara, A. Y., Babaji, B. A., Ademulegun, T. D., & Aliyu, K. T. (2021). Maize response to N and P [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/07RT-7A40/D",
 		data_institutions = "IITA",
-		group=group,
-		uri=uri,
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication=NA,
 		carob_contributor="Henry Juarez",
 		carob_date="2022-03-24",
@@ -26,14 +20,7 @@ carob_script <- function(path) {
 		project=NA
 	)
 	
-	## download and read data (Path is important)
 		
-	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	# Process the trial/farm sites 
 		
@@ -43,9 +30,9 @@ carob_script <- function(path) {
 	colnames(e) <- c("site", "variety")
 	
 	# process file(s)
-	e$dataset_id <- dataset_id
+	
 	e$country <- "Nigeria"
-	e$trial_id <- "1" #paste0(dataset_id, "-", d$ID) ###
+	e$trial_id <- "1" 
 		 
 	e$latitude <- 10.26858
 	e$longitude <- 7.78896
@@ -71,10 +58,9 @@ carob_script <- function(path) {
 
 	e$yield <- d$yield
 		
-	e$flowering <- as.numeric(d$flw50)
-	e$silking <- d$slk50
+	e$flowering_days <- as.numeric(d$flw50)
+	e$silking_days <- d$slk50
 	
-	# all scripts must end like this
 	carobiner::write_files(dset, e, path=path)
 
 }	

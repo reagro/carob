@@ -3,19 +3,15 @@
 
 carob_script <- function(path) {
 
-"Description:
+"
 Yield gains and associated changes in an early yellow bi-parental maize population following Genomic Selection for Striga resistance and drought tolerance."
 				
 	uri <- "doi:10.25502/szwf-he08"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "maize_trials"	
-		
-	## dataset level data 
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri = uri,
-		data_citation="Badu-Apraku Baffour, R. Asiedu, A.O. Talabi, M.A.B. Fakorede, Y. Fasanmade, M. Gedil, & C. Magorokosho. (2018). Yield gains and associated changes in an early yellow bi-parental maize population following Genomic Selection for Striga resistance and drought tolerance [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/SZWF-HE08 ",
+		carobiner::read_metadata(uri, path, major=2, minor=1, group),
  	    publication="doi:10.1186/s12870-019-1740-z",
 		carob_contributor = "Siyabusa Mkuhlani",
 		carob_date="2024-17-01",
@@ -23,14 +19,6 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 		project="CGIAR Research Program on Maize",
 		data_institutions="IITA"
 	)
-
-	## download and read data 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, major=2, minor=1, group)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	read_data <- function(f) {
 		r <- read.csv(f)
@@ -43,12 +31,12 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 			planting_date = paste(r$YEAR, "04", "01", sep="-"),
 			## RH: How can it be "x + ASI"? 
 			## anthesis = r$DYSK + r$ASI,  
-			anthesis = r$DYSK - r$ASI,  
+			anthesis_days = r$DYSK - r$ASI,  
 			variety = r$PEDIGREE,
 			rep = r$REP,
 			yield = r$YIELD,
 			polshed = r$POLLEN,
-			silking = r$DYSK,
+			silking_days = r$DYSK,
 			asi = r$ASI,
 			plant_height = r$PLHT,
 			e_ht = r$EHT,
@@ -97,7 +85,7 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 
 	d <- rbind(d1, d2)
 
-	d$dataset_id <- dataset_id
+	
 	d$country <- 'Nigeria'
 	d$yield_part <- 'grain'
 	d$N_fertilizer <- 120

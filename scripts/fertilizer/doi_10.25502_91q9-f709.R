@@ -16,36 +16,21 @@ carob_script <- function(path){
   "
   
   uri <- "doi:10.25502/91q9-f709"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
+  ff <- carobiner::get_data(uri, path, group)
   
-  ## dataset level data
+
   
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+  	carobiner::read_metadata(uri, path, group, major=1, minor=0),
     project="N2Africa",
-    uri=uri,
     publication= NA,
-    data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa demo - Nigeria, 2014 [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/91Q9-F709",
     data_institutions = "IITA",
     carob_contributor="Rachel Mukami",
     carob_date="2023-08-22",
     data_type="on-farm demonstration trials"
   )
   
-  ## download and read data
-  
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-  
-  
-  ###download and read data
-
   f <- ff[basename(ff) == "general.csv"]
   f1 <- ff[basename(ff) == "experiment.csv"]
   f2 <- ff[basename(ff) == "production.csv"]
@@ -177,7 +162,6 @@ carob_script <- function(path){
   i <- duplicated(r1) 
   r1 <- r1[!i,]
   
-  
   # production
   
   d2$trial_id <- d2$farm_id
@@ -197,6 +181,7 @@ carob_script <- function(path){
 
   # merge dataframes
   rr <- merge(r,r2,by = "trial_id",all = TRUE)
+
   z <- merge(r1,rr,by="trial_id",all.x = TRUE)
   z$fertilizer_type[z$fertilizer_type == "2kg"] <- "unknown"
   
@@ -204,7 +189,6 @@ carob_script <- function(path){
   i <- complete.cases(z[,c("treatment","residue_yield","yield"),])
   z <- z[i,]
   
-  z$dataset_id <- dataset_id
   z$yield_part <- "seed"
   z$on_farm <- TRUE
   z$is_survey <- TRUE
@@ -212,10 +196,7 @@ carob_script <- function(path){
   # Adding the processed coordinates
   
   # coords based on adm3
-  adm3 <- data.frame(country = c("Nigeria", "Nigeria", "Nigeria", "Nigeria", 
-                                 "Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria", 
-                                 "Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria", 
-                                 "Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria"),
+  adm3 <- data.frame(country = "Nigeria",
                      adm3 = c("Yakasai", "Sabo", "Maigodo", "Tagwaye", "Dadinkowa", 
                               "Ragada", "Gurjiya", "Bunkure", "Soba", "Kwakwa", "Awasha", "Yinda", 
                               "Jammaje", "Marmara", "Yaryasa", "Madakiya", "Rimau", "Kasuwan Magani", 
@@ -229,23 +210,24 @@ carob_script <- function(path){
                              8.68748, 8.68748, 8.592))
   z <- merge(z,adm3,by= c("country","adm3"),all.x = TRUE)
   
-  z$latitude <- z$lat
-  z$longitude <- z$lon
-  
-  z <- z[,1:30]
+	isna <- is.na(z$latitude) | is.na(z$longitude)
+	z$latitude <- ifelse(isna,z$lat,z$latitude)
+	z$longitude <- ifelse(isna,z$lon, z$longitude)
+	z$lon <- z$lat <- NULL
   
   # coordinates based on adm2
-  adm2 <- data.frame(country = c("Nigeria", "Nigeria", "Nigeria", "Nigeria","Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria"),
+  adm2 <- data.frame(country = "Nigeria",
                      adm2 = c("Soba", "Shiroro", "Bunkure", "Doguwa", "Bichi","Tundun Wada", "Kajuru", "Lere", "Paikoro", "Igabi"), 
                      lat = c(10.87005,10.11543, 11.66716, 10.87963, 12.23391, 9.25496, 10.27704, 10.38584,9.4681, 10.781),
                      lon = c(7.96443, 6.68307, 8.59687, 8.66389,8.27943, 7.00526, 7.85783, 8.57286, 6.85565, 7.504))
   
   z <- merge(z,adm2,by= c("country","adm2"),all.x = TRUE)
   
-  z$latitude <- ifelse(is.na(z$latitude) | is.na(z$longitude),z$lat,z$latitude)
-  z$longitude <- ifelse(is.na(z$latitude) | is.na(z$longitude),z$lon, z$longitude)
+  isna <- is.na(z$latitude) | is.na(z$longitude)
+  z$latitude <- ifelse(isna,z$lat,z$latitude)
+  z$longitude <- ifelse(isna,z$lon, z$longitude)
+	z$lon <- z$lat <- NULL
   
-  z <- z[,1:30]
   
   # coordinates based on adm1
   adm1 <- data.frame(country = c("Nigeria", "Nigeria", "Nigeria"), 
@@ -255,12 +237,10 @@ carob_script <- function(path){
   
   z <- merge(z,adm1,by= c("country","adm1"),all.x = TRUE)
   
-  z$latitude <- ifelse(is.na(z$latitude) | is.na(z$longitude),z$lat,z$latitude)
-  z$longitude <- ifelse(is.na(z$latitude) | is.na(z$longitude),z$lon, z$longitude)
-  
-  # final data set
-  
-  z <- z[,c("dataset_id","trial_id","country","adm1","adm2","adm3","latitude","longitude","elevation","crop","variety","planting_date","harvest_date","treatment","inoculated","inoculant","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer", "OM_used","OM_type","OM_amount","row_spacing","plant_spacing","residue_yield","yield","yield_part","on_farm","is_survey")]
+  isna <- is.na(z$latitude) | is.na(z$longitude)
+  z$latitude <- ifelse(isna,z$lat,z$latitude)
+  z$longitude <- ifelse(isna,z$lon, z$longitude)
+	z$lon <- z$lat <- NULL
   
   carobiner::write_files(dset, z, path=path)
 }

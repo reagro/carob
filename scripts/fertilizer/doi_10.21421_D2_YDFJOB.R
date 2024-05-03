@@ -10,15 +10,12 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
   ## Process 
  
 	uri <- "doi:10.21421/D2/YDFJOB"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff	 <- carobiner::get_data(uri, path, group)
   
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::read_metadata(uri, path, major=1, minor=0, group),
 		publication=NA,#"issn-2315-5094",
-		data_citation="Hakeem Ayinde Ajeigbe; Folorunso Mathew Akinseye; Kunihya Ayuba; Jerome Jonah, 2019. Sorghum productivity and water use under Phosphorus fertilization in the Sudan savanna of Nigeria. https://doi.org/10.21421/D2/YDFJOB, ICRISAT Dataverse, V1",
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
 		data_type="experiment",
@@ -29,14 +26,8 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	)
   
 	## treatment level data 
-	ff	 <- carobiner::get_data(uri, path, group)
 	
 	## read the json for version, license, terms of use	
-	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
-	dset$license <- carobiner::get_license(js) #Cant get the license right??
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	f <- ff[basename(ff) == "Data file of Sorghum productivity and water use under phosphorous fertilization.xlsx"]
 	d <- carobiner::read.excel(f)
@@ -46,7 +37,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	colnames(e) <- c('year', 'adm1','rep','P_fertilizer','variety','yield','dmy_stems','grain_weight')
 	e$country <- "Nigeria"
 	e$crop <- "sorghum"
-	e$dataset_id <- dataset_id
+	
 	e$trial_id <- paste0('P_fert_', e$adm1)
 	e$on_farm <- FALSE
 	e$is_survey <- FALSE
@@ -80,7 +71,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	e$yield_part <- "grain"
 	
 	# Additional variables
-	e$flowering_date <- as.character(as.Date(e$planting_date) + d$Flo_c_day)
+#	e$flowering_date <- as.character(as.Date(e$planting_date) + d$Flo_c_day)
 	e$flowering <- d$Flo_c_day # Two terms that mean the same thing?
 	e$plant_height <- d$PH_M_cm
 	e$dmy_stems <- d$`Stalk yield` # Not sure if it is DMY... 

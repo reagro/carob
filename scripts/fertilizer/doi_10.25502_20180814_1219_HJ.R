@@ -7,14 +7,11 @@ carob_script <- function(path) {
   uri <- "doi:10.25502/20180814/1219/HJ"
   group <- "fertilizer"
   
-  dataset_id <- carobiner::simple_uri(uri)
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
+  ff <- carobiner::get_data(uri, path, group)
   
   dset <- data.frame(
-    carobiner::extract_metadata(js, uri, group=group),
+  	carobiner::read_metadata(uri, path, group, major=1, minor=0),
     project= "AfSIS", 
-    data_citation="Huising, J. (2018). Africa Soil Information System - Phase 1, Sidindi LR [dataset]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/20180814/1446/HJ",
     publication = "doi:10.1016/j.agee.2016.05.012",
     data_institutions = "IITA",
     data_type="Multi-location trials",
@@ -36,7 +33,6 @@ carob_script <- function(path) {
   r <- merge(r, plant, by = c("Field", "Plot"))
   
   d <- data.frame(
-    dataset_id=dataset_id,
     on_farm = TRUE,
     is_survey = FALSE,
     irrigated = FALSE,
@@ -86,10 +82,8 @@ carob_script <- function(path) {
   # Correcting years to 2009
   r$EmDate <- gsub("2017", "2009", r$EmergDt)
   d$emergence_date <- as.character(as.Date(r$EmDate))
-  d$emergence <- as.numeric(as.Date(d$emergence_date) - as.Date(d$planting_date))
   
   d <- d[!is.na(d$yield), ]
-
   carobiner::write_files(dataset = dset, records = d, path = path)
 }
 

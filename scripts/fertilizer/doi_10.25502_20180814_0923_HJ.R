@@ -2,53 +2,36 @@
 
 carob_script <- function(path) {
   
-"Description:
+"The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments)." 
 
-The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments).
-
-" 
 	uri <- "doi:10.25502/20180814/0923/HJ"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-	## dataset level data 
+
+	ff <- carobiner::get_data(uri, path, group)
+
+
 	dset <- data.frame(
-		dataset_id = dataset_id, 
-		group=group, 
-		project=NA, #carobiner::write_files(dset, d, path=path)
-		uri=uri, 
-		## if there is a paper, include the paper's doi here
-		## also add a RIS file in references folder (with matching doi)
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
+		project="AfSIS", 
 		publication= "doi:10.1016/j.agee.2016.05.012",
 		data_institutions = "IITA", 
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-04-04",
-		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kasungu [Data set]. International Institute of Tropical Agriculture (IITA).  doi:10.25502/20180814/0923/HJ", 
+		#data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Kasungu [Data set]. International Institute of Tropical Agriculture (IITA).  doi:10.25502/20180814/0923/HJ", 
 		data_type="experiment"
     )
-  
-  ## download and read data 
-  
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-  
-  
 	f1 <- ff[basename(ff) == "Kasungu_DT2011_field.csv"]
-	f2 <- ff[basename(ff) == "Kasungu_DT2011_plant.csv"]
-	f3 <- ff[basename(ff) == "Kasungu_DT2011_plot.csv"]
-	
+	f2 <- ff[basename(ff) == "Kasungu_DT2011_plot.csv"]	
+#	fx <- ff[basename(ff) == "Kasungu_DT2011_plant.csv"]
 	r1 <- read.csv(f1)
 	r2 <- read.csv(f2)
-	r3 <- read.csv(f3)
+#	r3 <- read.csv(f3)
 		
 	## process file(s)
 	d1 <- r1[, c("Site", "Cluster", "Field", "Flat", "Flong", "Village", "Season", "Soil.texture.class", "TCrop", "PCrop1", "FType1", "MType1")]
 	colnames(d1) <- c("site", "cluster", "field", "latitude", "longitude", "location", "season", "soil_type", "crop", "previous_crop", "fertilizer_type", "OM_type")
 
-	d2 <- r3[, c("Cluster", "Field", 'Rep', 'TrtDesc', 'Adj.StoverYld', 'Grn.yld.adj')]
+	d2 <- r2[, c("Cluster", "Field", 'Rep', 'TrtDesc', 'Adj.StoverYld', 'Grn.yld.adj')]
 	colnames(d2) <- c("cluster", "field", "rep", "treatment", "residue_yield", "yield")
 
 	#merge d1 and d2
@@ -59,9 +42,9 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	
 	# fix fertilizer_type name
 	p <- d$fertilizer_type
-	p <- gsub("\\+\\+|\\+|-|&", "; ", p)
-	p <- gsub(";", "; ", p)
-	p <- gsub(";  ", "; ", p)
+	p <- gsub("\\+\\+|\\+|-|&", ";", p)
+	p <- gsub(";", ";", p)
+	p <- gsub(";  ", ";", p)
 	p <- gsub("D Compound|D.Comp", "D-compound", p)
 	p <- gsub("Urea", "urea", p)
 	p[p == ""] <- "none"
@@ -77,7 +60,7 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	p <- carobiner::fix_name(d$previous_crop)
 	p <- gsub("Sweetpotatoes", "sweetpotato", p)
 	p <- gsub("SWEET POTATOES", "sweetpotato", p)
-	p <- gsub("No", "no crop", p)
+	p <- gsub("No", "none", p)
 	p <- gsub("G/nuts", "groundnut", p)
 	p <- gsub("Cassava", "cassava", p)
 	p <- gsub("Maize", "maize", p)
@@ -86,7 +69,7 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	d$previous_crop <- p
 
 	
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
@@ -124,6 +107,6 @@ The AFSIS project aimed to establish an Africa Soil Information system. Data was
 	d$yield_part <- "grain"
 
 	# all scripts must end like this	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(path, dset, d)
 }
 

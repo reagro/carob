@@ -15,17 +15,14 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
   "
   
 	uri <- "doi:10.7910/DVN/GXUNAZ"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
   
   # The metadata at the dataset level
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri, path, group, major=2, minor=2),
 		project=NA,
-		uri=uri,
 		publication= NA,
-		data_citation = "Kihara, Job; Okeyo, Jeremiah; Bolo, Peter; Kinyua, Michael, 2020. Non-responsiveness of crops to fertilizers under some soils in sub-Saharan Africa, doi:10.7910/DVN/GXUNAZ",
 		data_institutions = "CIAT",
 		carob_contributor="Rachel Mukami",
 		carob_date="2023-05-29",
@@ -34,12 +31,6 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
   
 	  ## downloading data 
 	  
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	# reading the data.csv data
 	f <- ff[basename(ff) == "Non responsiveness of crop to fertiliser dat V2.xlsx"]
@@ -195,7 +186,7 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 	
 	d <- d[!is.na(d$N_fertilizer),  ]
 	
-	d$dataset_id <- dataset_id
+	
 	d$planting_date <- as.character(NA)
 	d$on_farm <- TRUE
 	d$yield_part <- "grain"

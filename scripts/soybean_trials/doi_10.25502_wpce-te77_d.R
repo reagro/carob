@@ -2,23 +2,17 @@
 
 carob_script <- function(path) {
    
-   "
-	Description:
-   Soybean (Glycine max (L.) Merrill.) is one of the most important oil crops of the world which also has tremendous importance as a food legume. The work on soybean aims at providing farmers, both commercial and subsistence, varieties with their preferred attributes to increase yield and income. These include high yield, resistance to deadly diseases, such as soybean rust, and insect pests, early maturity, good seed quality, and resistance to other stresses such as drought and soil acidity. The International Institute of Tropical Agriculture (IITA) is a key player in tropical soybean research and a partner of the Soybean Innovation Lab.
+"Soybean (Glycine max (L.) Merrill.) is one of the most important oil crops of the world which also has tremendous importance as a food legume. The work on soybean aims at providing farmers, both commercial and subsistence, varieties with their preferred attributes to increase yield and income. These include high yield, resistance to deadly diseases, such as soybean rust, and insect pests, early maturity, good seed quality, and resistance to other stresses such as drought and soil acidity. The International Institute of Tropical Agriculture (IITA) is a key player in tropical soybean research and a partner of the Soybean Innovation Lab.
 "
    
 	uri <- "doi:10.25502/wpce-te77/d"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "soybean_trials"
 
 	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group),
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		publication= NA,
-		data_citation = "Chigeza, G. (2019). Advanced Variety Trials (AVT), Mozambique- 2018 [dataset]. International Institute of Tropical Agriculture (IITA).
-		https://doi.org/10.25502/WPCE-TE77/D",
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-09-21",
@@ -33,7 +27,7 @@ carob_script <- function(path) {
 	### process file()
 	
 	d <- r[,c("ID","Country", "City", "REP_NO", "DESIGNATION", "YIELD", "BIOM", "PLHT", "SWT100", "DM","HARVEST", "DFFL")]
-	 colnames(d) <- c("ID", "country", "location", "rep", "variety", "yield", "dmy_total", "plant_height", "grain_weight", "maturity", "harvest", "flowering")
+	 colnames(d) <- c("ID", "country", "location", "rep", "variety", "yield", "dmy_total", "plant_height", "grain_weight", "maturity_days", "harvest_days", "flowering_days")
 
 	d$location <- carobiner::fix_name(d$location, "title") 
 	d$country <- carobiner::fix_name(d$country, "title") 
@@ -42,7 +36,7 @@ carob_script <- function(path) {
 	d$crop <- "soybean" 
 	d$yield_part <- "seed" 
 
-	d$dataset_id <- dataset_id
+	
 	d$trial_id <- paste(d$ID, d$adm1, sep = "-")
 	d$ID <- NULL
 	d$on_farm <- TRUE

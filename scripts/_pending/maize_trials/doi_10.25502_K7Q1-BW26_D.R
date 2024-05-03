@@ -11,16 +11,12 @@ carob_script <- function(path) {
 "
 	
 	uri <-  "doi:10.25502/K7Q1-BW26/D"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "maize_trials" 
-	## dataset level data 
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
-		publication= NA,#DOI: 10.1038/s41598-019-50345-3
-		data_citation ="Badu-Apraku, B., Annor, B., Nyadanu, D., Akromah, R., & Fakorede, M. A. B. (2020). Evaluation of testcrosses involving early maturing yellow maize inbred lines and elite testers [dataset]. International Institute of Tropical Agriculture (IITA).
-		https://doi.org/10.25502/K7Q1-BW26/D",
+		carobiner::read_metadata(uri, path, group, major=1, minor=3),
+		publication= "doi: 10.1038/s41598-019-50345-3",
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
 		data_type="experiment",
@@ -28,13 +24,6 @@ carob_script <- function(path) {
 		carob_date="2023-10-03"	  
 	)
 	
-	## download and read data 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	bn <- basename(ff)
 	
@@ -47,7 +36,7 @@ carob_script <- function(path) {
 	
 	d$country <- "Nigeria"
 	d$crop <- "maize" 
-	d$dataset_id <- dataset_id
+	
 	d$trial_id <- paste(d$ID,d$location,sep = "-")
 	d$yield_part <- "grain" 
 	d$on_farm <- TRUE
@@ -103,7 +92,6 @@ message("Cedric: what are DT, OPT, LN, HN?")
 	d$variety_code <- as.character(d$variety_code)
 	
 
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	
 }

@@ -8,9 +8,7 @@
 
 carob_script <- function(path) {
 
-"Description:
-
-Working with 64 farmers in eight production environments, we examined yield response to three genotypes, BG25 and BG27 (with salinity - and heat - tolerant traits) and BG21 (local check), across a gradient of sowing dates, grouped as 'early' (sown before 15 December) and 'late' (after 15 December), under 0, 100 and 133 and 0, 67 and 100 kg N ha-1 for early- and late-sowing groups, respectively. 
+"Working with 64 farmers in eight production environments, we examined yield response to three genotypes, BG25 and BG27 (with salinity - and heat - tolerant traits) and BG21 (local check), across a gradient of sowing dates, grouped as 'early' (sown before 15 December) and 'late' (after 15 December), under 0, 100 and 133 and 0, 67 and 100 kg N ha-1 for early- and late-sowing groups, respectively. 
 
 Across environments and genotypes, yield ranged from 2.11 to 4.77 t ha-1(mean: 3.9 t ha-1) under early-sowing, and from 0.83 to 4.27 t ha-1(mean: 2.74 t ha-1) under late-sowing. Wheat performance varied with environment (1.68 - 4.77 t ha-1 at 100 kg N ha-1across sowing groups); the lowest yields found where early sowing was delayed and soil salinity levels were elevated. Small but significant (P less than 0.001) yield differences (0.22 t ha-1) were found between 100 and 133 kg N ha-1 for the early-sowing group, though no difference was found between 67and 100 kg N ha-1 for late-sowing. Combining early- and late-sowing groups, significant environment x N rate and sowing-group x N rate interactions (both P less than 0.001) for 100 kg N ha-1 indicated the importance of site-and time-specific N management in these stress-prone environments.
 
@@ -21,16 +19,13 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	uri <- "hdl:11529/11084"
 	group <- "fertilizer"
 
-	dataset_id <- carobiner::simple_uri(uri)
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
+	ff <- carobiner::get_data(uri, path, group)
 
-	## dataset level data 
+
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group=group),
+		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project = "CSISA",
-		data_citation = "Timothy J. Krupnik; Zia Uddin Ahmed; Jagadish Timsina; Md. Shahjahan; A.S.M. Alanuzzaman Kurishi; Azahar A. Miah; B.M. Saidur Rahman; Mahesh K. Gathala; Andrew J. McDonald, 2017. Forgoing the fallow in Bangladesh's stress-prone coastal deltaic environments: Effect of sowing date, nitrogen, and genotype on wheat yield in farmers' fields.  https://hdl.handle.net/11529/11084, CIMMYT Research Data & Software Repository Network, V1",
-		publication = "doi.org/10.1016/j.fcr.2014.09.019",
+		publication = "doi:10.1016/j.fcr.2014.09.019",
 		data_institutions = "CIMMYT; IRRI; IFPRI",
 		data_type = "experiment", 
 		carob_contributor = "Mitchelle Njukuya",
@@ -46,7 +41,6 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 		season = r$SEASON,
 		N_fertilizer = r$Nitrogen_.kg.ha.,
 		variety = r$GENOTYPE,
-		dataset_id = dataset_id,
 		on_farm = TRUE,
 		irrigated = TRUE,
 		irrigation_number = 1,
@@ -68,10 +62,6 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	d$emergence_date <- as.character(as.Date(emer, "%d/%m/%y"))
 	d$flowering_date <- as.character(as.Date(r$FLOWERING_DATE, "%d/%m/%y"))
 	d$maturity_date <- as.character(as.Date(r$X.90._Maturity_Date_.Month.Day.Year., "%m/%d/%y"))
-
-	d$emergence <- as.integer(as.Date(d$emergence_date) - as.Date(d$planting_date))
-	d$flowering <- as.integer(as.Date(d$flowering_date) - as.Date(d$planting_date))
-	d$maturity <- as.integer(as.Date(d$maturity_date) - as.Date(d$planting_date))
 
 	w1 <- as.character(as.Date(r$WEEDING_DATE_1, "%d/%m/%y"))
 	w2 <- as.character(as.Date(r$WEEDING_DATE_2, "%d/%m/%y"))
@@ -117,7 +107,7 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	d$yield <- dot_numeric(r$Grain_yield_moisture_adjusted_.T.ha.) * 1000
 
 	# EGB:
-	# compare average grain weight to table 7 of doi.org/10.1016/j.fcr.2014.09.019
+	# compare average grain weight to table 7 of doi:10.1016/j.fcr.2014.09.019
 	# aggregate(d$grain_weight, c("UPAZILLA_NAME", "YEAR"), mean, na.rm=TRUE) 
 
 	

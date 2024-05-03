@@ -1,6 +1,6 @@
 carob_script <- function(path) {
   
-  "Description:
+  "
 
   N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, 
   improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder
@@ -11,16 +11,12 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 "
   
   uri <- "doi:10.25502/Y18Z-6T60"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
-  ## dataset level data 
+  ff <- carobiner::get_data(uri, path, group)
+ 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    uri=uri,
+  	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     publication= NA, 
-    data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa impact survey - Democratic Republic of Congo, 2013 [Data set]. International Institute of Tropical Agriculture (IITA). 
-    https://doi.org/10.25502/Y18Z-6T60" ,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
     carob_date="2023-08-16",
@@ -28,14 +24,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
     project=NA 
   )
   
-  ## download and read data 
   
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   f <- ff[basename(ff) == "a_general_1.csv"] 
   f1 <- ff[basename(ff) == "c_land_holding_management_2.csv"]
   f2 <- ff[basename(ff) == "d_crop_production_use.csv"]
@@ -104,9 +93,9 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
  colnames(d1e2) <- c("trial_id","farm_size","crop","variety","fertilizer_type","yield1","inoculation_type","yield_unit","fertilizer_amount")
  # d1e3 still have multiple crop in cells 
  # we split again d1e3
- d1e3[c('crop3', 'crop1','crop2')] <- str_split_fixed(d1e3$crop3, "/", 3)
- d1e3[c('yield4', 'yield2','yield3')] <- str_split_fixed(d1e3$yield4, "/", 3)
- d1e3[c('variety3', 'variety1','variety2')] <- str_split_fixed(d1e3$variety3, "/", 3)
+ d1e3[c('crop3', 'crop1','crop2')] <- stringr::str_split_fixed(d1e3$crop3, "/", 3)
+ d1e3[c('yield4', 'yield2','yield3')] <- stringr::str_split_fixed(d1e3$yield4, "/", 3)
+ d1e3[c('variety3', 'variety1','variety2')] <- stringr::str_split_fixed(d1e3$variety3, "/", 3)
  
  d1e3 <- d1e3[,c("trial_id","farm_size","crop3","variety3","fertilizer_type","yield4","inoculation_type","yield_unit","fertilizer_amount")]
  colnames(d1e3) <- c("trial_id","farm_size","crop","variety","fertilizer_type","yield1","inoculation_type","yield_unit","fertilizer_amount")
@@ -242,7 +231,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d <- d[, c("country", "trial_id", "location","adm2","adm3","longitude", "latitude","crop", "yield","fertilizer_type","inoculated")]
   
   # Add columns
-  d$dataset_id <- dataset_id
+  
   d$on_farm <- FALSE
   d$is_survey <- TRUE
   d$irrigated <- FALSE
@@ -356,6 +345,5 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   d$adm3[d$adm3==""] <- NA
   
   d$yield_part <- "seed"
-  # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
 }

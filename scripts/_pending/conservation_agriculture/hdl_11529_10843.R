@@ -8,21 +8,18 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
 	This trial is designed with 1 conventional farmers practice and 4 conservation agriculture (CA) treatments in 5 replications; Plots are subdivided into a continues maize area and a maize/legume (sunnhemp) rotation to investigate the effect of CA practices on soil quality and system productivity. The trial was set in the growing season of 2005 and is still running through to 2017 and beyond. The treatments are as follows: T1. Conventional mouldboard ploughing (CPM): maize with residue removal, manual seeding and fertilization in the tilled seedbed after ploughing. Plots are subdivided into split plots with continues maize and a maize/sunnhemp rotation T2. Sub-soiling with a Magoye ripper (RIM): maize with residue retention, manual seeding and fertilization in the ripping line. Plots are subdivided into split plots with continues maize and a maize/sunnhemp rotation T3. Direct seeding (DSM) with a Fitarelli Jabplanter: maize with residue retention, seeding and fertilization is carried out with the Jabplanter. Plots are subdivided into split plots with continues maize and a maize/sunnhemp rotation T4. Basin Planting (BAM): maize with residue retention, a manual system were basins (at 15cm x 15cm x 15cm spacing) are dug with hoes during the winter period and manually seeded and fertilized at the onset of rains. Plots are subdivided into split plots with continues maize and a maize/sunnhemp rotation T5. Magoye ripping (RI-ML): maize with residue retention, intercropped with cowpea (Vigna unguiculata) at seeding of maize. Plots are subdivided into split plots with continues maize/cowpea pea and a maize/cowpea//sunnh emp rotation.
 
   "
   
   uri <- "hdl:11529/10843"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
-  ## dataset level data 
+  ff <- carobiner::get_data(uri, path, group)
+ 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+  	carobiner::read_metadata(uri, path, group, major=2, minor=2),
     project=NA,
-    uri=uri,
-    data_citation= ______,
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
@@ -30,14 +27,7 @@ carob_script <- function(path) {
     carob_date="2023-08-26"
   )
   
-  ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   
   f <- ff[basename(ff) == "Henderson 2005.2016.xlsx"]
@@ -50,7 +40,7 @@ carob_script <- function(path) {
   # selecting columns of interest which match the carob standard format
   d <- d[,c("Harvest year","Country","Location","Crop","Rep","Grainy ield","Trial name","Label")]
   
-  d$dataset_id <- dataset_id
+  
   d$on_farm <- FALSE
   d$is_survey <- FALSE
   d$is_experiment <- TRUE
@@ -78,7 +68,6 @@ carob_script <- function(path) {
   d$longitude <- 30.9814704
 
   
-  # all scripts must end like this
  carobiner::write_files(dset, d, path=path)
 }
 

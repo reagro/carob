@@ -7,16 +7,13 @@ carob_script <- function(path){
 Description: This dataset contains information of experiments carried out upland rice in two regions of Nicaragua (Caribbean and Pacific Region), as well as a compilation of soils data from different regions in Nicaragua collected during 2019 in seed banks of rice and beans. The experiments were designed to explore the effects of N, P and K in the yield of upland rice. The experiments were carried out on farmer’s field during the 2019 production cycle, the dataset contains yield and aerial biomass of the experiments.
 " 
 	uri <- "doi:10.7910/DVN/H0HUSY"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
   
-  ## dataset level data 
+ 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		publication= NA,
-		data_citation = "Siles, Pablo; Tellez, Orlando; Peng, Yuan-Ching; Zeledón, Yasser, 2020. Impact of NPK fertilization on upland rice yield, Nicaragua. doi:10.7910/DVN/H0HUSY",
 		data_institutions = "CIAT",
 		carob_contributor="Jean-Martial Johnson",
 		carob_date="2022-12-09",
@@ -24,12 +21,6 @@ Description: This dataset contains information of experiments carried out upland
 		project=NA
     )
   
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-	dset$license <- carobiner::get_license(js) 
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 
 	dfun <- function(r) {
@@ -88,7 +79,7 @@ Description: This dataset contains information of experiments carried out upland
 
 	d <- merge(d, geo, by="adm3", all.x=TRUE)
 
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$country <- "Nicaragua"

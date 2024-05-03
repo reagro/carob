@@ -7,21 +7,18 @@
 
 carob_script <- function(path) {
 	
-	"Description:
+	"
 	The file contains on-farm and on-station agronomy data sets generated in Eastern and Southern Africa between 2010 and 2016 under the Sustainable Intensification of Maize-Legume systems in Eastern and Southern Africa (SIMLESA) project. The five countries involved were Ethiopia, Kenya, Tanzania, Malawi and Mozambique. The experimental trials tested the performance of various Conservation Agriculture based maize-legume intercrops or rotations relative to the commonly practiced conventional till farmer practice systems. In most of the tested cropping systems, the conventional farmer practice involved tillage using the moldboard plough, the manual hand hoe or in some cases the ridge and furrow system. Conservation Agriculture involved reduced soil disturbance, provision of soil cover and the use of leguminous crop rotations or intercrops. Crop establishment techniques involved hoe prepared planting basins or stations, ripping using animal traction, direct seeding using the dibble stick, jab planters, or animal traction direct seeding equipment. Crop management in terms of planting date, plant populations, fertilization, pest and weed control, were similar across all tested cropping systems. Experiments were mostly run in the same locations over the seven year period in order to also get an understanding of how the systems performance changed over time. On-station data has 43 variables and 1114 observations On-farm data has 43 variables and 5242 observations (2017-12-17)
 
 	"
 	
 	uri <- "hdl:11529/2223085"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
-	## dataset level data 
+	ff	<- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri, path, group, major=3, minor=2),
 		project=NA,
-		uri=uri,
-		data_citation="Nyagumbo, Isaiah; Rusinamhodzi, Leonard; Mupangwa, W; Njeru, John; Craufurd, Peter; Nhambeni, B; Dias, Domingos; Kamalongo, Donwell; Siyeni, Dyton; Ngwira, Amos; Sariah, John; Ngatoluwa, Rama; Makoko, B; Ayaga, George; Micheni, Alfred; Nkonge, Charles; Atomsa, TB; Bedru, Beshir; Kanampiu, Fred, 2017. SIMLESA. On-station and on-farm agronomy data from 2010 to 2019. https://hdl.handle.net/11529/2223085, CIMMYT Research Data & Software Repository Network",
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="experiment",
@@ -31,14 +28,7 @@ carob_script <- function(path) {
 		revision_date="2023-11-04"
 	)
 	
-	## download and read data 
 	
-	ff	<- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=3, minor=2)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	
 	f <- ff[basename(ff) == "Agronomy full data set 13 dec 2019 with nonames.xlsx"]
@@ -123,14 +113,13 @@ carob_script <- function(path) {
 #	d1 <- merge(d1,geocodes1,by=c("country","site"))
 	
 	d <- carobiner::bindr(d2, d2) 
-	d$dataset_id <- dataset_id
+	
 	d$crop <- "maize"
 	d$yield_part <- "grain"
 	d$is_survey <- FALSE
 	d$is_experiment <- TRUE
 	d$irrigated <- FALSE
  
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	#carob_script(path)
 }

@@ -8,15 +8,12 @@ carob_script <- function(path) {
 "
 	
 	uri <- "hdl:11529/11111"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-	## dataset level data 
+	ff	<- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		project=NA,
-		uri=uri,
-		data_citation="Wasim Iftikar; Nabakishore Parida; Vivek Kumar; Narayan Chandra Banik; Amit Mishra, 2017, Odisha Rice Crop Cut Data 2013 - 2016, https://hdl.handle.net/11529/11111, CIMMYT Research Data & Software Repository Network, V2",
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="survey", # or, e.g. "on-farm experiment", "survey", "compilation"
@@ -25,21 +22,13 @@ carob_script <- function(path) {
 		revised_by="Robert Hijmans"
 	)
 	
-	## download and read data 
 	
-	ff	<- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	
 	f <- ff[basename(ff) == "CSISA_OD_RiceCropCut_AllYearRawDataFinal.csv"]
 	r <- read.csv(f)
 
 	d <- data.frame(
-		dataset_id = dataset_id,
 		country = "India",
 		crop = "rice",
 		yield_part = "grain",	

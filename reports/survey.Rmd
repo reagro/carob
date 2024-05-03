@@ -58,8 +58,8 @@ if (all(c("longitude", "latitude") %in% colnames(locs))) {
   xy <- cbind(0,0)[0,]
   haveXY <- FALSE
 }
-     
-pub <- ifelse(is.na(m$publication), "", paste0('You can also consult the accompanying <a href="', carobiner:::http_address(carobiner::simple_uri(m$publication, reverse=FALSE)), '">paper</a>.'))
+
+pub <- ifelse(is.na(m$publication), "", paste0('You can also consult the accompanying <a href="', carobiner:::http_address(m$publication), '">paper</a>.'))
 ```
 
 

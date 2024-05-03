@@ -2,38 +2,25 @@
 ## To do:
 ## check P fertilizer. It is very high for many records (400 kg/ha)
 
-#################################################################################
-#N2Africa was aimed at increasing biological nitrogen fixation and productivity
-#of grain legumes through effective production technologies including inoculants
-#and fertilizers adapted to local settings which was aimed at increasing soil
-#fertility.The trails were conducted in 11 African countries
-#################################################################################
 
 carob_script <- function(path){
 
+"N2Africa was aimed at increasing biological nitrogen fixation and productivity of grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings which was aimed at increasing soil fertility.The trails were conducted in 11 African countries"
+
 	uri <- "doi:10.25502/dn04-c035"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri,path,group)
   
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group = group,
-		uri = uri,
+		carobiner::read_metadata(uri, path, group, major = 1, minor = 0),
 		project = "N2Africa",
 		publication = NA,
-		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa farm monitoring - Mozambique, 2011 - 2012, III [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/DN04-C035",
 		carob_contributor = "Effie Ochieng'",
 		carob_date="2022-09-09",
 		data_type = "on-farm experiment",
 		data_institutions=NA
 	)
   
-	ff <- carobiner::get_data(uri,path,group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	#read the data
 	f <- ff[basename(ff) == "a_general.csv"]
@@ -169,7 +156,6 @@ carob_script <- function(path){
 	v <- gsub("Tgx1", "Tgx-1", v)
 	
 	q$variety <- v
-	q$dataset_id <- dataset_id
 	
 	q$yield_part <- ifelse(q$crop == "groundnut", "pod", "seed")
 # all scripts should end like this

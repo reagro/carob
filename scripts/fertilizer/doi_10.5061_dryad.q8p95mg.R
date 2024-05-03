@@ -9,33 +9,21 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 "
 
 	uri <- "doi:10.5061/dryad.q8p95mg"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
 
   ## data set level data0
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication= "doi:10.1007/s10705-018-9915-9",
 		project="Optimizing Fertilizer Use in Africa",
-		data_citation = "Kaizzi, K. C. et al. (2018), Data from: Bean yield and economic response to fertilizer in eastern and southern Africa, Dryad, Dataset, https://doi.org/10.5061/dryad.q8p95mg",
 		data_institutions = "University of Nebraska - Lincoln",
 		carob_contributor="Rachel Mukami",
 		carob_date="2023-07-06",
-		data_type="on_farm & on_station")
-
-	## download and read data
-
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
+		data_type="on farm & on station"
+	)
 
 	# reading the datasets
-	ff <- carobiner::get_data(uri, path, group)
 	f <- ff[basename(ff) == "ESA Bean Nutrient Response Dataset.xlsx"]
 
 ### Kenya
@@ -148,7 +136,6 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	z <- rbind(d1, d2, d3, d4)
 	z$rep <- as.integer(z$rep)
 	z$crop <- "common bean"
-	z$dataset_id <- dataset_id
 	z$inoculated <- FALSE
 	z$yield_part <- "grain"
 	z$irrigated <- FALSE
@@ -158,37 +145,14 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	z$yield <- z$yield*1000
 
 
-#	z <- merge(z, d5, by = "trial_id", all.x = TRUE)
-#	z <- merge(z, d6, by = "trial_id", all.x = TRUE)
-#	z <- merge(z, d6, by = "trial_id", all.x = TRUE)
-
-#	z$latitude <- gsub("[^-0-9.]", "", z$latitude)
-#	z$latitude <- as.numeric(z$latitude)
-#	z$longitude <- as.numeric(z$longitude)
-#	z$elevation <- as.numeric(z$elevation)
-#	z$soil_pH <- as.numeric(z$soil_pH)
-#	z$soil_SOC <- as.numeric(z$soil_SOC)
-#	z$soil_SOC[z$soil_SOC > 20] <- NA
-#	z$soil_P_total <- as.numeric(z$soil_P_total)
-#	z$soil_K <- as.numeric(z$soil_K)
-#	z$soil_Mg <- as.numeric(z$soil_Mg)
-
-#	z$latitude <- ifelse(z$trial_id == "E_Busegerwa_Mushikiri_14B", -2.1889,
-#					ifelse(z$trial_id == "ENGOMAUFITUB15b", -2.1664,
-#					ifelse(z$trial_id == "E_Busegerwa_Musenyi_14B", -2.1789, z$latitude)))
-
-#	z$longitude <- ifelse (z$trial_id == "E_Busegerwa_Mushikiri_14B", 30.6852,
-#					ifelse(z$trial_id == "ENGOMAUFITUB15b", 30.5392,
-#					ifelse(z$trial_id == "E_Busegerwa_Musenyi_14B", 30.0209, z$longitude)))
-
 	z$planting_date <- as.character(z$planting_date)
 	
 	# EGB:
 	# Adding (approximate) coordinates
 	# go <- unique(z[,c("country", "adm1", "adm2", "location")])
 	# gi <- carobiner::geocode(country = go$country,
-	#                          location = ifelse(is.na(go$location) & is.na(go$adm2), go$adm1,
-	#                                            ifelse(is.na(go$location) & is.na(go$adm1), go$adm2, go$location)))
+	#                 location = ifelse(is.na(go$location) & is.na(go$adm2), go$adm1,
+	#                  ifelse(is.na(go$location) & is.na(go$adm1), go$adm2, go$location)))
 	gi <- data.frame(
 		country = c("Mozambique", "Rwanda", "Rwanda", "Rwanda", "Tanzania", "Tanzania", "Tanzania", "Zambia", "Zambia", "Zambia", "Zambia", "Zambia"),
 	    location = c("Gurue", "Iburasirazuba", "Amajyepfo", "Amajyaruguru", "Selian", "Karangai", "Uyole", "Mt.Makulu", "Kasama", "Mufulira", "Msekera", "Mt. Makulu"), 
@@ -198,7 +162,6 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	z <- z[,!(colnames(z) %in% c("longitude", "latitude"))]
 	z <- merge(z, gi, by = c("country", "location"))
 	
-	# all scripts must end like this
 	carobiner::write_files(path, dset, z)
 }
 
@@ -209,7 +172,6 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 # 	purl <- "https://xxxx"
 # 	path <- "c:/"
 # 	did <- "doi_10.5061_dryad.q8p95mg"
-# 	fpdf <- carobiner::get_more_data(purl, did, path, group="fertilizer")
 # 
 # 	extract_from_pdf <- function(f, pages) {
 # 		p <- package_name::extract_areas(f, pages = pages)

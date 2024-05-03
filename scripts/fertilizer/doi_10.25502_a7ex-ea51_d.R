@@ -1,41 +1,22 @@
-#################################################################################
-#N2Africa was aimed at increasing biological nitrogen fixation and productivity
-#of grain legumes through effective production technologies including inoculants
-#and fertilizers adapted to local settings which was aimed at increasing soil
-#fertility.The trails were conducted in 11 african countries
-#################################################################################
 
 carob_script <- function(path){
 
-	uri <- "doi:10.25502/a7ex-ea51/d"
-	dataset_id <- carobiner::simple_uri(uri)
-	group <- "fertilizer"
+"N2Africa was aimed at increasing biological nitrogen fixation and productivity of grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings which was aimed at increasing soil fertility.The trails were conducted in 11 african countries"
 
-#dataset level data
+	uri <- "doi:10.25502/a7ex-ea51/d"
+	group <- "fertilizer"
+	ff <- carobiner::get_data(uri,path,group)
 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group = group,
+		carobiner::read_metadata(uri, path, group, major = 1, minor = 0),
 		project="N2Africa",
-		uri = uri,
 		publication = "doi:10.1016/j.agee.2017.08.015",
-		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Baars, E., & Heerwaarden, J. van. (2020). N2Africa agronomy trials - Rwanda, 2012 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/A7EX-EA51/D",
 		carob_contributor = "Effie Ochieng'",
 		carob_date="2022-08-05",
 		data_type = "on farm experiment",
 		data_institutions="IITA"
 	)
 
-
-## download and read data 
-	ff <- carobiner::get_data(uri,path,group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
-	dset$license <- carobiner::get_license(js) 
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-	
-	# read the data
 	f <- ff[basename(ff) == "data.csv"]
 	d <- data.frame(read.csv2(f, sep = ","))
 	
@@ -127,7 +108,7 @@ carob_script <- function(path){
 	# combining the processed data sets to one
 	e <- merge(d1, d, by = "trial_id")
 	
-	e$dataset_id <- dataset_id
+	
 	e$yield_part <- "seed"
 	
 	# all scripts should end like this

@@ -4,29 +4,25 @@
 
 carob_script <- function(path) {
 
-"
-Description:
-The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments)
-"
+# The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments)
+
 
 	uri <- "doi:10.25502/20180814/1239/HJ"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-  ## dataset level data 
+
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="AFSIS",
 		publication= NA,
-		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Mbinga [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1239/HJ",
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-02-15",
 		data_type="experiment"
 	)
 	
-	d <- data.frame(dataset_id = character(0), rep = integer(0), season = character(0), 
+	d <- data.frame(rep = integer(0), season = character(0), 	
     country = character(0), site = character(0), treatment = character(0), 
     longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
     harvest_date = character(0), trial_id = character(0), crop = character(0), 
@@ -42,15 +38,10 @@ The AFSIS project aimed to establish an  Africa Soil Information system. Data wa
 # carob_script <- function(path) {
   
   # uri <- "doi:10.25502/20180814/1239/HJ"
-  # dataset_id <- carobiner::simple_uri(uri)
   # group <- "fertilizer"
   ### dataset level data 
   # dset <- data.frame(
-    # dataset_id = dataset_id,
-    # group=group,
-    # uri=uri,
     # publication= NA,
-    # data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Mbinga [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1239/HJ",
     # data_institutions = "IITA",
     # carob_contributor="Cedric Ngakou",
     # carob_date="2023-02-15",
@@ -60,14 +51,7 @@ The AFSIS project aimed to establish an  Africa Soil Information system. Data wa
     #  
   # )
   
-  ### download and read data 
   
-  # ff <- carobiner::get_data(uri, path, group)
-  # js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  # dset$license <- carobiner::get_license(js)
-  #dset$title <- carobiner::get_title(js)
-	#dset$authors <- carobiner::get_authors(js)
-	#dset$description <- carobiner::get_description(js)
   
   
   # f1 <- ff[basename(ff) == "Mbinga_DT2010_field.csv"]## get field data 
@@ -82,8 +66,6 @@ The AFSIS project aimed to establish an  Africa Soil Information system. Data wa
   
   # process file(s)
   #d <- carobiner::change_names(d, from, to)
-  # d1$dataset_id <- dataset_id
-  # d3$dataset_id <- dataset_id
 
     # process plot data
   
@@ -109,7 +91,7 @@ The AFSIS project aimed to establish an  Africa Soil Information system. Data wa
   
   # d3=transform(d3,N_splits=ifelse(d3$N_fertilizer>0,3,0))
   
-  # d3 <- d3[,c("dataset_id","rep","season","treatment","trial_id","yield","residue_yield","grain_weight","N_fertilizer",
+  # d3 <- d3[,c("rep","season","treatment","trial_id","yield","residue_yield","grain_weight","N_fertilizer",
             # "K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
   # process field data
   
@@ -120,11 +102,11 @@ The AFSIS project aimed to establish an  Africa Soil Information system. Data wa
   # d1$OM_type <- d1$MType1
   # d1$previous_crop <- d1$PCrop1
   # d1$site <- d1$Site
-  # d1 <- d1[,c("dataset_id","site","longitude","latitude","planting_date","harvest_date","previous_crop","OM_type")]
+  # d1 <- d1[,c("site","longitude","latitude","planting_date","harvest_date","previous_crop","OM_type")]
  
   # merge dataset
   
-  # d <- merge(d1,d3,by="dataset_id", all.x = TRUE)
+  # d <- merge(d1,d3,by=all.x = TRUE)
   
   #add column
   # d$country <- "Tanzania"
@@ -146,7 +128,7 @@ The AFSIS project aimed to establish an  Africa Soil Information system. Data wa
   # d$grain_weight <- as.numeric(d$grain_weight)
   
   #d$OM_used <- as.character(d$OM_used)
-  # d <- d[,c("dataset_id","rep","season","country","site","treatment","longitude","latitude","planting_date",
+  # d <- d[,c("rep","season","country","site","treatment","longitude","latitude","planting_date",
           # "harvest_date","trial_id","crop","yield","residue_yield","grain_weight","previous_crop","OM_type","N_fertilizer",
             # "K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
   # change date format
@@ -154,7 +136,6 @@ The AFSIS project aimed to establish an  Africa Soil Information system. Data wa
   
   # d$harvest_date <- format(as.Date(d$harvest_date, format = "%m/%d/%Y"), "%Y-%m-%d")
   
-  # all scripts must end like this
   
   # carobiner::write_files(dset, d, path=path)
   

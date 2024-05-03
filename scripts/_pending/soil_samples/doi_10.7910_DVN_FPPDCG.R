@@ -1,17 +1,14 @@
 
 carob_script <- function(path) {
   
-  "Description:Data for soil samples collected from WKIEMP project and analyzed at ICRAF using infrared spectroscopy methods and wet chemistry at Crop Nutrition labs"
+  "Data for soil samples collected from WKIEMP project and analyzed at ICRAF using infrared spectroscopy methods and wet chemistry at Crop Nutrition labs"
   
   uri <- "doi:10.7910/DVN/FPPDCG"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "soil_samples"
+  ff <- carobiner::get_data(uri, path, group)
   dset <- data.frame(
-    dataset_id =dataset_id,
-    group=group,
+  	carobiner::read_metadata(uri, path, group, major=1, minor=0),
     project= NA,
-    uri=uri,
-    data_citation="Sila, Andrew; Keith Shepherd; Ganesh Pokharyl, 2019, 'Evaluating regression-kriging for mid-infrared spectroscopy prediction of soil properties in western Kenya', https://doi.org/10.7910/DVN/FPPDCG, Harvard Dataverse, DRAFT VERSION ]",
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)
     publication= NA,
@@ -19,6 +16,7 @@ carob_script <- function(path) {
     data_type="on-farm experiment", 
     carob_contributor="Andrew Sila", 
     carob_date="2023-09-28",
+<<<<<<< HEAD
 <<<<<<< HEAD
     revised_by = "Mary Njogu",
 =======
@@ -34,6 +32,12 @@ carob_script <- function(path) {
   dset$title <- carobiner::get_title(js)
 	dset$authors <- carobiner::get_authors(js)
 	dset$description <- carobiner::get_description(js)
+=======
+  	Revised_by= "Njogu Mary"
+  )
+  
+  ## download data from the uri provided
+>>>>>>> upstream/master
  
   ##RH why not?
   # No need to read the table with MIR data
@@ -87,8 +91,36 @@ carob_script <- function(path) {
 	# Select from d2 , records from cluster 1 and plot 1 which were analyzed for wet chemistry
 	d2 <- subset(d2, Plot == '1')
 	# merge d1 and d2 tables
+<<<<<<< HEAD
 	
 	# This data cannot be merged to include sampling locations and merge with GPS locations. 
+=======
+	# d <- merge(d2,d1, by = 'SSN')
+	# 
+	# # Remove any -ve B values
+	# 
+	# bn <- which(d$soil_B < 0)
+	# 
+	# d <-  d[-bn,]
+	# 
+	# # Add other common soil variables normally tested
+	# d$soil_total_carbon <- NULL
+	# d$soil_clay <- NULL
+	# d$soil_sand <- NULL
+	# d$soil_silt <- NULL
+	# d$soil_pH_KCl <- NULL
+	# d$soil_pH_CaCl2 <- NULL
+	# d$soil_P_available <- NULL
+	# 
+	# d$trial_id <- NA
+	# d$crop <- NA
+	# d$yield_part <- NA
+	# d$yield <- NA
+	# 
+	# # Drop id, original_id, year and district columns from d
+	# k <- which(colnames(d) %in% c("id", "original_id", "year", "district"))
+	# carobiner::write_files(dset, d[,-k], path=path)
+>>>>>>> upstream/master
 	
 	carobiner::write_files(dset, d1, path=path)
 }

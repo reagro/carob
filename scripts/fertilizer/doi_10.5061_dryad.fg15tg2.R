@@ -1,7 +1,7 @@
 
 carob_script <- function(path) {
   
-"Description:
+"
 	Information is scarce for maize (Zea mays L.) response to nutrient application for many production areas in tropical Africa. Research was conducted to determine macronutrient response functions and to diagnose Mg–S–Zn–B deficiencies. Site–year × N-rate interactions within countries often accounted for little variation in yield relative to the N-rate effect. Country mean grain yield responses to N-rate were curvilinear to plateau, but linear in Malawi. Although mean yields differed, the response to N was similar for Kenya, Tanzania, and Zambia with a mean yield increase of 0.94 Mg ha–1 due to 50 kg ha–1 N compared with 1.59 Mg ha–1 for Malawi and Rwanda. Response to N was related to yield with no fertilizer applied (r = 0.40). Only Rwanda had mean responses to P and K with respective yield increases of 0.99 and 0.22 Mg ha–1 due to 15 kg ha–1. Application of Mg–S–Zn–B caused a mean yield increase of 0.73 Mg ha–1 in Rwanda but had no effect in other countries. Application of affordable fertilizer to twice as much land at 50% compared with 100% of the economically optimum rate results in mean gains of 50% for production and agronomic efficiency and 72% for profit/cost ratio. Soil test results were not related
 	to response to applied nutrients but historical yield appears to be weakly predictive of N response. The determined country-level P and K response functions can be widely applied, except for Kenya, in consideration of other available information. The response to Mg–S–Zn–B in Rwanda needs further investigation.
 	
@@ -12,29 +12,19 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 "
   
 	uri <- "doi:10.5061/dryad.fg15tg2"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-	## dataset level data 
+	ff <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project = "Optimization of Fertilizer Recommendations in Africa",
-		uri=uri,
 		publication= "doi:10.2134/agronj2018.04.0268",
 		data_institutions = "University of Nebraska-Lincoln",
-		data_citation = "Wortmann, Charles S. et al. (2018). Data from: Maize-nutrient response functions for Eastern and Southern Africa, Dryad, Dataset, https://doi.org/10.5061/dryad.fg15tg2",
 		carob_contributor="Effie Ochieng' and Rachel Mukami",
 		carob_date="2023-03-20",
 		data_type="experiment"
 	)
 	
-	## download and read data 
-	ff <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "ESA Maize Fertilizer Response Data.xlsx"][1]
 	d <- readxl::read_xlsx(f, sheet = 2)
@@ -252,7 +242,6 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 	dd3 <- merge(dd2,d3, all = TRUE)
 	z <- merge(dd3,d4, all = TRUE)
 	
-	z$dataset_id <- dataset_id
 	z$on_farm <- TRUE
 	z$is_survey <- FALSE
 	z$irrigated <- FALSE
@@ -269,7 +258,6 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 	z$yield_part <- "grain"
 	# one spurious outlier
 	z$grain_weight[z$grain_weight == 34210] <- 342.1
-	# all scripts must end like this
 	carobiner::write_files(dset, z, path=path)
 }
 

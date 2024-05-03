@@ -1,31 +1,23 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
 "International Maize and Wheat Improvement Center (CIMMYT); 
 Zambian Agriculture Research Institute (ZARI), 2021,
-Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020
+Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020"
 
-   
-"
 	uri <- "doi:10.7910/DVN/EQZR5C"
 	group <- "conservation_agriculture"
-	dataset_id <- carobiner::simple_uri(uri)
 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
+	ff <- carobiner::get_data(uri, path, group)
 
 ##### dataset level metadata 
 	dset <- data.frame(
-		carobiner::extract_metadata(js, uri, group="conservation_agriculture", dataset_id=dataset_id),
-		data_citation="Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020, https://doi.org/10.7910/DVN/EQZR5C, Harvard Dataverse, V1, UNF:6:OAYMpK4cYPCnzPEmfE+rNQ== [fileUNF]",
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institutions = "CIMMYT",
 		publication= NA,
-		project=NA,
+		project="Africa Rising",
 		data_type= "on-farm experiment",
 		carob_contributor= "Shumirai Manzvera",
 		carob_date="2024-02-29"
@@ -53,7 +45,7 @@ Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020
 #### about the data #####
 ## (TRUE/FALSE)
 
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$is_experiment <- TRUE
@@ -76,7 +68,7 @@ Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020
 	
 
 	d$yield_part <- "grain"
-	d$trial_id<-paste0(d$dataset_id,"_",d$rep)
+	d$trial_id <- "1"
 	
 	carobiner::write_files(dset, d, path=path)
 }

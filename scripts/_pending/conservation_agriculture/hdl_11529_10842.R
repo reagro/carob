@@ -1,26 +1,20 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 carob_script <- function(path) {
 
-"Description:
+"
 
     This data set is from a long-term (2010-2016) trial set in sandy soils. The study seeks to monitor and evaluate the effects over time of conservation agriculture (CA) practices on crop yield, soil quality, weeds, pests and diseases. The trial was set as a randomised complete block design with the following treatments: T1: Check plot (CP); traditional farmers practice using the mouldboard plough, maize as a sole crop, no residue retention, stubbles incorporated T2: Direct seeding with animal drawn seeder (DSM), maize as a sole crop, residue retention (at a rate of 2.5-3 t ha-1 in the first year, thereafter all crop residues retained) T3: Basin (BAM), maize as a sole crop, residue retention T4: Jab planter (JPM), maize as a sole crop, residue retention T5: Direct seeding with animal drawn seeder (DSMB), biochar incorporated, maize as a sole crop, residue retention T6: Direct seeding with animal drawn seeder (DSMP), maize-pigeon pea (Cajanus cajan) intercropping, residue retention T7: Crop rotation A1 (A1M): direct seeding with animal drawn seeder, maize-groundnut rotation (Phase 1), residue retention; Maize- Groundnut T8: Crop rotation A2(A2G): direct seeding with animal drawn seeder, maize-groundnuts rotation (Phase 2), residue retention; Groundnuts- Maize T9: Crop rotation B1 (B1M): direct seeding with animal drawn seeder, maize-sunflower rotation (Phase 1), residue retention; Maize- Sunflower T10: Crop rotation B2 (B2S): direct seeding with animal drawn seeder, maize-sunflower rotation (Phase 2), residue retention; Sunflower- Maize. (2016)
 
 "
 
 	uri <- "hdl:11529/10842"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
-	## dataset level data 
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project=NA,
-		uri=uri,
-		data_citation='Thierfelder, Christian; Blessing Mhlanga, 2016, "Monitoring and evaluation of the effects over time of conservation agriculture practices on crop yield, soil quality, weeds, pests and diseases., https://hdl.handle.net/11529/10842, CIMMYT Research Data & Software Repository Network, V1"',
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= NA,
@@ -30,21 +24,13 @@ carob_script <- function(path) {
 		carob_date="2023-08-01"
 	)
 
-## download and read data 
 
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "Domboshawa 2010.2016.xlsx"]
 
 	r1 <- carobiner::read.excel(f,sheet = 1)
 	r2 <- carobiner::read.excel(f,sheet = 2)
 	
-	d1 <- data.frame(country = r1$Country, dataset_id=dataset_id)
 	d1$on_farm <- TRUE
 	d1$is_survey <- FALSE
 	d1$irrigated <- FALSE

@@ -8,37 +8,27 @@
 
 carob_script <- function(path) {
 
-	"Description:
-		Kihara, Job; Tibebe, Degefie; Gurmensa, Biyensa; Lulseged, Desta, 2017, Towards understanding fertilizer responses in Ethiopia, doi:10.7910/DVN/RKUMXB, Harvard Dataverse, V2
+"This is a comprehensive dataset specifically on crop response to fertilizers and is obtained from published journal articles, thesis and proceedings spanning at least 5 decades. It represents all the agriculturally productive regions of Ethiopia. The data contains information on region, crop type and soil type under which experiments were conducted, as well as application rates of nutrients (N, P, K, and other nutrients) as well as yields of the control and fertilized treatment on which crop response ratios are derived.
 
-	# This is a comprehensive dataset specifically on crop response to fertilizers and is obtained from published journal articles, thesis and proceedings spanning at least 5 decades. It represents all the agriculturally productive regions of Ethiopia. The data contains information on region, crop type and soil type under which experiments were conducted, as well as application rates of nutrients (N, P, K, and other nutrients) as well as yields of the control and fertilized treatment on which crop response ratios are derived.
+Towards understanding fertilizer responses in Ethiopia
+These is a data extracted from 98 other sources It has an odd database design with control treatments in separate columns; as in FAOs FERTIBASE. This is practical to compute fertilizer use efficiency, but it is not good for data storage/distribution.
 
-	Towards understanding fertilizer responses in Ethiopia
+The control is where fertilizer application of a particular element of interest is zero. The absolute control is where there is no fertilizer application. 
+Some of the sources included
+Amare Aleminew and Adane Legas. 2015. Grain quality and yield response of malt barley varieties to nitrogen fertilizer on brown soils of Amhara region Ethiopia. World Journal of Agricultural Sciences, 11 (3): 135–143.
 
-	These is a data extracted from 98 other sources
-	It has an odd database design with control treatments in separate columns; as in FAOs FERTIBASE.
-	This is practical to compute fertilizer use efficiency, but it is not good for data storage/distribution.
+Minale Liben, Alemayehu Assefa and Tilahun Tadesse. 2011. Grain yield and malting quality of barley inrelation to nitrogen application at mid- andhigh altitude in Northwest Ethiopia. Journal of Science and Development 1 (1) 
 
-	The control is where fertilizer application of a particular element of interest is zero. The absolute control is where there is no fertilizer application. 
-
-	Some of the sources included
-	Amare Aleminew and Adane Legas. 2015. Grain quality and yield response of malt barley varieties to nitrogen fertilizer on brown soils of Amhara region Ethiopia. World Journal of Agricultural Sciences, 11 (3): 135–143.
-
-	Minale Liben, Alemayehu Assefa and Tilahun Tadesse. 2011. Grain yield and malting quality of barley inrelation to nitrogen application at mid- andhigh altitude in Northwest Ethiopia. Journal of Science and Development 1 (1) 
-
-	K. Habtegebrial & B. R. Singh (2009) Response of Wheat Cultivars to Nitrogen and Sulfur for Crop Yield, Nitrogen Use Efficiency, and Protein Quality in the Semiarid Region, Journal of Plant Nutrition, 32:10, 1768-1787, DOI: 10.1080/01904160903152616
+K. Habtegebrial & B. R. Singh (2009) Response of Wheat Cultivars to Nitrogen and Sulfur for Crop Yield, Nitrogen Use Efficiency, and Protein Quality in the Semiarid Region, Journal of Plant Nutrition, 32:10, 1768-1787, DOI: 10.1080/01904160903152616
 "
 
 	uri <- "doi:10.7910/DVN/RKUMXB"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
 	
-	## dataset level data 
+
 	dset <- data.frame(
-	   dataset_id = dataset_id,
-	   group = group,
-	   uri=uri,
-	   data_citation= "Kihara, Job; Tibebe, Degefie; Gurmensa, Biyensa; Lulseged, Desta, 2017, Towards understanding fertilizer responses in Ethiopia, doi:10.7910/DVN/RKUMXB",
+		carobiner::read_metadata(uri, path, group, major=2, minor=2),
 	   publication=NA,
 	   carob_contributor="Camila Bonilla",
 	   carob_date="2021-06-01",
@@ -47,16 +37,9 @@ carob_script <- function(path) {
 	   project=NA
  	)
 
-## download and read data 
 
-	ff <- carobiner::get_data(uri, path, group)
 	f <- ff[basename(ff) == "02. ET_data_June2017.csv"]
 	## read the json for version, license, terms of use  
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 
 	ft <- c("DATASOURCE", "reference", "SITE", "location", "ADMIN_REGION", "adm1", "CODE", "trial_id", "CodeSE", "drop", "Y", "longitude", "X", "latitude", "CoordType", "drop", "CROPTYPE", "crop", "VARIETY", "variety", "VARIETYTYPE", "variety_type", "TRIALTYPE", "trial_type", "SOILTYPE", "soil_type", "Sand", "soil_sand", "Clay", "soil_clay", "SOC", "soil_SOC", "pH", "soil_pH", "Avail_P", "soil_P_available", "CroppingSystem", "crop_system", "Organicresource", "OM_used", "Inoculation", "inoculated", "OrgR_type", "OM_type", "OrgR_Amount", "OM_amount", "OrganicN", "OM_N", "OrganicK", "OM_K", "OrganicP", "OM_P", "Prev_crop", "previous_crop", "YEAR", "year", "Season", "season", "Response", "response", "N", "N", "N_Timing", "drop", "N_splits", "N_splits", "P", "P", "P_Appl", "drop", "P_Source", "fertilizer_type_1", "K", "K", "Other_Nutrient", "Other_Nutrient", "NutrientSource", "fertilizer_type_2", "Nutrientamount", "Nutrientamount", "AvailableSoilNutrient_OtherthanNPK", "drop", "TrtDesc", "drop", "Treatment_yld", "yield", "Control_Yld", "Control_Yld", "Absolute_Ctrl_Yld", "Absolute_Ctrl_Yld", "Error", "uncertainty", "ErrorType", "uncertainty_type", "Replications", "drop", "Treatments", "drop", "SDEV", "drop", "Application_ForOtherNutrients", "drop", "Rainfall", "drop", "WateringRegime", "irrigated", "Tillage", "land_prep_method", "COMMENTS", "comments", "RR", "drop")
@@ -75,7 +58,7 @@ carob_script <- function(path) {
 
 ## add some columns
 	d$country <- "Ethiopia"
-	d$dataset_id <- dataset_id
+	
 	
 	d$on_farm <- FALSE	
 	i <- d$trial_type == "Farmer managed"
@@ -232,7 +215,6 @@ carob_script <- function(path) {
 	i <- d$comments == "Anon. 1998–2000. Progress Reports of BARC. Bako: Ethiopia." 
 	d$reference[i] <- paste0(d$reference[i], "; ", d$comments[i])
 	d$comments[i] <- ""
-	
 	
 	i <- d$comments == "The control also received some N (about 18 kgs) through the DAP" & d$P > 0 & d$N == 0
 	d$N[i] <- 18

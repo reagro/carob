@@ -1,8 +1,5 @@
 #R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
   
@@ -12,14 +9,12 @@ carob_script <- function(path) {
 "
   
   uri <- "doi:10.25502/FP7H-3038"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "cassava"
-  ## dataset level data 
+  ff <- carobiner::get_data(uri, path, group)
+ 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+  	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     project=NA,
-    uri=uri,
     publication= "",
     data_institutions = "IITA",
     carob_contributor="Effie Ochieng",
@@ -30,14 +25,7 @@ carob_script <- function(path) {
     has_management=FALSE
   )
   
-  ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   f <- ff[basename(ff) == "2020-04-02T095843phenotype_download.csv"]
   
@@ -46,7 +34,7 @@ carob_script <- function(path) {
 
   d$trial_id <- d$observationUnitName
   d$rep <- d$replicate
-  d$dataset_id <- dataset_id
+  
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$crop <- "cassava"
@@ -65,7 +53,7 @@ carob_script <- function(path) {
   d[which(!is.na(d$cassava.bacterial.blight.incidence.3.month.evaluation.CO_334.0000178), c("disease"))] <- "cassava_bacterial_blight"
     
 
-    carobiner::write_files(dset, d, path, dataset_id, group)
+    carobiner::write_files(path, dset, d, path)
 }
 
 

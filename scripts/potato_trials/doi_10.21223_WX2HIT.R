@@ -6,16 +6,12 @@ carob_script <- function(path) {
    We use the randomized complete blocks (RCB) statistical design, with three repetitions of 10 plants each. The NPK dose of 200-180 -160 was used. No fungicide was applied to control the late blight.
 "
    uri <- "doi:10.21223/WX2HIT"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "potato_trials"
-   ## dataset level data 
+   ff <- carobiner::get_data(uri, path, group)
+  
    dset <- data.frame(
-      dataset_id = dataset_id,
-      group=group,
-      uri=uri,
+   	carobiner::read_metadata(uri, path, group, major=1, minor=2),
       publication= NA,
-      data_citation ="Gastelo, Manuel; Bastos, Maria; Quispe, Katherine; Pozo, Jorge; Erquinio, Efrain; Vega, Ricardo; Otiniano, Ronald; Mendoza, Alejandro, 2020, Dataset for: Phenotypic stability for tuber yield components under climate change conditions and selection of the top performing clones for conservation in the genebank,
-      https://doi.org/10.21223/WX2HIT, International Potato Center, V1, UNF:6:hMy2tCmi3QChgx//PzHPSQ== [fileUNF]",
       data_institutions = "CIP",
       carob_contributor="Cedric Ngakou",
       data_type="experiment",
@@ -23,16 +19,8 @@ carob_script <- function(path) {
       carob_date="2023-12-12"
    )
    
-   ## download and read data 
-   ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-   dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
    
    ff <- ff[grep("PTYield", basename(ff))]
-   # read and process files
    process <- function(f) {
       r <- carobiner::read.excel(f, sheet="Fieldbook")
       r <- r[, c("REP", "INSTN", "TTYNA")]
@@ -57,7 +45,7 @@ carob_script <- function(path) {
    d$rep <- as.integer(d$rep)
    d$yield <- d$yield * 1000 ## kg/ha
    ## add columns
-   d$dataset_id <- dataset_id
+   
    d$country <- "Peru"
    d$trial_id <- paste(d$adm3, d$variety, sep = "_")
    d$irrigated <- FALSE
@@ -80,7 +68,6 @@ carob_script <- function(path) {
    d$planting_date[d$planting_date=="43746"]<- as.character(as.Date(as.numeric("43746"),origin = "1900-01-01"))
    d$harvest_date[d$harvest_date=="43596"]<- as.character(as.Date(as.numeric("43596" ),origin = "1900-01-01"))
    
-   # all scripts must end like this
    carobiner::write_files(dset, d, path=path)
    
 }

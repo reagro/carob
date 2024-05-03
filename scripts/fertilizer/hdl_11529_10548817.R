@@ -22,31 +22,20 @@ carob_script <- function(path) {
 "
 
   uri <- "hdl:11529/10548817" 
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
+  ff <- carobiner::get_data(uri, path, group)
   
-  ## dataset level data 
+ 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+  	carobiner::read_metadata(uri, path, group, major=2, minor=0),
     project=NA,
-    uri=uri,
-    data_citation="Singh, Madhulika; Ajay, Anurag; Pundir, Ajay; Patra, Subhajit; Kumar, Anurag; Singh K, Deepak; Kumar, Pankaj; Ignetius, Moben; Kumar, Prabhat; Ranjan, Harshit; Dar R, Shahnawaz; Joon, Rajeev; Jat, Ramdhan; Malik, RK; Sherpa R, Sonam; Kumar, Virender; Craufurd, Peter, 2022, Multi-year on-farm trial data on performance of timely and late sown wheat varieties against sowing dates in eastern Indo-Gangetic plain of India, https://hdl.handle.net/11529/10548817, CIMMYT Research Data & Software Repository Network, V2",
     publication=NA,
     data_institutions = "CIMMYT",
     data_type="experiment",
     carob_contributor ="Effie Ochieng'",
     carob_date="2023-09-18"
   )
-  ## download and read data 
   
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=0)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-  #dset$license <- carobiner::get_license(js)
   
   
   f <- ff[basename(ff) == "CSISA_KVK_Wheat_DoS_Trial_Data.csv"]
@@ -63,7 +52,7 @@ carob_script <- function(path) {
   d$longitude <- as.numeric(d$longitude)
   d$country <- "India"
   d$crop <- "wheat"
-  d$dataset_id <- dataset_id
+  
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$is_experiment <- TRUE
@@ -134,7 +123,7 @@ carob_script <- function(path) {
   # d$tiller_count <- r$TillersCount are these  important variables? 
   # d$grain_count <- r$GrainsCount   
    
-  d <- d[, c("trial_id","country", "adm1","adm2","site","latitude","longitude","crop","variety","planting_date","harvest_date","treatment","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","yield_part","yield","grain_weight","dataset_id","on_farm","is_survey","irrigated")]
+  d <- d[, c("trial_id","country", "adm1","adm2","site","latitude","longitude","crop","variety","planting_date","harvest_date","treatment","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","yield_part","yield","grain_weight","on_farm","is_survey","irrigated")]
   
   # EGB:
   # Adding approximate coordinates
@@ -179,7 +168,6 @@ carob_script <- function(path) {
     d[d$trial_id == tid, "latitude"] <- el$latitude
   }
   
-  # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
    
 }

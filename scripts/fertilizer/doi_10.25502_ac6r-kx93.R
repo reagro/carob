@@ -1,37 +1,19 @@
 
-###########################################################################################################
-# N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among 
-# African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition
-# and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable,
-# long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain
-# legumes through effective production technologies including inoculants and fertilizers adapted to local settings.
-# A strong national expertise in grain legume production and N2-fixation research and development will be the legacy
-# of the project.
-# The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other 
-# countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
-###########################################################################################################
-
+"N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries."
 
 
 carob_script <- function(path){
 
 	uri <- "doi:10.25502/ac6r-kx93"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
+	ff <- carobiner::get_data(uri,path,group)
 
 #dataset level data
 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group = group,
+		carobiner::read_metadata(uri, path, group, major = 1, minor = 0),
 		project="N2Africa",
-		uri = uri,
-		publication = 'doi.org/10.1016/j.agee.2017.08.015',
-		data_citation ="Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., 
-		Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., 
-		Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). 
-		N2Africa dianostic trial - Ghana, 2014 [Data set]. International Institute of Tropical Agriculture (IITA). 
-		https://doi.org/10.25502/AC6R-KX93",
+		publication = "doi:10.1016/j.agee.2017.08.015",
 		carob_contributor = "Andrew Sila",
 		carob_date="2023-07-17",
 		data_type = "on farm experiment",
@@ -43,13 +25,6 @@ carob_script <- function(path){
 p_year <- 2014 #planting year
 h_year <- 2014 # harvest year
 
-## download and read data 
-	ff <- carobiner::get_data(uri,path,group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major = 1, minor = 0)
-	dset$license <- carobiner::get_license(js) 
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	# read the experiment data table
 	f0 <- ff[basename(ff) == "experiment.csv"]
@@ -363,7 +338,7 @@ h_year <- 2014 # harvest year
 	d$trial_id <- ifelse (d$trial_id == "",NA, d$trial_id)
 	d$crop = "soybean"
 	d$yield_part <- "seed"
-	d$dataset_id <- dataset_id
+	
 	# all scripts should end like this
 	
 	carobiner::write_files(dset, d, path=path)

@@ -9,14 +9,11 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
   ## Process 
  
   uri <- "doi:10.21421/D2/YAJKSE"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
+	ff <- carobiner::get_data(uri, path, group)
   
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
-		data_citation="Hakeem Ayinde Ajeigbe; Alpha Kamara; Kunihya Ayuba; Abubakar H. Inuwa; Aliyu Adinoyi, 2019. Response of Groundnut to Plant Density and Phosphorous application in the Sudan Savanna zone of Nigeria, Minjibir. https://doi.org/10.21421/D2/YAJKSE, ICRISAT Dataverse, V1",
+		carobiner::read_metadata(uri, path, major=1, minor=0, group),
 		publication="doi:10.12692_ijb_9.1.291-302",
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
@@ -26,14 +23,8 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	)
   
 	## treatment level data 
-	ff <- carobiner::get_data(uri, path, group)
 	  
 	## read the json for version, license, terms of use  
-	js <- carobiner::get_metadata(dataset_id, path, major=1, minor=0, group)
-	dset$license <- carobiner::get_license(js) 
-	dset$title <- carobiner::get_title(js) 
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	f <- ff[basename(ff) == "Data file of Groundnut fertilizer plant density of combine Minjibir.xlsx"]
 	d <- carobiner::read.excel(f)
@@ -47,7 +38,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	e$planting_date <- as.character(e$planting_date)
 	e$country <-  "Nigeria"
 	e$crop <- "groundnut"
-	e$dataset_id <- dataset_id
+	
 	e$trial_id <- paste0("gnut_dens_phosph_", e$location)
 	e$adm1 <- "Kano"
 	e$site <- "Minjibir"

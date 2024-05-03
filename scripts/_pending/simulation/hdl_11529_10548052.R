@@ -10,21 +10,18 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
 • APSIM is an internationally well-recognized cropping systems models for scientists. An SRFSI team conducted many on-station trials in partners’ research station, which managed by SRFSI NARES partners’ scientists for validation of APSIM. The models simulated biophysical performances on the systems on a daily basis in terms of crop yields, water use, soil dynamics, climate, the fate of nutrients, and residues management. • APSIM was regionally validated using also results from on-farm experiments; validated models were used to explore the profitability, sustainability, and risk reduction potential of technological options under different contemporary and future climate scenarios. Using actual, historical, and predicted sets of climate data, the model was used to explore technology effects, sustainability, and riskiness over longer time periods than possible for field results in a 4-year project. Researchers from the region developed expertise in the use of the APSIM model, and the modeling effort was supported by CSIRO scientists
 
 "
   
   uri <- "hdl:11529/10548052"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "simulation"
-  ## dataset level data 
+  ff <- carobiner::get_data(uri, path, group)
+ 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+  	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     project=NA,
-    uri=uri,
-    data_citation="Gaydon, Don; Laing, Alison; Poulton, Perry; SRFSI team, 2018. 7.2-APSIM-BARI OFRD-Rangpur-on-station research trials-SRFSI Project-ACIAR-CIMMYT, https://hdl.handle.net/11529/10548052, CIMMYT Research Data & Software Repository Network, V2",
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)
     publication= NA,
@@ -34,14 +31,7 @@ carob_script <- function(path) {
     carob_date="2023-09-30"
   )
   
-  ## download and read data 
   
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  dset$license <- "not specified" #carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   
   f <- ff[basename(ff) == "APSIM-IrrXN- rabi maize 2015-16-SRFSI-OFRD-Rangpur.xlsx"]
@@ -67,7 +57,7 @@ carob_script <- function(path) {
   
   
   # for first dataset
-  d$dataset_id <- dataset_id
+  
   d$on_farm <- FALSE
   d$is_survey <- FALSE
   d$irrigated <- r1$Irrigation=="I1"
@@ -232,7 +222,6 @@ carob_script <- function(path) {
 
 print("many more variables need to be included")  
  
-  # all scripts must end like this
   carobiner::write_files(dset, d, path=path)
   carobiner::write_files(dset, d1, path=path)
   carobiner::write_files(dset, d2, path=path)

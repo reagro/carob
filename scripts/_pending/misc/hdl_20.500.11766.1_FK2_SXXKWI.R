@@ -1,27 +1,21 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
-"Description:
+"
 
     Final dataset from agronomic experiment in Gumara Maksegnit (2016), as elaborated by GARC researchers in charge for this trial (Alemu Tarekegn and Yengusie Demsew). Please contact author and contact person at ICARDA to obtain more detailed metadata or to propose collaboration.
 
 "
 
 	uri <- "hdl:20.500.11766.1/FK2/SXXKWI"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
-	## dataset level data 
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA,
-		uri=uri,
-		data_citation="",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= "",
@@ -32,14 +26,7 @@ carob_script <- function(path) {
 		carob_date="2023-10-27" 
 	)
 
-## download and read data 
   path<-C/carob
-	ff  <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 
 	f <- ff[basename(ff) == "_____________"]
@@ -57,7 +44,7 @@ carob_script <- function(path) {
 #### about the data #####
 ## (TRUE/FALSE)
 
-	d$dataset_id <- dataset_id
+	
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$is_experiment <- TRUE
@@ -103,7 +90,6 @@ carob_script <- function(path) {
 	d$intercrops< "vetch"
 	#plant height
 	d$plant_height<-d$Plant_height
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
 

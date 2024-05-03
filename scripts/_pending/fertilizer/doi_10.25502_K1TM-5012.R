@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
 
   N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, 
   improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder
@@ -12,16 +12,12 @@ carob_script <- function(path) {
 "
   
   uri <- "doi:10.25502/K1TM-5012"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
-  ## dataset level data 
+  ff <- carobiner::get_data(uri, path, group)
+ 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
-    uri=uri,
+  	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     publication= NA, 
-    data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa impact survey - Rwanda, 2013 [dataset]. International Institute of Tropical Agriculture (IITA).
-    https://doi.org/10.25502/K1TM-5012" ,
     data_institutions = "IITA",
     carob_contributor="Cedric Ngakou",
     carob_date="2023-08-20",
@@ -29,14 +25,7 @@ carob_script <- function(path) {
     project=NA 
   )
   
-  ## download and read data 
   
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   f <- ff[basename(ff) == "a_general_1.csv"] 
   f1 <- ff[basename(ff) == "c_land_holding_management_2.csv"]
@@ -261,8 +250,7 @@ carob_script <- function(path) {
   d$intercrops[d$intercrops==""] <- NA
   d <- d[!is.na(d$crop), ]
 #  d$yield_part <- "seed"
-  # all scripts must end like this
-  d$dataset_id <- dataset_id
+  
   d$country <- "Rwanda"
 	d$crop <- fix_cropnames(carobiner::fix_name(trimws(d$crop), "lower"))
 	d <- d[!(d$crop %in% c("fallow")),]

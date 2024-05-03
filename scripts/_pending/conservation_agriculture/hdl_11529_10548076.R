@@ -10,21 +10,18 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
 Farmers’ participatory researchers managed long-term trails aimed to improve the productivity, profitability, and sustainability of smallholder agriculture in the EGP by activities carried out to address the objectives: 1. Understand farmer circumstances with respect to cropping systems, natural and economic resources base, livelihood strategies, and capacity to bear risk and undertake technological innovation. 2. Develop with farmers more productive and sustainable technologies that are resilient to climate risks and profitable for small holders. 3. Facilitate widespread adoption of sustainable, resilient, and more profitable farming systems. (2018-02-17)
 
   "
   
   uri <- "hdl:11529/10548076"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "conservation_agriculture"
-  ## dataset level data 
+  ff	<- carobiner::get_data(uri, path, group)
+ 
   dset <- data.frame(
-    dataset_id = dataset_id,
-    group=group,
+  	carobiner::read_metadata(uri, path, group, major=2, minor=2),
     project="Rabi (winter) crops-all nodes-Long term trial (LT)-Rangpur-Bangladesh",
-    uri=uri,
-    data_citation= "Islam S., Gathala M.K., Tiwari T.P., Timsina J., Laing, A.M., Maharjan S., Chowdhury A.K., Bhattacharya, P.M., Dhar, T., Mitra B., Kumar S., Srivastwa P.K., Dutta S.K., Shrestha R., Manandhar S., Sherestha S.R., Paneru P., Siddquie, N.-E.-A., Hossain A., Islam R., Ghosh A.K., Rahman M.A., Kumar U., Rao K.K., Gérard B., 2019.",
     publication= NA,
     data_institutions = "CIMMYT",
     data_type="on-farm experiment",
@@ -32,16 +29,9 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
     carob_date="2023-11-22"
   )
   
-  ## download and read data 
   
-  ff	<- carobiner::get_data(uri, path, group)
   ff <- ff[grep("Rangpur", basename(ff))] # Taking Wheat and maize files
 
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   get_raw_data <- function(f) {
     r1 <- carobiner::read.excel.hdr(f, sheet ="4- Stand counts & Phenology", skip=4, hdr=2)
@@ -81,7 +71,6 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
                     site = paste("site ", r$Site.No),
                     country= "Bangladesh",
                     adm2 = "Rangpur", # district provided in the excel
-                    dataset_id=dataset_id,
                     S_fertilizer= 0,
                     Zn_fertilizer= r$ZnSO4.kg.ha,
                     lime =0, gypsum =r$Gypsum.kg.ha
@@ -110,7 +99,7 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
     
     i <- grep("Date.of.50.anthesis", names(r))
     if (length(i) != 0) {
-      d$flowering_date = as.character(as.Date(r[,i]))
+      d$anthesis_date = as.character(as.Date(r[,i]))
     }
     d	
   }

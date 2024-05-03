@@ -2,22 +2,18 @@
    
 carob_script <- function(path) {
       
-"Description:
+"
    The ‘Sustainable Weed Management Technologies for Nigeria’ was a 5-year project that was developed and assessed with smallholder farmer participation modern, relevant and appropriate cassava weed management technologies suitable for sustainable intensification in major agro-ecological (humid rainforest,
    forest transition savanna and southern Guinea savanna) and socio-economic conditions of Nigeria. An important goal of the project was to help smallholder cassava growers achieve sustainable increases in their productivity and incomes through the development and adoption of improved weed control methods
 "
       
     uri <- "doi:10.25502/P8EQ-C814/D"
-    dataset_id <- carobiner::simple_uri(uri)
     group <- "fertilizer"
-      ## dataset level data 
+    ff <- carobiner::get_data(uri, path, group)
+     
     dset <- data.frame(
-        dataset_id = dataset_id,
-        group=group,
-        uri=uri,
+    	carobiner::read_metadata(uri, path, group, major=2, minor=1),
         publication= NA, #"DOI:10.1564/v27_oct_04"
-        data_citation = "Hauser, S. (2020). Cassava Weed Management Data - Agronomy Trials 2014 [dataset]. International Institute of Tropical Agriculture (IITA).
-        https://doi.org/10.25502/P8EQ-C814/D",
         data_institutions = "IITA",
         carob_contributor="Cedric Ngakou",
         carob_date="2023-09-19",
@@ -25,13 +21,6 @@ carob_script <- function(path) {
         project=NA 
     )
       
-    ## download and read data 
-    ff <- carobiner::get_data(uri, path, group)
-    js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-    dset$license <- carobiner::get_license(js)
-	dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
     # read the dataset
     r1 <- read.csv(ff[basename(ff)=="Agro2014_1stSeason_All_Locations_Cas_Datafile_Rft.csv"])
     r2 <- read.csv(ff[basename(ff)=="Agro2014_2ndSeason_All_Locations_Cas_Datafile_Rft.csv"])
@@ -86,7 +75,7 @@ carob_script <- function(path) {
 
     d$trial_id <- as.character(as.integer(as.factor(paste(d$season, d$latitude, d$longitude)))) 
       
-    d$dataset_id <- dataset_id
+    
     d$country <- "Nigeria"
     d$on_farm <- TRUE
     d$is_survey <- FALSE
@@ -125,7 +114,6 @@ carob_script <- function(path) {
 	d$land_prep_method <- tolower(d$land_prep_method)
 	d$uid <- NULL
 	
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 	
 }

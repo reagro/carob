@@ -1,12 +1,9 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
   
-  "Description:
+  "
 
     The B3C3 population came from crossing the elite clones of B3C2 population, in 2011 
     under quarantine greenhouses at La Molina. For this, 30,000 genotypes (60 families with 
@@ -25,15 +22,12 @@ carob_script <- function(path) {
 "
   
   uri <- "doi:10.21223/P3/OTYRIV"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "potato_trials"
  
-  ff  <- carobiner::get_data (uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=3)
+  ff <- carobiner::get_data (uri, path, group)
   
   dset <- data.frame(
-  	carobiner::extract_metadata(js, uri, group),
-    data_citation="Gastelo, Manuel; Diaz, Luis; Bastos, Maria; Quispe, Katherine; Bonierbale, Merideth, 2018. Dataset for: Advanced clones of group B3 cycle 3, population B with late blight resistance in Oxapampa, 2012. https://doi.org/10.21223/P3/OTYRIV, International Potato Center, V1, UNF:6:GGc8BnXtoJfgbqD77Cr0ug== [fileUNF]",
+  	carobiner::read_metadata(uri, path, group, major=1, minor=3),
     publication= "",
     data_institutions = "CIP",
     data_type="experiment", 
@@ -58,7 +52,7 @@ carob_script <- function(path) {
   #### about the data #####
   ## (TRUE/FALSE)
   
-  d$dataset_id <- dataset_id
+  
   d$on_farm <- TRUE
     d$is_survey <- FALSE
     d$is_experiment <- TRUE

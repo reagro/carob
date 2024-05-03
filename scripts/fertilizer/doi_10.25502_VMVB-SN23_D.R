@@ -18,17 +18,14 @@ carob_script <- function(path){
   
   # registering the dataset
   uri <- "doi:10.25502/VMVB-SN23/D"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "fertilizer"
+  ff <- carobiner::get_data(uri, path, group)
   
   # The metadata at the dataset level
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+  	carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="N2Africa",
-		uri=uri,
 		publication="doi:10.21955/gatesopenres.1115299.1",
-		data_citation = "Vanlauwe, B. et al. (2020) ‘N2Africa agronomy trials - Kenya, 2011’. International Institute of Tropical Agriculture (IITA). doi:10.25502/VMVB-SN23/D.",
 		data_institutions = "IITA",
 		carob_contributor="Rachel Mukami and Effie Ochieng'",
 		carob_date="2022-08-03",
@@ -37,12 +34,6 @@ carob_script <- function(path){
   
   ## downloading data 
   
-  ff <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-  dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
   
   # reading the data.csv data
   f <- ff[basename(ff) == "data.csv"]
@@ -164,7 +155,6 @@ carob_script <- function(path){
   
   # combining into 1 final dataset
   z <- Reduce(function(...) merge(..., all=T), list(d,d2))
-  z$dataset_id <- dataset_id
   z$on_farm <- TRUE
   
   # lats and longs extracted from geonames.org
@@ -195,12 +185,11 @@ carob_script <- function(path){
 	z <- z[!is.na(z$yield),] # dropping entries without yield output
 	#rearranging the data 
 	
-	z <- z[,c("dataset_id","trial_id","country","location","latitude","longitude","elevation","rep","treatment","crop","variety", "planting_date","harvest_date","inoculated","grain_weight","dmy_roots","dmy_total","fertilizer_type","N_fertilizer","N_splits",
+	z <- z[, c("trial_id","country","location","latitude","longitude","elevation","rep","treatment","crop","variety", "planting_date","harvest_date","inoculated","grain_weight","dmy_roots","dmy_total","fertilizer_type","N_fertilizer","N_splits",
 	"P_fertilizer","K_fertilizer","residue_yield","yield","on_farm")] 
 	
 	z$yield_part <- "seed"
 	
-  # all scripts must end like this
 	carobiner::write_files(dset, z, path=path)
 }
 

@@ -1,12 +1,9 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
   
-"Description:
+"
   N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household 
   nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will 
   build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic 
@@ -16,29 +13,19 @@ carob_script <- function(path) {
 "
 
 	uri <- "doi:10.25502/1anr-k002"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-  ## dataset level data 
+	ff	 <- carobiner::get_data(uri, path, group)
+ 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri, path, group, major=2, minor=2),
 		project="N2Africa",
-		uri=uri,
 		publication= NA,
-		data_citation = "Vanlauwe, B., Adjei-Nsiah, S., Woldemeskel, E., Ebanyat, P., Baijukya, F., Sanginga, J.-M., Woomer, P., Chikowo, R., Phiphira, L., Kamai, N., Ampadu-Boakye, T., Ronner, E., Kanampiu, F., Giller, K., Ampadu-Boakye, T., & Heerwaarden, J. van. (2020). N2Africa diagnostic trial, 2015 [Data set]. International Institute of Tropical Agriculture (IITA). https://doi.org/10.25502/1ANR-K002",
 		data_institutions = "IITA",
 		carob_contributor="Effie Ochieng'",
 		carob_date="2023-05-30",
 		data_type="on-farm experiments"
     )
   
-  ## download and read data 
-	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=2)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	f <- ff[basename(ff) == "data_table.csv"]
 	d <- read.csv(f)
@@ -168,13 +155,10 @@ carob_script <- function(path) {
 	dd5$residue_yield <- 10000 * dd5$residue_yield / dd5$plot_size
 	dd5$residue_yield[dd5$residue_yield > 10000] <- NA
 
-	dd5$dataset_id <- dataset_id
-	
 	dd5$planting_date <- as.character(as.Date(dd5$planting_date, format = "%m/%d/%Y"))
 	dd5$harvest_date <- as.character(as.Date(dd5$harvest_date, format = "%m/%d/%Y"))
 
-
-	z <- dd5[, c("trial_id","dataset_id","irrigated","on_farm","is_survey","country", "adm2", "location","latitude","longitude","planting_date","harvest_date","crop","variety","inoculated","row_spacing","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","S_fertilizer","OM_used","plant_spacing","yield","residue_yield")]
+	z <- dd5[, c("trial_id", "irrigated","on_farm","is_survey","country", "adm2", "location","latitude","longitude","planting_date","harvest_date","crop","variety","inoculated","row_spacing","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","S_fertilizer","OM_used","plant_spacing","yield","residue_yield")]
 
 	z <- z[is.finite(z$yield), ]
 	z$yield_part <- "grain"
@@ -248,7 +232,6 @@ carob_script <- function(path) {
 	z$longitude[i] <- 12.0435
 	
 		
-	# all scripts must end like this
 	carobiner::write_files(dset, z, path=path)
 }	
 	

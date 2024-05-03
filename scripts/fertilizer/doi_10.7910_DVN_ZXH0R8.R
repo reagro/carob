@@ -2,20 +2,17 @@
 
 carob_script <- function(path) {
 
-"Description:
+"
     The dataset is meant for developing fertilizer management decision support tool for an effective crop-nutrient management. The dataset is developed on the basis of landscape targeting on-farm trials on crop-nutrient response and crop yield gap assessment across the Africa Rising target districts and other scaling up locations in the Ethiopian highlands.
 "
 
 	uri <- "doi:10.7910/DVN/ZXH0R8"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-	## dataset level data 
+	ff <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication="doi:10.1017/S1742170519000504",
-		data_citation = "International Crops Research Institute for the Semi-Arid Tropics (ICRISAT), 2021. Landscape Targeted Crop-Fertilizer Response in the Highlands of Ethiopia. https://doi.org/10.7910/DVN/ZXH0R8, Harvard Dataverse, V1",
 		data_institutions = "ICRISAT; ARARI; ILRI",
 		carob_contributor="Siyabusa Mkuhlani and Eduardo Garcia Bendito",
 		carob_date="2022-02-16",
@@ -23,14 +20,7 @@ carob_script <- function(path) {
 		project="Africa Rising"	   
  	)
 
-## download and read data 
 
-	ff <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-    dset$license <- gsub("-DEED.AST", "", carobiner::get_license(js))
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 
 	get_rep <- function(d) {
 		drep <- rep(NA, nrow(d))
@@ -80,10 +70,10 @@ carob_script <- function(path) {
 		x$K_fertilizer <- d$K.fertilizer.amount..kg.ha.
 		x$Zn_fertilizer <- d$Zn.fertilizer.amount..kg.ha.
 		x$S_fertilizer <- d$S.fertilizer.amount..kg.ha.
-		x$emergence <- d$Days.to.emergency
-		x$heading <- d$Days.to.heading
-		x$flowering <- d$Days.to.flowering
-		x$maturity <- d$Days.to.maturity		
+		x$emergence_days <- d$Days.to.emergency
+		x$heading_days <- d$Days.to.heading
+		x$flowering_days <- d$Days.to.flowering
+		x$maturity_days <- d$Days.to.maturity		
 		x$trial_id <- paste0(trialname, x$location)
 		if (is.null(d$village.Kebele)) {
 			x$location <- d$village
@@ -143,7 +133,7 @@ carob_script <- function(path) {
 ## Append the data.frames
 	d <- carobiner::bindr(d2, d3, d4, d5)
 	
-	d$dataset_id <- dataset_id
+	
 	d$yield_part <- "grain"
 
 	d$crop <- gsub("tef", "teff", d$crop)
@@ -169,7 +159,6 @@ carob_script <- function(path) {
 ## so I remove it from all records
 	d$residue_yield <- NULL
 
-# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)
 }
 

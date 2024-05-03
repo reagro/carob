@@ -1,0 +1,47 @@
+name,description,purpose
+none,,any
+unknown,,any
+broadcast spreader,,fertilizing
+furrow opener,,fertilizing
+manure spreader,,fertilizing
+slurry injector,,fertilizing
+baler,,harvesting
+chopper,,harvesting
+combine,,harvesting
+digger,,harvesting
+reaper,,harvesting
+chain harrow,,leveling
+disc harrow,,leveling
+drag bucket,,leveling
+laser-controlled,,leveling
+levelling board,,leveling
+levelling bucket,,leveling
+roller,,leveling
+tine harrow,,leveling
+airblast sprayer,,pest control
+backpack sprayer,,pest control
+boom sprayer,,pest control
+chisel plough,,plowing
+cultivator,,plowing
+disc plough,,plowing
+hand-held hoe,,plowing
+para plough,,plowing
+spade plough,,plowing
+subsoiler,,plowing
+mouldboard plough,,plowing; ridging
+ridging plough,,plowing; ridging
+ripper,,ripping
+bucket broadcaster,,seeding
+dibbling stick,,seeding
+direct seeder,,seeding
+drum seeder,,seeding
+jab planter,,seeding
+seed drill,,seeding
+2 wheel tractor,,traction
+4 wheel tractor,,traction
+animal,,traction
+cultivator,,weeding
+weed puller,,weeding
+mower,,weeding; harvesting
+sickle,,weeding; harvesting
+manual,,weeding; traction; fertilizing

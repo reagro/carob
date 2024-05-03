@@ -7,31 +7,21 @@ The Soil Intelligence System (SIS-India) mid-IR (MIR) dataset contains MIR spect
 "
   
 	uri <- "hdl:11529/10548646"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "soil_samples"
+	ff	 <- carobiner::get_data(uri, path, group)
   
 	## data set level data 
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="CSISA",
-		uri=uri,
 		publication=NA,
-		data_citation = "Sherpa Sonam; Poonia Shishpal; Kumar Sunil; Sharma Sachin; Ajay Anurag; Wu William; Singh Balwinder; McDonald Andrew, 2022, 'Soil wet chemistry data and mid-infrared spectra collected from rice-wheat farmers’ fields in Bihar, India', https://hdl.handle.net/11529/10548646, CIMMYT Research Data & Software Repository Network, V1",
 		data_institutions = "CIMMYT",
 		carob_contributor="Andrew Sila",
 		carob_date="2023-09-28",
 		data_type = "soil sampling"
     )
   
-  ## download and read data 
   
-	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	# read wetchem data and sample identifier tables
 	f0 <- ff[basename(ff) == "sample_identifier.csv"]
@@ -61,7 +51,7 @@ The Soil Intelligence System (SIS-India) mid-IR (MIR) dataset contains MIR spect
 	# Remove negative B values
 	d$soil_B[d$soil_B < 0] <- NA
 	
-	d$dataset_id <- dataset_id
+	
 	d$trial_id <- "1"
 	
 	# Drop id, original_id, year and district columns from d

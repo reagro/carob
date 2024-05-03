@@ -1,12 +1,9 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
   
-"Description:
+"
    The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel 
    sites across sub-Saharan Africa using the Land Degradation
    Surveillance framework and included also multi-location diagnostic
@@ -15,16 +12,12 @@ carob_script <- function(path) {
 "
   
 	uri <- "doi:10.25502/20180814/1154/HJ"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "fertilizer"
-	## dataset level data 
+	ff	 <- carobiner::get_data(uri, path, group)
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
-		uri=uri,
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		publication=NA,#  10.1016/j.agee.2016.05.012
-		data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Koloko [Data set]. International Institute of Tropical Agriculture 
-		(IITA). doi:10.25502/20180814/1154/HJ" ,
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-02-22",
@@ -32,14 +25,7 @@ carob_script <- function(path) {
 		project=NA
 	)
 	
-	## download and read data 
 	
-	ff	 <- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-	dset$license <- carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
 	
 	
 	f1 <- ff[basename(ff) == "Koloko_DT2009_field.csv"] # get Field dataset 
@@ -85,8 +71,8 @@ carob_script <- function(path) {
 	#Add columns 
 	d$OM_type <- NA
 	d$OM_used <- FALSE
-	d$dataset_id <- dataset_id
-	d$trial_id <- paste0(d$dataset_id,"-",d$location)
+	
+	d$trial_id <- as.character(as.integer(as.factor(d$location)))
 	d$OM_type[grepl("+MN",d$treatment)] <- "farmyard manure"
 	d$OM_used[grepl("farmyard manure",d$OM_type)] <- TRUE
 	# previous crop name normalization 
@@ -94,7 +80,7 @@ carob_script <- function(path) {
 	p <- carobiner::fix_name(d$previous_crop,"lower")
 	p <- gsub("kolokoland",NA,p)
 	p <- gsub("millet","pearl millet",p)
-	p[p == ""] <- "no crop"
+	p[p == ""] <- "none"
 	p[p =="groundnuts(aracide)"] <- "groundnut"
 	d$previous_crop <- p
 	# fix crop name

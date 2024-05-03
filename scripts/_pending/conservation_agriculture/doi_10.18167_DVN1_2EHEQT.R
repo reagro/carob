@@ -10,16 +10,12 @@ carob_script <- function(path) {
 "
    
    uri <-  "doi:10.18167/DVN1/2EHEQT"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "conservation_agriculture" 
-   ## dataset level data 
+   ff <- carobiner::get_data(uri, path, group)
+  
    dset <- data.frame(
-      dataset_id = dataset_id,
-      group=group,
-      uri=uri,
-      publication= NA,# DOI:10.1017/S0014479714000155
-      data_citation ="Bruelle, Guillaume; Domas, Raphael; Andriamalala, Herizo; Hyac, Paulin; Ravonomanana, Jean Eddy, 2020, Rainfed rice yield and management data from 2006 to 2010 on farmer's fields under conservation agriculture in the Lake Alaotra region of Madagascar,
-      https://doi.org/10.18167/DVN1/2EHEQT, CIRAD Dataverse, V1, UNF:6:KODF5Pm0fcTqCAFwrvBLRA== [fileUNF]",
+   	carobiner::read_metadata(uri, path, group, major=1, minor=2),
+      publication= "doi:10.1017/S0014479714000155",
       data_institutions = "CIRAD",
       carob_contributor="Cedric Ngakou",
       carob_date="2023-10-18",
@@ -27,19 +23,8 @@ carob_script <- function(path) {
       project=NA 
    )
    
-   ## download and read data 
-   ff <- carobiner::get_data(uri, path, group)
-   js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=2)
-   dset$license <- "Open License" # carobiner::get_license(js)
-  dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-   
-   bn <- basename(ff)
-   
-   # read and process files
-   
-   r <- readxl::read_excel(ff[bn=="2006-2010_database_bvlac_bruelle_v01.20201009.xlsx"],sheet=1) |> as.data.frame()
+ 
+   r <- readxl::read_excel(ff[basename(ff)=="2006-2010_database_bvlac_bruelle_v01.20201009.xlsx"],sheet=1) |> as.data.frame()
    
    d <- r[,c("id_field","village","crop_season","soil","tillage_system","sow_date","manure","nitrogen","yield","rain_year")]
         colnames(d) <- c("trial_id","location","season","soil_type","tillage","planting_date","OM_amount","N_fertilizer","yield","rain")
@@ -47,7 +32,7 @@ carob_script <- function(path) {
    ## add columns
    d$country <- "Madagascar"
    d$crop <- "rice"
-   d$dataset_id <- dataset_id
+   
    d$yield_part <- "grain" 
    d$on_farm <- TRUE
    d$irrigated <- TRUE
@@ -58,11 +43,11 @@ carob_script <- function(path) {
    d$OM_used <- TRUE
 
    # fix long and lat
-   Geo <- data.frame(location=c("Antsahamamy","Ambohimiarina","Ambohitsilaozana","Ambongabe","Ampitatsimo"),
+   geo <- data.frame(location=c("Antsahamamy","Ambohimiarina","Ambohitsilaozana","Ambongabe","Ampitatsimo"),
                     lat=c(-18.9185449,-21.3561474,-17.7013574,-17.706648,-18.6728924),
                     lon=c(47.5591672,47.5679899,48.4656547,48.1885083,47.4563563))
   
-    d <- merge(d,Geo,by="location")
+    d <- merge(d, geo, by="location")
    
    d$longitude <- d$lon
    d$latitude <- d$lat
@@ -76,7 +61,7 @@ carob_script <- function(path) {
    d$season[i2] <- "2007-2008"
    d$season[i3] <- "2009-2010"
    
-   # fix fertilize
+   # fix fertilizer
    d$P_fertilizer <- 0 
    d$K_fertilizer <- 0  
    
@@ -86,7 +71,6 @@ carob_script <- function(path) {
    #data type
    d$planting_date <- as.character(d$planting_date)
    
-   # all scripts must end like this
    carobiner::write_files(dset, d, path=path)
    
 }

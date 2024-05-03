@@ -1,27 +1,22 @@
 # R script for "carob"
 
-# ## ISSUES 
-# ....
 
 ## The sites are not georeferenced. Need to ask the authors 
 
 
 carob_script <- function(path) {
   
-	"Description:
+	"
 	 Farmer participatory on-farm trials with CA technologies comparing with farmers’ practices (CT), were conducted in several fields in each community. Likewise, farmer-participatory validation trials were conducted comparing to existing practices and to find out suitable and more profitable crop production practices, prioritized to increase visibility and to avoid implementation and management problems that emerge when utilizing small plots with significant edge effects. Most trials were replicated in several fields within each community and were farmer-managed with backstopping from project staff and NARES partners. Project partners and staff coordinated monitoring and data acquisition. Where possible, collaborating farmers were selected by the community, and the project worked with existing farmer groups, with groups of both men and women farmers
+	ff	<- carobiner::get_data(uri, path, group)
 		"
 	
 	uri <- "hdl:11529/10548008"
-	dataset_id <- carobiner::simple_uri(uri)
 	group <- "conservation_agriculture"
-	## dataset level data 
+
 	dset <- data.frame(
-		dataset_id = dataset_id,
-		group=group,
+		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="Rabi (winter) crops-all nodes- Validation trials -Rangpur-Bangladesh",
-		uri=uri,
-		data_citation= "Gathala, Mahesh K.; Tiwari, Thakur P.; Islam, Saiful; Ghosh, Anup K.; Islam, Rashadul; Anwar, Mazharul; Molla, Samim H.; Akhter-Ul-Alam, Md., 2018. 6.2- Rabi (winter) crops-all nodes-Validation trials -Rangpur-Bangladesh, https://hdl.handle.net/11529/10548008, CIMMYT Research Data & Software Repository Network, V2",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= NA,
@@ -31,14 +26,7 @@ carob_script <- function(path) {
 		carob_date="2023-11-07"
 	)
 	
-	## download and read data 
 	
-	ff	<- carobiner::get_data(uri, path, group)
-	js <- carobiner::get_metadata(dataset_id, path, group, major=2, minor=1)
-    dset$title <- carobiner::get_title(js)
-	dset$authors <- carobiner::get_authors(js)
-	dset$description <- carobiner::get_description(js)
-	dset$license <- carobiner::get_license(js)
 	
 
 	proc <- function(f) {
@@ -108,7 +96,7 @@ carob_script <- function(path) {
 	
 	
 	#add columns
-	d$dataset_id <- dataset_id
+	
 	d$country <- "Bangladesh"
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
@@ -130,7 +118,6 @@ carob_script <- function(path) {
 	
 	##data type
 	
-	# all scripts must end like this
 	carobiner::write_files(dset, d, path=path)	
 }
 	

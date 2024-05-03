@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
   
-  "Description:
+  "
 
 Summary results and individual trial results from the International Late Yellow Variety - ILYV, 
 (Tropical Late Yellow Normal and QPM Synthetic Variety Trial - EVT13S) conducted in 2006
@@ -13,16 +13,14 @@ Summary results and individual trial results from the International Late Yellow 
   uri <- "hdl:11529/10563"
   group <- "maize_trials"
   
-  dataset_id <- carobiner::simple_uri(uri)
   
   #### Download data 
-  ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::get_metadata(dataset_id, path, group, major=1, minor=0)
+  ff <- carobiner::get_data(uri, path, group)
   
   ##### dataset level metadata 
   dset <- data.frame(
-    carobiner::extract_metadata(js, uri, group=group),
-    data_citation="Global Maize Program, 2019, International Early Yellow Hybrid Trial - IEYH0612, https://hdl.handle.net/11529/10563, CIMMYT Research Data & Software Repository Network,V1",
+  	carobiner::read_metadata(uri, path, group, major=1, minor=0),
+    #data_citation="Global Maize Program, 2019, International Early Yellow Hybrid Trial - IEYH0612, https://hdl.handle.net/11529/10563, CIMMYT Research Data & Software Repository Network,V1",
     data_institutions = "CIMMYT",
     publication= NA,
     project="Global Maize Program",
@@ -41,7 +39,7 @@ Summary results and individual trial results from the International Late Yellow 
     d <- data.frame( 
       trial_id = id,
       crop = "maize",
-      dataset_id = dataset_id,
+      
       on_farm = TRUE,
       striga_trial = FALSE, 
       striga_infected = FALSE,
