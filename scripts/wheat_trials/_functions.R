@@ -93,6 +93,8 @@ proc_wheat <- function(ff) {
 		latitude = r$latitude
 	)
 	
+	d$variety_code[d$variety_code == ""] <- NA
+	
 	if (!is.null(r$precipitation_on_crop)) {
 		d$rain <- as.numeric(r$precipitation_on_crop)
 	}
