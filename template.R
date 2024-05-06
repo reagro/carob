@@ -42,9 +42,14 @@ carob_script <- function(path) {
 
 ## process file(s)
 
-## use a subset
-	d <- data.frame(crop=r$crop, 
-					latitude=r$lat)
+## select the variables of interest and assign them to the correct name
+	d <- data.frame(
+		crop=r$crop, 
+		latitude=r$lat,
+		longitude=r$lon,
+		yield = r$yield_tonha * 1000
+		# etc
+	)
 
 	
 #### about the data #####
@@ -101,8 +106,6 @@ carob_script <- function(path) {
 ##### or when they are not immediately obvious for other reasons
 
 ##### Yield #####
-	d$biomass_total <- 
-
 	d$yield <- 
 	#what plant part does yield refer to?
 	d$yield_part <- 
