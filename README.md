@@ -25,5 +25,5 @@ if you use the data, run `carobiner::get_citations(data)` to get references for 
 
 ### Contribute 
 
-Carob is the *Extract, Transform, and Load* (ETL) framework supported by [CGIAR](https://www.cgiar.org/initiative/excellence-in-agronomy/) to support predictive agronomy analytics. Contributions are welcome from anyone, and they can be made via pull-requests. You can also raises issues on this github site. See these [preliminary guidelines](https://github.com/reagro/carob/wiki/Guidelines). A good place to discover new data sets is the [Gardian](https://gardian.bigdata.cgiar.org/) website. 
+Carob is the *Extract, Transform, and Load* (ETL) framework supported by [CGIAR](https://www.cgiar.org/initiative/excellence-in-agronomy/) to support predictive agronomy analytics. Contributions are welcome from anyone, and they can be made via pull-requests. You can also raises issues on this github site. See the [Guidelines for contributors](https://github.com/reagro/carob/wiki/Guidelines). A good place to discover new data sets is the [Gardian](https://gardian.bigdata.cgiar.org/) website or our [https://carob-data.org/todo.html](to-do list). 
 
