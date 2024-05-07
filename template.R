@@ -7,7 +7,7 @@
 carob_script <- function(path) {
 
 "
-[copy the abstract from the repo]
+copy and paste the abstract from the repository. Do not add line breaks
 "
 
 #### Identifiers
