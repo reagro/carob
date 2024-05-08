@@ -21,20 +21,13 @@ Cluster analysis separated the maize germplasm into five major groups, different
 		carob_date="2023-10-03"
    )
    
-   
-   # read the dataset
    r <- read.csv(ff[basename(ff)=="Phenotypic characterization data.csv"])  
-   
-#   d <- r[,c("ID", "COUNTRY", "ENTRY", "YEAR", "REP", "GENOTYPE", "POLLEN", "DYSK", "ASI", "PLHT", "EHT", "PASP", "EROT", "EASP", "YIELD", "HUSK")]#
-#   colnames(d) <- c("ID", "country", "variety_code", "planting_date", "rep", "variety", "dy_poll", "silking_days", "asi","plant_height", "e_ht", "p_asp", "e_rot", "e_asp", "yield", "husk")#,
-
- 
+    
    d <- data.frame(
-		ID = r$ID,
+		variety = r$GENOTYPE,
 		variety_code = as.character(r$ENTRY),
 		planting_date = as.character(r$YEAR),
 		rep = r$REP,
-		variety = r$GENOTYPE,
 		dy_poll = r$POLLEN,
 		silking_days = r$DYSK, 
 		asi = r$ASI,
@@ -45,39 +38,19 @@ Cluster analysis separated the maize germplasm into five major groups, different
 		e_asp=r$EASP, 
 		yield=r$YIELD, 
 		husk=r$HUSK,
-		crop="maize"
+		crop="maize",
+		yield_part="grain"
    )
    
-	d$trial_id <- "1"
-	d$yield_part <- "grain"
+	d$trial_id <- d$planting_date
 	d$on_farm <- TRUE
 	d$irrigated <- FALSE
 	d$borer_trial <- FALSE
 	d$striga_infected <- FALSE
-	d$ID <- NULL
 	d$striga_trial <- FALSE
 
 
-### RH: This is not correct; these are not the locations where the experiment was done 
-### add long and lat coordinate
-##	d$country = r$COUNTRY,
-##	d$country[d$country=="BF"] <- "Burkina Faso"
-##	d$country[d$country=="TG"] <- "Togo"
-##	d$country[d$country=="GH"] <- "Ghana"
-##	d$country[d$country=="IM"] <- "Nigeria"
-
-##	d$longitude[d$country=="Burkina Faso"] <- -1.6880314
-##	d$latitude[d$country=="Burkina Faso"] <- 12.0753083 
-##  d$longitude[d$country=="Ghana"] <- -1.0800271
-##  d$latitude[d$country=="Ghana"] <- 8.0300284
-##	d$longitude[d$country=="Togo"] <- 1.0199765
-##	d$latitude[d$country=="Togo"] <- 8.7800265
-##  d$longitude[d$country=="Nigeria"] <- 3.8972497
-##  d$latitude[d$country=="Nigeria"] <- 7.3777462
-	
-
 ## from the paper 
-
 	d$country <- "Nigeria"
 	d$location <- "Ikenne"
 	d$longitude <- 3.7
