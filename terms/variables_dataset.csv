@@ -1,18 +1,19 @@
-name,required,description,NAok
-dataset_id,yes,id (normalized uri),no
-uri,yes,the uri of the dataset,no
-authors,yes,dataset authors,no
-title,yes,title,no
-description,yes,description,no
-group,yes,Carob group,no
-license,yes,license that comes with the data,no
-carob_contributor,yes,name(s) of contributers of this script,no
-data_citation,yes,can be same as publication,no
-data_type,yes,"what kind of data is this (e.g. experiment, survey, compilation)",no
-publication,yes,the doi of the associated publication (if any),yes
-data_institutions,yes,organizational home(s) of the data providers,yes
-project,yes,project that this dataset belongs to (if any),yes
-carob_date,yes,date of first contribution to Carob,no
-revised_by,no,name(s) of contributers who made significant changes,no
-revision_date,no,date of last revision,no
-data_published,no,date the data was published,yes
+name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes,obo
+dataset_id,character,,yes,,no,,,no,id (normalized uri),,
+uri,character,,yes,,no,,,no,the uri of the dataset,,
+authors,character,,yes,,yes,,,no,dataset authors,,
+title,character,,yes,,no,,,no,title,,
+description,character,,yes,,no,,,no,description,,
+group,character,,yes,,no,,,no,Carob group,,
+license,character,,yes,,no,,,no,license that comes with the data,,
+carob_contributor,character,,yes,,yes,,,no,name(s) of contributers of this script,,
+data_citation,character,,yes,,no,,,no,can be same as publication,,
+data_type,character,,yes,,no,,,no,"what kind of data is this (e.g. experiment, survey, compilation)",,
+publication,character,,yes,,no,,,yes,the doi of the associated publication (if any),,
+data_institutions,character,,yes,,yes,,,yes,organizational home(s) of the data providers,,
+project,character,,yes,,no,,,yes,project that this dataset belongs to (if any),,
+carob_date,character,,yes,,no,,,no,date of first contribution to Carob,,
+revised_by,character,,no,,no,,,no,name(s) of contributers who made significant changes,,
+revision_date,character,,no,,no,,,no,date of last revision,,
+data_published,character,,no,,no,,,yes,date the data was published,,
+exp_treatments,character,,no,treatment,yes,,,yes,treatment keywords (if data_type = trial),,
