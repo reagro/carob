@@ -23,5 +23,5 @@ where `path` is the folder of the cloned repo (e.g. `"d:/github/carob"`)
 
 ### Use
 
-if you use the data, run `carobiner::get_citations(data)` to get references (citations) for the data set used. 
+if you use the aggregated data, you can run `carobiner::get_citations(data)` to get references (citations) to the orginal data sets used. 
 
