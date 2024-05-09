@@ -63,11 +63,11 @@ planting_implement,character,,no,implement,no,,,yes,Planting (sowing) implement 
 transplanting_method,character,,no,method,no,,,yes,(rice) transplanting method,,AGRO_00000229
 uncertainty,numeric,,no,,no,0,,yes,Measure of noise in data ,,
 uncertainty_type,character,,no,,no,,,yes,Type of noise measure,,
-row_spacing,numeric,cm,no,,no,0,150,yes,Distance between rows,AGRO_00000318,
+row_spacing,numeric,cm,no,,no,5,150,yes,Distance between rows,AGRO_00000318,
 plot_area,numeric,m2,no,,no,0,,yes,Area of the plot in square meter,,AGRO_00000302
 plot_lenght,numeric,m,no,,no,0,,yes, Lenght of the plot in meter,.AGRO_00000307,
 plot_width,numeric,m,no,,no,0,,yes, Width of the plot in meter,,AGRO_00000308
-plant_spacing,numeric,cm,no,,no,0,100,yes,Distance between plants,,AGRO_00000316
+plant_spacing,numeric,cm,no,,no,5,100,yes,Distance between plants,,AGRO_00000316
 plant_density,numeric,plants/ha,no,,no,1000,3100000,yes,Number of plants per ha,,PCO_0000079
 rain,numeric,mm,no,,no,0,3000,yes,Total rainfall between planting and harvest,,ENVO_01000830
 emergence_days,numeric,days,no,,no,3,90,yes,Days to emergence (after planting),,
@@ -80,7 +80,7 @@ tassling_days,numeric,days,no,,no,30,125,yes,Days to tassling (after planting),,
 maturity_days,numeric,days,no,,no,45,300,yes,Days to maturity (after planting),,TO_0000469
 harvest_days,numeric,days,no,,no,45,300,yes,Days to harvest (after planting),,
 plant_height,numeric,cm,no,,no,10,350,yes,Maximum plant height,,TO_0000207
-ear_height,numeric,cm,no,,no,10,200,yes,height of first ear,,
+ear_height,numeric,cm,no,,no,10,210,yes,height of first ear (maize female inflorescence),,
 pathogen,character,,no,pathogen,yes,,,yes,Name of the pathogen studied,,
 AUDPC,numeric,,no,,no,0,150,yes,Area under the disease progress curve,,
 rAUDPC,numeric,,no,,no,0,1,yes,Area under the disease progress curve divided by the non-diseased season length,,

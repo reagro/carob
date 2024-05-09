@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
   
-  "The Fusarium Head Blight Screening Nursery (earlier Scab Resistance Screening Nursery - SRSN) is a single replicate nursery that contains diverse spring bread wheat (Triticum aestivum) germplasm adapted to ME2 (High rainfall environment) and ME4 (Low rainfall, semi-arid environment) with total 50-100 entries and white/red grain color. (2019)"
+"The Fusarium Head Blight Screening Nursery (earlier Scab Resistance Screening Nursery - SRSN) is a single replicate nursery that contains diverse spring bread wheat (Triticum aestivum) germplasm adapted to ME2 (High rainfall environment) and ME4 (Low rainfall, semi-arid environment) with total 50-100 entries and white/red grain color. (2019)"
   
   uri <- "hdl:11529/10548456"
   group <- "wheat_trials"
@@ -11,7 +11,7 @@ carob_script <- function(path) {
   
   dset <- data.frame(
     carobiner::read_metadata(uri, path, group, major=3, minor=0),
-    project="Global Wheat Program",
+    project="Fusarium Head Blight Screening Nursery",
     publication = NA,
     data_institutions = "CIMMYT",
     carob_contributor="Mitchelle Njukuya",
