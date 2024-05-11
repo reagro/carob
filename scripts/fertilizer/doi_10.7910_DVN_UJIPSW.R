@@ -6,13 +6,7 @@
 
 carob_script <- function(path) {
 
-"
-Retaining crop residues in fields is a pathway to build SOM on smallholder farmers.
-The quality of crop residues can be improved through integrating more legume residues.
-This experiment assess the effect of legume residues from a doubled up system as compared
-to maize residues on rotational maize and N dynamics in the short term.
-In the long term, this can increase both quantity and quality of SOM
-"
+"Retaining crop residues in fields is a pathway to build SOM on smallholder farmers. The quality of crop residues can be improved through integrating more legume residues. This experiment assess the effect of legume residues from a doubled up system as compared to maize residues on rotational maize and N dynamics in the short term. In the long term, this can increase both quantity and quality of SOM"
 
 #### Identifiers
 	uri <- "doi:10.7910/DVN/UJIPSW"
@@ -59,6 +53,7 @@ In the long term, this can increase both quantity and quality of SOM
 		dmy_total = r1$Total.biomass..kg.ha.,
 		row_spacing = r1$Distance.between.ridges..m.*100 # to cm
 	)
+	
 	d2 <- data.frame(
 	  crop = "groundnut",
 	  variety = r2$Variety,
@@ -80,7 +75,7 @@ In the long term, this can increase both quantity and quality of SOM
 ## the treatment code	
 	d$treatment <- NA
 	d$treatment <- ifelse(d$t == 1, paste0("N69P9K0"),
-	                      ifelse(d$t == 2, paste0("N0P0K0"), paste0("N34P4K0")))
+	               ifelse(d$t == 2, paste0("N0P0K0"), paste0("N34P4K0")))
 
 ##### Location #####
 ## EGB:
