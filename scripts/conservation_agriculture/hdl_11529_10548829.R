@@ -43,7 +43,7 @@ carob_script <- function(path) {
 		publication= "doi:10.1016/j.fcr.2022.108724",
 		data_institutions = "CIMMYT",
 		data_type="on-farm experiment", 
-		carob_contributor="Hope Takudzwa Mazungunye"  ,
+		carob_contributor="Hope Mazungunye"  ,
 		carob_date="2023-09-17",
 		revised_by = "Effie Ochieng'"  
 	)
