@@ -19,7 +19,7 @@ carob_script <- function(path) {
         publication = "doi:10.1016/j.agee.2022.108207",
 		data_institutions = "CIRAD, University of Zimbabwe, CIMMYT, ETH ZURICH",
 		data_type = "experiment", 
-		carob_contributor = "Hope Takudzwa Mazungunye",
+		carob_contributor = "Hope Mazungunye",
 		carob_date = "2024-02-15",
 		revised_by = "Eduardo Garcia Bendito",
 		revision_date = "2024-03-07"
