@@ -11,7 +11,7 @@ SOME DESCRIPTION GOES HERE...
 "
 
 #### Identifiers
-	uri <- "0000000000"
+	uri <- "cLmwE"
 	group <- "eia"
 
 #### Download data 
@@ -102,6 +102,7 @@ SOME DESCRIPTION GOES HERE...
 	                 planting_date = as.character(as.Date(r4$plantingDate, "%Y-%m-%d")),
 	                 harvest_date = as.character(as.Date(r4$harvestDate, "%Y-%m-%d")),
 	                 crop = "rice",
+# SAnDMan treatment levels not specified
 	                 # N_fertilizer = r4$Nrate,
 	                 # P_fertilizer = r4$Prate,
 	                 # K_fertilizer = r4$Krate,

@@ -1,6 +1,4 @@
 
-path <- "/home/jovyan/carob-eia/carob-eia"
-
 carob_script <- function(path) {
 	
   "
@@ -8,11 +6,8 @@ carob_script <- function(path) {
 
 "
   
-  uri <- "0987654321"
+  uri <- "WdcCZ"
   group <- "eia"
-  
-  # This is no longer neded...
-  # ff	<- carobiner::get_data(uri, path, group)
   
   dset <- data.frame(
     # Need to fill-in metadata...

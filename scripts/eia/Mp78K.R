@@ -7,11 +7,8 @@ carob_script <- function(path) {
 
 "
   
-  uri <- "1234567890"
+  uri <- "Mp78K"
   group <- "eia"
-  
-  # This is no longer neded...
-  # ff	<- carobiner::get_data(uri, path, group)
   
   dset <- data.frame(
     # Need to fill-in metadata...
