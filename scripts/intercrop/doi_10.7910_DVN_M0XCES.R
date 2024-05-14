@@ -27,7 +27,7 @@ carob_script <- function(path) {
       carobiner::read_metadata(uri, path, group, major=1, minor=2),
       project="Africa Rising", 
       publication= NA, 
-      data_institutions = "IFPRI", 
+      data_institutions = "ABC", 
       carob_contributor="Cedric Ngakou", 
       carob_date="2024-05-14", 
       data_type="experiment"
@@ -37,6 +37,7 @@ carob_script <- function(path) {
 	r1 <- carobiner::read.excel.hdr(ff[basename(ff)=="03_Gross Margins_Trial_2_Data_2019.xlsx"],skip = 0)
 
 	r1 <- r[, c("Ecozone", "Trial.type", "Rep", "Trt", "Trt_Descr", "Mz.Grain_Yld.t.ha", "Mz.Stover_Yld.t.ha", "Bn.Grain.Yld.t.ha", "Bn.Haulm.Yld.t.ha", "PP.Grain_Yld.t.ha", "PP.Stalks_Yld.t.ha")]
+
 	r1 <- carobiner::change_names(r1, names(r1), c("location", "trial", "rep", "Trt", "treatment", "yield_M", "residue_yield_M", "yield_B", "residue_yield_B", "yield_P", "residue_yield_P"))
 
 	# these are the treatments, not the trials d0$trial_id <- paste(d0$trial, d0$Trt, sep ="_")
