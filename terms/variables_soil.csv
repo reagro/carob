@@ -1,6 +1,6 @@
 name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes,obo
 soil_type,character,,no,,yes,,,yes,Soil name or description,,AGRO_00010099
-soil_pH,numeric,,no,,no,3,9,yes,Soil pH (H2O),,ENVO_09200010
+soil_pH,numeric,,no,,no,3,10,yes,Soil pH (H2O),,ENVO_09200010
 soil_pH_KCl,numeric,,no,,no,3,9,yes,Soil pH (KCl),,ENVO_09200010
 soil_pH_CaCl2,numeric,,no,,no,3,10,yes,Soil pH (CaCl2),,ENVO_09200010
 soil_SOC,numeric,%,no,,no,0,20,yes,Soil organic carbon,,
@@ -9,9 +9,9 @@ soil_sand,numeric,%,no,,no,0,100,yes,Soil sand content (excluding gravel),,
 soil_clay,numeric,%,no,,no,0,100,yes,Soil clay content (excluding gravel),,ENVO_00002982
 soil_silt,numeric,%,no,,no,0,100,yes,Soil silt content (excluding gravel),,
 soil_texture,character,,no,soil_texture,no,,,yes,Soil texture,,
-soil_N,numeric,mg/kg,no,,no,1,10000,yes,Soil N content,,ENVO_09000017
+soil_N,numeric,mg/kg,no,,no,0.01,10000,yes,Soil N content,,ENVO_09000017
 soil_K,numeric,mg/kg,no,,no,1,10000,yes,Soil K content,,
-soil_P_total,numeric,mg/kg,no,,no,1,1000,yes,Soil P (total) ,,
+soil_P_total,numeric,mg/kg,no,,no,0.4,1000,yes,Soil P (total) ,,
 soil_P_available,numeric,mg/kg,no,,no,0.01,200,yes,Soil P (plant available) ,,
 soil_Ca,numeric,mg/kg,no,,no,1,10000,yes,Soil Ca content,,
 soil_Mg,numeric,mg/kg,no,,no,1,10000,yes,Soil Mg content,,
