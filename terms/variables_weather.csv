@@ -1,0 +1,13 @@
+name,type,unit,required,vocabulary,multiple_allowed,valid_min,valid_max,NAok,description,notes
+prec,numeric,mm,no,,no,0,1000,,precipitation,
+temp,numeric,C,no,,no,-50,60,,(average) temperature,
+tmin,numeric,C,no,,no,-50,60,yes,minimum temperature,
+tmax,numeric,C,no,,no,-50,60,,maximum temperature,
+dewp,numeric,C,no,,no,-50,60,,dew-point temperature,
+rhum,numeric,%,no,,no,,,,relative humidity,
+vapr,numeric,hPa,no,,no,,,,vapour pressure,
+irad,numeric,J s-1 m-2,no,,no,,,,mean solar radiation,
+srad,numeric,kJ m2,no,,no,,,,total daily solar radiation,
+wspd,numeric,m/s,no,,no,0,25,,wind speed,
+wdir,numeric,degrees,no,,no,0,360,,wind direction,
+wgst,numeric,m/s,no,,no,0,25,,wind gust,
