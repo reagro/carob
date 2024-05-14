@@ -15,3 +15,4 @@ longitude,numeric,degrees,yes,,no,-180,180,no,Longitude of the location where th
 latitude,numeric,degrees,yes,,no,-60,60,no,Latitude of the location where the observation was made (in decimal notation),,
 elevation,numeric,meter,no,,no,,,yes,Elevation above sea level,,
 date,character,,no,,no,,,yes,"Observation date in ""yyyy-mm-dd"", ""yyyy-mm"", or ""yyyy"" format",,
+time,character,,no,,no,,,yes,"Observation time in ""hh:mm:ss"", ""hh:mm"", or ""hh"" format",,

@@ -15,8 +15,8 @@ carob_script <- function(path) {
 
 5. The soil water infiltration datasheet indicates the rate of water infiltrating under two suctions i.e., -2 cm sec2 and -6 cm sec2 using mini-disc infiltrometer at field level.
 
-6. The seasonal weather condition indicates daily weather data collected in three agro-ecological conditions of Babati during the 2019 long rain season.
-"
+6. The seasonal weather condition indicates daily weather data collected in three agro-ecological conditions of Babati during the 2019 long rain season."
+
 
    uri <- "doi:10.7910/DVN/M0XCES"
    dataset_id <- carobiner::simple_uri(uri)
@@ -34,9 +34,9 @@ carob_script <- function(path) {
    )
    
    ### yield data 
-	r1 <- carobiner::read.excel.hdr(ff[basename(ff)=="03_Gross Margins_Trial_2_Data_2019.xlsx"],skip = 0)
+	r1 <- carobiner::read.excel(ff[basename(ff)=="03_Gross Margins_Trial_2_Data_2019.xlsx"], fix_names=TRUE)
 
-	r1 <- r[, c("Ecozone", "Trial.type", "Rep", "Trt", "Trt_Descr", "Mz.Grain_Yld.t.ha", "Mz.Stover_Yld.t.ha", "Bn.Grain.Yld.t.ha", "Bn.Haulm.Yld.t.ha", "PP.Grain_Yld.t.ha", "PP.Stalks_Yld.t.ha")]
+	r1 <- r1[, c("Ecozone", "Trial.type", "Rep", "Trt", "Trt_Descr", "Mz.Grain_Yld.t.ha", "Mz.Stover_Yld.t.ha", "Bn.Grain.Yld.t.ha", "Bn.Haulm.Yld.t.ha", "PP.Grain_Yld.t.ha", "PP.Stalks_Yld.t.ha")]
 
 	r1 <- carobiner::change_names(r1, names(r1), c("location", "trial", "rep", "Trt", "treatment", "yield_M", "residue_yield_M", "yield_B", "residue_yield_B", "yield_P", "residue_yield_P"))
 
@@ -92,7 +92,7 @@ carob_script <- function(path) {
 
 
 # merge soil data and yield data
-	r2 <- carobiner::read.excel.hdr(ff[basename(ff)=="05_Soil_Characterization_Trial_2_Data_2019.xlsx"], skip = 0)
+	r2 <- carobiner::read.excel(ff[basename(ff)=="05_Soil_Characterization_Trial_2_Data_2019.xlsx"], fix_names=TRUE)
 	d2 <- data.frame(
 		location = r2$Ecozone, 
 		rep = as.integer(r2$Reps),
@@ -110,10 +110,26 @@ carob_script <- function(path) {
 		soil_Na = r2$X.Sodium.ppm, 
 		soil_CEC = r2$X.C.E.C.meq.100g
 	)
-
 	d <- merge(d1, d2, by=c("location", "rep"), all.x = TRUE)  
-   
-	carobiner::write_files(dset, d, path=path)   
+
+
+	w <- carobiner::read.excel(ff[basename(ff)=="07_Seasonal_Weather_2019_Trial_2_Data_2019.xlsx"], fix_names=TRUE)
+	dw <- data.frame(
+		country = "Tanzania",
+		date = paste0(w$Measurement.Date, "-2019"),
+		location = w$Ecozone,
+		temp = w$Temperature.C,
+		tdew = w$Dew.Point.C,
+		prec = w$Rainfall.mm,
+		rhum = w$Relative.Humidity.pct, 
+		wspd = w$Wind.Speed.km.h / 3.6, #km/h -> m/s
+		wdir = w$Wind.Direction.Deg,
+		wgst = w$Wind.Gust.km.h,
+		srad = w$Solar.Rad.wat.m2
+	)
+	dw$date <- as.Date(carobiner::eng_months_to_nr(dw$date), format="%d-%m-%Y") |> as.character()
+	
+	carobiner::write_files(path, dset, d, wth=dw)   
 }
 
 
