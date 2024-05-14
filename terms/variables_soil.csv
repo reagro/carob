@@ -11,7 +11,7 @@ soil_silt,numeric,%,no,,no,0,100,yes,Soil silt content (excluding gravel),,
 soil_texture,character,,no,soil_texture,no,,,yes,Soil texture,,
 soil_N,numeric,mg/kg,no,,no,1,10000,yes,Soil N content,,ENVO_09000017
 soil_K,numeric,mg/kg,no,,no,1,10000,yes,Soil K content,,
-soil_P_total,numeric,mg/kg,no,,no,1,1000,yes,Soil P (total) ,,
+soil_P_total,numeric,mg/kg,no,,no,0.4,1000,yes,Soil P (total) ,,
 soil_P_available,numeric,mg/kg,no,,no,0.01,200,yes,Soil P (plant available) ,,
 soil_Ca,numeric,mg/kg,no,,no,1,10000,yes,Soil Ca content,,
 soil_Mg,numeric,mg/kg,no,,no,1,10000,yes,Soil Mg content,,
