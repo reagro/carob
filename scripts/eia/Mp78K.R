@@ -4,7 +4,8 @@
 # 1. DOI and much of the metadata is missing
 # 2. Data reads are still unstable and user needs to have access
 # 3. License is missing (CC-BY)?
-# 4. ...
+# 4. Many valuable variables that need to be integrated still...
+# 5. ...
 
 carob_script <- function(path) {
   

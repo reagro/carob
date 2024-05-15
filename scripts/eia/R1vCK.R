@@ -3,7 +3,8 @@
 ## ISSUES
 # 1. DOI and much of the metadata is missing
 # 2. License is missing (CC-BY)?
-# 3. ...
+# 3. Many valuable variables that need to be integrated still...
+# 4. ...
 
 carob_script <- function(path) {
 	
@@ -79,8 +80,8 @@ carob_script <- function(path) {
 		yield = r$`Grain yield (kg/ha)`,
 		residue_yield = r$`Straw yield (kg/ha)`, #The straw weight is assumed to be the residue of the yield
 		crop_price = r$`Price of grain per 100 kg (ETH Birr)` + r$`Price of straw per 100kg (ETH Birr)`, # Prices in Ethiopian Birr (ETB) per 100kg for grain and straw
-		fertilizer_price = r$`Price of fertilizerz PER 100KG`,
-		currency = "Ethiopian Birr"
+		fertilizer_price = as.character(r$`Price of fertilizerz PER 100KG`),
+		currency = "ETB"
 	)
 	
 	d$crop_rotation[grep("Fababean", d$crop_rotation)] <- c("barley", "faba bean", "wheat")
@@ -90,5 +91,3 @@ carob_script <- function(path) {
 
 	carobiner::write_files(dset, d, path=path)
 }
-
-

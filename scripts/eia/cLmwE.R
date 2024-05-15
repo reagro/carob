@@ -36,8 +36,9 @@ SOME DESCRIPTION GOES HERE...
 	  carob_contributor = 'Eduardo Garcia Bendito',
 	  data_citation = '...',
 	  project = 'Excellence in Agronomy',
+	  use_case = "Rwanda RAB",
 	  data_type = "compilation", # or, e.g. "on-farm experiment", "survey", "compilation"
-	  carob_date="2024-04-22"
+	  carob_date="2024-04-25"
 	)
 	
 ##### PROCESS data records

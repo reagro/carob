@@ -31,7 +31,7 @@ carob_script <- function(path) {
     project = 'Excellence in Agronomy',
     use_case = "Digital Green Ethiopia",
     data_type = "on-farm experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
-    carob_date="2023-09-25"
+    carob_date="2024-04-25"
   )
   
   # Manually build path (this can be automated...)
