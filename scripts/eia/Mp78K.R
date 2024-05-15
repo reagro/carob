@@ -1,4 +1,10 @@
+# R script for EiA version of"carob"
 
+## ISSUES
+# 1. DOI and much of the metadata is missing
+# 2. Data reads are still unstable and user needs to have access
+# 3. License is missing (CC-BY)?
+# 4. ...
 
 carob_script <- function(path) {
   
@@ -26,7 +32,7 @@ carob_script <- function(path) {
     project = 'Excellence in Agronomy',
     use_case = "Planting Date SA",
     data_type = "on-farm experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
-    carob_date="2023-09-25"
+    carob_date="2024-04-25"
   )
   
   # Manually build path (this can be automated...)

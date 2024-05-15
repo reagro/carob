@@ -1,3 +1,9 @@
+# R script for EiA version of"carob"
+
+## ISSUES
+# 1. DOI and much of the metadata is missing
+# 2. License is missing (CC-BY)?
+# 3. ...
 
 carob_script <- function(path) {
 	

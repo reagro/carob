@@ -1,7 +1,11 @@
-# R script for "carob"
+# R script for EiA version of"carob"
 
 ## ISSUES
-# ....
+# 1. DOI and much of the metadata is missing
+# 2. Data is compiled from multiple sources (AfricaRice, IFDC, etc)
+# 3. Some of the rates nutrient rates in "SAnDMan_Rice_fieldData.RDS" are not indicated, and only treatment is provided
+# 4. License is missing (CC-BY)?
+# 5. ...
 
 
 carob_script <- function(path) {
@@ -26,12 +30,13 @@ SOME DESCRIPTION GOES HERE...
 	  authors = 'Some names here...',
 	  title = 'Rwanda RAB Rice Data',
 	  description = 'Some description here...',
+	  data_institutions = "CGIAR - CIP",
 	  group = group,
 	  license = 'Some license here...',
-	  carob_contributor = 'Someone...',
+	  carob_contributor = 'Eduardo Garcia Bendito',
 	  data_citation = '...',
 	  project = 'Excellence in Agronomy',
-	  data_type = "Experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
+	  data_type = "compilation", # or, e.g. "on-farm experiment", "survey", "compilation"
 	  carob_date="2024-04-22"
 	)
 	
@@ -51,12 +56,13 @@ SOME DESCRIPTION GOES HERE...
 ## process file(s)
 
 ## use a subset
-	d1 <- data.frame(trial_id = r1$ID,
+	d1 <- data.frame(trial_id = paste0("AfricaRice", "-", as.integer(factor(paste0(r1$Longitude, "-", r1$Latitude)))),
 	                 country = r1$Country,
 	                 location = r1$Village,
 	                 site = r1$SiteName,
 	                 longitude = as.numeric(r1$Longitude),
 	                 latitude = as.numeric(r1$Latitude),
+	                 treatment = r1$Treatment,
 	                 planting_date = as.character(as.Date(r1$DateSeeding, "%m/%d/%Y")),
 	                 harvest_date = as.character(as.Date(r1$HarvestingDate, "%m/%d/%Y")),
 	                 crop = tolower(r1$Crop),
@@ -70,9 +76,10 @@ SOME DESCRIPTION GOES HERE...
 	d1 <- d1[d1$country == "Rwanda",]
 	
 	d2 <- data.frame(country = "Rwanda",
-	                 trial_id = r2$TLID,
+	                 trial_id = paste0("IFDC", "-", as.integer(factor(paste0(r2$lon, "-", r2$lat)))),
 	                 longitude = as.numeric(r2$lon),
 	                 latitude = as.numeric(r2$lat),
+	                 treatment = r2$Treat,
 	                 planting_date = as.character(substr(r2$season, start = 1, stop = 4)),
 	                 season = trimws(substr(r2$season, start = 5, stop = nchar(r2$season))),
 	                 crop = "rice",
@@ -82,11 +89,13 @@ SOME DESCRIPTION GOES HERE...
 	                 yield = r2$TY * 1000)
 	
 	d3 <- data.frame(country = "Rwanda",
-	                 trial_id = rep(1:(nrow(r3)/12), each = 12),
+	                 trial_id = paste0("EiARAB", "-", as.integer(factor(paste0(r3$lon, "-", r3$lat)))),
 	                 longitude = as.numeric(r3$lon),
 	                 latitude = as.numeric(r3$lat),
+	                 treatment = r3$Treatment,
 	                 planting_date = as.character(as.Date(r3$PlantingDate, "%d/%m/%Y")),
 	                 harvest_date = as.character(as.Date(r3$HarvestDate, "%d/%m/%Y")),
+	                 season = "B",
 	                 crop = "rice",
 	                 N_fertilizer = as.numeric(r3$N),
 	                 P_fertilizer = as.numeric(r3$P),
@@ -96,11 +105,13 @@ SOME DESCRIPTION GOES HERE...
 	                 dmy_residue = (r3$dryWeightsecondaryProduct)/(r3$NetplotArea/10000))
 	
 	d4 <- data.frame(country = "Rwanda",
-	                 trial_id = r4$TLID2,
+	                 trial_id = paste0("ScalingAKILIMO", "-", as.integer(factor(paste0(r4$lon, "-", r4$lat)))),
 	                 longitude = as.numeric(r4$lon),
 	                 latitude = as.numeric(r4$lat),
+	                 treatment = r4$treat,
 	                 planting_date = as.character(as.Date(r4$plantingDate, "%Y-%m-%d")),
 	                 harvest_date = as.character(as.Date(r4$harvestDate, "%Y-%m-%d")),
+	                 season = "A",
 	                 crop = "rice",
 # SAnDMan treatment levels not specified
 	                 # N_fertilizer = r4$Nrate,
@@ -122,4 +133,3 @@ SOME DESCRIPTION GOES HERE...
 ## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
 # path <- _____
 # carob_script(path)
-
