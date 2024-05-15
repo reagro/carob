@@ -14,15 +14,17 @@ carob_script <- function(path) {
     # carobiner::read_metadata(uri, path, group, major=2, minor=0),
     uri = uri,
     dataset_id = uri,
-    authors = 'EiA team and IITA Biometric Unit',
-    title = 'Wheat Usecase KPI Calculation',
-    description = 'Collaboration between EiA team and IITA Biometric Unit',
+    data_institutions = "Alliance Bioversity - CIAT",
+    authors = "Lulseged Desta & Wuletawu Abera",
+    title = "Digital Green Ethiopia Use Case Validations 2022",
+    description = "Data for the use case validaton of Site-Specific Recommendations (SSR) for Ethiopia 2022",
     group = group,
     license = 'Some license here...',
     carob_contributor = 'IITA Biometric Unit',
     data_citation = '...',
     project = 'Excellence in Agronomy',
-    data_type = "survey", # or, e.g. "on-farm experiment", "survey", "compilation"
+    use_case = "Digital Green Ethiopia",
+    data_type = "on-farm experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
     carob_date="2023-09-25"
   )
   
@@ -47,7 +49,7 @@ carob_script <- function(path) {
 		is_survey = TRUE,
 		adm1=r$Region,
 		adm2=r$District,
-		hhid = r$HHID,
+		trial_id = r$HHID, # Using HHID as trial_id
 		latitude =r$LAT,
 		longitude=r$LONG,
 		elevation=r$ALT,

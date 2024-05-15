@@ -15,15 +15,17 @@ carob_script <- function(path) {
     # carobiner::read_metadata(uri, path, group, major=2, minor=0),
     uri = uri,
     dataset_id = uri,
-    authors = 'EiA team and IITA Biometric Unit',
-    title = 'wheat Usecase KPI Calculation',
-    description = 'Collaboration between EiA team and IITA Biometric Unit',
+    authors = "Amit Srivastava",
+    data_institutions = "IRRI",
+    title = NA,
+    description = "Validations of the Planting Date SA Use Case MVP",
     group = group,
     license = 'Some license here...',
     carob_contributor = 'IITA Biometric Unit',
     data_citation = '...',
     project = 'Excellence in Agronomy',
-    data_type = "survey", # or, e.g. "on-farm experiment", "survey", "compilation"
+    use_case = "Planting Date SA",
+    data_type = "on-farm experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
     carob_date="2023-09-25"
   )
   
@@ -58,6 +60,7 @@ carob_script <- function(path) {
     adm2=r$district,
     adm3=r$subDistrict,
     adm4=r$village,
+    trial_id = rep(1:71, 2),
     plot_name=r$plot, # Not in carob
     location=r$location,
     season=r$season,
@@ -86,14 +89,14 @@ carob_script <- function(path) {
     P_fertilizer=r$Phosphorus_Kg_ha,
     K_fertilizer=r$Potassium_Kg_ha,
     drought_stress=r$drought,
-    drought_stage=r$droughtGS, # not in carop
+    drought_stage=r$droughtGS, # not in carob
     crop_area=r$EiAcropAreaAcre, # Not in carob
     harvest_days=r$cropDurationDays,# assumed to be days to harvest
-    harvestMethod=r$harvestMethod, # not in carop
+    harvestMethod=r$harvestMethod, # not in carob
     insecticide_used=r$insecticides,
     pesticide_used=r$pesticides,
-    lodging=r$lodgingPercent,# not in carop
-    threshing_method=r$threshing, # not in carop
+    lodging=r$lodgingPercent,# not in carob
+    threshing_method=r$threshing, # not in carob
     yield=r$tonPerHectare # assume to be yield
   )
 # Convert from tons/ha to kg/ha
