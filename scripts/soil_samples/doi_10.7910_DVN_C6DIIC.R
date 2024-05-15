@@ -60,16 +60,16 @@ Omission trials conducted in 5 countries under AfSIS Phase 1 under CIAT"
     soil_K = r$m3.K,
     soil_Mg = r$m3.Mg,
     soil_Mn = r$m3.Mn,
-    soil_Na = r$m3.Mn,
-    soil_P_available = r$m3.P,
-    soil_S = r$m3.Zn,
+    soil_Na = r$m3.Na,
+    soil_P_total = r$m3.P,
+    soil_S = r$m3.S,
     soil_Zn = r$m3.Zn,
-    #soil_Acidity = r$m3.Hp,
-    #soil_PSI = r$PSI,
+    soil_Ex_acidity = r$m3.Hp,
+    soil_PSI = r$PSI,
     soil_Ex_Na = r$ExNa,
     soil_Ex_Ca = r$ExCa,
     soil_Ex_K = r$ExK,
-    #soil_ExBas = r$ExBas,
+    soil_Ex_Bas = r$ExBas,
     soil_clay = r$psa.c4clay,
     soil_silt = r$psa.c4silt,
     soil_sand = r$psa.c4sand,
@@ -95,8 +95,27 @@ Omission trials conducted in 5 countries under AfSIS Phase 1 under CIAT"
     ## each site must have corresponding longitude and latitude
   ## see carobiner::geocode
   d$longitude <- r$Flong
-    d$latitude <- r$Flat
-    
+  d$latitude <- r$Flat
+  
+# Mali samples from Finkolo are missing latlon
+  
+  d$latitude <- ifelse(d$latitude == 0, NA, d$latitude)
+  d$longitude <- ifelse(d$longitude == 0, NA, d$longitude)
+  
+  
+  latlon <- as.data.frame(carobiner::geocode("Mali", "Finkolo")$df)
+  d$longitude <- ifelse(d$site =='Finkolo', latlon$lon, d$longitude)
+  d$latitude <- ifelse(d$site =='Finkolo', latlon$lat, d$latitude)
+  d$soil_PSI <- ifelse(d$soil_PSI < 0, 0,d$soil_PSI)
+
+  missing <- which(is.na(d$latitude) == TRUE)
+  
+  for(i in 1:length(missing)){
+    latlon <- as.data.frame(carobiner::geocode(d$country[missing[i]], d$site[missing[i]])$df)
+    d$longitude[missing[i]] <- latlon$lon
+    d$latitude[missing[i]] <- latlon$lat
+  }
+  
     ##### Crop #####
   ## normalize variety names
   ## see carobiner::fix_name
