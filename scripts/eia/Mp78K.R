@@ -101,5 +101,12 @@ carob_script <- function(path) {
   )
 # Convert from tons/ha to kg/ha
   d$yield <- d$yield*1000
+
+  # Recode variables
+  d$previous_crop <- dplyr::recode(d$previous_crop,
+                            "Rice"="rice","Wheat"="wheat")
+  d$previous_crop[d$previous_crop=="Fallow"] <- NA # Fallow not a crop
+  d$land_prep_method <- ifelse(d$land_prep_method == "NoTillage","no-till","tillage")
+
   carobiner::write_files(dset, d, path=path)
 }
