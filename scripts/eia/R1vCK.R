@@ -1,0 +1,94 @@
+# R script for EiA version of"carob"
+
+## ISSUES
+# 1. DOI and much of the metadata is missing
+# 2. License is missing (CC-BY)?
+# 3. ...
+
+carob_script <- function(path) {
+	
+  "
+	SOME DESCRIPTION GOES HERE...
+
+"
+  
+  uri <- "R1vCK"
+  group <- "eia"
+  
+  dset <- data.frame(
+    # Need to fill-in metadata...
+    # carobiner::read_metadata(uri, path, group, major=2, minor=0),
+    uri = uri,
+    dataset_id = uri,
+    data_institutions = "CGIAR - ICRISAT",
+    authors = "Gizaw Desta",
+    title = "Fertilizer Ethiopia Use Case Validations 2022",
+    description = "Data for the use case validaton of fertilizer landscape recommendations for Ethiopia 2021",
+    group = group,
+    license = 'Some license here...',
+    carob_contributor = 'Eduardo Garcia Bendito',
+    data_citation = '...',
+    project = 'Excellence in Agronomy',
+    use_case = "Fertilizer Ethiopia",
+    data_type = "on-farm experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
+    carob_date="2023-09-25"
+  )
+  
+  # Manually build path (this can be automated...)
+  ff <- list.files(paste0(getwd(), '/data/raw/', group, '/', uri), full.names = TRUE)
+  
+  # Retrieve relevant file
+  f <- ff[basename(ff) == "ICRISAT_EIA_FertEth_ValidationData.xlsx"]
+  
+  # Read relevant file
+  r <- carobiner::read.excel(f)
+  
+  # Build initial DF ... Start from here
+	d <- data.frame(
+		country = "Ethiopia",
+		yield_part = "grain",	
+		on_farm = TRUE,
+		is_survey = FALSE,
+		adm1=r$District,
+		adm2=r$Kebele,
+		trial_id = r$`Farmers code`, # Using HHID as trial_id
+		latitude =r$Latitude,
+		longitude=r$Longitude,
+		elevation=r$Altitude,
+		planting_date = as.character(r$Year),
+		crop = tolower(r$crop),
+		variety = r$`Crop variety name`,
+		variety_type = r$`Variety maturity`, # Not landrace but maturity category...
+		treatment=r$Treatment,
+		fertilizer_type = "urea; NPK",
+		N_fertilizer=r$`N_ kg/ha`,
+		P_fertilizer=r$`P_kg/ha`,
+		seed_amount = r$`Seed rate (kg/ha)`,
+		planting_method = tolower(r$`Planting method`),
+		land_prep_method = tolower(r$`Tillage management`),
+		herbicide_used = ifelse(r$`Herbicide application frequency` != 0, TRUE, FALSE),
+		herbicide_times = as.integer(r$`Herbicide application frequency`),
+		insecticide_used = ifelse(r$`Pesticides  (Liter or KG)/ha` != 0, TRUE, FALSE),
+		insecticide_amount = r$`Pesticides  (Liter or KG)/ha`,
+		weeding_times = as.integer(r$`Hand weeding frequency`),
+		crop_rotation = NA,
+		soil_color = r$`soil color`,
+		soil_quality = r$`Soil fertility`,
+		previous_crop = tolower(r$`Crop rotation in past 1 year`),
+		plot_area = r$`Plot size (m2)`, # in m2
+		yield = r$`Grain yield (kg/ha)`,
+		residue_yield = r$`Straw yield (kg/ha)`, #The straw weight is assumed to be the residue of the yield
+		crop_price = r$`Price of grain per 100 kg (ETH Birr)` + r$`Price of straw per 100kg (ETH Birr)`, # Prices in Ethiopian Birr (ETB) per 100kg for grain and straw
+		fertilizer_price = r$`Price of fertilizerz PER 100KG`,
+		currency = "Ethiopian Birr"
+	)
+	
+	d$crop_rotation[grep("Fababean", d$crop_rotation)] <- c("barley", "faba bean", "wheat")
+	d$crop_rotation[grep("Barley", d$crop_rotation)] <- c("barley")
+	d$crop_rotation[grep("Wheat", d$crop_rotation)] <- NA
+	d$crop_rotation[grep("Mixed", d$crop_rotation)] <- NA
+
+	carobiner::write_files(dset, d, path=path)
+}
+
+
