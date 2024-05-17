@@ -16,6 +16,7 @@ years, the crop must respond appropriately (water responsive) with higher yields
 		publication= NA,
 		project="Semi-Arid Wheat Screening Nursery",
 		data_type= "experiment",
+		exp_treatments = "variety;location"
 		carob_contributor= "Blessing Dzuda",
 		carob_date="2024-04-25"
 	)

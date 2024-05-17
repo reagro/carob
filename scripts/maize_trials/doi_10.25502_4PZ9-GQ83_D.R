@@ -17,6 +17,7 @@ Cluster analysis separated the maize germplasm into five major groups, different
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
 		data_type="experiment",
+		exp_treatments = "variety;location"
 		project=NA,
 		carob_date="2023-10-03"
    )

@@ -25,6 +25,7 @@ Summary results and individual trial results from the International Late Yellow 
     publication= NA,
     project="Global Maize Program",
     data_type= "experiment",
+		exp_treatments = "variety;location"
     carob_contributor= "Mitchelle Njukuya",
     carob_date="2024-03-12"
   )

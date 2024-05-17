@@ -18,6 +18,7 @@ carob_script <- function(path) {
 		carob_contributor="Samar Attaher",
 		carob_date="2023-03-15",
 		data_type="experiment"
+		exp_treatments = "variety;location"
     )
   
 

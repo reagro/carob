@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		publication= "doi:10.1371/journal.pone.0252506",
 		project = NA,
 		data_type= "experiment",
+		exp_treatments = "variety;location"
 		exp_treatments = "variety",
 		carob_contributor= "Eduardo Garcia Bendito",
 		carob_date="2024-05-07"

@@ -14,6 +14,7 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institutions = "CIMMYT,GMP,CGIAR",
 		data_type="experiment", 
+		exp_treatments = "variety;location"
 		carob_contributor="Mitchelle Njukuya",
 		# date of first submission to carob
 		carob_date="2023-01-30",
