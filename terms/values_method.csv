@@ -12,6 +12,7 @@ ploughing,,land_prep
 raised beds,,land_prep
 conventional tilled beds,,land_prep
 permanent beds,,land_prep
+wide permanent beds,,land_prep
 surface ,,irrigation
 basin ,,irrigation
 border ,,irrigation
