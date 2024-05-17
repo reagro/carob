@@ -16,6 +16,7 @@ carob_script <- function(path) {
 		publication= "doi:10.1038/s41597-020-0388-8",
 		data_institutions = "ILRI",
 		data_type="survey", 
+		exp_treatments = NA
 		carob_contributor="Robert Hijmans",
 		carob_date="2024-01-29"
 	)

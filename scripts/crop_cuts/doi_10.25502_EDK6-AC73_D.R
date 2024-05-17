@@ -17,6 +17,7 @@ carob_script <- function(path) {
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-11-21", 
 		data_type="survey"
+		exp_treatments = NA
    )
    
    r <- read.csv(ff[basename(ff)=="Millet_biomass_sampling.csv"])

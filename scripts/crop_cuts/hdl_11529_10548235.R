@@ -16,6 +16,7 @@ carob_script <- function(path) {
 		carob_contributor="Effie Ochieng'",
 		carob_date="2021-09-17",
 		data_type="survey"
+		exp_treatments = NA
 	)
 
 	f <- ff[basename(ff) == "TZ_TAMASA_APS_2017_Yield_MetaData.xlsx"]

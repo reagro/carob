@@ -18,6 +18,7 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
       carob_contributor="Cedric Ngakou", 
       carob_date="2023-11-18", 
       data_type="survey"
+		exp_treatments = NA
       
    )
     

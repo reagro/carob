@@ -17,6 +17,7 @@ Landscape Diagnostic Survey (LDS) for rice contains farmer's data on current pro
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="survey", 
+		exp_treatments = NA
 		carob_contributor="Robert Hijmans",
 		carob_date="2024-01-27"
 	)
