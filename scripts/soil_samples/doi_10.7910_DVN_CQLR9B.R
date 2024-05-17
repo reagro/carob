@@ -1,6 +1,5 @@
 # R script for "carob"
 
-## only processing the soil samples. The omission trials are extracted from different datasets 
 
 carob_script <- function(path) {
   
@@ -21,88 +20,67 @@ carob_script <- function(path) {
 	)
   
 	f1 <- ff[basename(ff) == "02. Mafuta_Crop Nutrition Results for dataverse.xlsx"]
-	r1 <- carobiner::read.excel(f1)
+	r1 <- carobiner::read.excel(f1, TRUE)
 	f2 <- ff[basename(ff) == "03. Long Crop Nutrition Results for dataverse.xlsx"]
-	r2 <- carobiner::read.excel(f2)
+	r2 <- carobiner::read.excel.hdr(f2, 10, hdr=2, fix_names=TRUE)
+
 	f3 <- ff[basename(ff) == "04. Matufa LDPSA and CN for dataverse.xlsx"]
-	r3 <- carobiner::read.excel(f3)
+	r3 <- carobiner::read.excel(f3, TRUE)
 	f4 <- ff[basename(ff) == "05. Long LDPSA and CN for dataverse.xlsx"]
-	r4 <- carobiner::read.excel(f4)
+	r4 <- carobiner::read.excel(f4, TRUE)
 	f5 <- ff[basename(ff) == "07. Matufa LDSF data raw for dataverse.csv"]
 	r5 <- read.csv(f5)
 	f6 <- ff[basename(ff) == "08. Long_LDSF_data raw for dataverse .csv"]
 	r6 <- read.csv(f6)
 	
-	r2 <- r2[-c(1:8),]
-r2names1<- as.vector(t(r2[1,]))
-r2names1[is.na(r2names1)==TRUE] <- as.vector(t(r2[2,1:10]))
-colnames(r2) <- r2names1
-r2 <- r2[-c(1:2),]
-# drop CIAT Lab ID1 column
-r2 <- r2[,-1]
-colnames(r1) <- colnames(r2)
 
-#row bind r3 and r4 to get CN and PSA data
-# drop CIAT Lab ID1 column
-r4 <- r4[,c('CIAT Lab ID1', 'Selian_SSN', 'ICRAF_SSN', 'Clay (%)', 'Silt (%)', 'Sand (%)', 'Carbon Content (%)', 'Nitrogen Content (%)')]
-r3 <- r3[,c('CIAT lab ID', 'Selian_SSN', 'ICRAF_SSN', 'Clay (%)', 'Silt (%)', 'Sand (%)', 'Carbon Content (%)', 'Nitrogen Content (%)')]
+	names(r2)[grep("CIAT.Lab.ID1", names(r2))] <- "CIAT.lab.ID"
+	names(r2) <- gsub("_", ".", names(r2))
+	names(r2) <- gsub("\\.\\.", ".", names(r2))
+	cnls <- carobiner::bindr(r1, r2)
 
-colnames(r3) <- colnames(r4)
+	#rbind r3 and r4 to get CN and PSA data
+	names(r4)[names(r4) == "CIAT Lab ID1"] <- "CIAT lab ID"
+	cnpsa <- carobiner::bindr(r3, r4)
+	cnpsa <- cnpsa[, c("Selian_SSN", "ldsfID", "Clay.pct", "Silt.pct", "Sand.pct", "Carbon.Content.pct", "Nitrogen.Content.pct")]
+	
+	r <- merge(cnls, cnpsa, by.x = "Selian.SSN", by.y = "Selian_SSN")
+	r$Site[r$Site=="Mafuta"] <- "Matufa"
 
-cnls<- rbind(r1,r2)
-cnpsa <- rbind(r3,r4)
-r <- merge(cnls, cnpsa, by.x = "Selian SSN", by.y = 'Selian_SSN')
-r$Site[r$Site=="Mafuta"] <- "Matufa"
-# create a new column for trial id
-r$trial_id <- paste0(r$Site, '.', r$Cluster, '.', r$Plot)
+	# Get lat and lon from r5 and r6
+	ldsf <- carobiner::bindr(r5, r6)[,c("Site", "Cluster", "Plot", "Latitude", "Longitude")]
+	
+	r <- merge(r, ldsf, by=c("Site", "Cluster", "Plot"))
+	r$Na.ppm[r$Na.ppm == "< 0.60"] <- "0.3"
 
-# Get lat and lon from r5 and r6
-ldsf <- rbind(r5[,c('Site','Cluster', 'Plot', 'Latitude', 'Longitude')], r6[,c('Site','Cluster', 'Plot', 'Latitude', 'Longitude')])
-# create a new column for trial id
-ldsf$trial_id <- paste0(ldsf$Site, '.', ldsf$Cluster, '.', ldsf$Plot)
-
-r <- merge(r, ldsf[,c('trial_id', 'Latitude', 'Longitude')])
-
-r <- data.frame(r)
 	d <- data.frame(
-		trial_id = r$trial_id,
+		trial_id = "1",
 		soil_pH = as.numeric(r$pH),
-		soil_EC = as.numeric(r$EC.S.)/1000,
-		soil_Al = as.numeric(r$Al),
-		soil_B = as.numeric(r$B),
-		soil_Ca = as.numeric(r$Ca),
-		soil_Cu = as.numeric(r$Cu),
-		soil_Fe = as.numeric(r$Fe),
-		soil_K = as.numeric(r$K),
-		soil_Mg = as.numeric(r$Mg),
-		soil_Mn = as.numeric(r$Mn),
-		soil_Na = as.numeric(r$Na),
-		soil_P_total = as.numeric(r$P),
-		soil_S = as.numeric(r$S),
-		soil_Zn = as.numeric(r$Zn),
+		soil_EC = as.numeric(r$EC.S.uS.cm)/1000,
+		soil_Al = as.numeric(r$Al.ppm),
+		soil_B = as.numeric(r$B.ppm),
+		soil_Ca = as.numeric(r$Ca.ppm),
+		soil_Cu = as.numeric(r$Cu.ppm),
+		soil_Fe = as.numeric(r$Fe.ppm),
+		soil_K = as.numeric(r$K.ppm),
+		soil_Mg = as.numeric(r$Mg.ppm),
+		soil_Mn = as.numeric(r$Mn.ppm),
+		soil_Na = as.numeric(r$Na.ppm),
+		soil_P_total = as.numeric(r$P.ppm),
+		soil_S = as.numeric(r$S.ppm),
+		soil_Zn = as.numeric(r$Zn.ppm),
 		soil_Ex_acidity = as.numeric(r$Hp),
 		soil_PSI = as.numeric(r$PSI),
-		soil_clay = as.numeric(r$Clay....),
-		soil_silt = as.numeric(r$Silt....),
-		soil_sand = as.numeric(r$Sand....),
-		soil_C = r$Carbon.Content....,
-		soil_N = r$Nitrogen.Content....,
+		soil_clay = as.numeric(r$Clay.pct),
+		soil_silt = as.numeric(r$Silt.pct),
+		soil_sand = as.numeric(r$Sand.pct),
+		soil_C = r$Carbon.Content.pct,
+		soil_N = r$Nitrogen.Content.pct,
 		country = r$Country,
 		location = r$Site,
 		longitude = r$Longitude,
 		latitude = r$Latitude
 	)
-	# d$soil_PSI <- ifelse(d$soil_PSI < 0, 0,d$soil_PSI)
-	#  
-	# d$latitude[d$latitude == 0] <- NA
-	# d$longitude[d$longitude == 0] <- NA
-	# d$longitude[d$location == "Finkolo"] <- -5.5113
-	# d$latitude[d$location == "Finkolo"] <- 11.2692
-	# 
-
-	##miss <- unique(d[is.na(d$latitude), c("country", "location")])
-	##geo <- carobiner::geocode(miss$country, miss$location)
-	##geo$put
 
     carobiner::write_files(path, dset, d)
 }
