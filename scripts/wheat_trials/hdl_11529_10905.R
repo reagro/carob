@@ -16,7 +16,7 @@ carob_script <- function(path) {
 		publication= NA,
 		project="International Durum Screening Nursery",
 		data_type= "experiment",
-		exp_treatments = "variety;location",
+		exp_treatments = "variety_code;location",
 		carob_contributor= "Robert Hijmans",
 		carob_date="2024-03-26"
 	)

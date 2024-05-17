@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		publication="doi:10.1038/s41467-020-18317-8",
 		data_institutions = "SARC",
    		data_type="experiment", 
-		exp_treatments = "variety;location",
+		exp_treatments = "variety_code;location",
 		carob_contributor="Blessing Dzuda",
 		carob_date="2024-01-24"
 	)

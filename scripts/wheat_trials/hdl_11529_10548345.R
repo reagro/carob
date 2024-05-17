@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		publication=NA,
 		project="Elite Selection Wheat Yield Trial",
 		data_type= "experiment",
-		exp_treatments = "variety;location",
+		exp_treatments = "variety_code;location",
 		carob_contributor= "Robert Hijmans",
 		carob_date="2024-03-22"
 	)

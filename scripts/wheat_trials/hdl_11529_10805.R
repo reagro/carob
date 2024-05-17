@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		publication= NA,
 		project="Semi-Arid Wheat Screening Nursery",
 		data_type= "experiment",
-		exp_treatments = "variety;location",
+		exp_treatments = "variety_code;location",
 		carob_contributor= "Blessing Dzuda",
 		carob_date="2024-04-25"
 	)

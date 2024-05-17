@@ -21,7 +21,7 @@ carob_script <- function(path) {
 	   carob_contributor="Eduardo Garcia Bendito",
 	   carob_date="2023-02-06",
 	   data_type="on-station experiment"
-		exp_treatments = "variety;location",
+		exp_treatments = "variety_code;location",
  	)
 
 
