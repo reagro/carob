@@ -24,12 +24,15 @@ copy and paste the abstract from the repository. Do not add line breaks
 		data_institutions = "",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
-		publication= "",
+		publication = "",
+		project = NA,
 		# data_type can be e.g. "on-farm experiment", "survey", "compilation"
-		project=NA,
-		data_type= "experiment",
-		carob_contributor= "Your Name",
-		carob_date="2024-01-01"
+		data_type = "experiment",
+		# exp_treatment has semi-colon separated variable names that represent the
+		# treatments if the data is from an experiment. E.g. "N_fertilizer;P_fertilizer;K_fertilizer"
+		exp_treatment = NA, 
+		carob_contributor = "Your Name",
+		carob_date = "2024-01-01"
 	)
 	
 ##### PROCESS data records
