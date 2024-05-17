@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		publication= "doi:10.1007/s1070",
 		project="Africa Rising",
 		data_type= "survey",
-		exp_treatments = NA
+		exp_treatments = NA,
 		carob_contributor= "Andrew Sila",
 		carob_date="2024-05-16"
 	)

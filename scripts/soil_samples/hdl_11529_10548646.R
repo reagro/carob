@@ -19,7 +19,7 @@ The Soil Intelligence System (SIS-India) mid-IR (MIR) dataset contains MIR spect
 		carob_contributor="Andrew Sila",
 		carob_date="2023-09-28",
 		data_type = "soil sampling"
-		exp_treatments = NA
+		exp_treatments = NA,
     )
   
   

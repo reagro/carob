@@ -20,7 +20,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
     
     ## something like randomized control...
 		data_type="on-station experiment",
-		exp_treatments = "variety;location"
+		exp_treatments = "variety;location",
 		carob_date="2023-10-23"
     
   )

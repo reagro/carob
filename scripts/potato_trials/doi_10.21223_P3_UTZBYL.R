@@ -17,7 +17,7 @@ carob_script <- function(path) {
 	   data_institutions = "IITA",
 	   carob_contributor="Cedric Ngakou",
 	   data_type="experiment",
-		exp_treatments = "variety;location"
+		exp_treatments = "variety;location",
 	   project=NA,
 	   carob_date="2023-10-30"
 	)

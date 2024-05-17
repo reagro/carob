@@ -19,7 +19,7 @@ and 2015 in over thirty African countries. This dataset contains output of the r
 		carob_contributor = "Camila Bonilla",
 		carob_date="2021-06-02",
 		data_type = "experiment",
-		exp_treatments = "variety;location"
+		exp_treatments = "variety;location",
 		project="International Maize Trials",
 		data_institutions="IITA"
 	)

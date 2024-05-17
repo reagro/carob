@@ -16,7 +16,7 @@ The study was carried out by the International Institute of Tropical Agriculture
 		carob_contributor = "Camila Bonilla",
 		carob_date="2021-06-03",
 		data_type = "experiment",
-		exp_treatments = "variety;location"
+		exp_treatments = "variety;location",
 		project="International Maize Trials",
 		data_institutions="IITA"
 	)

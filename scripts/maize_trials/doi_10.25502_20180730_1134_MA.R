@@ -19,7 +19,7 @@ This dataset contains output of the research for Republic of Benin.
 		carob_contributor = "Robert Hijmans",
 		carob_date="2023-07-03",
 		data_type = "experiment",
-		exp_treatments = "variety;location"
+		exp_treatments = "variety;location",
 		project="International Maize Trials",
 		data_institutions="IITA"
 	)

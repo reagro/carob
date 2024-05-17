@@ -19,7 +19,7 @@ and white/red grain color. (2021)"
     carob_contributor="Mitchelle Njukuya",
     carob_date="2024-05-02",   
     data_type="on-station experiment"
-		exp_treatments = "variety;location"
+		exp_treatments = "variety;location",
   )
   
   proc_wheat <- carobiner::get_function("proc_wheat", path, group)
