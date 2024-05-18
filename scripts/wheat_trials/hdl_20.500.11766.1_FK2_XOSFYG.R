@@ -17,8 +17,8 @@ carob_script <- function(path) {
 		data_institutions = "ICARDA",
 		carob_contributor="Samar Attaher",
 		carob_date="2023-03-15",
-		data_type="experiment"
-		exp_treatments = "variety_code;location",
+		data_type="experiment",
+		exp_treatments = "variety;location"
     )
   
 

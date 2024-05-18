@@ -18,8 +18,8 @@ carob_script <- function(path) {
 		data_institutions="AfricaRice",
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2022-01-21",
-		data_type="experiment"
-		exp_treatments = "variety;location",
+		data_type="experiment",
+		exp_treatments = "variety;location"
 	)
   
 	d <- list()

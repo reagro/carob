@@ -3,12 +3,7 @@
 
 carob_script <- function(path) {
 
-"
-	Description:
-
-    TAMASA Agronomy Panel Survey 2016/17 Season. This file contains the maize grain yield from approximately 578 maize fields in the Southern Highlands, Northern and Eastern Zones of Tanzania in collected May-August 2017. Maize grain yield data can be linked to associated maize yield and soil by the common HHID.
-
-"
+"TAMASA Agronomy Panel Survey 2016/17 Season. This file contains the maize grain yield from approximately 578 maize fields in the Southern Highlands, Northern and Eastern Zones of Tanzania in collected May-August 2017. Maize grain yield data can be linked to associated maize yield and soil by the common HHID."
 
 	uri <- "hdl:11529/10548242"
 	group <- "crop_cuts"
@@ -16,16 +11,14 @@ carob_script <- function(path) {
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
-	   project="TAMASA",
-	   publication=NA,
-	   data_institutions = "CIMMYT",
-	   carob_contributor="Eduardo Garcia Bendito",
-	   carob_date="2021-09-17",
-	   data_type="survey"
-		exp_treatments = NA,
+		project="TAMASA",
+		publication=NA,
+		data_institutions = "CIMMYT",
+		carob_contributor="Eduardo Garcia Bendito",
+		carob_date="2021-09-17",
+		data_type="survey",
+		exp_treatments = "none"
 	)
-
-
 
 	f <- ff[basename(ff) == "TAMASA_TZ_APS_2017_CC_MaizeYield.xlsx"]
 	r <- carobiner::read.excel(f, sheet = "Raw data", n_max = 1738)

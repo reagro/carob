@@ -16,8 +16,8 @@ carob_script <- function(path) {
 	   carob_contributor="Andrew Sila",
 	   carob_date="2023-05-03",
 	   
-	   data_type="on-station experiment"
-		exp_treatments = "variety_code;location",
+	   data_type="on-station experiment",
+		exp_treatments = "variety_code;location"
 	    
 	    
 	)

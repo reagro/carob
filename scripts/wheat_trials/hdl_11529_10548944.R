@@ -19,7 +19,6 @@ carob_script <- function(path) {
   
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)
-	d$previous_crop <- as.character(d$previous_crop)
 	carobiner::write_files(path, dset, d)
 }  
 

@@ -3,9 +3,8 @@
 
 carob_script <- function(path) {
   
-  "
-The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that contains spring bread wheat (Triticum aestivum) germplasm adapted to Mega-environment 1 (ME1) which represents the optimally irrigated, low rainfall areas. Major stresses include leaf, stem and yellow rusts, Karnal bunt, and lodging. Representative areas include the Gangetic Valley (India), the Indus Valley (Pakistan), the Nile Valley (Egypt), irrigated river valleys in parts of China (e.g. Chengdu), and the Yaqui Valley (Mexico). This ME encompasses 36 million hectares spread primarily over Asia and Africa between 350S -350N latitudes. White (amber)-grained types are preferred by consumers of wheat in the vast majority of the areas. It is distributed to upto 200 locations and contains 50 entries. (2015)
-"
+"The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that contains spring bread wheat (Triticum aestivum) germplasm adapted to Mega-environment 1 (ME1) which represents the optimally irrigated, low rainfall areas. Major stresses include leaf, stem and yellow rusts, Karnal bunt, and lodging. Representative areas include the Gangetic Valley (India), the Indus Valley (Pakistan), the Nile Valley (Egypt), irrigated river valleys in parts of China (e.g. Chengdu), and the Yaqui Valley (Mexico). This ME encompasses 36 million hectares spread primarily over Asia and Africa between 350S -350N latitudes. White (amber)-grained types are preferred by consumers of wheat in the vast majority of the areas. It is distributed to upto 200 locations and contains 50 entries. (2015)"
+
 	uri <- "hdl:11529/10989"
 	group <- "wheat_trials"
 
@@ -18,8 +17,8 @@ The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that c
 		data_institutions = "CIMMYT",
 		carob_contributor="Mitchelle Njukuya, Blessing Dzuda",
 		carob_date="2023-11-14",
-		data_type="on-station experiment" 
-		exp_treatments = "variety_code;location",
+		data_type="on-station experiment",
+		exp_treatments = "variety_code;location"
 	)
   
   	proc_wheat <- carobiner::get_function("proc_wheat", path, group)

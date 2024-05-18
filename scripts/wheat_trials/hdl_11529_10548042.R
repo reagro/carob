@@ -17,8 +17,8 @@ The Semi-Arid Wheat Yield Trial (SAWYT) is a replicated yield trial that contain
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Robert Hijmans",
 	   carob_date="2023-06-30",
-	   data_type="on-station experiment"
-		exp_treatments = "variety_code;location",
+	   data_type="on-station experiment",
+		exp_treatments = "variety_code;location"
  	)
 
 

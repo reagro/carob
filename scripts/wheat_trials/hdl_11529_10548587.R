@@ -20,8 +20,8 @@ carob_script <- function(path) {
 	   data_institutions = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   carob_date="2023-02-06",
-	   data_type="on-station experiment"
-		exp_treatments = "variety_code;location",
+	   data_type="on-station experiment",
+		exp_treatments = "variety_code;location"
  	)
 
 

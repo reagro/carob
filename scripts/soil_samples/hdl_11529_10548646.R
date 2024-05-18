@@ -1,10 +1,7 @@
 
 carob_script <- function(path) {
   
-" Description:
-	
-The Soil Intelligence System (SIS-India) mid-IR (MIR) dataset contains MIR spectra and wet chemistry measurements (pH, EC, OC, N, P, K, S, B, Zn, Cu, Mn, Fe) for 3182 soil samples collected from randomly selected rice-wheat farmer fields spread uniformly within a KVK (government extension system) domain/district in Bihar, India. Soil sampling was conducted during the time following kharif harvest and prior to land preparation for rabi during the 2018, 2019, and 2020 seasons. The dataset is used for the training and evaluation of machine learning models for spectral prediction of soil properties. (2022-03-03)
-"
+"The Soil Intelligence System (SIS-India) mid-IR (MIR) dataset contains MIR spectra and wet chemistry measurements (pH, EC, OC, N, P, K, S, B, Zn, Cu, Mn, Fe) for 3182 soil samples collected from randomly selected rice-wheat farmer fields spread uniformly within a KVK (government extension system) domain/district in Bihar, India. Soil sampling was conducted during the time following kharif harvest and prior to land preparation for rabi during the 2018, 2019, and 2020 seasons. The dataset is used for the training and evaluation of machine learning models for spectral prediction of soil properties. (2022-03-03)"
   
 	uri <- "hdl:11529/10548646"
 	group <- "soil_samples"
@@ -18,8 +15,8 @@ The Soil Intelligence System (SIS-India) mid-IR (MIR) dataset contains MIR spect
 		data_institutions = "CIMMYT",
 		carob_contributor="Andrew Sila",
 		carob_date="2023-09-28",
-		data_type = "soil sampling"
-		exp_treatments = NA,
+		data_type = "soil sampling",
+		exp_treatments = "none"
     )
   
   

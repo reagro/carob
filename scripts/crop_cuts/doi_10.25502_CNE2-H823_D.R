@@ -16,8 +16,8 @@ carob_script <- function(path) {
 		data_institutions = "IITA", 
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-11-14", 
-		data_type="survey"  
-		exp_treatments = NA,
+		data_type="survey", 
+		exp_treatments = "none"
    )
    
    r <- read.csv(ff[basename(ff)=="Rice_biomass_sampling.csv"])

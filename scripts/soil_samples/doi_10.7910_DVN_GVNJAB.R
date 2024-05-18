@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institutions = "CIAT",
 		data_type = "soil properties", 
-		exp_treatments = NA,
+		exp_treatments = "none",
 		carob_contributor="Andrew Sila", 
 		carob_date="2023-09-28"
 	)

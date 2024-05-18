@@ -20,12 +20,10 @@ carob_script <- function(path) {
 	
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)	
-	# standardised crop names 
-	d$previous_crop[d$previous_crop == "feet ollowed by mu"] <- "none"
+
 	# filter yield values within range 
-	d <- subset(d, yield < 19000)
-	
-	
+	d <- d[d$yield < 19000, ]
+		
 	carobiner::write_files(path, dset, d)
 }
 

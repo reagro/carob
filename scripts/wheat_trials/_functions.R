@@ -147,6 +147,7 @@ proc_wheat <- function(ff) {
 
 
 	m <- matrix(byrow=TRUE, ncol=2, c(
+		"feet ollowed by mu", "none",
 		"rice (cereal)", "rice",
 		"peanut (arachis)", "groundnut",
 		"no crop", "none",

@@ -16,8 +16,8 @@ The Elite Selection Wheat Yield Trial (ESWYT) is a replicated yield trial that c
 		data_institutions = "CIMMYT",
 		carob_contributor="Andrew Sila",
 		carob_date="2023-05-03",
-		data_type="on-station experiment"
-		exp_treatments = "variety_code;location",
+		data_type="on-station experiment",
+		exp_treatments = "variety_code;location"
 	)
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
