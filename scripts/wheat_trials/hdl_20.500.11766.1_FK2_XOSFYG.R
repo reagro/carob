@@ -18,7 +18,7 @@ carob_script <- function(path) {
 		carob_contributor="Samar Attaher",
 		carob_date="2023-03-15",
 		data_type="experiment",
-		exp_treatments = "variety;location"
+		exp_treatments = "variety"
     )
   
 
@@ -26,6 +26,7 @@ carob_script <- function(path) {
 	r <- read.csv(f, sep=";")
  
 	d <- data.frame(
+		trial_id = "1",
 		rep=r$Bloc,
 		# from quintal/ha to kg/ha
 		yield=r$Yield * 100,
@@ -33,7 +34,7 @@ carob_script <- function(path) {
 		adm1 = "Béni Mellal-Khénifra Region",
 		adm2 = "Fquih Ben Salah Province",
 		adm3 = "Afourar",
-		site = "Afourer experiment station",
+		location = "Afourer experiment station",
 		latitude = 32.262,
 		longitude = -6.535,
 		crop = "durum wheat",
@@ -65,8 +66,6 @@ carob_script <- function(path) {
 	d$irrigation_amount[i] <- 275
 	d$irrigation_number[i] <- 5L
 
-	
-	d$trial_id <- "1"
 
 	carobiner::write_files (path, dset, d) 
 }
