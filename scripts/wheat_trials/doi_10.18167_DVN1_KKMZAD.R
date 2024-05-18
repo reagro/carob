@@ -6,7 +6,7 @@ carob_script <- function(path) {
 "Durum wheat dataset collected on HAO-DEMETER research station in Thessaloniki, Greece from 2018 to 2020. The experiment was set up to study 2 agronomic factors: 4 cultivars, 2 levels of fertilization. The dataset includes phenology, morphology, leaf area index, biomass, yield components. Funds: Project ANR ARIMNet2 TomorrowS]"
 
 	uri <- "doi:10.18167/DVN1/KKMZAD"
-	group <- "wheat_trials"
+	group <- "wheat_trials"0
 	ff  <- carobiner::get_data(uri, path, group)
 
 	dset <- data.frame(
@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		publication= NA,
 		project=NA,
 		data_type= "experiment",
-		exp_treatments = "variety;location",
+		exp_treatments = "variety",
 		carob_contributor= "Hope Mazungunye",
 		carob_date="2024-04-09"
 	)
@@ -43,6 +43,9 @@ carob_script <- function(path) {
 	d$irrigated <- FALSE
 
 	d$country <- "Greece"
+	d$location <-  "Thessaloniki"
+	d$site <- "HAO-DEMETER research station"
+	
 	d$longitude <- 22.998
 	d$latitude <- 40.538
 

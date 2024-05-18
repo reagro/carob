@@ -35,15 +35,13 @@ carob_script <- function(path) {
 	}
 
 	d <- do.call(rbind, d)
+	d$location <- d$site
+	d$site <- NULL
     d$country <- gsub("Cote d'Ivoire", "Côte d'Ivoire", d$country)
 	d$yield <- d$yield * 1000
 
-    
     d$trial_id <- dd$country
     
-	## RH: these are not trial start and end dates 
-	#d$planting_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredStart[[4]]
-    #d$harvest_date <- js$data$latestVersion$metadataBlocks$citation$fields$value[[15]]$timePeriodCoveredEnd[[4]]
 	d$planting_date <- d$harvest_date <- "2016"
 
     # Coordinates extracted using Geonames.org

@@ -15,32 +15,40 @@ carob_script <- function(path) {
 		publication="doi:10.1038/s41467-020-18317-8",
 		data_institutions = "SARC",
    		data_type="experiment", 
-		exp_treatments = "variety_code;location",
+		exp_treatments = "variety;location",
 		carob_contributor="Blessing Dzuda",
 		carob_date="2024-01-24"
 	)
 
-
 	f <- ff[basename(ff) == "RegressionDataFinal.dta"]
 	r <- haven::read_dta(f)
 
-	d <- data.frame(site=r$Site, adm1=r$Province, variety=r$Cultivar, 
-			rep=as.integer(r$Replicate), planting_date=r$plant_date, 
-			flowering_date=r$Flower_Date, harvest_date=r$Harvest_date,
-			yield = r$Yield*1000, rain=r$prec,
-			crop="wheat", yield_part="grain", country="South Africa")
+	d <- data.frame(
+		location=r$Site, 
+		adm1=r$Province, 
+		variety=r$Cultivar, 
+		rep=as.integer(r$Replicate), 
+		planting_date=r$plant_date, 
+		flowering_date=r$Flower_Date, 
+		harvest_date=r$Harvest_date,
+		yield = r$Yield*1000, 
+		rain=r$prec,
+		crop="wheat", 
+		yield_part="grain", 
+		country="South Africa"
+	)
 	
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
 
 ## Location
-	#g <-unique(d[,c("country","site")])
-	#g1 <- carobiner::geocode(country = g$country, location = g$site, service = "nominatim")
+	#g <-unique(d[,c("country","location")])
+	#g1 <- carobiner::geocode(country = g$country, location = g$location, service = "nominatim")
 	#dput(g1)
 
 	gg <- data.frame(
-		site=c("LANGGEWENS", "RIEBEEKWES", "TYGERHOEK", 
+		location=c("LANGGEWENS", "RIEBEEKWES", "TYGERHOEK", 
 			"ALPHA","ARLINGTON", "BETHLEHEM", "BULTFONTEIN", "CLARENS", "EXCELSIOR", 
             "HOPEFIELD", "KLIPDALE", "MALMESBURY", "MOORREESBURG", 
             "NAPIER", "PANORAMA", "PHILADELPHIA", "PIKETBERG", "POOLS", 
@@ -55,14 +63,15 @@ carob_script <- function(path) {
 			-33.0634, -34.305, -33.4582, -33.1553, -34.4715, -33.8795, 
 	        -33.6666, -32.9042, -29.515, -33.0141, -25.7003, 
 	        -27.8006, -28.3288, -27.8539))
-	d <- merge(d, gg, by="site", all.x=TRUE)
-	d$site <- carobiner::fix_name(d$site, "title")
+			
+	d <- merge(d, gg, by="location", all.x=TRUE)
+	d$location <- carobiner::fix_name(d$location, "title")
 	d$variety <- tolower(d$variety)
 
 	d$planting_date <- as.character(d$planting_date)
 	d$harvest_date  <- as.character(d$harvest_date)
 	d$flowering_date <- as.character(d$flowering_date)
-	d$trial_id <- as.character(as.integer(as.factor(paste(d$longitude, d$latitude, d$planting_date))))
+	d$trial_id <- "1"
 	
 	carobiner::write_files(path, dset, d)
 }
