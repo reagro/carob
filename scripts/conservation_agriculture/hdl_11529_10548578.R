@@ -16,7 +16,7 @@ carob_script <- function(path) {
     publication=NA,
     project=NA,
     data_type= "on-farm experiment",
-	exp_treatment = "land_prep_method", #;irrigation_method
+	exp_treatments = "land_prep_method", #;irrigation_method
     carob_contributor= "Blessing Dzuda",
     carob_date="2024-05-10"
   )
