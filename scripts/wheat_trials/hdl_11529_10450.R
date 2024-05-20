@@ -20,7 +20,10 @@ carob_script <- function(path) {
   
   proc_wheat <- carobiner::get_function("proc_wheat", path, group)
   d <- proc_wheat(ff)	
-  
+
+  i <- which( d$yield > 100000)
+  d$yield[i] <- d$yield[i]/ 1000
+
   carobiner::write_files(path, dset, d)
 }
 
