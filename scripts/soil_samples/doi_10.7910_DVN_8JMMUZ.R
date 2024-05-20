@@ -64,7 +64,7 @@ carob_script <- function(path) {
 		soil_P_total = as.numeric(r$P),
 		soil_S = as.numeric(r$S),
 		soil_Zn = as.numeric(r$Zn),
-		soil_Ex_acidity = as.numeric(r$Hp),
+		soil_ex_acidity = as.numeric(r$Hp),
 		soil_PSI = as.numeric(r$PSI),
 		soil_C = as.numeric(r$Total.C),
 		soil_N = as.numeric(r$Tota.N)
