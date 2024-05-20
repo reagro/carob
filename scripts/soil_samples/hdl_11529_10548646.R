@@ -16,7 +16,7 @@ carob_script <- function(path) {
 		carob_contributor="Andrew Sila",
 		carob_date="2023-09-28",
 		data_type = "soil sampling",
-		exp_treatments = "none"
+		treatment_vars = "none"
     )
   
   

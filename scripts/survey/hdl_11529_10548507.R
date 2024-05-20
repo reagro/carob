@@ -16,7 +16,7 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institutions = "CIMMYT",
 		data_type="survey", 
-		exp_treatments = "none",
+		treatment_vars = "none",
 		carob_contributor="Robert Hijmans and Effie Ochieng'",
 		carob_date="2024-01-22"
 	)

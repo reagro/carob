@@ -17,7 +17,7 @@ carob_script <- function(path) {
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2021-09-17",
 		data_type="survey",
-		exp_treatments = "none"
+		treatment_vars = "none"
 	)
 
 	f <- ff[basename(ff) == "TAMASA_TZ_APS_2017_CC_MaizeYield.xlsx"]

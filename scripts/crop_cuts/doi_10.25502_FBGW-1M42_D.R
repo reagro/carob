@@ -18,7 +18,7 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-11-18", 
 		data_type="survey",
-		exp_treatments = "none"
+		treatment_vars = "none"
 	)
     
 	r <- read.csv(ff[basename(ff)=="Sorghum_biomass_sampling.csv"])

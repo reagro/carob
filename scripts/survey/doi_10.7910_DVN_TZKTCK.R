@@ -19,7 +19,7 @@ This dataset is a result of a household survey of farmers who engaged with the A
 		publication= NA,
 		data_institutions = "ILRI",
 		data_type="survey", 
-		exp_treatments = "none",
+		treatment_vars = "none",
 		carob_contributor="Robert Hijmans",
 		carob_date="2024-01-29"
 	)

@@ -14,7 +14,7 @@ International Durum Yield Nurseries are replicated yield trials designed to meas
 		publication=NA,
 		data_institutions = "CIMMYT",
    		data_type="experiment", 
-		exp_treatments = "variety_code;location",
+		treatment_vars = "variety_code;location",
 		carob_contributor="Blessing Dzuda",
 		carob_date="2024-02-07"
 	)

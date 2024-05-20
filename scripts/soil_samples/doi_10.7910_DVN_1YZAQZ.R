@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		publication= "doi:10.1007/s10705-015-9750-1",
 		project="CCAFS",
 		data_type= "survey",
-		exp_treatments = "none",
+		treatment_vars = "none",
 		carob_contributor= "Andrew Sila",
 		carob_date="2024-05-16"
 	)

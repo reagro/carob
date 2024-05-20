@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		publication= NA,
 		project="TAMASA",
 		data_type= "experiment",
-		exp_treatments = c("N_fertilizer;P_fertilizer;K_fertilizer;Ca_fertilizer;Mg_fertilizer;Zn_fertilizer;B_fertilizer"),
+		treatment_vars = c("N_fertilizer;P_fertilizer;K_fertilizer;Ca_fertilizer;Mg_fertilizer;Zn_fertilizer;B_fertilizer"),
 		carob_contributor= "Shumirai Manzvera",
 		carob_date="2024-05-16"
 	)

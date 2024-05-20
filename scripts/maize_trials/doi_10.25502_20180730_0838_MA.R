@@ -14,7 +14,7 @@ This is an international study that contains data on yield and other agronomic t
 		carob_contributor = "Camila Bonilla",
 		carob_date="2021-06-03",
 		data_type = "experiment",
-		exp_treatments = "variety;location",
+		treatment_vars = "variety;location",
 		project="International Maize Trials",
 		data_institutions="IITA"
 

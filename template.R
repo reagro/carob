@@ -28,9 +28,9 @@ copy and paste the abstract from the repository. Do not add line breaks
 		project = NA,
 		# data_type can be e.g. "on-farm experiment", "survey", "compilation"
 		data_type = "experiment",
-		# exp_treatment has semi-colon separated variable names that represent the
+		# treatment_vars has semi-colon separated variable names that represent the
 		# treatments if the data is from an experiment. E.g. "N_fertilizer;P_fertilizer;K_fertilizer"
-		exp_treatment = NA, 
+		treatment_vars = NA, 
 		carob_contributor = "Your Name",
 		carob_date = "2024-01-01"
 	)
