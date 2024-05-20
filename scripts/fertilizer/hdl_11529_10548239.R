@@ -1,120 +1,121 @@
 # R script for "carob"
 
-## ISSUEs
-
-
 carob_script <- function(path) {
 
-"
-Nutrient Omission Trials (NOTs) conducted in two zones (West Showa and Jimma) 
-  in Ethiopia in 2015 and 2016. Trials comprise six nutrient management treatments, 
-  namely Control (zero fertilizer), PK, NK, PK, NPK, NPK+Ca+Mg+Zn+B. Trials were 
-  conducted on-farm with six plots per farm. Observations include soil analysis (0-20cm), 
-  biomass and grain yields (2016)"
+"Nutrient Omission Trials (NOTs) conducted in two zones (West Showa and Jimma) in Ethiopia in 2015 and 2016. Trials comprise six nutrient management treatments, namely Control (zero fertilizer), PK, NK, PK, NPK, NPK+Ca+Mg+Zn+B. Trials were conducted on-farm with six plots per farm. Observations include soil analysis (0-20cm), biomass and grain yields (2016)"
 
-#### Identifiers
 	uri <- "hdl:11529/10548239"
-	group <- "maize_trials"
+	group <- "fertilizer"
 
-#### Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 
-##### dataset level metadata 
 	dset <- data.frame(
-		# change the major and minor versions if you see a warning
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
-		data_institutions = "Tamasa",
-		## if there is a paper, include the paper's doi here
-		## also add a RIS file in references folder (with matching doi)
+		data_institutions = "CIMMYT",
 		publication= NA,
-		# data_type can be e.g. "on-farm experiment", "survey", "compilation"
-		project=NA,
+		project="TAMASA",
 		data_type= "experiment",
+		exp_treatments = c("N_fertilizer;P_fertilizer;K_fertilizer;Ca_fertilizer;Mg_fertilizer;Zn_fertilizer;B_fertilizer"),
 		carob_contributor= "Shumirai Manzvera",
 		carob_date="2024-05-16"
 	)
-	
-##### PROCESS data records
-
-# read data 
 
 	f <- ff[basename(ff) == "TAMASA_NOTs_Database_Ethiopia_2015_2016.xlsx"]
-	r <- carobiner::read.excel.hdr(f, sheet = "Raw_data Harvest parameters",skip = 1, hdr = 1)
-	r0 <- carobiner::read.excel(f, sheet = "Fertilizer rates & variety")
-	#r <- carobiner::read.excel(f, sheet = "Raw_data Harvest parameters")
-	
-	# or  r <- carobiner::read.excel(f)
+	r1 <- carobiner::read.excel.hdr(f, sheet = "Raw_data Harvest parameters",skip = 1, hdr = 1)
+#	r2 <- carobiner::read.excel(f, sheet = "Fertilizer rates & variety")
 
-## process file(s)
-
-## select the variables of interest and assign them to the correct name
 	d <- data.frame(
-		#crop=r$crop, 
-	  #latitude=r$Latitude.Decimal.Degrees,
-	  #longitude=r$Longitude.Decimal.Degrees
-	  #error in coordinates, coordinates not on land for: Ethiopia
-		latitude= 9.145,
-		longitude=40.48967,
-		elevation=r$Altitude.m.a.s.l,
-		treatment=r$Experimental.design_Treatment,
-		yield = r$Grain.Yield.kg.ha,
-		variety=r$Maize.variety.name.MVnam,
-		moist=r$Grain.moisture.content.pct,
-		country=r$Site.location.information_Country,
-		site=r$Region,
-		adm1=r$District,
-		N_fertilizer=120,
-		P_fertilizer=40/2.29,
-		K_fertilizer=40/1.2051,
-		S_fertilizer=20,
-		trial_id = "1"
+		crop="maize",
+		country=r1$Site.location.information_Country,
+		adm1=r1$Region,
+		adm3=r1$District,
+		latitude=r1$Latitude.Decimal.Degrees,
+		longitude=r1$Longitude.Decimal.Degrees,
+		elevation=r1$Altitude.m.a.s.l,
+		trial_id = as.character(r1$Experiment.site.code),
+		treatment=r1$Experimental.design_Treatment,
+		yield = r1$Grain.Yield.kg.ha,
+		residue_yield = r1$Stover.yield.kg.ha,
+		variety=r1$Maize.variety.name.MVnam,
+		variety_type = r1$Maize.variety.type,
+		planting_date = r1$Agronomic.management_Planting.date.PLNdat,
+		harvest_date = as.character(as.Date(r1$Harvest.date.HDATE, format = '%d/%m/%Y')),
+		soil_pH = r1$Initial.characterization.of.soils_pH.H2O,
+		soil_SOC = r1$OC.pct, 
+		soil_sand= r1$pctSAND, 
+		soil_silt = r1$pctSILT, 
+		soil_clay = r1$pctCLAY, 
+		soil_ex_acidity = r1$Exch.Acidity.cmol.kg, 
+		soil_ECEC = r1$ECEC.cmol.kg, 
 
+		soil_N = r1$N.pct, 
+		soil_P_Mehlich = r1$Meh.P.ppm, 
+		soil_K = r1$K.ppm, 
+		soil_Na = r1$Na.cmol.kg, 
+		soil_Zn = r1$Zn.ppm, 
+		soil_Cu = r1$Cu.ppm, 
+		soil_Mn = r1$Mn.ppm, 
+		soil_Fe = r1$Fe.ppm, 
+		soil_Ca = r1$Ca.ppm, 
+		soil_Mg = r1$Mg.ppm,
+		
+		leaf_N = r1$Ear_leaf_analysis_pct.N,
+		leaf_P = r1$pct.P,
+		leaf_K = r1$pct.K,
+		leaf_Ca = r1$pct.Ca,
+		leaf_Mg = r1$pct.Mg,
+		leaf_Zn = r1$ppm.Zn,
+		residue_N = r1$Stover.yield.kg.ha * r1$Stover_analysis_pct.N / 100,
+		residue_P = r1$Stover.yield.kg.ha * r1$pct.P.1 / 100,
+		grain_N = r1$Grain_analysis_pct.N,
+		grain_P = r1$pct.P.2,
+		grain_K = r1$pct.K.1
 	)
-
 	
-	d$country <- "Ethiopia"
+	for (i in 2:nrow(d)) {
+		if (is.na(d$trial_id[i])) d$trial_id[i] <- d$trial_id[i-1]
+	}
 	
+#		moist=r1$Grain.moisture.content.pct,
 
-##### Crop #####
-## normalize variety names
-## see carobiner::fix_name
-	d$crop <- "maize"
+	# swap some lon/lat
+	i <- which(d$longitude < 10)
+	lat <- d$longitude[i]
+	d$longitude[i] <- d$latitude[i]
+	d$latitude[i] <- lat
 
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- 0
+	d$Ca_fertilizer <- d$Mg_fertilizer <- d$Zn_fertilizer <- d$B_fertilizer <- 0
+	
+	trts <- sapply(strsplit(d$treatment, " "), \(i)i[1])
+	
+	d$N_fertilizer[grep("N", trts)] <- 120 
+	d$P_fertilizer[grep("P", trts)] <- 40/2.29
+	d$K_fertilizer[grep("K", trts)] <- 40/1.2051
 
-##### Time #####
-## time can be year (four characters), year-month (7 characters) or date (10 characters).
-## use 	as.character(as.Date()) for dates to assure the correct format.
+	d$fertilizer_type <- ""
+	d$fertilizer_type[grep("N", trts)] <- "urea"
+	d$fertilizer_type[grep("P", trts)] <- paste0(d$fertilizer_type[grep("P", trts)], ";TSP")
+	d$fertilizer_type[grep("K", trts)] <- paste0(d$fertilizer_type[grep("K", trts)], ";KCl")
+	i <- trts == "NPK+Ca+Mg+Zn+B"
+	d$Ca_fertilizer[i] <- d$Mg_fertilizer[i] <- 10
+	d$Zn_fertilizer[i] <- d$B_fertilizer[i] <- 5 
+	d$fertilizer_type[i] <- paste0(d$fertilizer_type[i], ";CaSO4;MgSO4;ZnSO4;Borax")
+	i <- grep("^;", d$fertilizer_type)
+	d$fertilizer_type[i] <- substr(d$fertilizer_type[i], 2, 100)
+	d$fertilizer_type[d$fertilizer_type==""] <- "none"
+	
 	#fixing bad data
-  r$Agronomic.management_Planting.date.PLNdat[r$Agronomic.management_Planting.date.PLNdat == '2/6//2016'] <- '2/6/2016'
-  r$Agronomic.management_Planting.date.PLNdat[r$Agronomic.management_Planting.date.PLNdat == '30/52016'] <- '30/5/2016'
-  dd1 <- as.numeric(r$Agronomic.management_Planting.date.PLNdat)
-  dd1 <- as.character(as.Date(dd1, origin = "1900-01-01"))
+	d$planting_date[d$planting_date == '2/6//2016'] <- '2/6/2016'
+	d$planting_date[d$planting_date == '30/52016'] <- '30/5/2016'
+	i <- grepl("^4", d$planting_date)
+	d$planting_date[i] <- as.character(as.Date(as.numeric(d$planting_date[i]), origin = "1899-12-31"))
+	d$planting_date[!i] <- as.character(as.Date(d$planting_date[!i], format = '%d/%m/%Y'))
   
-  dd2 <- r$Agronomic.management_Planting.date.PLNdat
-  dd2[nchar(dd2) <6] <- NA
-  dd2 <- as.character(as.Date(dd2, format = '%d/%m/%Y'))
-  dd1 <- ifelse(is.na(dd1), dd2, dd1)
-  
-	d$planting_date <- dd1
-	dd3<- r$Harvest.date.HDATE
-	dd3<-as.character(as.Date(dd3, format = '%d/%m/%Y'))
-	
-	
-	d$harvest_date  <- dd3
-   
-	#what plant part does yield refer to?
 	d$yield_part <- "grain"
-	d$on_farm = TRUE
-	d$striga_trial = FALSE 
-	d$striga_infected = FALSE
-	d$borer_trial = FALSE
-	d$exp_treatments="experiments"
+	d$on_farm <- TRUE
 	
-# all scripts must end like this
+	
 	carobiner::write_files(path, dset, d)
 }
-
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
 
