@@ -56,7 +56,7 @@ Nutrient Omission Trials (NOTs) conducted in two zones (West Showa and Jimma)
 		latitude= 9.145,
 		longitude=40.48967,
 		elevation=r$Altitude.m.a.s.l,
-		exp_treatments=r$Experimental.design_Treatment,
+		treatment=r$Experimental.design_Treatment,
 		yield = r$Grain.Yield.kg.ha,
 		variety=r$Maize.variety.name.MVnam,
 		moist=r$Grain.moisture.content.pct,
@@ -108,6 +108,7 @@ Nutrient Omission Trials (NOTs) conducted in two zones (West Showa and Jimma)
 	d$striga_trial = FALSE 
 	d$striga_infected = FALSE
 	d$borer_trial = FALSE
+	d$exp_treatments="experiments"
 	
 # all scripts must end like this
 	carobiner::write_files(path, dset, d)
