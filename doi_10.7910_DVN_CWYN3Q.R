@@ -45,7 +45,7 @@ carob_script <- function(path) {
 
 	# "CT" "RT"
 	i <- match(d$treatment, c("CT", "RT"))
-	d$land_prep_method <- c("conventional", "ripper")[i]
+	d$land_prep_method <- c("conventional", "ripping")[i]
 	
 	d$rep <- as.integer(d$rep)
 	d$on_farm <- TRUE
