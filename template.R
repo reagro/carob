@@ -21,16 +21,16 @@ copy and paste the abstract from the repository. Do not add line breaks
 	dset <- data.frame(
 		# change the major and minor versions if you see a warning
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
-		data_institutions = "",
+		data_institute = "",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication = "",
 		project = NA,
 		# data_type can be e.g. "on-farm experiment", "survey", "compilation"
 		data_type = "experiment",
-		# exp_treatment has semi-colon separated variable names that represent the
+		# treatment_vars has semi-colon separated variable names that represent the
 		# treatments if the data is from an experiment. E.g. "N_fertilizer;P_fertilizer;K_fertilizer"
-		exp_treatment = NA, 
+		treatment_vars = NA, 
 		carob_contributor = "Your Name",
 		carob_date = "2024-01-01"
 	)

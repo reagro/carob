@@ -12,11 +12,11 @@ carob_script <- function(path) {
   
   dset <- data.frame(
     carobiner::read_metadata(uri, path, group, major=2, minor=0),
-    data_institutions = "CIMMYT",
+    data_institute = "CIMMYT",
     publication=NA,
     project=NA,
     data_type= "on-farm experiment",
-	exp_treatments = "land_prep_method", #;irrigation_method
+	treatment_vars = "land_prep_method", #;irrigation_method
     carob_contributor= "Blessing Dzuda",
     carob_date="2024-05-10"
   )

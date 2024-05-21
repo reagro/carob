@@ -18,7 +18,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication=NA,
 		project="N2Africa",
-		data_institutions = "IITA",
+		data_institute = "IITA",
 		carob_contributor="Rachel Mukami",
 		carob_date="2023-06-13",
 		data_type="variety trial"

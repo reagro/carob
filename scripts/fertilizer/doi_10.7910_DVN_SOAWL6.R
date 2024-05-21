@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
 		publication= NA,
-		data_institutions = "CIAT",
+		data_institute = "CIAT",
 		data_type="compilation of experiments",
 		carob_contributor="Fredy Chimire",
 		carob_date="2024-2-24"

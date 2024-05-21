@@ -17,7 +17,7 @@ Under CSISA Phase II, Nutrient Omission Plot Technique (NOPT) trials were conduc
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 	   publication=NA,
-	   data_institutions = "CIMMYT",
+	   data_institute = "CIMMYT",
 	   carob_contributor="Robert Hijmans",
 	   carob_date="2024-01-27",
 	   data_type= "experiment",

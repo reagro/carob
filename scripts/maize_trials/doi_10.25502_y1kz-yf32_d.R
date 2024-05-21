@@ -11,12 +11,12 @@ carob_script <- function(path) {
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
-		data_institutions = "International Institute of Tropical Agriculture (IITA)",
+		data_institute = "IITA",
 		publication= "doi:10.1371/journal.pone.0252506",
 		project = NA,
 		data_type= "experiment",
-		exp_treatments = "variety;location",
-		exp_treatments = "variety",
+		treatment_vars = "variety_code;longitude;latitude",
+		treatment_vars = "variety",
 		carob_contributor= "Eduardo Garcia Bendito",
 		carob_date="2024-05-07"
 	)

@@ -9,11 +9,11 @@ carob_script <- function(path) {
   
   dset <- data.frame(
     carobiner::read_metadata(uri, path, group, major=6, minor=1),
-    data_institutions = "CIMMYT",
+    data_institute = "CIMMYT",
     publication= NA,
     project="Wheat Yield Collaboration Yield Trial",
     data_type= "experiment",
-	exp_treatments = "variety_code;location",
+	treatment_vars = "variety_code;longitude;latitude",
     carob_contributor= "Fredy Chimire",
     carob_date="2024-04-29"
   )

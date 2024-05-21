@@ -17,9 +17,9 @@ The study was carried out by the International Institute of Tropical Agriculture
 		carob_contributor = "Robert Hijmans",
 		carob_date="2023-07-03",
 		data_type = "experiment",
-		exp_treatments = "variety;location",
+		treatment_vars = "variety_code;longitude;latitude",
 		project="International Maize Trials",
-		data_institutions="IITA"
+		data_institute="IITA"
 	)
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)

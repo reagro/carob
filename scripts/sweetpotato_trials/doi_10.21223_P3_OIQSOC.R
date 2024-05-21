@@ -16,7 +16,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=1, minor=7),
 		publication="doi:10.1017/S002185961600099X",
 		project=NA,
-		data_institutions="CIP",
+		data_institute="CIP",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-11-29",
 		data_type="Experiment"

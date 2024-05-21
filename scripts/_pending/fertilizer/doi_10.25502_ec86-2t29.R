@@ -24,7 +24,7 @@ carob_script <- function(path) {
   ##### dataset level metadata 
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=3, minor=1),
-    data_institutions = "IITA",
+    data_institute = "IITA",
     publication= NA,
     project="N2Africa",
     data_type= "experiment",

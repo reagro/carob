@@ -11,9 +11,9 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project=NA,
 		publication= NA,
-		data_institutions = "CIAT",
+		data_institute = "CIAT",
 		data_type = "soil properties", 
-		exp_treatments = "none",
+		treatment_vars = "none",
 		carob_contributor="Andrew Sila", 
 		carob_date="2023-09-28"
 	)
@@ -64,7 +64,7 @@ carob_script <- function(path) {
 		soil_P_total = as.numeric(r$P),
 		soil_S = as.numeric(r$S),
 		soil_Zn = as.numeric(r$Zn),
-		soil_Ex_acidity = as.numeric(r$Hp),
+		soil_ex_acidity = as.numeric(r$Hp),
 		soil_PSI = as.numeric(r$PSI),
 		soil_C = as.numeric(r$Total.C),
 		soil_N = as.numeric(r$Tota.N)

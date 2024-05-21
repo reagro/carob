@@ -12,11 +12,11 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		project="TAMASA",
 		publication=NA,
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		carob_contributor="Effie Ochieng'",
 		carob_date="2021-09-17",
 		data_type="survey",
-		exp_treatments = "none"
+		treatment_vars = "none"
 	)
 
 	f <- ff[basename(ff) == "TZ_TAMASA_APS_2017_Yield_MetaData.xlsx"]

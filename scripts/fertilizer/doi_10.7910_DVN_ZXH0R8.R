@@ -13,8 +13,8 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication="doi:10.1017/S1742170519000504",
-		data_institutions = "ICRISAT; ARARI; ILRI",
-		carob_contributor="Siyabusa Mkuhlani and Eduardo Garcia Bendito",
+		data_institute = "ICRISAT; ARARI; ILRI",
+		carob_contributor="Siyabusa Mkuhlani; Eduardo Garcia Bendito",
 		carob_date="2022-02-16",
 		data_type="on-farm experiment",
 		project="Africa Rising"	   

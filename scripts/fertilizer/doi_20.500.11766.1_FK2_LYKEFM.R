@@ -17,7 +17,7 @@ carob_script <- function(path) {
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=0),
     publication="hdl:20.500.11766/5084",
-    data_institutions = "ICARDA",
+    data_institute = "ICARDA",
     carob_contributor="Eduardo Garcia Bendito",
     carob_date="2022-01-20",
     data_type="experiment",

@@ -11,11 +11,11 @@ carob_script <- function(path) {
   
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=3, minor=7),
-		data_institutions = "CIAT",
+		data_institute = "CIAT",
 		publication= "doi:10.1007/s10705-015-9750-1",
 		project="CCAFS",
 		data_type= "survey",
-		exp_treatments = "none",
+		treatment_vars = "none",
 		carob_contributor= "Andrew Sila",
 		carob_date="2024-05-16"
 	)
@@ -53,7 +53,7 @@ carob_script <- function(path) {
 		soil_P_total = as.numeric(r$P.ppm),
 		soil_S = as.numeric(r$S.ppm),
 		soil_Zn = as.numeric(r$Zn.ppm),
-		soil_Ex_acidity = as.numeric(r$Hp.meq.100g),
+		soil_ex_acidity = as.numeric(r$Hp.meq.100g),
 		soil_PSI = as.numeric(r$PSI.meq.100g),
 		soil_C = r$Carbon.Content.pct,
 		soil_N = r$Nitrogen.Content.pct

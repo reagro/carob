@@ -16,7 +16,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="AFSIS",
 		publication= NA,
-		data_institutions = "IITA",
+		data_institute = "IITA",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-02-15",
 		data_type="experiment"
@@ -42,7 +42,7 @@ carob_script <- function(path) {
   ### dataset level data 
   # dset <- data.frame(
     # publication= NA,
-    # data_institutions = "IITA",
+    # data_institute = "IITA",
     # carob_contributor="Cedric Ngakou",
     # carob_date="2023-02-15",
     # data_type="experiment",

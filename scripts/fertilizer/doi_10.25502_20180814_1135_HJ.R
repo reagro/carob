@@ -14,7 +14,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group),
 		publication=NA,
-		data_institutions = "IITA",
+		data_institute = "IITA",
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2021-10-06",
 		data_type="on-farm experiments",

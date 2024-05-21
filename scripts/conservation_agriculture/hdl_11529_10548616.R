@@ -13,7 +13,7 @@ carob_script <- function(path) {
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		# pub does not have DOI yet
 		#Fonteyne, s., Silva Avendaño, C., Ramos Sanchez, A., Torres Zambrano, J.P., García Dávila, F., Pérez Martínez, Z.,  García Dávila, A., Castillo Villaseñor, L., Verhulst, N., 2021. Innovating traditional production systems through participatory conservation agriculture and agroforestry research. In preparation
 		publication=NA, 

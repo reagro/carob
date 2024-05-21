@@ -14,7 +14,7 @@ Agronomy and yield survey of approximately 70 maize fields in one 10 x 10km2 are
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 	   publication=NA,
-	   data_institutions = "CIMMYT",
+	   data_institute = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   carob_date="2022-11-02",
 	   data_type= "farm survey",

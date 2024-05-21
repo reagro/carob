@@ -12,9 +12,9 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		project=NA,
 		publication=NA,
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		data_type="survey", 
-		exp_treatments = "none",
+		treatment_vars = "none",
 		carob_contributor="Fredy Chimire",
 		carob_date="2024-04-06"
 	)

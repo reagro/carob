@@ -27,7 +27,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=2, minor=5),
 		project= "AfSIS", 
 		publication = "doi:10.1016/j.agee.2016.05.012",
-		data_institutions = "CIAT",
+		data_institute = "CIAT",
 		data_type="Multi-location trials",
 		carob_contributor = "Robert Hijmans",
 		carob_date="2024-03-02"
@@ -46,7 +46,7 @@ carob_script <- function(path) {
 	           "m3.Fe","m3.K","m3.Mg","m3.Mn","m3.Na","m3.P","m3.S","m3.Zn","ExNa","ExCa","ExMg","ExK",
 	           "psa.c4clay","psa.c4silt","psa.c4sand","Total_Carbon")]
 	
-	dd<- carobiner::change_names(dd, names(dd), c("trial_id","site","country","planting_date","soil_pH","soil_CEC","soil_Ex_Al","soil_B","soil_Ex_Ca","soil_Cu", "soil_Fe","soil_Ex_K","soil_Ex_Mg","soil_Ex_Mn","soil_Ex_Na","soil_P_available","soil_S","soil_Zn","soil_Na","soil_Ca","soil_Mg","soil_K", "soil_clay","soil_silt","soil_sand","soil_C"))
+	dd<- carobiner::change_names(dd, names(dd), c("trial_id","site","country","planting_date","soil_pH","soil_CEC","soil_ex_Al","soil_B","soil_ex_Ca","soil_Cu", "soil_Fe","soil_ex_K","soil_ex_Mg","soil_ex_Mn","soil_ex_Na","soil_P_available","soil_S","soil_Zn","soil_Na","soil_Ca","soil_Mg","soil_K", "soil_clay","soil_silt","soil_sand","soil_C"))
 
 	dd<- dd[(dd$planting_date!="10LR" & dd$planting_date!="10SR"),] ## remove unknown terms in planting_date  
 	### merge 

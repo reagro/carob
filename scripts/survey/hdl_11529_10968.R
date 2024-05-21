@@ -26,9 +26,9 @@ The sample size for this survey is 1052 households and the inputs use were asked
 		project="CSISA",
 		#data_citation="Gokul Paudel; Shashish Maharjan; David Guerena; Ashok Rai; Andrew James McDonald, 2017. Nepal Rice Crop Cut and Survey Data 2016. https://hdl.handle.net/11529/10968, CIMMYT Research Data & Software Repository Network, V4",
 		publication= NA,
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		data_type="survey",
-		exp_treatments = "none",
+		treatment_vars = "none",
 		carob_contributor="Robert Hijmans",
 		carob_date="2024-01-27"
 	)

@@ -30,7 +30,7 @@ carob_script <- function(path) {
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
-		data_institutions = "IITA",
+		data_institute = "IITA",
 		publication = "doi:10.1016/j.fcr.2021.108225",
 		project = "Africa RISING",
 		data_type = "experiment",

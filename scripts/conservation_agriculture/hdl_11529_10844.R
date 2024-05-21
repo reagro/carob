@@ -12,11 +12,11 @@ The present data set is from 2012 to 2016. (2016)"
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		publication = NA,
 		project = NA,
 		data_type = "on-farm experiment",
-		exp_treatments = NA, 
+		treatment_vars = NA, 
 		carob_contributor = "Blessing Dzuda",
 		carob_date = "2024-05-03"
 	)

@@ -16,7 +16,7 @@ carob_script <- function(path) {
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= "Maize experiment with increasing rates of nitrogen to develop a calibration for the GreenSeeker in Yaqui Valley",
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
    		data_type="experiment",
 		carob_contributor="Blessing Dzuda", 
 		carob_date = "2023-11-02"

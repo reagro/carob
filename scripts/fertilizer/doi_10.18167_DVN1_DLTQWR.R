@@ -3,12 +3,7 @@
 
 carob_script <- function(path) {
 
-"
-	Description:
-
-    A set of 87 bibliographic references was collected in order to compare yields in “CT” (conventional tillage) and in “CA” (conservation agriculture) in a meta-analysis, from experiments in Sub-Saharan Africa. Data were collected from 1974 to 2017. We had 1071 observations in total in our file. Six of the crops in the file were subject of the meta-analysis: cotton, cowpea, maize, rice, sorghum and soybean. (2020-06-12)
-
-"
+"A set of 87 bibliographic references was collected in order to compare yields in “CT” (conventional tillage) and in “CA” (conservation agriculture) in a meta-analysis, from experiments in Sub-Saharan Africa. Data were collected from 1974 to 2017. We had 1071 observations in total in our file. Six of the crops in the file were subject of the meta-analysis: cotton, cowpea, maize, rice, sorghum and soybean. (2020-06-12)"
 
 
 	uri <- "doi:10.18167/DVN1/DLTQWR"
@@ -19,13 +14,11 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 	   project=NA,
 	   publication= "doi:10.1038_s43016-020-0114-x",
-	   data_institutions = "CIRAD",
+	   data_institute = "CIRAD",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   carob_date="2023-04-20",
 	   data_type="compilation"
 	)
-
-
 
 	f <- ff[basename(ff) == "Donnees_meta-analyse_2020.txt"]
 
@@ -145,11 +138,6 @@ carob_script <- function(path) {
    d$fertilizer_type <- "unknown"
    d$inoculated <- FALSE
    
-
-##### in general, add comments to your script if computations are
-##### based in information gleaned from metadata, publication, 
-##### or not immediately obvious for other reasons
-
 ##### Yield #####
 	d$yield <- as.numeric(gsub(",", ".", rr$yield))
 	#d$crop %in% c("sorghum", "maize", "wheat", "teff", "barley", "pearl millet", "rice")
@@ -164,9 +152,13 @@ carob_script <- function(path) {
    d$soil_SOC <- as.numeric(gsub(",", ".", ifelse(rr$Initial_soil_C == "?", NA, rr$Initial_soil_C)))/10 # g/kg -> %
    
 ##### Tillage #####   
-  tillage <- trimws(tolower(ifelse(rr$tillage == "CT", rr$CT_type, rr$CA_type1)))
-  tillage <- gsub("permanent_beds", "permanent beds", tillage)
-  d$land_prep_method <- gsub("no-tillage", "no tillage", tillage)
+	tillage <- trimws(tolower(ifelse(rr$tillage == "CT", rr$CT_type, rr$CA_type1)))
+	tillage[tillage == "permanent_beds"] <- "permanent beds"
+	tillage[tillage == "no-tillage"] <- "none"
+	tillage[tillage == "ridge"] <- "ridge tillage"
+	tillage[tillage == "plow"] <- "ploughing"
+	tillage[tillage == "hoe"] <- "hoeing"
+	d$land_prep_method <- tillage
 
 	d <- d[!is.na(d$yield), ] 
 	carobiner::write_files(dset, d, path=path)

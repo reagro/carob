@@ -14,11 +14,11 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=4, minor=1),
 		project="Elite Selection Wheat Yield Trial",
 		publication = NA,
-		data_institutions = "CIMMYT",
-		carob_contributor="Mitchelle Njukuya, Blessing Dzuda",
+		data_institute = "CIMMYT",
+		carob_contributor="Mitchelle Njukuya; Blessing Dzuda",
 		carob_date="2023-11-14",
 		data_type="on-station experiment",
-		exp_treatments = "variety_code;location"
+		treatment_vars = "variety_code;longitude;latitude"
 	)
   
   	proc_wheat <- carobiner::get_function("proc_wheat", path, group)

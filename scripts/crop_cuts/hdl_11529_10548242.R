@@ -13,11 +13,11 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="TAMASA",
 		publication=NA,
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2021-09-17",
 		data_type="survey",
-		exp_treatments = "none"
+		treatment_vars = "none"
 	)
 
 	f <- ff[basename(ff) == "TAMASA_TZ_APS_2017_CC_MaizeYield.xlsx"]

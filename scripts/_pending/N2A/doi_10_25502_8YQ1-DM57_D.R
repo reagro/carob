@@ -30,7 +30,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 		carob_contributor="Effie Ochieng'",
 		carob_date="2023-07-27",
 		data_type="survey",
-		data_institutions="IITA",
+		data_institute="IITA",
 		project="N2Africa",
 		revised_by = "Eduardo Garcia Bendito",
 		revision_date = "2024-03-07"

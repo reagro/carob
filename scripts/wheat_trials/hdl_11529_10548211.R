@@ -13,12 +13,12 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 	   project="High Rainfall Wheat Yield Trial",
 	   publication = "doi:10.1016/j.fcr.2020.107742",
-	   data_institutions = "CIMMYT",
+	   data_institute = "CIMMYT",
 	   carob_contributor="Andrew Sila",
 	   carob_date="2023-05-03",
 	   
 	   data_type="on-station experiment",
-		exp_treatments = "variety_code;location"
+		treatment_vars = "variety_code;longitude;latitude"
 	    
 	    
 	)

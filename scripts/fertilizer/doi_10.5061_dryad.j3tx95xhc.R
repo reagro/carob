@@ -16,7 +16,7 @@ carob_script <- function(path) {
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= "doi:10.1016/j.fcr.2022.108578",
-		data_institutions = "Wageningen University & Research",
+		data_institute = "WUR",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-03-08",
 		data_type="compilation",

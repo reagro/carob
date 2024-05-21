@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		project=NA,
 		#data_citation="Verhulst, Nele; Ammar, Karim; Honsdorf, Nora; Govaerts, Bram; Crossa, Jose; Vargas, Mateo, 2020. Parallel selection of durum wheat in conventional and zero tillage. https://hdl.handle.net/11529/10548473, CIMMYT Research Data & Software Repository Network, V1, UNF:6:C+bZEedQtaH9ce54/PaaNA== [fileUNF]",
 		publication=NA,
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		data_type="experiment", 
 		carob_contributor="Fredy Chimire",
 		carob_date="2024-03-24"

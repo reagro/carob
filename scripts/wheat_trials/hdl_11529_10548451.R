@@ -13,11 +13,11 @@ carob_script <- function(path) {
     carobiner::read_metadata(uri, path, group, major=1, minor=0),
     project="Fusarium Head Blight Screening Nursery",
     publication = NA,
-    data_institutions = "CIMMYT",
+    data_institute = "CIMMYT",
     carob_contributor="Mitchelle Njukuya",
     carob_date="2024-05-09",   
     data_type="on-station experiment",
-		exp_treatments = "variety_code;location"
+		treatment_vars = "variety_code;longitude;latitude"
   )
   
   proc_wheat <- carobiner::get_function("proc_wheat", path, group)

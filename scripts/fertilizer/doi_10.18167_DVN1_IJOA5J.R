@@ -17,7 +17,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		publication= "doi:10.1016/j.fcr.2020.108052",
-		data_institutions = "CIRAD",
+		data_institute = "CIRAD",
 		data_type="experiment", 
 		carob_contributor="Effie Ochieng'",
 		carob_date="2023-10-23",

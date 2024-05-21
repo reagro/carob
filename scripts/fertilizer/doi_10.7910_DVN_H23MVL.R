@@ -14,7 +14,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication=NA,
-		data_institutions = "IRRI",
+		data_institute = "IRRI",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-06-02",
 		data_type=NA,

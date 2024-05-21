@@ -12,10 +12,10 @@ New statistical methods allow the identification and recommendation of new clone
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		publication= NA,# 
-		data_institutions = "IITA",
+		data_institute = "IITA",
 		carob_contributor="Cedric Ngakou",
 		data_type="experiment",
-		exp_treatments = "variety;location",
+		treatment_vars = "variety_code;longitude;latitude",
 		project=NA,
 		carob_date="2023-10-30"
 	)
@@ -57,11 +57,11 @@ New statistical methods allow the identification and recommendation of new clone
 		r$soil_clay <- kk$Clay
 		r$soil_silt <- kk$Silt
 		r$soil_CEC <- kk$CEC
-		r$soil_Ex_Ca <- kk$ExCa2
-		r$soil_Ex_Mg <- kk$ExMg2
-		r$soil_Ex_K <- kk$ExK
-		r$soil_Ex_Na <- kk$ExNa
-		r$soil_Ex_Al <- kk$ExAl3_H
+		r$soil_ex_Ca <- kk$ExCa2
+		r$soil_ex_Mg <- kk$ExMg2
+		r$soil_ex_K <- kk$ExK
+		r$soil_ex_Na <- kk$ExNa
+		r$soil_ex_Al <- kk$ExAl3_H
 		r
 		   
 	}

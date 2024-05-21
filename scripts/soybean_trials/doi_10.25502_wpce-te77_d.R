@@ -13,11 +13,11 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		publication= NA,
-		data_institutions = "IITA",
+		data_institute = "IITA",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-09-21",
 		data_type="experiment",
-		exp_treatments = "variety;location",
+		treatment_vars = "variety_code;longitude;latitude",
 		project=NA 
 	)
 	

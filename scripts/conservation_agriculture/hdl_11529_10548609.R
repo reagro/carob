@@ -16,7 +16,7 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		#data_citation="Verhulst, Nele; Saldivia Tejeda, Abel; Guan, Taiyu; Fonteyne, Simon, 2021, Yield of maize, wheat and barley planted on wide and narrow permanent beds, under irrigated and rainfed conditions in Mexico, https://hdl.handle.net/11529/10548609, CIMMYT Research Data & Software Repository Network, V1, UNF:6:bMwiJ4W0pL9LG8olmN3meA== [fileUNF]",
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		publication=NA,
 		project=NA,
 		data_type= "experiment",

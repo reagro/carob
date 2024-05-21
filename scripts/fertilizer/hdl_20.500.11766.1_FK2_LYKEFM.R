@@ -17,7 +17,7 @@ Final dataset from agronomic experiment in Gumara Maksegnit (2016), as elaborate
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
       project=NA, 
       publication= NA, 
-      data_institutions = "ICARDA", 
+      data_institute = "ICARDA", 
       data_type="on-farm experiment", 
       carob_contributor="Cedric Ngakou", 
       carob_date="2023-11-10" 

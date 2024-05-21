@@ -15,10 +15,10 @@ carob_script <- function(path) {
    dset <- data.frame(
    	carobiner::read_metadata(uri, path, group, major=1, minor=1),
       publication= NA,
-      data_institutions = "CIP",
+      data_institute = "CIP",
       carob_contributor="Cedric Ngakou",
       data_type="experiment",
-		exp_treatments = "variety;location",
+		treatment_vars = "variety_code;longitude;latitude",
       project=NA,
       carob_date="2024-02-26"
    )

@@ -27,7 +27,7 @@ Notes: citation could be improved to include the underlying data sources.
 		carob_date="2021-05-31",
 		data_type="compilation",
 		project=NA,
-		data_institutions="CIAT"
+		data_institute="CIAT"
 	)
 
 	## the AFSIS data is not processed because it is also included elsewhere

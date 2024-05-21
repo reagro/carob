@@ -17,7 +17,7 @@ Phosphorus was applied at rate of 0 or 20 kg P ha-1. P fertilizer application in
 		carob_contributor = "Effie Ochieng'",
 		carob_date = "2021-07-06",
 		data_type = "experiment",
-		data_institutions = "ICRISAT",
+		data_institute = "ICRISAT",
 		project = NA
 	)
 

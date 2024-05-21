@@ -26,8 +26,8 @@ carob_script <- function(path){
   	carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="N2Africa",
 		publication="doi:10.21955/gatesopenres.1115299.1",
-		data_institutions = "IITA",
-		carob_contributor="Rachel Mukami and Effie Ochieng'",
+		data_institute = "IITA",
+		carob_contributor="Rachel Mukami; Effie Ochieng'",
 		carob_date="2022-08-03",
 		data_type = "on-farm experiment"
 	)

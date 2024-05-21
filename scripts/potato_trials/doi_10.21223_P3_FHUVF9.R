@@ -12,10 +12,10 @@ Samples were prepared and analysed for Fe and Zn by inductively coupled plasma-o
    dset <- data.frame(
    	carobiner::read_metadata(uri, path, group, major=1, minor=4),
       publication= NA,
-      data_institutions = "CIP",
+      data_institute = "CIP",
       carob_contributor="Cedric Ngakou",
       data_type="experiment",
-		exp_treatments = "variety;location",
+		treatment_vars = "variety_code;longitude;latitude",
       project=NA,
       carob_date="2023-12-12"
    )
@@ -50,11 +50,11 @@ Samples were prepared and analysed for Fe and Zn by inductively coupled plasma-o
       r$soil_clay <- as.numeric(kk$CLAY)
       r$soil_silt <- as.numeric(kk$LIME)
       r$soil_CEC <- as.numeric(kk$SOILEC)
-      r$soil_Ex_Ca <- as.numeric(kk$EXCA2)
-      r$soil_Ex_Mg <- as.numeric(kk$EXMG2)
-      r$soil_Ex_K <- as.numeric(kk$EXK)
-      r$soil_Ex_Na <- as.numeric(kk$EXNA)
-      r$soil_Ex_Al <- as.numeric(kk$AL3H)
+      r$soil_ex_Ca <- as.numeric(kk$EXCA2)
+      r$soil_ex_Mg <- as.numeric(kk$EXMG2)
+      r$soil_ex_K <- as.numeric(kk$EXK)
+      r$soil_ex_Na <- as.numeric(kk$EXNA)
+      r$soil_ex_Al <- as.numeric(kk$AL3H)
       r$soil_Zn <- as.numeric(kk$SOILZN)
       r$soil_B  <- as.numeric(kk$SOILB)
       r$soil_S  <- as.numeric(kk$SOILSULFATE)

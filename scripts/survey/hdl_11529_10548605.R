@@ -15,9 +15,9 @@ Landscape Diagnostic Survey (LDS) for rice contains farmer's data on current pro
 		project="CSISA",
 		#data_citation="Ajay, Anurag; Craufurd, Peter; Sharma, Sachin; Ranjan, Harshit; Samaddar, Arindam; Poudel, Gokul; Malik, RK; Singh, Balwinder; Panneerselvam, P; Singh, AK; Rai, Ashok; Keil, Alwin; McDonald, Andrew, 2021. Data on farmers’ rice production practices during 2017 monsoon season from eastern states of India. https://hdl.handle.net/11529/10548605, CIMMYT Research Data & Software Repository Network, V1, UNF:6:kSBKzH9G+QMBbV7uXfhfOA== [fileUNF]",
 		publication= NA,
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		data_type="survey", 
-		exp_treatments = "none",
+		treatment_vars = "none",
 		carob_contributor="Robert Hijmans",
 		carob_date="2024-01-27"
 	)
