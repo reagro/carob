@@ -2,9 +2,7 @@
 
 carob_script <- function(path) {
 
-"
-Description:
-The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments) "
+"The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments) "
 
 	uri <- "doi:10.25502/20180814/1355/HJ"
 	group <- "fertilizer"
@@ -14,7 +12,7 @@ The AFSIS project aimed to establish an  Africa Soil Information system. Data wa
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		publication=NA,
-		#data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Nkhata Bay S2 [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1355/HJ",
+		project="AfSIS",
 		data_institute = "IITA",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-02-19",

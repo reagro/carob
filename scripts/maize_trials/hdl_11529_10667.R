@@ -12,7 +12,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project=NA,
 		publication= NA,
-		data_institute = "CIMMYT,GMP,CGIAR",
+		data_institute = "CIMMYT",
 		data_type="experiment", 
 		treatment_vars = "variety_code;longitude;latitude",
 		carob_contributor="Mitchelle Njukuya",

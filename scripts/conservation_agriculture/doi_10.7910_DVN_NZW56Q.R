@@ -18,7 +18,7 @@ carob_script <- function(path) {
   	carobiner::read_metadata(uri, path, group, major=2, minor=0),
     project=NA,
     publication= NA,
-    data_institute = "CIMMYT;IFPRI",
+    data_institute = "CIMMYT; IFPRI",
     data_type="on-farm experiment", 
     carob_contributor="Mitchelle Njukuya",
     carob_date="2024-01-16"

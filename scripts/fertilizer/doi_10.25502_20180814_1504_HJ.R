@@ -13,7 +13,7 @@ return(T)
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		publication=NA,
-		#data_citation = "Huising, J. (2018). Africa Soil Information System - Phase 1, Sidindi SR [Data set]. International Institute of Tropical Agriculture (IITA). doi:10.25502/20180814/1504/HJ",
+		project="AfSIS",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-02-20",
 		data_type="experiment"
