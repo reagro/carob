@@ -18,7 +18,7 @@ This dataset contains output of the research for South Sudan.
 		carob_contributor = "Robert Hijmans",
 		carob_date="2023-07-03",
 		data_type = "experiment",
-		treatment_vars = "variety;location",
+		treatment_vars = "variety_code;longitude;latitude",
 		project="International Maize Trials",
 		data_institutions="IITA"
 	)

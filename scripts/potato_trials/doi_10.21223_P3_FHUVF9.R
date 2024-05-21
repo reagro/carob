@@ -15,7 +15,7 @@ Samples were prepared and analysed for Fe and Zn by inductively coupled plasma-o
       data_institutions = "CIP",
       carob_contributor="Cedric Ngakou",
       data_type="experiment",
-		treatment_vars = "variety;location",
+		treatment_vars = "variety_code;longitude;latitude",
       project=NA,
       carob_date="2023-12-12"
    )

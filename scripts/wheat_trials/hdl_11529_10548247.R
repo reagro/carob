@@ -19,7 +19,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	   carob_date="2023-05-03",
 	   
 	   data_type="on-station experiment",
-		treatment_vars = "variety_code;location"
+		treatment_vars = "variety_code;longitude;latitude"
 	    
  	)
 

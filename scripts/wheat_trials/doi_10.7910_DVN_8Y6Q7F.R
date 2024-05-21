@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		publication="doi:10.1038/s41467-020-18317-8",
 		data_institutions = "SARC",
    		data_type="experiment", 
-		treatment_vars = "variety;location",
+		treatment_vars = "variety_code;longitude;latitude",
 		carob_contributor="Blessing Dzuda",
 		carob_date="2024-01-24"
 	)
