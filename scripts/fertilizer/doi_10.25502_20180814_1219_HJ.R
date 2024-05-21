@@ -28,7 +28,7 @@ carob_script <- function(path) {
 	field <- read.csv(ffield, na.strings = "")
 	plot <- read.csv(fplot, na.strings = "")
 	plant <- read.csv(fplant, na.strings = "")
-	plant <- aggregate(Plant.height..cm. ~ Field + Plot, data = plant, FUN = function(x) mean(x, na.rm = TRUE))
+	plant <- aggregate(Plant.height..cm. ~ Field + Plot, data=plant, FUN=mean, na.rm=TRUE)
 	r <- merge(plot, field, by = "Field")
 	r <- merge(r, plant, by = c("Field", "Plot"))
 	
