@@ -19,7 +19,7 @@ dset <- data.frame(
 	project="N2Africa",
 	publication= NA,
 	data_institute = "IITA",
-	carob_contributor="Rachel Mukami and Effie Ochieng'",
+	carob_contributor="Rachel Mukami; Effie Ochieng'",
 	carob_date="2022-07-29",
 	data_type="on-farm trials"
 )
