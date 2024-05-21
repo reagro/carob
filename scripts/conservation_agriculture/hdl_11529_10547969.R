@@ -4,12 +4,10 @@
 
 carob_script <- function(path) {
   
-  "Farmers’ participatory researchers managed long-term trails aimed to improve the productivity,
-  profitability, and sustainability of smallholder agriculture in the EGP by activities carried out to address the objectives:
-  1. Understand farmer circumstances with respect to cropping systems, natural and
-  economic resources base, livelihood strategies, and capacity to bear risk and undertake technological innovation.
-  2. Develop with farmers more productive and sustainable technologies that are resilient to climate risks and profitable for small holders.
-  3. Facilitate widespread adoption of sustainable, resilient, and more profitable farming systems. (2018-02-18)"
+"Farmers’ participatory researchers managed long-term trails aimed to improve the productivity, profitability, and sustainability of smallholder agriculture in the EGP by activities carried out to address the objectives:
+1. Understand farmer circumstances with respect to cropping systems, natural and economic resources base, livelihood strategies, and capacity to bear risk and undertake technological innovation.
+2. Develop with farmers more productive and sustainable technologies that are resilient to climate risks and profitable for small holders.
+3. Facilitate widespread adoption of sustainable, resilient, and more profitable farming systems. (2018-02-18)"
   
   
   uri <- "hdl:11529/10547969"
@@ -22,6 +20,8 @@ carob_script <- function(path) {
     publication= "doi.org/10.1016/j.fcr.2019.04.005", 
     data_institutions = "CIMMYT", 
     data_type="on-farm experiment", 
+	# also need to include land prep and perhaps other variables
+	# treatment_vars = "N_fertilizer; P_fertilizer; K_fertilizer; Zn_fertilizer; B_fertilizer"
     carob_contributor="Mitchelle Njukuya", 
     carob_date="2024-05-21"
   )
