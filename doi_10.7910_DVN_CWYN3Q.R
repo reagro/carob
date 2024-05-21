@@ -38,29 +38,28 @@ carob_script <- function(path) {
 #		variety=r2$Variety,
 #		treatment=r2$`Tillage Method`,
 #		rep=r2$Replication
-#	)
-	  
+#	)  
 #	d <- carobiner::bindr(d1, d2)
+
 	d <- d1
 
-	# "CT" "RT"
 	i <- match(d$treatment, c("CT", "RT"))
 	d$land_prep_method <- c("conventional", "ripping")[i]
 	
 	d$rep <- as.integer(d$rep)
 	d$on_farm <- TRUE
 	d$planting_date <- "2018"
-	d$harvest_date  <-"2019"
+	d$harvest_date <- "2019"
 
 	d$country <- "Tanzania"
 	d$site <- "Manyara"
 	d$adm1 <- "Kiteto"
-	d$longitude <-36.29271 
+	d$longitude <- 36.29271 
 	d$latitude <- -5.24399
 
 	d$crop <- "maize"
 	d$yield_part <- "grain"
-	d$trial_id="1"
+	d$trial_id <- "1"
 
 	carobiner::write_files(path, dset, d)
 }
