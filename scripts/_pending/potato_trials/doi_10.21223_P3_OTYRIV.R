@@ -29,7 +29,7 @@ carob_script <- function(path) {
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=1, minor=3),
     publication= "",
-    data_institutions = "CIP",
+    data_institute = "CIP",
     data_type="experiment", 
     carob_contributor="Stephen Gichuhi",
     carob_date="2024-03-08"

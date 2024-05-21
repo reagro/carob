@@ -20,7 +20,7 @@ This dataset contains output of the research for Cote D'Ivoire.
 		data_type = "experiment",
 		treatment_vars = "variety_code;longitude;latitude",
 		project="International Maize Trials",
-		data_institutions="IITA"
+		data_institute="IITA"
 	)
 
 	

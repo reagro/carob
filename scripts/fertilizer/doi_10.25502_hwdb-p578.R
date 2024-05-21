@@ -19,7 +19,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 		carob_contributor = "Effie Ochieng'",
 		carob_date="2022-09-07",
 		data_type = "on-farm experiment",
-		data_institutions="IITA"
+		data_institute="IITA"
 	)
 	
 	n2afun <- carobiner::get_function("N2A_monitoring_1", path, group)

@@ -4,9 +4,8 @@
 
 carob_script <- function(path) {
 
-"Description
-Title: Replication Data for: Response of Maize to blended fertilizer  
-Abstract: Maize grain and bio-mass yield were increased by application of different rates of blended fertilizers (2020-12-02)"
+"Replication Data for: Response of Maize to blended fertilizer  
+Maize grain and bio-mass yield were increased by application of different rates of blended fertilizers (2020-12-02)"
 
 	## Process 
 	uri <- "doi:10.7910/DVN/LTS278"
@@ -18,13 +17,11 @@ Abstract: Maize grain and bio-mass yield were increased by application of differ
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2021-08-26",
 		data_type="experiment",
-		data_institutions=NA,
+		data_institute=NA,
 		project=NA
 	)
 
 	## treatment level data 
-
-	## read the json for version, license, terms of use  
 
 	f <- ff[basename(ff) == "AGP II 2017.18 RAW DATA.xlsx"] 
 	d <- carobiner::read.excel(f)

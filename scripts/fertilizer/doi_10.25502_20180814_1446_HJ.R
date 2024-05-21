@@ -19,7 +19,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project= "AfSIS", 
 		publication = "doi:10.1016/j.agee.2016.05.012",
-		data_institutions = "IITA",
+		data_institute = "IITA",
 		data_type="Multi-location trials",
 		carob_contributor = "Eduardo Garcia Bendito",
 		carob_date="2024-02-28"

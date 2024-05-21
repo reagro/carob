@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project=NA,
 		publication="doi:10.1038/s41467-020-18317-8",
-		data_institutions = "SARC",
+		data_institute = "SARC",
    		data_type="experiment", 
 		treatment_vars = "variety_code;longitude;latitude",
 		carob_contributor="Blessing Dzuda",

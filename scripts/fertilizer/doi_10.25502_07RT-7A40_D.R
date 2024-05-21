@@ -11,7 +11,7 @@ carob_script <- function(path) {
 	ff	 <- carobiner::get_data(uri, path, group)
 	## dataset level data. Internal annotation for CAROB 
 	dset <- data.frame(
-		data_institutions = "IITA",
+		data_institute = "IITA",
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication=NA,
 		carob_contributor="Henry Juarez",

@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		project=NA, 
 		publication= NA, 
-		data_institutions = "IITA", 
+		data_institute = "IITA", 
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-11-21", 
 		data_type="survey",

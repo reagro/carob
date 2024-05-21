@@ -3,10 +3,7 @@
 
 carob_script <- function(path) {
 
-"
-	Description:
-	Response of maize to N and P in two trials in Uganda
-"
+"Response of maize to N and P in two trials in Uganda"
 
 	uri <- "doi:10.7910/DVN/LJPW4O"
 	group <- "fertilizer"
@@ -14,17 +11,13 @@ carob_script <- function(path) {
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=5) ,
-	   publication=NA,
-	   carob_contributor="Eduardo Garcia Bendito",
-	   carob_date="2021-06-18",
-	   data_type = "experiment",
-		data_institutions=NA,
-		project=NA
-    
+		publication=NA,
+		carob_contributor="Eduardo Garcia Bendito",
+		carob_date="2021-06-18",
+		data_type = "experiment",
+		data_institute="CIAT",
+		project="AgMIP"
 	)
-
-
-
 
 	f <- ff[basename(ff) == "9a Yield data.xlsx"]
 

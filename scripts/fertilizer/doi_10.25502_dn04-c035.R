@@ -18,7 +18,7 @@ carob_script <- function(path){
 		carob_contributor = "Effie Ochieng'",
 		carob_date="2022-09-09",
 		data_type = "on-farm experiment",
-		data_institutions=NA
+		data_institute=NA
 	)
   
 	

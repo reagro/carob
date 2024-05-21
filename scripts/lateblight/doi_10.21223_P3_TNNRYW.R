@@ -14,7 +14,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=1, minor=3),
 		project=NA,
 		publication= NA,
-		data_institutions = "CIP",
+		data_institute = "CIP",
 		carob_contributor="Henry Juarez",
 		carob_date="2023-06-21",	   
 		data_type="experiment"

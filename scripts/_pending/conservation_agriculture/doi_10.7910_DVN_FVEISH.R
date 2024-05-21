@@ -22,7 +22,7 @@ Sustainable intensification of mixed crop-livestock systems is a key pathway tow
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project="Africa Rising",
 		publication= NA,
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		data_type="survey", # or, e.g. "on-farm experiment", "survey", "compilation"
 		carob_contributor="",
 		carob_date="2023-09-25",

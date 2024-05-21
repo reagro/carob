@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=5, minor=0),
 	   project="Semi-Arid Wheat Yield Trial",	   
 	   publication=NA,
-	   data_institutions = "CIMMYT",
+	   data_institute = "CIMMYT",
 	   carob_contributor="Robert Hijmans",
 	   carob_date="2023-06-30",
 	   data_type="on-station experiment",

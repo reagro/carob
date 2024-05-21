@@ -24,7 +24,7 @@ carob_script <- function(path) {
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= NA,
-		data_institutions = "IITA",
+		data_institute = "IITA",
    	data_type = "survey", # or, e.g. "on-farm experiment", "survey", "compilation"
 		carob_contributor = "Eduardo Garcia Bendito"  
 		carob_date="2023-07-12",

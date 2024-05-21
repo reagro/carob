@@ -12,7 +12,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="CSISA",
 		publication=NA,
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		carob_contributor="Andrew Sila",
 		carob_date="2023-09-28",
 		data_type = "soil sampling",

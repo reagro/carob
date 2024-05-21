@@ -23,7 +23,7 @@ inoculants and fertilizers adapted to local settings.
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="N2Africa",	
 		publication=NA, 
-		data_institutions = "IITA", 
+		data_institute = "IITA", 
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-06-01",
 		data_type="experiment"

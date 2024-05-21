@@ -19,7 +19,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project = "Optimization of Fertilizer Recommendations in Africa",
 		publication= "doi:10.2134/agronj2018.04.0268",
-		data_institutions = "University of Nebraska-Lincoln",
+		data_institute = "UNL",
 		carob_contributor="Effie Ochieng' and Rachel Mukami",
 		carob_date="2023-03-20",
 		data_type="experiment"

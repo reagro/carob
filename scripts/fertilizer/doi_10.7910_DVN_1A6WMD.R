@@ -13,7 +13,7 @@ carob_script <- function(path) {
   	carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
 		publication= "doi:10.1016/j.fcr.2021.108225",
-		data_institutions = "IITA;IFPRI",
+		data_institute = "IITA",
 		data_type="on-farm experiment", 
 		carob_contributor="Mitchelle Njukuya",
 		carob_date="2024-01-09"

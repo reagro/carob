@@ -16,18 +16,12 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA,
-		## if there is a paper, include the paper's doi here
-		## also add a RIS file in references folder (with matching doi)
 		publication= "",
-		data_institutions = "USDA-ARS ",
+		data_institute = "USDA-ARS",
    		data_type="experiment", 
 		carob_contributor="Shumirai Manzvera",
-		# date of first submission to carob
 		carob_date="2023-10-06" 
 	)
-
-
-
 
 	f <- ff[basename(ff) == "_____________"]
 

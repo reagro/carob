@@ -17,7 +17,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 	   project="High Rainfall Wheat Yield Trial",	   
 	   publication="doi:10.1016/j.fcr.2020.107742",
-	   data_institutions = "CIMMYT",
+	   data_institute = "CIMMYT",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   carob_date="2023-02-06",
 	   data_type="on-station experiment",

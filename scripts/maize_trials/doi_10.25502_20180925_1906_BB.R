@@ -20,7 +20,7 @@ The study was carried out by the International Institute of Tropical Agriculture
 		data_type = "experiment",
 		treatment_vars = "variety_code;longitude;latitude",
 		project="International Maize Trials",
-		data_institutions="IITA"
+		data_institute="IITA"
 	)
 
 

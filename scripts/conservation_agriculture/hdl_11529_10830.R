@@ -14,7 +14,7 @@ is kept in the ground, there is no preparation of the ground, and the sowing is 
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
 		publication= "doi:10.1017/S1742170515000332",
-		data_institutions = "IITA",
+		data_institute = "IITA",
 		data_type="experiment", 
 		carob_contributor="Effie Ochieng'",
 		carob_date="2023-11-21"

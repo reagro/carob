@@ -11,7 +11,7 @@ carob_script <- function(path) {
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
-		data_institutions = "International Institute of Tropical Agriculture (IITA)",
+		data_institute = "International Institute of Tropical Agriculture (IITA)",
 		publication= "doi:10.1371/journal.pone.0252506",
 		project = NA,
 		data_type= "experiment",

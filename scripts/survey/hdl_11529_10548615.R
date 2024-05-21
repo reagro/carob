@@ -15,7 +15,7 @@ The objective of this survey was to identify the major wheat productivity and pr
 		project="CSISA",
 		#data_citation="Gokul P. Paudel; Andrew J. McDonald, 2021. Data on identifying sustainable wheat productivity drivers in Nepal’s Terai. https://hdl.handle.net/11529/10548615, CIMMYT Research Data & Software Repository Network, V1, UNF:6:w5/k07NPArxJgX7NKnRMTA== [fileUNF]",
 		publication= NA,
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		data_type="survey", 
 		treatment_vars = "none",
 		carob_contributor="Robert Hijmans",

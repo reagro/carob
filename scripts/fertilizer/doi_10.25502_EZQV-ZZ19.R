@@ -16,7 +16,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 		carob_contributor = "Andrew Sila",
 		carob_date="2023-07-17",
 		data_type = "on farm experiment",
-		data_institutions="IITA"
+		data_institute="IITA"
 	)
 
 	

@@ -21,7 +21,7 @@ and 2015 in over thirty African countries. This dataset contains output of the r
 		data_type = "experiment",
 		treatment_vars = "variety_code;longitude;latitude",
 		project="International Maize Trials",
-		data_institutions="IITA"
+		data_institute="IITA"
 	)
 
 

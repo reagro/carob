@@ -15,7 +15,7 @@ and white/red grain color. (2021)"
     carobiner::read_metadata(uri, path, group, major=2, minor=0),
     project="Karnal Bunt Screening Nursery",
     publication = NA,
-    data_institutions = "CIMMYT",
+    data_institute = "CIMMYT",
     carob_contributor="Mitchelle Njukuya",
     carob_date="2024-05-02",   
     data_type="on-station experiment",

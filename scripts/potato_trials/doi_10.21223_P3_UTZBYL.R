@@ -12,7 +12,7 @@ New statistical methods allow the identification and recommendation of new clone
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		publication= NA,# 
-		data_institutions = "IITA",
+		data_institute = "IITA",
 		carob_contributor="Cedric Ngakou",
 		data_type="experiment",
 		treatment_vars = "variety_code;longitude;latitude",

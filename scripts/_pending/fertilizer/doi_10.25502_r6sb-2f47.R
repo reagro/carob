@@ -24,7 +24,7 @@ carob_script <- function(path) {
   	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     project="N2Africa",
     publication=NA,
-    data_institutions = "IITA",
+    data_institute = "IITA",
     data_type="survey", # or, e.g. "on-farm experiment", "survey", "compilation"
     carob_contributor="Effie Ochieng'",
 	carob_date="2023-09-30"

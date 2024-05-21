@@ -24,7 +24,7 @@ carob_script <- function(path) {
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		publication=NA,
 		project=NA,
 		data_type= "experiment",

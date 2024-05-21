@@ -11,7 +11,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project=NA,
 		publication= NA,
-		data_institutions = "CIAT",
+		data_institute = "CIAT",
 		data_type = "soil properties", 
 		treatment_vars = "none",
 		carob_contributor="Andrew Sila", 

@@ -15,7 +15,7 @@ TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project="TAMASA",
 		publication= NA,
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		data_type="survey",
 		treatment_vars = "none",
 		carob_contributor="Shumirai Manzvera",

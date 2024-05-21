@@ -23,7 +23,7 @@ This dataset contains output of the research for Sierra Leone.
 		data_type = "experiment",
 		treatment_vars = "variety_code;longitude;latitude",
 		project="International Maize Trials",
-		data_institutions="IITA"
+		data_institute="IITA"
 	)
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)

@@ -18,7 +18,7 @@ carob_script <- function(path) {
     carobiner::read_metadata(uri, path, group, major=2, minor=2),
     project=NA, 
     publication= "doi.org/10.1016/j.fcr.2019.04.005", 
-    data_institutions = "CIMMYT", 
+    data_institute = "CIMMYT", 
     data_type="on-farm experiment", 
 	# also need to include land prep and perhaps other variables
 	# treatment_vars = "N_fertilizer; P_fertilizer; K_fertilizer; Zn_fertilizer; B_fertilizer"

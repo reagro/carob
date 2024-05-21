@@ -18,7 +18,7 @@ Drought is a key maize (Zea mays L.) production constraint in sub-Saharan Africa
 		carob_date="2023-03-19", 
 		data_type="experiment", 
 		treatment_vars = "variety_code;longitude;latitude",
-		data_institutions="IITA"
+		data_institute="IITA"
  	)
 	
 	f <- ff[basename(ff) == "20181025aao_Combd_BA15150_Final_DS_data.csv"]

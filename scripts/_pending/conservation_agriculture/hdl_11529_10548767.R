@@ -17,7 +17,7 @@ carob_script <- function(path) {
 		project=NA,
 		https://hdl.handle.net/11529/10548767, CIMMYT Research Data & Software Repository Network, V1",
 		publication= NA,
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		data_type="on-farm experiment", 
 		carob_contributor="Hope Mazungunye",
 		carob_date="2023-09-15"

@@ -26,7 +26,7 @@ T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on
   	carobiner::read_metadata(uri, path, group, major=1, minor=2),
     project=NA,
     publication= NA,
-    data_institutions = "CIMMYT",
+    data_institute = "CIMMYT",
     data_type="experiment",
     carob_contributor="Fredy Chimire",
     carob_date="2024-1-16"

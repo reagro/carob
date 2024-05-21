@@ -18,7 +18,7 @@ dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 	project="N2Africa",
 	publication= NA,
-	data_institutions = "IITA",
+	data_institute = "IITA",
 	carob_contributor="Rachel Mukami and Effie Ochieng'",
 	carob_date="2022-07-29",
 	data_type="on-farm trials"

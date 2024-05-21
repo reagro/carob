@@ -8,7 +8,7 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
-		data_institutions = "CIMMYT",
+		data_institute = "CIMMYT",
 		publication=NA,
 		project="High Temperature Wheat Yield Trial",
 		data_type= "experiment",

@@ -19,7 +19,7 @@ The trial includes 40 faba bean varieties and 2  wheat varieties that are grown 
 		carobiner::read_metadata(uri, path, group, major=3, minor=0),
 		project="DIVERSify",
 		publication=NA,
-		data_institutions = "ICARDA",
+		data_institute = "ICARDA",
 		carob_contributor="Samar Attaher",
 		carob_date="2023-04-05",
 		data_type="experiment"

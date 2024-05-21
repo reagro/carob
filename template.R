@@ -21,7 +21,7 @@ copy and paste the abstract from the repository. Do not add line breaks
 	dset <- data.frame(
 		# change the major and minor versions if you see a warning
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
-		data_institutions = "",
+		data_institute = "",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication = "",

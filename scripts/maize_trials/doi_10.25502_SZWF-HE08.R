@@ -18,7 +18,7 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 		data_type = "experiment",
 		treatment_vars = "variety_code;longitude;latitude",
 		project="CGIAR Research Program on Maize",
-		data_institutions="IITA"
+		data_institute="IITA"
 	)
 
 	read_data <- function(f) {

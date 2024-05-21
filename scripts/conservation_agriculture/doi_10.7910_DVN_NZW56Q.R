@@ -3,9 +3,7 @@
 
 carob_script <- function(path) {
   
-  "
-
-    [This dataset is a result of a study that was carried out in nine on-farm sites of Central and Southern Malawi to understand and compare the effects of different cropping systems (conservation agriculture (CA) and conventional) on soil physical and chemical parameters and long-term maize productivity. Six experiments were established in each target community. Each experiment had three treatments at one farm and was treated as a replicate, plot sizes were 0.1 ha per treatment. The treatments were as follows:
+"This dataset is a result of a study that was carried out in nine on-farm sites of Central and Southern Malawi to understand and compare the effects of different cropping systems (conservation agriculture (CA) and conventional) on soil physical and chemical parameters and long-term maize productivity. Six experiments were established in each target community. Each experiment had three treatments at one farm and was treated as a replicate, plot sizes were 0.1 ha per treatment. The treatments were as follows:
 1. Conventional control plot consisting of the traditional ridge and furrow land preparation planted with continuous monocrop maize (CPM). The residues were managed using methods commonly practiced in each extension planning area; i.e., the residues were incorporated into the ridges. Continuous monocrop maize was planted on the ridges.
 2. CA plot with continuous monocrop maize (CAM) planted into the previous years’ ridges (where they still existed) or directly into the plot without previous ridge formation. Crop residues from the previous years’ harvests were retained as a surface mulch. Maize seeds were planted as sole crops in no-till methods using a pointed stick (dibble stick).
 3. CA plot with maize intercropped with a legume [cowpea or pigeon pea or groundnut. Both crops were planted with the dibble stick into the previous years’ ridges (where they still existed) or directly into the plot without further ridging. Crop residues were retained as surface mulch as in treatment 2.]
@@ -19,18 +17,13 @@ carob_script <- function(path) {
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=0),
     project=NA,
-    ## if there is a paper, include the paper's doi here
-    ## also add a RIS file in references folder (with matching doi)
     publication= NA,
-    data_institutions = "CIMMYT,IFPRI",
+    data_institute = "CIMMYT;IFPRI",
     data_type="on-farm experiment", 
     carob_contributor="Mitchelle Njukuya",
     carob_date="2024-01-16"
   )
-  
-  
-  
-  
+   
   f <- ff[basename(ff) == "003_AR_MAL_CIMMYT_CAmother_onfarm_2019_Data.csv"]
   
   r <- read.csv(f)

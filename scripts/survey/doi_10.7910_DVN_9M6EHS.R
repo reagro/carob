@@ -14,7 +14,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group, major=3, minor=0),
 		project="RHoMIS",
 		publication= "doi:10.1038/s41597-020-0388-8",
-		data_institutions = "ILRI",
+		data_institute = "ILRI",
 		data_type="survey", 
 		treatment_vars = "none",
 		carob_contributor="Robert Hijmans",

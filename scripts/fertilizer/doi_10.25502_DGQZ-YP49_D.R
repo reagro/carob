@@ -15,7 +15,7 @@ carob_script <- function(path){
 		carob_contributor = "Effie Ochieng'",
 		carob_date="2022-08-06",
 		data_type = "fertilizer",
-		data_institutions="IITA"
+		data_institute="IITA"
 	)
 	 
 	

@@ -15,7 +15,7 @@ carob_script <- function(path) {
    dset <- data.frame(
    	carobiner::read_metadata(uri, path, group, major=1, minor=1),
       publication= NA,
-      data_institutions = "CIP",
+      data_institute = "CIP",
       carob_contributor="Cedric Ngakou",
       data_type="experiment",
 		treatment_vars = "variety_code;longitude;latitude",
