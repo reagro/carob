@@ -14,7 +14,7 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institute = "CIP",
 		data_type="experiment", 
-		carob_contributor="Mary Njogu, Stephen Gichuhi",
+		carob_contributor="Mary Njogu; Stephen Gichuhi",
 		carob_date="2023-01-22"
 	)
 	 

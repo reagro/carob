@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		project="Elite Selection Wheat Yield Trial",
 		publication = NA,
 		data_institute = "CIMMYT",
-		carob_contributor="Mitchelle Njukuya, Blessing Dzuda",
+		carob_contributor="Mitchelle Njukuya; Blessing Dzuda",
 		carob_date="2023-11-14",
 		data_type="on-station experiment",
 		treatment_vars = "variety_code;longitude;latitude"
