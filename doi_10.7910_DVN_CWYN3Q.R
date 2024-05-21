@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		publication = NA,
 		project = NA,
 		data_type = "experiment",
-		treatment_vars = "land_prep_method", 
+		treatment_vars = "land_prep_method;variety", 
 		carob_contributor = "Shumirai Manzvera",
 		carob_date = "2024-05-21"
 	)
@@ -23,7 +23,7 @@ carob_script <- function(path) {
 	f1 <- ff[basename(ff) =="Grain yield 2019 Kiperesa.xlsx"]
 	r1 <-carobiner::read.excel(f1, sheet="Grain yield Kiperesa 2019")
 
-## ignoring bulk density results for now
+## ignoring bulk density results for now; not clear how the relate to the baby trials.
 #	f2 <- ff[basename(ff) == "Bulk Density at Planting_use of Tractor Mounted trial 2019 Kiperesa.xlsx"]
 #	r2 <- carobiner::read.excel(f2, sheet="Bulk Density at planting")
 
