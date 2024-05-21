@@ -15,28 +15,26 @@ SOME DESCRIPTION GOES HERE...
 "
 
 #### Identifiers
-	uri <- "cLmwE"
+  uri <- "doi:Rwanda-RAB-Rice-partners"
 	group <- "eia"
 
 #### Download data 
-	ff <- list.files(paste0(getwd(), '/data/raw/', group, '/', uri), full.names = TRUE)
+	ff <- carobiner::get_data(uri = uri, path = path, group = group, files = list.files("/home/jovyan/carob-eia/data/raw/eia/Rwanda-RAB-Rice-partners/", full.names = T))
+	# ff <- list.files(paste0(getwd(), '/data/raw/', group, '/', uri), full.names = TRUE)
 
 ##### dataset level metadata 
 	dset <- data.frame(
-	  # Need to fill-in metadata...
-	  # carobiner::read_metadata(uri, path, group, major=2, minor=0),
-	  uri = uri,
+	  uri = carobiner::simple_uri(uri),
 	  dataset_id = uri,
 	  authors = 'Some names here...',
-	  title = 'Rwanda RAB Rice Data',
+	  title = 'Rwanda Rice Data',
 	  description = 'Some description here...',
 	  data_institutions = "CGIAR - CIP",
 	  group = group,
 	  license = 'Some license here...',
 	  carob_contributor = 'Eduardo Garcia Bendito',
 	  data_citation = '...',
-	  project = 'Excellence in Agronomy',
-	  use_case = "Rwanda RAB",
+	  project = 'Excellence in Agronomy - Rwanda RAB',
 	  data_type = "compilation", # or, e.g. "on-farm experiment", "survey", "compilation"
 	  carob_date="2024-04-25"
 	)

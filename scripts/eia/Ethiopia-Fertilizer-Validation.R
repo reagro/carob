@@ -13,13 +13,13 @@ carob_script <- function(path) {
 
 "
   
-  uri <- "R1vCK"
+  uri <- "doi:Ethiopia-Fertilizer-Validation"
   group <- "eia"
   
   dset <- data.frame(
     # Need to fill-in metadata...
     # carobiner::read_metadata(uri, path, group, major=2, minor=0),
-    uri = uri,
+    uri = carobiner::simple_uri(uri),
     dataset_id = uri,
     data_institutions = "CGIAR - ICRISAT",
     authors = "Gizaw Desta",
@@ -29,14 +29,13 @@ carob_script <- function(path) {
     license = 'Some license here...',
     carob_contributor = 'Eduardo Garcia Bendito',
     data_citation = '...',
-    project = 'Excellence in Agronomy',
-    use_case = "Fertilizer Ethiopia",
+    project = 'Excellence in Agronomy - Fertilizer Ethiopia Validation',
     data_type = "on-farm experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
     carob_date="2024-05-15"
   )
   
   # Manually build path (this can be automated...)
-  ff <- list.files(paste0(getwd(), '/data/raw/', group, '/', uri), full.names = TRUE)
+  ff <- carobiner::get_data(uri = uri, path = path, group = group, files = list.files("/home/jovyan/carob-eia/data/raw/eia/Ethiopia-Fertilizer-Validation/", full.names = T))
   
   # Retrieve relevant file
   f <- ff[basename(ff) == "ICRISAT_EIA_FertEth_ValidationData.xlsx"]

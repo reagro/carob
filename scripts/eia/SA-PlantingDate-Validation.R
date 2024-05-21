@@ -14,13 +14,13 @@ carob_script <- function(path) {
 
 "
   
-  uri <- "Mp78K"
+  uri <- "doi:SA-PlantingDate-Validation"
   group <- "eia"
   
   dset <- data.frame(
     # Need to fill-in metadata...
     # carobiner::read_metadata(uri, path, group, major=2, minor=0),
-    uri = uri,
+    uri = carobiner::simple_uri(uri),
     dataset_id = uri,
     authors = "Amit Srivastava",
     data_institutions = "IRRI",
@@ -30,14 +30,13 @@ carob_script <- function(path) {
     license = 'Some license here...',
     carob_contributor = 'IITA Biometric Unit',
     data_citation = '...',
-    project = 'Excellence in Agronomy',
-    use_case = "Planting Date SA",
+    project = 'Excellence in Agronomy - Planting Date SA validations',
     data_type = "on-farm experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
     carob_date="2024-04-25"
   )
   
   # Manually build path (this can be automated...)
-  ff <- list.files(paste0(getwd(), '/data/raw/', group, '/', uri), full.names = TRUE)
+  ff <- carobiner::get_data(uri = uri, path = path, group = group, files = list.files("/home/jovyan/carob-eia/data/raw/eia/SA-PlantingDate-Validation/", full.names = T))
   
   # Retrieve relevant file
   f <- ff[basename(ff) == "EiA_Rabi_Wheat_Production_survey_data_2022-23.csv"]
