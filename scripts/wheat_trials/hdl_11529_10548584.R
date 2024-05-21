@@ -18,7 +18,7 @@ carob_script <- function(path) {
 		carob_contributor="Andrew Sila",
 		carob_date="2023-05-03",
 		data_type="on-station experiment",
-		treatment_vars = "variety_code;location"
+		treatment_vars = "variety_code;longitude;latitude"
 	)
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)

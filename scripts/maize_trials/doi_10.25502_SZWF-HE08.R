@@ -16,7 +16,7 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 		carob_contributor = "Siyabusa Mkuhlani",
 		carob_date="2024-17-01",
 		data_type = "experiment",
-		treatment_vars = "variety;location",
+		treatment_vars = "variety_code;longitude;latitude",
 		project="CGIAR Research Program on Maize",
 		data_institutions="IITA"
 	)

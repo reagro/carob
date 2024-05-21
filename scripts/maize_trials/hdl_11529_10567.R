@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		publication= NA,
 		project="Global Maize Program",
 		data_type= "experiment",
-		treatment_vars = "variety;location",
+		treatment_vars = "variety_code;longitude;latitude",
 		carob_contributor= "Mitchelle Njukuya",
 		carob_date="2024-03-12"
 	)

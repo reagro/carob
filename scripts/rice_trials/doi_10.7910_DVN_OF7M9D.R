@@ -19,7 +19,7 @@ carob_script <- function(path) {
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2022-01-21",
 		data_type="experiment",
-		treatment_vars = "variety;location"
+		treatment_vars = "variety_code;longitude;latitude"
 	)
   
 	d <- list()

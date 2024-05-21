@@ -15,7 +15,7 @@ New statistical methods allow the identification and recommendation of new clone
 		data_institutions = "IITA",
 		carob_contributor="Cedric Ngakou",
 		data_type="experiment",
-		treatment_vars = "variety;location",
+		treatment_vars = "variety_code;longitude;latitude",
 		project=NA,
 		carob_date="2023-10-30"
 	)
