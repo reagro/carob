@@ -12,7 +12,7 @@ carob_script <- function(path) {
 
 "
   
-  uri <- "doi:Ethiopia-DigitalGreen-Validation"
+  uri <- "Ethiopia-DigitalGreen-Validation"
   group <- "eia"
   
   dset <- data.frame(
