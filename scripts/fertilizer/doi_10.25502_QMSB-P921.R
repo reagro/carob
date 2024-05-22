@@ -60,6 +60,44 @@ carob_script <- function(path){
   
   r <- d[,c("trial_id","country","adm1","adm2","adm3","latitude","longitude","elevation")]
   
+  # EGB: 
+  # # Fix coordinates from those already assumed to be correct in the dataset
+  # # At this point is just taking the coordinates from one of the other sites
+  # # but worth another look
+  r$longitude[r$adm3 %in% c("Dorimon", "Piisie") & r$latitude < 2] <- 2.7
+  r$latitude[r$adm3 %in% c("Dorimon", "Piisie") & r$latitude < 2] <- 10
+  r$longitude[r$adm3 == "Kojokpere" & r$latitude < 2] <- 2.2
+  r$latitude[r$adm3 == "Kojokpere" & r$latitude < 2] <- 10.2
+  r$longitude[r$adm3 == "Nyoli" & r$latitude < 2] <- 2.3
+  r$latitude[r$adm3 == "Nyoli" & r$latitude < 2] <- 9.5
+  r$longitude[r$adm3 == "Kangba" & r$latitude < 2] <- 2.6
+  r$latitude[r$adm3 == "Kangba" & r$latitude < 2] <- 9.9
+  r$longitude[r$adm3 == "Tampieni" & r$latitude < 2] <- 2.6
+  r$latitude[r$adm3 == "Tampieni" & r$latitude < 2] <- 10
+  r$longitude[r$adm3 == "Natinga" & r$latitude < 2] <- 0.5
+  r$latitude[r$adm3 == "Natinga" & r$latitude < 2] <- 10.8
+  r$longitude[r$adm3 == "Natinga" & r$latitude < 2] <- 0.5
+  r$latitude[r$adm3 == "Natinga" & r$latitude < 2] <- 10.8
+  r$longitude[r$adm3 == "Pion"] <- 0
+  r$latitude[r$adm3 == "Pion"] <- 9.6
+  r$longitude[r$adm3 == "Nafkolga"] <- -0.3
+  r$latitude[r$adm3 == "Nafkolga"] <- 10.9
+  r$longitude[r$adm3 == "Tansia"] <- -0.3
+  r$latitude[r$adm3 == "Tansia"] <- 10.9
+  # # Additionally, 3 records are flipped (lat is long; long is lat)
+  r$longitude[r$adm2 == "Yendi" & r$adm3 == "Gbung"] <- 0.0
+  r$latitude[r$adm2 == "Yendi" & r$adm3 == "Gbung"] <- 9.6
+  r$longitude[r$adm2 == "Yendi" & r$adm3 == "Limpua"] <- 0.1
+  r$latitude[r$adm2 == "Yendi" & r$adm3 == "Limpua"] <- 9.6
+  r$longitude[r$adm2 == "Yendi" & r$adm3 == "Chirifoyili"] <- 0.1
+  r$latitude[r$adm2 == "Yendi" & r$adm3 == "Chirifoyili"] <- 9.7
+  # # Additionally, some of the longitude values seem to be reversed
+  r$longitude[r$longitude > 0 & !is.na(r$longitude)] <- r$longitude[r$longitude > 0 & !is.na(r$longitude)]*-1
+  
+  gha <- terra::vect("~/TRANSFORM/egb/gadm/data/africa/gadm41_GHA.gpkg", layer = "ADM_ADM_0")
+  terra::plot(gha)
+  terra::plot(terra::vect(r, geom = c("longitude", "latitude")), add = T)
+  
   
   # experiment
   
@@ -181,63 +219,65 @@ carob_script <- function(path){
   z$yield_part <- "seed"
   z$is_survey <- TRUE
   
-  # Adding the processed coordinates
-  
-  # coords based on adm3
-  adm3 <- data.frame(country = "Ghana", 
-                     adm3 = c("Apurimzua", "Atuba", "Azumsapeliga", "Azupupung", 
-                           "Baadabogu", "Baadaboo", "Bazua", "Bazunde", "Beka", "Bihinaayili", 
-                            "Booduori", "Botingli", "Boya Natinga", "Bulungu", "Bunglung", 
-                      "Challam", "Damdu", "Kangba-Jedo", "Dorimon", "Piisie", "Gamaga", 
-                      "Gbeongo", "Gbung", "Googo Natinga", "Gumbo", "Gumbo Nagure", 
-                      "Gumyoko", "Guzongo", "Kangba", "Kambontooni", "Tampieni", "Koduziegu", 
-                      "Kojokpere", "Kpantori", "Kpatia", "Kuboku", "Kubuko", "Kulogtingre", 
-                      "Kushegu", "Lamboya", "Lamboya-Gozicse", "Limpua", "Chebaa", 
-                      "Zamboge", "Balienia", "Kaleo Puli", "Toure", "Fian", "Issa", 
-                      "Nyugluu", "Tabiesi", "Wogu", "Nafkolga", "Nalogu", "Natinga", 
-                      "Nyolgo", "Nyoli", "Domugjile", "Ombo", "Pase", "Sakpari", "Salpiiga", 
-                      "Sambolongo", "Sankpiem", "Sapeliga", "Savelugu", "T - Natinga", 
-                      "Tambiigu", "Tansia", "Tetaku", "Tilli", "Varempere", "Varempare", 
-                      "Yalugu #1", "Yemo", "Binilobdo", "Chirifoyili", "Gbemba", "Gundogu", 
-                      "Kulkpanga", "Pion", "Sakpegu", "Yizegu", "Yong", "Zaago2", "Zambogu", 
-                      "Zeego", "Zuoyanga #1", "Zuoyanga #2"), 
-                     lat = c(NA, NA,NA, NA, NA, NA, 10.99234, 10.9027, 7.23761, NA, NA, NA, NA, NA,9.59576, NA, 9.62618, NA, 
-                             10.03436, NA, NA, NA, NA, NA, 10.84746, NA, 10.98779, 11.06855, NA, NA, NA, NA, NA, NA, 9.52346, 
-                             10.90625, NA, NA, NA, 10.92047, NA, NA, NA, NA, NA, NA, NA, 10.39255, 10.39158,NA, NA, 10.12611, 
-                             NA, NA, 10.81667, NA, 9.74328, NA, 10.18313, 10.03735, 10.94717, NA, NA, NA, 11.01774, 9.62441, 
-                             NA, 11.04479,NA, NA, NA, NA, NA, NA, 9.66881, NA, NA, NA, NA, NA, 9.63998,NA, NA, 9.34033, NA, 
-                             NA, NA, NA, NA), 
-                     lon = c(NA, NA, NA, 
-                              NA, NA, NA, -0.36334, -0.52334, 0.5309, NA, NA, NA, NA, NA, -0.79683, 
-                              NA, -0.78115, NA, -2.68827, NA, NA, NA, NA, NA, -0.47232, NA, 
-                              -0.34812, -0.37938, NA, NA, NA, NA, NA, NA, -0.02967, -0.48492, 
-                              NA, NA, NA, -0.51791, NA, NA, NA, NA, NA, NA, NA, -2.46857, -2.33412, 
-                              NA, NA, 0.15167, NA, NA, -0.08333, NA, -2.49473, NA, -2.51148, 
-                              -2.7109, -0.35663, NA, NA, NA, -0.30687, -0.8253, NA, -0.3415, 
-                              NA, NA, NA, NA, NA, NA, -0.50991, NA, NA, NA, NA, NA, -0.06531, 
-                              NA, NA, -0.81915, NA, NA, NA, NA, NA))
-  
-  z <- merge(z,adm3,by= c("country","adm3"),all.x = TRUE)
-
-  isna <- is.na(z$latitude) | is.na(z$longitude)
-  z$latitude <- ifelse(isna, z$lat, z$latitude)
-  z$longitude <- ifelse(isna,z$lon, z$longitude)
-  z$lat <- z$lon <- NULL
-  
-  # coordinates based on adm2
-  
-  adm2 <- data.frame(country = c("Ghana", "Ghana", "Ghana", "Ghana", 
-                                 "Ghana", "Ghana"), 
-                     adm2 = c("Binduri", "Bawku West", "Nadowli","Savelugu Nanton", "Yendi", "Wa West"), 
-                     lat = c(10.97214,10.91667, 10.28835, 9.62441, 9.44272, 10.06069), 
-                     lon = c(-0.30837,-0.51667, -2.60889, -0.8253, -0.00991, -2.50192))
-  
-  z <- merge(z,adm2,by= c("country","adm2"),all.x = TRUE)
-  
-  isna <- is.na(z$latitude) | is.na(z$longitude)
-  z$latitude <- ifelse(isna, z$lat, z$latitude)
-  z$longitude <- ifelse(isna,z$lon, z$longitude)
-  z$lat <- z$lon <- NULL
+  # EGB:
+  # #  Removing --- See L63
+  # # Adding the processed coordinates
+  # 
+  # # coords based on adm3
+  # adm3 <- data.frame(country = "Ghana", 
+  #                    adm3 = c("Apurimzua", "Atuba", "Azumsapeliga", "Azupupung", 
+  #                          "Baadabogu", "Baadaboo", "Bazua", "Bazunde", "Beka", "Bihinaayili", 
+  #                           "Booduori", "Botingli", "Boya Natinga", "Bulungu", "Bunglung", 
+  #                     "Challam", "Damdu", "Kangba-Jedo", "Dorimon", "Piisie", "Gamaga", 
+  #                     "Gbeongo", "Gbung", "Googo Natinga", "Gumbo", "Gumbo Nagure", 
+  #                     "Gumyoko", "Guzongo", "Kangba", "Kambontooni", "Tampieni", "Koduziegu", 
+  #                     "Kojokpere", "Kpantori", "Kpatia", "Kuboku", "Kubuko", "Kulogtingre", 
+  #                     "Kushegu", "Lamboya", "Lamboya-Gozicse", "Limpua", "Chebaa", 
+  #                     "Zamboge", "Balienia", "Kaleo Puli", "Toure", "Fian", "Issa", 
+  #                     "Nyugluu", "Tabiesi", "Wogu", "Nafkolga", "Nalogu", "Natinga", 
+  #                     "Nyolgo", "Nyoli", "Domugjile", "Ombo", "Pase", "Sakpari", "Salpiiga", 
+  #                     "Sambolongo", "Sankpiem", "Sapeliga", "Savelugu", "T - Natinga", 
+  #                     "Tambiigu", "Tansia", "Tetaku", "Tilli", "Varempere", "Varempare", 
+  #                     "Yalugu #1", "Yemo", "Binilobdo", "Chirifoyili", "Gbemba", "Gundogu", 
+  #                     "Kulkpanga", "Pion", "Sakpegu", "Yizegu", "Yong", "Zaago2", "Zambogu", 
+  #                     "Zeego", "Zuoyanga #1", "Zuoyanga #2"), 
+  #                    lat = c(NA, NA,NA, NA, NA, NA, 10.99234, 10.9027, 7.23761, NA, NA, NA, NA, NA,9.59576, NA, 9.62618, NA, 
+  #                            10.03436, NA, NA, NA, NA, NA, 10.84746, NA, 10.98779, 11.06855, NA, NA, NA, NA, NA, NA, 9.52346, 
+  #                            10.90625, NA, NA, NA, 10.92047, NA, NA, NA, NA, NA, NA, NA, 10.39255, 10.39158,NA, NA, 10.12611, 
+  #                            NA, NA, 10.81667, NA, 9.74328, NA, 10.18313, 10.03735, 10.94717, NA, NA, NA, 11.01774, 9.62441, 
+  #                            NA, 11.04479,NA, NA, NA, NA, NA, NA, 9.66881, NA, NA, NA, NA, NA, 9.63998,NA, NA, 9.34033, NA, 
+  #                            NA, NA, NA, NA), 
+  #                    lon = c(NA, NA, NA, 
+  #                             NA, NA, NA, -0.36334, -0.52334, 0.5309, NA, NA, NA, NA, NA, -0.79683, 
+  #                             NA, -0.78115, NA, -2.68827, NA, NA, NA, NA, NA, -0.47232, NA, 
+  #                             -0.34812, -0.37938, NA, NA, NA, NA, NA, NA, -0.02967, -0.48492, 
+  #                             NA, NA, NA, -0.51791, NA, NA, NA, NA, NA, NA, NA, -2.46857, -2.33412, 
+  #                             NA, NA, 0.15167, NA, NA, -0.08333, NA, -2.49473, NA, -2.51148, 
+  #                             -2.7109, -0.35663, NA, NA, NA, -0.30687, -0.8253, NA, -0.3415, 
+  #                             NA, NA, NA, NA, NA, NA, -0.50991, NA, NA, NA, NA, NA, -0.06531, 
+  #                             NA, NA, -0.81915, NA, NA, NA, NA, NA))
+  # 
+  # z <- merge(z,adm3,by= c("country","adm3"),all.x = TRUE)
+  # 
+  # isna <- is.na(z$latitude) | is.na(z$longitude)
+  # z$latitude <- ifelse(isna, z$lat, z$latitude)
+  # z$longitude <- ifelse(isna,z$lon, z$longitude)
+  # z$lat <- z$lon <- NULL
+  # 
+  # # coordinates based on adm2
+  # 
+  # adm2 <- data.frame(country = c("Ghana", "Ghana", "Ghana", "Ghana", 
+  #                                "Ghana", "Ghana"), 
+  #                    adm2 = c("Binduri", "Bawku West", "Nadowli","Savelugu Nanton", "Yendi", "Wa West"), 
+  #                    lat = c(10.97214,10.91667, 10.28835, 9.62441, 9.44272, 10.06069), 
+  #                    lon = c(-0.30837,-0.51667, -2.60889, -0.8253, -0.00991, -2.50192))
+  # 
+  # z <- merge(z,adm2,by= c("country","adm2"),all.x = TRUE)
+  # 
+  # isna <- is.na(z$latitude) | is.na(z$longitude)
+  # z$latitude <- ifelse(isna, z$lat, z$latitude)
+  # z$longitude <- ifelse(isna,z$lon, z$longitude)
+  # z$lat <- z$lon <- NULL
   
   
   # dropping inputs without treatment, residue yield and yield information
