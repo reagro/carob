@@ -11,11 +11,11 @@ carob_script <- function(path) {
   
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
-		data_institutions = "ICRAF-ISRIC",
-		publication= " http://doi.org/10.1016/j.earscirev.2016.01.012.",
+		data_institute = "ICRAF-ISRIC",
+		publication= "doi:10.1016/j.earscirev.2016.01.012.",
 		project="FAO",
 		data_type= "survey",
-		exp_treatments = "none",
+		treatment_vars = "none",
 		carob_contributor= "Andrew Sila",
 		carob_date="2024-05-20"
 	)
@@ -32,73 +32,36 @@ carob_script <- function(path) {
 	r5 <- read.csv(f5)
 	f6 <- ff[basename(ff) == "Site_description.csv"]
 	r6 <- read.csv(f6)
+
+	# Get lat and lon from r6 and convert into degrees
+	r6$LONM[is.na(as.numeric(r6$LONM))] <- 0
+	r6$LONS[is.na(as.numeric(r6$LONS))] <- 0
+	r6$Longitude <-  r6$LOND +  as.numeric(r6$LONM)/60 +  as.numeric(r6$LONS)/3600
+	r6$Longitude[r6$LONEW == "W"] <- -r6$Longitude[r6$LONEW == "W"]
 	
-	# Merge country and region
-	r34 <- merge(r3,r4)
-	
-	#Merge country with r56
-	r346 <- merge(r34, r6)
-	
-	#Merge r3 with r5
-	r35 <- merge(r3, r5)
-	
-	# Merge r4 with r36
-	r1$xxx <- paste0(r1$ISO, r1$BTOP, r1$BBOT, r1$SAMPLENO)
-	r2$xxx <- paste0(r2$ISO, r2$BTOP, r2$BBOT, r2$SAMPLENO)
-	
-	r12 <- merge(r1, r2, by = "xxx")
-	r125 <- merge(r12, r35, by.x = 'ID.x', by.y = "ID")
-	
-	r5$id <- paste0(r5$ISO,".", r5$ID)
-	r6$id <- paste0(r6$ISO,".", r6$ID)
-	
-	r56 <- merge(r5, r6, by = "id")
-	r12$id <- paste0(r12$ISO.x,".", r12$ID.x)
-	
-	
-	r125 <- merge(r12, r56, by = 'id')
-	
-	# Get lat and lon from r125 and convert into degrees
-	r125$LONM[which(is.na(as.numeric(r125$LONM)) == TRUE)] <- 0
-	r125$LONS[which(is.na(as.numeric(r125$LONS)) == TRUE)] <- 0
-	r125$Longitude <-   r125$LOND +  as.numeric(r125$LONM)/60 +  as.numeric(r125$LONS)/3600
-	
-	r125$LATM[which(is.na(as.numeric(r125$LATM)) == TRUE)] <- 0
-	r125$LATS[which(is.na(as.numeric(r125$LATS)) == TRUE)] <- 0
-	r125$Latitude <-   r125$LATD +  as.numeric(r125$LATM)/60 +  as.numeric(r125$LATS)/3600
-	
-	r125$Longitude[which(r125$LONEW == "W")] <- -r125$Longitude[which(r125$LONEW == "W")]
-	r125$Latitude[which(r125$LATNS == "S")] <- -r125$Latitude[which(r125$LATNS == "S")]
-	
-	r125 <- merge(r125,r3, by.x = "ISO.x.x", by.y = "ISO")
-	
-	r <- r125
-	
-	# Clean country names
-	r$COUNTRY[which(r$COUNTRY=="Cote d'Ivoire")] <- "Côte d'Ivoire"
-	r$COUNTRY[which(r$COUNTRY=="Russian Federation")] <- "Russia"
-	r$COUNTRY[which(r$COUNTRY=="Syrian Arab Republic")] <- "Syria"
-	r$COUNTRY[which(r$COUNTRY=="Slovakia (Slovak Republic)")] <- "Slovakia"
-	r$COUNTRY[which(r$COUNTRY=="Congo, the Democratic Republic of")] <- "Congo"
+	r6$LATM[is.na(as.numeric(r6$LATM))] <- 0
+	r6$LATS[is.na(as.numeric(r6$LATS))] <- 0
+	r6$Latitude <- r6$LATD + as.numeric(r6$LATM)/60 +  as.numeric(r6$LATS)/3600
+	r6$Latitude[r6$LATNS == "S"] <- -r6$Latitude[r6$LATNS == "S"]
+	r6$LOC <- iconv(r6$LOC, "latin1", "UTF8")
 	
 
-	latlon_missing_c <- r$COUNTRY[which(is.na(r$Longitude == TRUE))]
-	latlon_missing_l <- r$LOC[which(is.na(r$Longitude == TRUE))]
+	# Merge country and region
+	r34 <- merge(r3, r4, by="REGION")
+	r56 <- merge(r5, r6, by=c("ISO", "ID"))
+	#Merge country and site description
+	r3456 <- merge(r34, r56, by="ISO")
 	
-	# locs <-  NULL
-	# loc <- strsplit(latlon_missing_l, ",", fixed = TRUE)
-	# for (l in 1:length(loc)){
-	#   locs <- c(locs,loc[[l]][1])
-	# }
-	
-	#carobiner::geocode(latlon_miss[1,1], latlon_miss[1,2])
-	
-	# There are about 608 records missing latlon values out of the total 4830
-	# Isolate those missing latlon to be processed later
-	
-	r <- r[-which(is.na(r$Longitude == TRUE)),]
+## need to investigate the non-matches (see all=FALSE)
+## perhaps typos can be fixed?
+	r12 <- merge(r1, r2, by=c("ISO", "ID", "HORI", "BTOP", "BBOT", "SAMPLENO"), all=TRUE)
+
+## the number of records of r is 5318, but r12 has 5248 records. Is that correct?
+## Please investigate
+	r <- merge(r12, r3456, by = c("ISO", "ID"), all=TRUE)
+		
 	d <- data.frame(
-		trial_id = r$id,
+		trial_id = paste0(r$ISO, r$ID),
 		soil_pH = as.numeric(r$PHH2O),
 		soil_pH_KCl = as.numeric(r$PHKCL),
 		soil_pH_CaCl2 = as.numeric(r$PHCACL2),
@@ -115,9 +78,25 @@ carob_script <- function(path) {
 		soil_silt = as.numeric(r$TSI),
 		soil_sand = as.numeric(r$TSA),
 		country = r$COUNTRY,
+		location = r$LOC,
 		longitude = r$Longitude,
 		latitude = r$Latitude
 	)
+
+	d$country <- carobiner::replace_values( d$country,
+		c("Cote d'Ivoire", "Russian Federation", "Syrian Arab Republic", "Slovakia (Slovak Republic)", "Congo, the Democratic Republic of"),
+		c("Côte d'Ivoire", "Russia", "Syria", "Slovakia", "Congo")
+	)
+
+	# There are about 608 records missing latlon values out of the total 4830
+	#i <- which(is.na(d$longitude) | is.na(d$latitude))
+	#nolonlat <- d[, c("country", "location")]
+	# locs <-  NULL
+	# loc <- strsplit(latlon_missing_l, ",", fixed = TRUE)
+	# for (l in 1:length(loc)){
+	#   locs <- c(locs,loc[[l]][1])
+	# }
+	#carobiner::geocode(latlon_miss[1,1], latlon_miss[1,2])
 
     carobiner::write_files(path, dset, d)
 }
