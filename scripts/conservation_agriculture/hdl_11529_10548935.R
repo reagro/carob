@@ -79,7 +79,8 @@ of El Batán Texcoco, the State of Mexico, Mexico. The experiment was a randomiz
 	d3 <- data.frame(
 		samptime = r3$TIME,
 		treatment = r3$TREATMENT,
-		dmy_roots = r3$`Root biomass (g)`,
+		# not sure how to go from g/core to kg/ha or other standard measure 
+		#dmy_roots = r3$`Root biomass (g)`,
 		root_AMF = r3$`AMF`,
 		root_infection = r3$`Total pathogens`		
 	)
@@ -118,11 +119,13 @@ of El Batán Texcoco, the State of Mexico, Mexico. The experiment was a randomiz
 	d6 <- data.frame(
 		samptime = r6$Time,
 		treatment = r6$Treatment,
-		dmy_roots = r6$`Root weight (g)`,
+		# not sure how to go from g/core to kg/ha or other standard measure 
+		# dmy_roots = r6$`Root weight (g)`,
 		root_AMF = r6$`AMF`,
 		root_infection = r6$`Total Pathogens`		
 	)
 
+	# using the last root sample
 	d1 <- cbind(d1, d3[d3$samptime==3, -c(1:2)])
 	dm <- carobiner::bindr(d1, d2)
 	exp_m <- expr[- grep("barley", expr$Abbreviation), ]
