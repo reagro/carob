@@ -8,25 +8,19 @@ carob_script <- function(path){
  N2-fixation research and development will be the legacy of the project.The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
   "
   
-uri <- "doi:10.25502/6G5B-RM44/D"
-group <- "fertilizer"
+	uri <- "doi:10.25502/6G5B-RM44/D"
+	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
 
-## dataset level data
-
-dset <- data.frame(
+	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
-	project="N2Africa",
-	publication= NA,
-	data_institute = "IITA",
-	carob_contributor="Rachel Mukami; Effie Ochieng'",
-	carob_date="2022-07-29",
-	data_type="on-farm trials"
-)
-
-
-
-
+		project="N2Africa",
+		publication= NA,
+		data_institute = "IITA",
+		carob_contributor="Rachel Mukami; Effie Ochieng'",
+		carob_date="2022-07-29",
+		data_type="on-farm trials"
+	)
 
 	f <- ff[basename(ff) == "data.csv"]
 	d <- data.frame(read.csv(f))
