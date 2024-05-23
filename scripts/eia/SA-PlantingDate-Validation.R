@@ -55,7 +55,12 @@ carob_script <- function(path) {
   names(r2) <- sub("_T2","", names(r2))
   names(r2) <- sub("T2","", names(r2))
   r2$treatment <- "T2" # create variable T2
+  
   r <- dplyr::bind_rows(r1,r2)
+  
+  r$cropDurationDays[r$cropDurationDays <0 ] <- NA # convert negative values to NA
+  r$planting_date <- as.Date(r$harvDate)-r$cropDurationDays # create planting date
+  
   d <- data.frame(
     country = "India",
     crop = "wheat",
@@ -77,8 +82,9 @@ carob_script <- function(path) {
     crop_cut=r$cropCutDone, 
     gender=r$fGender, # Not found in carob
     treatment=r$treatment,
-    variety=r$VarName, 
-    harvest_date=r$harvYear,
+    variety=r$VarName,
+    planting_date=r$planting_date,
+    harvest_date=r$harvDate,
     plot_area=r$EiAcropAreaAcre,
     soil_texture=r$soilTexture,
     soil_quality=r$soilPerception,
@@ -113,6 +119,7 @@ carob_script <- function(path) {
                             "Rice"="rice","Wheat"="wheat")
   d$previous_crop[d$previous_crop=="Fallow"] <- NA # Fallow not a crop
   d$land_prep_method <- ifelse(d$land_prep_method == "NoTillage","no-till","tillage")
+  
 
   carobiner::write_files(dset, d, path=path)
 }
