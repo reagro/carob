@@ -15,16 +15,16 @@ carob_script <- function(path){
 		carobiner::read_metadata(uri, path, group, major = 1, minor = 0),
 		project = "N2Africa",
 		publication = NA,
-		carob_contributor = "Effie Ochieng'",
-		carob_date="2022-09-09",
 		data_type = "on-farm experiment",
-		data_institute=NA
+		treatment_vars = "inoculated; N_fertilizer; P_fertilizer; K_fertilizer; lime; gypsum",
+		data_institute="IITA",
+		carob_contributor = "Effie Ochieng'",
+		carob_date="2022-09-09"
 	)
-  
 	
 	#read the data
-	f <- ff[basename(ff) == "a_general.csv"]
-	d <- read.csv(f)
+	f0 <- ff[basename(ff) == "a_general.csv"]
+	d0 <- read.csv(f0)
 	f1 <- ff[basename(ff)== "b_info_site_2.csv"]
 	d1 <- read.csv(f1)
 	f2 <- ff[basename(ff) =="c_use_of_package_2.csv" ]
@@ -35,28 +35,29 @@ carob_script <- function(path){
 	d4 <- read.csv(f4)
 	
 	#processing the first dataset
-	d$trial_id <- d$farm_id
-	d$adm2 <- carobiner::fix_name(d$district, "title")
-	d$adm3 <- carobiner::fix_name(d$sector_ward, "title")
-	d$longitude <- d$gps_latitude
-	d$latitude <- -(d$gps_longitude)
-	d <- d[, c("trial_id", "adm2","adm3", "latitude","longitude")]
+	d0$trial_id <- d0$farm_id
+	d0$adm2 <- carobiner::fix_name(d0$district, "title")
+	d0$adm3 <- carobiner::fix_name(d0$sector_ward, "title")
+	d0$longitude <- d0$gps_latitude
+	d0$latitude <- -(d0$gps_longitude)
+	d0 <- d0[, c("trial_id", "adm2", "adm3", "latitude","longitude")]
 	# EGB:
 	# Completing lat long records...
 	# g <- carobiner::geocode(country = "Mozambique",
-	#                         adm2 = del$adm2,
-	#                         adm3 = ifelse(is.na(del$adm3), del$adm2, del$adm3),
-	#                         location = ifelse(is.na(del$adm3), del$adm2, del$adm3))
+	#          adm2 = del$adm2,
+	#          adm3 = ifelse(is.na(del$adm3), del$adm2, del$adm3),
+	#          location = ifelse(is.na(del$adm3), del$adm2, del$adm3))
 	g <- data.frame(country = c("Mozambique", "Mozambique"),
 	                adm2 = c("Mogovolas", "Gurue"),
 	                adm3 = c("Nametil", "Gurue"),
 	                location = c("Nametil", "Gurue"),
 	                lon = c(39.3379, 36.9875),
 	                lat = c(-15.7088, -15.4651))
-	d[is.na(d$longitude) | is.na(d$latitude) & d$adm2 == "Gurue", "longitude"] <- g[g$adm2 == "Gurue" & g$adm3 == "Gurue", "lon"]
-	d[is.na(d$longitude) | is.na(d$latitude) & d$adm2 == "Mogovolas" & d$adm3 == "Nametil", "longitude"] <- g[g$adm2 == "Mogovolas" & g$adm3 == "Nametil", "lon"]
-	d[is.na(d$longitude) | is.na(d$latitude) & d$adm2 == "Gurue", "latitude"] <- g[g$adm2 == "Gurue" & g$adm3 == "Gurue", "lat"]
-	d[is.na(d$longitude) | is.na(d$latitude) & d$adm2 == "Mogovolas" & d$adm3 == "Nametil", "latitude"] <- g[g$adm2 == "Mogovolas" & g$adm3 == "Nametil", "lat"]
+	i <- is.na(d0$longitude) | is.na(d0$latitude)
+	d0[i & d0$adm2 == "Gurue", "longitude"] <- g[g$adm2 == "Gurue" & g$adm3 == "Gurue", "lon"]
+	d0[i & d0$adm2 == "Mogovolas" & d0$adm3 == "Nametil", "longitude"] <- g[g$adm2 == "Mogovolas" & g$adm3 == "Nametil", "lon"]
+	d0[i & d0$adm2 == "Gurue", "latitude"] <- g[g$adm2 == "Gurue" & g$adm3 == "Gurue", "lat"]
+	d0[i & d0$adm2 == "Mogovolas" & d0$adm3 == "Nametil", "latitude"] <- g[g$adm2 == "Mogovolas" & g$adm3 == "Nametil", "lat"]
 	
 	#processing the 2nd dataset
 	d1$trial_id <- d1$farm_id
@@ -77,8 +78,7 @@ carob_script <- function(path){
 	d2$variety <- d2$variety_1
 	
 	d2$inoculated <- ifelse(d2$inoculant_used %in% c("Biagro", "Y", "Yes"), TRUE, 
-													ifelse(d2$inoculant_used %in% c("N", "no"), FALSE, NA))
-	
+					ifelse(d2$inoculant_used %in% c("N", "no"), FALSE, NA))
 	
 	#cleaning fertilizer types
 	d2$mineral_fert_type <- carobiner::fix_name(d2$mineral_fert_type, "lower")
@@ -132,18 +132,17 @@ carob_script <- function(path){
 	d3$harvest_date <- ifelse(d3$date_harvest_yyyy == 0, NA, paste(d3$date_harvest_yyyy, sprintf("%02d", d3$date_harvest_mm), sprintf("%02d", d3$date_harvest_dd), sep = "-"))
 	
 	d3 <- d3[,c("trial_id","planting_date","harvest_date")]
+		
+	d <- merge(d0, d1, "trial_id")
+	d <- merge(d, d2, "trial_id")
+	d <- merge(d, d3, "trial_id")
 	
-	
-	q <- merge(d, d1, "trial_id")
-	q <- merge(q, d2, "trial_id")
-	q <- merge(q, d3, "trial_id")
-	
-	q$country <- "Mozambique"
-	q$crop <- carobiner::fix_name(q$crop, "lower")
-	q$crop[grepl("soybean", q$crop)] <- "soybean"
+	d$country <- "Mozambique"
+	d$crop <- carobiner::fix_name(d$crop, "lower")
+	d$crop[grepl("soybean", d$crop)] <- "soybean"
 	
 	#standardizing the varieties
-	v <- q$variety
+	v <- d$variety
 	v <- carobiner::fix_name(v, "first")
 	v <- gsub("TGX", "Tgx", v)
 	v[ grepl("Santa", v, ignore.case=TRUE) ] <- "Santa"
@@ -155,9 +154,9 @@ carob_script <- function(path){
 	v <- gsub("Tgx ", "Tgx-", v)
 	v <- gsub("Tgx1", "Tgx-1", v)
 	
-	q$variety <- v
+	d$variety <- v
 	
-	q$yield_part <- ifelse(q$crop == "groundnut", "pod", "seed")
+	d$yield_part <- ifelse(d$crop == "groundnut", "pod", "seed")
 # all scripts should end like this
-	carobiner::write_files(path=path, dset, q)
+	carobiner::write_files(path=path, dset, d)
 }

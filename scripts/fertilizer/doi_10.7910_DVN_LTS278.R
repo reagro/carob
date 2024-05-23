@@ -1,7 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-
 carob_script <- function(path) {
 
 "Replication Data for: Response of Maize to blended fertilizer  
@@ -17,6 +15,7 @@ Maize grain and bio-mass yield were increased by application of different rates 
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2021-08-26",
 		data_type="experiment",
+		treatment_vars = "N_fertilizer; P_fertilizer; K_fertilizer",
 		data_institute=NA,
 		project=NA
 	)
@@ -70,18 +69,17 @@ Maize grain and bio-mass yield were increased by application of different rates 
 	dv$treatment[i] <- 'Ctrl/FP'
 	dv$N_fertilizer[i] <- 0
 	dv$P_fertilizer[i] <- 0
-	dv$fertilizer_type <- "unknown" # Unknown fertilizer
 
 	i <- dv$treatment=='B'
 	dv$treatment[i] <- 'Cal. P & rec. N'
 	dv$N_fertilizer[i] <- 92
 	dv$P_fertilizer[i] <- 0
-	dv$fertilizer_type <- "unknown" # Unknown fertilizer
 
 	i <- dv$treatment=='C'
 	dv$treatment[i] <- '92 kg/ha N & 30 kg/ha P'
 	dv$N_fertilizer[i] <- 92
 	dv$P_fertilizer[i] <- 30
+
 	dv$fertilizer_type <- "unknown" # Unknown fertilizer
 
 	## RH: N_fertilizer, P_fertilizer and K_fertilizer need to be 
