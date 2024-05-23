@@ -94,10 +94,6 @@ carob_script <- function(path){
   # # Additionally, some of the longitude values seem to be reversed
   r$longitude[r$longitude > 0 & !is.na(r$longitude)] <- r$longitude[r$longitude > 0 & !is.na(r$longitude)]*-1
   
-  gha <- terra::vect("~/TRANSFORM/egb/gadm/data/africa/gadm41_GHA.gpkg", layer = "ADM_ADM_0")
-  terra::plot(gha)
-  terra::plot(terra::vect(r, geom = c("longitude", "latitude")), add = T)
-  
   
   # experiment
   
