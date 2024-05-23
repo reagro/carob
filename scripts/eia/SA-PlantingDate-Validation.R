@@ -41,7 +41,6 @@ carob_script <- function(path) {
   # Retrieve relevant file
   f <- ff[basename(ff) == "EiA_Rabi_Wheat_Production_survey_data_2022-23.csv"]
   # Read relevant file
-  # r <- read.csv(f, colClasses = "character") # convert everything to character so it be pivoted longer
   r <- read.csv(f)
   # Build initial DF ... Start from here
   r <- Filter(function(x)!all(is.na(x)), r)# remove empty columns
@@ -59,8 +58,7 @@ carob_script <- function(path) {
   r <- dplyr::bind_rows(r1,r2)
   
   r$cropDurationDays[r$cropDurationDays <0 ] <- NA # convert negative values to NA
-  r$planting_date <- as.Date(r$harvDate)-r$cropDurationDays # create planting date
-  
+
   d <- data.frame(
     country = "India",
     crop = "wheat",
@@ -83,13 +81,13 @@ carob_script <- function(path) {
     gender=r$fGender, # Not found in carob
     treatment=r$treatment,
     variety=r$VarName,
-    planting_date=r$planting_date,
+    planting_date=as.Date(r$harvDate)-r$cropDurationDays,
     harvest_date=r$harvDate,
     plot_area=r$EiAcropAreaAcre,
     soil_texture=r$soilTexture,
     soil_quality=r$soilPerception,
-    previous_crop=r$prevCrop,
-    land_prep_method=r$LandPrep,
+    previous_crop=tolower(r$prevCrop),
+    land_prep_method=ifelse(r$LandPrep == "NoTillage","no-till","tillage"),
     transplanting_date=r$seedingSowingTransDate,
     seed_source=r$seedSource,
     seed_amount=r$cropSeedAmt,
@@ -109,17 +107,10 @@ carob_script <- function(path) {
     pesticide_used=r$pesticides,
     lodging=r$lodgingPercent,# not in carob
     threshing_method=r$threshing, # not in carob
-    yield=r$tonPerHectare # assume to be yield
+    yield=r$tonPerHectare*1000 # assume to be yield. Convert from tons/ha to kg/ha
   )
-# Convert from tons/ha to kg/ha
-  d$yield <- d$yield*1000
-
   # Recode variables
-  d$previous_crop <- dplyr::recode(d$previous_crop,
-                            "Rice"="rice","Wheat"="wheat")
-  d$previous_crop[d$previous_crop=="Fallow"] <- NA # Fallow not a crop
-  d$land_prep_method <- ifelse(d$land_prep_method == "NoTillage","no-till","tillage")
-  
+  d$previous_crop[d$previous_crop=="fallow"] <- NA # Fallow not a crop
 
   carobiner::write_files(dset, d, path=path)
 }
