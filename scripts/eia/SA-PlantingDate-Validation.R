@@ -45,18 +45,18 @@ carob_script <- function(path) {
   # Build initial DF ... Start from here
   r <- Filter(function(x)!all(is.na(x)), r)# remove empty columns
   r1 <- r[,2:162] # separate T1
-  names(r1) <- stringr::str_sub(names(r1),3) # remove the first two characters from colnames 
+  names(r1) <- substr(names(r1),3,nchar(names(r1))) # drop the first two characters from colnames
   names(r1) <- sub("_T1","", names(r1))
   names(r1) <- sub("T1","", names(r1))
   r1$treatment <- "T1" # create variable T1
   r2 <- r[,c(2:21,163:300)] # separate T2
-  names(r2) <- stringr::str_sub(names(r2),3) # remove the first two characters from colnames 
+  names(r2) <- substr(names(r2),3,nchar(names(r2))) # drop the first two characters from colnames 
   names(r2) <- sub("_T2","", names(r2))
   names(r2) <- sub("T2","", names(r2))
   r2$treatment <- "T2" # create variable T2
   
-  r <- dplyr::bind_rows(r1,r2)
-  
+  r <- carobiner::bindr(r1,r2)
+
   r$cropDurationDays[r$cropDurationDays <0 ] <- NA # convert negative values to NA
 
   d <- data.frame(
@@ -112,5 +112,7 @@ carob_script <- function(path) {
   # Recode variables
   d$previous_crop[d$previous_crop=="fallow"] <- NA # Fallow not a crop
 
+
   carobiner::write_files(dset, d, path=path)
 }
+
