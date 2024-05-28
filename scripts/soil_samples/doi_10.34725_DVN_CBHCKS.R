@@ -10,7 +10,7 @@ carob_script <- function(path) {
   
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=4, minor=0),
-		data_institute = "CIFOR-ICRAF",
+		data_institute = "ICRAF",
 		publication = NA,
 		project="Kenya Cereal Enhancement Programme-Climate Resilient Agricultural Livelihoods (KCEP-CRAL) Window",
 		data_type= "survey",
