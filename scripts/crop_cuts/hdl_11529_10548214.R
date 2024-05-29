@@ -6,183 +6,110 @@
 
 carob_script <- function(path) {
 
-"
-Crop cut survey in 2015 conducted by EIAR and CIMMYT. Replicated crop cuts of 16m2 
-in farmers fields along with additional data on nutrient use and variety, and soil 
-sample. There are two linked files for early and mid-season data. (2015)
-"
+"Crop cut survey in 2015 conducted by EIAR and CIMMYT. Replicated crop cuts of 16m2 in farmers fields along with additional data on nutrient use and variety, and soil sample. There are two linked files for early and mid-season data. (2015)"
 
-#### Identifiers
 	uri <- "hdl:11529/10548214"
 	group <- "crop_cuts"
 
-#### Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 
-##### dataset level metadata 
 	dset <- data.frame(
-		# change the major and minor versions if you see a warning
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
-		data_institute = "TAMASA",
-		## if there is a paper, include the paper's doi here
-		## also add a RIS file in references folder (with matching doi)
+		data_institute = "EIAR;CIMMYT",
 		publication = NA,
-		project = NA,
-		# data_type can be e.g. "on-farm experiment", "survey", "compilation"
-		data_type = "experiment",
-		# treatment_vars has semi-colon separated variable names that represent the
-		# treatments if the data is from an experiment. E.g. "N_fertilizer;P_fertilizer;K_fertilizer"
-		treatment_vars = "variety ;	fertlizer_type", 
+		project = "TAMASA",
+		data_type = "survey",
+		treatment_vars = "none", 
 		carob_contributor = "Shumirai Manzvera",
 		carob_date = "2024-05-23"
 	)
 	
-##### PROCESS data records
+	f1 <- ff[basename(ff) == "ET_BAko agronomy data.xlsx"]
+	r1 <- carobiner::read.excel(f1,sheet ="Raw_Data")
+	f2 <- ff[basename(ff) == "ET_BAko agronomy data_2015.xls"]
+	r2 <-carobiner::read.excel(f2, sheet ="Raw_Data")
 
-# read data 
-
-	f <- ff[basename(ff) == "ET_BAko agronomy data.xlsx"]
-	r <- carobiner::read.excel(f,sheet ="Raw_Data")
-	f1 <- ff[basename(ff) == "ET_BAko agronomy data_2015.xls"]
-	r0<-carobiner::read.excel(f1,sheet ="Raw_Data")
-
-## process file(s)
-
-## select the variables of interest and assign them to the correct name
 	d1 <- data.frame(
-		latitude=r$Latitude,
-		longitude=r$Longitude,
-		yield = r$`Average yield kg/ha or (Q1+Q2)/2`,
-		variety=r$`Type of Variety`,
-		land_prep_method=r$`Land Preparation Method`,
-		elevation=r$Altitude,
-		crop_rotation=r$`Crop Rotation with`,
-		intercrops=r$`Intercropping with legume`,
-		previous_crop=r$`Previous/precursor crop`,
-		soil_pH=r$pH,
-		soil_Ca=r$`Ca (mg kg-1)`,
-		soil_K=r$`K (mg kg-1)`,
-		soil_Na=r$`Na (mg kg-1)`,
-		soil_Mg=r$`Mg (mg kg-1)`,
-		soil_B=r$`Boron (mg kg-1)`,
-		soil_Mn=r$`Mn (mg kg-1)`,
-		soil_Fe=r$`Fe (mg kg-1)`,
-		soil_Zn=r$`Zn (mg kg-1)`, 
-		soil_Al=r$`Al (mg kg-1)`,
-		soil_C=r$`Carbon (%)`,
-		fertlizer_type=r$`Type of Inorganic Fertilizer`,
-		adm3 =r$`Name of the Village`
-		
-		
-		
-		
-		# etc
+		latitude=r1$Latitude,
+		longitude=r1$Longitude,
+		yield = r1$`Average yield kg/ha or (Q1+Q2)/2`,
+		variety_type=r1$`Type of Variety`,
+		land_prep_method=tolower(r1$`Land Preparation Method`),
+		elevation=r1$Altitude,
+		crop_rotation=tolower(r1$`Crop Rotation with`),
+		intercrops=r1$`Intercropping with legume`,
+		previous_crop=tolower(r1$`Previous/precursor crop`),
+		soil_pH=r1$pH,
+		soil_Ca=r1$`Ca (mg kg-1)`,
+		soil_K=r1$`K (mg kg-1)`,
+		soil_Na=r1$`Na (mg kg-1)`,
+		soil_Mg=r1$`Mg (mg kg-1)`,
+		soil_B=r1$`Boron (mg kg-1)`,
+		soil_Mn=r1$`Mn (mg kg-1)`,
+		soil_Fe=r1$`Fe (mg kg-1)`,
+		soil_Zn=r1$`Zn (mg kg-1)`, 
+		soil_Al=r1$`Al (mg kg-1)`,
+		soil_C=r1$`Carbon (%)`,
+		fertilizer_type=r1$`Type of Inorganic Fertilizer`,
+		location = r1$`Name of the Village`,
+		planting_date = as.character(as.Date(r1$`Planting Date`))
 	)
 
-	d0$planting_date <- as.character(as.Date( r$`Planting Date` ))
-	d0$harvest_date  <- "2015"
+	d2 <- data.frame(
+	  latitude=r2$Latitude,
+	  longitude=r2$Longitude,
+	  yield = r2$Average.yield.kg.ha.or..Q1.Q2..2,
+	  variety_type=r2$Type.of.Variety,
+	  land_prep_method=tolower(r2$Land.Preparation.Method),
+	  elevation=r2$Altitude,
+	  crop_rotation=tolower(r2$Crop.Rotation.with),
+	  intercrops=r2$Intercropping.with.legume,
+	  previous_crop=tolower(r2$Previous.precursor.crop),
+	  soil_pH=r2$pH,
+	  soil_Ca=r2$Ca..mg.kg.1.,
+	  soil_K=r2$K..mg.kg.1.,
+	  soil_Na=r2$Na..mg.kg.1.,
+	  soil_Mg=r2$Mg..mg.kg.1.,
+	  soil_B=r2$Boron..mg.kg.1.,
+	  soil_Mn=r2$Mn..mg.kg.1.,
+	  soil_Fe=r2$Fe..mg.kg.1.,
+	  soil_Zn=r2$Zn..mg.kg.1., 
+	  soil_Al=r2$Al..mg.kg.1.,
+	  soil_C=r2$Carbon....,
+	  fertilizer_type=r2$Type.of.Inorganic.Fertilizer,
+	  location = r2$Name.of.the.Village,
+	  planting_date = as.character(as.Date( r2$Planting.Date  ))
+	)
+  
+	d <- carobiner::bindr(d1, d2)
+	d$on_farm <- TRUE
+
+	d$country <- "Ethiopia" 
+	d$adm1 <- "Oromia"
+	d$adm2 <- "West Showa"
+
+	d$crop <- "maize"
+	d$yield_part <- "grain"
+	#d$trial_id <- "1"
+	harvest_date = "2015"
 	
 	
 #Fixing names
 
-		#d1$fertilizer_type <- gsub("Urea,DAP|DAP-UREA|UREA & DAP|Urea, DAP|DAP,Urea|Urea ,DAP\r\n\r\n\r\n\r\n|DAP .,urea|DAP,UREA|DAP\r\n,UREA|UREA, DAP|DAP, Urea", "urea,DAP", d1$fertilizer_type)
+	#d$fertilizer_type <- gsub("Urea,DAP|DAP-UREA|UREA & DAP|Urea, DAP|DAP,Urea|Urea ,DAP\r\n\r\n\r\n\r\n|DAP .,urea|DAP,UREA|DAP\r\n,UREA|UREA, DAP|DAP, Urea", "urea,DAP", d1$fertilizer_type)
 	
-	d1$crop_rotation[d1$crop_rotation=="Pepper"]<-"pepper"
-	d1$crop_rotation[d1$crop_rotation=="Pepper, Teff, Other"]<-"pepper;teff;none"
-	d1$crop_rotation[d1$crop_rotation=="Teff"]<-"teff"
-	d1$crop_rotation[d1$crop_rotation=="Beans, Teff"]<-"kidney bean;teff"
-	d1$crop_rotation[d1$crop_rotation=="Pepper, Teff"]<-"pepper;teff"
-	d1$crop_rotation[d1$crop_rotation=="Vegetables"]<-"none"
-	  
+	d$fertilizer_type <- gsub("\r\n|\\.| " , "", tolower(trimws(d$fertilizer_type)))
+	d$fertilizer_type <- gsub(",|&|-|and" , ";", d$fertilizer_type)
+	d$fertilizer_type <- gsub("ure$" , "urea", d$fertilizer_type)
+	d$fertilizer_type <- gsub("dap" , "DAP", d$fertilizer_type)
 	
-	d1$previous_crop[d1$previous_crop=="Pepper"]<-"pepper"
-	d1$previous_crop[d1$previous_crop=="Other"]<-"none"
-	d1$previous_crop[d1$previous_crop=="Teff"]<-"teff"
-	d1$previous_crop[d1$previous_crop=="Vegetables"]<-"none"
-	d1$previous_crop[d1$previous_crop=="Beans"]<-"kidney bean"
-	
-	d1$land_prep_method[d1$land_prep_method=="Ploughing"]<-"ploughing"
-	
-	
-	
-	
-	
-	d0 <- data.frame(
-	  latitude=r0$Latitude,
-	  longitude=r0$Longitude,
-	  yield = r0$Average.yield.kg.ha.or..Q1.Q2..2,
-	  variety=r0$Type.of.Variety,
-	  land_prep_method=r0$Land.Preparation.Method,
-	  elevation=r0$Altitude,
-	  crop_rotation=r0$Crop.Rotation.with,
-	  intercrops=r0$Intercropping.with.legume,
-	  previous_crop=r0$Previous.precursor.crop,
-	  soil_pH=r0$pH,
-	  soil_Ca=r0$Ca..mg.kg.1.,
-	  soil_K=r0$K..mg.kg.1.,
-	  soil_Na=r0$Na..mg.kg.1.,
-	  soil_Mg=r0$Mg..mg.kg.1.,
-	  soil_B=r0$Boron..mg.kg.1.,
-	  soil_Mn=r0$Mn..mg.kg.1.,
-	  soil_Fe=r0$Fe..mg.kg.1.,
-	  soil_Zn=r0$Zn..mg.kg.1., 
-	  soil_Al=r0$Al..mg.kg.1.,
-	  soil_C=r0$Carbon....,
-	  fertlizer_type=r0$Type.of.Inorganic.Fertilizer,
-	  adm3 = r0$Name.of.the.Village)
-	
-	#fixing terms
-	
-	d0$crop_rotation[d0$crop_rotation=="Pepper"]<-"pepper"
-	d0$crop_rotation[d0$crop_rotation=="Pepper, Teff, Other"]<-"pepper;teff;none"
-	d0$crop_rotation[d0$crop_rotation=="Teff"]<-"teff"
-	d0$crop_rotation[d0$crop_rotation=="Beans, Teff"]<-"kidney bean;teff"
-	d0$crop_rotation[d0$crop_rotation=="Pepper, Teff"]<-"pepper;teff"
-	d0$crop_rotation[d0$crop_rotation=="Vegetables"]<-"none"
-	
-	d0$previous_crop[d0$previous_crop=="Pepper"]<-"pepper"
-	d0$previous_crop[d0$previous_crop=="Other"]<-"none"
-	d0$previous_crop[d0$previous_crop=="Teff"]<-"teff"
-	d0$previous_crop[d0$previous_crop=="Vegetables"]<-"none"
-	d0$previous_crop[d0$previous_crop=="Beans"]<-"kidney bean"
-	
-	
-	d0$land_prep_method[d0$land_prep_method=="Ploughing"]<-"ploughing"
-	
-	
-	d0$planting_date <- as.character(as.Date( r0$Planting.Date  ))
-	d0$harvest_date  <- "2015"
-	  
-	d <- carobiner::bindr(d0, d1)
-## (TRUE/FALSE)
-	d$on_farm <- TRUE
+	d$crop_rotation <- gsub(", ", ";", d$crop_rotation)
+	d$crop_rotation <- gsub("beans", "common bean", d$crop_rotation)
+	d$crop_rotation <- gsub("other", "unknown", d$crop_rotation)
 
-
-##### Location #####
-## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
-## you can use carobiner::fix_name()
-	d$country <- "Ethiopia" 
-	d$site <- "Oromia"
-	d$adm1 <- "West Showa"
+	d$previous_crop <- gsub("beans", "common bean", d$previous_crop)
+	d$previous_crop <- gsub("other", "unknown", d$previous_crop)
 	
-
-
-##### Crop #####
-## normalize variety names
-## see carobiner::fix_name
-	d$crop <- "maize"
-	
-
-
-	#what plant part does yield refer to?
-	d$yield_part <- "grain"
-	d$trial_id <- "1"
-	
-# all scripts must end like this
 	carobiner::write_files(path, dset, d)
 }
-
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
 
