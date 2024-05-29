@@ -110,6 +110,9 @@ carob_script <- function(path) {
 	d$previous_crop <- gsub("beans", "common bean", d$previous_crop)
 	d$previous_crop <- gsub("other", "unknown", d$previous_crop)
 	
+	#survey
+	d$trial_id <- 1:nrow(d)
+	
 	carobiner::write_files(path, dset, d)
 }
 
