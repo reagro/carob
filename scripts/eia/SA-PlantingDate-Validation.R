@@ -32,7 +32,8 @@ carob_script <- function(path) {
     data_citation = '...',
     project = 'Excellence in Agronomy - Planting Date SA validations',
     data_type = "on-farm experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
-    carob_date="2024-04-25"
+    carob_date="2024-04-25",
+    treatment_vars = "fertilizer_type"
   )
   
   # Manually build path (this can be automated...)

@@ -31,7 +31,7 @@ carob_script <- function(path) {
     data_citation = '...',
     project = 'Excellence in Agronomy - Fertilizer Ethiopia Validation',
     data_type = "on-farm experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
-    carob_date="2024-05-15"
+    carob_date="2024-05-30"
   )
   
   # Manually build path (this can be automated...)
@@ -65,6 +65,8 @@ carob_script <- function(path) {
 		P_fertilizer=r$`P_kg/ha`,
 		seed_amount = r$`Seed rate (kg/ha)`,
 		planting_method = tolower(r$`Planting method`),
+		landscape_position = r$Landscape,
+		pest_severity = r$`Pest and disease occurrance`, #Severity was assumed to be Low or Medium
 		land_prep_method = tolower(r$`Tillage management`),
 		herbicide_used = ifelse(r$`Herbicide application frequency` != 0, TRUE, FALSE),
 		herbicide_times = as.integer(r$`Herbicide application frequency`),
@@ -87,6 +89,9 @@ carob_script <- function(path) {
 	d$crop_rotation[grep("Barley", d$crop_rotation)] <- c("barley")
 	d$crop_rotation[grep("Wheat", d$crop_rotation)] <- NA
 	d$crop_rotation[grep("Mixed", d$crop_rotation)] <- NA
+	d$pest_severity[grep("low", d$pest_severity)] <- c("Low") #Change "low" to "Low"
 
 	carobiner::write_files(dset, d, path=path)
 }
+
+write("eia,crop; soil,eia data", file = list.files(system.file("terms", package="carobiner"), full.names = TRUE), append = TRUE)
