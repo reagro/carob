@@ -114,11 +114,7 @@ carob_script <- function(path) {
   d$previous_crop[d$previous_crop=="fallow"] <- NA # Fallow not a crop
   
   # Replace empty cells with NAs
-  d$transplanting_date[d$transplanting_date==""] <- NA
-  d$irrigation_source[d$irrigation_source==""] <- NA
-  d$irrigation_stage[d$irrigation_stage==""] <- NA
-  d$drought_stage[d$drought_stage==""] <- NA
-  d$threshing_method[d$threshing_method==""] <- NA
+  d[d==""] <- NA # Empty cells assumed to be missing
   
   carobiner::write_files(dset, d, path=path)
 }
