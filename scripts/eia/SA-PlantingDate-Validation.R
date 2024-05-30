@@ -58,7 +58,7 @@ carob_script <- function(path) {
   r <- carobiner::bindr(r1,r2)
 
   r$cropDurationDays[r$cropDurationDays <0 ] <- NA # convert negative values to NA
-
+  
   d <- data.frame(
     country = "India",
     crop = "wheat",
@@ -84,7 +84,7 @@ carob_script <- function(path) {
     planting_date=as.Date(r$harvDate)-r$cropDurationDays,
     harvest_date=r$harvDate,
     plot_area=r$EiAcropAreaAcre,
-    soil_texture=r$soilTexture,
+    soil_texture=tolower(r$soilTexture),
     soil_quality=r$soilPerception,
     previous_crop=tolower(r$prevCrop),
     land_prep_method=ifelse(r$LandPrep == "NoTillage","no-till","tillage"),
@@ -111,8 +111,15 @@ carob_script <- function(path) {
   )
   # Recode variables
   d$previous_crop[d$previous_crop=="fallow"] <- NA # Fallow not a crop
-
-
+  
+  # Replace empty cells with NAs
+  d$transplanting_date[d$transplanting_date==""] <- NA
+  d$irrigation_source[d$irrigation_source==""] <- NA
+  d$irrigation_stage[d$irrigation_stage==""] <- NA
+  d$drought_stage[d$drought_stage==""] <- NA
+  d$threshing_method[d$threshing_method==""] <- NA
+  
   carobiner::write_files(dset, d, path=path)
 }
 
+# carob_script(path)
