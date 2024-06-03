@@ -23,7 +23,7 @@ carob_script <- function(path) {
     uri = carobiner::simple_uri(uri),
     dataset_id = uri,
     authors = "Amit Srivastava",
-    data_institutions = "IRRI",
+    data_institute = "IRRI",
     title = NA,
     description = "Validations of the Planting Date SA Use Case MVP",
     group = group,
@@ -65,40 +65,53 @@ carob_script <- function(path) {
     crop = "wheat",
     yield_part = "grain",	
     on_farm = TRUE,
-    is_survey = TRUE,
+    is_survey = FALSE,
     adm1=r$state,
     adm2=r$district,
     adm3=r$subDistrict,
-    adm4=r$village,
+    location=r$village,
     trial_id = rep(1:71, 2),
-    plot_name=r$plot, # Not in carob
-    location=r$location,
+    # plot_name=r$plot, # Not in carob # # EGB: Is it really necessary??
+    # location=r$location,
     season=r$season,
     latitude=r$PlotGPS.Latitude,
     longitude=r$PlotGPS.Longitude,
     elevation=r$PlotGPS.Altitude,
     gps_accuracy=r$PlotGPS.Accuracy, # Not in carob
-    crop_cut=r$cropCutDone, 
+    # crop_cut=r$cropCutDone, # # EGB: Is it really necessary??
     gender=r$fGender, # Not found in carob
-    treatment=r$treatment,
+    treatment=ifelse(r$treatment == "T1", "MVP recommendation", "Local recommendation"),
     variety=r$VarName,
     planting_date=as.Date(r$harvDate)-r$cropDurationDays,
     harvest_date=r$harvDate,
-    plot_area=r$EiAcropAreaAcre,
+    plot_area=r$EiAcropAreaAcre*4046.86, # Acre to m2
     soil_texture=tolower(r$soilTexture),
-    soil_quality=r$soilPerception,
+    soil_quality=tolower(r$soilPerception),
     previous_crop=tolower(r$prevCrop),
-    land_prep_method=ifelse(r$LandPrep == "NoTillage","no-till","tillage"),
+    # EGB:
+    # # Aligning towards terminag, probably need to add "no-tillage"
+    land_prep_method=ifelse(r$LandPrep == "NoTillage", "no-tillage", "conventional"),
     transplanting_date=r$seedingSowingTransDate,
     seed_source=r$seedSource,
     seed_amount=r$cropSeedAmt,
-    irrigated=r$irrigate,
+    irrigated=ifelse(r$irrigate == "yes", TRUE, FALSE),
+    # EGB
+    # # Would be good to check and standardize this (?)
     irrigation_source=r$irrigSource,
-    irrigation_stage=r$irrigGrthStage,
-    fertilizer_type="DAP;urea;NPK;NPKS;gypsum",
+    # EGB
+    # # Would be good to check and standardize this (?)
+    # irrigation_stage=r$irrigGrthStage, # Removing for now ...
+    irrigation_number = r$irrigTimes,
+    # EGB
+    # # Need to review this...
+    season_constraint = paste0(ifelse(r$drought == "yes", "drought", NA), "; ", ifelse(r$flood == "yes", "flood", NA)),
+    fertilizer_type=paste0(gsub("totAmt", "", colnames(r)[grep("totAmt", colnames(r))]), collapse = "; "),
     N_fertilizer=r$Nitrogen_Kg_ha,
     P_fertilizer=r$Phosphorus_Kg_ha,
     K_fertilizer=r$Potassium_Kg_ha,
+    OM_used = ifelse(r$FYM == "yes", TRUE, FALSE),
+    OM_amount = r$FYMAmount * 1000, # Assuming ton/ha
+    OM_type = ifelse(r$FYM == "yes", "farmyard manure", NA),
     drought_stress=r$drought,
     drought_stage=r$droughtGS, # not in carob
     crop_area=r$EiAcropAreaAcre, # Not in carob
@@ -110,8 +123,10 @@ carob_script <- function(path) {
     threshing_method=r$threshing, # not in carob
     yield=r$tonPerHectare*1000 # assume to be yield. Convert from tons/ha to kg/ha
   )
-  # Recode variables
-  d$previous_crop[d$previous_crop=="fallow"] <- NA # Fallow not a crop
+
+  # EGB: 
+  # # Carob admits "fallow" as an alternative to "none" (https://github.com/reagro/terminag/blob/43c69063ec93ba1805f83dd51b76d6b9748bda75/values/values_crop.csv#L293)
+  d$previous_crop[d$previous_crop=="fallow"] <- "none" # Fallow not a crop 
   
   # Replace empty cells with NAs
   d[d==""] <- NA # Empty cells assumed to be missing
