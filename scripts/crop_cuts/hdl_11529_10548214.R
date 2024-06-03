@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# Issues with the Fertilizer type
-
 
 carob_script <- function(path) {
 
@@ -52,7 +49,11 @@ carob_script <- function(path) {
 		soil_C=r1$`Carbon (%)`,
 		fertilizer_type=r1$`Type of Inorganic Fertilizer`,
 		location = r1$`Name of the Village`,
-		planting_date = as.character(as.Date(r1$`Planting Date`))
+		planting_date = as.character(as.Date(r1$`Planting Date`)),
+		
+		weed_cover = r1$`Average % weed cover`,
+		fertilizer = r1$`Amount of Inorganic Fertilizer (kg)`,	
+		fertilizer_app_method  = r1$`Fertilizer application Method`
 	)
 
 	d2 <- data.frame(
@@ -78,7 +79,10 @@ carob_script <- function(path) {
 	  soil_C=r2$Carbon....,
 	  fertilizer_type=r2$Type.of.Inorganic.Fertilizer,
 	  location = r2$Name.of.the.Village,
-	  planting_date = as.character(as.Date( r2$Planting.Date  ))
+	  planting_date = as.character(as.Date( r2$Planting.Date  )),
+		weed_cover = r1$`Average % weed cover`,
+		fertilizer = r1$`Amount of Inorganic Fertilizer (kg)`,	
+		fertilizer_app_method  = r1$`Fertilizer application Method`
 	)
   
 	d <- carobiner::bindr(d1, d2)
@@ -93,15 +97,11 @@ carob_script <- function(path) {
 	#d$trial_id <- "1"
 	harvest_date = "2015"
 	
-	
-#Fixing names
-
-	#d$fertilizer_type <- gsub("Urea,DAP|DAP-UREA|UREA & DAP|Urea, DAP|DAP,Urea|Urea ,DAP\r\n\r\n\r\n\r\n|DAP .,urea|DAP,UREA|DAP\r\n,UREA|UREA, DAP|DAP, Urea", "urea,DAP", d1$fertilizer_type)
-	
-	d$fertilizer_type <- gsub("\r\n|\\.| " , "", tolower(trimws(d$fertilizer_type)))
-	d$fertilizer_type <- gsub(",|&|-|and" , ";", d$fertilizer_type)
-	d$fertilizer_type <- gsub("ure$" , "urea", d$fertilizer_type)
-	d$fertilizer_type <- gsub("dap" , "DAP", d$fertilizer_type)
+	d$fertilizer_type <- gsub("\r\n|\\.| ", "", tolower(trimws(d$fertilizer_type)))
+	d$fertilizer_type <- gsub(",|&|-|and", ";", d$fertilizer_type)
+	d$fertilizer_type <- gsub("ure$", "urea", d$fertilizer_type)
+	d$fertilizer_type <- gsub("dap", "DAP", d$fertilizer_type)
+	d$fertilizer_type <- gsub("nps|nsp|sps", "NPS", d$fertilizer_type)
 	
 	d$crop_rotation <- gsub(", ", ";", d$crop_rotation)
 	d$crop_rotation <- gsub("beans", "common bean", d$crop_rotation)
@@ -109,6 +109,8 @@ carob_script <- function(path) {
 
 	d$previous_crop <- gsub("beans", "common bean", d$previous_crop)
 	d$previous_crop <- gsub("other", "unknown", d$previous_crop)
+
+	d$intercrops <- gsub("Haricot bean", "common bean", d$intercrops)
 	
 	#survey
 	d$trial_id <- 1:nrow(d)
