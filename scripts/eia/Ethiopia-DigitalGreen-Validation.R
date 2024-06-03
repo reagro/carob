@@ -12,7 +12,7 @@ carob_script <- function(path) {
 
 "
   
-  uri <- "Ethiopia-DigitalGreen-Validation"
+  uri <- "doi:Ethiopia-DigitalGreen-Validation"
   group <- "eia"
   
   dset <- data.frame(
@@ -30,7 +30,8 @@ carob_script <- function(path) {
     data_citation = '...',
     project = 'Excellence in Agronomy - Digital Green Ethiopia Validation',
     data_type = "on-farm experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
-    carob_date="2024-04-25"
+    carob_date="2024-04-25",
+    treatment_vars = "N_fertilizer;P_fertilizer;S_fertilizer"
   )
   
   # Manually build path (this can be automated...)
@@ -45,6 +46,15 @@ carob_script <- function(path) {
                              col_names = TRUE,
                              skip = 5)
   
+  p <- carobiner::read.excel(f,
+                             sheet = "price_RF",
+                             col_names = TRUE)
+  
+  colnames(p) <- c("adm2", "crop_price", "NPS fertilizer price ETB per kg", "Urea fertilizer price ETB per kg", "rain")
+  p$fertilizer_price <- paste0("NPS=", p$`NPS fertilizer price ETB per kg`, "; Urea=", p$`Urea fertilizer price ETB per kg`)
+  p$currency <- "ETB"
+  p <- p[, c("adm2", "crop_price", "fertilizer_price", "currency", "rain")]
+
   # Build initial DF ... Start from here
 	d <- data.frame(
 		country = "Ethiopia",
@@ -78,15 +88,28 @@ carob_script <- function(path) {
 	d$yield <- d$yield * 1000
 	d$residue_yield <- d$residue_yield * 1000
 	
-	# Convert out of range values to NAs
-	d$N_fertilizer[d$N_fertilizer > 600] <- NA
-	d$P_fertilizer[d$P_fertilizer > 250] <- NA
-	d$S_fertilizer[d$S_fertilizer > 250] <- NA
 	
-	d$dmy_total[d$dmy_total > 100000] <- NA
-	d$yield[d$yield > 150000] <- NA
-	d$residue_yield[d$residue_yield > 60000] <- NA
+	# EGB:
+	# # DO NOT DO THIS...
 	
+	# # Convert out of range values to NAs
+	# d$N_fertilizer[d$N_fertilizer > 600] <- NA
+	# d$P_fertilizer[d$P_fertilizer > 250] <- NA
+	# d$S_fertilizer[d$S_fertilizer > 250] <- NA
+	# 
+	# d$dmy_total[d$dmy_total > 100000] <- NA
+	# d$yield[d$yield > 150000] <- NA
+	# d$residue_yield[d$residue_yield > 60000] <- NA
+	
+	# EGB:
+	# # Add the actual treatment names
+	d$treatment[d$treatment == "STC"] <- "Standard check"
+	d$treatment[d$treatment == "LOC"] <- "local check"
+	d$treatment[d$treatment == "SSR"] <- "Site-specific-rate"
+	
+	# EGB:
+	# # Add ancillary information on price, rain
+	d <- merge(d, p, by = "adm2")
 	
 	carobiner::write_files(dset, d, path=path)
 }
