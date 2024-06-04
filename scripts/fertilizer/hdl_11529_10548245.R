@@ -1,5 +1,7 @@
 # R script for "carob"
 
+# ISSUES:
+#treatment_vars need to be explicitly included in the dataset
 
 carob_script <- function(path) {
 
