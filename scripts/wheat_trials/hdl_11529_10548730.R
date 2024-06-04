@@ -11,7 +11,7 @@ carob_script <- function(path) {
   
   dset <- data.frame(
     carobiner::read_metadata(uri, path, group, major=2, minor=0),
-    project="32ND High Rainfall Wheat Screening Nursery",
+    project="High Rainfall Wheat Screening Nursery",
     publication = NA,
     data_institute = "CIMMYT",
     carob_contributor="Mitchelle Njukuya",
