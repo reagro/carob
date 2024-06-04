@@ -70,19 +70,17 @@ carob_script <- function(path) {
     adm2=r$district,
     adm3=r$subDistrict,
     location=r$village,
-    trial_id = rep(1:71, 2),
+    trial_id = as.character(rep(1:71, 2)),
     # plot_name=r$plot, # Not in carob # # EGB: Is it really necessary??
     # location=r$location,
     season=r$season,
     latitude=r$PlotGPS.Latitude,
     longitude=r$PlotGPS.Longitude,
     elevation=r$PlotGPS.Altitude,
-    gps_accuracy=r$PlotGPS.Accuracy, # Not in carob
     # crop_cut=r$cropCutDone, # # EGB: Is it really necessary??
-    gender=r$fGender, # Not found in carob
     treatment=ifelse(r$treatment == "T1", "MVP recommendation", "Local recommendation"),
     variety=r$VarName,
-    planting_date=as.Date(r$harvDate)-r$cropDurationDays,
+    planting_date=as.character(as.Date(r$harvDate)-r$cropDurationDays),
     harvest_date=r$harvDate,
     plot_area=r$EiAcropAreaAcre*4046.86, # Acre to m2
     soil_texture=tolower(r$soilTexture),
@@ -113,12 +111,12 @@ carob_script <- function(path) {
     OM_amount = r$FYMAmount * 1000, # Assuming ton/ha
     OM_type = ifelse(r$FYM == "yes", "farmyard manure", NA),
     drought_stress=r$drought,
-    drought_stage=r$droughtGS, # not in carob
-    crop_area=r$EiAcropAreaAcre, # Not in carob
+    # drought_stage=r$droughtGS, # not in carob
+    # crop_area=r$EiAcropAreaAcre, # Not in carob
     harvest_days=r$cropDurationDays,# assumed to be days to harvest
-    harvestMethod=r$harvestMethod, # not in carob
+    # harvestMethod=r$harvestMethod, # not in carob
     insecticide_used=r$insecticides,
-    pesticide_used=r$pesticides,
+    # pesticide_used=r$pesticides,
     lodging=r$lodgingPercent,# not in carob
     threshing_method=r$threshing, # not in carob
     yield=r$tonPerHectare*1000 # assume to be yield. Convert from tons/ha to kg/ha
@@ -127,10 +125,9 @@ carob_script <- function(path) {
   # EGB: 
   # # Carob admits "fallow" as an alternative to "none" (https://github.com/reagro/terminag/blob/43c69063ec93ba1805f83dd51b76d6b9748bda75/values/values_crop.csv#L293)
   d$previous_crop[d$previous_crop=="fallow"] <- "none" # Fallow not a crop 
-  
+  d$insecticide_used[d$insecticide_used=="no"] <- "none"
   # Replace empty cells with NAs
   d[d==""] <- NA # Empty cells assumed to be missing
-  
   carobiner::write_files(dset, d, path=path)
 }
 
