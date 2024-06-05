@@ -72,6 +72,7 @@ are developed that are tested on farmer's fields in validation trials in a large
  # Planting and harvest date ( from VT protocol )
    d$planting_date <- "2017-04-01"
    d$harvest_date <- "2017-11-01"
+
    
    carobiner::write_files(path, dset, d)   
 }
