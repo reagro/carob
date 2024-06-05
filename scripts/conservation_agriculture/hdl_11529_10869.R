@@ -71,8 +71,9 @@ carob_script <- function(path) {
 	  dmy_total=r4$`dry wght`,
 	  plant_height=r4$height
 	)	
+	
 	d5 <- data.frame(
-	  year=r$YEAR,
+	  year=r3$YEAR,
 	  location=r3$SITE, 
 	  land_prep_method=r3$SYSTEM,
 	  rep=r3$Replicate,

@@ -11,7 +11,7 @@ carob_script <- function(path) {
   
   dset <- data.frame(
     carobiner::read_metadata(uri, path, group, major=1, minor=0),
-    project="23rd International Septoria Observation Nursery",
+    project="International Septoria Observation Nursery",
     publication = NA,
     data_institute = "CIMMYT",
     carob_contributor="Mitchelle Njukuya",
