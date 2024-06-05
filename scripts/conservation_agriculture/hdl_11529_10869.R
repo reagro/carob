@@ -116,15 +116,15 @@ carob_script <- function(path) {
 	#allocation of geo locations from publication
 	d$country <- "Zimbabwe"
 	d$longitude[d$location=="Domboshawa Training Centre"] <- 31.2833
-	d$latitude[d$location=="Domboshawa Training Centre"] <- 18.0333
+	d$latitude[d$location=="Domboshawa Training Centre"] <- -18.0333
 	d$longitude[d$location=="Hereford"] <- 31.7333
-	d$latitude[d$location=="Hereford"] <- 17.7000
+	d$latitude[d$location=="Hereford"] <- -17.7000
 	d$longitude[d$location=="Madziva"] <- 31.7167
-	d$latitude[d$location=="Madziva"] <- 17.0000
+	d$latitude[d$location=="Madziva"] <- -17.0000
 	d$longitude[d$location=="University of Zimbabwe"] <- 31.0528
-	d$latitude[d$location=="University of Zimbabwe"] <- 17.4200
+	d$latitude[d$location=="University of Zimbabwe"] <- -17.4200
 	d$longitude[d$location=="Zimuto"] <- 31.4667
-	d$latitude[d$location=="Zimuto"] <- 20.4167
+	d$latitude[d$location=="Zimuto"] <- -20.4167
 	
 	#elevation
 	d$elevation[d$location=="Domboshawa Training Centre"] <- 1500
