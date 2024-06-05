@@ -35,7 +35,7 @@ carob_script <- function(path) {
 	d1 <- data.frame(
 		year=r0$YEAR,
 		location=r0$SITE, 
-		land_prep=r0$SYSTEM,
+		land_prep_method=r0$SYSTEM,
 		rep=r0$rep,
 		treatment=r0$treat,
 		emergence_days= r0$`DAYS TO 50% E`
@@ -44,7 +44,7 @@ carob_script <- function(path) {
 	d2 <- data.frame(
 	  year=r1$YEAR,
 	  location=r1$SITE, 
-	  land_prep=r1$SYSTEM,
+	  land_prep_method=r1$SYSTEM,
 	  rep=r1$rep,
 	  treatment=r1$treat,
 	  anthesis_days= r1$tasseling,
@@ -91,11 +91,11 @@ carob_script <- function(path) {
 	  
 	)
 	
-	dd <- merge(d1, d2, by=c("year", "location", "land_prep", "rep", "treatment"), all.x=TRUE)
-	dd <- merge(dd, d3, by=c("year", "location", "land_prep", "rep", "treatment"), all.x=TRUE)
-	dd <- merge(dd, d4, by=c("year", "location", "land_prep", "rep", "treatment"), all.x=TRUE) 
-	dd <- merge(dd, d5, by=c("year", "location", "land_prep", "rep", "treatment"), all.x=TRUE)
-	d  <- merge(dd, d6, by=c("year", "location", "land_prep", "rep", "treatment", "yield"), all.x=TRUE)
+	dd <- merge(d1, d2, by=c("year", "location", "land_prep_method", "rep", "treatment"), all.x=TRUE)
+	dd <- merge(dd, d3, by=c("year", "location", "land_prep_method", "rep", "treatment"), all.x=TRUE)
+	dd <- merge(dd, d4, by=c("year", "location", "land_prep_method", "rep", "treatment"), all.x=TRUE) 
+	dd <- merge(dd, d5, by=c("year", "location", "land_prep_method", "rep", "treatment"), all.x=TRUE)
+	d  <- merge(dd, d6, by=c("year", "location", "land_prep_method", "rep", "treatment", "yield"), all.x=TRUE)
 
 	varietyname = c("SC 533", "Pristine 601", "Pannar 53", "Pannar 413", "ZM309",
 	              "PGS 51", "Zap 61", "PHB 3253", "ZM 525", "ZM 401", "PGS 63",
@@ -154,14 +154,11 @@ carob_script <- function(path) {
    d$fertilizer_type <- "D-compound; AN"
    d$inoculated <- FALSE
    d$plant_density <- 44444
-   
-   d$striga_trial <- FALSE
-   d$borer_trial <- FALSE
-   d$striga_infected <- FALSE
-   
+     
    d$rep <- as.integer(d$rep)
    d$N_splits <- as.integer(d$N_splits)
 
+	d$treatment <- as.character(d$treatment)
    
 	carobiner::write_files(path, dset, d)
 }
