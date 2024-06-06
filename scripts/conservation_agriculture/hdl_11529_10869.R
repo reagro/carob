@@ -67,7 +67,7 @@ carob_script <- function(path) {
 	  land_prep_method=r4$SYSTEM,
 	  rep=r4$rep,
 	  treatment=r4$treat,
-	  leaf_biomass=r4$`fresh wgt`,
+	  dym_leaves=r4$`fresh wgt`,
 	  dmy_total=r4$`dry wght`,
 	  plant_height=r4$height
 	)	
@@ -77,8 +77,7 @@ carob_script <- function(path) {
 	  location=r3$SITE, 
 	  land_prep_method=r3$SYSTEM,
 	  rep=r3$Replicate,
-	  treatment=r3$Treatment,
-	  fresh_biomass=r3$Biomass
+	  treatment=r3$Treatment
 	) 
 	
 	d6 <- data.frame(
@@ -103,8 +102,8 @@ carob_script <- function(path) {
 	
 	d$variety <- varietyname[d$treatment]
 	
-	d$land_prep <- gsub("CA","conservation_agriculture", d$land_prep)
-	d$land_prep <- gsub("CP","conventional_practices", d$land_prep)
+	d$land_prep_method <- gsub("CA","reduced tillage", d$land_prep_method)
+	d$land_prep_method <- gsub("CP","conventional", d$land_prep_method)
 	
 	#fixing location names
 	d$location <- gsub("DTC","Domboshawa Training Centre", d$location)
@@ -136,8 +135,14 @@ carob_script <- function(path) {
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
+	d$OM_used <- TRUE 
+	d$OM_used[d$land_prep_method == "conventional"] <- FALSE
+	d$OM_amount <- 0
+	d$OM_amount[d$OM_used == TRUE] <- 3000
+	d$OM_type <- "none"
+	d$OM_type[d$OM_used == TRUE] <- "maize stover"
 	d$crop <- "maize"
-	d$yield_part <- "grain"
+	d$yield_part <- "grain" 
 	
 ##### Time #####
 
@@ -157,9 +162,10 @@ carob_script <- function(path) {
      
    d$rep <- as.integer(d$rep)
    d$N_splits <- as.integer(d$N_splits)
-
 	d$treatment <- as.character(d$treatment)
-   
+  d$dym_total <- as.numeric(d$dmy_total)
+  d$trial_id <- paste0(d$treatment,"_",d$rep)
+  
 	carobiner::write_files(path, dset, d)
 }
 
