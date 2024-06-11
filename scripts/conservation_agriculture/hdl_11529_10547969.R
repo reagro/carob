@@ -123,8 +123,6 @@ carob_script <- function(path) {
   
 	land_prep = c("puddled", "puddled", "not puddled", "puddled", "puddled", "not puddled", "not puddled", "puddled", "not puddled", "puddled", "not puddled",	"puddled", "not puddled", "puddled", "puddled", "not puddled", "not puddled" )
   
-	land_prep = sapply(treatname, \(i) unlist(strsplit(i, " "))[1]) 
-  
 	trt <- cbind(code=code, treatment=treatname, crop_rotation=rotation, land_prep_method=land_prep)
 	rownames(trt) <- NULL
 
