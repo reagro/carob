@@ -15,13 +15,16 @@ carob_script <- function(path) {
 		publication = NA,
 		project = "TAMASA",
 		data_type = "experiment",
-		treatment_vars = NA, 
+		treatment_vars = "none", 
 		carob_contributor = "Mitchelle Njukuya",
 		carob_date = "2024-06-13"
 	)
 
 	f <- ff[basename(ff) == "TAMASA_NOT_Soil_Data_2015-2016.xlsx"]
 	r <- carobiner::read.excel(f, sheet = "Revised_Data")
+	r <- r[!is.na(r$Country), ]
+	r <- r[r$Country == "Tanzania", ]
+
 
 	d <- data.frame(
 		country=r$Country,
@@ -34,7 +37,6 @@ carob_script <- function(path) {
 		longitude=r$Longitude,
 		elevation=r$Altitude,
 		trial_id=r$Fcode,
-		soil_depth=r$Depth,
 		soil_C=r$C,
 		soil_pH=r$pH,
 		soil_ex_Al=r$Al,
@@ -52,9 +54,8 @@ carob_script <- function(path) {
 		soil_N=r$N
 	)
 
-	d$on_farm <- TRUE
-	d$is_survey <- FALSE
-	d$irrigated <- FALSE
+	r$soil_sample_top <- 0
+	r$soil_sample_bottom <- 20
 
 ##### Time #####
 	#start and end dates were obtained from the metadata sheet in the data set file
