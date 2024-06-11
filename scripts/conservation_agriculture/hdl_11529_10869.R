@@ -22,82 +22,88 @@ carob_script <- function(path) {
 	
 	f <- ff[basename(ff) == "MOTHER TRIAL 2012-2015.xlsx"]
 
-	r0 <- carobiner::read.excel(f,sheet = "emergence ")
-	r1 <- carobiner::read.excel(f,sheet = "ASI")
-	r2 <- carobiner::read.excel(f,sheet = "GRAIN ")
-	r3 <- carobiner::read.excel(f,sheet = "BIOMASS ")
-	r4 <- carobiner::read.excel(f,sheet = "EARLY VIGOUR ")
-	r5 <- carobiner::read.excel(f,sheet = "varieties.treats ")
-	r6 <- carobiner::read.excel(f,sheet = "BEFORE CP INTRODUCTION ")
+	r1 <- carobiner::read.excel(f, sheet = "emergence ")
+	r2 <- carobiner::read.excel(f, sheet = "ASI")
+	r3 <- carobiner::read.excel(f, sheet = "GRAIN ")
+	r6 <- carobiner::read.excel(f, sheet = "BEFORE CP INTRODUCTION ")
+	
+	
+## r4 seems to be for a sample during the season; and not especially relevant in this context.
+#	r4 <- carobiner::read.excel(f, sheet = "EARLY VIGOUR ")
+
+## not clear what biomass refers to (fresh or dry?) the numbers make no sense relative to yield
+## so let's hope yield is ok
+#	r5 <- carobiner::read.excel(f, sheet = "BIOMASS ")
+
+
+# not used
+#	r7 <- carobiner::read.excel(f, sheet = "varieties.treats ")
 	
 
 ## process file(s)
 	d1 <- data.frame(
-		year=r0$YEAR,
-		location=r0$SITE, 
-		land_prep_method=r0$SYSTEM,
-		rep=r0$rep,
-		treatment=r0$treat,
-		emergence_days= r0$`DAYS TO 50% E`
+		year=r1$YEAR,
+		rawsite=r1$SITE, 
+		land_prep_method=r1$SYSTEM,
+		rep=r1$rep,
+		treatment=r1$treat,
+		emergence_days= r1$`DAYS TO 50% E`
 	)
 	
 	d2 <- data.frame(
-	  year=r1$YEAR,
-	  location=r1$SITE, 
-	  land_prep_method=r1$SYSTEM,
-	  rep=r1$rep,
-	  treatment=r1$treat,
-	  tassling_days= r1$tasseling,
-	  silking_days=r1$silking, 
-	  asi=r1$ASI
+	  year=r2$YEAR,
+	  rawsite=r2$SITE, 
+	  land_prep_method=r2$SYSTEM,
+	  rep=r2$rep,
+	  treatment=r2$treat,
+	  tassling_days= r2$tasseling,
+	  silking_days=r2$silking, 
+	  asi=r2$ASI
 	)
 	
 	d3 <- data.frame(
-	  year=r2$YEAR,
-	  location=r2$SITE, 
-	  land_prep_method=r2$SYSTEM,
-	  rep=r2$Replicate,
-	  treatment=r2$Treatment,
-	  yield=r2$`Grain yield`
-	)
-
-	d4 <- data.frame(
-	  year=r4$YEAR,
-	  location=r4$SITE,
-	  land_prep_method=r4$SYSTEM,
-	  rep=r4$rep,
-	  treatment=r4$treat,
-	  leaf_biomass=r4$`fresh wgt`,
-	  dmy_total=r4$`dry wght`,
-	  plant_height=r4$height
-	)	
-	##CN
-	## leaf_biomass?
-	d5 <- data.frame(
 	  year=r3$YEAR,
-	  location=r3$SITE, 
+	  rawsite=r3$SITE, 
 	  land_prep_method=r3$SYSTEM,
 	  rep=r3$Replicate,
 	  treatment=r3$Treatment,
-	  fresh_biomass=r3$Biomass
-	) 
-	## CN
-	#fresh_biomass ?
+	  yield=r3$`Grain yield`
+	)
+
+#	d4 <- data.frame(
+#	  year=r4$YEAR,
+#	  rawsite=r4$SITE,
+#	  land_prep_method=r4$SYSTEM,
+#	  rep=r4$rep,
+#	  treatment=r4$treat,
+#	  leaf_biomass=r4$`fresh wgt`,
+#	  dmy_total=r4$`dry wght`,
+#	  plant_height=r4$height
+#	)	
+	
+#	d5 <- data.frame(
+#	  year=r5$YEAR,
+#	  rawsite=r5$SITE, 
+#	  land_prep_method=r5$SYSTEM,
+#	  rep=r5$Replicate,
+#	  treatment=r5$Treatment,
+#	  fresh_biomass=r5$Biomass
+#	) 
+
 	d6 <- data.frame(
 	  year=r6$Year,
-	  location=r6$site, 
+	  rawsite=r6$site, 
 	  land_prep_method=r6$SYSTEM,
 	  rep=r6$REP,
 	  treatment=r6$TREAT,
-	  yield= r6$`grain yield`
-	  
+	  yield= r6$`grain yield`  
 	)
 	
-	dd <- merge(d1, d2, by=c("year", "location", "land_prep_method", "rep", "treatment"), all.x=TRUE)
-	dd <- merge(dd, d3, by=c("year", "location", "land_prep_method", "rep", "treatment"), all.x=TRUE)
-	dd <- merge(dd, d4, by=c("year", "location", "land_prep_method", "rep", "treatment"), all.x=TRUE) 
-	dd <- merge(dd, d5, by=c("year", "location", "land_prep_method", "rep", "treatment"), all.x=TRUE)
-	d  <- merge(dd, d6, by=c("year", "location", "land_prep_method", "rep", "treatment", "yield"), all.x=TRUE)
+	dd <- merge(d1, d2, by=c("year", "rawsite", "land_prep_method", "rep", "treatment"), all.x=TRUE)
+	dd <- merge(dd, d3, by=c("year", "rawsite", "land_prep_method", "rep", "treatment"), all.x=TRUE)
+#	dd <- merge(dd, d4, by=c("year", "rawsite", "land_prep_method", "rep", "treatment"), all.x=TRUE) 
+#	dd <- merge(dd, d5, by=c("year", "rawsite", "land_prep_method", "rep", "treatment"), all.x=TRUE)
+	d  <- merge(dd, d6, by=c("year", "rawsite", "land_prep_method", "rep", "treatment", "yield"), all.x=TRUE)
 
 	varietyname = c("SC 533", "Pristine 601", "Pannar 53", "Pannar 413", "ZM309",
 	              "PGS 51", "Zap 61", "PHB 3253", "ZM 525", "ZM 401", "PGS 63",
@@ -105,31 +111,26 @@ carob_script <- function(path) {
 	
 	d$variety <- varietyname[d$treatment]
 	
-	d$land_prep_method <- gsub("CA","conservation agriculture", d$land_prep_method)
-	d$land_prep_method <- gsub("CP","conventional practices", d$land_prep_method)
+#	d$land_prep_method <- gsub("CA", "conservation agriculture", d$land_prep_method)
+	d$land_prep_method <- gsub("CA", "none", d$land_prep_method)
+	d$land_prep_method  <- gsub("CP", "conventional", d$land_prep_method)
 	
-	#fixing location names
-	d$location <- gsub("DTC","Domboshawa Training Centre", d$location)
-	d$location <- gsub("HFORD", "Hereford", d$location)
-	d$location <- gsub("UZ", "University of Zimbabwe", d$location)
-	d$location <- gsub("MADZIVA", "Madziva", d$location)
-	d$location <- gsub("ZIMUTO", "Zimuto", d$location)
-	##CN
-	#fixing dmy_total values
-	d$dmy_total <- gsub("-0.5", NA,d$dmy_total)
-	d$dmy_total <- gsub("-9.9999999999999645E-2", NA,d$dmy_total)
-	d$dmy_total <- gsub("-1.1000000000000001", NA,d$dmy_total)
-	d$dmy_total <- gsub("-5", NA,d$dmy_total)
-	d$dmy_total <- gsub("5  2.2" , "52.2",d$dmy_total)
-	
-	
+# from r4
+# 	d$dmy_total <- gsub("5  2.2" , "52.2",d$dmy_total)
+#    d$dmy_total <- as.numeric(d$dmy_total)
+#    d$dmy_total[d$dmy_total < 0] <- NA
+   
 	#allocation of geo locations from publication
 	d$country <- "Zimbabwe"
-	geo <- data.frame(location=c("Domboshawa Training Centre", "Hereford", "Madziva", "University of Zimbabwe", "Zimuto"),
-	                  latitude=c(-18.0333, -17.7000, -17.0000, -17.4200, -20.4167),
-	                  longitude=c(31.2833, 31.7333, 31.7167, 31.0528, 31.4667),
-	                  elevation=c(1500, 1054, 1169, 1223, 1483))
-	d <- merge(d,geo,by="location",all.x = TRUE)
+	geo <- data.frame(
+		rawsite=c("DTC", "HFORD", "UZ", "MADZIVA", "ZIMUTO"),
+		location=c("Domboshawa Training Centre", "Hereford", "Madziva", "University of Zimbabwe", "Zimuto"),
+	    latitude=c(-18.0333, -17.7000, -17.0000, -17.4200, -20.4167),
+	    longitude=c(31.2833, 31.7333, 31.7167, 31.0528, 31.4667),
+	    elevation=c(1500, 1054, 1169, 1223, 1483)
+	)
+	d <- merge(d, geo, by="rawsite", all.x = TRUE)
+	d$rawsite <- NULL  
 	  
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
@@ -159,12 +160,11 @@ carob_script <- function(path) {
    d$plant_spacing <- 50
    d$row_spacing <- 90 
    
+	d$emergence_days[d$emergence_days == 0] <- NA
 
-   d$rep <- as.integer(d$rep)
-   d$N_splits <- as.integer(d$N_splits)
-
+	d$rep <- as.integer(d$rep)
+	d$N_splits <- as.integer(d$N_splits)
 	d$treatment <- as.character(d$treatment)
-   d$dmy_total <- as.numeric(d$dmy_total)
 	carobiner::write_files(path, dset, d)
 }
 
