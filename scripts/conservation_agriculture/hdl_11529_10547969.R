@@ -1,7 +1,5 @@
 # R script for "carob"
 
-#Issue on fertilizer types from original dataset
-
 carob_script <- function(path) {
   
 "Farmers’ participatory researchers managed long-term trails aimed to improve the productivity, profitability, and sustainability of smallholder agriculture in the EGP by activities carried out to address the objectives:
@@ -21,7 +19,7 @@ carob_script <- function(path) {
     data_institute = "CIMMYT", 
     data_type="on-farm experiment", 
 	# also need to include land prep and perhaps other variables
-	# treatment_vars = "N_fertilizer; P_fertilizer; K_fertilizer; Zn_fertilizer; B_fertilizer"
+	  treatment_vars = "crop; crop_rotation; location; variety",
     carob_contributor="Mitchelle Njukuya", 
     carob_date="2024-05-21"
   )
@@ -91,27 +89,36 @@ carob_script <- function(path) {
   d$yield_part <- "grain" 
   d$yield_part[d$crop == "lentil"] <- "seed"
   
+  
   treatcode = c("CTTPR-RL-JTJ", "CTTPR-RL-ZTJ", "UPTPR-RL-ZTJ", "CTTPR-CTL-ZTJ", "CTTPR-ZTL-ZTJ", "UPTPR-CTL-ZTJ", "UPTPR-ZTL-ZTJ", 
                 "CTTPR-CTM", "UPTPR-ZTM", "CTTPR-ZTM", "UPTPR-CTM", "CTTPR-CTW", "UPTPR-ZTW", "CTTPR-CTW-ZTJ", 
                 "CTTPR-ZTW-ZTJ", "UPTPR-CTW-ZTJ", "UPTPR-ZTW-ZTJ")
   
-  treatname = c("Conventional tillage transplanted puddle rice_RL_JTJ", "Conventional tillage transplanted puddle rice_RL_ZTJ",
-                "Unpuddle transplanted rice_RL_ZTJ", "Conventional tillage transplanted puddle rice_CTL_ZTJ","Conventional tillage transplanted puddle rice_ZTL_ZTJ",
-                "Unpuddle transplanted rice_CTL_ZTJ", "Unpuddle transplanted rice_ZTL_ZTJ", "Conventional tillage transplanted puddle rice_CTM",
-                "Unpuddle transplanted rice_ZTM", "Conventional tillage transplanted puddle rice_ZTM", "Unpuddle transplanted rice_CTM","Conventional tillage transplanted puddle rice_CTW",
-                "Unpuddle transplanted rice_ZTW", "Conventional tillage transplanted puddle rice_CTW_ZTJ", "Conventional tillage transplanted puddle rice_ZTW_ZTJ", 
-                "Unpuddle transplanted rice_CTW_ZTJ", "Unpuddle transplanted rice_ZTW_ZTJ" )
+  rotationname = c("rice;rice_lentil;jute", "rice;rice_lentil;jute","rice;rice_lentil;jute", "rice;lentil;jute","rice;lentil;jute",
+                "rice;lentil;jute", "rice;lentil;jute", "rice;maize","rice;maize", "rice;maize", "rice;maize","rice;wheat",
+                "rice;wheat", "rice;wheat;jute", "rice;wheat;jute", "rice;wheat;jute", "rice;wheat;jute" )
   
+  treatname = c("Conventional tillage transplanted puddle rice;rice_lentil;jute", "Conventional tillage transplanted puddle rice;rice_lentil;jute",
+                "Unpuddle transplanted rice;Rice_lentil;jute", "Conventional tillage transplanted puddle rice;lentil;jute","Conventional tillage transplanted puddle rice;lentil;jute",
+                "Unpuddle transplanted rice;lentil;jute", "Unpuddle transplanted rice;lentil;jute", "Conventional tillage transplanted puddle rice;maize",
+                "Unpuddle transplanted rice;maize", "Conventional tillage transplanted puddle rice;maize", "Unpuddle transplanted rice;maize","Conventional tillage transplanted puddle rice;wheat",
+                "Unpuddle transplanted rice;wheat", "Conventional tillage transplanted puddle rice;wheat;jute", "Conventional tillage transplanted puddle rice;wheat;jute", 
+                "Unpuddle transplanted rice;wheat;jute", "Unpuddle transplanted rice;wheat;jute" )
+  
+  d$crop_rotation <-rotationname[match(d$treatment,treatcode)]
   d$treatment <- treatname[match(d$treatment,treatcode)]
+ 
   
-   
-  d$fertilizer_type <- gsub("MoP", "KCl", d$fertilizer_type)
+  d$fertilizer_type <- gsub("MoP|MOP", "KCl", d$fertilizer_type)
   d$fertilizer_type <- gsub("UREA", "urea", d$fertilizer_type)
-  d$fertilizer_type <- gsub("N:P:K", "NPK", d$fertilizer_type)
+  d$fertilizer_type <- gsub("N:P:K|10-26-26|1899-12-31 10:26:26|:26:26", "NPK", d$fertilizer_type)
+  d$fertilizer_type <- gsub("[0-9]|-|:|,", '', d$fertilizer_type)
   d$location <- gsub("DURGANAGAR","Durganagar", d$location)
   d$location <- gsub("MANSAI","Mansai", d$location)
   d$location <- gsub("GHUGHUMARI","Ghughumari", d$location)
   d$location <- gsub("PATCHARA","Patchara", d$location)
+  
+
   
   geo <- data.frame(
     location=c("Durganagar", "Mansai", "Falimari", "Ghughumari", "Patchara"), 
