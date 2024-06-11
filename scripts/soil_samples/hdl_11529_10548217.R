@@ -3,32 +3,22 @@
 
 carob_script <- function(path) {
 
-"
-	Soil analysis from 0-20 cm depth from Nutrient Ommission Trials (NOTS) sites conducted in two regions in Tanzania in 2015/ 2016 season.
-"
+"Soil analysis from 0-20 cm depth from Nutrient Ommission Trials (NOTS) sites conducted in two regions in Tanzania in 2015/ 2016 season."
 
-#### Identifiers
 	uri <- "hdl:11529/10548217"
 	group <- "soil_samples"
-
-#### Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 
-##### dataset level metadata 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIMMYT",
 		publication = NA,
-		project = "TAMASA Nutrient Ommission Trials",
+		project = "TAMASA",
 		data_type = "experiment",
 		treatment_vars = NA, 
 		carob_contributor = "Mitchelle Njukuya",
 		carob_date = "2024-06-13"
 	)
-	
-##### PROCESS data records
-
-# read data 
 
 	f <- ff[basename(ff) == "TAMASA_NOT_Soil_Data_2015-2016.xlsx"]
 	r <- carobiner::read.excel(f, sheet = "Revised_Data")
@@ -62,8 +52,6 @@ carob_script <- function(path) {
 		soil_N=r$N
 	)
 
-#### about the data #####
-## (TRUE/FALSE)
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
@@ -73,7 +61,7 @@ carob_script <- function(path) {
 	#start_date <- 2016-01-05
 	#end_date <- 2016-01-12
 	
-	d$date <- "2016-01-05"
+	d$date <- "2016-01"
 	
 	carobiner::write_files(path, dset, d)
 }
