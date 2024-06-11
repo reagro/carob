@@ -3,15 +3,16 @@
 
 carob_script <- function(path) {
   
-  "Improving Measurements of Agricultural Productivity through Methodological validation and Research (LSMS-ISA)"
-  uri <- "doi:10.34725/DVN/28457"
+"Improving Measurements of Agricultural Productivity through Methodological validation and Research (LSMS-ISA)"
+  
+	uri <- "doi:10.34725/DVN/28457"
 	group <- "soil_samples"
 	ff  <- carobiner::get_data(uri, path, group)
   
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		data_institute = "ICRAF",
-		#publication= "https://doi.org/10.5194/soil-2020-69",
+		publication= "doi:10.5194/soil-2020-69",
 		project="LSMS-ISA",
 		data_type= "survey",
 		treatment_vars = "none",
@@ -20,7 +21,7 @@ carob_script <- function(path) {
 	)
   
 	f1 <- ff[basename(ff) == "CN_Texture_3611.csv"]
-	r <- read.csv(f1)
+	r1 <- read.csv(f1)
 	f2 <- ff[basename(ff) == "ET_SoilLabels_wGPS_AEZ.csv"]
 	r2 <- read.csv(f2)
 
@@ -31,11 +32,11 @@ carob_script <- function(path) {
 	r2$latitude <- r2$N_Degree + r2$N_Minute/60
 	r2$longitude <- r2$E_Degree + r2$E_Minute/60
 	
-  r <- merge(r,r2)
+	r <- merge(r1, r2, by="Code")
   # Replace longitude with NA
   # carobiner::geocode("Ethiopia", "Borena")
   
-  r$longitude[is.na(r$longitude) == TRUE] <- (37.9743 + (1.108/60))
+	r$longitude[is.na(r$longitude)] <- 37.9743 + (1.108/60)
 	d <- data.frame(
 		country = r$Country,
 		location = r$Site,
@@ -43,7 +44,7 @@ carob_script <- function(path) {
 		latitude = r$latitude,
 		trial_id = r$SSN,
 		soil_sample_top = r$soil_sample_top,
-	  soil_sample_bottom = r$soil_sample_sub,
+		soil_sample_bottom = r$soil_sample_sub,
 		soil_C = r$Total.Carbon,
 		soil_SOC = r$AcidCarbon,
 		soil_N = r$Total.Nitrogen,
