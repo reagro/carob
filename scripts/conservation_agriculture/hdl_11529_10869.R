@@ -47,7 +47,7 @@ carob_script <- function(path) {
 	  land_prep_method=r1$SYSTEM,
 	  rep=r1$rep,
 	  treatment=r1$treat,
-	  anthesis_days= r1$tasseling,
+	  tassling_days= r1$tasseling,
 	  silking_days=r1$silking, 
 	  asi=r1$ASI
 	)
@@ -71,7 +71,8 @@ carob_script <- function(path) {
 	  dmy_total=r4$`dry wght`,
 	  plant_height=r4$height
 	)	
-	
+	##CN
+	## leaf_biomass?
 	d5 <- data.frame(
 	  year=r3$YEAR,
 	  location=r3$SITE, 
@@ -80,7 +81,8 @@ carob_script <- function(path) {
 	  treatment=r3$Treatment,
 	  fresh_biomass=r3$Biomass
 	) 
-	
+	## CN
+	#fresh_biomass ?
 	d6 <- data.frame(
 	  year=r6$Year,
 	  location=r6$site, 
@@ -103,8 +105,8 @@ carob_script <- function(path) {
 	
 	d$variety <- varietyname[d$treatment]
 	
-	d$land_prep <- gsub("CA","conservation_agriculture", d$land_prep)
-	d$land_prep <- gsub("CP","conventional_practices", d$land_prep)
+	d$land_prep_method <- gsub("CA","conservation agriculture", d$land_prep_method)
+	d$land_prep_method <- gsub("CP","conventional practices", d$land_prep_method)
 	
 	#fixing location names
 	d$location <- gsub("DTC","Domboshawa Training Centre", d$location)
@@ -112,32 +114,30 @@ carob_script <- function(path) {
 	d$location <- gsub("UZ", "University of Zimbabwe", d$location)
 	d$location <- gsub("MADZIVA", "Madziva", d$location)
 	d$location <- gsub("ZIMUTO", "Zimuto", d$location)
+	##CN
+	#fixing dmy_total values
+	d$dmy_total <- gsub("-0.5", NA,d$dmy_total)
+	d$dmy_total <- gsub("-9.9999999999999645E-2", NA,d$dmy_total)
+	d$dmy_total <- gsub("-1.1000000000000001", NA,d$dmy_total)
+	d$dmy_total <- gsub("-5", NA,d$dmy_total)
+	d$dmy_total <- gsub("5  2.2" , "52.2",d$dmy_total)
+	
 	
 	#allocation of geo locations from publication
 	d$country <- "Zimbabwe"
-	d$longitude[d$location=="Domboshawa Training Centre"] <- 31.2833
-	d$latitude[d$location=="Domboshawa Training Centre"] <- -18.0333
-	d$longitude[d$location=="Hereford"] <- 31.7333
-	d$latitude[d$location=="Hereford"] <- -17.7000
-	d$longitude[d$location=="Madziva"] <- 31.7167
-	d$latitude[d$location=="Madziva"] <- -17.0000
-	d$longitude[d$location=="University of Zimbabwe"] <- 31.0528
-	d$latitude[d$location=="University of Zimbabwe"] <- -17.4200
-	d$longitude[d$location=="Zimuto"] <- 31.4667
-	d$latitude[d$location=="Zimuto"] <- -20.4167
-	
-	#elevation
-	d$elevation[d$location=="Domboshawa Training Centre"] <- 1500
-	d$elevation[d$location=="Hereford"] <- 1054
-	d$elevation[d$location=="Madziva"] <- 1169
-	d$elevation[d$location=="Zimuto"] <- 1223
-	d$elevation[d$location=="University of Zimbabwe"] <- 1483
+	geo <- data.frame(location=c("Domboshawa Training Centre", "Hereford", "Madziva", "University of Zimbabwe", "Zimuto"),
+	                  latitude=c(-18.0333, -17.7000, -17.0000, -17.4200, -20.4167),
+	                  longitude=c(31.2833, 31.7333, 31.7167, 31.0528, 31.4667),
+	                  elevation=c(1500, 1054, 1169, 1223, 1483))
+	d <- merge(d,geo,by="location",all.x = TRUE)
 	  
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
 	d$crop <- "maize"
 	d$yield_part <- "grain"
+	d$trial_id <- "1"
+	
 	
 ##### Time #####
 
@@ -149,17 +149,22 @@ carob_script <- function(path) {
 #fertilizer rates obtained from publication
    d$P_fertilizer <- 12.2 / 2.29
    d$K_fertilizer <-11.6 / 1.2051
-   d$N_fertilizer <- 83
+   d$N_fertilizer <- 14 ## 83 ?
    d$N_splits <- 2
    d$fertilizer_type <- "D-compound; AN"
    d$inoculated <- FALSE
    d$plant_density <- 44444
-     
+   ##CN
+   ## Others variables from publication (doi:10.5539/jas.v8n11p112)
+   d$plant_spacing <- 50
+   d$row_spacing <- 90 
+   
+
    d$rep <- as.integer(d$rep)
    d$N_splits <- as.integer(d$N_splits)
 
 	d$treatment <- as.character(d$treatment)
-   
+   d$dmy_total <- as.numeric(d$dmy_total)
 	carobiner::write_files(path, dset, d)
 }
 
