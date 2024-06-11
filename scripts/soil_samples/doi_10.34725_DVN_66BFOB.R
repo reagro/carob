@@ -75,32 +75,33 @@ carob_script <- function(path) {
 		soil_P_available = as.numeric(r$Olsen.P),
 		soil_C = r$Percent_C,
 		soil_SOC = r$Percent_Org_C,
-		soil_N = r$Percent_N
+		soil_N = r$Percent_N,
+		# Needs to be added into the termsinAg
+		soil_extr_Al <- r$Am.Ox.Al,
+		soil_extr_Fe <- r$Am.Ox.Fe,
+		soil_extr_Mn <- r$AmOx.Mn,
+		soil_extr_P <- r$Am.Ox.P,
+		soil_PBI <- r$pbi,
+		soil_Al_total = as.numeric(r$Al),
+		soil_Ca_total = as.numeric(r$Ca),
+		soil_Co_total = as.numeric(r$Co),
+		soil_Cu_total = as.numeric(r$Cu),
+		soil_Fe_total = as.numeric(r$Fe),
+		soil_K_total = as.numeric(r$K),
+		soil_Mg_total = as.numeric(r$Mg),
+		soil_Mn_total = as.numeric(r$Mn),
+		soil_Na_total = as.numeric(r$Na),
+		soil_Ni_total = as.numeric(r$Ni),
+		soil_Pb_total = as.numeric(r$Pb),
+		soil_S_total = as.numeric(r$S),
+		soil_Zn_total = as.numeric(r$Zn),
+		soil_As = as.numeric(r$As.75),
+		soil_Se = as.numeric(r$Se.78),
+		soil_Mo = as.numeric(r$Mo.95),
+		soil_Cd = as.numeric(r$Se.Cd114)
 	)
 
-	# To be added
-	#soil_extr_Al <- r$Am.Ox.Al
-	#soil_extr_Fe <- r$Am.Ox.Fe
-	#soil_extr_Mn <- r$AmOx.Mn
-	#soil_extr_P <- r$Am.Ox.P
-	#soil_PBI <- r$pbi
-	#soil_Al_total = as.numeric(r$Al)
-	#soil_Ca_total = as.numeric(r$Ca)
-	#soil_Co_total = as.numeric(r$Co)
-	#soil_Cu_total = as.numeric(r$Cu)
-	#soil_Fe_total = as.numeric(r$Fe)
-	#soil_K_total = as.numeric(r$K)
-	#soil_Mg_total = as.numeric(r$Mg)
-	#soil_Mn_total = as.numeric(r$Mn)
-	#soil_Na_total = as.numeric(r$Na)
-	#soil_Ni_total = as.numeric(r$Ni)
-	#soil_Pb_total = as.numeric(r$Pb)
-	#soil_S_total = as.numeric(r$S)
-	#soil_Zn_total = as.numeric(r$Zn)
-	#soil_As = as.numeric(r$As.75)
-	#soil_Se = as.numeric(r$Se.78)
-	#soil_Mo = as.numeric(r$Mo.95)
-	#soil_Cd = as.numeric(r$Se.Cd114)
+	
 	carobiner::write_files(path, dset, d)
 }
 
