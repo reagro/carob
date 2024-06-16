@@ -19,42 +19,49 @@ carob_script <- function(path) {
       carob_date="2024-06-12"
    )
    
-   r <- carobiner::read.excel(ff[basename(ff)=="12136_PTYield062018_UNINAIROBI_exp1.xlsx"],sheet = "Fieldbook")
-   lbvars <- grep('^LB', colnames(r), value=TRUE)
-   d <- data.frame(      
-      variety_code= r$INSTN,
-      rep= as.integer(r$REP),
-      yield=r$TTYNA*1000,# in kg/ha
-      AUDPC= r$AUDPC,
-      rAUDPC= r$rAUDPC,
-      virus=r$Virus,
-      seed_amount=r$SPBE,
-      planting_date="2018-06-04" ## from data description
-   )
-   
-	d1 <- lapply(c("2018-07-17_Fieldbook_Trial1", "2018-07-22_Fieldbook_Trial2"), 
-		\(i) { 
-			r1 <- carobiner::read.excel(ff[basename(ff)=="caf1cc988f3c58c6cb1af73bed6ca249.xlsx"], sheet=i)
-			names(r1) <- gsub("CloneID","Clones",names(r1))
-			names(r1) <- gsub("Seeds","seeds",names(r1))
-			dd <- data.frame( 
-				variety_code=r1$Clones,
-				rep= as.integer(r1$Rep),
-				flowering_date= as.character(r1$`Flowering Date`),
-				AUDPC=r1$AUDPC,
-				rAUDPC=r1$rAUDPC,
-				virus=r1$Virus,
-				seed_amount=r1$seeds,
-				planting_date= as.character(r1$Planted),
-				yield=r1$Yield*1000, # in kg/ha
-				trial_id = i
-			)
-	   }
-   )
-   
-   d1 <- do.call(rbind, d1)
-   
-   d <- carobiner::bindr(d1,d)
+	r1 <- carobiner::read.excel(ff[basename(ff)=="12136_PTYield062018_UNINAIROBI_exp1.xlsx"], sheet = "Fieldbook")
+	d1 <- data.frame(      
+		variety_code= r1$INSTN,
+		rep= as.integer(r1$REP),
+		yield=r1$TTYNA*1000, # in kg/ha
+		AUDPC= r1$AUDPC / 100,
+		rAUDPC= r1$rAUDPC / 100,
+		virus_severity=tolower(r1$Virus),
+		seed_amount=r1$SPBE,
+		planting_date="2018-06-04", ## from data description
+		trial_id = "3"
+	)
+	lbvars <- grep('^LB', colnames(r1), value=TRUE)
+	lb1 <- r1[, lbvars]
+
+  
+	sheets <- c("2018-07-17_Fieldbook_Trial1", "2018-07-22_Fieldbook_Trial2")
+	dlst <- vector(length=2, mode="list")
+	lblst <- vector(length=2, mode="list")
+	for (i in 1:length(sheets)) { 
+		r <- carobiner::read.excel(ff[basename(ff)=="caf1cc988f3c58c6cb1af73bed6ca249.xlsx"], sheet=sheets[i])
+		names(r) <- gsub("CloneID", "Clones", names(r))
+		names(r) <- gsub("Seeds", "seeds", names(r))
+		dlst[[i]] <- data.frame( 
+			variety_code=r$Clones,
+			rep= as.integer(r$Rep),
+			flowering_date= as.character(r$`Flowering Date`),
+			AUDPC=r$AUDPC / 100,
+			rAUDPC=r$rAUDPC / 100,
+			virus_severity=tolower(r$Virus),
+			seed_amount=r$seeds,
+			planting_date= as.character(r$Planted),
+			yield=r$Yield*1000, # in kg/ha
+			trial_id = as.character(i)
+		)
+
+		lb <- r[, as.character(seq(30, 90, 10))]
+		lb[is.na(lb)] <- 0
+		colnames(lb) <- lbvars
+		lblst[[i]] <- lb 
+	}
+ 
+   d <- carobiner::bindr(d1, do.call(rbind, dlst))
    
    ### Add more variables 
    d$country <- "Kenya"
@@ -67,33 +74,27 @@ carob_script <- function(path) {
    d$crop <- "potato"
    d$diseases <- "potato late blight"
    d$row_spacing <- 75  ## from data description 
-   d$plant_spacing <- 30 
-   d$plant_density <- 44444.44 # number of plant per ha 
+   d$plant_spacing <- 20  
+   d$plant_density <- 44444.44 # plants/ha 
    d$on_farm <- TRUE
    d$irrigated <- FALSE
    d$inoculated <- FALSE
    d$yield_part <- "tubers"
    
    ### Add disease scores during the season
+	lb <- rbind(lb1, do.call(rbind, lblst))  
+	lb$record_id <- as.integer(1:nrow(lb))
+	lb$pdate <- as.Date(d$planting_date)
    
-   dd <- lapply(c("2018-07-17_Fieldbook_Trial1", "2018-07-22_Fieldbook_Trial2"), 
-                \(i) { 
-                   r1 <- carobiner::read.excel(ff[basename(ff)=="caf1cc988f3c58c6cb1af73bed6ca249.xlsx"], sheet=i)
-                   r1 <- carobiner::change_names(r1,names(r1[,18:24]),c("LB1","LB2","LB3","LB4","LB5","LB6","LB7"))
-                   dd <- r1[,lbvars]
-                  }
-                   )
-   dd <- do.call(rbind, dd)
+	x <- reshape(lb, direction="long", varying =lbvars, v.names="severity", timevar="step")
+	x$time <- x$pdate + seq(30, 90, 10)[x$step]
+
+# incorrect as it does not consider the planting date
+#   dates <- c("2018-07-04", "2018-07-14", "2018-07-24", "2018-08-03", "2018-08-13",  "2018-08-23", "2018-09-02")
+#	x$time <- dates[x$step]
+
+   x$step <- x$id <- x$pdate <- NULL             
    
-   dd <-rbind(dd,r[,lbvars]) 
-   dd$record_id <- as.integer(1:nrow(dd))
-   dates <- as.character(as.Date(c("2018-07-04", "2018-07-14", "2018-07-24", "2018-08-03", "2018-08-13",  "2018-08-23", "2018-09-02")))
-   x <- reshape(dd, direction="long", varying =lbvars, v.names="severity", timevar="step")
-   x$time <- dates[x$step]
-   x$step <- x$id <- NULL             
-   
-   
-  
    carobiner::write_files(path, dset, d,timerecs=x)   
 }
 
