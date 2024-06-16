@@ -20,13 +20,15 @@ carob_script <- function(path) {
    )
    
    r <- carobiner::read.excel(ff[basename(ff)=="12136_PTYield062018_UNINAIROBI_exp1.xlsx"],sheet = "Fieldbook")
-   
+   lbvars <- grep('^LB', colnames(r), value=TRUE)
    d <- data.frame(      
       variety_code= r$INSTN,
       rep= as.integer(r$REP),
       yield=r$TTYNA*1000,# in kg/ha
       AUDPC= r$AUDPC,
       rAUDPC= r$rAUDPC,
+      virus=r$Virus,
+      seed_amount=r$SPBE,
       planting_date="2018-06-04" ## from data description
    )
    
@@ -34,12 +36,15 @@ carob_script <- function(path) {
 		\(i) { 
 			r1 <- carobiner::read.excel(ff[basename(ff)=="caf1cc988f3c58c6cb1af73bed6ca249.xlsx"], sheet=i)
 			names(r1) <- gsub("CloneID","Clones",names(r1))
+			names(r1) <- gsub("Seeds","seeds",names(r1))
 			dd <- data.frame( 
 				variety_code=r1$Clones,
 				rep= as.integer(r1$Rep),
 				flowering_date= as.character(r1$`Flowering Date`),
 				AUDPC=r1$AUDPC,
 				rAUDPC=r1$rAUDPC,
+				virus=r1$Virus,
+				seed_amount=r1$seeds,
 				planting_date= as.character(r1$Planted),
 				yield=r1$Yield*1000, # in kg/ha
 				trial_id = i
@@ -68,7 +73,27 @@ carob_script <- function(path) {
    d$irrigated <- FALSE
    d$inoculated <- FALSE
    d$yield_part <- "tubers"
+   
+   ### Add disease scores during the season
+   
+   dd <- lapply(c("2018-07-17_Fieldbook_Trial1", "2018-07-22_Fieldbook_Trial2"), 
+                \(i) { 
+                   r1 <- carobiner::read.excel(ff[basename(ff)=="caf1cc988f3c58c6cb1af73bed6ca249.xlsx"], sheet=i)
+                   r1 <- carobiner::change_names(r1,names(r1[,18:24]),c("LB1","LB2","LB3","LB4","LB5","LB6","LB7"))
+                   dd <- r1[,lbvars]
+                  }
+                   )
+   dd <- do.call(rbind, dd)
+   
+   dd <-rbind(dd,r[,lbvars]) 
+   dd$record_id <- as.integer(1:nrow(dd))
+   dates <- as.character(as.Date(c("2018-07-04", "2018-07-14", "2018-07-24", "2018-08-03", "2018-08-13",  "2018-08-23", "2018-09-02")))
+   x <- reshape(dd, direction="long", varying =lbvars, v.names="severity", timevar="step")
+   x$time <- dates[x$step]
+   x$step <- x$id <- NULL             
+   
+   
   
-   carobiner::write_files(path, dset, d)   
+   carobiner::write_files(path, dset, d,timerecs=x)   
 }
 
