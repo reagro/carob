@@ -71,6 +71,14 @@ carob_script <- function(path) {
    d$planting_date[d$season=="2016"]<- "2016-11-07"
    d$season <- NULL
    
+# ambiguous from methods in paper: the dose of fertilisation was 180-160-160 of NPK
+   N_fertilizer <- 180
+   P_fertilizer <- 160 / 2.29
+   K_fertilizer <- 160 / 1.2051
+   
+   fungicide_used <- TRUE
+	fungicide_product <- "Mancozeb"
+	
    carobiner::write_files(path, dset, d)
    
 }
