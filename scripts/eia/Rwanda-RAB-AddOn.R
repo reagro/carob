@@ -15,7 +15,7 @@ carob_script <- function(path) {
 "
    
    uri <- "doi:Rwanda-RAB-AddOn"
-   group <- "survey" #"eia"
+   group <- "eia"
    
    dset <- data.frame(
       # Need to fill-in metadata...
