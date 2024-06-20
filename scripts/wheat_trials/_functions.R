@@ -150,6 +150,7 @@ proc_wheat <- function(ff) {
 		"feet ollowed by mu", "none",
 		"monsoon rice", "rice",
 		"rice (cereal)", "rice",
+		"cereal rice", "rice",
 		"peanut (arachis)", "groundnut",
 		"no crop", "none",
 		"b napus", "rapeseed",
