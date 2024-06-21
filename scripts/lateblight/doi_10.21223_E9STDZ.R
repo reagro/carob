@@ -37,6 +37,7 @@ carob_script <- function(path) {
       AUDPC= r$AUDPC /100,
       on_farm= TRUE,
       inoculated= FALSE,
+      irrigated= FALSE,
       yield_part= "tubers",
       trial_id= "1"         
    )
@@ -58,10 +59,13 @@ carob_script <- function(path) {
    dates <- as.character(as.Date(c("2021-10-31", "2021-11-06", "2021-11-14", "2021-11-21", "2021-11-28",  "2021-12-5", "2021-12-12","2021-12-19")))
    x <- reshape(dd, direction="long", varying =lbvars, v.names="severity", timevar="step")
    x$time <- dates[x$step]
-   x$step <- x$id <- NULL             
+   x$step <- x$id <- NULL  
    
-
+   ###### fertilizer  #####################
+   d$N_fertilizer <- as.numeric(NA)
+   d$P_fertilizer <- as.numeric(NA)
+   d$K_fertilizer <- as.numeric(NA)
+   
    carobiner::write_files(path, dset, d,timerecs=x)  
-   
 }
 
