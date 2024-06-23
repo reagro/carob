@@ -40,7 +40,7 @@ carob_script <- function(path) {
 		variety_release_year = r$hyb_yor,
 		weeding_done = r$weeding, 
 		insecticide_used = r$pesticide,
-		striga_present = r$striga,
+		striga_damage = r$striga,
 		OM_used = r$compost | r$manure,
 		OM_amount = r$comp_kg_ha,
 		on_farm= TRUE,
