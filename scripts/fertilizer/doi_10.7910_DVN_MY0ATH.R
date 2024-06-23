@@ -27,127 +27,139 @@ carob_script <- function(path) {
 	f1 <- ff[basename(ff) == "002_phosphorusRateonGroundnut_Ghana.xls"]
 	f2 <- ff[basename(ff) == "001_phosphorusRatesonGroundnutMorther_Ghana_2014-2015.xls"]
 	
-	r <- carobiner::read.excel(f,sheet = "RAW 2014")
-	r1 <- carobiner::read.excel(f,sheet = "RAW 2015")
-	r2 <- carobiner::read.excel(f1,sheet = "RAW 2014")
-	r3 <- carobiner::read.excel(f1,sheet = "RAW DATA 2015")
-	r4 <- carobiner::read.excel(f2,sheet = "SAS 2014")
-	r5 <- carobiner::read.excel(f2,sheet = "SAS 2015")
+	r1 <- carobiner::read.excel(f,sheet = "RAW 2014")
+	r2 <- carobiner::read.excel(f,sheet = "RAW 2015")
+	r3 <- carobiner::read.excel(f1,sheet = "RAW 2014")
+	r4<- carobiner::read.excel(f1,sheet = "RAW DATA 2015")
+	r5 <- carobiner::read.excel(f2,sheet = "SAS 2014")
+	r6 <- carobiner::read.excel(f2,sheet = "SAS 2015")
 
 ## process file(s)
 
 	d1 <- data.frame(
 		date="2014",
-		site=r$DSTRT,
-		location=r$CMMTY...2,
-		P_fertilizer=r$PRATE,
-		variety=r$VARTY,
-		plant_height=r$`PLNTH (cm)`,
-		flowering_days=r$DFFLW,
-		yield=r$`GYD/ha`
+		site=r1$DSTRT,
+		location=r1$CMMTY...2,
+		P_fertilizer=r1$PRATE,
+		variety=r1$VARTY,
+		plant_height=r1$`PLNTH (cm)`,
+		flowering_days=r1$DFFLW,
+		yield=r1$`GYD/ha`
+	
 	)
 	
 	d2 <- data.frame(
 	  date="2015",
-	  site=r1$DSTRT,
-	  location=r1$CMMTY...2,
-	  P_fertilizer=r1$PRATE,
-	  variety=r1$VARTY,
-	  plant_height=r1$PLNTH,
-	  yield=r1$`GYD /ha`,
-	  residue_yield=r1$`FODDER /ha`,
-	  dmy_total=r1$TBMSS
-	)
-	#fixing names as given in label sheet
-	d1$site <- carobiner::replace_values(d1$site,c(1,2),c("Kassena Nankana","Bongo"))
-	d2$site <- carobiner::replace_values(d2$site,c(1,2),c("Kassena Nankana","Bongo"))
-	d1$variety <- carobiner::replace_values(d1$variety,c(1,2,3,4,5),c("chinese","cri-azivivi","obolo","manipinta","yenyawoso"))
-	d2$variety <- carobiner::replace_values(d2$variety,c(1,2,3,4,5),c("chinese","cri-azivivi","obolo","manipinta","yenyawoso"))
-	
-	d3 <- data.frame(
-	  date="2014",
 	  site=r2$DSTRT,
 	  location=r2$CMMTY...2,
 	  P_fertilizer=r2$PRATE,
 	  variety=r2$VARTY,
 	  plant_height=r2$PLNTH,
-	  flowering_days=r2$DFFLW,
-	  yield=r2$GYD...17,
-	  residue_yield=r2$FODDER...13,
+	  yield=r2$`GYD /ha`,
+	  residue_yield=r2$`FODDER /ha`,
 	  dmy_total=r2$TBMSS
+	)
+	#fixing names as given in label sheet
+	d1$site <- c("Kassena Nankana","Bongo")[d1$site]
+	d2$site <- c("Kassena Nankana","Bongo")[d2$site]
+	d1$variety <- c("chinese","cri-azivivi","obolo","manipinta","yenyawoso")[d1$variety]
+	d2$variety <-c("chinese","cri-azivivi","obolo","manipinta","yenyawoso")[d2$variety]
+	
+	d3 <- data.frame(
+	  date="2014",
+	  site=r3$DSTRT,
+	  location=r3$CMMTY...2,
+	  P_fertilizer=r3$PRATE,
+	  variety=r3$VARTY,
+	  plant_height=r3$PLNTH,
+	  flowering_days=r3$DFFLW,
+	  yield=r3$GYD...17,
+	  residue_yield=r3$FODDER...13,
+	  dmy_total=r3$TBMSS
 	)
 	
 	d4 <- data.frame(
 	  date="2015",
-	  site=r3$DSTRT,
-	  location=r3$CMMTY,
-	  P_fertilizer=r3$PRATE,
-	  variety=r3$VAR,
-	  plant_height=r3$PLNTH,
-	  flowering_days=NA,
-	  yield=r3$GYD...10,
-	  residue_yield=r3$STOVER...12,
-	  dmy_total=r3$TBMSS
-	)
-
-	#fixing names as given in label sheet
-	d3$site <- carobiner::replace_values(d3$site,c(1,2),c("Tolon","Savelugu"))
-	d4$site <- carobiner::replace_values(d4$site,c(1,2),c("Tolon","Savelugu"))
-	d4$location <- carobiner::replace_values(d4$location,c(1,2,3,4),c("Tingoli","Gbanjong","Tibogunayili","Duko"))
-	d3$variety <- carobiner::replace_values(d3$variety,c(1,2,3,4,5),c("chinese","cri-azivivi","obolo","manipinta","yenyawoso"))
-	d4$variety <- carobiner::replace_values(d4$variety,c(1,2,3,4,5),c("chinese","cri-azivivi","obolo","manipinta","yenyawoso"))
-	
-	d5 <- data.frame(
-	  date="2014",
 	  site=r4$DSTRT,
 	  location=r4$CMMTY,
 	  P_fertilizer=r4$PRATE,
-	  variety=r4$VARTY,
+	  variety=r4$VAR,
 	  plant_height=r4$PLNTH,
-	  flowering_days=r4$DFFLW,
-	  yield=r4$GRAIN,
-	  residue_yield=r4$FODDER,
-	  dmy_total=r4$TBMM
+	  flowering_days=NA,
+	  yield=r4$GYD...10,
+	  residue_yield=r4$STOVER...12,
+	  dmy_total=r4$TBMSS
 	)
+
+	#fixing names as given in label sheet
+	d3$site <- c("Tolon","Savelugu")[d3$site]
+	d4$site <- c("Tolon","Savelugu")[d4$site]
+	d4$location <- c("Tingoli","Gbanjong","Tibogunayili","Duko")[d4$location]
+	d3$variety <- c("chinese","cri-azivivi","obolo","manipinta","yenyawoso")[d3$variety]
+	d4$variety <-  c("chinese","cri-azivivi","obolo","manipinta","yenyawoso")[d4$variety]
 	
-	d6 <- data.frame(
-	  date="2015",
+	d5 <- data.frame(
+	  date="2014",
 	  site=r5$DSTRT,
 	  location=r5$CMMTY,
 	  P_fertilizer=r5$PRATE,
 	  variety=r5$VARTY,
 	  plant_height=r5$PLNTH,
-	  flowering_days=NA,
+	  flowering_days=r5$DFFLW,
 	  yield=r5$GRAIN,
 	  residue_yield=r5$FODDER,
 	  dmy_total=r5$TBMM
 	)
+	
+	d6 <- data.frame(
+	  date="2015",
+	  site=r6$DSTRT,
+	  location=r6$CMMTY,
+	  P_fertilizer=r6$PRATE,
+	  variety=r6$VARTY,
+	  plant_height=r6$PLNTH,
+	  flowering_days=NA,
+	  yield=r6$GRAIN,
+	  residue_yield=r6$FODDER,
+	  dmy_total=r6$TBMM
+	)
 
 	#fixing names as given in label sheet
-	d5$site <- carobiner::replace_values(d5$site,c(1,2),c("Nadowli","Wa West"))
-	d6$site <- carobiner::replace_values(d6$site,c(1,2),c("Nadowli","Wa West"))
-	d5$location <- carobiner::replace_values(d5$location,c(1,2,3,4),c("Goroyori","Gyilli","Zanko","Pase"))
-	d6$location <- carobiner::replace_values(d6$location,c(1,2,3,4),c("Goroyori","Gyilli","Zanko","Pase"))
-	d5$variety <- carobiner::replace_values(d5$variety,c(1,2,3,4,5),c("G1-Sari Chinese","G2-Cri-Azivivi","G3-Obolo","G4-Manipinta","G5-Yenyawoso"))
-	d6$variety <- carobiner::replace_values(d6$variety,c(1,2,3,4,5),c("G1-Sari Chinese","G2-Cri-Azivivi","G3-Obolo","G4-Manipinta","G5-Yenyawoso"))	
+	d5$site <- c("Nadowli","Wa West")[d5$site]
+	d6$site <- c("Nadowli","Wa West")[d6$site]
+	d5$location <- c("Goroyori","Gyilli","Zanko","Pase")[d5$location]
+	d6$location <- c("Goroyori","Gyilli","Zanko","Pase")[d6$location]
+	d5$variety <- c("G1-Sari Chinese","G2-Cri-Azivivi","G3-Obolo","G4-Manipinta","G5-Yenyawoso")[d5$variety]
+	d6$variety <- c("G1-Sari Chinese","G2-Cri-Azivivi","G3-Obolo","G4-Manipinta","G5-Yenyawoso")[d6$variety]	
 
 	d <- carobiner::bindr(d1, d2, d3, d4, d5, d6)	
 	
-	d$P_fertilizer <- carobiner::replace_values(d$P_fertilizer, c(1,2), c(60,90))
+	d$P_fertilizer <- c(60,90)[d$P_fertilizer]
 # is this correct: ?
+	##CN : I thing set to NA might be a good , as the data do not provide any information on the N and K used. 
 	d$N_fertilizer <- 0
 	d$K_fertilizer <- 0
 	
 	
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
-	d$irrigated <- FALSE
+	d$irrigated <- NA # FALSE ?
 	d$inoculated <- FALSE
 	d$crop <- "groundnut"
 	d$yield_part <- "seed"
+	d$trial_id <- "1"
+	d$planting_date <- d$date
+	
 
 ##### Location #####
 	d$country <- "Ghana"
+	##CN 
+	## fix location names
+	p <- carobiner::fix_name(d$location)
+	p <- gsub("Goroyori", "Gorogori",p)
+	p <- gsub("Gyilli", "Gyilly",p)
+	p <- gsub("Nyangua", "Nyangai",p)
+	d$location <- p
 	geo <- data.frame(
 	  location=c("Bonia", "Nyangai", "Samboligo", "Tingoli", "Gbanjong", "Tibogunayili","Duko","Gorogori","Gyilly","Zanko","Pase"), 
 	  latitude=c(10.9078, 10.8950, 10.9078, 9.3750, 9.4319, 9.6242, 9.5636, 10.0606, 10.0606, 10.0676, 10.0367), 
