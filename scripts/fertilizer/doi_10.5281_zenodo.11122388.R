@@ -48,14 +48,23 @@ carob_script <- function(path) {
 	)
 	d$trial_id <- as.character(as.integer(as.factor(paste(d$longitude, d$latitude))))
 	
-	d$season_constraint <- apply(
-			cbind( c("not disease", "disease")[r$disease+1], 
+	d$season_constraint <- apply(cbind(
+				c("not disease", "disease")[r$disease+1], 
 				c("not pest", "pest")[r$pest+1], 
 				c("not water_excess", "water_excess")[r$water_excess+1]), 
-			1, \(i)paste(i, collapse=";")
+			1, \(i) paste(i, collapse=";")
 		)
 	
-	carobiner::write_files(path, dset, d) 
+	d$variety_traits <- apply(cbind(
+				paste(c("not", ""), "maize lethal necrosis resistant")[r$hyb_tol_mln+1], 
+				paste(c("not", ""), "maize streak virus resistant")[r$hyb_tol_msv+1], 
+				paste(c("not", ""), "gray leaf spot resistant")[r$hyb_tol_gls+1], 
+				paste(c("not", ""), "northern corn leaf blight resistant")[r$hyb_tol_nclb+1], 
+				paste(c("not", ""), "rust resistant")[r$hyb_tol_rust+1], 
+				paste(c("not", ""), "ear rot resistant")[r$hyb_tol_ear_rot+1]), 
+			1, \(i) paste(i, collapse=";")
+		)
 
+	carobiner::write_files(path, dset, d) 
 }
 
