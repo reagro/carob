@@ -1,11 +1,10 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
 
 	uri <- "doi:10.5281/zenodo.11122388"
 	group <- "fertilizer"
-	ff  <- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2),
