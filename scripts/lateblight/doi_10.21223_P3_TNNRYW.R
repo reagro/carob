@@ -17,18 +17,18 @@ carob_script <- function(path) {
 		data_institute = "CIP",
 		carob_contributor="Henry Juarez",
 		carob_date="2023-06-21",	   
-		data_type="experiment"
+		data_type="experiment",
+		treatment_vars="variety"
  	)
 
 	f <- ff[basename(ff) == "PTLB200112_VIENA_B3C0COM02-01.xls"]
-	dates <- as.character(as.Date(c("2002-02-03", "2002-02-13", "2002-02-21", "2002-02-28", "2002-03-07")))
 
-	proc_lb <- carobiner::get_function("proc_breeding_trial", path, group)
+	proc_lb <- carobiner::get_function("proc_lb_trial", path, group)
+	dates <- as.character(as.Date(c("2002-02-03", "2002-02-13", "2002-02-21", "2002-02-28", "2002-03-07")))
 	p <- proc_lb(f, dates)
 	d <- p$d
 
 ##### Location #####
-
 	d$country <- "Peru"
 	d$adm1 <- "Junin"
 	d$adm2 <- "Concepcion"
@@ -36,13 +36,14 @@ carob_script <- function(path) {
 	d$location <- "Comas"
 	d$site <- "Viena"
 	d$elevation <- 2415
-## each site must have corresponding longitude and latitude
 	d$longitude <- -75.1314
 	d$latitude <- -11.5237
 	d$trial_id <- "1"
 
 	d$planting_date <- as.character(as.Date("2001-12-10"))
 	d$harvest_date  <- as.character(as.Date("2002-04-02"))
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+
 
 	carobiner::write_files(path, dset, d, timerecs=p$tim)
 }

@@ -80,6 +80,7 @@ carob_script <- function(path) {
    d$irrigated <- FALSE
    d$inoculated <- FALSE
    d$yield_part <- "tubers"
+   d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
    ### Add disease scores during the season
 	lb <- rbind(lb1, do.call(rbind, lblst))  
@@ -89,12 +90,8 @@ carob_script <- function(path) {
 	x <- reshape(lb, direction="long", varying =lbvars, v.names="severity", timevar="step")
 	x$time <- x$pdate + seq(30, 90, 10)[x$step]
 
-# incorrect as it does not consider the planting date
-#   dates <- c("2018-07-04", "2018-07-14", "2018-07-24", "2018-08-03", "2018-08-13",  "2018-08-23", "2018-09-02")
-#	x$time <- dates[x$step]
+   x$step <- x$id <- x$pdate <- NULL
 
-   x$step <- x$id <- x$pdate <- NULL             
-   
    carobiner::write_files(path, dset, d,timerecs=x)   
 }
 

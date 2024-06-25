@@ -1,14 +1,8 @@
-
-
 # R script for "carob"
-
 
 carob_script <- function(path) {
    
-   "
-   Dataset about the yield and stability advanced trial for late blight and heat tolerant (LBHT) potato population conducted in Huanuco, Peru. 150 advanced clones of the LBHT and heat-tolerant population, with three control varieties Yungay, Kory, and Amarilis, besides with 23 parents were planted in Huanuco, Peru between 2021 and 2022. (16 Rows x 12 Columns)
-   
-   "
+"Dataset about the yield and stability advanced trial for late blight and heat tolerant (LBHT) potato population conducted in Huanuco, Peru. 150 advanced clones of the LBHT and heat-tolerant population, with three control varieties Yungay, Kory, and Amarilis, besides with 23 parents were planted in Huanuco, Peru between 2021 and 2022. (16 Rows x 12 Columns)"
    
    uri <- "doi:10.21223/E9STDZ"
    group <- "lateblight"
@@ -42,15 +36,14 @@ carob_script <- function(path) {
       trial_id= "1"         
    )
    
-   #### Location #####
-
    d$adm1 <- "Huanuco"
-   ## corresponding longitude and latitude
    d$longitude <- -75.833333
    d$latitude <- -9.5
    
    d$planting_date <- as.character(as.Date("2021-09-21"))
    d$harvest_date  <- as.character(as.Date("2022-02-10"))
+
+   d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
    
    ### Add disease scores during the season
@@ -61,10 +54,6 @@ carob_script <- function(path) {
    x$time <- dates[x$step]
    x$step <- x$id <- NULL  
    
-   ###### fertilizer  #####################
-   d$N_fertilizer <- as.numeric(NA)
-   d$P_fertilizer <- as.numeric(NA)
-   d$K_fertilizer <- as.numeric(NA)
    
    carobiner::write_files(path, dset, d,timerecs=x)  
 }
