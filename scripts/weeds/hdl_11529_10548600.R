@@ -42,29 +42,29 @@ carob_script <- function(path) {
    		Treatment= 1:10,
 		weeding_done = TRUE,
 		treatment= c(
-			"farmers practices + pretilochlor fb twice hand-weeding", 
+			"farmers practices + pretilachlor fb twice hand-weeding", 
 			"pendimethalim fb hand-weeding", 
 			"mefenacet + bensulfuron fb hand-weeding", 
 			"mefenacet + bensulfuron fb MW", 
 			"bispyribac-sodium fb hand-weeding", 
-			"penoxsulan fb hand-weeding", 
+			"penoxsulam fb hand-weeding", 
 			"mefenacet+bensulfuron fb bispyribac-sodium fb hand-weeding", 
 			"mefenacet + ben sulfuron fb penoxulam fb hand-weeding",
 			"MW fb HW",
 			"Weed-free by frequent hand-weeding"
 		), 
 		herbicide_product = c(
-			"pretilochlor", 
-			"pendimethalim", 
+			"pretilachlor", 
+			"pendimethalin", 
 			"mefenacet;bensulfuron", 
 			"mefenacet;bensulfuron", 
 			"bispyribac-sodium", 
-			"penoxsulan", 
-			"mefenacet+bensulfuron;bispyribac-sodium", 
-			"mefenacet;ben sulfuron;penoxulam",
+			"penoxsulam", 
+			"mefenacet;bensulfuron;bispyribac-sodium", 
+			"mefenacet;bensulfuron;penoxsulam",
 			"none",
 			"none"
-		),
+		),		
 		herbicide_used = c(rep(TRUE, 8), FALSE, FALSE)
 	)
 	
