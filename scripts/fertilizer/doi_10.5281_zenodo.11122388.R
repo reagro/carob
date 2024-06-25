@@ -44,7 +44,8 @@ carob_script <- function(path) {
 		OM_used = r$compost | r$manure,
 		OM_amount = r$comp_kg_ha,
 		on_farm= TRUE,
-		irrigated = NA
+		irrigated = NA,
+		is_survey = TRUE
 	)
 	d$trial_id <- as.character(as.integer(as.factor(paste(d$longitude, d$latitude))))
 	

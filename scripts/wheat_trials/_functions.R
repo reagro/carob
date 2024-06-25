@@ -146,7 +146,10 @@ proc_wheat <- function(ff) {
 	}
 
 
-	m <- matrix(byrow=TRUE, ncol=2, c(
+	m <- matrix(byrow=TRUE, ncol=2, c(	
+		"soybean (glycine max)", "soybean",
+		"chickpean", "chickpea",
+		"spring wheat", "wheat",	
 		"feet ollowed by mu", "none",
 		"monsoon rice", "rice",
 		"rice (cereal)", "rice",
