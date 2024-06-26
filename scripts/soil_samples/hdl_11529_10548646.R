@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		data_institute = "CIMMYT",
 		carob_contributor="Andrew Sila",
 		carob_date="2023-09-28",
-		data_type = "soil sampling",
+		data_type = "survey",
 		treatment_vars = "none"
     )
   

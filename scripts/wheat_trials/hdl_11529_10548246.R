@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		data_institute = "CIMMYT",
 		carob_contributor="Fredy Chimire",
  		data_type="on-station experiment",
-		treatment_vars = "variety_code;longitude;latitude",
+		treatment_vars = "variety_code",
 		carob_date="2023-10-23"
     
 	)

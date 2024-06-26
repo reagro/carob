@@ -12,7 +12,7 @@ carob_script <- function(path) {
     publication= NA,
     project="Semi-Arid Wheat Screening Nursery",
     data_type= "experiment",
-		treatment_vars = "variety_code;longitude;latitude",
+		treatment_vars = "variety_code",
     carob_contributor= "Fredy Chimire",
     carob_date="2024-04-29"
   )

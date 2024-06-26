@@ -14,7 +14,7 @@ carob_script <- function(path) {
 		publication= NA,
 		project="International Durum Yield Nursery",
 		data_type= "experiment",
-		treatment_vars = "variety_code;longitude;latitude",
+		treatment_vars = "variety_code",
 		carob_contributor= "Robert Hijmans",
 		carob_date="2024-03-26"
 	)

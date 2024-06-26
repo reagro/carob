@@ -668,7 +668,7 @@ proc_wheat <- function(ff) {
 	
 	d <- d[d$country != "Null", ]
 	d <- d[!is.na(d$yield), ]
-	d
+	unique(d)
 }
 
 

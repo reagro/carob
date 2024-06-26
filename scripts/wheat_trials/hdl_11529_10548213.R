@@ -17,7 +17,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 		carob_contributor="Andrew Sila",
 		carob_date="2023-05-03",
 		data_type="on-station experiment",
-		treatment_vars = "variety_code;longitude;latitude"
+		treatment_vars = "variety_code"
 	)
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)

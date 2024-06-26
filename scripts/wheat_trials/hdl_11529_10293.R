@@ -17,7 +17,7 @@ carob_script <- function(path) {
 		carob_contributor="Robert Hijmans",
 		carob_date="2023-06-30",
 		data_type="on-station experiment",
-		treatment_vars = "variety_code;longitude;latitude"
+		treatment_vars = "variety_code"
  	)
 
 
