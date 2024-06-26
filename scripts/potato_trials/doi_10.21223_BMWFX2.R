@@ -1,13 +1,8 @@
-
-
 # R script for "carob"
-
 
 carob_script <- function(path) {
    
-   "
-   Dataset for yield and stability advanced trial for late blight and heat tolerant (LBHT) potato population conducted in San Ramón. 150 advanced clones of the LBHT and heat-tolerant population, with four control varieties Yungay, Kory, Amarilis and Desiree, and 23 parents were planted in San Ramón Peru between 2021 and 2022. (16 Rows x 12 Columns)
-   "
+"Dataset for yield and stability advanced trial for late blight and heat tolerant (LBHT) potato population conducted in San Ramón. 150 advanced clones of the LBHT and heat-tolerant population, with four control varieties Yungay, Kory, Amarilis and Desiree, and 23 parents were planted in San Ramón Peru between 2021 and 2022. (16 Rows x 12 Columns)"
    
    uri <- "doi:10.21223/BMWFX2"
    group <- "potato_trials"
@@ -35,23 +30,20 @@ carob_script <- function(path) {
       inoculated= FALSE,
       irrigated= NA,
       yield_part= "tubers",
-      trial_id= "1"         
+      trial_id= "1",
+	  is_survey = FALSE
    )
    
-   #### Location #####
-   
+   ## location
    d$adm1 <- "San Ramón"
-   ## corresponding longitude and latitude
-   d$longitude <- -75.3521478
-   d$latitude <- -11.1214018
+   d$longitude <- -75.3521
+   d$latitude <- -11.1214
    
-   d$planting_date <- as.character(as.Date("2021-08-11"))
-   d$harvest_date  <- as.character(as.Date("2021-11-16"))
+   d$planting_date <- "2021-08-11"
+   d$harvest_date  <- "2021-11-16"
    
-   ###### fertilizer  #####################
-   d$N_fertilizer <- as.numeric(NA)
-   d$P_fertilizer <- as.numeric(NA)
-   d$K_fertilizer <- as.numeric(NA)
+   ## fertilizer
+   d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
    carobiner::write_files(path, dset, d)  
 }

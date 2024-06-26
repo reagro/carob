@@ -1,13 +1,8 @@
-
-
 # R script for "carob"
-
 
 carob_script <- function(path) {
    
-   "
-   Dataset for yield and stability advanced trial for late blight and heat tolerant (LBHT) potato population conducted in Oxapampa, Peru. 150 advanced clones of the LBHT and heat-tolerant population, with three control varieties Yungay, Kory, and Amarilis, besides with 23 parents were planted in Oxapampa, Peru between 2021 and 2022. (16 Rows x 12 Columns)
-   "
+"Dataset for yield and stability advanced trial for late blight and heat tolerant (LBHT) potato population conducted in Oxapampa, Peru. 150 advanced clones of the LBHT and heat-tolerant population, with three control varieties Yungay, Kory, and Amarilis, besides with 23 parents were planted in Oxapampa, Peru between 2021 and 2022. (16 Rows x 12 Columns)"
    
    uri <- "doi:10.21223/64DNHF"
    group <- "lateblight"
@@ -38,21 +33,20 @@ carob_script <- function(path) {
       inoculated= FALSE,
       irrigated= NA,
       yield_part= "tubers",
-      trial_id= "1"         
+      trial_id= "1",
+	  is_survey = FALSE
    )
    
-   #### Location #####
-   
+
+   ## Location
    d$adm1 <- "Oxapampa"
-   ## corresponding longitude and latitude
-   d$longitude <- -75.083333
-   d$latitude <- -10.333333
+   d$longitude <- -75.0833
+   d$latitude <- -10.3333
    
-   d$planting_date <- as.character(as.Date("2021-09-30"))
-   d$harvest_date  <- as.character(as.Date("2022-01-31"))
+   d$planting_date <- "2021-09-30"
+   d$harvest_date  <- "2022-01-31"
    
-   
-   ### Add disease scores during the season
+   ## Disease scores during the season
    dd <- r[,lbvars]
    dd$record_id <- as.integer(1:nrow(dd))
    dates <- as.character(as.Date(c("2021-11-08", "2021-11-15", "2021-11-22", "2021-11-29", "2021-12-06", "2021-12-13",  "2021-12-20", "2021-12-27")))
@@ -60,10 +54,8 @@ carob_script <- function(path) {
    x$time <- dates[x$step]
    x$step <- x$id <- NULL  
    
-   ###### fertilizer  #####################
-   d$N_fertilizer <- as.numeric(NA)
-   d$P_fertilizer <- as.numeric(NA)
-   d$K_fertilizer <- as.numeric(NA)
+   ## fertilizer
+   d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
    carobiner::write_files(path, dset, d,timerecs=x)  
 }
