@@ -22,6 +22,7 @@ The trial includes 40 faba bean varieties and 2  wheat varieties that are grown 
 		data_institute = "ICARDA",
 		carob_contributor="Samar Attaher",
 		carob_date="2023-04-05",
+		treatment_vars="intercrops",
 		data_type="experiment"
 	)
 	
@@ -123,6 +124,9 @@ The trial includes 40 faba bean varieties and 2  wheat varieties that are grown 
 	i <- d$intercrop == "yes"
 	d$intercrops[i & d$crop=="durum wheat"] <- "faba bean"
 	d$intercrops[i & d$crop=="faba bean"] <- "durum wheat"
+	
+	d$is_survey <- FALSE
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	
 	carobiner::write_files (path, dset, d)
 }

@@ -16,7 +16,6 @@ The present data set is from 2012 to 2016. (2016)"
 		publication = NA,
 		project = NA,
 		data_type = "on-farm experiment",
-		treatment_vars = NA, 
 		carob_contributor = "Blessing Dzuda",
 		carob_date = "2024-05-03"
 	)
@@ -73,6 +72,8 @@ The present data set is from 2012 to 2016. (2016)"
 	d$elevation <- 1018
 	d$longitude <- 32.5585
 	d$latitude <- -13.645
+
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 
 	carobiner::write_files(path, dset, d)
 }

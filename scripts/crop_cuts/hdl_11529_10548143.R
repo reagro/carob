@@ -1,9 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# 1. Planting date assigned 2014 because the cropping season was 2014/15.
-# 2. 
-
 
 carob_script <- function(path) {
   
@@ -20,7 +16,7 @@ carob_script <- function(path) {
 		publication =NA,
 		project = NA,
 		data_type = "survey",
-		treatment_vars = NA,
+		treatment_vars = "none",
 		carob_contributor = "Blessing Dzuda",
 		carob_date = "2024-06-04"
 	)
@@ -30,7 +26,6 @@ carob_script <- function(path) {
 	r <- r[1:425, ]
 
 	d <- data.frame(
-		trial_id="1",
 		country=r$Country,
 		adm1=r$Zone,
 		adm2=r$District,
@@ -39,18 +34,23 @@ carob_script <- function(path) {
 		latitude=r$Latitude,
 		longitude=r$Longitude,
 		elevation=r$Altitude,
-		planting_date="2014",
 		crop="maize",
 		plant_density=r$`Plant Stands`,
 		yield=r$`Grain yield (kg/ha@12.5%)`
 	)
 	
+# Planting date 2014 because the cropping season was 2014/15.
+	d$planting_date="2014"
+
+	d$trial_id= as.character(1:nrow(d))
 	
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
 	d$yield_part <- "grain"
 	d$plant_density <- d$plant_density*400
+	
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	
 	carobiner::write_files(path, dset, d)
 }
