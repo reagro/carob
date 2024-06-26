@@ -84,7 +84,6 @@ if (all(c("longitude", "latitude") %in% colnames(locs))) {
 if (grepl("trials", group)) {
 	varieties <- unique(d$variety)
 	if (is.null(varieties))	varieties <- unique(d$variety_code)
-
    vartxt <- paste(" These are trial data for", length(varieties), "varieties.") 
 } else {
 	vartxt <- ""
@@ -101,9 +100,9 @@ This report describes standardized data for "*`r m$title`*". These data were sta
 
 `r pub`
 
-The dataset has `r nrow(d)` records and `r ncol(d)` variables. Data are for `r crop` in `r country`. `r vartxt`
+The dataset has `r nrow(d)` records and `r ncol(d)` variables for `r crop` in `r country`. `r vartxt`
 
-<\br>
+</br>
 These are the first `r min(nrow(d), 25)` records: 
 
 ```{r tab1}
@@ -111,7 +110,7 @@ scrolltab(head(d, 25), "records")
 ```
 
 </br>
-`r if(!is.null(treatments)) paste("The dataset has", nrow(treatments), "treatments:") 
+`r if(!is.null(treatments)) paste("The dataset has", nrow(treatments), "treatments:")`
 
 ```{r tab2}
 if (!is.null(treatments)) scrolltab(treatments, "treatments")

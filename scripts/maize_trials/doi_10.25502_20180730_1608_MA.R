@@ -16,7 +16,7 @@ This dataset contains output of the research for Zimbabwe."
 		carob_contributor = "Camila Bonilla",
 		carob_date="2021-06-03",
 		data_type = "experiment",
-		treatment_vars = "variety_code;longitude;latitude",
+		treatment_vars = "variety",
 		project="International Maize Trials",
 		data_institute="IITA"
 	)

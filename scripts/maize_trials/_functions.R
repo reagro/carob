@@ -208,6 +208,9 @@ intmztrial_striga <- function(ff, sf=NULL) {
 	d <- carobiner::change_names(d, c("gwt"), 
 				c("grain_weight"), must_have=FALSE)
 	
+	d$is_survey <- FALSE	
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+	d$irrigated <- as.logical(NA)
 	
 	d
 }
