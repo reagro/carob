@@ -1,13 +1,10 @@
+# R script for "carob"
+
 
 carob_script <- function(path) {
    
-   "
-	Description:
-	
-	During the period 2020-2021, experiments were planted to study the phenotypic stability of tuber yield in thirty advanced clones of the B3C3 population, using the Row-Column statistical design with three replications of ten plants in each experiment. Amarilis, Canchan, and Chucmarina varieties were used as controls, the fertilization dose was 200-180-160 kg NPK per hectare, and pest control was carried out as in a normal potato crop; 
-	no fungicides were used for late blight control because the clones are resistant to the disease.The experiment was conducted in the Lastly-Huancayo locality. Harvesting took place 120 days after planting.
-	
-"
+"During the period 2020-2021, experiments were planted to study the phenotypic stability of tuber yield in thirty advanced clones of the B3C3 population, using the Row-Column statistical design with three replications of ten plants in each experiment. Amarilis, Canchan, and Chucmarina varieties were used as controls, the fertilization dose was 200-180-160 kg NPK per hectare, and pest control was carried out as in a normal potato crop; no fungicides were used for late blight control because the clones are resistant to the disease.The experiment was conducted in the Lastly-Huancayo locality. Harvesting took place 120 days after planting."
+
    uri <- "doi:10.21223/V7ZQD4"
    group <- "potato_trials"
    ff <- carobiner::get_data(uri, path, group)
@@ -18,7 +15,7 @@ carob_script <- function(path) {
       data_institute = "CIP",
       carob_contributor="Cedric Ngakou",
       data_type="experiment",
-		treatment_vars = "variety_code;longitude;latitude",
+		treatment_vars = "variety;longitude;latitude",
       project=NA,
       carob_date="2024-02-26"
    )
@@ -38,7 +35,7 @@ carob_script <- function(path) {
    names(n) <- m$Factor
    d$row_spacing<- as.numeric(n$`Distance_between_rows_(m)`)*100 # cm
    d$plant_spacing<- as.numeric(n$`Distance_between_plants_(m)`)*100 # cm
-   d$harvest<- 120
+   d$harvest_days <- 120
    d$plant_density <- as.numeric(n$`Planting_density_(plants/Ha)`)  
    ## add columns
    

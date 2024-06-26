@@ -5,6 +5,7 @@ editor_options:
   chunk_output_type: console
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE)
 
@@ -22,8 +23,8 @@ ktab <- function(data, caption) {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 }
 
-uri <- "doi:10.7910/DVN/RKUMXB"
-group <- "survey"
+uri <- "hdl:11529/11054"
+group <- "crop_cuts"
 
 suri <- carobiner::simple_uri(uri)
 huri <- carobiner:::http_address(uri)
@@ -32,10 +33,27 @@ github <- paste0("https://github.com/reagro/carob/blob/master/scripts/", group, 
 script <- paste0('<a href="', github, '">R script</a>')
 
 f <- paste0("data/clean/", group, "/", suri, ".csv")
-d <- read.csv(f) 
+if (!file.exists(f)) {
+  knitr::knit_exit()
+}
+```
 
+```{r setup2, include=FALSE}
+d <- read.csv(f) 
 m <- read.csv(gsub(".csv$", "_meta.csv", f))
 
+tvars <- m$treatment_vars
+treatments <- NULL 
+
+if (!is.null(tvars)) {
+   tvars <- trimws(unlist(strsplit(tvars, ";")))
+   tvars <- tvars[!(tvars %in% c("none", "longitude", "latitude"))]
+   if (length(tvars) > 0) {
+     treatments <- unique(d[ , tvars, drop=FALSE])
+     treatments <- treatments[order(treatments[,1]), , drop=FALSE]
+     rownames(treatments) <- NULL
+   }
+}
 
 get_values <- function(x, label) {
   x <- unique(x)
@@ -45,20 +63,34 @@ get_values <- function(x, label) {
 crop <- get_values(d$crop, "crops")
 country <- get_values(d$country, "countries")
 
-
 locvars <- c("country", paste0("adm", 1:5), "location", "site", "longitude", "latitude")
 i <- which(locvars %in% colnames(d))
 locs <- unique(d[, locvars[i]])
 if (all(c("longitude", "latitude") %in% colnames(locs))) {
-  xy <- unique(locs[, c("longitude", "latitude")])
-  xytxt <- paste0("for which we have ", nrow(xy), " unique mapped locations.")
-  haveXY <- TRUE
+	xy <- unique(locs[, c("longitude", "latitude")])
+	xytxt <- paste0("for which we have ", nrow(xy), " unique mapped locations.")
+	nrec_noxy <- is.na(d$latitude) | is.na(d$longitude)
+	if (any(nrec_noxy)) {
+		xytxt <- paste(xytxt, sum(nrec_noxy), "records do not have coordinates.")
+	}
+	haveXY <- TRUE
 } else {
-  xytxt <- paste0("for which we have no coordinates.")
-  xy <- cbind(0,0)[0,]
-  haveXY <- FALSE
+	xytxt <- paste0("for which we have no coordinates.")
+	xy <- cbind(0,0)[0,]
+	haveXY <- FALSE
 }
 
+
+if (grepl("trials", group)) {
+	varieties <- unique(d$variety)
+	if (is.null(varieties))	varieties <- unique(d$variety_code)
+
+   vartxt <- paste(" These are trial data for", length(varieties), "varieties.") 
+} else {
+	vartxt <- ""
+}
+   
+   
 pub <- ifelse(is.na(m$publication), "", paste0('You can also consult the accompanying <a href="', carobiner:::http_address(m$publication), '">paper</a>.'))
 ```
 
@@ -69,13 +101,22 @@ This report describes standardized data for "*`r m$title`*". These data were sta
 
 `r pub`
 
-The dataset has `r nrow(d)` records for `r crop` in `r country`. These are the first `r min(nrow(d), 25)` records: 
+The dataset has `r nrow(d)` records and `r ncol(d)` variables. Data are for `r crop` in `r country`. `r vartxt`
+
+<\br>
+These are the first `r min(nrow(d), 25)` records: 
 
 ```{r tab1}
 scrolltab(head(d, 25), "records")
 ```
 
 </br>
+`r if(!is.null(treatments)) paste("The dataset has", nrow(treatments), "treatments:") 
+
+```{r tab2}
+if (!is.null(treatments)) scrolltab(treatments, "treatments")
+```
+
 The observations are for `r nrow(locs)` locations, `r xytxt`
 
 ```{r map, include=haveXY}
@@ -88,3 +129,15 @@ if (nrow(locs) > 0) {
 }
 ```
 
+</br>
+The data are further summarized in the table below
+
+
+```{r summary, fig.width=6}
+d$longitude <- d$latitude <- NULL
+dfs <- summarytools::dfSummary(d, varnumbers=FALSE, graph.magnif=0.75, 
+                               max.string.width=20, display.labels=FALSE, valid.col=FALSE, 
+							  )
+summarytools::view(dfs, method = "render", 
+                    report.title="", max.tbl.height = Inf)
+```

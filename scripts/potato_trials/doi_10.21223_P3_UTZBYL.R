@@ -1,8 +1,8 @@
+# R script for "carob"
 
 carob_script <- function(path) {
 
-"The genotype x environment interaction (GXE) does see the importance of environmental effect on the adaptation and varietal performance. Therefore, breeders must have a methodology for quantifying and interpreting the GXE interaction and thus help clarify areas where a genotype can be useful.
-New statistical methods allow the identification and recommendation of new clones with specific or broad adaptation. The combination of Geographic Information System (GIS) with an analysis of variance of AMMI models (Additive Main Effects and Multiplicative Interactions), SREG (Sites Regression Model) and PLS (Partial Least Squares Regression) offer a new possibility to predict potential areas for production of these materials. Regional yield trials are networks of experiments by which a set of cultivars is usually assessed to make genotype recommendation."
+"The genotype x environment interaction (GXE) does see the importance of environmental effect on the adaptation and varietal performance. Therefore, breeders must have a methodology for quantifying and interpreting the GXE interaction and thus help clarify areas where a genotype can be useful. New statistical methods allow the identification and recommendation of new clones with specific or broad adaptation. The combination of Geographic Information System (GIS) with an analysis of variance of AMMI models (Additive Main Effects and Multiplicative Interactions), SREG (Sites Regression Model) and PLS (Partial Least Squares Regression) offer a new possibility to predict potential areas for production of these materials. Regional yield trials are networks of experiments by which a set of cultivars is usually assessed to make genotype recommendation."
 
 
 	uri <- "doi:10.21223/P3/UTZBYL"
@@ -12,10 +12,10 @@ New statistical methods allow the identification and recommendation of new clone
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		publication= NA,# 
-		data_institute = "IITA",
+		data_institute = "CIP",
 		carob_contributor="Cedric Ngakou",
 		data_type="experiment",
-		treatment_vars = "variety_code;longitude;latitude",
+		treatment_vars = "variety;longitude;latitude",
 		project=NA,
 		carob_date="2023-10-30"
 	)
@@ -28,6 +28,7 @@ New statistical methods allow the identification and recommendation of new clone
 		# this is marketable yield, total tuber yield not reported
 		r <- r[, c("REP", "INSTN", "MTYNA")]
 		colnames(r) <- c("rep", "variety", "yield")
+		
 		m <- carobiner::read.excel(f, sheet="Minimal") 
 		n <- as.list(m$Value)
 		names(n) <- m$Factor
@@ -72,16 +73,17 @@ New statistical methods allow the identification and recommendation of new clone
 	d$rep <- as.integer(d$rep)
 	d$yield <- d$yield * 1000 ## kg/ha
 
-	## add columns
-	
+	## add columns	
 	d$country <- "Peru"
-	d$trial_id <- paste(d$adm3, d$planting_date, sep = "_")
+	d$trial_id <- as.character(as.integer(as.factor(d$adm3)))
 	d$irrigated <- FALSE
 	d$inoculated <- FALSE
 	d$is_survey <- FALSE
 	d$on_farm <- TRUE
 	d$crop <- "potato"
 	d$yield_part <- "tubers" 
+
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 
 	carobiner::write_files(dset, d, path=path)
 }

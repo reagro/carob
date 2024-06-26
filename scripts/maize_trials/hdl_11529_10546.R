@@ -12,18 +12,17 @@ carob_script <- function(path) {
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
-		#data_citation="Global Maize Program, 2019, International Intermediate White Hybrid Trial - IIWH0752, https://hdl.handle.net/11529/10546, CIMMYT Research Data & Software Repository Network, V1",
 		data_institute = "CIMMYT",
 		publication= NA,
 		project="International intermediate white hybrid trials",
 		data_type= "experiment",
-		treatment_vars = "variety_code;longitude;latitude",
+		treatment_vars = "variety;longitude;latitude",
 		carob_contributor= "Mitchelle Njukuya",
 		carob_date="2024-02-27"
 	)
 	
 
-	get_data <- function(fname, id,country,longitude,latitude,elevation) {
+	get_data <- function(fname, id, country, longitude, latitude, elevation) {
 	  f <- ff[basename(ff) == fname]
 	  r <- carobiner::read.excel(f) 
 	  r <-r[22:31, 2:35]

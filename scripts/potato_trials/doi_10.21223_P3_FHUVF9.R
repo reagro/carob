@@ -1,3 +1,5 @@
+# R script for "carob"
+
 
 carob_script <- function(path) {
    
@@ -5,20 +7,20 @@ carob_script <- function(path) {
 Samples were prepared and analysed for Fe and Zn by inductively coupled plasma-optical emission spectrophotometry (ICP-OES) using an ARL 3580B ICP (ARL, Switzerland) (Burgos et al., 2007). Statistical analyses were performed using SAS software (SAS. 2003). ANOVA was performed using combined data for all environments. The Additive Main Effects and Multiplicative Interaction model (AMMI) was used for studying Genotype X Enviroment interaction, examining genotypic yield stability and adaptation (Crossa et al., 2002)."
 
 
-   uri <- "doi:10.21223/P3/FHUVF9"
-   group <- "potato_trials"
-   ff <- carobiner::get_data(uri, path, group)
+	uri <- "doi:10.21223/P3/FHUVF9"
+	group <- "potato_trials"
+	ff <- carobiner::get_data(uri, path, group)
   
-   dset <- data.frame(
-   	carobiner::read_metadata(uri, path, group, major=1, minor=4),
-      publication= NA,
-      data_institute = "CIP",
-      carob_contributor="Cedric Ngakou",
-      data_type="experiment",
-		treatment_vars = "variety_code;longitude;latitude",
-      project=NA,
-      carob_date="2023-12-12"
-   )
+	dset <- data.frame(
+		carobiner::read_metadata(uri, path, group, major=1, minor=4),
+		publication= NA,
+		data_institute = "CIP",
+		carob_contributor="Cedric Ngakou",
+		data_type="experiment",
+		treatment_vars = "variety;longitude;latitude",
+		project=NA,
+		carob_date="2023-12-12"
+	)
    
    
    ff <- ff[grep("PTYL", basename(ff))]
@@ -27,6 +29,7 @@ Samples were prepared and analysed for Fe and Zn by inductively coupled plasma-o
       r <- carobiner::read.excel(f, sheet="Fieldbook")
       r <- r[, c("REP", "INSTN", "TTYNA")]
       colnames(r) <- c("rep", "variety", "yield")
+
       m <- carobiner::read.excel(f, sheet="Minimal")
       n <- as.list(m$Value)
       names(n) <- m$Factor
@@ -39,9 +42,10 @@ Samples were prepared and analysed for Fe and Zn by inductively coupled plasma-o
       r$longitude<- as.numeric(n$Longitude)
       r$planting_date<- n$`Begin date` 
       r$harvest_date<- n$`End date`
+
       k <- carobiner::read.excel(f, sheet="Soil_analysis")
-      k<- k[,c("Abbreviture","Unit","Data1")]
-      kk<- as.list(k$Data1)
+      k <- k[,c("Abbreviture","Unit","Data1")]
+      kk <- as.list(k$Data1)
       names(kk)<- k$Abbreviture
       r$soil_pH <- as.numeric(kk$SOILPH)
       r$soil_SOM <- as.numeric(kk$ORGM)
@@ -68,20 +72,20 @@ Samples were prepared and analysed for Fe and Zn by inductively coupled plasma-o
    d <- do.call(rbind, d)
    d$rep <- as.integer(d$rep)
    d$yield <- d$yield * 1000 ## kg/ha
-   d<- d[!is.na(d$yield),] ## remove NA in yield
- 
-   ## add columns
-   
+   d <- d[!is.na(d$yield),] ## remove NA in yield
+    
    d$country <- "Peru"
-   d$trial_id <- paste(d$adm3, d$variety, sep = "_")
+   d$trial_id <- as.character(as.integer(as.factor(d$adm3)))
    d$irrigated <- FALSE
    d$inoculated <- FALSE
    d$is_survey <- FALSE
    d$on_farm <- TRUE
    d$crop <- "potato"
    d$yield_part <- "tubers" 
-   # fix lon and lat coordinate
-   d$longitude[d$longitude==-14.75289]<- -74.75289
+   # fix lon coordinate
+   d$longitude[d$longitude==-14.75289] <- -74.75289
+   
+   d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
    carobiner::write_files(dset, d, path=path)
    

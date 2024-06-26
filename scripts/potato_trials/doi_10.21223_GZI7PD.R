@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		data_institute = "CIP", 
 		carob_contributor="Cedric Ngakou", 
 		data_type="experiment", 
-		treatment_vars = "variety_code;longitude;latitude", 
+		treatment_vars = "variety;longitude;latitude", 
 		project=NA, 
 		carob_date="2023-12-09"
 	)
@@ -35,27 +35,30 @@ carob_script <- function(path) {
    d$yield <- d$yield * 1000 ## kg/ha
    
  ## most of the information is coming from DOI:10.1007/s11540-021-09495-z
-   i1 <- grepl("ARCOPAMPA", d$location)
-   d$location[i1] <- "Arcopampa"
-   d$season[i1] <- "2017-2018"
-   i1 <- grepl("LSOLE", d$location)
-   d$location[i1] <- "La Soledad"
-   d$season[i1] <- "2016-2017"
-   i1 <- grepl("MACULL", d$location)
-   d$location[i1] <- "Macullida"
-   d$season[i1] <- "2016-2017"
-   i1 <- grepl("AURORITA", d$location)
-   d$location[i1] <- "La Aurorita"
-   d$season[i1] <- "2017-2018"
+   i <- grepl("ARCOPAMPA", d$location)
+   d$location[i] <- "Arcopampa"
+   d$season[i] <- "2017-2018"
+   
+   i <- grepl("LSOLE", d$location)
+   d$location[i] <- "La Soledad"
+   d$season[i] <- "2016-2017"
+   
+   i <- grepl("MACULL", d$location)
+   d$location[i] <- "Macullida"
+   d$season[i] <- "2016-2017"
+   
+   i <- grepl("AURORITA", d$location)
+   d$location[i] <- "La Aurorita"
+   d$season[i] <- "2017-2018"
+   
    d$row_spacing <- 100  
    d$plant_spacing <- 30 
    d$harvest_days <- 120
-   ## add columns
    
    d$country <- "Peru"
    d$adm1 <- "La Libertad"
    d$adm2 <- "Sanchez Carrion" # from DOI:10.1007/s11540-021-09495-z
-   d$trial_id <- paste(d$location, d$variety, sep = "_")
+   d$trial_id <- as.character(as.integer(as.factor(paste(d$location))))
    d$irrigated <- FALSE
    d$inoculated <- FALSE
    d$is_survey <- FALSE
@@ -73,7 +76,17 @@ carob_script <- function(path) {
    
    d$planting_date <- "2016" 
    d$planting_date[d$season=="2017-2018"] <- "2017"
-   carobiner::write_files(dset, d, path=path)
+
+	
+# ambiguous from methods in paper: the dose of fertilisation was 180-160-160 of NPK
+	d$N_fertilizer <- 180
+	d$P_fertilizer <- 160 / 2.29
+	d$K_fertilizer <- 160 / 1.2051
+	d$fungicide_used <- TRUE
+	d$fungicide_product <- "mancozeb"
+	
+	carobiner::write_files(dset, d, path=path)
+	
 
 }
 

@@ -2,30 +2,20 @@
 
 
 carob_script <- function(path) {
-  
-  "
 
-Summary results and individual trial results from the International Late Yellow Variety - ILYV, 
-(Tropical Late Yellow Normal and QPM Synthetic Variety Trial - EVT13S) conducted in 2006
+"Summary results and individual trial results from the International Late Yellow Variety - ILYV, (Tropical Late Yellow Normal and QPM Synthetic Variety Trial - EVT13S) conducted in 2006"
 
-"
-  #### Identifiers
   uri <- "hdl:11529/10563"
   group <- "maize_trials"
-  
-  
-  #### Download data 
   ff <- carobiner::get_data(uri, path, group)
   
-  ##### dataset level metadata 
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=1, minor=0),
-    #data_citation="Global Maize Program, 2019, International Early Yellow Hybrid Trial - IEYH0612, https://hdl.handle.net/11529/10563, CIMMYT Research Data & Software Repository Network,V1",
     data_institute = "CIMMYT",
     publication= NA,
-    project="Global Maize Program",
+    project=NA,
     data_type= "experiment",
-		treatment_vars = "variety_code;longitude;latitude",
+	treatment_vars = "variety;longitude;latitude",
     carob_contributor= "Mitchelle Njukuya",
     carob_date="2024-03-12"
   )

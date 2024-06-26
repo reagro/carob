@@ -1,10 +1,10 @@
+# R script for "carob"
 
 # border tbd
 
 carob_script <- function(path) {
 
-"
-Yield gains and associated changes in an early yellow bi-parental maize population following Genomic Selection for Striga resistance and drought tolerance."
+"Yield gains and associated changes in an early yellow bi-parental maize population following Genomic Selection for Striga resistance and drought tolerance."
 				
 	uri <- "doi:10.25502/szwf-he08"
 	group <- "maize_trials"	
@@ -16,8 +16,8 @@ Yield gains and associated changes in an early yellow bi-parental maize populati
 		carob_contributor = "Siyabusa Mkuhlani",
 		carob_date="2024-17-01",
 		data_type = "experiment",
-		treatment_vars = "variety_code;longitude;latitude",
-		project="CGIAR Research Program on Maize",
+		treatment_vars = "variety;longitude;latitude",
+		project=NA,
 		data_institute="IITA"
 	)
 

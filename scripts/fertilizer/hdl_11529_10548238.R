@@ -180,7 +180,7 @@ carob_script <- function(path) {
    d$plant_spacing <- 25 #from data description 
    d$row_spacing <- 75 # from data description
    d$plot_width <- 5  # from data description
-   d$plot_lenght <- 6 # from data description
+   d$plot_length <- 6 # from data description
    d$on_farm <- TRUE
    d$is_survey <- FALSE
    d$irrigated <- FALSE

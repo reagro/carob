@@ -3,8 +3,7 @@
 
 carob_script <- function(path) {
   
-"Summary results and individual trial results from the International Late Yellow Variety - ILYV, 
-(Tropical Late Yellow Normal and QPM Synthetic Variety Trial - EVT13S) conducted in 2006"
+"Summary results and individual trial results from the International Late Yellow Variety - ILYV, (Tropical Late Yellow Normal and QPM Synthetic Variety Trial - EVT13S) conducted in 2006"
 
 	uri <- "hdl:11529/10551"
 	group <- "maize_trials"
@@ -17,7 +16,7 @@ carob_script <- function(path) {
 		publication= NA,
 		project=NA,
 		data_type= "experiment",
-		treatment_vars = "variety_code;longitude;latitude",
+		treatment_vars = "variety;longitude;latitude",
 		carob_contributor= "Mitchelle Njukuya",
 		carob_date="2024-03-28"
 	)

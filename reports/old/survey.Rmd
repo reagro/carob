@@ -23,7 +23,7 @@ ktab <- function(data, caption) {
 }
 
 uri <- "doi:10.7910/DVN/RKUMXB"
-group <- "fertilizer"
+group <- "survey"
 
 suri <- carobiner::simple_uri(uri)
 huri <- carobiner:::http_address(uri)
@@ -32,18 +32,10 @@ github <- paste0("https://github.com/reagro/carob/blob/master/scripts/", group, 
 script <- paste0('<a href="', github, '">R script</a>')
 
 f <- paste0("data/clean/", group, "/", suri, ".csv")
-if (!file.exists(f)) {
-  knitr::knit_exit()
-}
-```
-
-```{r setup2, include=FALSE}
 d <- read.csv(f) 
+
 m <- read.csv(gsub(".csv$", "_meta.csv", f))
 
-treatments <- unique(d[ , grep("_fertilizer|lime|OM_applied", colnames(d))])
-treatments <- treatments[order(treatments[,1], treatments[,2], treatments[,3]), ]
-rownames(treatments) <- NULL
 
 get_values <- function(x, label) {
   x <- unique(x)
@@ -53,26 +45,24 @@ get_values <- function(x, label) {
 crop <- get_values(d$crop, "crops")
 country <- get_values(d$country, "countries")
 
-if (is.null(d$fertilizer_type) || all(is.na(d$fertilizer_type))) {
-  ferts <- "unknown"
-} else {
-  uf <- strsplit(unique(d$fertilizer_type), "; ") |> unlist() |> unique()
-  ferts <- paste0(sort(uf), collapse=", ")
-}
 
 locvars <- c("country", paste0("adm", 1:5), "location", "site", "longitude", "latitude")
 i <- which(locvars %in% colnames(d))
 locs <- unique(d[, locvars[i]])
 if (all(c("longitude", "latitude") %in% colnames(locs))) {
-  xy <- unique(locs[, c("longitude", "latitude")])
-  xytxt <- paste0("for which we have ", nrow(xy), " unique mapped locations.")
-  haveXY <- TRUE
+	xy <- unique(locs[, c("longitude", "latitude")])
+	xytxt <- paste0("for which we have ", nrow(xy), " unique mapped locations.")
+	nrec_noxy <- is.na(d$latitude) | is.na(d$longitude)
+	if (any(nrec_noxy)) {
+		xytxt <- paste(xytxt, sum(nrec_noxy), "records do not have coordinates.")
+	}
+	haveXY <- TRUE
 } else {
-  xytxt <- paste0("for which we have no coordinates.")
-  xy <- cbind(0,0)[0,]
-  haveXY <- FALSE
+	xytxt <- paste0("for which we have no coordinates.")
+	xy <- cbind(0,0)[0,]
+	haveXY <- FALSE
 }
-   
+
 pub <- ifelse(is.na(m$publication), "", paste0('You can also consult the accompanying <a href="', carobiner:::http_address(m$publication), '">paper</a>.'))
 ```
 
@@ -90,14 +80,6 @@ scrolltab(head(d, 25), "records")
 ```
 
 </br>
-The dataset has `r nrow(treatments)` fertilizer treatments: 
-
-```{r tab2}
-scrolltab(treatments, "treatments")
-```
-
-The fertilizer types used were: `r ferts`.
-
 The observations are for `r nrow(locs)` locations, `r xytxt`
 
 ```{r map, include=haveXY}
@@ -108,4 +90,18 @@ if (nrow(locs) > 0) {
   v <- terra::vect(locs, c("longitude", "latitude"), crs="+proj=longlat")
   terra::plet(v, cex=2, col="red")
 }
+```
+
+
+</br>
+The data are further summarized in the table below
+
+
+```{r summary, fig.width=6}
+d$longitude <- d$latitude <- NULL
+dfs <- summarytools::dfSummary(d, varnumbers=FALSE, graph.magnif=0.75, 
+                               max.string.width=20, display.labels=FALSE, valid.col=FALSE, 
+							  )
+summarytools::view(dfs, method = "render", 
+                    report.title="", max.tbl.height = Inf)
 ```

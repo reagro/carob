@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		publication = "doi:10.1016/j.agee.2016.05.012",
 		data_institute = "IITA",
 		data_type="on-farm experiment",
-		treatment_vars = "N_fertilizer; P_fertilizer; K_fertilizer; Ca_fertilizer; Mg_fertilizer; S_fertilizer; Zn_fertilizer; lime; OM_amount; longitude; latitude",
+		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer;Ca_fertilizer;Mg_fertilizer;S_fertilizer;Zn_fertilizer;lime;OM_amount",
 		carob_contributor = "Cedric Ngakou",
 		carob_date="2023-02-15"
 	)

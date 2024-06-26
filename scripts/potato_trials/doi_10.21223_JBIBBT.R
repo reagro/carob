@@ -23,17 +23,17 @@ carob_script <- function(path) {
    ff <- ff[grep("exp", basename(ff))]
    
    process <- function(f) {
-      r <- carobiner::read.excel(f, sheet="F4_harvest_mother")      
-      d <- data.frame(
-         rep = as.integer(r$REP),
-         variety_code = r$INSTN,
-         yield = r$TTYNA* 1000, ## kg/ha
-         season = as.character(substr(basename(f), start = 8, stop = 11)),
-		 trial_id = basename(f)
-      )
-      r <- carobiner::read.excel(f, sheet="Crop_management")      	  
-	  i <- r$Intervention_type == "Date_of_Harvest_(dd-mm-yyyy)"
-	  d$harvest_date <- as.character(as.Date(r$Date[i]))
+		r <- carobiner::read.excel(f, sheet="F4_harvest_mother")      
+		d <- data.frame(
+			 rep = as.integer(r$REP),
+			 variety_code = r$INSTN,
+			 yield = r$TTYNA* 1000, ## kg/ha
+			 season = as.character(substr(basename(f), start = 8, stop = 11)),
+			 trial_id = basename(f)
+		)
+		r <- carobiner::read.excel(f, sheet="Crop_management")      	  
+		i <- r$Intervention_type == "Date_of_Harvest_(dd-mm-yyyy)"
+		d$harvest_date <- as.character(as.Date(r$Date[i]))
 		d
    }
    
@@ -72,12 +72,12 @@ carob_script <- function(path) {
    d$season <- NULL
    
 # ambiguous from methods in paper: the dose of fertilisation was 180-160-160 of NPK
-   N_fertilizer <- 180
-   P_fertilizer <- 160 / 2.29
-   K_fertilizer <- 160 / 1.2051
+	d$N_fertilizer <- 180
+	d$P_fertilizer <- 160 / 2.29
+	d$K_fertilizer <- 160 / 1.2051
    
-   fungicide_used <- TRUE
-	fungicide_product <- "Mancozeb"
+	d$fungicide_used <- TRUE
+	d$fungicide_product <- "mancozeb"
 	
    carobiner::write_files(path, dset, d)
    

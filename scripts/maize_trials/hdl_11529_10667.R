@@ -14,9 +14,8 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institute = "CIMMYT",
 		data_type="experiment", 
-		treatment_vars = "variety_code;longitude;latitude",
+		treatment_vars = "variety;longitude;latitude",
 		carob_contributor="Mitchelle Njukuya",
-		# date of first submission to carob
 		carob_date="2023-01-30",
 		revised_by="Robert Hijmans"
 	)
@@ -131,11 +130,6 @@ carob_script <- function(path) {
 	d7$harvest_date  <- "2013-02-05"
  
 	d <- carobiner::bindr(d0, d1, d2, d3, d4, d5, d6, d7)
-  
-## merge all 
-## do not use merge! rbind!
-##  dd <- merge(d1, d2, all = TRUE)
-##  dd <- merge(dd, d3, all = TRUE)
    
 	carobiner::write_files(dset, d, path=path)
 }
