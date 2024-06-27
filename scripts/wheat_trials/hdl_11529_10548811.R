@@ -38,6 +38,7 @@ This experiments were established with different rates of nitrogen in order to g
   r <- carobiner::read.excel(f, sheet = sheetname,skip = 1, col_names = TRUE)
   names(r)[13] <- 'Rate N (kg/ha)' #changing format of column names
   names(r)[34] <- 'Yield at 12% hum' #changing format of column names
+  
 
 	d1 <- data.frame(
 	     trial_id="1",
@@ -100,7 +101,7 @@ This experiments were established with different rates of nitrogen in order to g
 	)
 	
 	d <- rbind(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10)
-	
+
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- TRUE
@@ -125,5 +126,4 @@ This experiments were established with different rates of nitrogen in order to g
   
   # all scripts must end like this
 	carobiner::write_files(path, dset, d)
-	
 }
