@@ -116,8 +116,13 @@ carob_script <- function(path) {
 	N <- gsub("(", "+", N, fixed=TRUE)
 	N <- trimws(gsub("N", "", N))
 	N[N==""] <- NA
-	N <- sapply(N, \(i) eval(parse(text=i)), USE.NAMES=F)
+	N <- sapply(N, \(i) eval(parse(text=i)), USE.NAMES=FALSE)
 	d$N_fertilizer <- N 
+	d$fertilizer_type <- "none"
+	d$fertilizer_type[d$N_fertilizer > 0] <- "urea"
+
+#could be added to capture the foliar applications
+#	d$fertilization_method
 
 	d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 
