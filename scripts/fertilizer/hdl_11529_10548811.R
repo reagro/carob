@@ -99,11 +99,10 @@ carob_script <- function(path) {
 #	d$Zn_fertilizer <- as.numeric(d$Zn_fertilizer)
 #	d$N_fertilizer <- as.numeric(d$N_fertilizer)
 	
-	d$Zn_fertilizer[d$Zn_fertilizer=="-"] <- NA
+	d$Zn_fertilizer[d$Zn_fertilizer=="-"] <- 0
 	d$Zn_fertilizer[grep("Three foliar applications", d$Zn_fertilizer)] <- "3"
 	d$Zn_fertilizer <- gsub(" ZnSO4| kg ZnSO4| kg Zn SO4| protected with glycines", "", d$Zn_fertilizer)
 	d$Zn_fertilizer <- as.numeric(d$Zn_fertilizer) * .4053  # from ZnSO4 to Zn
-	
 
 	N <- d$N_fertilizer
 	N <- gsub("N  pre-plant |mid high|mid N|-", " ", N, ignore.case = TRUE)
@@ -120,8 +119,11 @@ carob_script <- function(path) {
 	d$N_fertilizer <- N 
 	d$fertilizer_type <- "none"
 	d$fertilizer_type[d$N_fertilizer > 0] <- "urea"
+	i <- which(d$Zn_fertilizer > 0)
+	d$fertilizer_type[i] <- paste0(d$fertilizer_type[i], ";ZnSo4")
+	d$fertilizer_type <- gsub("none;", "", d$fertilizer_type)
 
-#could be added to capture the foliar applications
+# could be added to capture the foliar applications
 #	d$fertilization_method
 
 	d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
