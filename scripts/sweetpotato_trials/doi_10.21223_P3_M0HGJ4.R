@@ -15,23 +15,20 @@ carob_script  <- function(path) {
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-11-06",
 		data_type="experiment",
+		treatment_vars = "variety",
 		project=NA 
 	)
 	
-	# read file
 	r <- carobiner::read.excel(ff[basename(ff)=="Drought_06_08.xls"])  
 	
-	d <- r[,c("YEAR","TREATMENT","REP","CULTIVAR","RYTHA","FYTHA","BIOM")]
-	colnames(d) <- c("planting_date","irrigation","rep","treatment","yield","dmy_leaves","dmy_total")
+	d <- r[,c("YEAR","TREATMENT", "REP", "CULTIVAR", "RYTHA", "FYTHA", "BIOM")]
+	colnames(d) <- c("planting_date", "irrigation", "rep", "variety", "yield", "dmy_leaves", "dmy_total")
 	
-
-	## add columns
-	d$crop <- "sweetpotato" 
-	
+	d$crop <- "sweetpotato" 	
 	d$country <- "Mozambique"
 	d$adm1 <- "Maputo"
 	d$location <-  "Umbeluzi"
-	d$trial_id <- paste(d$treatment,d$location,sep = "_")
+	d$trial_id <- as.character(as.integer(as.factor(d$location)))
 	d$yield_part <- "roots"
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE

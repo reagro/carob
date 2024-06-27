@@ -15,7 +15,7 @@ We use the randomized complete blocks (RCB) statistical design, with three repet
 		data_institute = "CIP",
 		carob_contributor="Cedric Ngakou",
 		data_type="experiment",
-		treatment_vars = "variety;longitude;latitude",
+		treatment_vars = "variety",
 		project=NA,
 		carob_date="2023-12-12"
 	)

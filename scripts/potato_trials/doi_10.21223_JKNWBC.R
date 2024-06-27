@@ -17,7 +17,7 @@ carob_script <- function(path) {
 	   publication= NA,
 	   project=NA,
 	   data_type= "experiment",
-	   treatment_vars = "variety;longitude;latitude",
+	   treatment_vars = "variety",
 	   carob_contributor= "Cedric Ngakou",
 	   carob_date="2024-06-16"
 	)
@@ -25,18 +25,19 @@ carob_script <- function(path) {
 	r <- carobiner::read.excel(ff[basename(ff)=="PTYield2019-2020_Combinado_CIP395123.6_exp.xlsx"], sheet = "Fieldbook")
 
 	d <- data.frame(
-	   country="Peru",
-	   crop="potato",
-	   variety= r$INSTN,
-	   rep= as.integer(r$REP),
-	   yield=r$MTYNA*1000, # to kg/ha
-	   location=r$LOC,
-	   on_farm= TRUE,
-	   irrigated= FALSE,
-	   inoculated= FALSE,
-	   yield_part= "tubers",
-	   trial_id= "1",
-	   season="2019-2020"
+		country="Peru",
+		crop="potato",
+		variety= r$INSTN,
+		rep= as.integer(r$REP),
+		yield=r$MTYNA*1000, # to kg/ha
+		location=r$LOC,
+		on_farm= TRUE,
+		irrigated= FALSE,
+		inoculated= FALSE,
+		yield_part= "tubers",
+		trial_id= "1",
+		season="2019-2020",
+		is_survey = FALSE
 	)
 
 
@@ -59,3 +60,4 @@ carob_script <- function(path) {
 
 	carobiner::write_files(path, dset, d)
 }
+

@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		data_institute = "CIP", 
 		carob_contributor="Cedric Ngakou", 
 		data_type="experiment", 
-		treatment_vars = "variety;longitude;latitude", 
+		treatment_vars = "variety", 
 		project=NA, 
 		carob_date="2023-12-09"
 	)

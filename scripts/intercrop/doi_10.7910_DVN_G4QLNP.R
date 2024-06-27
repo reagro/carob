@@ -24,7 +24,7 @@ cropping system (sole maize, sole pigeonpea, maize-pigeonpea, maize-gliricidia, 
 		carob_date="2024-04-09"
 	)
 	
-	f1 <- ff[basename(ff) == " 006_siDom_droughtResistance.csv"]
+	f1 <- ff[basename(ff) == "006_siDom_droughtResistance.csv"]
 	r1 <- read.csv(f1)
 	f2 <- ff[basename(ff) == "007_siteCharacterization_droughtResistance.csv"]
 	r2 <- colMeans(read.csv(f2))
