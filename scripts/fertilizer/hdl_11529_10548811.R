@@ -69,7 +69,7 @@ carob_script <- function(path) {
 	d$crop="wheat"
 	d$yield_part="grain"
 
-	d$on_farm <- TRUE
+	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$irrigated <- TRUE
 
