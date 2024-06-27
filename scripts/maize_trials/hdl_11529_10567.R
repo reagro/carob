@@ -34,7 +34,7 @@ carob_script <- function(path) {
 	) 
     
     d$crop <- "maize"  
-    d$yield_part = "grain"
+    d$yield_part <- "grain"
     d$country <- "Mexico"
     d$location <- "San Jose Hurbide, Gto"
     d$longitude <- -100.3833
@@ -48,6 +48,7 @@ carob_script <- function(path) {
     d$striga_infected <- FALSE
     d$borer_trial <- FALSE
     d$trial_id <- "1"
+	d$is_survey <- FALSE
 		
 	carobiner::write_files(dset, d, path=path)
 }

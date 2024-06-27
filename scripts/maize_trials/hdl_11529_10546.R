@@ -104,6 +104,7 @@ carob_script <- function(path) {
 	d$striga_infected = FALSE
 	d$borer_trial = FALSE
 	d$yield_part = "grain"
+	d$is_survey <- FALSE
 	
 	d <- d[!is.na(d$yield), ]
 	carobiner::write_files(dset, d, path=path)

@@ -1,16 +1,11 @@
 
 
 carob_script <- function(path) {
-"
-This is an international study that contains data on Grain Yield and other Agronomic Traits of Extra-Early, Early Maturing Variety (White & Yellow) under Stress (Drought, Striga) in Africa.
-
-The study was carried out by the International Institute of Tropical Agriculture between 2008 and 2016 in twelve African countries.
-"
+"This is an international study that contains data on Grain Yield and other Agronomic Traits of Extra-Early, Early Maturing Variety (White & Yellow) under Stress (Drought, Striga) in Africa. The study was carried out by the International Institute of Tropical Agriculture between 2008 and 2016 in twelve African countries."
 
 	uri <- "doi:10.25502/20180925/1906/BB"
 	group <- "maize_trials"	
 	ff <- carobiner::get_data(uri, path, group)
-		
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, major=2, minor=1, group),
@@ -23,12 +18,9 @@ The study was carried out by the International Institute of Tropical Agriculture
 		data_institute="IITA"
 	)
 
-
-
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)
+	d <- mzfun(ff, sf="Nigeria.csv")	
 
-	d <- mzfun(ff, sf="Nigeria.csv")
-		
 	d$yield[d$yield > 20000] <- NA
 
 	#lonlat reversed
@@ -74,5 +66,4 @@ The study was carried out by the International Institute of Tropical Agriculture
 	d <- d[!is.na(d$yield), ]
 
 	carobiner::write_files(dset, d, path=path)
-
 }

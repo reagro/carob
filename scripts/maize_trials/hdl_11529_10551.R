@@ -70,7 +70,8 @@ carob_script <- function(path) {
 	d$striga_trial <- FALSE
 	d$striga_infected <- FALSE
 	d$borer_trial <- FALSE
-		
+	d$is_survey <- FALSE
+
 	carobiner::write_files(dset, d, path=path)
 }
 

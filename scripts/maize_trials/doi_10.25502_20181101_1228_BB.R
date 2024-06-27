@@ -61,8 +61,9 @@ carob_script <- function(path) {
 	d$crop <- "maize"
 	d$yield_part <- "grain"
 	d$planting_date <- as.character(d$planting_date)
+	d$is_survey <- FALSE
 
-
+	d$location <- carobiner::fix_name(d$location, "title")
 	d$trial_id <- as.character(as.integer(as.factor(paste(d$location, d$study))))
 	d$study <- NULL
 

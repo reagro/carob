@@ -130,6 +130,7 @@ carob_script <- function(path) {
 	d7$harvest_date  <- "2013-02-05"
  
 	d <- carobiner::bindr(d0, d1, d2, d3, d4, d5, d6, d7)
+	d$is_survey <- FALSE
    
 	carobiner::write_files(dset, d, path=path)
 }

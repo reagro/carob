@@ -64,6 +64,7 @@ carob_script <- function(path) {
 	#data type
 	d$variety_code <- as.character(d$variety_code)
 	d$planting_date <- as.character(d$planting_date)
+	d$is_survey <- FALSE
 	
 	carobiner::write_files(dset, d, path=path)
 	
