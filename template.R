@@ -54,6 +54,9 @@ copy and paste the abstract from the repository. Do not add line breaks
 		# etc
 	)
 
+## separate individual trials. For example trials in different locations or years. 
+## do _not_ separate by treatments within a trial. For a survey, each row gets a unique trial_id
+	d$trial_id <- as.character(as.integer(as.factor( ____ )))
 	
 #### about the data #####
 ## (TRUE/FALSE)
