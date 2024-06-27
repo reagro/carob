@@ -12,7 +12,7 @@ carob_script <- function(path) {
     project="Semi-Arid Wheat Yield Trial",	   
     publication=NA,
     data_institute = "CIMMYT",
-    carob_contributor="Hope Takudzwa Mazungunye",
+    carob_contributor="Hope Mazungunye",
     carob_date="2024-05-28",
     data_type="on-station experiment",
     treatment_vars = "variety_code"
