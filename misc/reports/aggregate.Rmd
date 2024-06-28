@@ -25,7 +25,7 @@ ktab <- function(data, caption) {
 
 group <- "crop_cuts"
 
-f <- paste0("data/compiled/", group, ".csv")
+f <- paste0("data/compiled/carob_", group, ".csv")
 if (!file.exists(f)) {
   knitr::knit_exit()
 }
@@ -33,15 +33,17 @@ if (!file.exists(f)) {
 
 ```{r setup2, include=FALSE}
 d <- read.csv(f) 
-m <- read.csv(gsub(".csv$", "_meta.csv", f))
+m <- read.csv(gsub(".csv$", "_metadata.csv", f))
 
 get_values <- function(x, label) {
   x <- unique(x)
-  ifelse(length(x)==1, x, paste0(length(x), " ", label, "(", paste(sort(x), collapse=", "), ")"))
+  ifelse(length(x)==1, x, paste0(length(x), " ", label, " (", paste(sort(x), collapse=", "), ")"))
 }
 
 crop <- get_values(d$crop, "crops")
 country <- get_values(d$country, "countries")
+nsources <- length(unique(d$dataset_id))
+
 
 locvars <- c("country", paste0("adm", 1:5), "location", "site", "longitude", "latitude")
 i <- which(locvars %in% colnames(d))
@@ -71,7 +73,10 @@ if (grepl("trials", group)) {
 ```
 
 
-This report describes the aggregated data for "*`r group`*". The dataset has `r nrow(d)` records and `r ncol(d)` variables for `r crop` in `r country`. `r vartxt`
+This report describes the the Carob "*`r group`*" group. 
+</br>
+
+This dataset combines `n nsources` standardized individual data [sources](https://carob-data.org/done.html). It has has `r nrow(d)` records and `r ncol(d)` variables for `r crop` in `r country`. `r vartxt`
 
 </br>
 These are the first `r min(nrow(d), 25)` records: 

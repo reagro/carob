@@ -57,7 +57,7 @@ if (!is.null(tvars)) {
 
 get_values <- function(x, label) {
   x <- unique(x)
-  ifelse(length(x)==1, x, paste0(length(x), " ", label, "(", paste(sort(x), collapse=", "), ")"))
+  ifelse(length(x)==1, x, paste0(length(x), " ", label, " (", paste(sort(x), collapse=", "), ")"))
 }
 
 crop <- get_values(d$crop, "crops")
