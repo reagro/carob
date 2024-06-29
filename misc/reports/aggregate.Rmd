@@ -23,7 +23,7 @@ ktab <- function(data, caption) {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 }
 
-group <- "crop_cuts"
+group <- "fertilizer"
 
 f <- paste0("data/compiled/carob_", group, ".csv")
 if (!file.exists(f)) {
@@ -32,8 +32,8 @@ if (!file.exists(f)) {
 ```
 
 ```{r setup2, include=FALSE}
-d <- read.csv(f) 
-m <- read.csv(gsub(".csv$", "_metadata.csv", f))
+d <- data.table::fread(f) 
+m <- data.table::fread(gsub(".csv$", "_metadata.csv", f))
 
 get_values <- function(x, label) {
   x <- unique(x)
@@ -45,17 +45,21 @@ country <- get_values(d$country, "countries")
 nsources <- length(unique(d$dataset_id))
 
 
-locvars <- c("country", paste0("adm", 1:5), "location", "site", "longitude", "latitude")
-i <- which(locvars %in% colnames(d))
-locs <- unique(d[, locvars[i]])
-if (all(c("longitude", "latitude") %in% colnames(locs))) {
-	xy <- unique(locs[, c("longitude", "latitude")])
+#locvars <- c("country", paste0("adm", 1:5), "location", "site", "longitude", "latitude")
+#i <- which(locvars %in% colnames(d))
+#locs <- unique(d[, locvars[i]])
+
+locs <- d[, c("dataset_id", "longitude", "latitude")]
+noxy <- is.na(xy$latitude) | is.na(xy$longitude)
+xy <- na.omit(unique(locs)) #[, c("longitude", "latitude")])
+
+if (nrow(xy) > 0) {
 	xytxt <- paste0("for which we have ", nrow(xy), " unique mapped locations.")
-	nrec_noxy <- is.na(d$latitude) | is.na(d$longitude)
-	if (any(nrec_noxy)) {
-		xytxt <- paste(xytxt, sum(nrec_noxy), "records do not have coordinates.")
-	}
+	if (any(noxy)) {
+		xytxt <- paste(xytxt, sum(noxy), "records do not have coordinates.")
+	}	
 	haveXY <- TRUE
+	xy$dataset_id <- paste0("<a href='https://carob-data.org/reports/", xy$dataset_id, ".html'>", xy$dataset_id, "</a>")
 } else {
 	xytxt <- paste0("for which we have no coordinates.")
 	xy <- cbind(0,0)[0,]
@@ -76,7 +80,7 @@ if (grepl("trials", group)) {
 This report describes the the Carob "*`r group`*" group. 
 </br>
 
-This dataset combines `n nsources` standardized individual data [sources](https://carob-data.org/done.html). It has has `r nrow(d)` records and `r ncol(d)` variables for `r crop` in `r country`. `r vartxt`
+This dataset combines `r nsources` standardized individual data [sources](https://carob-data.org/done.html). It has has `r nrow(d)` records and `r ncol(d)` variables for `r length(crop)` crops and `r length(country)` countries. `r vartxt`
 
 </br>
 These are the first `r min(nrow(d), 25)` records: 
@@ -85,15 +89,16 @@ These are the first `r min(nrow(d), 25)` records:
 scrolltab(head(d, 25), "records")
 ```
 
-
+</br>
 The observations are for `r nrow(locs)` locations, `r xytxt`
+</br></br>
+
 
 ```{r map, include=haveXY}
-locs <- locs[!is.na(locs$latitude), ]
-if (nrow(locs) > 0) {
+if (nrow(xy) > 0) {
   suppressMessages(library(terra))
   crs <- terra::crs
-  v <- terra::vect(locs, c("longitude", "latitude"), crs="+proj=longlat")
+  v <- terra::vect(xy, c("longitude", "latitude"), crs="+proj=longlat")
   terra::plet(v, cex=2, col="red")
 }
 ```
@@ -104,10 +109,10 @@ The data are further summarized in the table below
 
 ```{r summary, fig.width=6}
 d$longitude <- d$latitude <- NULL
-dfs <- summarytools::dfSummary(d, varnumbers=FALSE, graph.magnif=0.75, 
-                               max.string.width=20, display.labels=FALSE, valid.col=FALSE, 
-							  )
+dfs <- summarytools::dfSummary(
+  d, varnumbers=FALSE, graph.magnif=0.75, 
+  max.string.width=20, display.labels=FALSE, valid.col=FALSE)
 summarytools::view(dfs, method = "render", 
-                    report.title="", max.tbl.height = Inf)
+              report.title="", max.tbl.height = Inf)
 ```
 

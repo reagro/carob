@@ -69,11 +69,13 @@ locs <- unique(d[, locvars[i]])
 if (all(c("longitude", "latitude") %in% colnames(locs))) {
 	xy <- unique(locs[, c("longitude", "latitude")])
 	xytxt <- paste0("for which we have ", nrow(xy), " unique mapped locations.")
-	nrec_noxy <- is.na(d$latitude) | is.na(d$longitude)
-	if (any(nrec_noxy)) {
-		xytxt <- paste(xytxt, sum(nrec_noxy), "records do not have coordinates.")
+	noxy <- is.na(d$latitude) | is.na(d$longitude)
+	if (any(noxy)) {
+		xytxt <- paste(xytxt, sum(noxy), "records do not have coordinates.")
 	}
 	haveXY <- TRUE
+	xy <- xy[!noxy, ,drop=FALSE]	
+
 } else {
 	xytxt <- paste0("for which we have no coordinates.")
 	xy <- cbind(0,0)[0,]
