@@ -100,7 +100,7 @@ carob_script <- function(path) {
 	i <- trts == "NPK+Ca+Mg+Zn+B"
 	d$Ca_fertilizer[i] <- d$Mg_fertilizer[i] <- 10
 	d$Zn_fertilizer[i] <- d$B_fertilizer[i] <- 5 
-	d$fertilizer_type[i] <- paste0(d$fertilizer_type[i], ";CaSO4;MgSO4;ZnSO4;Borax")
+	d$fertilizer_type[i] <- paste0(d$fertilizer_type[i], ";CaSO4;MgSO4;ZnSO4;borax")
 	i <- grep("^;", d$fertilizer_type)
 	d$fertilizer_type[i] <- substr(d$fertilizer_type[i], 2, 100)
 	d$fertilizer_type[d$fertilizer_type==""] <- "none"

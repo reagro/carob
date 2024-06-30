@@ -1,9 +1,17 @@
 # R script for "carob"
 
-# ISSUES:
-#treatment_vars need to be explicitly included in the dataset
+## not processed because the data in hdl:11529/10548245 are also included in hdl:11529/10548238 
+## although the yield values are not the same; this needs to be looked into and perhaps reported.
 
 carob_script <- function(path) {
+	carobiner::write_files("ignore")
+}
+
+
+.ignore <- function(path) {
+
+# ISSUES:
+#treatment_vars need to be explicitly included in the dataset
 
 "Nutrient Ommission Trials (NOTs) from three states in Nigeria. Six treatments, yield, soil and ear leaf nutrient contents."
 
@@ -25,13 +33,15 @@ carob_script <- function(path) {
 	
 	f <- ff[basename(ff) == "NG-2015_NOTs_soil_leaf_yield_database_PC.xlsx"]
 	r <- carobiner::read.excel.hdr(f, sheet = "Raw_Data",skip = 1, hdr = 1)
+	r <- r[1:(which(is.na(r$Country))-1), ]
+
 	
 	d <- data.frame(
 		crop="maize",
 		country=r$Country,
 		adm1=r$State.Province,
 		adm2=r$LGA.District,
-		adm3=r$Community.village,
+		location=r$Community.village,
 		latitude=r$GPS.Coordinate.Latitude,
 		longitude=r$GPS.Coordinate.Longitude,
 		elevation=r$GPS.Coordinate.Altitude,
@@ -39,7 +49,7 @@ carob_script <- function(path) {
 		treatment=r$Treatment,
 		yield = r$Grain.yield.kg.ha,
 		variety = r$Maize.variety.type,
-		planting_date = as.character(as.Date(r$Planting.date.PLNdat,format = '%d/%m/%Y')),
+		planting_date = as.character(as.Date(r$Planting.date.PLNdat, format = '%d/%m/%Y')),
 		harvest_date=r$Harvest.date.HDATE,
 	 
 		soil_SOC = r$OC.pct, 
@@ -48,8 +58,7 @@ carob_script <- function(path) {
 		soil_clay = r$Clay.pct, 
 		soil_ex_acidity = r$Exch.Acidity.cmol.kg, 
 		soil_ECEC = r$ECEC.cmol.kg,
-	 
-	
+	 	
 		soil_P_Mehlich = r$MehP.ppm, 
 		soil_K = r$K.cmol.kg, 
 		soil_Na = r$Na.cmol.kg, 
@@ -89,6 +98,21 @@ carob_script <- function(path) {
 
 	d$on_farm <- TRUE
 	d$yield_part <- "grain"
+	
+#	ft <- lapply(gsub("149", NA, r$Fertilizer.type), \(i) c(unlist(strsplit(i, ", ")), NA)[1:2])
+#	ft <- do.call(rbind, ft)
+#	ft[,1] <- gsub("Urea", "urea", ft[,1])
+#	fa <- lapply(gsub("149", NA, r$Fertilizer.application.rate), \(i) c(as.numeric(unlist(strsplit(i, ", "))), 0)[1:2])
+#	fa <- do.call(rbind, fa)
+##	ftab <- carobiner::get_accepted_values("fertilizer_type", path)
+#	ftab[ftab$name=="NPK", c("N", "P", "K")] <- c(20, 20, 20)	
+#	get_elements <- carobiner::get_function("get_elements_from_product", path, group)
+#	elements <- get_elements(ftab, x$product)
+#	use <- elements * x$amount
+#	fert <- aggregate(use, x["id"], sum, na.rm=TRUE)
+#	colnames(x) <- c("f1", "f2", "a1", "a2")
+#	x$id <- 1:nrow(x)
+	
 	
 	carobiner::write_files(path, dset, d)
 }

@@ -76,7 +76,7 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	d$irrigation_dates[d$irrigation_dates == ""] <- NA
 	d$irrigation_number <- as.integer(rowSums(!is.na(ird)))
 
-	d$fertilizer_type <- ifelse(!is.na(d$N_fertilizer), "urea; DAP; TSP; KCl; Borax", "TSP; KCl; Borax; gypsum")
+	d$fertilizer_type <- ifelse(!is.na(d$N_fertilizer), "urea;DAP;TSP;KCl;borax", "TSP;KCl;borax;gypsum")
 	d$N_splits <- as.integer(NA)
 	d$N_splits[d$N_fertilizer < 100] <- as.integer(2)
 	d$K_fertilizer <- 50

@@ -102,9 +102,9 @@ carob_script <- function(path) {
 		frp <- gsub("UREA", "urea", frp)
 		frp <- gsub("Urea", "urea", frp)
 		frp <- gsub("MoP", "KCl", frp)
-		frp <- gsub("Boron 20%", "Borax", frp) #?
-		frp <- gsub("Borax 21", "Borax", frp)
-		frp <- gsub("Boron", "Borax", frp) #?
+		frp <- gsub("Boron 20%", "borax", frp) #?
+		frp <- gsub("Borax 21", "borax", frp)
+		frp <- gsub("Boron", "borax", frp) #?
 		frp[frp == ""] <- NA
 		d$fertilizer_type <- frp
 		d

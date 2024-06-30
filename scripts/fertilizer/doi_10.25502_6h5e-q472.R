@@ -191,13 +191,17 @@ carob_script <- function(path) {
   d3$treatment[d3$treatments_code %in% c("treatment1", "treatment2")] <- "N0P0K0"
   d3$N_fertilizer <- 0
   d3$P_fertilizer <- 0
-  d3$P_fertilizer[d3$treatments_code %in% c("treatment3","treatment4","treatment5","treatment6")] <- 10 * 0.1923 # Following protocol and P content in TSP
+  # Following protocol and P content in TSP
+  d3$P_fertilizer[d3$treatments_code %in% c("treatment3","treatment4","treatment5","treatment6")] <- 10 * 0.1923 
   d3$K_fertilizer <- 0
-  d3$K_fertilizer[d3$treatments_code %in% c("treatment4","treatment5","treatment6")] <- 30 * 0.498 # Following protocol and K content in KCl
+  # Following protocol and K content in KCl
+  d3$K_fertilizer[d3$treatments_code %in% c("treatment4","treatment5","treatment6")] <- 30 * 0.498 
   d3$Zn_fertilizer <- 0
-  d3$Zn_fertilizer[d3$treatments_code %in% c("treatment5","treatment6")] <- 5 * 0.365 # Following protocol and Zn content in ZnSO4
+  # Following protocol and Zn content in ZnSO4
+  d3$Zn_fertilizer[d3$treatments_code %in% c("treatment5","treatment6")] <- 5 * 0.365 
   d3$B_fertilizer <- 0
-  d3$B_fertilizer[d3$treatments_code %in% c("treatment5","treatment6")] <- 5 * 0.11 # Following protocol and K content in Borax
+  # Following protocol and K content in Borax
+  d3$B_fertilizer[d3$treatments_code %in% c("treatment5","treatment6")] <- 5 * 0.11 
   d3$treatment[d3$treatments_code %in% c("treatment3")] <- paste0("N0", "P", round(d3$P_fertilizer[d3$treatments_code %in% c("treatment4")], 0), "K0")
   d3$treatment[d3$treatments_code %in% c("treatment4", "treatment5", "treatment6")] <- 
 		paste0("N0", "P", round(d3$P_fertilizer[d3$treatments_code %in% c("treatment4", "treatment5", "treatment6")], 0), "K", round(d3$K_fertilizer[d3$treatments_code %in% c("treatment4", "treatment5", "treatment6")], 0))
