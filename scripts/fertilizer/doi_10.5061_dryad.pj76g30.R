@@ -1,5 +1,7 @@
 # R script for "carob"
 
+# NOTE 
+# should contact authors for yield data and coordinates
 
 carob_script <- function(path) {
    
