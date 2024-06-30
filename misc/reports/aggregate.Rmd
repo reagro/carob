@@ -23,7 +23,7 @@ ktab <- function(data, caption) {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 }
 
-group <- "fertilizer"
+group <- "crop_cuts"
 
 f <- paste0("data/compiled/carob_", group, ".csv")
 if (!file.exists(f)) {
@@ -50,7 +50,7 @@ nsources <- length(unique(d$dataset_id))
 #locs <- unique(d[, locvars[i]])
 
 locs <- d[, c("dataset_id", "longitude", "latitude")]
-noxy <- is.na(xy$latitude) | is.na(xy$longitude)
+noxy <- is.na(locs$latitude) | is.na(locs$longitude)
 xy <- na.omit(unique(locs)) #[, c("longitude", "latitude")])
 
 if (nrow(xy) > 0) {

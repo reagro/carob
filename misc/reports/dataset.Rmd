@@ -64,8 +64,8 @@ crop <- get_values(d$crop, "crops")
 country <- get_values(d$country, "countries")
 
 locvars <- c("country", paste0("adm", 1:5), "location", "site", "longitude", "latitude")
-i <- which(locvars %in% colnames(d))
-locs <- unique(d[, locvars[i]])
+locvars <- locvars[locvars %in% colnames(d)]
+locs <- unique(d[, locvars, drop=FALSE])
 if (all(c("longitude", "latitude") %in% colnames(locs))) {
 	xy <- unique(locs[, c("longitude", "latitude")])
 	xytxt <- paste0("for which we have ", nrow(xy), " unique mapped locations.")
@@ -73,9 +73,8 @@ if (all(c("longitude", "latitude") %in% colnames(locs))) {
 	if (any(noxy)) {
 		xytxt <- paste(xytxt, sum(noxy), "records do not have coordinates.")
 	}
-	haveXY <- TRUE
 	xy <- xy[!noxy, ,drop=FALSE]	
-
+	haveXY <- nrow(xy) > 0
 } else {
 	xytxt <- paste0("for which we have no coordinates.")
 	xy <- cbind(0,0)[0,]
@@ -124,7 +123,6 @@ The observations are for `r nrow(locs)` locations, `r xytxt`
 locs <- locs[!is.na(locs$latitude), ]
 if (nrow(locs) > 0) {
   suppressMessages(library(terra))
-  crs <- terra::crs
   v <- terra::vect(locs, c("longitude", "latitude"), crs="+proj=longlat")
   terra::plet(v, cex=2, col="red")
 }
