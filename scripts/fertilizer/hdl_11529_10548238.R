@@ -216,6 +216,7 @@ carob_script <- function(path) {
 	p <- gsub("g/nut|gnut", "groundnut", p)
 	p <- gsub("mazie", "maize", p)
 	d$previous_crop <- p
+	d$variety_type[grep("HYBRID", d$variety_type, ignore.case=TRUE)] <- "hybrid"
 	
 	## maize is not harvested more than 1 year after planting
 	d$harvest_date <- gsub("2017-09-30", "2016-09-30", d$harvest_date) 
