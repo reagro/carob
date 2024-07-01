@@ -9,7 +9,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=6, minor=1),
 		project="Semi-Arid Wheat Yield Trial",	   
 		publication=NA,
@@ -26,6 +26,6 @@ carob_script <- function(path) {
 	i <- d$location == "Gangapur Ryd Center"
 	d$longitude[i] <- 75.0822
 
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }
 

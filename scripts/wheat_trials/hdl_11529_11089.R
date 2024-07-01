@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=4, minor=1),
 		project="High Temperature Wheat Yield Trial",	   
 		publication=NA,
@@ -41,6 +41,6 @@ carob_script <- function(path) {
 	dd$planting_date[dd$planting_date == "00-01"] <- "2000"
 
 # all scripts must end like this
-	carobiner::write_files(dset, dd, path=path)
+	carobiner::write_files(meta, dd, path=path)
 }
 

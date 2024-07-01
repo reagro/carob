@@ -8,7 +8,7 @@ carob_script <- function(path) {
 	group <- "wheat_trials"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=6, minor=1),
 		project="Semi-Arid Wheat Yield Trial",	   
 		publication=NA,
@@ -39,6 +39,6 @@ carob_script <- function(path) {
 	dd$planting_date[dd$planting_date == "98-99"] <- "1998"
 	dd$planting_date[dd$planting_date == "99-00"] <- "1999"
 	
-	carobiner::write_files(dset, dd, path=path)
+	carobiner::write_files(meta, dd, path=path)
 }
 

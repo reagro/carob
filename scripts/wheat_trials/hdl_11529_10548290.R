@@ -9,7 +9,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=4),
 		project="International Durum Yield Nursery",
 		publication=NA,
@@ -28,6 +28,6 @@ carob_script <- function(path) {
 	d$soil_pH[d$soil_pH == 24] <- NA
 	d$soil_pH[d$soil_pH == 0] <- NA
 
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }
 

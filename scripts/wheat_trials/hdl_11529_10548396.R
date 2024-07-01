@@ -14,7 +14,7 @@ Within the framework of SATYN, two types of nurseries are produced: SATYN series
   group <- "wheat_trials"
   ff  <- carobiner::get_data(uri, path, group)
   
-  dset <- data.frame(
+  meta <- data.frame(
     carobiner::read_metadata(uri, path, group, major=1, minor=0),
     data_institute = "CIMMYT",
     publication= NA,
@@ -31,5 +31,5 @@ Within the framework of SATYN, two types of nurseries are produced: SATYN series
   d$previous_crop <- gsub("rice-wheat","rice",d$previous_crop)
 
   
-  carobiner::write_files(path, dset, d)
+  carobiner::write_files(path, meta, d)
 }

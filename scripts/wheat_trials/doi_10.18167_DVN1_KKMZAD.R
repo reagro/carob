@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	group <- "wheat_trials"
 	ff  <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIRAD",
 		publication= NA,
@@ -53,7 +53,9 @@ carob_script <- function(path) {
 	d$yield_part <- "grain"
 	d$trial_id <- "1"
 
-	carobiner::write_files(dset, d, path=path)
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+
+	carobiner::write_files(meta, d, path=path)
 }
 
 
