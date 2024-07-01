@@ -28,23 +28,33 @@ carob_script <- function(path) {
 #   names(m) <- mm[,1]
 	
 	d <- data.frame(
-		crop="maize", yield_part="grain", season=r$SEASON, 
-		country = "India", adm1="Odisha", adm2 = r$DIST, 
-		longitude = r$LON, latitude=r$LAT,
+		crop="maize", 
+		yield_part="grain", 
+		season=r$SEASON, 
+		country = "India", 
+		adm1="Odisha", 
+		adm2 = r$DIST, 
+		longitude = r$LON, 
+		latitude=r$LAT,
 		variety = r$VAR, 
-		planting_method = r$MSOW,
+		planting_method = tolower(r$MSOW),
 		herbicide_product=tolower(r$HRBCDE), 
 		herbicide_amount=r$HRBCDE_AMT,
-		herbicide_timing = r$HRBCDE_DAS, 
+		herbicide_timing = as.character(r$HRBCDE_DAS), 
 		plant_density = 10000 * r$PLNT_NO / 15 ,
 		yield = r$GYLD_15 * 1000
 	)
 
+	d$trial_id <- as.character(1:nrow(d))
+	d$on_farm <- TRUE
+	d$is_survey <- TRUE
+	d$irrigated <- as.logical(NA)
+
 	d$planting_date = as.character(as.Date(carobiner::eng_months_to_nr(r$DSOW), "%d-%m-%y"))
 
 	d$herbicide_used <- d$herbicide_product != "none" 
-	d$herbicide_timing[d$herbicide_product == "none"] <- NA 
-	d$herbicide_amount[d$herbicide_product == "none"] <- NA 
+	d$herbicide_timing[!d$herbicide_used] <- NA 
+	d$herbicide_amount[!d$herbicide_used] <- NA 
 
 	fert <- data.frame(
 		dap = r$DAP,
