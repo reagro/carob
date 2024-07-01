@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
 	ff  <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		data_institute = "EIAR;CIMMYT",
 		publication = NA,
@@ -51,7 +51,7 @@ carob_script <- function(path) {
 		location = r1$`Name of the Village`,
 		planting_date = as.character(as.Date(r1$`Planting Date`)),	
 		weed_cover = r1$`Average % weed cover`,
-		fertilizer = r1$`Amount of Inorganic Fertilizer (kg)`
+		fertilizer_amount = r1$`Amount of Inorganic Fertilizer (kg)`
 	)
 
 	d2 <- data.frame(
@@ -79,12 +79,14 @@ carob_script <- function(path) {
 		location = r2$Name.of.the.Village,
 		planting_date = as.character(as.Date( r2$Planting.Date  )),
 		weed_cover = r1$`Average % weed cover`,
-		fertilizer = r1$`Amount of Inorganic Fertilizer (kg)`
+		fertilizer_amount = r1$`Amount of Inorganic Fertilizer (kg)`
 	)
   
 	d <- carobiner::bindr(d1, d2)
 	d$on_farm <- TRUE
-
+	d$is_survey <- TRUE
+	d$irrigated <- as.logical(NA)
+	
 	d$country <- "Ethiopia" 
 	d$adm1 <- "Oromia"
 	d$adm2 <- "West Showa"
@@ -110,8 +112,9 @@ carob_script <- function(path) {
 	d$intercrops <- gsub("Haricot bean", "common bean", d$intercrops)
 	
 	#survey
-	d$trial_id <- 1:nrow(d)
+	d$trial_id <- as.character(1:nrow(d))
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }
 

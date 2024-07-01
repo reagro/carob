@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	group <- "crop_cuts"
 	ff  <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="TAMASA",
 		publication="doi:10.5897/AJAR2019.14338",
@@ -73,7 +73,13 @@ carob_script <- function(path) {
 	yield <- r[, grep(".Grain.yield.kg.ha", colnames(r))]
 	d$yield <- rowMeans(sapply(yield, as.numeric), na.rm=TRUE)
 	d <- d[!is.na(d$yield), ]
+
+	d$on_farm <- TRUE
+	d$is_survey <- TRUE
+	d$irrigated <- as.logical(NA)
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+
 	
-	carobiner::write_files (path, dset, d) 
+	carobiner::write_files (path, meta, d) 
 }
 

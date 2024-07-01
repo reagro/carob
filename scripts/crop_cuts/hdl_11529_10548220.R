@@ -8,7 +8,7 @@ carob_script <- function(path) {
 	dataset_id <- carobiner::simple_uri(uri)
 	group <- "crop_cuts"
 	ff  <- carobiner::get_data(uri, path, group)
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		project=NA,
 		publication=NA,
@@ -42,6 +42,11 @@ carob_script <- function(path) {
 	d <- d[!is.na(d$yield), ]
 	d$trial_id <- as.character(1:nrow(d))
 	d <- d[!is.na(d$yield), ]
+
+	d$on_farm <- TRUE
+	d$irrigated <- as.logical(NA)
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+
   
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }

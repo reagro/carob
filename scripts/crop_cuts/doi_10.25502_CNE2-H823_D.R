@@ -9,7 +9,7 @@ carob_script <- function(path) {
    group <- "crop_cuts"
    ff <- carobiner::get_data(uri, path, group)
   
-   dset <- data.frame(
+   meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		project=NA, 
 		publication= NA, 
@@ -21,8 +21,8 @@ carob_script <- function(path) {
    )
    
    r <- read.csv(ff[basename(ff)=="Rice_biomass_sampling.csv"])
-   d <- r[,c("Season","Quadrant_ID","Density_plant_m_2","Yield_grain_dry_ton_ha_1","Yield_straw_dry_ton_ha_1")]
-   colnames(d)<- c("season","trial_id","plant_density","yield","dmy_residue")
+   d <- r[,c("Season", "Quadrant_ID", "Density_plant_m_2", "Yield_grain_dry_ton_ha_1", "Yield_straw_dry_ton_ha_1")]
+   colnames(d)<- c("season", "trial_id", "plant_density", "yield", "dmy_residue")
    
    # kg/ha 
    d$dmy_storage <- d$yield * 1000 
@@ -44,16 +44,18 @@ carob_script <- function(path) {
    d$irrigated <- FALSE
    d$inoculated <- FALSE
    d$yield_part <- "grain" 
-   ## add long and lat
    
-#   d$longitude <- as.numeric(js$result$coverage_y)
-#   d$latitude <- as.numeric(js$result$coverage_x)
-   
-   d$planting_date <- c("2016-02", "2017-02")[d$season]
+   ## add long and lat from metadata
+	d$longitude <- 32.29028
+	d$latitude <-  1.37333
+
+    d$planting_date <- c("2016-02", "2017-02")[d$season]
    d$harvest_date <- c("2016-06", "2017-06")[d$season]	
    d$season <- c("Feb-June 2016", "Feb-June 2017")[d$season]
+
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
-   carobiner::write_files(dset, d, path=path)
+   carobiner::write_files(meta, d, path=path)
       
 }
 

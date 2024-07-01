@@ -2,6 +2,7 @@
 
 
 carob_script <- function(path) {
+
 "Increasing organic matter/carbon contents of soils is one option from a basket of strategies being proposed to offset climate change inducing greenhouse gas (GHG) emissions, under the auspices of the Paris-COP 4 per mille initiative. One of the complimentary practices to sequester carbon in soils on decadal timescales is amending it with biochar, a carbon rich byproduct of biomass gasification. In sub-Saharan Africa (SSA) there is widespread and close interplay of agrarian based economies and the use of biomass for fuel, which makes that the co-benefits of biochar production for agriculture and energy supply are explicitly different from the rest of the world. To date, the quantities of residues available from staple crops for biochar production, and their potential for carbon sequestration in farming systems of SSA have not been comprehensively investigated.
 
 Herein we assessed the productivity and usage of biomass waste from: maize, sorghum, rice, millet and groundnut crops; specifically quantifying straw, shanks, chaff and shells, based on measurements from multiple farmer fields and census/surveys in eastern Uganda"
@@ -10,7 +11,7 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
 	group <- "crop_cuts"
 	ff <- carobiner::get_data(uri, path, group)
   
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		project=NA, 
 		publication= NA, 
@@ -34,25 +35,27 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
 	d$plant_density <- d$plant_density * 10000 # in plant/ha
 	
 	#add columns
-	d$crop<- "groundnut"
-	
+	d$crop <- "groundnut"
 	d$country <- "Uganda"
-	##CN :I used the reverse function on GPS coordinate to obtain the location knowing long and lat coordinate.
-	d$location<- "Nakasongola"
+
 	d$on_farm <- FALSE
 	d$is_survey <- TRUE
 	d$irrigated <- FALSE
 	d$inoculated <- FALSE
 	d$yield_part <- "grain" 
 	## add long and lat
-#	d$longitude <- as.numeric(js$result$coverage_y)
-#	d$latitude <- as.numeric(js$result$coverage_x)
 	
+	## add long and lat from metadata
+	d$longitude <- 32.29028   
+	d$latitude <- 1.37333
+
 	d$planting_date <- c("2016-02", "2017-02")[d$season]
 	d$harvest_date <- c("2016-06", "2017-06")[d$season]	
 	d$season <- c("Feb-June 2016", "Feb-June 2017")[d$season]
 	
-	carobiner::write_files(dset, d, path=path)
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+ 
+	carobiner::write_files(meta, d, path=path)
 }
 
 

@@ -7,7 +7,7 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/11054"
 	group <- "crop_cuts"
 	ff <- carobiner::get_data(uri, path, group)
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="CSISA",
 		publication= NA,
@@ -64,7 +64,7 @@ carob_script <- function(path) {
 # $ MoP_Basal            : chr "MoP Basal dose in KG per ACRE"
 # $ MoP_1_DAS            : chr "MoP first top dressing application in days after sowing"
 
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 
 }
 

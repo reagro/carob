@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	group <- "crop_cuts"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="TAMASA",
 		publication=NA,
@@ -23,7 +23,7 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "TAMASA_TZ_APS_2017_CC_MaizeYield.xlsx"]
 	r <- carobiner::read.excel(f, sheet = "Raw data", n_max = 1738)
 
-## lon/lat reversed. but lat make no sense.		
+## lon/lat reversed. but lat makes no sense.		
 	d <- data.frame(yield = r$`Grain yield (kg/ha@12.5%)`, 
 				latitude = r$`QRcode Cobs`,
 				longitude = r$Latitude)
@@ -36,9 +36,11 @@ carob_script <- function(path) {
 	d$is_survey <- TRUE
 	d$crop <- "maize"
 	d$yield_part <- "grain"
+	d$irrigated <- as.logical(NA)
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	
 
     d <- d[!is.na(d$longitude) & !is.na(d$latitude),]
     d <- d[!is.na(d$yield),]
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }

@@ -11,7 +11,7 @@ TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 	group <- "crop_cuts"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project="TAMASA",
 		publication= NA,
@@ -136,15 +136,16 @@ TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 	d$yield_part <- "grain" 
 	d$crop <- "maize"
 	d$planting_date <- as.character(NA)
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 
 ## also write all soil data to the soil_samples group
 ## including deeper layer, and records not matched.
 
 	soil <- carobiner::bindr(d2, d4)
-	dset$group <- "soil_samples"	
-	carobiner::write_files(dset, soil, path=path)
+	meta$group <- "soil_samples"	
+	carobiner::write_files(meta, soil, path=path)
 
 }
 
