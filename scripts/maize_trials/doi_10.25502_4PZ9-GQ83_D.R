@@ -11,7 +11,7 @@ Cluster analysis separated the maize germplasm into five major groups, different
 
    ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=3),
 		publication= "doi:10.1080/15427528.2019.1674760",
 		data_institute = "IITA",
@@ -64,9 +64,9 @@ Cluster analysis separated the maize germplasm into five major groups, different
 	d$P_fertilizer <- 60
 	d$K_fertilizer <- 60
 	d$fertilizer_type <- "NPK; urea"
-	
+	d$is_survey <- FALSE
 
-	carobiner::write_files(dset, d, path=path)	
+	carobiner::write_files(meta, d, path=path)	
 }
 
 

@@ -9,7 +9,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project=NA,
 		publication="doi:10.1038/s41467-020-18317-8",
@@ -27,6 +27,7 @@ carob_script <- function(path) {
 		location=r$Site, 
 		adm1=r$Province, 
 		variety=r$Cultivar, 
+		variety_release_year=as.integer(r$Release_Year),
 		rep=as.integer(r$Replicate), 
 		planting_date=r$plant_date, 
 		flowering_date=r$Flower_Date, 
@@ -37,6 +38,7 @@ carob_script <- function(path) {
 		yield_part="grain", 
 		country="South Africa"
 	)
+	d$trial_id <- as.character(as.integer(as.factor(paste(r$Site, r$year))))
 	
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
@@ -71,9 +73,10 @@ carob_script <- function(path) {
 	d$planting_date <- as.character(d$planting_date)
 	d$harvest_date  <- as.character(d$harvest_date)
 	d$flowering_date <- as.character(d$flowering_date)
-	d$trial_id <- "1"
+
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }
 
 

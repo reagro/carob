@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	group <- "maize_trials"
 	ff  <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "IITA",
 		publication= "doi:10.1371/journal.pone.0252506",
@@ -62,6 +62,7 @@ carob_script <- function(path) {
 	d$K_fertilizer <- 36 # Potassium (muriate of potash, 60% K) applied at 60 kg ha-1 
 
 	d$yield_part <- "grain"
+	d$irrigated <- FALSE
 	
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }

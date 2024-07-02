@@ -14,7 +14,7 @@ This dataset contains output of the research for Zaire."
 	ff <- carobiner::get_data(uri, path, group)
 		
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, major=2, minor=1, group),
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Robert Hijmans",
@@ -36,6 +36,6 @@ This dataset contains output of the research for Zaire."
 	d$longitude[i] <- NA
 	d$latitude[i] <- NA
 
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 
 }

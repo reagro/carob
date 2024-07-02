@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	group <- "wheat_trials"
 	ff <- carobiner::get_data(uri, path, group)
 	
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="Elite Selection Wheat Yield Trial",
 		publication = NA,
@@ -24,5 +24,5 @@ carob_script <- function(path) {
 	d <- proc_wheat(ff)
 	d$previous_crop <- as.character(d$previous_crop)
 	
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }

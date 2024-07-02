@@ -13,7 +13,7 @@ and 2015 in over thirty African countries. This dataset contains output of the r
 	ff <- carobiner::get_data(uri, path, group)
 		
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, major=2, minor=1, group),
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
@@ -47,5 +47,5 @@ and 2015 in over thirty African countries. This dataset contains output of the r
 	d$latitude[i] <- 9.245833
 
 
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }

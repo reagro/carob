@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=5, minor=0),
 		project=NA,
 		publication="doi:20.500.11766/4516",
@@ -67,5 +67,5 @@ carob_script <- function(path) {
 	d$irrigation_number[i] <- 5L
 
 
-	carobiner::write_files (path, dset, d) 
+	carobiner::write_files (path, meta, d) 
 }

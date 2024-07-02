@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIMMYT",
 		publication= NA,
@@ -34,7 +34,7 @@ carob_script <- function(path) {
 	    yield=as.numeric(r$GrainYieldTons_FieldWt)*1000,
 	    asi=as.numeric(r$ASI),
 	    plant_height=as.numeric(r$PlantHeightCm),
-	    e_ht = as.numeric(r$EarHeightCm),
+	    ear_height = as.numeric(r$EarHeightCm),
 	    rlper = as.numeric(r$RootLodgingPer),
 	    slper = as.numeric(r$StemLodgingPer),
 	    husk = as.numeric(r$BadHuskCoverPer),
@@ -105,9 +105,11 @@ carob_script <- function(path) {
 	d$borer_trial = FALSE
 	d$yield_part = "grain"
 	d$is_survey <- FALSE
+	d$irrigated <- NA
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	
 	d <- d[!is.na(d$yield), ]
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 
 
