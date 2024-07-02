@@ -52,8 +52,8 @@ carob_script <- function(path) {
    d$OM_used <- TRUE
 
 	d$herbicide_used <-  r$glypho == "Y"
-	d$herbicde_product <- "none"
-	d$herbicde_product[d$herbicide_used] <- "glyphosate"
+	d$herbicide_product <- "none"
+	d$herbicide_product[d$herbicide_used] <- "glyphosate"
 
 
 
