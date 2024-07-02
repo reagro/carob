@@ -8,6 +8,7 @@ carob_script <- function(path) {
    Data on rainfed rice production and management were collected for cropping seasons 2006–2007, 2007–2008, 2008–2009 and 2009–2010 around five villages of the BV-Lac programme on lowland and hillside farmer's fields under conservation agriculture in the Lake Alaotra region of Madagascar, 
    resulting in 3803 site x management x soil x season combinations. (2020-10-07)
 "
+   
    uri <-  "doi:10.18167/DVN1/2EHEQT"
    group <- "conservation_agriculture" 
    ff <- carobiner::get_data(uri, path, group)
