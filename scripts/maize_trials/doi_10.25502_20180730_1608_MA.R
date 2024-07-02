@@ -10,7 +10,7 @@ This dataset contains output of the research for Zimbabwe."
 	group <- "maize_trials"	
 	ff <- carobiner::get_data(uri, path, group)
 		
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, major=2, minor=1, group),
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
@@ -29,6 +29,6 @@ This dataset contains output of the research for Zimbabwe."
 	d$latitude[d$location=='Harare'] <- -17.83
 	d$description <- as.character(d$description)
 
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 
