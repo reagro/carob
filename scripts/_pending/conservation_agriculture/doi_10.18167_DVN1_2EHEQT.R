@@ -51,6 +51,12 @@ carob_script <- function(path) {
    d$OM_type <- "horse manure"
    d$OM_used <- TRUE
 
+	d$herbicide_used <-  r$glypho == "Y"
+	d$herbicde_product <- "none"
+	d$herbicde_product[d$herbicide_used] <- "glyphosate"
+
+
+
    names(d)[names(d) == "tillage"] <- "treatment"
    d$treatment <- ifelse(d$treatment=="till", "tillage",
                   ifelse(d$treatment=="ca", "conservation agriculture", d$treatment))
@@ -65,7 +71,9 @@ carob_script <- function(path) {
    d$season[grepl("Y08_09",d$season)] <- "2008-2009"
    d$season[grepl("Y07_08",d$season)] <- "2007-2008"
    d$season[grepl("Y09_10",d$season)] <- "2009-2010"
-   
+
+
+	# d <- unique(d) #why needed?
    
    carobiner::write_files(dset, d, path=path)
    
