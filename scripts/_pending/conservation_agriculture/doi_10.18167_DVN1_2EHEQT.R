@@ -1,21 +1,18 @@
-
+# R script for "carob"
 
 
 carob_script <- function(path) {
    
-   "
-   Description:
-   Data on rainfed rice production and management were collected for cropping seasons 2006–2007, 2007–2008, 2008–2009 and 2009–2010 around five villages of the BV-Lac programme on lowland and hillside farmer's fields under conservation agriculture in the Lake Alaotra region of Madagascar, 
-   resulting in 3803 site x management x soil x season combinations. (2020-10-07)
-"
+"Data on rainfed rice production and management were collected for cropping seasons 2006–2007, 2007–2008, 2008–2009 and 2009–2010 around five villages of the BV-Lac programme on lowland and hillside farmer's fields under conservation agriculture in the Lake Alaotra region of Madagascar,  resulting in 3803 site x management x soil x season combinations. (2020-10-07)"
+   
    uri <-  "doi:10.18167/DVN1/2EHEQT"
    group <- "conservation_agriculture" 
    ff <- carobiner::get_data(uri, path, group)
   
-   dset <- data.frame(
-   	carobiner::read_metadata(uri, path, group, major=1, minor=2),
+	dset <- data.frame(
+      carobiner::read_metadata(uri, path, group, major=1, minor=2),
       publication= "doi:10.1017/S0014479714000155",
-   	  treatment_vars= "yield",
+   	  treatment_vars= "land_prep_method;crop_rotation",
       data_institute = "CIRAD",
       carob_contributor="Cedric Ngakou",
       carob_date="2023-10-18",
@@ -27,10 +24,22 @@ carob_script <- function(path) {
  
    r <- readxl::read_excel(ff[basename(ff)=="2006-2010_database_bvlac_bruelle_v01.20201009.xlsx"],sheet=1) |> as.data.frame()
    
-   d <- r[,c("id_field","village","crop_season","soil","tillage_system","sow_date","manure","nitrogen","yield","rain_year")]
-   colnames(d) <- c("trial_id","location","season","soil_type","tillage","planting_date","OM_amount","N_fertilizer","yield","rain")
+	d <- data.frame(
+		location = r$village,
+		season = r$crop_season,
+		soil_type = r$soil,
+		tillage = r$tillage_system,
+		planting_date = as.character(r$sow_date),
+		OM_amount = r$manure,
+		N_fertilizer = r$nitrogen,
+		##RH: this seems much too high. 22% P (not P205) in NPK
+		P_fertilizer = 22/100 * (r$npk), 
+		K_fertilizer = 11/100 * (r$npk),  
+		yield = r$yield,
+		rain = r$rain_year
+	)
    
-   ## add columns
+	d$trial_id <- as.character(as.integer(as.factor(paste0(d$location, d$season)))) 
    d$country <- "Madagascar"
    d$crop <- "rice"
    d$yield_part <- "grain" 
@@ -41,33 +50,22 @@ carob_script <- function(path) {
    d$fertilizer_type <- "urea"
    d$OM_type <- "horse manure"
    d$OM_used <- TRUE
-   names(d)[names(d) == "tillage"] <- "treatment"
-   d$treatment<-ifelse(d$treatment=="till","tillage",
-                       ifelse(d$treatment=="ca","conservation agriculture",d$treatment))
 
-   geo <- data.frame(location=c("Antsahamamy","Ambohimiarina","Ambohitsilaozana","Ambongabe","Ampitatsimo"),
-                    lat=c(-18.9185449,-21.3561474,-17.7013574,-17.706648,-18.6728924),
-                    lon=c(47.5591672,47.5679899,48.4656547,48.1885083,47.4563563))
+   names(d)[names(d) == "tillage"] <- "treatment"
+   d$treatment <- ifelse(d$treatment=="till", "tillage",
+                  ifelse(d$treatment=="ca", "conservation agriculture", d$treatment))
+
+   geo <- data.frame(location=c("Antsahamamy", "Ambohimiarina", "Ambohitsilaozana", "Ambongabe", "Ampitatsimo"),
+                    latitude=c(-18.9185, -21.3561, -17.7014, -17.7067, -18.6729),
+                    longitude=c(47.5592 , 47.5680 , 48.4657 , 48.1885 , 47.4564))
   
-   d <- merge(d, geo, by="location")
+   d <- merge(d, geo, by="location", all.x=TRUE)
    
-   d$longitude <- d$lon
-   d$latitude <- d$lat
-   d$lon <- d$lat <- NULL
-   i <- grepl("Y06_07",d$season)
-   i1 <- grepl("Y08_09",d$season)
-   i2 <- grepl("Y07_08",d$season)
-   i3 <- grepl("Y09_10",d$season)
-   d$season[i] <- "2006-2007"
-   d$season[i1] <- "2008-2009"
-   d$season[i2] <- "2007-2008"
-   d$season[i3] <- "2009-2010"
-   d$N_fertilizer <- r$nitrogen
-   d$P_fertilizer <- 22/100*(r$npk) 
-   d$K_fertilizer <- 11/100*(r$npk)   
+   d$season[grepl("Y06_07",d$season)] <- "2006-2007"
+   d$season[grepl("Y08_09",d$season)] <- "2008-2009"
+   d$season[grepl("Y07_08",d$season)] <- "2007-2008"
+   d$season[grepl("Y09_10",d$season)] <- "2009-2010"
    
-   #data type
-   d$planting_date <- as.character(d$planting_date)
    
    carobiner::write_files(dset, d, path=path)
    
