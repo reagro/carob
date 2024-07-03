@@ -1,6 +1,10 @@
 # R script for "carob"
 
 
+#NOTE 
+#There is a variable "Trt.pattern" that is not used but seems important. Perhaps comparing that to what is in "cereal_legume_intercropping_protocol.pdf" can help understand what it means. 
+#The pdf has more info that is not captured. For example, plating date appears to be a treatment. The spatial arrangement is really important in intercropping and should be captured. 
+
 carob_script <- function(path) {
    
 "This dataset is from the research study that aims to diversify the production environment to de-risk production in these semi-arid ecologies. In this study, two approaches were used , i.e. (i) testing suitability of legume x legume and legume by cereal production systems; (ii) modeling the multiple cropping systems using APSIM crop simulation model to assess changes in resource base, resource use efficiencies, productivity and profitability of the different cropping systems. The data included here are from the testing of suitability of legume legume x legume and legume by cereal production systems in Kongwa, Kiteto and Iringa districts of Tanzania and consists of overall biomass and seed weight along with variety name and intercropping"
