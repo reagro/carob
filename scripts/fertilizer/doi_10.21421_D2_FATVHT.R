@@ -58,7 +58,7 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 	d$yield <- d$`Grain yield`
 ## assuming that "Stalk yield" also includes leaves	
 	d$residue_yield <- d$`Stalk yield`
-	d$grain_weight <- d$GW_1000grnM_g
+	d$seed_weight <- d$GW_1000grnM_g
 # Not reported in the associated publication	
 	d$fertilizer_type <- "unknown" 
 # As reported in the associated publication	

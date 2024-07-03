@@ -70,9 +70,9 @@ improving household nutrition and increasing income levels of smallholder farmer
 	d <- d[d$yield > 0,]
 	d$residue_yield <- as.numeric(d$total_yield_stover_kg_per_ha)
 	d$dmy_total <- as.numeric(d$calc_weight_a_ground_biomass_kg)
-	d$grain_weight <- d$dry_weight_100_seed_g * 10
+	d$seed_weight <- d$dry_weight_100_seed_g * 10
 	d <- d[,c("trial_id","rep","treatment","variety","planting_date","harvest_date","plant_density","yield",
-			"residue_yield","dmy_total","grain_weight")]
+			"residue_yield","dmy_total","seed_weight")]
 
 	# processing field_history.csv
 	f1 <- ff[basename(ff) == "field_history.csv"]
@@ -167,7 +167,7 @@ improving household nutrition and increasing income levels of smallholder farmer
 	
 	f <- f[,c("trial_id","country","adm3","location","site","planting_date","harvest_date",
 			"rep","treatment","crop","variety","previous_crop","yield","residue_yield","dmy_total",
-			"grain_weight","plant_density","soil_pH","soil_SOC","soil_N","soil_sand","soil_clay","rain",
+			"seed_weight","plant_density","soil_pH","soil_SOC","soil_N","soil_sand","soil_clay","rain",
 			"fertilizer_type","P_fertilizer","N_fertilizer","K_fertilizer","inoculated","row_spacing",
 			"plant_spacing","on_farm","elevation","latitude","longitude")]
 

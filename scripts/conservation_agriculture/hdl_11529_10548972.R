@@ -53,7 +53,7 @@ carob_script <- function(path) {
 		  plant_density=r$Plants_m2*10000,
 		  dmy_storage=r$Yield_dry,
 		  yield=r$Yield_moist,
-		  grain_weight=r$Thousand,
+		  seed_weight=r$Thousand,
 		  crop_price=r$Price / 1000 # assuming it was per ton		  
 	)
 
@@ -71,7 +71,7 @@ carob_script <- function(path) {
 	d$maturity_date  <- as.character(as.Date(d$maturity_date))
 	d$rep <- as.integer(d$rep)
 	d$irrigation_number <- as.integer(d$irrigation_number)
-	d$grain_weight <- as.numeric(d$grain_weight)
+	d$seed_weight <- as.numeric(d$seed_weight)
 	
 	d$yield_part <- "grain"
 	d$crop <- gsub("Cebada", "barley", d$crop)

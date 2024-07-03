@@ -95,7 +95,7 @@ carob_script <- function(path) {
 	r$CobFW[r$CobFW == "."] <- NA
 	d$residue_yield <- 10000 * (r$TStoverYld + as.numeric(r$CobFW) / r$Harea) - d$yield
 	
-	d$grain_weight <- r$X100GrainDW*10 # Adjusting to 1000 grains
+	d$seed_weight <- r$X100GrainDW*10 # Adjusting to 1000 grains
 	
 	d$previous_crop <- trimws(tolower(r$PCrop1))
 	d$previous_crop[d$previous_crop == "sweet potato"] <- "sweetpotato"

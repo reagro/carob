@@ -1,14 +1,9 @@
+# R script for "carob"
 
 
 carob_script <- function(path) {
   
-  "
-  This dataset comprises data from on farm trials conducted in sub-humid Zimbabwe during two 
-  cropping seasons (2017/18-2018/19). The study investigated the effect of maize-cowpea
-  intercropping on productivity, biological N2-fixation and grain mineral content compared 
-  to sole crops. The effect of soil characteristics (homefield vs outfield) and of cowpea 
-  varieties landrace) was also studied (2020-08-17)
-"
+"This dataset comprises data from on farm trials conducted in sub-humid Zimbabwe during two cropping seasons (2017/18-2018/19). The study investigated the effect of maize-cowpea intercropping on productivity, biological N2-fixation and grain mineral content compared to sole crops. The effect of soil characteristics (homefield vs outfield) and of cowpea varieties landrace) was also studied (2020-08-17)"
   
 	uri <- "doi:10.18167/DVN1/IJOA5J" 
 	group <- "fertilizer"
@@ -33,12 +28,12 @@ carob_script <- function(path) {
                            
   # subset for intercrop, subset again, one to have cowpea info another maize info then bindr() 
 	d <- r[r$System == "Intercrop",]
-	d1 <- carobiner::change_names(d, c("100_seed_mass_cowpeas_9.7", "Cowpea_yield_kg_ha"), c("grain_weight", "yield"))
-	d1 <- d1[,c("Site","Field","Treatment","Treatment_desc","System","Cowpea_variety","Fertilizer" ,"Year","Net_plot_m2","grain_weight", "yield")]
+	d1 <- carobiner::change_names(d, c("100_seed_mass_cowpeas_9.7", "Cowpea_yield_kg_ha"), c("seed_weight", "yield"))
+	d1 <- d1[,c("Site","Field","Treatment","Treatment_desc","System","Cowpea_variety","Fertilizer" ,"Year","Net_plot_m2","seed_weight", "yield")]
 	d1$crop <- "cowpea"
 	d1$yield_part <- "seed"
-	d2 <- carobiner::change_names(d, c("100_seed_mass_maize_12.5","Maize_yield_kg_ha"), c("grain_weight", "yield"))
-	d2 <- d2[,c("Site","Field","Treatment","Treatment_desc","System","Cowpea_variety","Fertilizer" ,"Year","Net_plot_m2","grain_weight", "yield")]
+	d2 <- carobiner::change_names(d, c("100_seed_mass_maize_12.5","Maize_yield_kg_ha"), c("seed_weight", "yield"))
+	d2 <- d2[,c("Site","Field","Treatment","Treatment_desc","System","Cowpea_variety","Fertilizer" ,"Year","Net_plot_m2","seed_weight", "yield")]
 	d2$crop <- "maize"
 	d2$yield_part <- "grain"
 	d <- carobiner::bindr(d1,d2)
@@ -46,25 +41,25 @@ carob_script <- function(path) {
   #subset for monocrop and replace the NAs 
 	c <- r[r$System == "Monocrop",]
 	c <- c[, c("Site","Field","Treatment","Treatment_desc","System","Cowpea_variety","Fertilizer","Year","Net_plot_m2","100_seed_mass_maize_12.5","100_seed_mass_cowpeas_9.7","Maize_yield_kg_ha","Cowpea_yield_kg_ha")]
-	c <- carobiner::change_names(c,c("100_seed_mass_maize_12.5","100_seed_mass_cowpeas_9.7"), c("grain_weight1", "grain_weight2"))
-	c$grain_weight1[c$grain_weight1 == "NA"] <- NA
-	c$grain_weight1 <- as.numeric(c$grain_weight1)
-	c$grain_weight2[c$grain_weight2 == "NA"] <- NA
-	c$grain_weight2 <- as.numeric(c$grain_weight2)
+	c <- carobiner::change_names(c,c("100_seed_mass_maize_12.5","100_seed_mass_cowpeas_9.7"), c("seed_weight1", "seed_weight2"))
+	c$seed_weight1[c$seed_weight1 == "NA"] <- NA
+	c$seed_weight1 <- as.numeric(c$seed_weight1)
+	c$seed_weight2[c$seed_weight2 == "NA"] <- NA
+	c$seed_weight2 <- as.numeric(c$seed_weight2)
 	c$Maize_yield_kg_ha[c$Maize_yield_kg_ha == "NA"] <- NA
 	c$Maize_yield_kg_ha <- as.numeric(c$Maize_yield_kg_ha)
 	c$Cowpea_yield_kg_ha[c$Cowpea_yield_kg_ha == "NA"] <- NA
 	c$Cowpea_yield_kg_ha <- as.numeric( c$Cowpea_yield_kg_ha)
   
-    i <- is.na(c$grain_weight1) & (!is.na(c$grain_weight2))
-    c$grain_weight1[i] <- c$grain_weight2[i]
+    i <- is.na(c$seed_weight1) & (!is.na(c$seed_weight2))
+    c$seed_weight1[i] <- c$seed_weight2[i]
     c$Maize_yield_kg_ha[i] <- c$Cowpea_yield_kg_ha[i]
    
-	c$grain_weight2 <- NULL
+	c$seed_weight2 <- NULL
 	c$Cowpea_yield_kg_ha <- NULL
 	c$crop <- ifelse(grepl("cowpea",c$Treatment_desc), "cowpea", "maize")
 	c$yield_part <- ifelse(grepl("cowpea",c$crop), "seed", "grain")
-	c <- carobiner::change_names(c, c("grain_weight1", "Maize_yield_kg_ha"), c("grain_weight", "yield"))
+	c <- carobiner::change_names(c, c("seed_weight1", "Maize_yield_kg_ha"), c("seed_weight", "yield"))
 
 	d <- carobiner::bindr(d, c)
 	d$on_farm <- TRUE
@@ -120,13 +115,14 @@ carob_script <- function(path) {
   
   #processing the second data set
 	d1 <- r1[, c("Site","Field","Treatment","Treatment_desc","System","Cowpea_variety","Fertilizer","Year","Previous_crop","Clay_perc","Silt_perc","Total_sand_perc","pH_CaCl2","Available_P","Total_Nitrogen","SOC_perc","Zn_ICP_mg_kg","Ca_ICP_mg_kg" ,"Mg_ICP_mg_kg", "K_ICP_mg_kg","P_ICP_mg_kg","Cu_ICP_mg_kg","Fe_ICP_mg_kg","Mn_ICP_mg_kg","Al_ICP_mg_kg")]
+
 	d1 <- carobiner::change_names(d1, c("Previous_crop","Clay_perc","Silt_perc","Total_sand_perc","pH_CaCl2","Available_P","Total_Nitrogen","SOC_perc","Zn_ICP_mg_kg","Ca_ICP_mg_kg" ,"Mg_ICP_mg_kg", "K_ICP_mg_kg","P_ICP_mg_kg","Cu_ICP_mg_kg","Fe_ICP_mg_kg","Mn_ICP_mg_kg","Al_ICP_mg_kg"),
      c("previous_crop","soil_clay","soil_silt","soil_sand","soil_pH_CaCl2","soil_P_total","soil_N","soil_SOC","grain_Zn","grain_Ca","grain_Mg","grain_K","grain_P", "grain_Cu", "grain_Fe", "grain_Mn", "grain_Al"))
   
 	f <- merge(d,d1, by = c("Site","Field","Treatment","Treatment_desc","System","Cowpea_variety","Fertilizer","Year"), all.x = T)
 	f$variety <- f$Cowpea_variety
 	f$trial_id <- paste(1:nrow(f),f$Treatment_desc)
-	f$grain_weight <- as.numeric(f$grain_weight)
+	f$seed_weight <- as.numeric(f$seed_weight)
 	f$yield <- as.numeric(f$yield)
 	f$N_splits <- as.integer(f$N_splits)
 	f$variety <- f$Cowpea_variety

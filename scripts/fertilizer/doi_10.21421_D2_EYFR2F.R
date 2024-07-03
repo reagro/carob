@@ -31,7 +31,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   
   #names(d)
   # e <- d[,c(1,2,4,5,6,14,15,16)]
-  # colnames(e) <- c('planting_date','location','rep','P_fertilizer','variety_type','yield','residue_yield','grain_weight')
+  # colnames(e) <- c('planting_date','location','rep','P_fertilizer','variety_type','yield','residue_yield','seed_weight')
   d$country <- "Nigeria"
   d$adm1 <- "Kano"
   v <- d$Location
@@ -61,7 +61,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$rep <- as.integer(d$`Replication number`) 
-  d$grain_weight <- d$GW_1000grnM_g
+  d$seed_weight <- d$GW_1000grnM_g
   d$residue_yield <- d$`Stalk yield`
   d$yield <- d$GHvYld_C_kgha
   #KCl was in form of muriate of potash
@@ -83,7 +83,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   }
   
   
-  d <- d[,c("country", "adm1",'location',"latitude","longitude","trial_id", "planting_date","on_farm","soil_pH","soil_SOC","soil_P_available","soil_sand","soil_clay","soil_silt","is_survey","rep","crop", "variety","residue_yield", "yield", "grain_weight","N_fertilizer","P_fertilizer","K_fertilizer","fertilizer_type")]  
+  d <- d[,c("country", "adm1",'location',"latitude","longitude","trial_id", "planting_date","on_farm","soil_pH","soil_SOC","soil_P_available","soil_sand","soil_clay","soil_silt","is_survey","rep","crop", "variety","residue_yield", "yield", "seed_weight","N_fertilizer","P_fertilizer","K_fertilizer","fertilizer_type")]  
 
 	d$yield_part <- "grain"
 

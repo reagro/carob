@@ -31,7 +31,7 @@ carob_script <- function(path) {
 		plant_height =r$V6, 
 		dmy_total= r$V8*1000, 
 		yield=r$V10*1000, 
-		grain_weight= r$V11, 
+		seed_weight= r$V11, 
 		variety=r$cultivar,
 		LAI=r$V13, # at anthesis
 		rep=r$block,

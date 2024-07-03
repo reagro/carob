@@ -37,7 +37,7 @@ intmztrial_striga <- function(ff, sf=NULL) {
 		
 		d <- carobiner::change_names(d, 
 		 c("trl_titl", "entry", "entryno", "instinf", "bltin_m", "bltun_m", "x1000gwt", "x_1000gwt", "cobdamco", "cobdamrt", "borerdmrat", "sbdamat", "nitr_rat"), 
-		 c("trial_name", "variety", "variety_code", "instin", "blight_in", "blight_un", "grain_weight", "grain_weight", "cob_dam_co", "cob_dam_rt", "borer_dam_rat", "sb_dam_rat", "grain_N")
+		 c("trial_name", "variety", "variety_code", "instin", "blight_in", "blight_un", "seed_weight", "seed_weight", "cob_dam_co", "cob_dam_rt", "borer_dam_rat", "sb_dam_rat", "grain_N")
 		 , must_have=FALSE)
 
 		d$planting_date <- d$year
@@ -132,10 +132,10 @@ intmztrial_striga <- function(ff, sf=NULL) {
 			d$sesamia <- NULL
 		}
 
-		if (is.null(d$grain_weight)) {
-			d$grain_weight <- as.numeric(NA)
+		if (is.null(d$seed_weight)) {
+			d$seed_weight <- as.numeric(NA)
 		} else {
-			d$grain_weight <- as.numeric(d$grain_weight)	
+			d$seed_weight <- as.numeric(d$seed_weight)	
 		}
 		qv <- c("yield", "pl_ht", "e_ht", "asi", "dy_sk", "p_asp", "p_harv", "e_asp", "husk", "rl", "sl", "e_rot", "rust", "anthesis", "moist", "pl_st")
 		for (v in qv) {
@@ -206,7 +206,7 @@ intmztrial_striga <- function(ff, sf=NULL) {
 	}
 	
 	d <- carobiner::change_names(d, c("gwt"), 
-				c("grain_weight"), must_have=FALSE)
+				c("seed_weight"), must_have=FALSE)
 	
 	d$is_survey <- FALSE	
 	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)

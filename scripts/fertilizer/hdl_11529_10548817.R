@@ -118,12 +118,12 @@ carob_script <- function(path) {
   d$P_fertilizer <- d$P_fertilizer1 + d$P_fertilizer2 + d$P_fertilizer3
   d$yield <- r$GrainYield * 1000 #ton/acre to kg/ha
   d$yield_part <- "grain"
-  d$grain_weight <- r$TestWeight
+  d$seed_weight <- r$TestWeight
   d$trial_id <- paste(1:nrow(d), d$site, sep = "_")
   # d$tiller_count <- r$TillersCount are these  important variables? 
   # d$grain_count <- r$GrainsCount   
    
-  d <- d[, c("trial_id","country", "adm1","adm2","site","latitude","longitude","crop","variety","planting_date","harvest_date","treatment","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","yield_part","yield","grain_weight","on_farm","is_survey","irrigated")]
+  d <- d[, c("trial_id","country", "adm1","adm2","site","latitude","longitude","crop","variety","planting_date","harvest_date","treatment","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","yield_part","yield","seed_weight","on_farm","is_survey","irrigated")]
   
   # EGB:
   # Adding approximate coordinates

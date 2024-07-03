@@ -31,7 +31,7 @@ carob_script <- function(path) {
     country = character(0), site = character(0), treatment = character(0), 
     longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
     harvest_date = character(0), trial_id = character(0), crop = character(0), 
-    yield = numeric(0), residue_yield = numeric(0), grain_weight = numeric(0), 
+    yield = numeric(0), residue_yield = numeric(0), seed_weight = numeric(0), 
     previous_crop = character(0), OM_type = character(0), N_fertilizer = numeric(0), 
     K_fertilizer = numeric(0), P_fertilizer = numeric(0), Zn_fertilizer = numeric(0), 
     S_fertilizer = numeric(0), yield_part = character(0))
@@ -90,8 +90,8 @@ carob_script <- function(path) {
 	# f5 <- ff[basename(ff) == "e_harvest.csv"]
 	# d5 <- data.frame(read.csv(f5))
 	# d5$trial_id <- d5$farm_id
-	# d5$grain_weight <- d5$crop_1_weight_grain * 1000 # standardizing to grain weight measured in g assuming grain weight is in kg
-	# d5 <- d5[,c("trial_id","grain_weight")]
+	# d5$seed_weight <- d5$crop_1_weight_grain * 1000 # standardizing to grain weight measured in g assuming grain weight is in kg
+	# d5 <- d5[,c("trial_id","seed_weight")]
 	
 	# f6 <- ff[basename(ff) == "g_farmer_assessment.csv"]	
 	# d6 <- data.frame(read.csv(f6))
@@ -118,7 +118,7 @@ carob_script <- function(path) {
  
 	# z <- z[,c("trial_id","season","country","adm1","adm2","adm3","crop","variety",
 						# "planting_date","harvest_date","inoculated","fertilizer_type","N_fertilizer","P_fertilizer",
-						# "grain_weight","yield","row_spacing","plant_spacing","on_farm","is_survey","longitude","latitude")]
+						# "seed_weight","yield","row_spacing","plant_spacing","on_farm","is_survey","longitude","latitude")]
 	
 	
 	# carobiner::write_files(dset, z, path, dataset_id, group)

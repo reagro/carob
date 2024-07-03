@@ -61,7 +61,7 @@ return(T)
 # d3$treatment <- d3$TrtDesc
 
 # d3$yield <- (d3$Grn_yld_adj)*1000
-# d3$grain_weight <- d3$X100GrainFW
+# d3$seed_weight <- d3$X100GrainFW
 #d3$residue_yield <- (d3$AdjTStoverYld)*1000
 # d3$season <- d3$Season
 # d3$site <- d3$Site
@@ -81,7 +81,7 @@ return(T)
 
 # d3=transform(d3,N_splits=ifelse(d3$N_fertilizer>0,3,0))
 
-# d3 <- d3[,c("site","rep","treatment","season","yield","grain_weight","N_fertilizer",
+# d3 <- d3[,c("site","rep","treatment","season","yield","seed_weight","N_fertilizer",
           # "K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
 
 #merge all the data

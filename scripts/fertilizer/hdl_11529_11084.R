@@ -102,13 +102,13 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 		as.numeric(x)
 	}
 
-	d$grain_weight <- dot_numeric(r$X100_grain_weight_after_oven_drying_.g.) * 10
+	d$seed_weight <- dot_numeric(r$X100_grain_weight_after_oven_drying_.g.) * 10
 	d$dmy_residue <- dot_numeric(r$Straw_yield_moisture_adjusted_.T.ha.) * 1000
 	d$yield <- dot_numeric(r$Grain_yield_moisture_adjusted_.T.ha.) * 1000
 
 	# EGB:
 	# compare average grain weight to table 7 of doi:10.1016/j.fcr.2014.09.019
-	# aggregate(d$grain_weight, c("UPAZILLA_NAME", "YEAR"), mean, na.rm=TRUE) 
+	# aggregate(d$seed_weight, c("UPAZILLA_NAME", "YEAR"), mean, na.rm=TRUE) 
 
 	
 	# # EGB:

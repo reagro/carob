@@ -37,7 +37,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	colnames(r2)[colnames(r2) %in% c("width_of_harvested_plot_crop_1_plot_1", "pod_weight_unshelled_grain_groundnut_crop_1_plot_2.kg","grain_weight_shelled_grain_crop_1_plot_2.kg")] <- c("width_of_harvested_plot_crop_1_plot_1.m", "pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_2.kg","grain_weight_kg_shelled_grain_crop_1_plot_2.kg")
 	
 	t <- c("name_treatment_X", "description_treatment_X","width_of_harvested_plot_crop_1_plot_X.m","depth_of_harvested_plot_perpen_dicular_to_rows_crop_1_plot_X.m","number_of_rows_in_plot_crop_1_plot_X","grain_weight_kg_shelled_grain_crop_1_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_X.kg","above_ground_biomass_weight_husks_stover_res_crop_1_plot_X.kg") 
-	x <- c("treatment","description","width","length","row_count","grain_weight","pod_weight","residue_yield")	
+	x <- c("treatment","description","width","length","row_count","seed_weight","pod_weight","residue_yield")	
 
 	lst <- list()
 	for (i in 1:8) {
@@ -56,7 +56,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	
 	# assembling everything for crop 2
 	t <- c("name_treatment_X", "description_treatment_X","width_of_harvested_plot_crop_2_plot_X.m","depth_of_harvested_plot_perpen_dicular_to_rows_crop_2_plot_X.m","number_of_rows_in_plot_crop_2_plot_X","grain_weight_kg_shelled_grain_crop_2_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_2_plot_X.kg","above_ground_biomass_weight_husks_stover_res_crop_2_plot_X.kg")
-	x <- c("treatment","description","width","length","row_count","grain_weight","pod_weight","residue_yield")
+	x <- c("treatment","description","width","length","row_count","seed_weight","pod_weight","residue_yield")
 	
 	lst <- list()
 	for (i in 1:8) {
@@ -95,13 +95,13 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	d0$crop[(grepl("evdt\\s*\\S+|cereal|maize|evdt", d0$treatment)) & is.na(d0$crop)] <- "maize"
 	
 
-	# efyrouwa: what should be used to calculate yield?, grain_weight or pod_weight?, 
-	##  I used grain_weight, in cases there's no grain_weight, I used pod_weight
+	# efyrouwa: what should be used to calculate yield?, seed_weight or pod_weight?, 
+	##  I used seed_weight, in cases there's no seed_weight, I used pod_weight
 
     ##RH: as long as you specify that in yield_part!
 		
 	d0$length[d0$length == 0.75] <- 10 #to change that one entry with 0.75 as the length
-	d0$yield <- 10000 / (d0$width*d0$length) * ifelse(is.na(d0$grain_weight), d0$pod_weight , d0$grain_weight)
+	d0$yield <- 10000 / (d0$width*d0$length) * ifelse(is.na(d0$seed_weight), d0$pod_weight , d0$seed_weight)
 	
 	d0$residue_yield <- 10000 / as.numeric(d0$width * d0$width) * d0$residue_yield
 	d0$fertilizer_type[grepl("\\+p|\\+ p", d0$treatment, perl = TRUE)] <- "SSP"

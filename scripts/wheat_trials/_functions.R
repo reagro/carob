@@ -555,9 +555,9 @@ proc_wheat <- function(ff) {
 		d$previous_crop <- prcrop
 	}
 	if (is.null(r$`1000_grain_weight`)) {
-		d$grain_weight <- as.numeric(NA)	
+		d$seed_weight <- as.numeric(NA)	
 	} else {
-		d$grain_weight <- as.numeric(r$`1000_grain_weight`)
+		d$seed_weight <- as.numeric(r$`1000_grain_weight`)
 	}
 	
 	# Extract columns with NPK fertilizers

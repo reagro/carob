@@ -53,7 +53,7 @@ of El Batán Texcoco, the State of Mexico, Mexico. The experiment was a randomiz
 		plant_height=r1$Height,
 		dmy_storage=r1$Yield_dry,
 		yield=r1$`Yield_12%H2O`,
-		grain_weight=r1$Thou,
+		seed_weight=r1$Thou,
 		silking_days=r1$Silking,
 		plant_density=r1$`Plants/m²`,
 		trial_id="1",
@@ -69,7 +69,7 @@ of El Batán Texcoco, the State of Mexico, Mexico. The experiment was a randomiz
 		plant_height=r2$Height,
 		dmy_storage=r2$Yield_dry,
 		yield=r2$`Yield_12%H2O`,
-		grain_weight=r2$Thou,
+		seed_weight=r2$Thou,
 		silking_days=r2$Silking,
 		plant_density=r2$`Plants/m²`,
 		trial_id="2",
@@ -95,7 +95,7 @@ of El Batán Texcoco, the State of Mexico, Mexico. The experiment was a randomiz
 		plant_height=r4$Altura,
 		dmy_storage=r4$Yield_Dry,
 		yield=r4$`Yield_12%H2O`,
-		grain_weight=r4$Thou,
+		seed_weight=r4$Thou,
 		spike_density=r4$`Spikes/m2`,
 		trial_id="3",
 		planting_date="2021"
@@ -110,7 +110,7 @@ of El Batán Texcoco, the State of Mexico, Mexico. The experiment was a randomiz
 		plant_height=r5$Altura,
 		dmy_storage=r5$Yield_Dry,
 		yield=r5$`Yield_12%H2O`,
-		grain_weight=r5$Thou,
+		seed_weight=r5$Thou,
 		spike_density=r5$`Spikes/m2`,
 		trial_id="4",
 		planting_date="2022"
@@ -158,7 +158,7 @@ of El Batán Texcoco, the State of Mexico, Mexico. The experiment was a randomiz
 	
 	d[d=="."] <- NA # to avoid warnings from as.numeric
 
-	for (v in c("flowering_days" , "maturity_days", "plant_height", "dmy_storage", "yield", "grain_weight", "silking_days")) {
+	for (v in c("flowering_days" , "maturity_days", "plant_height", "dmy_storage", "yield", "seed_weight", "silking_days")) {
 		d[[v]] <- as.numeric(d[[v]])
 	}
 	d$plant_density <- as.numeric(d$plant_density) * 1000

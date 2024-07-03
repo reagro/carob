@@ -29,8 +29,8 @@ carob_script <- function(path) {
 		colnames(dd) <- tolower(colnames(dd))
 		dd$variety_code <- dd$genotype
 		# Burkina Faso and Mali miss the grain weight data
-		dd$grain_weight <- ifelse("gw1000" %in% colnames(dd), dd$gw1000, NA) 
-		d[[i]] <- dd[, c("country", "site", "season", "variety_code", "yield", "grain_weight")]
+		dd$seed_weight <- ifelse("gw1000" %in% colnames(dd), dd$gw1000, NA) 
+		d[[i]] <- dd[, c("country", "site", "season", "variety_code", "yield", "seed_weight")]
 	}
 
 	d <- do.call(rbind, d)

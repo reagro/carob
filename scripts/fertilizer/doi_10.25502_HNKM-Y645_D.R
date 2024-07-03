@@ -31,7 +31,7 @@ carob_script <- function(path) {
 
 	d1$harvest_days[d1$harvest_days == 0] <- NA
 	
-	d1$grain_weight <- 1000 * r1$Seed_Weiht_sqm_g / r1$Seeds_sqm # for 1000 seeds
+	d1$seed_weight <- 1000 * r1$Seed_Weiht_sqm_g / r1$Seeds_sqm # for 1000 seeds
 	d1$plant_density <- 10000 * r1$PLST #to get plant population/ha
 	d1$plant_height <- r1$Avg_plant_height_cm # EGB: correcting back to cm
 	
@@ -48,7 +48,7 @@ carob_script <- function(path) {
 	d2$inoculated <- grepl("Inoc", d2$treatment)
 
 	d1$nodule_weight <- NA
-	d2$flowering_days <- d2$grain_weight <- d2$plant_height <- d2$maturity_days <- d2$harvest_days <- NA
+	d2$flowering_days <- d2$seed_weight <- d2$plant_height <- d2$maturity_days <- d2$harvest_days <- NA
 	
 	dd <- rbind(d1, d2)		
 	

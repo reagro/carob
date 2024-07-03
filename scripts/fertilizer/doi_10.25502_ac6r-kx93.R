@@ -314,7 +314,7 @@ h_year <- 2014 # harvest year
 	
 	
 	# Finally select the fields to be included
-	#d <- d[, c("trial_id","on_farm","treatment","crop", "planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","yield","grain_weight","residue_yield","dmy_total")]
+	#d <- d[, c("trial_id","on_farm","treatment","crop", "planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","yield","seed_weight","residue_yield","dmy_total")]
 	
 	d$treatment[c(65,75)] <- NA
 	d$P_fertilizer <- as.numeric(d$P_fertilizer)

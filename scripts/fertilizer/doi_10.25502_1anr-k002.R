@@ -31,7 +31,7 @@ carob_script <- function(path) {
 	
 	#subsetting each treatment with their respective observations into data different datasets then appending the rows later
 	old_nms <- c("trial_id","treatmentX", "row_spacing_crop_1_plot_X.cm", "plant_spacing_crop_1_plot_X.cm","no_plants_hole_crop_1_plot_X.nr", "width_of_harvested_plot_crop_1_plot_X.m","number_of_rows_crop_1_plot_X.nr", "grain_weight_crop_1_plot_X.kg", "pod_weight_groundnut_crop_1_plot_X.kg","above_ground_biomass_weight_crop_1_plot_X.kg")
-	new_names <- c("trial_id","treatment","row_spacing","plant_spacing","plants_hole","width_harvest","no_rows","grain_weight","pod_weight","residue_yield")
+	new_names <- c("trial_id","treatment","row_spacing","plant_spacing","plants_hole","width_harvest","no_rows","seed_weight","pod_weight","residue_yield")
 
 	old_nms3 = gsub("number_of_rows_crop_1_plot_X.nr", "number_of_rows_crop_1_plot_.nr", old_nms)
 
@@ -59,8 +59,8 @@ carob_script <- function(path) {
 	
 	
  # bringing in the groundnut yield entries with the rest of the yield entries 
-	i <- is.na(dd3$grain_weight) & !is.na(dd3$pod_weight)
-	dd3$grain_weight[i] <- dd3$pod_weight[i]
+	i <- is.na(dd3$seed_weight) & !is.na(dd3$pod_weight)
+	dd3$seed_weight[i] <- dd3$pod_weight[i]
 		
 	dd3$inoculated <- dd3$inoculation_n2africa_field == "y"
 	dd3$crop <- carobiner::replace_values(dd3$legume_planted_in_the_n2africa_trial, c("soya_bean", "climbing_bean", "bush_bean"), c("soybean","common bean","common bean"))
@@ -141,7 +141,7 @@ carob_script <- function(path) {
 	dd5$plot_size[dd5$plot_size > 200] <- NA
 	 
 	#3) get the yield/ha
-	dd5$yield <- 10000 * dd5$grain_weight / dd5$plot_size
+	dd5$yield <- 10000 * dd5$seed_weight / dd5$plot_size
 
 	## some yields are crazy
 	dd5$yield[dd5$yield > 6000] <- NA

@@ -21,7 +21,8 @@ cropping system (sole maize, sole pigeonpea, maize-pigeonpea, maize-gliricidia, 
 		project="Africa Rising",
 		data_type= "experiment",
 		carob_contributor= "Mitchelle Njukuya",
-		carob_date="2024-04-09"
+		carob_date="2024-04-09",
+		treatment_vars="intercrops"
 	)
 	
 	f1 <- ff[basename(ff) == "006_siDom_droughtResistance.csv"]
@@ -119,6 +120,9 @@ cropping system (sole maize, sole pigeonpea, maize-pigeonpea, maize-gliricidia, 
 	d$treatment <- paste0(d$treatment, "_", d$fertilizer_type)
 	d$intercrops[d$intercrops == ""] <- "none"
 	d$trial_id <- "1"
+	
+	d$K_fertilizer <- as.numeric(NA)
+	d$irrigated <- FALSE
 	
 	carobiner::write_files(path, dset, d)
 

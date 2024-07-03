@@ -31,7 +31,7 @@ carob_script <- function(path) {
     country = character(0), site = character(0), treatment = character(0), 
     longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
     harvest_date = character(0), trial_id = character(0), crop = character(0), 
-    yield = numeric(0), residue_yield = numeric(0), grain_weight = numeric(0), 
+    yield = numeric(0), residue_yield = numeric(0), seed_weight = numeric(0), 
     previous_crop = character(0), OM_type = character(0), N_fertilizer = numeric(0), 
     K_fertilizer = numeric(0), P_fertilizer = numeric(0), Zn_fertilizer = numeric(0), 
     S_fertilizer = numeric(0), yield_part = character(0))
@@ -126,14 +126,14 @@ carob_script <- function(path) {
   # d3$planting_date <- as.character(as.Date(paste(d3$date_planting_mm,d3$date_planting_dd,d3$date_planting_yyyy,sep = "/"),"%m/%d/%Y"))
   # d3 <- d3[,c("trial_id","planting_date")]
   
-  # ##  EGB: Removing grain_weight variable, since it is not the 1000 grain weight.
+  # ##  EGB: Removing seed_weight variable, since it is not the 1000 grain weight.
   # # f4 <- ff[basename(ff) == "e_harvest.csv"]
   # # d4 <- data.frame(read.csv(f4))
   # # d4 <- d4[d4$crop_1_grain_unshelled == "Y",] # getting grain weights for only unshelled grains
   # # d4$trial_id <- d4$farm_id
   # # # EGB: This is not the 1000 grain weight
-  # # # d4$grain_weight <- (as.numeric(d4$crop_1_area_harvested)*d4$crop_1_weight_grain *1000)/100 # standardizing to grain weight measured in g/100m2
-  # # d4 <- d4[,c("trial_id","grain_weight")]
+  # # # d4$seed_weight <- (as.numeric(d4$crop_1_area_harvested)*d4$crop_1_weight_grain *1000)/100 # standardizing to grain weight measured in g/100m2
+  # # d4 <- d4[,c("trial_id","seed_weight")]
   
   # f5 <- ff[basename(ff) == "g_farmer_assessment.csv"]  
   # d5 <- data.frame(read.csv(f5))

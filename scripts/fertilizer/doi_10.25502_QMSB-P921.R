@@ -115,7 +115,7 @@ carob_script <- function(path){
   
   # converting from wide to long based on treatments and their characteristics
   
-  vars <- c("description","width", "depth", "grain_weight","pod_weight","above_ground_biomass","fert_1_kg_plot","manure_kg_plot")
+  vars <- c("description","width", "depth", "seed_weight","pod_weight","above_ground_biomass","fert_1_kg_plot","manure_kg_plot")
   i <- grepl(paste(vars, collapse = "|"), names(d1))
   gh <- names(d1)[i] # more information on treatments 1 - 8 properties
   ghh <- gh[c(1:48,89:length(gh))] # subsetting treatment details for crop1 only
@@ -123,7 +123,7 @@ carob_script <- function(path){
   des <- grepl("description",ghh)
   wdt <- grepl("width", ghh)
   len <- grepl("depth", ghh)
-  grn <- grepl("grain_weight", ghh)
+  grn <- grepl("seed_weight", ghh)
   pod <- grepl("pod_weight", ghh)
   mass <- grepl("biomass", ghh)
   fert <- grepl("fert_1_kg_plot", ghh)

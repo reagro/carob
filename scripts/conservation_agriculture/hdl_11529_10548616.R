@@ -55,7 +55,7 @@ carob_script <- function(path) {
 			harvest_date=as.character(r$Harvest_date),
 			flowering_days=as.integer(r$Flower_days),
 			maturity_days=as.integer(r$Mat_days),
-			grain_weight=r$Thousand,
+			seed_weight=r$Thousand,
 			crop_price=as.numeric(r$Price)/1000,
 			currency="??",
 			N_fertilizer=r$Fert_N,

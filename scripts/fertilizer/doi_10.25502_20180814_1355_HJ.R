@@ -23,7 +23,7 @@ carob_script <- function(path) {
     country = character(0), site = character(0), treatment = character(0), 
     longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
     harvest_date = character(0), trial_id = character(0), crop = character(0), 
-    yield = numeric(0), residue_yield = numeric(0), grain_weight = numeric(0), 
+    yield = numeric(0), residue_yield = numeric(0), seed_weight = numeric(0), 
     previous_crop = character(0), OM_type = character(0), N_fertilizer = numeric(0), 
     K_fertilizer = numeric(0), P_fertilizer = numeric(0), Zn_fertilizer = numeric(0), 
     S_fertilizer = numeric(0), yield_part = character(0))

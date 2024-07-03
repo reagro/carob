@@ -84,7 +84,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 	d1$N_fertilizer <- d1$N
 	d1$P_fertilizer <- d1$P
 	d1$K_fertilizer <- d1$K
-	d1$grain_weight <- (d1$`100-kernel wt`)*10 # to get 1000 grain weight
+	d1$seed_weight <- (d1$`100-kernel wt`)*10 # to get 1000 grain weight
 	d1$yield <- d1$GrainYld*1000 # to kg/ha
 	d1$latitude <- ifelse(d1$adm1 == "Bunda",-14.170,-14.054)
 	d1$longitude <- ifelse(d1$adm1 == "Bunda",33.740,33.740)
@@ -101,7 +101,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 		soil_P_total = c(13.3, 10.7),
 		soil_K = c(113,156))
 	d1 <- merge(d1,dr,by = "adm1",all.x = TRUE)
-	d1 <- d1[,c("trial_id","country","adm1","latitude","longitude","crop","rep","planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","grain_weight","elevation", "soil_pH","soil_P_total","soil_K","yield")]
+	d1 <- d1[,c("trial_id","country","adm1","latitude","longitude","crop","rep","planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","seed_weight","elevation", "soil_pH","soil_P_total","soil_K","yield")]
 	
 	d2 <- readxl::read_xlsx(f, sheet = 4)
 	
@@ -257,7 +257,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1
 	z$fertilizer_type <- "unknown" # Not specified
 	z$yield_part <- "grain"
 	# one spurious outlier
-	z$grain_weight[z$grain_weight == 34210] <- 342.1
+	z$seed_weight[z$seed_weight == 34210] <- 342.1
 	carobiner::write_files(dset, z, path=path)
 }
 

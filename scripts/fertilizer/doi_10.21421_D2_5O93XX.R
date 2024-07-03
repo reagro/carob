@@ -41,7 +41,7 @@ Phosphorus was applied at rate of 0 or 20 kg P ha-1. P fertilizer application in
 		variety = r$Variety,
 		yield = r$PodKgHa,
 		residue_yield = r$FdWtKgHa,
-		grain_weight = r$Seed.weight,
+		seed_weight = r$Seed.weight,
 		fertilizer_type = "SSP", # As indicated in the publication associated
 		N_fertilizer = 0,
 		P_fertilizer = ifelse(r$Fertilizer == "F1", 0, 20),
