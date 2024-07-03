@@ -1,14 +1,9 @@
-
 # R script for "carob"
 
-# NOTE 
 
 carob_script <- function(path) {
    
-   "
-   This dataset is from the research study that aims to diversify the production environment to de-risk production in these semi-arid ecologies. In this study, two approaches were used , i.e. (i) testing suitability of legume x legume and legume by cereal production systems; (ii) modeling the multiple cropping systems using APSIM crop simulation model to assess changes in resource base, resource use efficiencies, productivity and profitability of the different cropping systems. The data included here are from the testing of suitability of legume legume x legume and legume by cereal production systems in Kongwa, Kiteto and Iringa districts of Tanzania and consists of overall biomass and seed weight along with variety name and intercropping
-   
-   "
+"This dataset is from the research study that aims to diversify the production environment to de-risk production in these semi-arid ecologies. In this study, two approaches were used , i.e. (i) testing suitability of legume x legume and legume by cereal production systems; (ii) modeling the multiple cropping systems using APSIM crop simulation model to assess changes in resource base, resource use efficiencies, productivity and profitability of the different cropping systems. The data included here are from the testing of suitability of legume legume x legume and legume by cereal production systems in Kongwa, Kiteto and Iringa districts of Tanzania and consists of overall biomass and seed weight along with variety name and intercropping"
    
    uri <- "doi:10.7910/DVN/LPDFCC"
    group <- "intercrop"
@@ -17,49 +12,58 @@ carob_script <- function(path) {
    
    dset <- data.frame(
       carobiner::read_metadata(uri, path, group, major=1, minor=0), 
-      data_institute = "AfricaRice", 
+      data_institute = "ICRISAT", 
       publication =NA, 
       project = NA, 
       data_type = "experiment", 
-      treatment_vars = "variety;longitude;latitude", 
+      treatment_vars = "intercrops;variety", 
       carob_contributor = "Cedric Ngakou", 
       carob_date = "2024-07-02"
    )
    
-   f1 <- ff[grep("pigeon",basename(ff))]
+   ff <- ff[grep("\\.csv$", basename(ff))]
    
    process <- function(f){
       r <- read.csv(f)
-      names(r) <- gsub("Ground.nut.pod.wt..kg.|Maize.Cob.wt..kg.|Pearl.millet.pod.wt..kg.|Sorghum.pod.wt..kg.","y1",names(r))
+      names(r) <- gsub("Ground.nut.pod.wt..kg.|Maize.Cob.wt..kg.|Pearl.millet.pod.wt..kg.|Sorghum.pod.wt..kg.", 
+						"yld", names(r))
+      names(r) <- gsub("Pigeon.pea.100.seed.weight..grams.|Pigeon.pea.100.kernll.weight..kg.", "ppseedw", names(r))
+      names(r) <- gsub("Ground.nut..100.kernel.weight..gram.", "seedw", names(r))
+      if (is.null(r$seedw)) r$seedw <- as.numeric(NA)
+
       d1 <- data.frame(
         adm1= r$District,
         location= r$Village,
         variety= r$Treatment,
         plot_area= r$Area,
         yield=r$Pigeon.pea.pod.wt..kg.,
+		seed_weight=r$ppseedw,
         crop="pigeon pea",
         intercrops= substr(basename(f),start = 12,stop =16) 
-      ) |>na.omit()
+      ) 
          
       d2 <- data.frame(
          adm1= r$District,
          location= r$Village,
          variety= r$Treatment,
          plot_area= r$Area,
-         yield=r$y1, 
+         yield=r$yld, 
+         seed_weight=r$seedw,
          crop=basename(f),
          intercrops= "pigeon pea"
-      )  |> na.omit()
+      ) 
       
-      d <- rbind(d1,d2)
-      d
+      rbind(d1, d2) |> na.omit()
    }
    
-   d <- lapply(f1, process)
-   d <- do.call(rbind,d)
+   d <- lapply(ff, process)
+   d <- do.call(rbind, d)
    d$yield <- gsub(",", ".", d$yield)
    d$yield <- (as.numeric(d$yield)/d$plot_area)*10000 ## kg/ha
-   d <- unique(d[!is.na(d$yield),]) ### remove all row with NA in yield 
+   ### remove all rows with no yield data
+   d <- unique(d[!is.na(d$yield),]) 
+
+	d$seed_weight <- as.numeric(gsub(",", ".", d$seed_weight))
    
    ### Add variables
    d$country <- "Tanzania"
