@@ -16,7 +16,7 @@ carob_script <- function(path) {
     data_institute = "CIRAD",
     carob_contributor="Cedric Ngakou",
     carob_date="2023-10-18",
-    data_type="experiment",
+    data_type="survey",
     project="Doctorant du Sud;ABACO",
     revised_by = "Siyabusa Mkuhlani", 
     revision_date = "2024-07-05"
