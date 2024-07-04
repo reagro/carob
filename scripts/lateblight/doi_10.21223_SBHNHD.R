@@ -3,18 +3,13 @@
 
 carob_script <- function(path) {
 
-"
-Dataset for yield and stability advanced trial for late blight and heat tolerant (LBHT) potato population conducted in Huancayo, Peru. 150 advanced clones of the LBHT and heat-tolerant population, with three control varieties Yungay, Kory, and Amarilis, besides with 23 parents were planted in Huancayo, Peru between 2021 and 2022. (16 Rows x 12 Columns)
-"
+"Dataset for yield and stability advanced trial for late blight and heat tolerant (LBHT) potato population conducted in Huancayo, Peru. 150 advanced clones of the LBHT and heat-tolerant population, with three control varieties Yungay, Kory, and Amarilis, besides with 23 parents were planted in Huancayo, Peru between 2021 and 2022. (16 Rows x 12 Columns)"
 
-### Identifiers
 	uri <- "doi:10.21223/SBHNHD"
 	group <- "lateblight"
-
-## Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 
-### metadata 
+
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		data_institute = "CIP",
@@ -26,63 +21,88 @@ Dataset for yield and stability advanced trial for late blight and heat tolerant
 		carob_date = "2024-07-04"
 	)
 	
-### PROCESS records
-
 	f <- ff[basename(ff) == "01_data_Advanced Trial LBHTC2 Huancayo.xlsx"]
-	
 	r <- carobiner::read.excel(f)
 
-## select the variables of interest and assign them to the correct name
 	lbvars <- grep('^LB', colnames(r), value=TRUE)
 	d <- data.frame(
 	  country="Peru",
 	  crop="potato",
 	  variety_code= r$CIPN,
-	  variety_type= r$Type,
-	  variety_traits=r$PGH,
-	  treatment=r$Treatment,
+	  variety_type= tolower(r$Type),
 	  rep= as.integer(r$Rep),
-	  p_harv=r$PltHrv,
-	  yield=r$MTbWg,
-	  dym_storage=r$`Dry weight`/1000,
+	  
 	  on_farm= TRUE,
 	  inoculated= FALSE,
 	  irrigated= TRUE,
+	  is_survey = FALSE,
+	
 	  herbicide_used= TRUE,
 	  herbicide_product = "diuron;metribuzin",
+
+	  weeding_done =TRUE,
+	  weeding_dates = "2021-11-27;2021-12-03;2022-01-11;2022-03-02",
+	  weeding_times = 4L,
+	  weed_species = "Bouteloua;Pennisetum clandestinum",
+
+	  fungicide_used= TRUE,
+	  fungicide_product = "mancozeb;benomyl",
+	  fungicide_dates = "2021-12-16",
+	  
+	  insecticide_used = TRUE,
+	  insecticide_product = "deltametrin;fipronil;beta-cyfluthrin",
+	  insecticide_dates = "2021-12-16;2021-12-30;2022-02-25;2022-03-11;2022-03-25",
+
+	  foliar_fertilizer_used = TRUE,
+
 	  yield_part= "tubers",
-	  record_id=r$Plot,
+	  record_id= as.integer(r$Plot),
 	  trial_id= "1"         
 	)
+
+	# It does not seem possible to compute yield with the data provided.
+	# We can use this strong assumption, based on other data 
+	approx_plant_density <- 37037
+	
+	d$yield_marketable <- approx_plant_density * r$MTbWg / r$PltHrv
+	d$yield <- approx_plant_density * (r$MTbWg + r$NoMTWg)  / r$PltHrv
+	d$yield[d$yield > 150000] <- NA	
+
+	d$dmy_storage <- d$yield * r$`DM %` / 100
+	d$land_prep_method <- "rotovating;plowing;hilling"
 	
 	d$location <- "Huancayo"
-	d$longitude <- -75.2047
-	d$latitude <- -12.0650
+	# from "02_Field_layout_Advanced Trial LBHTC2 Huancayo.xlsx"
+	d$longitude <- -75.39938
+	d$latitude <- -11.84895
+	d$elevation <- 3324
 	
-	d$planting_date <- as.character(as.Date("2021-12-25"))
-	d$harvest_date  <- as.character(as.Date("2022-05-25"))
-  d$irrigation_dates <- as.character(as.Date("2021-12-29"))
-  d$herbicide_dates <- as.character(as.Date(c("2021-11-21", "2021-12-06", "2022-03-22")))
+	d$planting_date <- "2021-11-25"
+	d$maturity_date <- "2022-04-11" # Corte follaje
+	# see 03_Management_Field_Advanced Trial LBHTC2 Huancayo.xlsx
+	# not constistent with 
+	d$harvest_date  <- "2022-04-25"
+	d$irrigation_dates <- "2021-12-29"
+	d$herbicide_dates <- "2021-11-13;2021-12-06;2022-03-07"
+
   
-  d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+	d$pathogen <- "Phytophthora infestans"
+	d$diseases <- "potato late blight"
+ 
+#?? d$disease_severity <- as.character(d$disease_severity) 
+
   
   #Adding disease scores for late blight
   dd <- r[,lbvars]
   dd$record_id <- as.integer(1:nrow(dd))
-  dates <- as.character(as.Date(c("2022-01-10", "2022-01-17", "2022-01-24", "2022-01-31", "2022-02-07",  "2022-02-14", "2022-02-21","2022-02-28","2022-03-07",  "2022-03-14", "2022-03-21")))
+  dates <- paste0("2022-", c("01-10", "01-17", "01-24", "01-31", "02-07",  "02-14", "02-21","02-28","03-07", "03-14", "03-21"))
   x <- reshape(dd, direction="long", varying =lbvars, v.names="disease_severity", timevar="step")
   x$time <- dates[x$step]
   x$step <- x$id <- NULL 
   
-  d <-merge(d, x, by="record_id", all.x = TRUE)
-  
-  d$pathogen <- "Phytophthora infestans"
-  d$disease <- "potato late blight"
-  d$record_id <- as.integer(d$record_id)
-  d$treatment <- as.character(d$treatment)
-  d$disease_severity <- as.character(d$disease_severity)
-
-	carobiner::write_files(path, meta, d)
+ 
+	carobiner::write_files(path, meta, d, timerecs=x)
 }
 
 
