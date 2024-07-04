@@ -5,6 +5,7 @@ carob_script <- function(path) {
 
 "Dataset for yield and stability advanced trial for late blight and heat tolerant (LBHT) potato population conducted in Huancayo, Peru. 150 advanced clones of the LBHT and heat-tolerant population, with three control varieties Yungay, Kory, and Amarilis, besides with 23 parents were planted in Huancayo, Peru between 2021 and 2022. (16 Rows x 12 Columns)"
 
+
 	uri <- "doi:10.21223/SBHNHD"
 	group <- "lateblight"
 	ff  <- carobiner::get_data(uri, path, group)
@@ -50,7 +51,7 @@ carob_script <- function(path) {
 	  fungicide_dates = "2021-12-16",
 	  
 	  insecticide_used = TRUE,
-	  insecticide_product = "deltametrin;fipronil;beta-cyfluthrin",
+	  insecticide_product = "deltamethrin;fipronil;beta-cyfluthrin",
 	  insecticide_dates = "2021-12-16;2021-12-30;2022-02-25;2022-03-11;2022-03-25",
 
 	  foliar_fertilizer_used = TRUE,
