@@ -9,16 +9,16 @@ carob_script <- function(path) {
    group <- "potato_trials"
    ff <- carobiner::get_data(uri, path, group)
   
-   dset <- data.frame(
-   	carobiner::read_metadata(uri, path, group, major=1, minor=1),
-      publication= NA,
-      data_institute = "CIP",
-      carob_contributor="Cedric Ngakou",
-      data_type="experiment",
+	dset <- data.frame(
+		carobiner::read_metadata(uri, path, group, major=1, minor=1),
+		publication= NA,
+		data_institute = "CIP",
+		carob_contributor="Cedric Ngakou",
+		data_type="experiment",
 		treatment_vars = "variety",
-      project=NA,
-      carob_date="2024-02-26"
-   )
+		project=NA,
+		carob_date="2024-02-26"
+	)
    
    
    f <- ff[grep("01_PTYield", basename(ff))]
@@ -33,16 +33,20 @@ carob_script <- function(path) {
    m <- carobiner::read.excel(f1)
    n <- as.list(m$Value)
    names(n) <- m$Factor
-   d$row_spacing<- as.numeric(n$`Distance_between_rows_(m)`)*100 # cm
-   d$plant_spacing<- as.numeric(n$`Distance_between_plants_(m)`)*100 # cm
+   d$row_spacing <- as.numeric(n$`Distance_between_rows_(m)`)*100 # cm
+   d$plant_spacing <- as.numeric(n$`Distance_between_plants_(m)`)*100 # cm
    d$harvest_days <- 120
    d$plant_density <- as.numeric(n$`Planting_density_(plants/Ha)`)  
    ## add columns
    
    d$country <- "Peru"
-   d$location<- "Lastly-Huancayo" # get from metadata
-   d$trial_id <- paste(d$location, d$variety, sep = "_")
-   d$irrigated <- FALSE
+   d$location<- "Huancayo" # get from metadata
+   ## add long and lat  Huancayo
+   d$latitude <-  -12.068098
+   d$longitude <- -75.2100953
+
+   d$trial_id <- "1"
+   d$irrigated <- NA
    d$inoculated <- FALSE
    d$is_survey <- FALSE
    d$on_farm <- TRUE
@@ -52,9 +56,6 @@ carob_script <- function(path) {
    d$N_fertilizer <- 200
    d$P_fertilizer <- 180
    d$K_fertilizer <- 160
-   ## add long and lat  Huancayo
-   d$latitude <-  -12.068098
-   d$longitude <- -75.2100953
    d$planting_date<- as.character(format(as.Date(n$Planting,format= "%d/%m/%Y"),"%Y-%m-%d")) 
    d$harvest_date<- as.character(format(as.Date(n$Harvest,format= "%d/%m/%Y"),"%Y-%m-%d"))
    carobiner::write_files(dset, d, path=path)

@@ -55,6 +55,6 @@ carob_script <- function(path) {
    x$step <- x$id <- NULL  
    
    
-   carobiner::write_files(path, dset, d,timerecs=x)  
+   carobiner::write_files(path, dset, d, timerecs=x)  
 }
 
