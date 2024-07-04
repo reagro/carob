@@ -55,9 +55,12 @@ carob_script <- function(path) {
   d$irrigated <- TRUE
   d$inoculated <- FALSE
   d$is_survey <- FALSE
-  d$fertilizer_type <- "urea"
-  d$OM_type <- "horse manure"
-  d$OM_used <- TRUE
+  d$fertilizer_type <- "urea;NPK"
+  d$OM_type <- "none" 
+  d$OM_used <- FALSE
+  i <- d$OM_amount > 0
+  d$OM_type[i] <- "horse manure"
+  d$OM_used[i] <- TRUE
   
   d$herbicide_used <- r$glypho == "Y"
   d$herbicide_product <- "none"
