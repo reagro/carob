@@ -32,7 +32,6 @@ cropping system (sole maize, sole pigeonpea, maize-pigeonpea, maize-gliricidia, 
 	rownames(r2) <- NULL
 	
 	d <- data.frame(
-		record_id=r1$Plots30,
 		rep=r1$Blk,
 		planting_date=as.character(r1$Year),
 		yield=r1$Maize.Grain.Production..t.ha. * 1000,
