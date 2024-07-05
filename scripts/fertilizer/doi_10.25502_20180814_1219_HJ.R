@@ -83,7 +83,7 @@ carob_script <- function(path) {
 	d$emergence_date <- as.character(as.Date(r$EmDate))
 	
 	d <- d[!is.na(d$yield), ]
-	carobiner::write_files(dataset = dset, records = d, path = path)
+	carobiner::write_files(metadata=dset, records = d, path = path)
 }
 
 

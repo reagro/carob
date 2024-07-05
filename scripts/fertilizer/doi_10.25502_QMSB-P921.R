@@ -1,26 +1,14 @@
 
 carob_script <- function(path){
   
-"
- Title: N2Africa demo - Ghana, 2014
+"Title: N2Africa demo - Ghana, 2014
  
- Description: N2Africa is to contribute to increasing biological nitrogen fixation and productivity 
- of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, 
- improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, 
- N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit 
- from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants 
- and fertilizers adapted to local settings. A strong national expertise in grain legume production and 
- N2-fixation research and development will be the legacy of the project.The project is implemented in 
- five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, 
- Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
-  "
+Description: N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project.The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries."
   
   uri <- "doi:10.25502/QMSB-P921"
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
-  
-
-  
+   
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=1, minor=0),
     project="N2Africa",
@@ -28,7 +16,7 @@ carob_script <- function(path){
     data_institute = "IITA",
     carob_contributor="Rachel Mukami",
     carob_date="2023-08-15",
-    data_type="survey demonstration trials"
+    data_type="on-farm experiment"
   )
   
   f <- ff[basename(ff) == "general.csv"]
@@ -99,9 +87,8 @@ carob_script <- function(path){
   
   d1$trial_id <- d1$farm_id
   
-  d1$inoculated <- ifelse(d1$inoculation_used_in_n2africa_field == "Y",TRUE,FALSE)
-  d1$inoculant <- carobiner::fix_name(d1$experimental_treatments_inoculant_type,"title")
-  d1$inoculated <- ifelse(!is.na(d1$inoculant),TRUE,FALSE)
+  d1$inoculant <- carobiner::fix_name(d1$experimental_treatments_inoculant_type, "title")
+  d1$inoculated <- d1$inoculation_used_in_n2africa_field == "Y" | is.na(d1$inoculant)
   
   d1$crop <- carobiner::fix_name(d1$experimental_treatments_crop_1,"lower")
   d1$crop[d1$crop == "soya bean"] <- "soybean"
@@ -115,15 +102,15 @@ carob_script <- function(path){
   
   # converting from wide to long based on treatments and their characteristics
   
-  vars <- c("description","width", "depth", "seed_weight","pod_weight","above_ground_biomass","fert_1_kg_plot","manure_kg_plot")
+  vars <- c("description","width", "depth", "grain_weight","pod_weight","above_ground_biomass","fert_1_kg_plot","manure_kg_plot")
   i <- grepl(paste(vars, collapse = "|"), names(d1))
   gh <- names(d1)[i] # more information on treatments 1 - 8 properties
-  ghh <- gh[c(1:48,89:length(gh))] # subsetting treatment details for crop1 only
+  ghh <- gh[c(1:48, 89:length(gh))] # subsetting treatment details for crop1 only
   
   des <- grepl("description",ghh)
   wdt <- grepl("width", ghh)
   len <- grepl("depth", ghh)
-  grn <- grepl("seed_weight", ghh)
+  grn <- grepl("grain_weight", ghh)
   pod <- grepl("pod_weight", ghh)
   mass <- grepl("biomass", ghh)
   fert <- grepl("fert_1_kg_plot", ghh)
@@ -144,7 +131,7 @@ carob_script <- function(path){
                                ghh[mass],
                                ghh[fert],
                                ghh[manu]),
-                v.names = c("treatment","treatment_description","plot_width", "plot_length", "grain_weight_shelledcrop1_kg/plot","pod_weight_unshelledcrop1_kg/plot", "above_ground_biomass_husksstover_kg/plot", "fert_amtkg/plot","manure_amtkg/plot"),
+                v.names = c("treatment", "treatment_description", "plot_width", "plot_length", "grain_weight_shelledcrop1_kg/plot", "pod_weight_unshelledcrop1_kg/plot", "above_ground_biomass_husksstover_kg/plot", "fert_amtkg/plot", "manure_amtkg/plot"),
                 idvar = "trial_id",
                 timevar = "treatment_number")
   
@@ -215,6 +202,19 @@ carob_script <- function(path){
   z$yield_part <- "seed"
   z$is_survey <- TRUE
   
+  
+  # dropping inputs without treatment, residue yield and yield information
+  
+  i <- complete.cases(z[,c("treatment", "yield"),])
+  z <- z[i,]
+ 
+  # final data set
+  
+  carobiner::write_files(dset, z, path=path)
+}
+
+
+
   # EGB:
   # #  Removing --- See L63
   # # Adding the processed coordinates
@@ -275,15 +275,3 @@ carob_script <- function(path){
   # z$longitude <- ifelse(isna,z$lon, z$longitude)
   # z$lat <- z$lon <- NULL
   
-  
-  # dropping inputs without treatment, residue yield and yield information
-  
-  i <- complete.cases(z[,c("treatment", "yield"),])
-  z <- z[i,]
-  
-  # final data set
-  
-  
-  carobiner::write_files(dset, z, path=path)
-}
-

@@ -1,25 +1,13 @@
 
 carob_script <- function(path){
   
-  "
- Title: N2Africa demo - Nigeria, 2014
+"Title: N2Africa demo - Nigeria, 2014
  
- Description: N2Africa is to contribute to increasing biological nitrogen fixation and productivity 
- of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, 
- improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, 
- N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit 
- from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants 
- and fertilizers adapted to local settings. A strong national expertise in grain legume production and 
- N2-fixation research and development will be the legacy of the project.The project is implemented in 
- five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, 
- Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
-  "
+Description: N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries."
   
   uri <- "doi:10.25502/91q9-f709"
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
-  
-
   
   dset <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=1, minor=0),
@@ -28,7 +16,7 @@ carob_script <- function(path){
     data_institute = "IITA",
     carob_contributor="Rachel Mukami",
     carob_date="2023-08-22",
-    data_type="on-farm demonstration trials"
+    data_type="on-farm experiment"
   )
   
   f <- ff[basename(ff) == "general.csv"]
@@ -96,13 +84,13 @@ carob_script <- function(path){
   
   # converting from wide to long based on treatments and their characteristics
   
-  vars <- c("description", "seed_weight","pod_weight","above_ground_biomass","fert_1_kg_plot","manure_kg_plot")
+  vars <- c("description", "grain_weight","pod_weight","above_ground_biomass","fert_1_kg_plot","manure_kg_plot")
   i <- grepl(paste(vars, collapse = "|"), names(d1))
   gh <- names(d1)[i] # more information on treatments 1 - 8 properties
   ghh <- gh[c(1:32,57:length(gh))] # subsetting treatment details for crop1 only
   
   des <- grepl("description",ghh)
-  grn <- grepl("seed_weight", ghh)
+  grn <- grepl("grain_weight", ghh)
   pod <- grepl("pod_weight", ghh)
   mass <- grepl("biomass", ghh)
   fert <- grepl("fert_1_kg_plot", ghh)
@@ -196,38 +184,42 @@ carob_script <- function(path){
   # Adding the processed coordinates
   
   # coords based on adm3
-  adm3 <- data.frame(country = "Nigeria",
-                     adm3 = c("Yakasai", "Sabo", "Maigodo", "Tagwaye", "Dadinkowa", 
-                              "Ragada", "Gurjiya", "Bunkure", "Soba", "Kwakwa", "Awasha", "Yinda", 
-                              "Jammaje", "Marmara", "Yaryasa", "Madakiya", "Rimau", "Kasuwan Magani", 
-                              "Sabon Birni", "Saminaka", "Saminaka A", "Kayarda"),
-                     lat = c(11.99465,6.45577, 10.80363, 10.84889, 9.83863, 10.67227, 12.7195, 11.66716, 
-                             10.87005, 9.51403, 9.89619, 10.89253, 11.24638, 12.46139, 11.28695, 
-                             9.68875, 10.4342, 10.38211, 13.4847, 10.41227, 10.41227, 10.54177),
-                     lon = c(8.52722, 3.16887, 8.57661, 8.61458, 12.44113, 
-                             8.65033, 8.60241, 8.59687, 7.96443, 8.61505, 6.80598, 10.19747, 
-                             8.35526, 8.10005, 8.31093, 8.30329, 7.75881, 7.71662, 6.26409, 
-                             8.68748, 8.68748, 8.592))
+  adm3 <- data.frame(
+		country = "Nigeria",
+        adm3 = c("Yakasai", "Sabo", "Maigodo", "Tagwaye", "Dadinkowa", 
+                 "Ragada", "Gurjiya", "Bunkure", "Soba", "Kwakwa", "Awasha", "Yinda", 
+                 "Jammaje", "Marmara", "Yaryasa", "Madakiya", "Rimau", "Kasuwan Magani", 
+                 "Sabon Birni", "Saminaka", "Saminaka A", "Kayarda"),
+        lat = c(11.99465,6.45577, 10.80363, 10.84889, 9.83863, 10.67227, 12.7195, 11.66716, 
+                10.87005, 9.51403, 9.89619, 10.89253, 11.24638, 12.46139, 11.28695, 
+                 9.68875, 10.4342, 10.38211, 13.4847, 10.41227, 10.41227, 10.54177),
+        lon = c(8.52722, 3.16887, 8.57661, 8.61458, 12.44113, 
+                8.65033, 8.60241, 8.59687, 7.96443, 8.61505, 6.80598, 10.19747, 
+                8.35526, 8.10005, 8.31093, 8.30329, 7.75881, 7.71662, 6.26409, 
+                8.68748, 8.68748, 8.592)
+	)
+	
   z <- merge(z,adm3,by= c("country","adm3"),all.x = TRUE)
+  
+	isna <- is.na(z$latitude) | is.na(z$longitude)
+	z$latitude <- ifelse(isna, z$lat, z$latitude)
+	z$longitude <- ifelse(isna, z$lon, z$longitude)
+	z$lon <- z$lat <- NULL
+  
+  # coordinates based on adm2
+  adm2 <- data.frame(
+		country = "Nigeria",
+        adm2 = c("Soba", "Shiroro", "Bunkure", "Doguwa", "Bichi","Tundun Wada", "Kajuru", "Lere", "Paikoro", "Igabi"), 
+        lat = c(10.87005,10.11543, 11.66716, 10.87963, 12.23391, 9.25496, 10.27704, 10.38584,9.4681, 10.781),
+        lon = c(7.96443, 6.68307, 8.59687, 8.66389,8.27943, 7.00526, 7.85783, 8.57286, 6.85565, 7.504)
+	)
+  
+	z <- merge(z,adm2,by= c("country","adm2"),all.x = TRUE)
   
 	isna <- is.na(z$latitude) | is.na(z$longitude)
 	z$latitude <- ifelse(isna,z$lat,z$latitude)
 	z$longitude <- ifelse(isna,z$lon, z$longitude)
 	z$lon <- z$lat <- NULL
-  
-  # coordinates based on adm2
-  adm2 <- data.frame(country = "Nigeria",
-                     adm2 = c("Soba", "Shiroro", "Bunkure", "Doguwa", "Bichi","Tundun Wada", "Kajuru", "Lere", "Paikoro", "Igabi"), 
-                     lat = c(10.87005,10.11543, 11.66716, 10.87963, 12.23391, 9.25496, 10.27704, 10.38584,9.4681, 10.781),
-                     lon = c(7.96443, 6.68307, 8.59687, 8.66389,8.27943, 7.00526, 7.85783, 8.57286, 6.85565, 7.504))
-  
-  z <- merge(z,adm2,by= c("country","adm2"),all.x = TRUE)
-  
-  isna <- is.na(z$latitude) | is.na(z$longitude)
-  z$latitude <- ifelse(isna,z$lat,z$latitude)
-  z$longitude <- ifelse(isna,z$lon, z$longitude)
-	z$lon <- z$lat <- NULL
-  
   
   # coordinates based on adm1
   adm1 <- data.frame(country = c("Nigeria", "Nigeria", "Nigeria"), 
