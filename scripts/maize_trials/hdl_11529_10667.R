@@ -17,7 +17,7 @@ carob_script <- function(path) {
 		treatment_vars = "variety;longitude;latitude",
 		carob_contributor="Mitchelle Njukuya",
 		carob_date="2023-01-30",
-		revised_by="Robert Hijmans"
+		modified_by="Robert Hijmans"
 	)
     
 	#f <- ff[basename(ff) == "12CHTSPROA-Locations.xls"]

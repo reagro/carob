@@ -21,8 +21,8 @@ carob_script <- function(path) {
 		data_type="on-farm experiment",
 		carob_contributor="Fredy Chimire",
 		carob_date="2023-10-31",
-		revised_by="Robert Hijmans",
-		revision_date="2023-11-04"
+		modified_by="Robert Hijmans",
+		last_modified="2023-11-04"
 	)
 	
 	

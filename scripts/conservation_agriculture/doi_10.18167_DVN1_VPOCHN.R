@@ -21,8 +21,8 @@ carob_script <- function(path) {
 		data_type = "experiment", 
 		carob_contributor = "Hope Mazungunye",
 		carob_date = "2024-02-15",
-		revised_by = "Eduardo Garcia Bendito",
-		revision_date = "2024-03-07",
+		modified_by = "Eduardo Garcia Bendito",
+		last_modified = "2024-03-07",
 		treatment_vars = "land_prep_method;mulch"
 	)
   

@@ -20,7 +20,7 @@ TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
 		treatment_vars = "none",
 		carob_contributor="Shumirai Manzvera",
 		carob_date="2023-08-25",
-		revised_by="Robert Hijmans"
+		modified_by="Robert Hijmans"
 	)
 
 

@@ -19,7 +19,7 @@ carob_script <- function(path) {
 		data_type="survey", # or, e.g. "on-farm experiment", "survey", "compilation"
 		carob_contributor="Effie Ochieng'",
 		carob_date="2023-09-25",
-		revised_by="Robert Hijmans"
+		modified_by="Robert Hijmans"
 	)
 	
 	

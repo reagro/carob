@@ -45,7 +45,7 @@ carob_script <- function(path) {
 		data_type="on-farm experiment", 
 		carob_contributor="Hope Mazungunye"  ,
 		carob_date="2023-09-17",
-		revised_by = "Effie Ochieng'"  
+		modified_by = "Effie Ochieng'"  
 	)
 
  # path <- ("C:/carob/wd/data/raw/maize_trials")

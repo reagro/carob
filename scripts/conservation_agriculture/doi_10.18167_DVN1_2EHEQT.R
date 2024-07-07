@@ -18,8 +18,8 @@ carob_script <- function(path) {
     carob_date="2023-10-18",
     data_type="survey",
     project="Doctorant du Sud;ABACO",
-    revised_by = "Siyabusa Mkuhlani", 
-    revision_date = "2024-07-05"
+    modified_by = "Siyabusa Mkuhlani", 
+    last_modified = "2024-07-05"
   )
   
   r <- readxl::read_excel(ff[basename(ff)=="2006-2010_database_bvlac_bruelle_v01.20201009.xlsx"],sheet=1) |> as.data.frame()

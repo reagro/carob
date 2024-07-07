@@ -32,8 +32,8 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 		data_type="survey",
 		data_institute="IITA",
 		project="N2Africa",
-		revised_by = "Eduardo Garcia Bendito",
-		revision_date = "2024-03-07"
+		modified_by = "Eduardo Garcia Bendito",
+		last_modified = "2024-03-07"
 	)
 
 	f0 <- ff[basename(ff) == "a_general.csv"]

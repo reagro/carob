@@ -18,7 +18,7 @@ carob_script <- function(path) {
 		data_type="experiment", 
 		carob_contributor="Mitchelle Njukuya",
 		carob_date="2023-10-10",
-		revised_by="Robert Hijmans"
+		modified_by="Robert Hijmans"
 	)
 
 	ff <- ff[-grep("^hdl", basename(ff))]

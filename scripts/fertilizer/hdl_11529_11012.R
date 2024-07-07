@@ -17,8 +17,8 @@ carob_script <- function(path) {
 		data_type="experiment", 
 		carob_contributor="Mary Njogu",
 		carob_date="2023-02-20",
-		revised_by = "Eduardo Garcia Bendito",
-		revision_date = "2024-03-05"
+		modified_by = "Eduardo Garcia Bendito",
+		last_modified = "2024-03-05"
 	)
 
   

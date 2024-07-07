@@ -68,7 +68,6 @@ carob_script <- function(path) {
 	d$fertilizer_type <- "urea" 
 
 
-#Irrigation was applied as furrow irrigation. 
 
 	#site information was obtained from publication
 	d$country <- "Mexico"
@@ -82,6 +81,8 @@ carob_script <- function(path) {
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- TRUE
+	d$irrigation_method <- "furrow"
+
 	
 	d <- merge(d, d1, by= "GID", all.x=TRUE)
 	d$GID <- NULL

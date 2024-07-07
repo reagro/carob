@@ -24,8 +24,8 @@ carob_script <- function(path) {
 		data_type="experiment",
 		carob_contributor="Fredy Chimire",
 		carob_date="2023-09-10"
-		revised_by="Robert Hijmans (on-going)",
-		revision_date="2023-11-04"
+		modified_by="Robert Hijmans (on-going)",
+		last_modified="2023-11-04"
 	)
 	
 	

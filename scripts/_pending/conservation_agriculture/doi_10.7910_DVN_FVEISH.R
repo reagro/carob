@@ -26,7 +26,7 @@ Sustainable intensification of mixed crop-livestock systems is a key pathway tow
 		data_type="survey", # or, e.g. "on-farm experiment", "survey", "compilation"
 		carob_contributor="",
 		carob_date="2023-09-25",
-		revised_by=as.character(NA)
+		modified_by=as.character(NA)
 	)
 	
 	

@@ -30,8 +30,8 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 		data_type = "experiment", 
 		carob_contributor = "Mitchelle Njukuya",
 		carob_date = "2023-12-18",
-		revised_by = "Eduardo Garcia Bendito",
-		revision_date = "2024-02-28"
+		modified_by = "Eduardo Garcia Bendito",
+		last_modified = "2024-02-28"
 	)
 	
 	f <- ff[basename(ff) == "WheatGenoTrial.csv"]

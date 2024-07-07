@@ -18,8 +18,8 @@ carob_script <- function(path){
 		carob_date="2023-07-17",
 		data_type = "on farm experiment",
 		data_institute="IITA",
-		revised_by = "Eduardo Garcia Bendito",
-		revision_date = "2024-03-07"
+		modified_by = "Eduardo Garcia Bendito",
+		last_modified = "2024-03-07"
 	)
 
 p_year <- 2014 #planting year

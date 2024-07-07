@@ -17,8 +17,8 @@ carob_script <- function(path) {
 		data_type="on-farm experiment", 
 		carob_contributor="Mitchelle Njukuya", 
 		carob_date="2023-08-17", 
-		revised_by="Cedric Ngakou, Robert Hijmans",
-		revision_date="2023-11-03"
+		modified_by="Cedric Ngakou, Robert Hijmans",
+		last_modified="2023-11-03"
 	)
 
 

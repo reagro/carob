@@ -19,8 +19,8 @@ carob_script <- function(path) {
 		data_type= "on-farm experiment",
 		carob_contributor= "Shumirai Manzvera",
 		carob_date="2024-02-29",
-		revised_by = "Siyabusa Mkuhlani",
-		revision_date = "2024-07-07"
+		modified_by = "Siyabusa Mkuhlani",
+		last_modified = "2024-07-07"
 	)
 	
 	f <- ff[basename(ff) == "AR_ZAM_CIMMYT_ratooning_onstation_2020.csv"]

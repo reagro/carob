@@ -17,7 +17,7 @@ carob_script <- function(path) {
 		data_type="on-farm experiment",
 		carob_contributor="Mitchelle Njukuya",
 		carob_date="2023-06-21",
-		revised_by=c("Effie Ochieng', Robert Hijmans")
+		modified_by=c("Effie Ochieng', Robert Hijmans")
 	)
 
 
