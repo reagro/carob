@@ -3,16 +3,13 @@
 
 carob_script <- function(path) {
 
-"International Maize and Wheat Improvement Center (CIMMYT); 
-Zambian Agriculture Research Institute (ZARI), 2021,
-Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020"
+"International Maize and Wheat Improvement Center (CIMMYT); Zambian Agriculture Research Institute (ZARI), 2021, Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020"
 
 	uri <- "doi:10.7910/DVN/EQZR5C"
 	group <- "conservation_agriculture"
 
 	ff <- carobiner::get_data(uri, path, group)
 
-##### dataset level metadata 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIMMYT",
@@ -26,24 +23,19 @@ Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020"
 		revision_date = "2024-07-07"
 	)
 	
-##### PROCESS data records
-# read data 
-
 	f <- ff[basename(ff) == "AR_ZAM_CIMMYT_ratooning_onstation_2020.csv"]
 	r <- read.csv(f)
 	
-## use a subset
 	d <- data.frame(
-	  trial_id = (paste0(r$Location, r$Year)), 
-	  crop=r$Crop, 
+		trial_id = (paste0(r$Location, r$Year)), 
+		crop=r$Crop, 
 		treatment=r$Intercropstrategy,
 		rep=r$Rep,
 		dmy_residue=r$biomass,
 		yield=r$grainyield,
 		country = r$Country,
-		adm1 = "Eastern province",
-		adm2 =r$District,
-		site=r$Location,
+		adm2 = r$District,
+		location=r$Location,
 		planting_date = as.character(r$Year),
 		yield_part = "grain",
 		longitude = 32.6447,
@@ -51,32 +43,29 @@ Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020"
 		intercrop=r$Intercrop)
 
 	#Correct crop names   
-	d$crop<-carobiner::replace_values(d$crop,"pigeonpea","pigeon pea")
-	d$intercrop<-carobiner::replace_values(d$intercrop,"Pigeonpea","pigeon pea")
+	d$crop <- carobiner::replace_values(d$crop,"pigeonpea","pigeon pea")
+	d$intercrop <- carobiner::replace_values(d$intercrop,"Pigeonpea","pigeon pea")
 
 	##Add cropping systems information
 	d$crop_rotation <- NA
 	d$crop_rotation[grep('rotation',d$treatment)] <- d$intercrop[grep('rotation',d$treatment)]
 	d$intercrops <- NA
 	d$intercrops[grep('Mz/Pp|Mz/PP|MZ/Pp|MZ/PP',d$treatment)] <- d$intercrop[grep('Mz/Pp|Mz/PP|MZ/Pp|MZ/PP',d$treatment)]
-	d<-d[,!names(d) %in% "intercrop"] #Droppig variable here. Could not be 
+	d <- d[,!names(d) %in% "intercrop"] #Droppig variable here. Could not be 
 	#dropped earlier as it was neeeded  for the Intercrop and rotation columns.	
 		
-  #### about the data #####
+## about the data
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
 
-  ##### Fertilizers  #####
-	d$fertilizer_type <- "D-compound; urea"
+## Fertilizers
+	d$fertilizer_type <- "D-compound;urea"
 	d$N_fertilizer <- (10/100 * 100) + 46
-	d$P_fertilizer <- (20/100 * 100)*0.437
-	d$K_fertilizer <- (10/100*100)*0.83
+	d$P_fertilizer <- (20/100 * 100) * 0.437
+	d$K_fertilizer <- (10/100 * 100) * 0.83
 
 	carobiner::write_files(dset, d, path=path)
 }
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
 
