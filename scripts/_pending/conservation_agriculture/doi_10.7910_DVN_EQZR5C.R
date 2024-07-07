@@ -18,13 +18,15 @@ Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020"
 		data_institute = "CIMMYT",
 		publication= NA,
 		project="Africa Rising",
+		treatment_vars = "intercrops; crop_rotation",
 		data_type= "on-farm experiment",
 		carob_contributor= "Shumirai Manzvera",
-		carob_date="2024-02-29"
+		carob_date="2024-02-29",
+		revised_by = "Siyabusa Mkuhlani",
+		revision_date = "2024-07-07"
 	)
 	
 ##### PROCESS data records
-
 # read data 
 
 	f <- ff[basename(ff) == "AR_ZAM_CIMMYT_ratooning_onstation_2020.csv"]
@@ -32,44 +34,45 @@ Pigeonpea Ratooning Trial Under Conservation Agriculture, 2020"
 	
 ## use a subset
 	d <- data.frame(
+	  trial_id = (paste0(r$Location, r$Year)), 
 	  crop=r$Crop, 
 		treatment=r$Intercropstrategy,
 		rep=r$Rep,
 		dmy_residue=r$biomass,
 		yield=r$grainyield,
 		country = r$Country,
-		site =r$District,
-		adm1 =r$Location)
+		adm1 = "Eastern province",
+		adm2 =r$District,
+		site=r$Location,
+		planting_date = as.character(r$Year),
+		yield_part = "grain",
+		longitude = 32.6447,
+		latitude = -13.64451,
+		intercrop=r$Intercrop)
 
+	#Correct crop names   
 	d$crop<-carobiner::replace_values(d$crop,"pigeonpea","pigeon pea")
-#### about the data #####
-## (TRUE/FALSE)
+	d$intercrop<-carobiner::replace_values(d$intercrop,"Pigeonpea","pigeon pea")
 
-	
+	##Add cropping systems information
+	d$crop_rotation <- NA
+	d$crop_rotation[grep('rotation',d$treatment)] <- d$intercrop[grep('rotation',d$treatment)]
+	d$intercrops <- NA
+	d$intercrops[grep('Mz/Pp|Mz/PP|MZ/Pp|MZ/PP',d$treatment)] <- d$intercrop[grep('Mz/Pp|Mz/PP|MZ/Pp|MZ/PP',d$treatment)]
+	d<-d[,!names(d) %in% "intercrop"] #Droppig variable here. Could not be 
+	#dropped earlier as it was neeeded  for the Intercrop and rotation columns.	
+		
+  #### about the data #####
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
-	d$is_experiment <- TRUE
 	d$irrigated <- FALSE
 
-## each site must have corresponding longitude and latitude
-	d$longitude <- 32.6447
-	d$latitude <- -13.64451
+  ##### Fertilizers  #####
+	d$fertilizer_type <- "D-compound; urea"
+	d$N_fertilizer <- (10/100 * 100) + 46
+	d$P_fertilizer <- (20/100 * 100)*0.437
+	d$K_fertilizer <- (10/100*100)*0.83
 
-
-##### Time #####
-## time can be year (four characters), year-month (7 characters) or date (10 characters).
-## use 	as.character(as.Date()) for dates to assure the correct format.
-	d$planting_date <- as.character(as.Date("2019-01-12"   ))
-	d$harvest_date  <- as.character(as.Date("2020-01-09"   ))
-
-##### Fertilizers  #####
-	d$N_fertilizer <- 10/40 * 100 + 46
-	d$P_fertilizer <- 20/40 * 100
-	
-
-	d$yield_part <- "grain"
-	d$trial_id <- "1"
-	
 	carobiner::write_files(dset, d, path=path)
 }
 
