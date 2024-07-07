@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA,
 		publication= NA,
@@ -20,8 +20,6 @@ carob_script <- function(path) {
 		carob_date="2023-10-10",
 		modified_by="Robert Hijmans"
 	)
-
-	ff <- ff[-grep("^hdl", basename(ff))]
 
 
 	get_raw_data <- function(f) {
@@ -112,29 +110,28 @@ carob_script <- function(path) {
 
 
 	fun <- function(f) {
-#		print(basename(f)); flush.console()
 		r <- get_raw_data(f)
-		d <- process_data(r)
-
-		d$longitude <- NA
-		d$latitude <- NA
-		d$longitude [d$location =="Mahadipur"] <- 88.1265
-		d$latitude [d$location =="Mahadipur"] <- 24.8501 
-		d$longitude [d$location =="Bidyanandapur"] <- 87.9903
-		d$latitude [d$location =="Bidyanandapur"] <- 25.9517
-		d$longitude [d$location =="Urgitola"] <- 88.1411
-		d$latitude [d$location =="Urgitola"] <- 25.0108
-		d$longitude [d$location =="Gaurangapur"] <- 87.878
-		d$latitude [d$location =="Gaurangapur"] <- 22.287
-		d$longitude [d$location =="Kalinagar"] <- 88.316
-		d$latitude [d$location =="Kalinagar"] <- 22.673
-		d
+		process_data(r)
 	}
 	
-	dd <- lapply(ff, fun)
-	dd <- do.call(rbind, dd)
-	dd$crop <- gsub("kidneybean", "kidney bean", dd$crop)
+	d <- lapply(ff, fun)
+	d <- do.call(rbind, d)
 
-	carobiner::write_files(dset, dd, path=path)
+	d$longitude <- NA
+	d$latitude <- NA
+	d$longitude [d$location =="Mahadipur"] <- 88.1265
+	d$latitude [d$location =="Mahadipur"] <- 24.8501 
+	d$longitude [d$location =="Bidyanandapur"] <- 87.9903
+	d$latitude [d$location =="Bidyanandapur"] <- 25.9517
+	d$longitude [d$location =="Urgitola"] <- 88.1411
+	d$latitude [d$location =="Urgitola"] <- 25.0108
+	d$longitude [d$location =="Gaurangapur"] <- 87.878
+	d$latitude [d$location =="Gaurangapur"] <- 22.287
+	d$longitude [d$location =="Kalinagar"] <- 88.316
+	d$latitude [d$location =="Kalinagar"] <- 22.673
+
+	d$crop <- gsub("kidneybean", "kidney bean", d$crop)
+
+	carobiner::write_files(meta, d, path=path)
 }
 
