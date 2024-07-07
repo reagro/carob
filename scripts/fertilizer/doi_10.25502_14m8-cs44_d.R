@@ -1,3 +1,4 @@
+# R script for "carob"
 
 # RH: not included because there are no yield data
 
@@ -24,20 +25,9 @@ carob_script <- function(path) {
 		carob_date="2022-09-26",
 		data_type = "survey"
 	)
-  
- 
-  
-	d <- data.frame(rep = integer(0), season = character(0), 
-    country = character(0), site = character(0), treatment = character(0), 
-    longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
-    harvest_date = character(0), trial_id = character(0), crop = character(0), 
-    yield = numeric(0), residue_yield = numeric(0), seed_weight = numeric(0), 
-    previous_crop = character(0), OM_type = character(0), N_fertilizer = numeric(0), 
-    K_fertilizer = numeric(0), P_fertilizer = numeric(0), Zn_fertilizer = numeric(0), 
-    S_fertilizer = numeric(0), yield_part = character(0))
- 
- 
-	carobiner::write_files(dset, d, path=path)
+
+
+	carobiner::write_files("ignore")
 }
 
   
