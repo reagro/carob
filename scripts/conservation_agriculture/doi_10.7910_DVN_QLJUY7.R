@@ -12,7 +12,7 @@ carob_script <- function(path) {
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
  
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project=NA,
 		publication= "doi:10.1017/S0014479715000265",
@@ -27,21 +27,40 @@ carob_script <- function(path) {
   # Select sheet with revised data from the excel file 
   r <- read.csv(f)
   
-  d <- data.frame(harvest_date=r$Harvest.Year,variety=r$Variety,plant_density=r$Plantpopulation,adm2=r$District,location=r$Village,treatment=r$Treat,dmy_total = r$Biomassyield, yield = r$Grain.yield)
+	d <- data.frame(
+		harvest_date=r$Harvest.Year,
+		variety=r$Variety,
+		plant_density=r$Plantpopulation,
+		adm2=r$District,
+		location=r$Village,
+		treatment=r$Treat,
+		dmy_total = r$Biomassyield, 
+		yield = r$Grain.yield,
+		trial_id = as.character(r$FarmerNo),
+		planting_date = "2020"
+	)
+	d$variety[d$variety == ""] <- NA
   
-  # for first dataset
-  
+	# see "dictionary_AR_MAL_CIMMYT_CAmother_onfarm_2020.csv"
+	# NPK 23:21:0:4S and UREA (46%)
+	r$Fertilization[r$Fertilization == "" | r$Fertilization == "0"] <- "0:0"
+	fert <- strsplit(r$Fertilization, ":")
+	fert <- data.frame(do.call(rbind, fert))
+	fert <- sapply(fert, as.numeric)
+	d$N_fertilizer <- fert[,1] * .23 + fert[,2] * .46 
+	d$P_fertilizer <- fert[,1] * .21
+	d$K_fertilizer <- 0	
+	d$S_fertilizer <- fert[,1] * .04	
+	
+	d$fertilizer_type <- "none"
+	d$fertilizer_type[fert[,1] > 0] <- "NPS"
+	d$fertilizer_type[fert[,2] > 0] <- paste0(d$fertilizer_type[fert[,2] > 0], ";urea")
+	
+ 
   d$country<- "Malawi"
   d$crop <- "Maize"
   d$is_survey <- FALSE
   d$yield_part <- "grain"
-  d$fertilizer_type <- "NPS"
-  # source: dictionary_AR_MAL_CIMMYT_CAmother_onfarm_2020.csv
-  d$N_fertilizer <- 23 
-  d$P_fertilizer <- 21
-  d$K_fertilizer <- 0
-  d$S_fertilizer <- 4
-  d$rep <- r$Plot.No.
   
   # Gps was found at district level since the villages are not available at map
   # https://www.google.com/maps/search/balaka+malawi++lemu+gps+coordinates/@-14.9319518,34.9463051,17z?entry=ttu
@@ -50,17 +69,19 @@ carob_script <- function(path) {
 	d$crop <- tolower(d$crop)
   	d$harvest_date <- as.character(d$harvest_date)
 
-	geo <- list("Balaka" = c(-14.9318, 34.9511),
-              "Dowa"   = c(-13.6279, 33.9329),
-              "Machinga" = c(-15.1775, 35.2963),
-              "Nkhotakota" = c(-12.7037, 34.2570),
-              "Salima" = c(-13.7114, 34.4461),
-              "Zomba" = c(-15.3737, 35.3194)) 
+	message("    location should be used, not adm2, for georeferencing")
+	
+	geo <- data.frame(
+		adm2 = c("Balaka", "Dowa", "Machinga", "Nkhotakota", "Salima", "Zomba"), 
+		longitude = c(34.9511, 33.9329, 35.2963, 34.257, 34.4461, 35.3194), 
+		latitude = c(-14.9318, -13.6279, -15.1775, -12.7037, -13.7114, -15.3737)
+	)
 
-    geo <- t(as.data.frame(geo))
-	colnames(geo) <- c("latitude", "longitude") 
-	d <- merge(d, geo, by.x="location", by.y=0, all.x=TRUE)
-                           
-	carobiner::write_files(dset, d, path=path)
+	d <- merge(d, geo, by="adm2", all.x=TRUE)
+                         
+	d$on_farm <- TRUE
+	d$irrigated <- FALSE
+	
+	carobiner::write_files(meta, d, path=path)
 }
 

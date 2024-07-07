@@ -9,7 +9,7 @@ carob_script <- function(path) {
 
 	ff  <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "TARI",
 		publication = NA,
@@ -52,8 +52,8 @@ carob_script <- function(path) {
 	d$harvest_date <- "2019"
 
 	d$country <- "Tanzania"
-	d$site <- "Manyara"
-	d$adm1 <- "Kiteto"
+	d$location <- "Manyara"
+	d$adm2 <- "Kiteto"
 	d$longitude <- 36.29271 
 	d$latitude <- -5.24399
 
@@ -61,5 +61,9 @@ carob_script <- function(path) {
 	d$yield_part <- "grain"
 	d$trial_id <- "1"
 
-	carobiner::write_files(path, dset, d)
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+	d$is_survey <- FALSE
+	d$irrigated <- FALSE
+	
+	carobiner::write_files(path, meta, d)
 }

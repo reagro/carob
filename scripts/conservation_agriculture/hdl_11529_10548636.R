@@ -11,7 +11,7 @@ carob_script <- function(path) {
 
 	ff	<- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA,
 		publication="doi:10.1016/j.fcr.2017.11.011",
@@ -34,7 +34,7 @@ carob_script <- function(path) {
 
 	d <- data.frame(
 		GID = r2$GID, 
-		trial_id = r2$year, 
+		trial_id = as.character(r2$year), 
 		planting_date = as.character(r2$SOW),
 		emergence_days = r2$EMER, 
 		flowering_days = r2$FLO, 
@@ -55,24 +55,29 @@ carob_script <- function(path) {
 	d$treatment <- treatname[match(r2$syst, treatcode)]
  	d$land_prep_method <- ifelse("PB" %in% r2$syst, "permanent beds", "conventional tilled beds")
  
-	#Information on fertilizer application rates was found in the publication 
+	#From the publication :
+	# At the start of the season, 103 kg N ha−1 and 23 kg P ha−1 was applied as a band application in the center of the beds. At first node, the RI treatment received an additional 100 kg N ha−1 and the FI treatment received 175 kg N ha−1 banded in the furrow.
+
+	d$K_fertilizer <- 0
 	d$P_fertilizer <- 23
 	d$N_fertilizer <- 103
 	d$N_fertilizer[r2$syst =="PB-RI"] <- 203 
 	d$N_fertilizer[r2$syst =="CB-RI"] <- 203
-	d$N_fertilizer[r2$syst =="CB-FI"] <- 178
-	d$N_fertilizer[r2$syst =="PB-FI"] <- 178
+	d$N_fertilizer[r2$syst =="CB-FI"] <- 278
+	d$N_fertilizer[r2$syst =="PB-FI"] <- 278
 	d$fertilizer_type <- "urea" 
+
+
+#Irrigation was applied as furrow irrigation. 
 
 	#site information was obtained from publication
 	d$country <- "Mexico"
 	d$adm1 <- "Sonora"
-	d$site <- "Ciudad Obregón"
+	d$location <- "Ciudad Obregón"
 	d$longitude <- -109.926
 	d$latitude <- 27.368
 
 	d$yield_part <- "grain"
-	d$trial_id <- as.character(d$trial_id)
 	
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
@@ -81,7 +86,7 @@ carob_script <- function(path) {
 	d <- merge(d, d1, by= "GID", all.x=TRUE)
 	d$GID <- NULL
 	
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }
 
 

@@ -24,7 +24,7 @@ T10: Crop rotation B2 (B2S): direct seeding with animal drawn seeder, maize-sunf
 
 	ff  <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		data_institute = "CIMMYT",
 		publication= NA,
@@ -99,7 +99,7 @@ T10: Crop rotation B2 (B2S): direct seeding with animal drawn seeder, maize-sunf
 
 	d$treatment <- as.character(d$treatment)
 
-	carobiner::write_files(path, dset,d)
+	carobiner::write_files(path, meta,d)
 }
 
 

@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIMMYT",
 		publication= NA,
@@ -65,7 +65,7 @@ carob_script <- function(path) {
 	d$P_fertilizer <- (20/100 * 100) * 0.437
 	d$K_fertilizer <- (10/100 * 100) * 0.83
 
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 
 

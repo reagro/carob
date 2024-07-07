@@ -10,7 +10,7 @@ carob_script <- function(path) {
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA, 
 		publication= "doi:10.1016/j.fcr.2019.04.005", 
@@ -135,7 +135,7 @@ carob_script <- function(path) {
 	d <- d[!is.na(d$yield), ]
 	d <- d[d$yield > 0, ]
   
-	carobiner::write_files(dset, d, path=path)	
+	carobiner::write_files(meta, d, path=path)	
 }
 
 

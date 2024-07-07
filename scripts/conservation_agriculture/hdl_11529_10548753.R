@@ -10,7 +10,7 @@ Lower GWP under CSAPs resulted in 36–44% lower emission intensity (383 kg CO2 
 	uri <- "hdl:11529/10548753"
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
 		publication= NA,
@@ -70,5 +70,5 @@ Lower GWP under CSAPs resulted in 36–44% lower emission intensity (383 kg CO2 
 
 message("need to figure out what the 'control yield' refers to") 
 
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }

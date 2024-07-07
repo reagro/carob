@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0) ,
 		project=NA,
 		#data_citation="Verhulst, Nele; Ammar, Karim; Honsdorf, Nora; Govaerts, Bram; Crossa, Jose; Vargas, Mateo, 2020. Parallel selection of durum wheat in conventional and zero tillage. https://hdl.handle.net/11529/10548473, CIMMYT Research Data & Software Repository Network, V1, UNF:6:C+bZEedQtaH9ce54/PaaNA== [fileUNF]",
@@ -46,6 +46,6 @@ carob_script <- function(path) {
 	d$treatment[d$treatment == "ZT"] <- "zero tillage"
 	d$treatment[d$treatment == "RI"] <- "reduced irrigation with conventional tillage"
   
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 

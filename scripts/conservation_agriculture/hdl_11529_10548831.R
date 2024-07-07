@@ -10,15 +10,12 @@ carob_script <- function(path) {
 	Weeds are responsible for major crop losses worldwide but can provide beneficial agroecosystem services. This study aimed to elucidate how arbuscular mycorrhizal fungi (AMF) in weeds respond to host identity and conservation agricultural practices. The study was carried out at two locations in Southern Africa during off-season and in-season maize cultivation. Off-season AMF root colonisation, diversity indices and community composition significantly differed among weed species at both locations. Glomus sp. VTX00280 explains most of the AMF community differences. In-season, implementation of conventional tillage with mulching alone (CT + M) or together with crop rotation (CT + M + R) resulted in a 20% increase in AMF colonisation of the constantly occurring weed species, Bidens pilosa (BIDPI) and Richardia scabra (RCHSC), compared with conventional tillage plus rotations (CT + R). The diversity of AMF was highest under no-tillage plus mulching (NT + M). Off-season and in-season AMF structures of both BIDPI and RCHSC were not related, but 39% of the taxa were shared. Structural equation modelling showed a significant effect of the cropping system on weed AMF diversity parameters and weed and maize root colonisation, but no significant influence of weed root AMF traits and maize colonisation was detected on maize yield. This may be explained by the improvement in weed competitive ability, which may have offset the AMF-mediated benefits on yield. Our findings highlight that implementing M and CR to CT and NT positively affected weed AMF colonisation and diversity. The similarity between the off-season and in-season AMF composition of weeds supports the fact that weeds functionally host AMF during the non-crop period.
 "
 
-#### Identifiers
 	uri <- "hdl:11529/10548831"
 	group <- "conservation_agriculture"
 
-#### Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 
-##### dataset level metadata 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		data_institute = "CIMMYT",
 		publication = "doi.org/10.1007/s00374-022-01678-1",
@@ -29,14 +26,10 @@ carob_script <- function(path) {
 		carob_date = "2024-06-24"
 	)
 	
-##### PROCESS data records
-
-# read data 
 
 	f <- ff[basename(ff) == "DTC UZ - IN-SEASON - OFF-SEASON.xlsx"]
 	r <- carobiner::read.excel(f, sheet = "RawData")
 
-## process file(s)
 	d <- data.frame(
 		season=r$Period,
 		location=r$Location,
@@ -96,6 +89,6 @@ carob_script <- function(path) {
 	#d$planting_date <- as.character(as.Date(   ))
 	#d$harvest_date  <- as.character(as.Date(    ))
 
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }
 

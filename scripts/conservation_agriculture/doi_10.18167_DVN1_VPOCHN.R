@@ -13,7 +13,7 @@ carob_script <- function(path) {
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
  
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project = NA,
         publication = "doi:10.1016/j.agee.2022.108207",
@@ -22,7 +22,8 @@ carob_script <- function(path) {
 		carob_contributor = "Hope Mazungunye",
 		carob_date = "2024-02-15",
 		revised_by = "Eduardo Garcia Bendito",
-		revision_date = "2024-03-07"
+		revision_date = "2024-03-07",
+		treatment_vars = "land_prep_method;mulch"
 	)
   
 	f <- ff[basename(ff) == "Shumba_et_al_Raw_data_SOC_paper_vf.xlsx"]
@@ -33,7 +34,7 @@ carob_script <- function(path) {
 		on_farm = FALSE, 
 		is_survey = FALSE, 
 		country = "Zimbabwe", 
-		site = ifelse(r$Site == "DTC", "Domboshava Training Centre", "University of Zimbabwe Farm"),
+		location = ifelse(r$Site == "DTC", "Domboshava Training Centre", "University of Zimbabwe Farm"),
         longitude = ifelse(r$Site == "DTC", 31.125, 31.013), 
 		latitude = ifelse(r$Site == "DTC", -17.588, -17.706),
         treatment = r$Treatment, 
@@ -52,16 +53,16 @@ carob_script <- function(path) {
   # Add planting and harvest dates from publication
 	pyr <- gsub("\\/.*","", r$Year...2)
 	d$planting_date <- as.character(paste0(pyr, "-11"))
-	d$planting_date[pyr == "2019" & d$site == "DTC"] <- "2019-11-21"
-	d$planting_date[pyr == "2019" & d$site == "UZF"] <- "2019-11-19"
+	d$planting_date[pyr == "2019" & d$location == "DTC"] <- "2019-11-21"
+	d$planting_date[pyr == "2019" & d$location == "UZF"] <- "2019-11-19"
 	d$planting_date[pyr == "2020"] <- "2020-11-25"
  
 	hyr <- as.character(as.integer(pyr) + 1)
 	d$harvest_date <- as.character(paste0(hyr, "-04"))
-	d$harvest_date[hyr == "2020" & d$site == "DTC"] <- "2020-04-15"
-	d$harvest_date[hyr == "2020" & d$site == "UZF"] <- "2020-04-14"
-	d$harvest_date[hyr == "2021" & d$site == "DTC"] <- "2021-04-25"
-	d$harvest_date[hyr == "2021" & d$site == "UZF"] <- "2021-04-15"
+	d$harvest_date[hyr == "2020" & d$location == "DTC"] <- "2020-04-15"
+	d$harvest_date[hyr == "2020" & d$location == "UZF"] <- "2020-04-14"
+	d$harvest_date[hyr == "2021" & d$location == "DTC"] <- "2021-04-25"
+	d$harvest_date[hyr == "2021" & d$location == "UZF"] <- "2021-04-15"
   
   # Biomass variables
 	d$dmy_roots <- r$Root_biomass_kg_ha1
@@ -95,6 +96,8 @@ carob_script <- function(path) {
 	d$land_prep_method <- "conventional"
 	d$land_prep_method[grep("NT", d$treatment)] <- "none"
   
+	d$irrigated <- FALSE
+	
 # all scripts must end like this
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }

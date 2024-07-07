@@ -1,5 +1,9 @@
 # R script for "carob"
 
+
+## It is not clear what the treatments are. "TREATMENT.No." has codes
+
+
 carob_script <- function(path) {
 
 "This dataset is generated from maize response trials (legume/maize rotation system) that were conducted in Linthipe EPA, Dedza district, and Ntubwi EPA in Machinga district in Malawi, 2019/2020 cropping season. In the previous season, certifies and recycled seed of different varieties of groundnut were grown. In the current season, maize was planted as a test crop."
@@ -8,7 +12,7 @@ carob_script <- function(path) {
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		data_institute = "IFPRI",
 		publication= NA,
@@ -48,6 +52,7 @@ carob_script <- function(path) {
 		crop_rotation="maize; groundnut",
 	    dmy_total=r1$Total.biomass..kg.ha.,
 		yield=r1$Grain.yld..kg.ha.,treatment=r1$TREATMENT.NO.,
+		treatment=r1$TREATMENT.No.,
 		longitude =35.5737, 
 		latitude = -14.9458, 
 		trial_id="2"
@@ -69,8 +74,10 @@ carob_script <- function(path) {
 	d$dmy_total <- gsub(",", "", d$dmy_total)
 	d$dmy_total <- as.numeric(d$dmy_total)
 	d$treatment <- as.character(d$treatment)
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 
 

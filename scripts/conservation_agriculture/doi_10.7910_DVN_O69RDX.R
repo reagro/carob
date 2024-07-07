@@ -1,7 +1,5 @@
 # R script for "carob"
 
-
-
 carob_script <- function(path) {
   
 "
@@ -14,7 +12,7 @@ The objective of the study is to test different plant arrangements between maize
   group <- "conservation_agriculture"
   ff <- carobiner::get_data(uri, path, group)
  
-  dset <- data.frame(
+  meta <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=1, minor=2),
     project=NA,
     publication= NA,
@@ -24,37 +22,54 @@ The objective of the study is to test different plant arrangements between maize
     carob_date="2024-1-16"
   )
    
-  
-  
-  
+ 
   f <- ff[basename(ff) == "AR_ZAM_CIMMYT_Gliricidia_onstation_2020.csv"]
   
   # Select sheet with revised data from the excel file 
   r <- read.csv(f)
   
-  d <- data.frame(country= r$Country,harvest_date=r$Year,rep= r$Rep,crop= r$Crop,intercrops=r$Intercrop,adm2=r$District,location=r$Location,dmy_total = r$biomass, yield = r$grainyield)
+	d <- data.frame(
+		country= r$Country,
+		planting_date=as.character(NA),
+		harvest_date=as.character(r$Year),
+		rep= r$Rep,
+		crop= tolower(r$Crop),
+		intercrops=tolower(r$Intercrop),
+		adm2=r$District,
+		location=r$Location,
+		dmy_total = r$biomass, 
+		yield = r$grainyield,
+		treatment = r$Treat
+	)
   
+	d$crop <- gsub("groundnuts|grou", "groundnut", d$crop)
+	d$crop <- gsub("pigeonpea", "pigeon pea", d$crop)
+	d$intercrops <- gsub("pigeonpea", "pigeon pea", d$intercrops)
+	d$intercrops <- gsub("/", ";", d$intercrops)
+	d$intercrops <- gsub("nil", "none", d$intercrops)
+
   # for first dataset
   
   
-  d$is_experiment <- TRUE
+  d$is_survey <- FALSE
   d$on_farm <- TRUE
   # description of treaments
-  treatments <- c("Traditional Maize- Groundnuts rotation [with half recommended fertilizer on maize, no fertilizer on groundnuts]",
-                  "Maize-Groundnut rotation with Gliricidia [ Maize/Gliricidia (COMACO’s Gliricidia spacing: 5m x 1m) – Groundnuts/Gliricidia]",
-                  "Doubled up Maize-Groundnut rotation with Gliricidia [Maize/Gliricidia (Dispersed shading spacing; 10m x 5m)/pigeonpea – Groundnuts/Gliricidia/Pigeonpea]")
-  # Replace treament numbers with actual description
-  d$treatement <-factor(r$Treat, levels = 1:3,labels = treatments)
+  d$treatment <- c(
+	"Traditional Maize- Groundnuts rotation [with half recommended fertilizer on maize, no fertilizer on groundnuts]",
+	"Maize-Groundnut rotation with Gliricidia [ Maize/Gliricidia (COMACO’s Gliricidia spacing: 5m x 1m) – Groundnuts/Gliricidia]",
+    "Doubled up Maize-Groundnut rotation with Gliricidia [Maize/Gliricidia (Dispersed shading spacing; 10m x 5m)/pigeonpea – Groundnuts/Gliricidia/Pigeonpea]")[d$treatment]
   
   d$yield_part <- "grain"
   
-  
- 
   # https://www.findlatitudeandlongitude.com/l/Msekera+Chipata+Zambia/5548305/
   d$latitude <- -13.64451
   d$longitude <- 32.6447
   
-  carobiner::write_files(dset, d, path=path)
+  d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+	d$trial_id <- "1"
+	d$irrigated <- FALSE
+	
+  carobiner::write_files(meta, d, path=path)
 }
 
 

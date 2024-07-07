@@ -10,7 +10,7 @@ carob_script <- function(path) {
   
   ff  <- carobiner::get_data(uri, path, group)
   
-  dset <- data.frame(
+  meta <- data.frame(
     carobiner::read_metadata(uri, path, group, major=2, minor=0),
     data_institute = "CIMMYT",
     publication=NA,
@@ -75,6 +75,6 @@ carob_script <- function(path) {
   d$crop_price <- as.numeric(d$crop_price)/1000
   d$irrigation_number<- as.integer(d$irrigation_number)
   
-  carobiner::write_files(path, dset, d)
+  carobiner::write_files(path, meta, d)
 }
 

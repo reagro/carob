@@ -1,6 +1,5 @@
 # R script for "carob"
 
-
 # there are four subtreatments but only three are described
 # what is subtreatment 0? Or is that 1, but then what is subtreatment 3?
 
@@ -14,7 +13,26 @@
 
 carob_script <- function(path) {
 
-"Conservation agriculture involves reduced tillage, diversification of plant associations, and retention of crop residues to maintain soil cover. However, there is knowledge gap on the appropriate rate of application and interactive effect of residues and nitrogen as in some situations cases of nitrogen lock-up have been reported. This present data set addresses the effects of different nitrogen and residue levels on maize productivity, soil temperature, soil moisture and soil structure in contrasting soil types over 6 seasons. The trials were set across southern Africa i.e. Malawi, Mozambique, Zambia and Zimbabwe. The treatments were as follows: Main treatments: 1. Conventional tillage 2. No-tillage, 0 t/ha residues 3. No-tillage, 2 t/ha residues 4. No-tillage, 4 t/ha residues 5. No-tillage, 6 t/ha residues 6. No-tillage, 8 t/ha residues, Subtreatments: 1. 0 N 2. 30N (200 kg/ha Compound D – 46 kg/ha AN 3. 90N (200 kg/ha Compound D –220 kg/ha AN) The measured attributes are as follows: 1. Maize and grain yields 2. Soil profile temperature 3. Soil profile mositure 4. Normalized difference vegetation index (NDVI)"
+"Conservation agriculture involves reduced tillage, diversification of plant associations, and retention of crop residues to maintain soil cover. However, there is knowledge gap on the appropriate rate of application and interactive effect of residues and nitrogen as in some situations cases of nitrogen lock-up have been reported. This present data set addresses the effects of different nitrogen and residue levels on maize productivity, soil temperature, soil moisture and soil structure in contrasting soil types over 6 seasons. The trials were set across southern Africa i.e. Malawi, Mozambique, Zambia and Zimbabwe. The treatments were as follows: 
+
+Main treatments: 
+1. Conventional tillage 
+2. No-tillage, 0 t/ha residues 
+3. No-tillage, 2 t/ha residues
+4. No-tillage, 4 t/ha residues 
+5. No-tillage, 6 t/ha residues 
+6. No-tillage, 8 t/ha residues, 
+ 
+Subtreatments: 
+1. 0 N 
+2. 30N (200 kg/ha Compound D – 46 kg/ha AN 
+3. 90N (200 kg/ha Compound D –220 kg/ha AN) 
+
+The measured attributes are as follows: 
+1. Maize and grain yields 
+2. Soil profile temperature 
+3. Soil profile mositure 
+4. Normalized difference vegetation index (NDVI)"
 
 
 	uri <- "hdl:11529/10868"
@@ -22,7 +40,7 @@ carob_script <- function(path) {
 
 	ff	<- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		data_institute = "CIMMYT",
 		publication=NA,
@@ -38,7 +56,7 @@ carob_script <- function(path) {
 	d <- data.frame(
 			crop="maize", 
 			country=r$Country,
-	        site=r$Site,
+	        location=r$Site,
 	        planting_date=as.character(r$Season),
 	        treatment=r$Treatment,
 	        rep=as.integer(r$Replicate),
@@ -86,6 +104,6 @@ carob_script <- function(path) {
 	d <- merge(d, geo, by="site", all.x = TRUE)
 	d$trial_id <- as.character(as.integer(as.factor(d$site)))
 	
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }
 

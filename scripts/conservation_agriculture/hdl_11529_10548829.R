@@ -37,7 +37,7 @@ carob_script <- function(path) {
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project= NA,
 		publication= "doi:10.1016/j.fcr.2022.108724",
@@ -116,6 +116,6 @@ carob_script <- function(path) {
 	d <- r[,c("trial_id", "country","adm1","adm2","latitude","longitude","treatment","crop","dmy_total", "yield","yield_part","planting_date", "on_farm", "soil_clay","soil_sand","soil_silt","soil_SOC","row_spacing","plant_spacing","N_fertilizer","P_fertilizer","K_fertilizer")] 
 	
 
-  	carobiner::write_files(dset, d, path=path)
+  	carobiner::write_files(meta, d, path=path)
  }
  

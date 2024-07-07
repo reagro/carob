@@ -10,14 +10,14 @@ carob_script <- function(path) {
 copy and paste the abstract from the repository. Do not add line breaks
 "
 
-### Identifiers
+## Identifiers
 	uri <- "doi:10xxx/yyy"
 	group <- "___"
 
 ## Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 
-### metadata 
+## metadata 
 	meta <- data.frame(
 		# change the major and minor versions if you see a warning
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
@@ -35,9 +35,7 @@ copy and paste the abstract from the repository. Do not add line breaks
 		carob_date = "2024-01-01"
 	)
 	
-### PROCESS records
-
-# read data 
+## read data 
 
 	f <- ff[basename(ff) == "_____________"]
 	r <- read.csv(f)

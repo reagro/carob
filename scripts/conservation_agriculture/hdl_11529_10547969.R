@@ -12,7 +12,7 @@ carob_script <- function(path) {
   group <- "conservation_agriculture"
   ff <- carobiner::get_data(uri, path, group)
   
-  dset <- data.frame(
+  meta <- data.frame(
     carobiner::read_metadata(uri, path, group, major=2, minor=2),
     project=NA, 
     publication= "doi:10.1016/j.fcr.2019.04.005", 
@@ -145,7 +145,7 @@ carob_script <- function(path) {
   d <- merge(d, geo, by="location", all.x = TRUE)  
   
   
-  carobiner::write_files(dset, d, path=path)	
+  carobiner::write_files(meta, d, path=path)	
 }
 
 
