@@ -3,9 +3,7 @@
 
 carob_script <- function(path) {
 
-"
-TAMASA Agronomy Panel Survey in Nigeria (2016) (2016)
-"
+"TAMASA Agronomy Panel Survey in Nigeria (2016)"
 
 	uri <- "hdl:11529/10548307"
 	group <- "crop_cuts"

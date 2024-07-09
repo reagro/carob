@@ -9,7 +9,7 @@ We use the randomized complete blocks (RCB) statistical design, with three repet
 	group <- "potato_trials"
 	ff <- carobiner::get_data(uri, path, group)
   
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		publication= NA,
 		data_institute = "CIP",
@@ -71,7 +71,14 @@ We use the randomized complete blocks (RCB) statistical design, with three repet
 	d$harvest_date[!i] <- as.character(as.Date(d$harvest_date[!i], format = "%d/%m/%Y"))
 	d$harvest_date[i] <- as.character(as.Date(as.numeric(d$harvest_date[i]), origin = "1899-12-31"))
 
-	carobiner::write_files(dset, d, path=path)	
+
+	d$location[d$location == "HUMACHUCO"] <- "Humachuco"
+	d$location[d$location == "EXP"] <- NA
+	d$adm1[d$adm1 == "HUANUCO"] <- "Huánuco"
+	d$adm2[d$adm2 == "HUANUCO"] <- "Huánuco"
+	d$adm3[d$adm3 == "HUANUCO"] <- "Huánuco"
+
+	carobiner::write_files(meta, d, path=path)	
 }
 
 
