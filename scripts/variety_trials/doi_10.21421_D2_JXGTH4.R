@@ -28,7 +28,7 @@ carob_script <- function(path) {
       variety= r$Genotypes,
       emergence_days= r$`Date of emergence`,
       flowering_days= r$DF50,
-      yield= r$DPWkgha* 1.18, ## Fresh weight
+      dmy_storage= r$DPWkgha,
       dmy_residue= r$DFWkgha,
       seed_weight = r$HSWg * 10 ## 1000 seed weight
    )
@@ -37,6 +37,7 @@ carob_script <- function(path) {
    d$country= "Nigeria"
    d$location= "Bayero University, Kano"
    d$crop= "groundnut"
+   d$yield_part <- "pod"
    
    ## Adding disease 
    r1 <- carobiner::read.excel(f, sheet = "Sheet2")
@@ -54,7 +55,6 @@ carob_script <- function(path) {
    d$is_survey <- FALSE
    d$irrigated <- NA 
    d$inoculated <- FALSE
-   d$yield_part <- "pod"
    d$trial_id <- "1"
    d$planting_date <- "2016"
    d$longitude  <- 8.4269711
