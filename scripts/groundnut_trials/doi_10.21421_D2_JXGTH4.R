@@ -1,17 +1,16 @@
-
-### Note
+# R script for "carob"
 
 
 carob_script <- function(path) {
    
-   
-   " High-Oil lines trial comprising of 36 entries [32 elite breeding lines from ICRISAT and 4 improved varieties (SAMNUT-22, SAMNUT 23, SAMNUT 24 and SAMNUT 26) as checks] was conducted at BUK locations. " 
+" High-Oil lines trial comprising of 36 entries [32 elite breeding lines from ICRISAT and 4 improved varieties (SAMNUT-22, SAMNUT 23, SAMNUT 24 and SAMNUT 26) as checks] was conducted at BUK locations. " 
    
    uri <- "doi:10.21421/D2/JXGTH4"
    dataset_id <- carobiner::simple_uri(uri)
-   group <- "crop_cuts" 
+   group <- "groundnut_trials" 
+   
    ff  <- carobiner::get_data(uri, path, group)
-   dset <- data.frame(
+   meta <- data.frame(
       carobiner::read_metadata(uri, path, group, major=1, minor=0), 
       data_institute = "ICRISAT", 
       publication =NA, 
@@ -26,7 +25,7 @@ carob_script <- function(path) {
    
    d1  <- data.frame(
       country= "Nigeria",
-      location= "Bayero University Kano",
+      location= "Bayero University, Kano",
       crop= "groundnut",
       rep= as.integer(r$`Replication number`),
       variety= r$Genotypes,
@@ -78,6 +77,6 @@ carob_script <- function(path) {
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
-   carobiner::write_files (path, dset, d) 
+   carobiner::write_files (path, meta, d) 
    
 }
