@@ -23,29 +23,17 @@ carob_script <- function(path) {
    f <- ff[basename(ff) == "Data file of High oil genotype for yield and agronomic traits in Buk.xlsx"] 	
    r <- carobiner::read.excel(f, sheet = "Sheet1")
    
-   d1  <- data.frame(
+   d <- data.frame(
       rep= as.integer(r$`Replication number`),
       variety= r$Genotypes,
       emergence_days= r$`Date of emergence`,
       flowering_days= r$DF50,
       yield= r$DPWkgha* 1.18, ## Fresh weight
       dmy_residue= r$DFWkgha,
-      seed_weight = r$HSWg,
-      harvest_days= NA ## 
+      seed_weight = r$HSWg * 10 ## 1000 seed weight
    )
    
-   d2 <- data.frame(
-      rep= as.integer(r$`Replication number`),
-      variety= r$Genotypes,
-      emergence_days= r$`Date of emergence`,
-      flowering_days= r$DF50,
-      yield= r$DPWkgha80* 1.18, ## Fresh weight
-      dmy_residue= r$DFWkgha80,
-      harvest_days= 80 
-      
-   )
    
-   d <- carobiner::bindr(d1,d2)
    d$country= "Nigeria"
    d$location= "Bayero University, Kano"
    d$crop= "groundnut"
@@ -53,14 +41,14 @@ carob_script <- function(path) {
    ## Adding disease 
    r1 <- carobiner::read.excel(f, sheet = "Sheet2")
    
-   dd <- data.frame(
+	d1 <- data.frame(
       rep= r1$`Replication number`,
       variety= r1$Genotypes,
-      diseases = "rust",
-      disease_severity= as.character(r1$RUST90)
-   )
-   
-   d <- merge(d,dd,by=c("rep","variety"),all.x = TRUE)
+      diseases = "early leaf spot;late leaf spot;rust",
+      disease_severity=	apply(r1[, c("ELS80", "LLS90", "RUST90")], 1, \(i) paste0(i, "(1-9)", collapse=";"))
+	)
+
+   d <- merge(d, d1, by=c("rep","variety"), all.x = TRUE)
    
    d$on_farm <- TRUE
    d$is_survey <- FALSE
