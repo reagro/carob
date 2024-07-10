@@ -6,11 +6,11 @@ carob_script <- function(path) {
 "
    
 	uri <- "doi:10.25502/wpce-te77/d"
-	group <- "soybean_trials"
+	group <- "variety_trials"
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		publication= NA,
 		data_institute = "IITA",
@@ -21,25 +21,33 @@ carob_script <- function(path) {
 		project=NA 
 	)
 	
-	
-	# read the dataset
 	r <- read.csv(ff[basename(ff)=="data.csv"])
 	
-	### process file()
-	
-	d <- r[,c("ID","Country", "City", "REP_NO", "DESIGNATION", "YIELD", "BIOM", "PLHT", "SWT100", "DM","HARVEST", "DFFL")]
-	 colnames(d) <- c("ID", "country", "location", "rep", "variety", "yield", "dmy_total", "plant_height", "seed_weight", "maturity_days", "harvest_days", "flowering_days")
+	d <- data.frame(
+#		ID = r$ID,
+		country = r$Country,
+		location = r$City,
+		rep = r$REP_NO,
+		variety = r$DESIGNATION,
+		yield = r$YIELD,
+		dmy_total = r$BIOM,
+		plant_height = r$PLHT,
+		seed_weight = r$SWT100,
+		maturity_days = r$DM,
+		harvest_days = r$HARVEST,
+		flowering_days = r$DFFL
+	)
+
 
 	d$location <- carobiner::fix_name(d$location, "title") 
 	d$country <- carobiner::fix_name(d$country, "title") 
 	
-	 # add columns
 	d$crop <- "soybean" 
 	d$yield_part <- "seed" 
 
 	
-	d$trial_id <- paste(d$ID, d$adm1, sep = "-")
-	d$ID <- NULL
+	d$trial_id <- "1" ## paste(d$ID, d$adm1, sep = "-") ??
+#	d$ID <- NULL
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
@@ -51,9 +59,10 @@ carob_script <- function(path) {
 	## Planting and harvest date are taken from metadata 
 	d$planting_date <- "2018-01-20"
 	d$harvest_date <- "2018-06-18"
+
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	
-	# all scripts must end like this
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 	
 }
 

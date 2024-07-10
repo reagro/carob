@@ -1,3 +1,4 @@
+# R script for "carob"
 
 
 carob_script  <- function(path) {
@@ -5,10 +6,10 @@ carob_script  <- function(path) {
 "The objectives of this research were to estimate the impact of genotype × environment interactions (G×E) in sweetpotato and select genotypes based on drought indices such as geometric mean, percent yield reduction, drought sensitivity index and harvest index. Experiments were set up at Umbeluzi Research Station, 32 km South of Maputo. A total of 58 clones were evaluated during the dry season of 2006 and 2008. Two treatments were applied for this multi-year trial: full irrigation and without irrigation at the middle of root initiation growth stage. The field layout was a randomized complete block design with three replications. ‘Jonathan’, ‘Resisto’ and ‘Tanzania’ were the check cultivars in each treatment. Data were collected on storage root and vine yields in the field and DM in the quality laboratory using root samples from the fields. Computation of Harvest index, geometric means, drought sensitity index, drought intensity index as well as drought tolerance expression were made from the field data. The analysis of variance, regression and the additive main effects multiplicative interaction (AMMI) analyses, plus phenotypic coefficient of variation and ecovalence were used for dissecting the G×E and assessing the stability of each clone."
 	
 	uri <- "doi:10.21223/P3/M0HGJ4"
-	group <- "sweetpotato_trials"
+	group <- "variety_trials"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=11),
 		publication= NA,# 
 		data_institute = "CIP",
@@ -53,11 +54,11 @@ carob_script  <- function(path) {
 	d$planting_date <- as.character(d$planting_date)
 	
 	### fix the bounds error 
-	d$dmy_leaves[d$dmy_leaves>20000] <- NA 
-	##CN
-	# Most dmy_leaves values are out of range. Could we perhaps review the maximum biomass_leave limit in record_crops.csv?
+	## d$dmy_leaves[d$dmy_leaves>20000] <- NA 
 	
-	carobiner::write_files(dset, d, path=path)
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+	
+	carobiner::write_files(meta, d, path=path)
 	
 }
 

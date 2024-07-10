@@ -7,7 +7,7 @@ carob_script <- function(path) {
    
    uri <- "doi:10.21421/D2/JXGTH4"
    dataset_id <- carobiner::simple_uri(uri)
-   group <- "groundnut_trials" 
+   group <- "variety_trials" 
    
    ff  <- carobiner::get_data(uri, path, group)
    meta <- data.frame(
@@ -24,9 +24,6 @@ carob_script <- function(path) {
    r <- carobiner::read.excel(f, sheet = "Sheet1")
    
    d1  <- data.frame(
-      country= "Nigeria",
-      location= "Bayero University, Kano",
-      crop= "groundnut",
       rep= as.integer(r$`Replication number`),
       variety= r$Genotypes,
       emergence_days= r$`Date of emergence`,
@@ -38,9 +35,6 @@ carob_script <- function(path) {
    )
    
    d2 <- data.frame(
-      country= "Nigeria",
-      location= "Bayero University Kano",
-      crop= "groundnut",
       rep= as.integer(r$`Replication number`),
       variety= r$Genotypes,
       emergence_days= r$`Date of emergence`,
@@ -52,6 +46,9 @@ carob_script <- function(path) {
    )
    
    d <- carobiner::bindr(d1,d2)
+   d$country= "Nigeria"
+   d$location= "Bayero University, Kano"
+   d$crop= "groundnut"
    
    ## Adding disease 
    r1 <- carobiner::read.excel(f, sheet = "Sheet2")
