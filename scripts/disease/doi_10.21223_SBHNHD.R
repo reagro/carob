@@ -7,7 +7,7 @@ carob_script <- function(path) {
 
 
 	uri <- "doi:10.21223/SBHNHD"
-	group <- "lateblight"
+	group <- "disease"
 	ff  <- carobiner::get_data(uri, path, group)
 
 
@@ -70,8 +70,8 @@ carob_script <- function(path) {
 	d$yield[d$yield > 150000] <- NA	
 
 	d$dmy_storage <- d$yield * r$`DM %` / 100
-	d$land_prep_method <- "rotovating;plowing;hilling"
-	
+	d$land_prep_method <- "rotovating;ploughing;hilling"
+
 	d$location <- "Huancayo"
 	# from "02_Field_layout_Advanced Trial LBHTC2 Huancayo.xlsx"
 	d$longitude <- -75.39938

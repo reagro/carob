@@ -6,7 +6,7 @@ carob_script <- function(path) {
 
 
 	uri <- "doi:10.21223/P3/TNNRYW"
-	group <- "lateblight"
+	group <- "disease"
 	
 	ff <- carobiner::get_data(uri, path, group)
 
@@ -43,6 +43,9 @@ carob_script <- function(path) {
 	d$planting_date <- as.character(as.Date("2001-12-10"))
 	d$harvest_date  <- as.character(as.Date("2002-04-02"))
 	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+	d$pathogen <- "Phytophthora infestans"
+	d$diseases <- "potato late blight"
+   	d$is_survey = FALSE
 
 
 	carobiner::write_files(path, dset, d, timerecs=p$tim)

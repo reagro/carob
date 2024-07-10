@@ -5,7 +5,7 @@ carob_script <- function(path) {
 "Dataset for yield and stability advanced trial for late blight and heat tolerant (LBHT) potato population conducted in Oxapampa, Peru. 150 advanced clones of the LBHT and heat-tolerant population, with three control varieties Yungay, Kory, and Amarilis, besides with 23 parents were planted in Oxapampa, Peru between 2021 and 2022. (16 Rows x 12 Columns)"
    
    uri <- "doi:10.21223/64DNHF"
-   group <- "lateblight"
+   group <- "disease"
    ff  <- carobiner::get_data(uri, path, group)
    
    dset <- data.frame(
@@ -45,6 +45,8 @@ carob_script <- function(path) {
    
    d$planting_date <- "2021-09-30"
    d$harvest_date  <- "2022-01-31"
+	d$pathogen <- "Phytophthora infestans"
+	d$diseases <- "potato late blight"
    
    ## Disease scores during the season
    dd <- r[,lbvars]
@@ -56,7 +58,8 @@ carob_script <- function(path) {
    
    ## fertilizer
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
-   
+   	d$is_survey = FALSE
+
    carobiner::write_files(path, dset, d,timerecs=x)  
 }
 

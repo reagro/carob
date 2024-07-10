@@ -5,7 +5,7 @@ carob_script <- function(path) {
 "Evaluation of yield under late blight and viral disease presence, in Kenya. In the first experiment,16 clones were evaluated under RCBD with 3 repetitions. In the second experiment, 32 clones were evaluated in RCBD with 3 reps. Both trials were established at University of Nairobi, Kabete Campus, Nairobi-Kenya (1800 m a.s.l.). All late blight evaluations were performed 30, 40, 50, 60, 70, 80 and 90 days after planting. The plots were set with a distance of 0.75 m between rows and 0.20 m plants"
 
    uri <- "doi:10.21223/NBW7X3"
-   group <- "lateblight"
+   group <- "disease"
    ff  <- carobiner::get_data(uri, path, group)
    
    dset <- data.frame(
@@ -72,6 +72,7 @@ carob_script <- function(path) {
    d$longitude <- 36.729999
    d$elevation <- 1800
    d$crop <- "potato"
+	d$pathogen <- "Phytophthora infestans"
    d$diseases <- "potato late blight"
    d$row_spacing <- 75  ## from data description 
    d$plant_spacing <- 20  
@@ -79,6 +80,8 @@ carob_script <- function(path) {
    d$on_farm <- TRUE
    d$irrigated <- FALSE
    d$inoculated <- FALSE
+   	d$is_survey = FALSE
+   
    d$yield_part <- "tubers"
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
