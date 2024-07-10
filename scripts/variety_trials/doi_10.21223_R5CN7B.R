@@ -11,7 +11,7 @@ carob_script <- function(path) {
   
    meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
-		publication= NA,# 
+		publication= NA,
 		data_institute = "CIP",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-11-02",
@@ -19,6 +19,7 @@ carob_script <- function(path) {
 		treatment_vars = "variety",
 		project=NA 
    )
+   meta$license <- "CC-BY-4.0"
    
    # read file
    r <- carobiner::read.excel(ff[basename(ff)=="Genetic_Gain_Trials_Peru_Cost_Amazon_90_120_days_full_data_.xlsx"])  
