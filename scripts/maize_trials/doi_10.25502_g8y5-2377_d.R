@@ -32,6 +32,7 @@ carob_script <- function(path) {
 	
 	# drought stress
 	d1 <- data.frame(
+		#publication: drought trials began November and ended in March the following year
 		planting_date = paste0(r1$YEAR, "-11"),
 		harvest_date = paste0(r1$YEAR+1, "-11"),
 		location=r1$LOC,
@@ -55,6 +56,7 @@ carob_script <- function(path) {
 		e_rot=r1$EROT,
 		moist=r1$MOIST,
 		yield = r1$YIELD,
+		#fertilizer rates from publication
 		N_fertilizer=90,
 		P_fertilizer=60,
 		K_fertilizer=60,
@@ -90,6 +92,7 @@ carob_script <- function(path) {
 	  e_rot=r2$EROT,
 	  moist=r2$MOIST,
 	  yield = r2$YIELD,
+      #fertilizer rates from publication
 	  N_fertilizer=90,
 	  P_fertilizer=60,
 	  K_fertilizer=60,
@@ -128,6 +131,7 @@ carob_script <- function(path) {
 	  str_rat1=r3$RAT1,
 	  str_rat2=r3$RAT2,
 	  yield = r3$YIELDIN,
+      #fertilizer rates from publication
 	  N_fertilizer=30,
 	  P_fertilizer=30,
 	  K_fertilizer=30,
@@ -141,23 +145,16 @@ carob_script <- function(path) {
 	)
 
 	d <- carobiner::bindr(d1, d2, d3)
-	
-
-#fertilizer rates(see publication) 
-	
+		
 #field managment(see publication)
 	d$herbicide_used <- TRUE
 	d$herbicide_product <- ifelse(d$location%in% c("BG", "IK", "MO_OPT","IKDS"), "atrazine;paraquat dichloride","atrazine")
-	
-#publication stated all trials began November and ended in March the following year
-  
-#fixing location names (see publication)
+	  
+#location (see publication)
   d$country <- "Nigeria"
   d$location <- gsub("IKDS|IK", "Ikenne", d$location)
   d$location <- gsub("MO|MO_OPT", "Mokwa", d$location)
   d$location <- gsub("BG", "Bagauda", d$location)
-  
-#corresponding longitude and latitude
   d$longitude[d$location=="Ikenne"] <- 3.7150
   d$latitude[d$location=="Ikenne"] <- 6.8833
   d$elevation[d$location=="Ikenne"] <- 60
