@@ -1,6 +1,7 @@
 # R script for "carob"
 
 
+
 carob_script <- function(path) {
 
 "Dataset for yield and stability advanced trial for late blight and heat tolerant (LBHT) potato population conducted in Huancayo, Peru. 150 advanced clones of the LBHT and heat-tolerant population, with three control varieties Yungay, Kory, and Amarilis, besides with 23 parents were planted in Huancayo, Peru between 2021 and 2022. (16 Rows x 12 Columns)"
