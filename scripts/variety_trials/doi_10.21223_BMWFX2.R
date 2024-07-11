@@ -5,7 +5,7 @@ carob_script <- function(path) {
 "Dataset for yield and stability advanced trial for late blight and heat tolerant (LBHT) potato population conducted in San Ramón. 150 advanced clones of the LBHT and heat-tolerant population, with four control varieties Yungay, Kory, Amarilis and Desiree, and 23 parents were planted in San Ramón Peru between 2021 and 2022. (16 Rows x 12 Columns)"
    
    uri <- "doi:10.21223/BMWFX2"
-   group <- "potato_trials"
+   group <- "variety_trials"
    ff  <- carobiner::get_data(uri, path, group)
    
    meta <- data.frame(

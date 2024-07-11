@@ -6,7 +6,7 @@ carob_script <- function(path) {
 We use the randomized complete blocks (RCB) statistical design, with three repetitions of 10 plants each. The NPK dose of 200-180 -160 was used. No fungicide was applied to control the late blight."
 
 	uri <- "doi:10.21223/WX2HIT"
-	group <- "potato_trials"
+	group <- "variety_trials"
 	ff <- carobiner::get_data(uri, path, group)
   
 	meta <- data.frame(

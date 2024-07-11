@@ -7,7 +7,7 @@ carob_script <- function(path) {
 
 
 	uri <- "doi:10.21223/JKNWBC"
-	group <- "potato_trials"
+	group <- "variety_trials"
 	ff  <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(

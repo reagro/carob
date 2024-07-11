@@ -6,7 +6,7 @@ carob_script <- function(path) {
 "During the period 2020-2021, experiments were planted to study the phenotypic stability of tuber yield in thirty advanced clones of the B3C3 population, using the Row-Column statistical design with three replications of ten plants in each experiment. Amarilis, Canchan, and Chucmarina varieties were used as controls, the fertilization dose was 200-180-160 kg NPK per hectare, and pest control was carried out as in a normal potato crop; no fungicides were used for late blight control because the clones are resistant to the disease.The experiment was conducted in the Lastly-Huancayo locality. Harvesting took place 120 days after planting."
 
    uri <- "doi:10.21223/V7ZQD4"
-   group <- "potato_trials"
+   group <- "variety_trials"
    ff <- carobiner::get_data(uri, path, group)
   
 	meta <- data.frame(

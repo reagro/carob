@@ -8,7 +8,7 @@ Samples were prepared and analysed for Fe and Zn by inductively coupled plasma-o
 
 
 	uri <- "doi:10.21223/P3/FHUVF9"
-	group <- "potato_trials"
+	group <- "variety_trials"
 	ff <- carobiner::get_data(uri, path, group)
   
 	meta <- data.frame(
