@@ -1,5 +1,4 @@
-#R script for "carob"
-
+# R script for "carob"
 
 carob_script <- function(path) {
   
@@ -9,7 +8,7 @@ carob_script <- function(path) {
 "
   
   uri <- "doi:10.25502/FP7H-3038"
-  group <- "cassava"
+  group <- "Variety_trials"
   ff <- carobiner::get_data(uri, path, group)
  
   dset <- data.frame(

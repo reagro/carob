@@ -1,3 +1,5 @@
+# R script for "carob"
+
 
 
 carob_script <- function(path) {
@@ -10,7 +12,7 @@ carob_script <- function(path) {
 "
    
    uri <-  "doi:10.21223/P3/4FTDO8"
-   group <- "lateblight"
+   group <- "disease"
    ff <- carobiner::get_data(uri, path, group)
   
    dset <- data.frame(
@@ -75,6 +77,9 @@ carob_script <- function(path) {
    
    ##data type
    d$rep <- as.integer(d$rep)
+	d$pathogen <- "Phytophthora infestans"
+	d$diseases <- "potato late blight"
+   	d$is_survey = FALSE
    
    carobiner::write_files(dset, d, path=path)
    

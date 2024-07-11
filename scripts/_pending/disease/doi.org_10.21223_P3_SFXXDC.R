@@ -10,7 +10,7 @@ carob_script <- function(path) {
 #Metadata for Carob
 
 	uri <- "doi:10.21223/P3/SFXXDC"
-	group <- "lateblight"
+	group <- "disease"
 
 
 	dset <- data.frame(
@@ -50,6 +50,10 @@ carob_script <- function(path) {
 	
 	d$planting_date <- as.character(as.Date("2001-12-10"))
 	d$harvest_date  <- as.character(as.Date("2002-04-02"))
+
+	d$pathogen <- "Phytophthora infestans"
+	d$diseases <- "potato late blight"
+   	d$is_survey = FALSE
 
 	carobiner::write_files(path=path, dset, d, timerecs=p$tim)
 }

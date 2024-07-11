@@ -1,3 +1,5 @@
+# R script for "carob"
+
 
 
 carob_script <- function(path) {
@@ -20,7 +22,7 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 		data_institute = "UNL",
 		carob_contributor="Rachel Mukami",
 		carob_date="2023-07-06",
-		data_type="on farm & on station"
+		data_type="experiment"
 	)
 
 	# reading the datasets
