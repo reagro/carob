@@ -3,10 +3,7 @@
 
 carob_script <- function(path) {
   
-  "
-Genotype ´ environment (G x E) interaction can be studied through multienvironment trials used to select wheat (Triticum aestivum L.) lines. We used spring wheat yield data from 136 international environments to evaluate the predictive ability (PA) of different models in diverse environments by modeling G X E using the pedigree-derived additive relationship matrix (A matrix).
-  
-"
+"Genotype ´ environment (G x E) interaction can be studied through multienvironment trials used to select wheat (Triticum aestivum L.) lines. We used spring wheat yield data from 136 international environments to evaluate the predictive ability (PA) of different models in diverse environments by modeling G X E using the pedigree-derived additive relationship matrix (A matrix)."
   
 	uri <- "hdl:11529/10831"
 	group <- "wheat_trials"
@@ -49,7 +46,7 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
 	d <- data.frame(
 		trial_id = r$code,
 		rep = r$Rep,
-		yield <- as.numeric(r$YLD)*1000, 
+		yield = as.numeric(r$YLD)*1000, 
 		variety = r$Entry
 	)
  
@@ -88,8 +85,6 @@ Genotype ´ environment (G x E) interaction can be studied through multienvironm
 	d$latitude[d$location=="Gemmeiza"] <- 	12.6666536 
 	d$country[d$location=="Gemmeiza"] <- "Sudan" #
 	d$location[d$location=="Pirsabak"] <- "Pir Sabak" 
-
-
 	
 	d$trial_id <- paste0(d$dataset_id, "-", d$code)
 	

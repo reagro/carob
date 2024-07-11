@@ -2,10 +2,7 @@
 
 carob_script <- function(path) {
   
-"
-	Assessment of Varieties of Cassava for high yield, disease resistance in Preliminary 
-	Yield Trial (68 clones) in Malam Madori 2000/2001 Breeding Season
-"
+"Assessment of Varieties of Cassava for high yield, disease resistance in Preliminary Yield Trial (68 clones) in Malam Madori 2000/2001 Breeding Season"
   
   uri <- "doi:10.25502/FP7H-3038"
   group <- "Variety_trials"
@@ -42,7 +39,7 @@ carob_script <- function(path) {
   d$site <- d$locationName
   d$latitude <- 12.56009
   d$longitude <- 9.98599
-  d$yield <- d$fresh.storage.root.weight.per.plot.CO_334.0000012
+#  d$yield <- d$fresh.storage.root.weight.per.plot.CO_334.0000012
   
   d$disease <- NA
   

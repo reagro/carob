@@ -27,11 +27,13 @@ carob_script <- function(path) {
   ## process file(s)
   r <- carobiner::read.excel(f)
   d <- r[,c("Trial_name","Country","Latitude", "Longitude")]
-  colnames(d) <- c("trial_id","country","latitude","longitude")
+  colnames(d) <- c("trial_id", "country", "latitude", "longitude")
   
   ## use a subset
   d <- carobiner::change_names(r, from, to)
   
+# readxl::excel_sheets(f)
+#[1] "Minimal"         "Installation"    "Material_List"   "Crop_management" "Var_List"        "Fieldbook"       "Summary"        
   
   #### about the data #####
   ## (TRUE/FALSE)

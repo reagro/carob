@@ -12,8 +12,6 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project= "TAMASA",
-		## if there is a paper, include the paper's doi here
-		## also add a RIS file in references folder (with matching doi)
 		publication= NA,
 		data_institute = "CIMMYT",
    		data_type="survey",
@@ -26,7 +24,11 @@ carob_script <- function(path) {
 	r <- carobiner::read.excel(f, sheet = "Raw_Data")	
 
 ## use a subset
-	d <- data.frame(location = r$`Name of the Village`)
+	d <- data.frame(
+		location = r$`Name of the Village`,
+		yield = r$`Average yield kg/ha or (Q1+Q2)/2`
+
+
 
 #### about the data #####
 ## (TRUE/FALSE)
@@ -86,11 +88,7 @@ carob_script <- function(path) {
    stop("there are many more soil variables")
   
 ##### Yield #####
-	d$dmy_total <- 
 
-	d$yield <- r$`Average yield kg/ha or (Q1+Q2)/2`
-	#what plant part does yield refer to?
-##	d$yield_part <- d$`Dry wt of cobs in (4mX4m) Q1`+d$`Dry wt of cobs /Q2`
 	
 	#TAMASA_ET_CC_2015_CSAF
 	r2 <- TAMASA_ET_CC_2015_CSAF
