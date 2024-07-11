@@ -41,6 +41,7 @@ if (!file.exists(f)) {
 ```{r setup2, include=FALSE}
 d <- read.csv(f) 
 m <- read.csv(gsub(".csv$", "_meta.csv", f))
+license <- m$license 
 
 tvars <- m$treatment_vars
 treatments <- NULL 
@@ -95,9 +96,13 @@ pub <- ifelse(is.na(m$publication), "", paste0('You can also consult the accompa
 ```
 
 
-This report describes standardized data for "*`r m$title`*". These data were standardized on `r m$carob_date` by `r m$carob_contributor` with this `r script`. The original data are available `r http`. This is the full citation of the data set: 
+This report describes standardized data for "*`r m$title`*". These data were standardized on `r m$carob_date` by `r m$carob_contributor` with this `r script`. The original data are available `r http` under a `r license` [license](https://carob-data.org/licenses.html). 
+</br></br>
+This is the full citation of the data set: 
 
-`r m$data_citation`
+<div style="padding-left: 40px;">
+<b>`r m$data_citation`</b>
+</div>
 
 `r pub`
 

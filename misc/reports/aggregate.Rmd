@@ -59,7 +59,7 @@ if (nrow(xy) > 0) {
 		xytxt <- paste(xytxt, sum(noxy), "records do not have coordinates.")
 	}	
 	haveXY <- TRUE
-	xy$dataset_id <- paste0("<a href='https://carob-data.org/reports/", xy$dataset_id, ".html'>", xy$dataset_id, "</a>")
+	xy$dataset_id <- paste0("<a href='https://carob-data.org/reports/", group, "/", xy$dataset_id, ".html'>", xy$dataset_id, "</a>")
 } else {
 	xytxt <- paste0("for which we have no coordinates.")
 	xy <- cbind(0,0)[0,]
