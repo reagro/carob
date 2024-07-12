@@ -107,7 +107,7 @@ The data are further summarized in the table below
 
 
 ```{r summary, fig.width=6}
-d$longitude <- d$latitude <- NULL
+d$longitude <- d$latitude <- d$dataset_id <- d$trial_id <- d$record_id <- NULL
 dfs <- summarytools::dfSummary(
   d, varnumbers=FALSE, graph.magnif=0.75, 
   max.string.width=20, display.labels=FALSE, valid.col=FALSE)
