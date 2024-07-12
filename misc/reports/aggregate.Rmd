@@ -67,9 +67,8 @@ if (nrow(xy) > 0) {
 }
 
 if (grepl("trials", group)) {
-	varieties <- unique(d$variety)
-	if (is.null(varieties))	varieties <- unique(d$variety_code)
-   vartxt <- paste(" These are trial data for", length(varieties), "varieties.") 
+	varieties <- unique(d[, c("variety", "variety_code")])
+    vartxt <- paste(" These are trial data for", nrow(varieties), "varieties.") 
 } else {
 	vartxt <- ""
 }
@@ -80,7 +79,7 @@ if (grepl("trials", group)) {
 This report describes the the Carob "*`r group`*" group. 
 </br>
 
-This dataset combines `r nsources` standardized individual data [sources](https://carob-data.org/done.html). It has has `r nrow(d)` records and `r ncol(d)` variables for `r length(crop)` crops and `r length(country)` countries. `r vartxt`
+This dataset combines `r nsources` standardized individual data [sources](https://carob-data.org/done.html). It has has `r nrow(d)` records and `r ncol(d)` variables for `r crop` and `r country`. `r vartxt`
 
 </br>
 These are the first `r min(nrow(d), 25)` records: 

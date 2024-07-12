@@ -41,7 +41,7 @@ if (!file.exists(f)) {
 ```{r setup2, include=FALSE}
 d <- read.csv(f) 
 m <- read.csv(gsub(".csv$", "_meta.csv", f))
-license <- m$license 
+license <- trimws(gsub("license", "", m$license))
 
 tvars <- m$treatment_vars
 treatments <- NULL 
