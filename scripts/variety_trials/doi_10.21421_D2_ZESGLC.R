@@ -1,11 +1,7 @@
-
-
-### Note
-
+# R script for "carob"
 
 carob_script <- function(path) {
-   
-   
+      
 " Short Duration Multi-location Trial was carried out to confirm their yield ( pod and fodder) superiority and to also evaluate their resistance and tolerance to biotic stresses. Forty five (45) groundnut lines were used, trial conducted in location: Bayero University research Farm "
    
    uri <- "doi:10.21421/D2/ZESGLC"
@@ -70,8 +66,8 @@ carob_script <- function(path) {
    d$yield_part <- "pod"
    d$trial_id <- "1"
    d$planting_date <- "2014"
-   d$longitude  <- 8.6142193
-   d$latitude  <-  12.1936317
+   d$longitude  <- 8.6142
+   d$latitude  <-  12.1936
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
