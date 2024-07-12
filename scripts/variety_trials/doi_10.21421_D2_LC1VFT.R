@@ -29,8 +29,9 @@ carob_script <- function(path) {
          variety= r$Genotype,
          yield= r$PYH,
          seed_weight = as.numeric(r$HSW)* 10, ## 1000 seed weight,
-         diseases = "late leaf spot;rust",
-         trial_id= gsub(".xlsx", "", basename(f))
+         diseases = "late leaf spot",
+         trial_id= gsub(".xlsx", "", basename(f)),
+		 disease_severity = r$`LLS 90`
       )
       d
       
