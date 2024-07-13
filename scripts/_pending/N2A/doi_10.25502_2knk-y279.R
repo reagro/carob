@@ -104,7 +104,7 @@ carob_script <- function(path) {
 	k[p == "lime"] <- "lime"
 	d$fertilizer_type <- k
 
-	ftab <- carobiner::get_accepted_values("fertilizer_type")
+	ftab <- carobiner::accepted_values("fertilizer_type")
 	get_elements <- carobiner::get_function("get_elements_from_product", path, group)
 	elements <- get_elements(ftab, k)
 

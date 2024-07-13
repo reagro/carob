@@ -137,7 +137,7 @@ do_LCAS <- function(r) {
 	) / plot_ha
 	
     # to get the fertilizer/ha
-	ftab <- carobiner::get_accepted_values("fertilizer_type")
+	ftab <- carobiner::accepted_values("fertilizer_type")
 	ftab <- ftab[match(colnames(fert), ftab$name), c("name", "N", "P", "K", "S", "B", "Mg", "Ca", "Zn")]
 ## define NPK according to R script that comes with the data
 	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(12, 20, 13, 0)	

@@ -104,7 +104,7 @@ carob_script <- function(path) {
 #	ft[,1] <- gsub("Urea", "urea", ft[,1])
 #	fa <- lapply(gsub("149", NA, r$Fertilizer.application.rate), \(i) c(as.numeric(unlist(strsplit(i, ", "))), 0)[1:2])
 #	fa <- do.call(rbind, fa)
-##	ftab <- carobiner::get_accepted_values("fertilizer_type")
+##	ftab <- carobiner::accepted_values("fertilizer_type")
 #	ftab[ftab$name=="NPK", c("N", "P", "K")] <- c(20, 20, 20)	
 #	get_elements <- carobiner::get_function("get_elements_from_product", path, group)
 #	elements <- get_elements(ftab, x$product)

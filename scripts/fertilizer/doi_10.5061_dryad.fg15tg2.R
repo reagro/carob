@@ -12,7 +12,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1"
 
 	uri <- "doi:10.5061/dryad.fg15tg2"
 	group <- "fertilizer"
-	ff <- list.files(dirname(carobiner::get_data(uri, path, group)), full.names = TRUE)
+	ff <- carobiner::get_data(uri, path, group)
 
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1), 
