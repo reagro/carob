@@ -35,3 +35,19 @@ IRRI_LTE <- function(f) {
 	x
 }
 
+
+
+
+#make_irri_lte <- function() {
+#
+#	ids <- c("TWMICE", "TRII7V", "GK6J36", "F9DFPD", "AF00KH", "LBXNBQ", "W2H2SL", "PL9FHO", "JPVKRX", "QYY2JY", "UZQBGX", "8G1DFQ", "26V1HS", "DRTSUI", "GANORJ", "GX0J15", "VNZJ5I", "WORMEW", "TV90PW", "75MPJJ", "WYCUMH", "ECKKQO", "UMYOUM", "RG78QM", "EQUNHF", "W3L3BL", "SGNHNA", "DBPKF6", "7CIDYV", "8YHLBG", "EFCTZR", "CDM9YD", "0DRM60", "ZRZUUJ", "5YCC3C", "F7YC0E", "NAUAPA", "5LRABO", "3HULF7", "EOLTRT", "MIIGR1", "MLHX7H", "XA7ORX", "NENY5L", "AKRLF4", "X3MA2Z", "O9QTTL", "1UP63T", "8R7D8R", "SVQ1XQ")
+#	x <- readLines("doi_10.7910_DVN_26V1HS.R")
+#	x[5] <- "\"This study contains grain yield data collected from IRRI's long term continuous cropping experiment, year\""
+#	i <- grep("\turi <-", x)
+#	for (id in ids) {
+#		x[i] <- paste0("\turi <- \"doi:10.7910/DVN/", id, "\"")  
+#		fname <- paste0("doi_10.7910_DVN_", id, ".R")
+#		if (!file.exists(fname)) writeLines(x, fname)
+#	}
+#}
+

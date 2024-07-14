@@ -79,7 +79,7 @@ if (grepl("trials", group)) {
 This report describes the the Carob "*`r group`*" group. 
 </br>
 
-This dataset combines `r nsources` standardized individual data [sources](https://carob-data.org/done.html). It has has `r nrow(d)` records and `r ncol(d)` variables for `r crop` and `r country`. `r vartxt`
+This dataset combines `r nsources` standardized individual data [sources](https://carob-data.org/done.html). It has has `r nrow(d)` records and `r ncol(d)` variables for `r crop` in `r country`. `r vartxt`
 
 </br>
 These are the first `r min(nrow(d), 25)` records: 

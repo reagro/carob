@@ -4,7 +4,7 @@ carob_script <- function(path) {
 
 "This study contains grain yield data collected from IRRI's long term continuous cropping experiment, 1968"
 
-	uri <- "doi:10.7910/DVN/TRII7V"
+	uri <- "doi:10.7910/DVN/TWMICE"
 	group <- "long_term"
 
 	ff  <- carobiner::get_data(uri, path, group)
