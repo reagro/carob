@@ -11,7 +11,7 @@ carob_script <- function(path) {
   
   meta <- data.frame(
     carobiner::read_metadata(uri, path, group, major=2, minor=0),
-    project="Low Rainfall Wheat Screening Nursery",
+    project="Semi-Arid Wheat Screening Nursery",
     publication = NA,
     data_institute = "CIMMYT",
     carob_contributor="Hope Mazungunye",

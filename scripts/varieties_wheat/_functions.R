@@ -1,12 +1,12 @@
 
 # to do: extract more variables of interest. 
 # not yet included from raw$Trait.name
-# AGRONOMIC_SCORE, SELECTED_CHECK_MARK, LODGING_PERCENT_HARVESTED_AREA, TEST_WEIGHT, YRWarriorRace, SPIKE_LENGTH, GERMINATION_%, CHLOROPHYLL, GRAIN_PROTEIN, Normalized Difference Vegetation Index, GRAIN APPEARANCE SCORE, PHENOL REACTION SCORE, Canopy Temperature, ABOVE_GROUND_BIOMASS, TILLERS BY METER, GRAINS/SPIKE, TILLERS BY M2, SPIKES_M2, GLUTEN_CONTENT, GRAIN_MOISTURE, SEDIMENTATION_INDEX "EMERGENCE_DELAY_BY_DRY_SEED_BED", "FOLIAR_DISEASE_DEVELOPMENT" "FROST_DAMAGE_SPIKE"  "FUNGICIDE" "FUNGICIDE_PRODUCT(S)" "HERBICIDE" "HERBICIDE_DAMAGE"           "HERBICIDE_PRODUCT(S)"[28] "INSECT_DAMAGE" "IRRIGATED" "LENGTH_OF_ROWS_HARVESTED" "LODGING"   "MAJOR_WEED_SPECIES"         "NO_OF_ROWS_HARVESTED"    "OTHER_CHEMICAL(S)"[37] "OTHER_COMMENTS_AND_OBSERVATIONS" "OTHER_MICRONUTRIENT_TOXICITY/DEFICIENCY_Y/N"   "PESTICIDE" "PESTICIDE_PRODUCT(S)"       "ROOT_DISEASE_DEVELOPMENT"  "SOIL_ALUMINIUM_TOXICITY"    "SPACE_BTN_ROWS_HARVESTED"  "SPIKE_DISEASE_DEVELOPMENT"  "WEATHER_COMMENTS"           "WEED_PROBLEM"  "YIELD_FACTOR"  "LODGING"  "FERTILIZER_APPLIED"
+# AGRONOMIC_SCORE, SELECTED_CHECK_MARK, LODGING_PERCENT_HARVESTED_AREA, TEST_WEIGHT, YRWarriorRace, SPIKE_LENGTH, GERMINATION_%, CHLOROPHYLL, GRAIN_PROTEIN, Normalized Difference Vegetation Index, GRAIN APPEARANCE SCORE, PHENOL REACTION SCORE, Canopy Temperature, ABOVE_GROUND_BIOMASS, TILLERS BY METER, GRAINS/SPIKE, TILLERS BY M2, SPIKES_M2, GLUTEN_CONTENT, GRAIN_MOISTURE, SEDIMENTATION_INDEX "EMERGENCE_DELAY_BY_DRY_SEED_BED", "FOLIAR_DISEASE_DEVELOPMENT" "FROST_DAMAGE_SPIKE"  # "INSECT_DAMAGE" "LENGTH_OF_ROWS_HARVESTED" "LODGING"  "NO_OF_ROWS_HARVESTED"    "OTHER_CHEMICAL(S)"[37] "OTHER_COMMENTS_AND_OBSERVATIONS" "OTHER_MICRONUTRIENT_TOXICITY/DEFICIENCY_Y/N"   "ROOT_DISEASE_DEVELOPMENT"  "SOIL_ALUMINIUM_TOXICITY"    "SPACE_BTN_ROWS_HARVESTED"  "SPIKE_DISEASE_DEVELOPMENT"  "WEATHER_COMMENTS"           "WEED_PROBLEM"  "YIELD_FACTOR"  "LODGING"  
 
 
 proc_wheat <- function(ff) {
 
-# not used
+# not yet used
 #	fgeno <- ff[basename(ff) == "29 HRWYT_Genotypes_Data.xls"]
 #	fgrn <- ff[basename(ff) == "29 HRWYT_GrnYld.xls"]
 #	geno <- read.csv(fgeno, sep = "\t")
@@ -18,7 +18,7 @@ proc_wheat <- function(ff) {
 
 	if (carobiner::is_excel(floc)) {
 		loc <- carobiner::read.excel(floc)
-		if (basename(fraw) %in% c("4TH HTWYT_RawData.xlsx", "5TH HTWYT_RawData.xlsx")) {
+		if (basename(fraw) %in% c("7HRWSN_RawData.xlsx", "4TH HTWYT_RawData.xlsx", "5TH HTWYT_RawData.xlsx")) {
 			suppressWarnings(raw <- carobiner::read.excel(fraw, na=c("", "-")))
 		} else {
 			raw <- carobiner::read.excel(fraw, na=c("", "-", "."))
@@ -37,12 +37,8 @@ proc_wheat <- function(ff) {
 	raw <- raw[, vars]
 	
 	raw$Value <- trimws(raw$Value)
-	raw$Value[raw$Value %in% c("-", ".")] <- ""
-	raw$Value[raw$Value == ""] <- NA
-	raw$Value[raw$Value %in% c("NORMAL", "SPARSE", "DENSE")] <- NA
-	raw$Value[raw$Value %in% c("2*", "1/2*", "7+9", "7+8", "7+8/17+18", "17+18", "13+16", "5+10", "2+12", "5+10/2+12")] <- NA
-	raw$Value[raw$Value %in% c("+", "+,-", "1B", "1B/1R", "1B", "1B", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B", "MIX", "1B/1R", "1B/1R", "1B", "1B", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B/1R", "1B", "1B/1R", "1B", "1B/1R", "1B/1R", "MIX", "1B/1R", "1B", "1B/1R", "1B/1R", "1B")] <- NA 
-	raw$Value[raw$Value %in% c("1B/1B", "7+9/17+18", "2.1+12", "2.1+10")] <- NA   
+	raw$Value[raw$Value %in% c("-", ".", "", "NORMAL", "SPARSE", "MIX", "DENSE")] <- NA
+	raw$Value[grep("\\+|\\*|-|B|R", raw$Value)] <- NA   
 
 	raw$Value <- as.numeric(raw$Value)
 	i <- colSums(!is.na(raw))
@@ -145,6 +141,10 @@ proc_wheat <- function(ff) {
 		d$row_spacing <- as.numeric(r$space_btn_rows_sown)
 	}
 
+#beans, , brassica, bw, chile, gm, sesbania, 
+#jhanttar, lino, melon, ,
+# trifolium rpn
+
 
 	m <- matrix(byrow=TRUE, ncol=2, c(	
 		"rough pro", NA, 
@@ -190,8 +190,10 @@ proc_wheat <- function(ff) {
 		"trifolium alexandrinum", "berseem clover",
 		"blend", NA,
 		"b napus", "rapeseed",		
+		"nape seed", "rapeseed",		
 		"brasica napus", "rapeseed",
 		"cartamo", "safflower",
+		"carthamus t.", "safflower",
 		"canola", "rapeseed",
 		"cebada", "barley",
 		"hordeum vulgare", "barley",
@@ -213,13 +215,16 @@ proc_wheat <- function(ff) {
 		"chikpea", "chickpea",
 		"chickpean", "chickpea",
 		"chick-pea", "chickpea",
-		"chocho", "tarwi",
-		"chaincha", "common bean", #chaucha
+		"chocho", "tarwi",		
 		"clasterbean", "guar", 
 		"clusterbean", "guar", 
 		"clasverbeen", "guar", 
-		"claslerbeen", "guar",  # cluster bean		
+		"claslerbeen", "guar",  # cluster bean	
+		"cyamopsis letraqonoloba", "guar", 
+		"cyomipsis spps.", "guar", 
+		"cyonopsis", "guar", 
 		"coe pea", "cowpea", 
+		"cow peas", "cowpea",
 		"cojenus", "pigeon pea", 
 		"cojanus", "pigeon pea", 
 		"cojenus cojon", "pigeon pea", 
@@ -240,7 +245,7 @@ proc_wheat <- function(ff) {
 		"crototeria", "crotalaria",
 		"dehneha", NA,
 		"durum wheat", "durum wheat",
-		"t.aestivum", "wheat",		
+		"t.aestivum", "wheat",
 		"bread wheat", "wheat",
 		"trigo hari", "wheat",
 		"weed free fallow", "none",
@@ -274,28 +279,21 @@ proc_wheat <- function(ff) {
 		"p. / legume", "legume",
 		"legums.", "legume",
 		"frijol", "common bean",
-		"girasol", "sunflower",
 		"g. hirsutum", "cotton",
-		"glycin max", "soybean",
-		"giycin max", "soybean",
 		"grasses", "forage legume",
-		"green grame","mung bean",
-		"green grain", "mung bean",		
-		"moung bean", "mung bean",
-		"vigna radiata", "mung bean", 
-		"vigra radiata", "mung bean", 
-		"v. radiata moong", "mung bean", 		
 		"green manuity", "green manure",
 		"guisante", "pea",
 		"maricot bean", "common bean",
 		"haricot bean", "common bean",
+		"chaincha", "common bean", #chaucha
+		"beans", "common bean",
+		"dry bean", "common bean",		
 		"irish potato", "potato",
 		"lablab (legume)", "lablab",
 		"lab.lab", "lablab",
 		"lab-lab", "lablab",
 		"lablab purpureus (cover crop)", "lablab",
-		"lablab purpureus", "lablab",
-		"lagume crop(soyabean)", "soybean",
+		"lablab purpureus", "lablab",		
 		"leaves vegetable followed by maize", "vegetables; maize",
 		"lechuga", "lettuce",
 		"legumes", "legume", 
@@ -307,6 +305,7 @@ proc_wheat <- function(ff) {
 		"lentils", "lentil",
 		"linseed", "flax",
 		"lolium", "rye grass",
+		"rye cover", "rye",
 		"lupins", "white lupin",
 		"lupinus albus", "white lupin",
 		"lupino", "white lupin", #?
@@ -324,12 +323,11 @@ proc_wheat <- function(ff) {
 		"green mamure", "green manure", 		
 		"green mamude", "green manure", 
 		"green monming", "green manure", 
-		"grundnut", "groundnut",
+		"grundnut", "groundnut",		
 		"g'nut", "groundnut",		
 		"ground nut", "groundnut",
-		"peanut (arachis)", "groundnut",		
-		"helianthus annuus", "sunflower",
-		"helianthus annus", "sunflower",
+		"ground nuts", "groundnut",
+		"peanut (arachis)", "groundnut",				
 		"main season", NA, 
 		"maize", "maize", 
 		"maiz/soja", "maize; soybean",
@@ -339,6 +337,15 @@ proc_wheat <- function(ff) {
 		"maíz", "maize",
 		"zea mays", "maize",
 		"maiz, bajo", "maize",
+		"nung bean", "mung bean",
+		"green gram", "mung bean",
+		"green grame", "mung bean",
+		"green grain", "mung bean",		
+		"moung bean", "mung bean",
+		"vigna radiata", "mung bean", 
+		"vigra radiata", "mung bean", 
+		"v. radiata moong", "mung bean", 	
+		"vigra radiata", "mung bean", 		
 		"maize,mung bean", "maize; mung bean",
 		"maize-wheat", "maize; wheat",
 		"maiz/papa", "maize;potato",
@@ -388,6 +395,7 @@ proc_wheat <- function(ff) {
 		"peas", "pea",
 		"perco", NA,
 		"pennisetum typhoides", "pearl millet",
+		"pennisetum", "pearl millet",
 		"peael millele", "pearl millet",
 		"pearl mill", "pearl millet",
 		"pearli miller", "pearl millet",
@@ -411,6 +419,7 @@ proc_wheat <- function(ff) {
 		"raphanus spp.", "radish", 
 		"rapha nus spp", "radish",
 		"raphanus satirus l", "radish",
+		"raphanus sativus l.", "radish",
 		"upland ric", "rice",
 		"lowland rice", "rice",
 		"ric", "rice",
@@ -433,6 +442,9 @@ proc_wheat <- function(ff) {
 		"saf flower", "safflower",
 		"seaome", "sesame",		
 		"dhaincha", "sesbania",
+		"dantcha", "sesbania",
+		"dencha", "sesbania",
+		"dhencha", "sesbania",
 		"cesbania", "sesbania",
 		"sesbania i", "sesbania",
 		"sesbania indica", "sesbania",
@@ -441,6 +453,8 @@ proc_wheat <- function(ff) {
 		"sesbania\\", "sesbania",
 		"sesbania aculeata", "sesbania",
 		"sesbania as gm", "sesbania",
+		"gm by sesbania", "sesbania",
+		"serbania", "sesbania",
 		"seed production", NA,
 		"sinapis", "mustard",
 		"siga", NA,
@@ -448,7 +462,12 @@ proc_wheat <- function(ff) {
 		"sorgo", "sorghum", 
 		"sorgo forr", "sorghum", 
 		"sorgo forrage", "sorghum", 
+		"sorgo forrajero", "sorghum", 		
 		"forage sorghum", "sorghum", 
+		"lagume crop(soyabean)", "soybean",
+		"soja bean", "soybean",
+		"glycin max", "soybean",
+		"giycin max", "soybean",
 		"sayabean", "soybean", 
 		"soja beans", "soybean", 
 		"soybean js-335", "soybean", 
@@ -458,16 +477,20 @@ proc_wheat <- function(ff) {
 		"soybean", "soybean",
 		"soyabean", "soybean",
 		"soyabeen", "soybean",
+		"soyabeam", "soybean",
+		"soybea", "soybean",
 		"soybaean", "soybean", 
 		"soya beans", "soybean", 
 		"soya bean", "soybean",
 		"soyasean", "soybean",
 		"soy bean", "soybean",
-		"soybea", "soybean",
 		"soybean (glycine max)", "soybean",
+		"soy been", "soybean",
+		"soyabeans", "soybean",
 		"sugar cane", "sugarcane",
 		"sugar came", "sugarcane",
 		"sugar beet-maize", "sugar beet; maize",
+		"suger beet", "sugar beet",
 		"sugar beet", "sugar beet",
 		"sugerbeet", "sugar beet",
 		"sugarr beets", "sugar beet",
@@ -483,6 +506,10 @@ proc_wheat <- function(ff) {
 		"sunflover", "sunflower",
 		"sunflower (helianthus annuus l)", "sunflower",
 		"sunflower; compositae", "sunflower",
+		"helianthus annuus", "sunflower",
+		"helianthus annus", "sunflower",
+		"girasol", "sunflower",
+		"sun flower", "sunflower",		
 		"sunhanp", "sunn hemp",
 		"samhamp", "sunn hemp",
 		"sannhemp", "sunn hemp",
@@ -491,6 +518,7 @@ proc_wheat <- function(ff) {
 		"sunnhamp", "sunn hemp",
 		"sunhemo", "sunn hemp",
 		"srunhemp", "sunn hemp",
+		"sunhavop", "sunn hemp",
 		"sunhemp (flax)", "sunn hemp",
 		"sunhimp (flax)", "sunn hemp",
 		"sun-hamp", "sunn hemp", 
@@ -517,6 +545,7 @@ proc_wheat <- function(ff) {
 		"tramanrice", "rice",
 		"trebol blanco", "white clover", 
 		"trebol rojo", "red clover",
+		"trifolium platense", "red clover", 		
 		"trefoil", "clover",		
 		"trefoil clover", "clover",		
 		"trebol-soja", "clover; soybean",
@@ -525,11 +554,14 @@ proc_wheat <- function(ff) {
 		"trifolium alexandrium", "berseem clover", 
 		"trifolium alexandium", "berseem clover", 
 		"trifolium repens", "white clover", 
+		"trifolim repens", "white clover", 
+		"trifolium rpn", "white clover", 
 		"trypholium subterraneum", "subterranean clover",
 		"triticale", "triticale",
 		"triticum", "wheat",
 		"t. aestivum", "wheat",
 		"upland rice", "rice",
+		"pulse (v. mungo)", "black gram", 		
 		"urdbean (black gram)", "black gram",
 		"urdbean", "black gram",
 		"urdbean- pulses", "black gram",
@@ -582,12 +614,16 @@ proc_wheat <- function(ff) {
 		cbind(fert, splits)
 	}
 	
+	
+	
 	x <- fertfun(r, "fertilizer_%n")
 	d$N_fertilizer <- x[,1]
 	d$N_splits <- as.integer(x[,2])
-
 	d$P_fertilizer <- fertfun(r, "fertilizer_%p")[,1]
 	d$K_fertilizer <- fertfun(r, "fertilizer_%k")[,1]
+
+#	d$fertilizer_used <- NA 
+#	if (!is.null(r$fertilizer_applied))
 	
 	if (!is.null(r$soil_percent_organic_matter)) {
 		d$soil_SOC <- as.numeric(r$soil_percent_organic_matter) * 0.58
@@ -599,6 +635,9 @@ proc_wheat <- function(ff) {
 	d$country[d$country== "Dem Rep of Congo"] <- "Democratic Republic of the Congo"
 	d$country[d$country== "U A Emirates"] <- "United Arab Emirates"
 	d$country[d$country== "Swaziland"] <- "Eswatini"
+	d$country[d$country == "Bosnia"] <- "Bosnia and Herzegovina"
+	d$country[d$country == "Viet Nam"] <- "Vietnam"
+	
 
 	# more could be done. But we should not keep ALL CAPS
 	d$location <- carobiner::fix_name(d$location, "title")
@@ -659,15 +698,24 @@ proc_wheat <- function(ff) {
 	d$H_tritici_repentis <- r$h_tritici_repentis
 	d$grain_Fe <- r$feconcentration
 	d$grain_Zn <- r$znconcentration
+	d$weed_species <- tolow(r$major_weed_species)
 
-	if (!is.null(r$herbicide)) d$herbicide_used <- tolower(r$herbicide) == "yes"
+	if (!is.null(r$fungicide)) d$fungicide_used <- tolower(r$fungicide) == "yes"
 	if (!is.null(r$pesticide)) d$insecticide_used <- tolower(r$pesticide) == "yes"
+	if (!is.null(r$herbicide)) d$herbicide_used <- tolower(r$herbicide) == "yes"
 	d$herbicide_damage <- tolow(r$herbicide_damage)
-	#d$herbicide_product <- tolow(r$`herbicide_product(s)`)
-	#if (!is.null(d$herbicide_product)) {
-	#	d$herbicide_product <- gsub(" and ", ";", d$herbicide_product)
-	#	d$herbicide_product <- gsub("  ", " ", d$herbicide_product)
-	#}
+	
+	clean_product <- function(x) {
+		if (!is.null(x)) {
+			x <- gsub(" and | \\+ |, | - | y | amd ", ";", tolower(x))
+			x <- gsub("  ", " ", x)
+		}
+		x
+	}
+	
+	#d$herbicide_product <- clean_product(r$`herbicide_product(s)`)	
+	#d$fungicide_product <- clean_product(r$`fungicide_product(s)`)
+	#d$insecticide_product <- clean_product(r$`insecticide_product(s)`)
 	
 	d <- d[d$country != "Null", ]
 	d <- d[!is.na(d$yield), ]

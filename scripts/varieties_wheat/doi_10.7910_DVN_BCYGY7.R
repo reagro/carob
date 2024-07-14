@@ -36,7 +36,7 @@ carob_script <- function(path) {
 		variety=r12$Wheat.Variety, 
 		residue_yield=r12$Straw.Yield..ton.ha.*1000, 
 		yield = r12$Grain.yield..ton.ha. * 1000,
-		planting_date = 2016  # from metadata but not sure
+		planting_date = "2016"  # from metadata but not sure
 	)
 	d3 <- data.frame(
 		location=r3$Site, 
@@ -64,6 +64,8 @@ carob_script <- function(path) {
 	d <- merge(d, coord, by="location", all.x=TRUE)
 
 	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+	d$irrigated <- NA
+	d$on_farm <- NA
 	
 	carobiner::write_files(path, meta, d)
 }

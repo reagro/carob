@@ -13,7 +13,7 @@ carob_script <- function(path) {
     carobiner::read_metadata(uri, path, group, major=1, minor=0),
     data_institute = "CIMMYT",
     publication= NA,
-    project="Semi-Arid Wheat Screening Nursery",
+    project="High Rainfall Wheat Screening Nursery",
     data_type= "experiment",
 	treatment_vars = "variety_code",
     carob_contributor= "Fredy Chimire",
