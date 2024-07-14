@@ -23,8 +23,8 @@ ktab <- function(data, caption) {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 }
 
-uri <- "hdl:11529/11054"
-group <- "crop_cuts"
+uri <- "doi:10.7910/DVN/SVQ1XQ"
+group <- "long_term"
 
 suri <- carobiner::simple_uri(uri)
 huri <- carobiner:::http_address(uri)
@@ -49,6 +49,7 @@ treatments <- NULL
 if (!is.null(tvars)) {
    tvars <- trimws(unlist(strsplit(tvars, ";")))
    tvars <- tvars[!(tvars %in% c("none", "longitude", "latitude"))]
+   tvars <- tvars[(tvars %in% names(d))]
    if (length(tvars) > 0) {
      treatments <- unique(d[ , tvars, drop=FALSE])
      treatments <- treatments[order(treatments[,1]), , drop=FALSE]
