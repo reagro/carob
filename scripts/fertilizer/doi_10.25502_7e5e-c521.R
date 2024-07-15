@@ -184,8 +184,7 @@ carob_script <- function(path) {
 	P1 <- gsub("climbing_bean","common bean",P1)
 	P1 <- gsub("sweet_potato","sweetpotato",P1)
 	P1 <- gsub("soya_bean","soybean",P1)
-	P1 <- gsub("vegetables","no crop",P1)
-	P1 <- gsub("other","no crop",P1)
+	P1 <- gsub("other", "unknown", P1)
 	P1 <- gsub("bush_bean","common bean",P1)
 	d$previous_crop <- P1
 

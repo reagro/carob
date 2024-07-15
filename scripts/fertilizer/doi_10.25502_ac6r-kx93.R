@@ -18,14 +18,14 @@ carob_script <- function(path){
 		publication = "doi:10.1016/j.agee.2017.08.015",
 		carob_contributor = "Andrew Sila",
 		carob_date="2023-07-17",
-		data_type = "on farm experiment",
+		data_type = "on-farm experiment",
 		data_institute="IITA",
 		modified_by = "Eduardo Garcia Bendito",
 		last_modified = "2024-03-07"
 	)
 
-p_year <- 2014 #planting year
-h_year <- 2014 # harvest year
+	p_year <- 2014 #planting year
+	h_year <- 2014 # harvest year
 
 	
 	# read the experiment data table
@@ -249,11 +249,11 @@ h_year <- 2014 # harvest year
 	d1$adm2 <- d1$district
 	d1$adm3 <- d1$sector_ward
 	d1$adm3 <- carobiner::fix_name(d1$adm3)
-	d1$site <- d1$village
+	d1$location <- d1$village
 	d1$latitude <- d1$gps_latitude_field
 	d1$longitude <- d1$gps_longitude_field
 
-	d1 <- d1[,c("SN","farm_id", "country", "adm2", "site", "latitude", "longitude")]
+	d1 <- d1[,c("SN","farm_id", "country", "adm2", "location", "latitude", "longitude")]
 	
 	# Go to table 3 from land_crops_and_livestock.csv file
 	
@@ -323,15 +323,15 @@ h_year <- 2014 # harvest year
 	d$inoculated <- as.logical(d$inoculated)
 	d$latitude <- as.numeric(d$latitude)
 	d$longitude <- as.numeric(d$longitude)
-	dikpong.lon <- d$longitude[d$site == "Dikpong"]
-	dikpong.lat <- d$latitude[d$site == "Dikpong"]
-	d$longitude[d$site == "Dikpong"] <- dikpong.lat
-	d$latitude[d$site == "Dikpong"] <- dikpong.lon
-	d$longitude[d$site %in% c("Kaleo", "Toure", "Sawaba per Savelugu", "Totenyili", "Agumisi", "Gumyogo", "Azumsapeliga", "Tambiigu", "Yong")] <- d$longitude[d$site %in% c("Kaleo", "Toure", "Sawaba per Savelugu", "Totenyili", "Agumisi", "Gumyogo", "Azumsapeliga", "Tambiigu", "Yong")] * -1
-	d$longitude[d$site == "Ombo"] <- -2.46
-	d$longitude[d$site == "Bini"] <- -0.49
-	d$latitude[d$site == "Bini"] <- 9.4
-	d$longitude[d$site == "Bussie"] <- -2.5
+	dikpong.lon <- d$longitude[d$location == "Dikpong"]
+	dikpong.lat <- d$latitude[d$location == "Dikpong"]
+	d$longitude[d$location == "Dikpong"] <- dikpong.lat
+	d$latitude[d$location == "Dikpong"] <- dikpong.lon
+	d$longitude[d$location %in% c("Kaleo", "Toure", "Sawaba per Savelugu", "Totenyili", "Agumisi", "Gumyogo", "Azumsapeliga", "Tambiigu", "Yong")] <- d$longitude[d$location %in% c("Kaleo", "Toure", "Sawaba per Savelugu", "Totenyili", "Agumisi", "Gumyogo", "Azumsapeliga", "Tambiigu", "Yong")] * -1
+	d$longitude[d$location == "Ombo"] <- -2.46
+	d$longitude[d$location == "Bini"] <- -0.49
+	d$latitude[d$location == "Bini"] <- 9.4
+	d$longitude[d$location == "Bussie"] <- -2.5
 	omit <- which(colnames(d) %in% c('SN', 'ssid', 'farm_id', 'plot', 'fertilizer'))
 	d <- d[,-omit]
 	
@@ -341,7 +341,10 @@ h_year <- 2014 # harvest year
 	d$crop = "soybean"
 	d$yield_part <- "seed"
 	
-	# all scripts should end like this
+	
+	d$on_farm <- TRUE
+	d$is_survey <- NA 
+	d$irrigated	<- NA
 	
 	carobiner::write_files(meta, d, path=path)
 }

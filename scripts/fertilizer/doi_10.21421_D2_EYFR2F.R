@@ -25,10 +25,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
 	f <- ff[basename(ff) == "Data file of Sorghum Phosphorus trial Kano Nigeria.xlsx"]
 	r <- carobiner::read.excel(f)
   
-  #names(d)
-  # e <- d[,c(1,2,4,5,6,14,15,16)]
-  # colnames(e) <- c('planting_date','location','rep','P_fertilizer','variety_type','yield','residue_yield','seed_weight')
-  
+
 	d <- data.frame(
 		country = "Nigeria",
 		adm1 = "Kano",

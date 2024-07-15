@@ -16,7 +16,7 @@ carob_script <- function(path) {
 		data_institute = "IITA",
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2021-10-06",
-		data_type="on-farm experiments",
+		data_type="on-farm experiment",
 		project="AFSIS",
 		treatment_vars = "N_fertilizer;K_fertilizer;P_fertilizer;Zn_fertilizer;S_fertilizer;lime"
  	)
