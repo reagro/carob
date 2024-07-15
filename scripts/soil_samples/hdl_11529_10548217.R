@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	group <- "soil_samples"
 	ff  <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIMMYT",
 		publication = NA,
@@ -64,7 +64,7 @@ carob_script <- function(path) {
 	
 	d$date <- "2016-01"
 	
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }
 
  

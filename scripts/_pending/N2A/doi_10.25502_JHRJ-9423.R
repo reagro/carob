@@ -17,7 +17,7 @@ carob_script <- function(path){
   ff <- carobiner::get_data(uri,path,group)
   
   
-  dset <- data.frame (
+  meta <- data.frame (
     group = group,
     uri = uri,
     project="N2Africa",
@@ -136,6 +136,6 @@ carob_script <- function(path){
 ##  z$longitude <- 35.52956
   
  # all scripts should end like this
-  carobiner::write_files(dset, z, path, dataset_id, group)
+  carobiner::write_files(meta, z, path, dataset_id, group)
  
 }

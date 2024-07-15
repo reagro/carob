@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	group <- "soil_samples"
 
 	ff <- carobiner::get_data(uri, path, group)
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project=NA,
 		publication= NA,
@@ -75,7 +75,7 @@ carob_script <- function(path) {
 	d$soil_sample_top <- as.numeric(ifelse(r$`Soil Depth` == 'Top Soil', 0, 20 ))
 	d$soil_sample_bottom <- as.numeric(ifelse(r$`Soil Depth` == 'Sub Soil', 20, 50))
 	
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }
 
 

@@ -24,7 +24,7 @@ carob_script <- function(path){
   
 
   
-  dset <- data.frame(
+  meta <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=1, minor=0),
     project="N2Africa",
     publication= NA,
@@ -232,7 +232,7 @@ carob_script <- function(path){
              "previous_crop","row_spacing","plant_spacing","fertilizer_type","N_fertilizer","P_fertilizer",
              "K_fertilizer","residue_yield","yield_part","yield","on_farm","is_survey")]
   
-  carobiner::write_files(dset, z, path=path)
+  carobiner::write_files(meta, z, path=path)
   # resulting error is from pigeon pea's yield. It's low amount could result from lack of proper yield units due to unknown plot size .
 }
 

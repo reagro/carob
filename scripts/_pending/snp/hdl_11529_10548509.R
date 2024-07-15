@@ -13,7 +13,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project=NA,
 		#data_citation="Sukumaran, Sivakumar, 2020, Physiological pre-breeding crossing block dataset, https://hdl.handle.net/11529/10548509, CIMMYT Research Data & Software Repository Network, V1, UNF:6:zXWmVpPwNsYZNjlM1Pd6sQ== [fileUNF]",
@@ -25,6 +25,6 @@ carob_script <- function(path) {
 	)
 
 
-#	carobiner::write_files(dset, d, path=path)
+#	carobiner::write_files(meta, d, path=path)
 }
 	

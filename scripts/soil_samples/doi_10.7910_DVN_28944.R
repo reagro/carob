@@ -8,7 +8,7 @@ carob_script <- function(path) {
 	group <- "soil_samples"
 	ff  <- carobiner::get_data(uri, path, group)
   
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=5, minor=2),
 		data_institute = "CIAT",
 		publication = NA,
@@ -66,5 +66,5 @@ carob_script <- function(path) {
 		country =  'Democratic Republic of the Congo'
 	)
 
-    carobiner::write_files(path, dset, d)
+    carobiner::write_files(path, meta, d)
 }

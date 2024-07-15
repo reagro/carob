@@ -17,7 +17,7 @@ carob_script <- function(path) {
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
  
-  dset <- data.frame(
+  meta <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     publication= NA, 
     data_institute = "IITA",
@@ -268,5 +268,5 @@ carob_script <- function(path) {
 	d$crop[grep(";", d$crop)] <- t[[1]]
 	d$intercrops[grep(";", d$crop)] <- t[[2]]
 
-  carobiner::write_files(dset, d, path=path)
+  carobiner::write_files(meta, d, path=path)
 }

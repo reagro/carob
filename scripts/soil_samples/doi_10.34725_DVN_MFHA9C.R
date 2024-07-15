@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	group <- "soil_samples"
 	ff  <- carobiner::get_data(uri, path, group)
   
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "ICRAF",
 		publication= "doi:10.1016/j.earscirev.2016.01.012.",
@@ -98,5 +98,5 @@ carob_script <- function(path) {
 	# }
 	#carobiner::geocode(latlon_miss[1,1], latlon_miss[1,2])
 
-    carobiner::write_files(path, dset, d)
+    carobiner::write_files(path, meta, d)
 }

@@ -16,7 +16,7 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10554"
 	group <- "maize_trials"
 	ff	<- carobiner::get_data(uri, path, group)
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		#data_citation="Global Maize Program, 2018, International Late White Hybrid Trial - ILWH0607, https://hdl.handle.net/11529/10554, CIMMYT Research Data & Software Repository Network, V1",
 		data_institute = "CIMMYT",
@@ -80,5 +80,5 @@ carob_script <- function(path) {
 	
 	d <- carobiner::bindr(d0, d1, d2, d3)
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }

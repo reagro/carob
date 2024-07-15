@@ -12,7 +12,7 @@ carob_script <- function(path) {
    
    ff  <- carobiner::get_data(uri, path, group)
    
-   dset <- data.frame(
+   meta <- data.frame(
       carobiner::read_metadata(uri, path, group, major=2, minor=1), 
       data_institute = "CIMMYT", 
       publication ="doi:10.5897/AJAR2019.14338", 
@@ -76,7 +76,7 @@ carob_script <- function(path) {
    ## taking out some of the crazy ones. Others still very high.
    d$fertilizer_amount[d$fertilizer_amount > 2000] <- NA
    
-   carobiner::write_files(path, dset, d)
+   carobiner::write_files(path, meta, d)
    
 }
 

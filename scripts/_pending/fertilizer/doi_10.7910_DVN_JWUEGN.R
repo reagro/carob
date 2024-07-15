@@ -23,7 +23,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
   
-  dset <- data.frame(
+  meta <- data.frame(
   	carobiner::read_metadata(uri, path, major=1, minor=0, group),
     publication=NA,
     carob_contributor="Siyabusa Mkuhlani",
@@ -83,7 +83,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
  ##re-order
  e <- e[, c("rep","dataset_id","trial_id","country","on_farm","is_survey","planting_date","harvest_date","crop","N_fertilizer","variety","yield","dmy_leaves","plant_spacing","row_spacing")]       
  
- carobiner::write_files(dset, e, path, dataset_id, group)
+ carobiner::write_files(meta, e, path, dataset_id, group)
 }
 
 

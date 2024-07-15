@@ -12,7 +12,7 @@ Increasing organic matter/carbon contents of soils is one option from a basket o
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project=NA,
 		## if there is a paper, include the paper's doi here
@@ -52,6 +52,6 @@ Increasing organic matter/carbon contents of soils is one option from a basket o
 	d$yield_part <- "grain"
 
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 

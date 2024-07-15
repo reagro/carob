@@ -8,7 +8,7 @@ carob_script <- function(path) {
   group <- "Variety_trials"
   ff <- carobiner::get_data(uri, path, group)
  
-  dset <- data.frame(
+  meta <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     project=NA,
     publication= "",
@@ -49,7 +49,7 @@ carob_script <- function(path) {
   d[which(!is.na(d$cassava.bacterial.blight.incidence.3.month.evaluation.CO_334.0000178), c("disease"))] <- "cassava_bacterial_blight"
     
 
-    carobiner::write_files(path, dset, d, path)
+    carobiner::write_files(path, meta, d, path)
 }
 
 

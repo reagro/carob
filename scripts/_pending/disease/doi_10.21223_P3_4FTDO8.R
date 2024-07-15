@@ -15,7 +15,7 @@ carob_script <- function(path) {
    group <- "disease"
    ff <- carobiner::get_data(uri, path, group)
   
-   dset <- data.frame(
+   meta <- data.frame(
    	carobiner::read_metadata(uri, path, group, major=1, minor=3),
       publication= NA,# 
       data_institute = "CIP",
@@ -81,7 +81,7 @@ carob_script <- function(path) {
 	d$diseases <- "potato late blight"
    	d$is_survey = FALSE
    
-   carobiner::write_files(dset, d, path=path)
+   carobiner::write_files(meta, d, path=path)
    
 }
 ## CN

@@ -13,7 +13,7 @@ carob_script <- function(path) {
 	ff	 <- carobiner::get_data(uri, path, group)
   
 	## data set level data 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="N2Africa",
 		publication=NA,
@@ -33,7 +33,7 @@ carob_script <- function(path) {
 	d$yield[d$yield > 10000] <- NA
 	d <- d[!is.na(d$yield),]
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 	
 }
 

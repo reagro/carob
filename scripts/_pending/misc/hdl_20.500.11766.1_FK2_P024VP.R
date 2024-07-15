@@ -13,7 +13,7 @@ carob_script <- function(path) {
 	group <- "conservation group"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		project=NA,
 		## if there is a paper, include the paper's doi here
@@ -79,7 +79,7 @@ carob_script <- function(path) {
 	d$plant_height<-d$Plant_Height
 	#residual yield
 	d$residue_yield<-d$Stover
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 
 ## now test your function in a _clean_ R environment (no packages loaded, no other objects available)

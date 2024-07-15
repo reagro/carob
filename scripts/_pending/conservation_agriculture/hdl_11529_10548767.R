@@ -12,7 +12,7 @@ carob_script <- function(path) {
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=3),
 		project=NA,
 		https://hdl.handle.net/11529/10548767, CIMMYT Research Data & Software Repository Network, V1",
@@ -80,5 +80,5 @@ carob_script <- function(path) {
 	##data type
 	d$yield<-  as.numeric(d$yield)
 	d$yield<- d$yield*1000 # convert in kg/ha
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }

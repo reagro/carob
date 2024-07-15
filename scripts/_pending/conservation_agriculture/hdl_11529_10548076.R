@@ -19,7 +19,7 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
   group <- "conservation_agriculture"
   ff	<- carobiner::get_data(uri, path, group)
  
-  dset <- data.frame(
+  meta <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=2),
     project="Rabi (winter) crops-all nodes-Long term trial (LT)-Rangpur-Bangladesh",
     publication= NA,
@@ -133,6 +133,6 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
   dd <- lapply(ff, fun)
   dd <- do.call(rbind, dd)
   
-  #carobiner::write_files(dset, dd, path=path)
+  #carobiner::write_files(meta, dd, path=path)
 }
 carob_script(path)

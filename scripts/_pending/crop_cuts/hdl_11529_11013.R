@@ -13,7 +13,7 @@ carob_script <- function(path) {
   group <- "crop_cuts"
   ff <- carobiner::get_data(uri, path, group)
  
-  dset <- data.frame(
+  meta <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=3),
     project="TAMASA",
     ## if there is a paper, include the paper's doi here
@@ -90,6 +90,6 @@ carob_script <- function(path) {
 #    mergeddf <- merge(d, geocodes2, by=c("country","adm2"),all.x=TRUE)
 
     
-   carobiner::write_files(dset, d, path=path)
+   carobiner::write_files(meta, d, path=path)
 }
 

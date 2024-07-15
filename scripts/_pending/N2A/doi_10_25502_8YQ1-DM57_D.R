@@ -26,7 +26,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, major=1, minor=0, group),
 		publication=NA,
 		carob_contributor="Effie Ochieng'",
@@ -145,7 +145,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	
 	d <- d[!is.na(d$crop),]
 
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 
 # # EGB:

@@ -14,7 +14,7 @@ This dataset contains information from on-farm validation trials conducted acros
 	group <- "??" 
 	ff  <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIMMYT",
 		publication= NA,
@@ -113,6 +113,6 @@ This dataset contains information from on-farm validation trials conducted acros
 	d$country <- "Nigeria"
 	
 # all scripts must end like this
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }
 

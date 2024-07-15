@@ -8,7 +8,7 @@ carob_script <- function(path)
 	group <- "conservation_agriculture"
 	ff <- carobiner::get_data(uri, path, group)
  
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
 		## if there is a paper, include the paper's doi here
@@ -91,6 +91,6 @@ carob_script <- function(path)
 	
 	d <- d[,c("on_farm", "is_experiment", "treatment", "crop", "crop_rotation", "elevation", "longitude", "latitude", "crop", "crop_rotation", "P_fertilizer","K_fertilizer", "N_fertilizer", "fertlizer_type")]
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 

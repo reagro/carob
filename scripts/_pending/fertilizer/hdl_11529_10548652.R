@@ -10,7 +10,7 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 	
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=4, minor=0),
 		project=NA,
 		## if there is a paper, include the paper's doi here
@@ -190,7 +190,7 @@ carob_script <- function(path) {
 	d<- d[, c("country","adm1","site","latitude","longitude","elevation","planting_date","crop","rep","treatment","plant_density","N_fertilizer","yield","yield_part","dmy_total")]
 	
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 
 ## now test your function in a clean R environment 

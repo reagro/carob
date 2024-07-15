@@ -14,7 +14,7 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10548008"
 	group <- "conservation_agriculture"
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="Rabi (winter) crops-all nodes- Validation trials -Rangpur-Bangladesh",
 		## if there is a paper, include the paper's doi here
@@ -118,7 +118,7 @@ carob_script <- function(path) {
 	
 	##data type
 	
-	carobiner::write_files(dset, d, path=path)	
+	carobiner::write_files(meta, d, path=path)	
 }
 	
 	

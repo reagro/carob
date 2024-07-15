@@ -21,7 +21,7 @@ The experiment was established in 1986 and continued until 2018 at the ICRISAT S
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 	   publication="doi:10.21421/D2/AVKD0T",
 	   carob_contributor="Eduardo Garcia Bendito",
@@ -109,6 +109,6 @@ The experiment was established in 1986 and continued until 2018 at the ICRISAT S
 	
 	d <- d[,c(9:35)]
 
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 
 }

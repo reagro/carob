@@ -8,7 +8,7 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10831"
 	group <- "wheat_trials"
 	ff <- carobiner::get_data(uri, path, group)
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		publication= "doi:10.2135/cropsci2016.06.0558",
 		data_institute = "CIMMYT", 
@@ -96,7 +96,7 @@ carob_script <- function(path) {
 	#data type
 	d$yield_part <- "grain"
 
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 	
 }
 

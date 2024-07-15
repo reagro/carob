@@ -8,7 +8,7 @@ carob_script <- function(path) {
   uri <- "doi:10.7910/DVN/FPPDCG"
   group <- "soil_samples"
   ff <- carobiner::get_data(uri, path, group)
-  dset <- data.frame(
+  meta <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=1, minor=0),
     project= NA,
     ## if there is a paper, include the paper's doi here
@@ -72,9 +72,9 @@ carob_script <- function(path) {
 	# 
 	# # Drop id, original_id, year and district columns from d
 	# k <- which(colnames(d) %in% c("id", "original_id", "year", "district"))
-	# carobiner::write_files(dset, d[,-k], path=path)
+	# carobiner::write_files(meta, d[,-k], path=path)
 	
-	carobiner::write_files(dset, d1, path=path)
+	carobiner::write_files(meta, d1, path=path)
 }
 
 

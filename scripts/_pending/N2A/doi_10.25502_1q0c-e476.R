@@ -18,7 +18,7 @@ carob_script <- function(path) {
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="N2Africa",
 		## if there is a paper, include the paper's doi here
@@ -135,7 +135,7 @@ carob_script <- function(path) {
 	                                34.074, 34.338, 33.701, 34.338, 34.074))
 
 	d <- merge(d, sss, by = c("country", "adm1", "site"), all.x=TRUE)
-	carobiner::write_files(dset, dd, path=path)
+	carobiner::write_files(meta, dd, path=path)
 }
 
 # # # EGB: Extracting spatial coordinates:
