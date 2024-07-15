@@ -17,7 +17,7 @@ affect the variation in the yield of maize. The dataset was created through a co
 
 	ff  <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIAT",
 		publication= NA, 
@@ -69,7 +69,7 @@ affect the variation in the yield of maize. The dataset was created through a co
 	d$harvest_date  <-	as.character(as.Date(r$Harvest_Date, format = '%m/%d/%Y'))
 	d$yield_part <- "grain"
 	
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }
 
 

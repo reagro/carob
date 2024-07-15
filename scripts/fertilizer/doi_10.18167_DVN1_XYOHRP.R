@@ -12,7 +12,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		publication= NA,
 		data_institute = "CIRAD",
@@ -70,7 +70,7 @@ carob_script <- function(path) {
 message("should also process soil and weather data")
 
 	
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
    
 }
 

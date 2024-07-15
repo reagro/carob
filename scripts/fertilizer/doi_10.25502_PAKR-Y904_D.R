@@ -12,7 +12,7 @@ Description:
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
 	 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		publication=NA,
 		data_institute = "IITA",
@@ -94,7 +94,7 @@ Description:
 	d$yield <- as.numeric(d$yield)
 	d$soil_SOC <- d$soil_SOC / 10
 
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 	
 }
 

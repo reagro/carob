@@ -13,7 +13,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	group <- "fertilizer"
 	ff	 <- carobiner::get_data(uri, path, group)
   
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, major=1, minor=0, group),
 		publication=NA,#"issn-2315-5094",
 		carob_contributor="Siyabusa Mkuhlani",
@@ -76,6 +76,6 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	e$plant_height <- d$PH_M_cm
 	e$dmy_stems <- d$`Stalk yield` # Not sure if it is DMY... 
 
-	carobiner::write_files(dset, e, path=path)
+	carobiner::write_files(meta, e, path=path)
 
 }

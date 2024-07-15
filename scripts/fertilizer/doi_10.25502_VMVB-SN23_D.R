@@ -24,7 +24,7 @@ carob_script <- function(path){
   ff <- carobiner::get_data(uri, path, group)
   
   # The metadata at the dataset level
-	dset <- data.frame(
+	meta <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="N2Africa",
 		publication="doi:10.21955/gatesopenres.1115299.1",
@@ -192,6 +192,6 @@ carob_script <- function(path){
 	
 	z$yield_part <- "seed"
 	
-	carobiner::write_files(dset, z, path=path)
+	carobiner::write_files(meta, z, path=path)
 }
 

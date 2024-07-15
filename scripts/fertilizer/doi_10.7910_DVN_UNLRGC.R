@@ -20,7 +20,7 @@ Notes: citation could be improved to include the underlying data sources.
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=3),
 		publication="doi:10.1007/s10705-015-9717-2",
 		carob_contributor="Camila Bonilla",
@@ -151,7 +151,7 @@ Notes: citation could be improved to include the underlying data sources.
 	zz$yield_part <- "grain"
 
 #	dataset_id <- paste0(cleanuri, "-fao")
-#	dset$dataset_id <- dataset_id
+#	meta$dataset_id <- dataset_id
 
 	zz$on_farm <- NA
 	zz$is_survey <- FALSE
@@ -180,9 +180,9 @@ Notes: citation could be improved to include the underlying data sources.
 	# most likely here
 	zz$K_fertilizer[is.na(zz$K_fertilizer)] <- 0
 
-	carobiner::write_files(dset, zz, path=path)
+	carobiner::write_files(meta, zz, path=path)
 ##	affao <- carobiner::bindr(afsis_data, zz)
-##	carobiner::write_files(dset, affao, path=path)
+##	carobiner::write_files(meta, affao, path=path)
 }
 
 

@@ -19,7 +19,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
  
-  dset <- data.frame(
+  meta <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=1),
     publication= NA, 
     data_institute = "IITA",
@@ -212,5 +212,5 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
   # data type
   d$location <- as.character(d$location)
   d$yield_part <- "seed"
-  carobiner::write_files(dset, d, path=path)
+  carobiner::write_files(meta, d, path=path)
 }

@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=5) ,
 		publication=NA,
 		carob_contributor="Eduardo Garcia Bendito",
@@ -114,6 +114,6 @@ carob_script <- function(path) {
 	d$trial_id <- paste0(d$trial_id, "-", id)
 	
 	d$yield_part <- "grain"
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 
 }

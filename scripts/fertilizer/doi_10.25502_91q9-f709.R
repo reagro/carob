@@ -11,7 +11,7 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
   
-  dset <- data.frame(
+  meta <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=1, minor=0),
     project="N2Africa",
     publication= NA,
@@ -236,5 +236,5 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
   z$longitude <- ifelse(isna,z$lon, z$longitude)
 	z$lon <- z$lat <- NULL
   
-  carobiner::write_files(dset, z, path=path)
+  carobiner::write_files(meta, z, path=path)
 }

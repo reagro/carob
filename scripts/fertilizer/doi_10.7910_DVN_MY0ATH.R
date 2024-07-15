@@ -10,7 +10,7 @@ carob_script <- function(path) {
 
 	ff  <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=4), 
 		data_institute = "IITA", 
 		publication = NA, 
@@ -167,7 +167,7 @@ carob_script <- function(path) {
 	)
 	d <- merge(d, geo, by="location", all.x = TRUE)
    
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }
 
 

@@ -6,7 +6,7 @@ carob_script <- function(path) {
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2),
 		data_institute = "UNL;OAF",
 		publication="doi:10.1038/s41467-024-48859-0",
@@ -66,6 +66,6 @@ carob_script <- function(path) {
 			1, \(i) paste(i, collapse=";")
 		)
 
-	carobiner::write_files(path, dset, d) 
+	carobiner::write_files(path, meta, d) 
 }
 

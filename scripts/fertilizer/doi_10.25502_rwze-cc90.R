@@ -18,7 +18,7 @@ carob_script <- function(path) {
 	ff	<- carobiner::get_data(uri, path, group)
 	 
 	## data set level data
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="N2Africa",
 		publication=NA,
@@ -38,7 +38,7 @@ carob_script <- function(path) {
     K_fertilizer = numeric(0), P_fertilizer = numeric(0), Zn_fertilizer = numeric(0), 
     S_fertilizer = numeric(0), yield_part = character(0))
  
-	carobiner::write_files(path, dset, d, dataset_id, group)
+	carobiner::write_files(path, meta, d, dataset_id, group)
 
 }
 
@@ -123,6 +123,6 @@ carob_script <- function(path) {
 						# "seed_weight","yield","row_spacing","plant_spacing","on_farm","is_survey","longitude","latitude")]
 	
 	
-	# carobiner::write_files(dset, z, path, dataset_id, group)
+	# carobiner::write_files(meta, z, path, dataset_id, group)
 	# TRUE
 # }

@@ -22,7 +22,7 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	ff <- carobiner::get_data(uri, path, group)
 
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		project = "CSISA",
 		publication = "doi:10.1016/j.fcr.2014.09.019",
@@ -135,5 +135,5 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	)
 
 	d <- merge(d, geo, by="adm2", all.x=TRUE)
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }

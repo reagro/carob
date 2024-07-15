@@ -11,7 +11,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		publication=NA,
 		project="AfSIS",
@@ -31,7 +31,7 @@ carob_script <- function(path) {
     S_fertilizer = numeric(0), yield_part = character(0))
  
  
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 
 }
 
@@ -131,7 +131,7 @@ carob_script <- function(path) {
 # d <- replace(d,d=='',NA)
 # all scripts must end like this
 
-# carobiner::write_files(dset, d, path=path)
+# carobiner::write_files(meta, d, path=path)
 
 
 # }

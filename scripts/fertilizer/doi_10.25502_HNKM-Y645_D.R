@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	group <- "fertilizer"
 	ff	 <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		project="N2Africa", 
 		publication= NA, 
@@ -80,7 +80,7 @@ carob_script <- function(path) {
 	dd <- dd[!is.na(dd$yield), ]
 	
 	
-	carobiner::write_files(dset, dd, path=path)
+	carobiner::write_files(meta, dd, path=path)
 
 }
 	

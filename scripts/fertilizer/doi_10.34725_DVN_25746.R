@@ -20,7 +20,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, major=1, minor=0, group),
 		publication = "doi:10.2134/agronj2012.0063",
 		carob_contributor = "Camila Bonilla",
@@ -117,6 +117,6 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	d$rep <- as.integer(d$rep)
 	d <- d[!is.na(d$yield), ]
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 

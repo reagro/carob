@@ -14,7 +14,7 @@ carob_script <- function(path) {
   group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
  
-  dset <- data.frame(
+  meta <- data.frame(
   	carobiner::read_metadata(uri, path, group, major=2, minor=0),
     publication="hdl:20.500.11766/5084",
     data_institute = "ICARDA",
@@ -70,6 +70,6 @@ carob_script <- function(path) {
     dd <- rbind(dd,d) 
   }
 	dd$yield_part <- "grain"  
-  carobiner::write_files(dset, dd, path=path)
+  carobiner::write_files(meta, dd, path=path)
 }
 

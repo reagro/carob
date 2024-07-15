@@ -13,7 +13,7 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication="doi:10.1155/2018/7676058",
 		carob_contributor="Eduardo Garcia Bendito",
@@ -78,6 +78,6 @@ Nitrogen (N) is an essential nutrient for sorghum growth and development but oft
 	
 	d$yield_part <- "grain"
 
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 
 }

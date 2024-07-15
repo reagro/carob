@@ -8,14 +8,15 @@ carob_script <- function(path) {
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
 	
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project=NA,
 		publication= NA,
 		data_institute = "CIP",
 		data_type="experiment", 
 		carob_contributor="Mary Njogu; Stephen Gichuhi",
-		carob_date="2023-01-22"
+		carob_date="2023-01-22",
+		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer"
 	)
 	 
 	f1 <- ff[basename(ff) == "Scaling_AKILIMO_yield_data.csv"]
@@ -24,11 +25,16 @@ carob_script <- function(path) {
 	f2 <- ff[basename(ff) == "DataDictionary_SA-VAP-1.xlsx"]  
 	fert <- carobiner::read.excel(f2, sheet="Fertilizer treatments", skip=1)
 	 
-	d <- data.frame(country="Rwanda", 
-			crop="potato", yield_part = "tubers",
-			yield=r$tuberY * 1000, 
-			latitude=r$Latitude, longitude=r$Longitude, 
-			elevation=r$Altitude, treatment=r$treat)
+	d <- data.frame(
+		country="Rwanda", 
+		crop="potato", 
+		yield_part = "tubers",
+		yield=r$tuberY * 1000, 
+		latitude=r$Latitude, 
+		longitude=r$Longitude, 
+		elevation=r$Altitude, 
+		treatment=r$treat
+	)
  
 	d$harvest_date <- as.character(as.Date(r$today, format= "%d-%b-%y"))
 	d$trial_id <- as.character(as.integer(as.factor(paste(d$latitude, d$longitude))))
@@ -53,7 +59,13 @@ carob_script <- function(path) {
 	i <- d$yield > 100000
 	d$yield[i] <- d$yield[i] / 10
 
-	carobiner::write_files(dset, d, path=path)
+
+	d$planting_date <- as.character(NA)
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
+	d$irrigated <- NA
+
+	carobiner::write_files(meta, d, path=path)
 }
 
 

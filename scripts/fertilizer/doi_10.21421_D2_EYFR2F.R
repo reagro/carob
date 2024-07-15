@@ -12,7 +12,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
 	group <- "fertilizer"
   ff <- carobiner::get_data(uri, path, group)
   
-	dset <- data.frame(
+	meta <- data.frame(
   	carobiner::read_metadata(uri, path, major=1, minor=0, group),
 		publication=NA, # "http://oar.icrisat.org/id/eprint/10842" Is the reference
 		carob_contributor="Siyabusa Mkuhlani",
@@ -88,7 +88,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
 	d$yield_part <- "grain"
 
   #all scripts should end like this
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 
 }
 

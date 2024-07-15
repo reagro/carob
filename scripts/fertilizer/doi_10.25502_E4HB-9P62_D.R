@@ -21,7 +21,7 @@ carob_script <- function(path) {
 	ff	 <- carobiner::get_data(uri, path, group)
   
 	## data set level data 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="N2Africa",
 		publication=NA,
@@ -193,6 +193,6 @@ carob_script <- function(path) {
 	w$soil_N[w$soil_N < 1] <- NA
 	w$soil_K[w$soil_K < 1] <- NA
 	
-	carobiner::write_files(dset, w, path=path)
+	carobiner::write_files(meta, w, path=path)
 }
 

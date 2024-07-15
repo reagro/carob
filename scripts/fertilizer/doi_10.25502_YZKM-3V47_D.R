@@ -23,7 +23,7 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 	   project=NA,
 	   # this DOI is currently not active
@@ -85,6 +85,6 @@ The aim of this reinvestment is to achieve impact at smallholder level at scale 
 	d$planting_date <- pdates[d$planting_date]
 	
 
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 

@@ -15,7 +15,7 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	ff <- carobiner::get_data(uri, path, group)
 
   ## data set level data0
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication= "doi:10.1007/s10705-018-9915-9",
 		project="Optimizing Fertilizer Use in Africa",
@@ -164,7 +164,7 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	z <- z[,!(colnames(z) %in% c("longitude", "latitude"))]
 	z <- merge(z, gi, by = c("country", "location"))
 	
-	carobiner::write_files(path, dset, z)
+	carobiner::write_files(path, meta, z)
 }
 
 

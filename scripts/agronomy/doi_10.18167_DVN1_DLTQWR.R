@@ -7,60 +7,47 @@ carob_script <- function(path) {
 
 
 	uri <- "doi:10.18167/DVN1/DLTQWR"
-	group <- "fertilizer"
+	group <- "agronomy"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 	   project=NA,
 	   publication= "doi:10.1038_s43016-020-0114-x",
 	   data_institute = "CIRAD",
 	   carob_contributor="Eduardo Garcia Bendito",
 	   carob_date="2023-04-20",
-	   data_type="compilation"
+	   data_type="compilation",
+	   treatment_vars="land_prep_method"
 	)
 
 	f <- ff[basename(ff) == "Donnees_meta-analyse_2020.txt"]
 
 	# Handling unknown-8bit charset
-	r <- read.table(f, sep = "\t", quote = "", fileEncoding="latin1")
-	colnames(r) <- r[1,]
-	r <- r[2:nrow(r),]
-  # Reshape dataset to long
-	rr <- reshape(r, direction='long', 
-	              varying=c('Grain_yield_CT', 'Grain_yield_CA'), 
-	              timevar='tillage',
-	              times=c('CT', 'CA'),
-	              v.names=c('yield'),
-	              idvar='observation')
+	r <- read.table(f, sep = "\t", quote = "", fileEncoding="latin1", header=TRUE)
 
-## process file(s)
+	# reshape to long
+	rr <- reshape(r, direction="long", varying=c("Grain_yield_CT", "Grain_yield_CA"), 
+	        timevar="tillage", times= c("CT", "CA"), v.names= "yield", idvar= "observation")
 
-#### about the data #####
 
-	d <- data.frame("on_farm" = ifelse(rr$Study_type == "on-farm", TRUE, FALSE))
-	
-	d$trial_id <- paste0(rr$ref)
-## the treatment code	
-	d$treatment <- paste0("N", ifelse(as.numeric(gsub(",", ".", rr$Applied_N)) > 0, paste0("N", floor(as.numeric(gsub(",", ".", rr$Applied_N)))), 0),
-	                      "P", ifelse(as.numeric(gsub(",", ".", rr$Applied_P)) > 0, paste0("P", floor(as.numeric(gsub(",", ".", rr$Applied_P)))), 0),
-	                      "K0")
-
+	d <- data.frame(
+		on_farm = rr$Study_type == "on-farm",
+		trial_id = as.character(rr$ref)
+	)
 
 ##### Location #####
-## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
-## you can use carobiner::fix_name()
 
 	rr$Site <- trimws(gsub("\\.", ",", rr$Site))
 	d$country <- trimws(gsub(".*,", "", rr$Site))
-	d$site <- gsub("(.*),.*", "\\1", rr$Site)
+	d$location <- gsub("(.*),.*", "\\1", rr$Site)
 	
 	d$elevation <- round(as.numeric(rr$Altitude), 0)
 ## each site must have corresponding longitude and latitude
 	# Process coordinates
 	
 	crd <- rr$Coordinates
-	crd <- gsub("´", "'", crd)
+	crd <- gsub("´", "'", crd)	
 	crd <- gsub("°", "'", crd)
 	crd <- gsub("to", "#", crd)
 	crd <- gsub("o", "'", crd)
@@ -161,5 +148,9 @@ carob_script <- function(path) {
 	d$land_prep_method <- tillage
 
 	d <- d[!is.na(d$yield), ] 
-	carobiner::write_files(dset, d, path=path)
+	
+	d$is_survey <- NA
+	d$irrigated <- NA
+	
+	carobiner::write_files(meta, d, path=path)
 }

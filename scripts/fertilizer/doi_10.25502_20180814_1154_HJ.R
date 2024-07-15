@@ -15,7 +15,7 @@ carob_script <- function(path) {
 	group <- "fertilizer"
 	ff	 <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		publication=NA,#  10.1016/j.agee.2016.05.012
 		data_institute = "IITA",
@@ -98,6 +98,6 @@ carob_script <- function(path) {
 	d[d==""] <- NA
 	d$yield_part <- "grain"
 	d <- d[!is.na(d$yield), ]
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 

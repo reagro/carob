@@ -16,7 +16,7 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
   
   ## data set level data
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="N2Africa",
 		publication=NA,
@@ -156,6 +156,6 @@ carob_script <- function(path) {
             # "N_fertilizer","P_fertilizer","K_fertilizer","yield","row_spacing","plant_spacing",
             # "on_farm","is_survey")]
   
-  # carobiner::write_files(dset, z, path, dataset_id, group)
+  # carobiner::write_files(meta, z, path, dataset_id, group)
 # }
 

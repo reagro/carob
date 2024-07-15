@@ -13,7 +13,7 @@ are developed that are tested on farmer's fields in validation trials in a large
    group <- "fertilizer"
    ff <- carobiner::get_data(uri, path, group)
    
-   dset <- data.frame(
+   meta <- data.frame(
       carobiner::read_metadata(uri, path, group, major=1, minor=2),
       project=NA, 
       publication= NA, 
@@ -74,6 +74,6 @@ are developed that are tested on farmer's fields in validation trials in a large
    d$harvest_date <- "2017-11-01"
 
    
-   carobiner::write_files(path, dset, d)   
+   carobiner::write_files(path, meta, d)   
 }
 

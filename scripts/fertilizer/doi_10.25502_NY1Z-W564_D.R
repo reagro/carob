@@ -16,7 +16,7 @@ carob_script <- function(path) {
 	ff	<- carobiner::get_data(uri, path, group)
   
   ## data set level data
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication=NA,
 		project="N2Africa",
@@ -38,7 +38,7 @@ carob_script <- function(path) {
 		S_fertilizer = numeric(0), yield_part = character(0))
  
  
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 
 }
 
@@ -221,5 +221,5 @@ carob_script <- function(path) {
 						# ,"planting_date","harvest_date","crop","variety","inoculated","OM_used","OM_type","OM_amount","fertilizer_type","N_fertilizer",
 						# "P_fertilizer","K_fertilizer","row_spacing","plant_spacing","yield","on_farm","is_survey")]
 	
-	# carobiner::write_files(dset, z, path, dataset_id, group)
+	# carobiner::write_files(meta, z, path, dataset_id, group)
 # }

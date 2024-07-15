@@ -12,7 +12,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
   
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, major=1, minor=1, group),
 		publication=NA,
 		carob_contributor="Siyabusa Mkuhlani",
@@ -57,7 +57,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	 
 	e$yield_part <- "pod"
 	
-	carobiner::write_files(dset, e, path=path)
+	carobiner::write_files(meta, e, path=path)
 }
 
 

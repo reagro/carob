@@ -10,14 +10,15 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
 	  
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, major=1, minor=0, group),
 		publication= "doi:10.12692/ijb/9.1.291-302",
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
 		data_type="experiment",
 		data_institute="ICRISAT",
-		project=NA		
+		project=NA,
+		treatment_vars="plant_density;P_fertilizer"		
 	)
 	  
 	f <- ff[basename(ff) == "Data file of Groundnut to plant density and phosphorous application in Minjibir 2012-13.xlsx"]
@@ -42,7 +43,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 		residue_yield = r$FdWtKgHa,
 		seed_weight = r$seedgm,
 		crop = "groundnut",
-		yield_part <- "pod",
+		yield_part = "pod",
 		trial_id = r$Location,
 		on_farm = TRUE,
 		is_survey = FALSE,	
@@ -71,7 +72,10 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 
 	d <- merge(d, ss, by ="s1", all.x = TRUE)
 	
-	carobiner::write_files(dset, d, path=path)
+	d$s1 <- NULL
+	d$irrigated <- NA
+	
+	carobiner::write_files(meta, d, path=path)
 }
 
 

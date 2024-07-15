@@ -21,7 +21,7 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 	ff <- carobiner::get_data(uri, path, group)
   
   # The metadata at the dataset level
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=2),
 		project=NA,
 		publication= NA,
@@ -198,6 +198,6 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 	# removing records without coordinates from Kihara_Wkenya
 	d <- d[!is.na(d$latitude), ]
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 

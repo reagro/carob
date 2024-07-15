@@ -16,7 +16,7 @@ improving household nutrition and increasing income levels of smallholder farmer
   
  
   
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		project="N2Africa",
 		publication= "doi:10.1080/23311932.2020.1722353",
@@ -179,6 +179,6 @@ improving household nutrition and increasing income levels of smallholder farmer
 	
 	f$yield_part <- "seed"
 	
-	carobiner::write_files(dset, f, path=path)
+	carobiner::write_files(meta, f, path=path)
 }
 

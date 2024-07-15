@@ -10,7 +10,7 @@ carob_script <- function(path){
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri,path,group)
 	
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major = 1, minor = 0),
 		project = "N2Africa",
 		publication = NA,
@@ -123,7 +123,7 @@ carob_script <- function(path){
 	q$latitude[i] <- -0.55
 
 	# all scripts should end like this
-	carobiner::write_files(dset, q, path=path)
+	carobiner::write_files(meta, q, path=path)
 }  
   
   

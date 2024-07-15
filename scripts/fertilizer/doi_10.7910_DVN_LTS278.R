@@ -9,7 +9,7 @@ Maize grain and bio-mass yield were increased by application of different rates 
 	uri <- "doi:10.7910/DVN/LTS278"
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, major=1, minor=0, group),
 		publication=NA,
 		carob_contributor="Siyabusa Mkuhlani",
@@ -119,6 +119,6 @@ Maize grain and bio-mass yield were increased by application of different rates 
 	dv$latitude[dv$adm3=='Omo Nada'] <- 7.6333333
 	dv$yield_part <- "grain"
 
-	carobiner::write_files(dset, dv, path=path)
+	carobiner::write_files(meta, dv, path=path)
 }
 

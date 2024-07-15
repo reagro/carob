@@ -11,7 +11,7 @@ The data support a research article which is under review “Increased cassava g
    group <- "fertilizer" 
 	ff <- carobiner::get_data(uri, path, group)
   
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=3),
 		publication= "doi:10.1016/j.fcr.2023.109056",
 		data_institute = "IITA",
@@ -74,7 +74,7 @@ The data support a research article which is under review “Increased cassava g
 	d$yield_part <- "roots" 
 	d$planting_date <- ifelse(d$season == "LR2014", "2014", "2015")
 	
-	carobiner::write_files(dset, d, path=path)
+	carobiner::write_files(meta, d, path=path)
 	
 }
 

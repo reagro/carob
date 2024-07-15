@@ -6,21 +6,19 @@ carob_script <- function(path) {
 "This dataset comprises data from on farm trials conducted in sub-humid Zimbabwe during two cropping seasons (2017/18-2018/19). The study investigated the effect of maize-cowpea intercropping on productivity, biological N2-fixation and grain mineral content compared to sole crops. The effect of soil characteristics (homefield vs outfield) and of cowpea varieties landrace) was also studied (2020-08-17)"
   
 	uri <- "doi:10.18167/DVN1/IJOA5J" 
-	group <- "fertilizer"
+	group <- "agronomy"
 	ff <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		publication= "doi:10.1016/j.fcr.2020.108052",
 		data_institute = "CIRAD",
 		data_type="experiment", 
 		carob_contributor="Effie Ochieng'",
 		carob_date="2023-10-23",
-		project=NA
+		project=NA,
+		treatment_vars="intercrops"
 	)
-  
-  
-  
   
 	f <- ff[basename(ff) == "Namatsheve_et_al_Dataset.xlsx"]
 	r <- readxl::read_excel(f, sheet = 2) 
@@ -31,10 +29,12 @@ carob_script <- function(path) {
 	d1 <- carobiner::change_names(d, c("100_seed_mass_cowpeas_9.7", "Cowpea_yield_kg_ha"), c("seed_weight", "yield"))
 	d1 <- d1[,c("Site","Field","Treatment","Treatment_desc","System","Cowpea_variety","Fertilizer" ,"Year","Net_plot_m2","seed_weight", "yield")]
 	d1$crop <- "cowpea"
+	d1$intercrops <- "maize"
 	d1$yield_part <- "seed"
 	d2 <- carobiner::change_names(d, c("100_seed_mass_maize_12.5","Maize_yield_kg_ha"), c("seed_weight", "yield"))
 	d2 <- d2[,c("Site","Field","Treatment","Treatment_desc","System","Cowpea_variety","Fertilizer" ,"Year","Net_plot_m2","seed_weight", "yield")]
 	d2$crop <- "maize"
+	d2$intercrops <- "cowpea"
 	d2$yield_part <- "grain"
 	d <- carobiner::bindr(d1,d2)
   
@@ -58,6 +58,7 @@ carob_script <- function(path) {
 	c$seed_weight2 <- NULL
 	c$Cowpea_yield_kg_ha <- NULL
 	c$crop <- ifelse(grepl("cowpea",c$Treatment_desc), "cowpea", "maize")
+	c$intercrops <- "none"
 	c$yield_part <- ifelse(grepl("cowpea",c$crop), "seed", "grain")
 	c <- carobiner::change_names(c, c("seed_weight1", "Maize_yield_kg_ha"), c("seed_weight", "yield"))
 
@@ -129,6 +130,6 @@ carob_script <- function(path) {
 	f$previous_crop <- carobiner::replace_values(f$previous_crop,c("sweet_potatoes", "groundnuts","velvet_beans","fallow"), c("sweetpotato","groundnut","velvet bean",NA))
 	f <- f[-1:-9]
   
-    carobiner::write_files(dset, f, path=path)
+    carobiner::write_files(meta, f, path=path)
 }
 
