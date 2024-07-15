@@ -32,7 +32,11 @@ carob_script <- function(path) {
 	d <- do.call(carobiner::bindr, d) 
 	
 	d$emergence_date[d$emergence_date == "2026-08-26"] <- "2001-08-26"
-	d$planting_date[d$planting_date %in% c("00-01", "96-97", "94-95", "98-99")] <- NA
+		
+	d$planting_date[d$planting_date == "94-95"] <- "1994"
+	d$planting_date[d$planting_date == "96-97"] <- "1996"
+	d$planting_date[d$planting_date == "98-99"] <- "1998"
+	d$planting_date[d$planting_date == "00-01"] <- "2000"
 		
 	carobiner::write_files(path, meta, d)
 }

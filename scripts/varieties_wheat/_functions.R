@@ -16,9 +16,11 @@ proc_wheat <- function(ff) {
 	floc <- ff[grep("Loc_data.xls", basename(ff))]
 	fraw <- ff[grep("RawData.xls", basename(ff))]
 
+
+
 	if (carobiner::is_excel(floc)) {
 		loc <- carobiner::read.excel(floc)
-		if (basename(fraw) %in% c("7HRWSN_RawData.xlsx", "4TH HTWYT_RawData.xlsx", "5TH HTWYT_RawData.xlsx")) {
+		if (basename(fraw) %in% c("30TH IBWSN_RawData.xlsx", "31ST IBWSN_RawData.xlsx", "7HRWSN_RawData.xlsx", "4HRWYT_RawData.xlsx", "5HRWYT_RawData.xlsx", "4TH HTWYT_RawData.xlsx", "5TH HTWYT_RawData.xlsx")) {
 			suppressWarnings(raw <- carobiner::read.excel(fraw, na=c("", "-")))
 		} else {
 			raw <- carobiner::read.excel(fraw, na=c("", "-", "."))
@@ -39,6 +41,7 @@ proc_wheat <- function(ff) {
 	raw$Value <- trimws(raw$Value)
 	raw$Value[raw$Value %in% c("-", ".", "", "NORMAL", "SPARSE", "MIX", "DENSE")] <- NA
 	raw$Value[grep("\\+|\\*|-|B|R", raw$Value)] <- NA   
+	raw$Value[raw$Value == "FALSE"] <- 0
 
 	raw$Value <- as.numeric(raw$Value)
 	i <- colSums(!is.na(raw))
@@ -141,12 +144,9 @@ proc_wheat <- function(ff) {
 		d$row_spacing <- as.numeric(r$space_btn_rows_sown)
 	}
 
-#beans, , brassica, bw, chile, gm, sesbania, 
-#jhanttar, lino, melon, ,
-# trifolium rpn
-
-
-	m <- matrix(byrow=TRUE, ncol=2, c(	
+	m <- matrix(byrow=TRUE, ncol=2, c(
+		"amaranthus caudatus", "foxtail amaranth",
+		"buck wheat", "buckwheat",
 		"rough pro", NA, 
 		"zallon", NA,
 		"intercroping", NA,
@@ -170,12 +170,13 @@ proc_wheat <- function(ff) {
 		"amaranthus", "amaranth",
 		"arvejas para congelado", "pea",
 		"arveja", "pea",
-		"avena+vici", "oats; vetch", 
-		"avena+vicia", "oats; vetch", 
-		"avena + vicia", "oats; vetch", 
-		"avena-vicia", "oats; vetch",
-		"avena vicia", "oats; vetch", 
-		"avena / vicia", "oats; vetch", 
+		"vicia-aven", "oats;vetch", 
+		"avena+vici", "oats;vetch", 
+		"avena+vicia", "oats;vetch", 
+		"avena + vicia", "oats;vetch", 
+		"avena-vicia", "oats;vetch",
+		"avena vicia", "oats;vetch", 
+		"avena / vicia", "oats;vetch", 
 		"avena", "oats",
 		"avena sativa", "oats",
 		"baira", "pearl millet",
@@ -183,7 +184,8 @@ proc_wheat <- function(ff) {
 		"bajwa", "pearl millet",
 		"pearl millet", "pearl millet",
 		"pearl-mill", "pearl millet",
-		"beans&potatoes", "common bean; potato",
+		"beans&potatoes", "common bean;potato",
+		"potato and rapeseed", "potato;rapeseed",
 		"berseem (fodder)", "berseem clover",
 		"berseen", "berseem clover",
 		"egyption", "berseem clover",
@@ -192,6 +194,7 @@ proc_wheat <- function(ff) {
 		"b napus", "rapeseed",		
 		"nape seed", "rapeseed",		
 		"brasica napus", "rapeseed",
+		"rape-seed", "rapeseed",
 		"cartamo", "safflower",
 		"carthamus t.", "safflower",
 		"canola", "rapeseed",
@@ -228,7 +231,8 @@ proc_wheat <- function(ff) {
 		"cojenus", "pigeon pea", 
 		"cojanus", "pigeon pea", 
 		"cojenus cojon", "pigeon pea", 
-		"cajones", "pigeon pea", 		
+		"cajones", "pigeon pea",
+		"pegion pea", "pigeon pea",		
 		"compositea", NA, 
 		"compositae", NA, 
 		"corn", "maize",
@@ -277,6 +281,7 @@ proc_wheat <- function(ff) {
 		"food legume", "legume",		
 		"legums", "legume",
 		"p. / legume", "legume",
+		"frijol-mai", "common bean;maize",
 		"legums.", "legume",
 		"frijol", "common bean",
 		"g. hirsutum", "cotton",
@@ -289,6 +294,7 @@ proc_wheat <- function(ff) {
 		"beans", "common bean",
 		"dry bean", "common bean",		
 		"irish potato", "potato",
+		"posoto", "potato",
 		"lablab (legume)", "lablab",
 		"lab.lab", "lablab",
 		"lab-lab", "lablab",
@@ -303,6 +309,7 @@ proc_wheat <- function(ff) {
 		"leguminosas", "legume",
 		"leguminosae", "legume",
 		"lentils", "lentil",
+		"lino", "flax",
 		"linseed", "flax",
 		"lolium", "rye grass",
 		"rye cover", "rye",
@@ -556,6 +563,7 @@ proc_wheat <- function(ff) {
 		"trifolium repens", "white clover", 
 		"trifolim repens", "white clover", 
 		"trifolium rpn", "white clover", 
+		"trifolium ppn", "white clover", 
 		"trypholium subterraneum", "subterranean clover",
 		"triticale", "triticale",
 		"triticum", "wheat",
@@ -630,6 +638,7 @@ proc_wheat <- function(ff) {
 	}
 	if (!is.null(r$soil_ph_actual_value)) {
 		d$soil_pH <- as.numeric(r$soil_ph_actual_value)
+		d$soil_pH[d$soil_pH == 0] <- NA
 	}
 					
 	d$country[d$country== "Dem Rep of Congo"] <- "Democratic Republic of the Congo"

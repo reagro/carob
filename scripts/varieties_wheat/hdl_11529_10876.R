@@ -31,7 +31,6 @@ carob_script <- function(path) {
 	}
 
 	dd <- do.call(carobiner::bindr, d)
-	d
 
 	dd$soil_pH[dd$soil_pH > 20] <- NA
 	
