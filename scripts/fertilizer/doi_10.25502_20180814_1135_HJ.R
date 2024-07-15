@@ -3,8 +3,7 @@
 
 carob_script <- function(path) {
 
-"The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments).
-"
+"The AFSIS project aimed to establish an Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments)."
 
 	uri <- "doi:10.25502/20180814/1135/HJ"
 	group <- "fertilizer"
@@ -18,7 +17,8 @@ carob_script <- function(path) {
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2021-10-06",
 		data_type="on-farm experiments",
-		project="AFSIS"
+		project="AFSIS",
+		treatment_vars = "N_fertilizer;K_fertilizer;P_fertilizer;Zn_fertilizer;S_fertilizer;lime"
  	)
 
 	f1 <- ff[basename(ff) == "Kiberashi_DT2010_field.csv"]

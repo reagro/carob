@@ -64,7 +64,8 @@ carob_script <- function(path) {
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- NA
-
+	d <- unique(d)
+	
 	carobiner::write_files(meta, d, path=path)
 }
 

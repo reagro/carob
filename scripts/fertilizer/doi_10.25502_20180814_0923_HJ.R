@@ -17,8 +17,10 @@ carob_script <- function(path) {
 		data_institute = "IITA", 
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-04-04",
-		data_type="experiment"
+		data_type="experiment",
+		treatment_vars = "N_fertilizer;K_fertilizer;P_fertilizer;Zn_fertilizer;S_fertilizer;lime"
     )
+
 	f1 <- ff[basename(ff) == "Kasungu_DT2011_field.csv"]
 	f2 <- ff[basename(ff) == "Kasungu_DT2011_plot.csv"]	
 #	fx <- ff[basename(ff) == "Kasungu_DT2011_plant.csv"]

@@ -4,8 +4,7 @@
 
 carob_script <- function(path) {
    
-"Dataset recording the observation of different variables related to rice growth, weeds, nitrogen content in rice biomass and grains, rice yield, macrofauna and grub countings, and nematodes under 3 different rotations (one with rice followed by groundnut, one with rice followed by a cereal-legume mixture, one with rice followed by a legume mixture) and a rice monocropping during 4 years.in Malagasy highlands Climatic data (monthly) for the 4 years of the trial are also included (rainfall, temperature).
-"
+"Dataset recording the observation of different variables related to rice growth, weeds, nitrogen content in rice biomass and grains, rice yield, macrofauna and grub countings, and nematodes under 3 different rotations (one with rice followed by groundnut, one with rice followed by a cereal-legume mixture, one with rice followed by a legume mixture) and a rice monocropping during 4 years.in Malagasy highlands Climatic data (monthly) for the 4 years of the trial are also included (rainfall, temperature)."
    
 	uri <-  "doi:10.18167/DVN1/XYOHRP"
 	group <- "fertilizer" 
@@ -19,7 +18,8 @@ carob_script <- function(path) {
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-10-15",
 		data_type="experiment",
-		project=NA 
+		project=NA,
+		treatment_vars = "crop_rotation"		
 	)
    
 	r1 <- carobiner::read.excel(ff[basename(ff)=="DonneesDATAVERSE_F1.xlsx"], sheet="DataBiomassYieldN")  
@@ -39,20 +39,20 @@ carob_script <- function(path) {
 	qom <- r2$Quantity.of.applied.manure.t.ha.1.of.DM  * 10
 	d2 <- data.frame(
 		season = r2$Season,
-		OM_amount = qom,
-		N_fertilizer = r2$N.pct * qom, 
-		P_fertilizer = r2$P.pct * qom,
-		K_fertilizer = r2$K.pct * qom,
-		Ca_fertilizer = r2$Ca.pct * qom,
-		Mg_fertilizer = r2$Mg.pct * qom
+		OM_amount = qom / r2$pct.DM,
+		N_organic = r2$N.pct * qom, 
+		P_organic = r2$P.pct * qom,
+		K_organic = r2$K.pct * qom,
+		Ca_organic = r2$Ca.pct * qom,
+		Mg_organic = r2$Mg.pct * qom
 	)
 	
 	d <- merge(d1, d2, by="season")
 
-	d$crop_rotation[d$crop_rotation=="RG"] <- "rice; groundnut"
-	d$crop_rotation[d$crop_rotation=="RR"] <- "rice; rice"
-	d$crop_rotation[d$crop_rotation=="RVC"] <- "rice; cereal; legume"
-	d$crop_rotation[d$crop_rotation=="RSC"] <- "rice; cereal"
+	d$crop_rotation[d$crop_rotation=="RG"] <- "rice;groundnut"
+	d$crop_rotation[d$crop_rotation=="RR"] <- "rice;rice"
+	d$crop_rotation[d$crop_rotation=="RVC"] <- "rice;cereal;legume"
+	d$crop_rotation[d$crop_rotation=="RSC"] <- "rice;cereal"
 
  
 	d$planting_date <- paste0("20", substr(d$season, 1, 2))
@@ -66,6 +66,8 @@ carob_script <- function(path) {
 	d$on_farm <- TRUE
 	d$irrigated <- FALSE
 	d$is_survey <- FALSE
+
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 
 message("should also process soil and weather data")
 
