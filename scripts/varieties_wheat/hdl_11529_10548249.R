@@ -23,7 +23,6 @@ carob_script <- function(path) {
 
 	years <- gsub(".xlsx", "", grep("HRWSN.xlsx", basename(ff), value=TRUE))
 	
-	options(warn=2)
 	d <- lapply(years, \(y) {
 		f <- ff[grep(paste0("^", y), basename(ff))]
 		proc_wheat(f)
