@@ -55,7 +55,7 @@ carob_script <- function(path) {
     ) 
     
     d2$fertilizer_type <- apply(r2[, grep("Application_Product.used", names(r2))], 1, 
-                                \(i) paste(unique(i), collapse="; "))
+                             \(i) paste(unique(i), collapse="; "))
     
     
     r3 <- carobiner::read.excel.hdr(f, sheet ="14 - Grain Harvest ", skip=4, hdr=3)	
@@ -93,6 +93,7 @@ carob_script <- function(path) {
 	d$fertilizer_type <- gsub("UREA", "urea", d$fertilizer_type)
 	d$fertilizer_type <- gsub("N:P:K|10-26-26|1899-12-31 10:26:26|:26:26", "NPK", d$fertilizer_type)
 	d$fertilizer_type <- gsub("[0-9]|-|:|,", '', d$fertilizer_type)
+	d$fertilizer_type[grep("boron", d$fertilizer_type, TRUE)] <- "boron"
   
   
 	code = c("CTTPR-RL-JTJ", "CTTPR-RL-ZTJ", "UPTPR-RL-ZTJ", "CTTPR-CTL-ZTJ", "CTTPR-ZTL-ZTJ", 

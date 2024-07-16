@@ -18,7 +18,8 @@ carob_script <- function(path) {
 		data_institute = "CIMMYT",
 		data_type="experiment", 
 		carob_contributor="Mitchelle Njukuya",
-		carob_date="2023-02-06"
+		carob_date="2023-02-06",
+		treatment_vars = "land_prep_method;irrigation_?"
 	)
 	
 	f <- ff[basename(ff) == "PUB-201-DIB_2021-Data_2021-12-12_corrected.xlsx"]

@@ -17,7 +17,7 @@ carob_script <- function(path) {
 		data_type="compilation",
 		treatment_vars="none",
 		carob_contributor="Fredy Chimire",
-		carob_date="2024-2-24"
+		carob_date="2024-02-24"
 	)
 
 	f <- ff[basename(ff) == "02a. Maize data for meta_analysis_updated.txt"]
