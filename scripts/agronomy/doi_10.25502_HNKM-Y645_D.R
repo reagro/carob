@@ -80,6 +80,8 @@ carob_script <- function(path) {
 	# Removing 1 single observation without yield...
 	dd <- dd[!is.na(dd$yield), ]
 	
+
+	dd$irrigated <- NA
 	
 	carobiner::write_files(meta, dd, path=path)
 

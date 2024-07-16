@@ -83,6 +83,9 @@ carob_script <- function(path) {
 	pdates <- paste0("2017-", c("04", "06", "08"))
 	d$planting_date <- pdates[d$planting_date]
 	
+	d$on_farm <- TRUE
+	d$is_survey <- TRUE
+	d$irrigated <- NA
 
 	carobiner::write_files(meta, d, path=path)
 }

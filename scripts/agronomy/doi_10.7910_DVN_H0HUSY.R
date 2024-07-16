@@ -1,7 +1,6 @@
 # R script for "carob"
 
 
-
 carob_script <- function(path){
   
 "Title: Impact of NPK fertilization on upland rice yield, Nicaragua
@@ -20,7 +19,8 @@ Description: This dataset contains information of experiments carried out upland
 		carob_contributor="Jean-Martial Johnson",
 		carob_date="2022-12-09",
 		data_type="experiment",
-		project=NA
+		project=NA,
+		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer"		
     )
   
 	

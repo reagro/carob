@@ -66,7 +66,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	
 	# Additional variables
 #	e$flowering_date <- as.character(as.Date(e$planting_date) + d$Flo_c_day)
-	e$flowering <- d$Flo_c_day # Two terms that mean the same thing?
+	e$flowering_days <- d$Flo_c_day # Two terms that mean the same thing?
 	e$plant_height <- d$PH_M_cm
 	e$dmy_stems <- d$`Stalk yield` # Not sure if it is DMY... 
 

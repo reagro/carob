@@ -1,19 +1,9 @@
 # R script for "carob"
 
-"
-Title: N2Africa agronomy trials - Rwanda, 2010
+"Title: N2Africa agronomy trials - Rwanda, 2010
   
-Description: N2Africa is to contribute to increasing biological nitrogen fixation and productivity 
-of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, 
-improving household nutrition and increasing income levels of smallholder farmers. As a vision of success,
-N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit 
-from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants
-and fertilizers adapted to local settings. A strong national expertise in grain legume production and 
-N2-fixation research and development will be the legacy of the project. The project is implemented in 
-five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, 
-Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
+Description: N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries."
 
-"
 carob_script <- function(path) {
   
 	uri <- "doi:10.25502/E4HB-9P62/D"
@@ -193,7 +183,10 @@ carob_script <- function(path) {
 	w$soil_pH[w$soil_pH < 3] <- NA
 	w$soil_N[w$soil_N < 1] <- NA
 	w$soil_K[w$soil_K < 1] <- NA
-	
+
+	w$is_survey <- FALSE
+	w$irrigated <- NA
+
 	carobiner::write_files(meta, w, path=path)
 }
 

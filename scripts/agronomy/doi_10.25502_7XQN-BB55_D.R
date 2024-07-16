@@ -55,6 +55,10 @@ carob_script <- function(path) {
 	)
 	
 	d <- merge(d, x, all.x=TRUE, by="treatment")
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
+	d$irrigated <- NA
+	
 	carobiner::write_files(meta, d, path=path)
 }
 

@@ -4,8 +4,7 @@
 
 carob_script <- function(path) {
 
-"
-  Secondary and micronutrients are important in enhancing crop productivity; yet, they are hardly studied in sub-Sahara Africa. In this region, the main focus has been on macronutrients but there is emerging though scattered evidence of crop productivity limitations by the secondary and micronutrients. Elsewhere, widespread deficiencies of these nutrients are associated with stagnation of yields. In total, 530 rows of yield data were extracted from the 40 papers of which 49.4% were on sulfur (S) response, 23.0% on Zn, 7.4% on Cu, 3.0% on Mo, 4.5% on Fe, 1.1% on boron (B), and 11.5% involved two or more, i.e., S and micronutrient combinations. Here, we undertake a meta-analysis using 40 articles reporting crop response to secondary and micronutrients to (1) determine the productivity increase of crops and nutrient use efficiency associated with these nutrients, and (2) provide synthesis of responses to secondary nutrients and micronutrients in sub-Sahara Africa. This study used 757 yield data rows (530 from publications and 227 from Africa Soil Information Service) from field trials carried out in SSA between 1969 and 2013 in 14 countries. Data from publications constituted response to S (49.4%), Zn (23.0%), S and micronutrient combinations (11.5%), and <10% each for Cu, Mo, Fe, and B. Data from Africa Soil Information Service were all for S and micronutrient combinations. Of the two sources, most yield data are for maize (73.6%), followed by sorghum (6.7%) and wheat (6.1%) while rice, cowpea, faba bean, tef, and soybean each accounted for less than 5%. The major points are the following: (1) application of S and micronutrients increased maize yield by 0.84 t ha−1 (i.e., 25%) over macronutrient only treatment and achieved agronomic efficiencies (kilograms of grain increase per kilogram of micronutrient added) between 38 and 432 and (2) response ratios were >1 for S and all micronutrients, i.e., the probability of response ratio exceeding 1 was 0.77 for S and 0.83 for Zn, 0.95 for Cu, and 0.92 for Fe, and indicates positive crop response for a majority of farmers. We conclude that S and micronutrients are holding back crop productivity especially on soils where response to macronutrients is low and that more research is needed to unravel conditions under which application of S and micronutrients may pose financial risks.
+"Secondary and micronutrients are important in enhancing crop productivity; yet, they are hardly studied in sub-Sahara Africa. In this region, the main focus has been on macronutrients but there is emerging though scattered evidence of crop productivity limitations by the secondary and micronutrients. Elsewhere, widespread deficiencies of these nutrients are associated with stagnation of yields. In total, 530 rows of yield data were extracted from the 40 papers of which 49.4% were on sulfur (S) response, 23.0% on Zn, 7.4% on Cu, 3.0% on Mo, 4.5% on Fe, 1.1% on boron (B), and 11.5% involved two or more, i.e., S and micronutrient combinations. Here, we undertake a meta-analysis using 40 articles reporting crop response to secondary and micronutrients to (1) determine the productivity increase of crops and nutrient use efficiency associated with these nutrients, and (2) provide synthesis of responses to secondary nutrients and micronutrients in sub-Sahara Africa. This study used 757 yield data rows (530 from publications and 227 from Africa Soil Information Service) from field trials carried out in SSA between 1969 and 2013 in 14 countries. Data from publications constituted response to S (49.4%), Zn (23.0%), S and micronutrient combinations (11.5%), and <10% each for Cu, Mo, Fe, and B. Data from Africa Soil Information Service were all for S and micronutrient combinations. Of the two sources, most yield data are for maize (73.6%), followed by sorghum (6.7%) and wheat (6.1%) while rice, cowpea, faba bean, tef, and soybean each accounted for less than 5%. The major points are the following: (1) application of S and micronutrients increased maize yield by 0.84 t ha−1 (i.e., 25%) over macronutrient only treatment and achieved agronomic efficiencies (kilograms of grain increase per kilogram of micronutrient added) between 38 and 432 and (2) response ratios were >1 for S and all micronutrients, i.e., the probability of response ratio exceeding 1 was 0.77 for S and 0.83 for Zn, 0.95 for Cu, and 0.92 for Fe, and indicates positive crop response for a majority of farmers. We conclude that S and micronutrients are holding back crop productivity especially on soils where response to macronutrients is low and that more research is needed to unravel conditions under which application of S and micronutrients may pose financial risks.
 
 "
 
@@ -20,7 +19,8 @@ carob_script <- function(path) {
 		data_institute = "CIAT",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-04-06",
-		data_type="compilation"
+		data_type="compilation",
+		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer;S_fertilizer;Zn_fertilizer"
  	)
 
 
@@ -177,7 +177,8 @@ carob_script <- function(path) {
   	d$soil_P_available[d$soil_P_available > 200] <- NA
 	
 	d <- d[!is.na(d$yield), ]
-
+	d$on_farm <- NA
+	
 	carobiner::write_files(meta, d, path=path)
 }
 

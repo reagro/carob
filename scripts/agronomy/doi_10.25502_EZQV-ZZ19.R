@@ -15,8 +15,9 @@ carob_script <- function(path){
 		publication = "doi:10.1016/j.agee.2017.08.015",
 		carob_contributor = "Andrew Sila",
 		carob_date="2023-07-17",
-		data_type = "on farm experiment",
-		data_institute="IITA"
+		data_type = "on-farm experiment",
+		data_institute="IITA",
+		treatment_vars="inoculated;P_fertilizer"
 	)
 
 	
@@ -146,6 +147,8 @@ carob_script <- function(path){
 	i <- df$location == "Danmaliki"
 	df$longitude[i] <- 8.82
 	df$latitude[i] <- 11.642
+	
+	df$irrigated <- NA
 	
 	carobiner::write_files(meta, df, path=path)
 }

@@ -15,7 +15,8 @@ carob_script <- function(path) {
     carob_contributor="Cedric Ngakou",
     carob_date="2023-07-20",
     data_type="experiment",
-    project=NA 
+    project=NA,
+	treatment_vars = "P_fertilizer;inoculated"
   )
   
   f <- ff[basename(ff) == "data_table.csv"] 

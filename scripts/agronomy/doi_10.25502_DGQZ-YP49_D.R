@@ -1,7 +1,6 @@
 # R script for "carob"
 
 
-
 carob_script <- function(path){
 
 "N2Africa was aimed at increasing biological nitrogen fixation and productivity of grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings which was aimed at increasing soil fertility.The trails were conducted in 11 african countries"
@@ -122,6 +121,9 @@ carob_script <- function(path){
 	i <- q$adm1 == "Nyanza" & is.na(q$location)
 	q$longitude[i] <- 34.74
 	q$latitude[i] <- -0.55
+
+	q$is_survey <- FALSE
+	q$irrigated <- NA
 
 	# all scripts should end like this
 	carobiner::write_files(meta, q, path=path)

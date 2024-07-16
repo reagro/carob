@@ -3,13 +3,7 @@
 
 carob_script <- function(path) {
   
-"
-   The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel 
-   sites across sub-Saharan Africa using the Land Degradation
-   Surveillance framework and included also multi-location diagnostic
-   trials in selected sentinel sites to determine nutrient limitations
-   and response to improved soil management practices (soil amendments)
-"
+"The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments)"
   
 	uri <- "doi:10.25502/20180814/1154/HJ"
 	group <- "agronomy"
@@ -22,11 +16,9 @@ carob_script <- function(path) {
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-02-22",
 		data_type="experiment",
-		project=NA
+		project=NA,
+		treatment_vars = "N_fertilizer;K_fertilizer;P_fertilizer;Zn_fertilizer;S_fertilizer;Ca_fertilizer;Mg_fertilizer"
 	)
-	
-	
-	
 	
 	f1 <- ff[basename(ff) == "Koloko_DT2009_field.csv"] # get Field dataset 
 	f2 <- ff[basename(ff) == "Koloko_DT2009_plant.csv"] # get plant dataset
@@ -53,13 +45,13 @@ carob_script <- function(path) {
 	
 	#fertilizer apply	 more information can be found here  10.1016/j.agee.2016.05.012
 	d$N_fertilizer <- ifelse(d$treatment=="Control",0,
-	                          ifelse(d$treatment=="PK",0,60))
+                        ifelse(d$treatment=="PK",0,60))
 	
 	d$K_fertilizer <- ifelse(d$treatment=="Control", 0,
-	                          ifelse(d$treatment=="NP", 0, 20))
+                       ifelse(d$treatment=="NP", 0, 20))
 	
 	d$P_fertilizer <- ifelse(d$treatment=="Control", 0,
-	                          ifelse(d$treatment=="NK", 0, 30))
+                       ifelse(d$treatment=="NK", 0, 30))
 	
 	d$Zn_fertilizer <- ifelse(d$treatment=="NPK+MN", 3, 0)
 	
@@ -98,6 +90,11 @@ carob_script <- function(path) {
 	d[d==""] <- NA
 	d$yield_part <- "grain"
 	d <- d[!is.na(d$yield), ]
+	
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
+	d$irrigated <- NA
+	
 	carobiner::write_files(meta, d, path=path)
 }
 

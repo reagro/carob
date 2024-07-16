@@ -34,7 +34,8 @@ Animal traction (AT) ripline seeding with maize rotated with legumes"
     data_type="experiment",
     carob_contributor="Fredy Chimire",
     carob_date="2024-01-16"
-  )
+	treatment_vars = "land_prep_method"
+   )
   
    
   f <- ff[basename(ff) == "AR_ZAM_CIMMYT_CAmother_onfarm_2020.csv"]

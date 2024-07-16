@@ -3,13 +3,7 @@
 
 carob_script <- function(path) {
   
-  "
-	Description:
-   Developing efficient and affordable fertilizer products for 
-   increased and sustained yields in the maize belt of Nigeria. 
-   Maize belt of Nigeria that covers 8 states: Bauchi,
-   Kaduna, Kano, Katsina, Nasarawa, Niger, Plateau and Taraba
-"
+"Developing efficient and affordable fertilizer products for increased and sustained yields in the maize belt of Nigeria. Maize belt of Nigeria that covers 8 states: Bauchi, Kaduna, Kano, Katsina, Nasarawa, Niger, Plateau and Taraba"
 
   uri <- "doi:10.25502/RGB5-GA15/D"
   group <- "agronomy"
@@ -22,8 +16,8 @@ carob_script <- function(path) {
     carob_contributor="Cedric Ngakou",
     carob_date="2023-02-27",
     data_type="experiment",
-		project=NA
-     
+	project=NA,
+	treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer;Zn_fertilizer;S_fertilizer"
   )
   
   
@@ -67,25 +61,25 @@ carob_script <- function(path) {
 #OCPF1  (N) : 11% (P2O5): 21% (k2O): 22%  S: 5%  Zn: 1% 
 #OCPF2 (N) : 14% (P205): 31% (k2O): 0%   S: 9%  Zn: 0.9%
 	
-	  d$N_fertilizer <- ifelse(d$treatment == "Control", 0, 
-                           ifelse(d$treatment == "OCPF1", 11,
-                                  ifelse(d$treatment=="OCPF2",14,15)))
+	d$N_fertilizer <- ifelse(d$treatment == "Control", 0, 
+                      ifelse(d$treatment == "OCPF1", 11,
+                      ifelse(d$treatment=="OCPF2",14,15)))
   
   d$K_fertilizer <- ifelse(d$treatment == "Control", 0, 
-                           ifelse(d$treatment == "OCPF1", 22/1.2051,
-                                  ifelse(d$treatment=="OCPF2",0,15/1.2051)))
+                    ifelse(d$treatment == "OCPF1", 22/1.2051,
+                    ifelse(d$treatment=="OCPF2",0,15/1.2051)))
   
   d$P_fertilizer <- ifelse(d$treatment == "Control", 0, 
-                           ifelse(d$treatment == "OCPF1", 21/2.29,
-                                  ifelse(d$treatment=="OCPF2",31/2.29,15/2.29)))
+                    ifelse(d$treatment == "OCPF1", 21/2.29,
+                    ifelse(d$treatment=="OCPF2",31/2.29,15/2.29)))
   
   d$Zn_fertilizer <- ifelse(d$treatment == "Control", 0, 
-                           ifelse(d$treatment == "OCPF1", 1,
-                                  ifelse(d$treatment=="OCPF2",0.9,0)))
+                    ifelse(d$treatment == "OCPF1", 1,
+                    ifelse(d$treatment=="OCPF2",0.9,0)))
   
   d$S_fertilizer <- ifelse(d$treatment == "Control", 0, 
-                            ifelse(d$treatment == "OCPF1", 5,
-                                   ifelse(d$treatment=="OCPF2",9,0)))
+                    ifelse(d$treatment == "OCPF1", 5,
+                    ifelse(d$treatment=="OCPF2",9,0)))
   # add Columns 
   
   d$country <- "Nigeria"

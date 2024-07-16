@@ -2,7 +2,7 @@
 
 carob_script <- function(path) {
   
-" N2Africa is to contribute to increasing biological nitrogen fixation  and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The dataset is N2Africa agronomy trials - Uganda, 2016, I Crop: Climbing bean Crop system: intercropped with banana vs. sole"
+"N2Africa is to contribute to increasing biological nitrogen fixation  and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The dataset is N2Africa agronomy trials - Uganda, 2016, I Crop: Climbing bean Crop system: intercropped with banana vs. sole"
 
 	uri <- "doi:10.25502/6h5e-q472"
 	group <- "agronomy"
@@ -234,7 +234,9 @@ carob_script <- function(path) {
   d5$crop <- "common bean"
   
   d5 <- d5[!is.na(d5$yield), ]
-  
+ 
+	d5$irrigated <- NA
+ 
   carobiner::write_files (meta, d5, path=path)
   
 }

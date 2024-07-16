@@ -8,10 +8,7 @@
 
 carob_script <- function(path) {
 
-"
-Description:
-
-Sileshi, G.W., Debusho, L.K. and Akinnifesi, F.K. (2012), Can Integration of Legume Trees Increase Yield Stability in Rainfed Maize Cropping Systems in Southern Africa?. Agronomy Journal, 104: 1392-1398. doi:10.2134/agronj2012.0063
+"Sileshi, G.W., Debusho, L.K. and Akinnifesi, F.K. (2012), Can Integration of Legume Trees Increase Yield Stability in Rainfed Maize Cropping Systems in Southern Africa?. Agronomy Journal, 104: 1392-1398. doi:10.2134/agronj2012.0063
 
 Growing maize (Zea mays) in association with legume tree in agroforestry arrangements has been shown to increase yields in many parts of sub-Saharan Africa (SSA). However, the stability of crop yields has not been critically analyzed in the various cropping systems that integrate leguminous trees. The objective of this analysis was to compare yield stability in improved cropping systems, namely maize-Gliricidia (Gliricidia sepium) intercropping and fertilized monoculture maize, with the de facto practice of resource-poor farmers who grow maize continuously without any external input. Yield stability was determined for three long-term field trials (12-13 consecutive years) conducted at Makoka Research Station in southern Malawi and Msekera Research Station in eastern Zambia. At Makoka, the most stable yield was recorded in maize-Gliricidia intercrops. Average yield was highest in maize-Gliricidia intercropping amended with 50% of the recommended N and P fertilizer, and this was comparable with yield recorded in monoculture maize that received inorganic fertilizer. On the two sites at Msekera, the highest yield was recorded in fertilized monoculture maize followed by maize-Gliricidia intercrops. However, yields were more stable in maize-Gliricidia intercropping compared to fertilized maize on both sites at Msekera. It is concluded that maize yields remain more stable in maize-Gliricidia intercropping than in fertilized maize monoculture in the longterm although average yields may be higher with full fertilization.
 "
@@ -27,10 +24,9 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 		carob_date="2021-06-01",
 		data_type = "experiment",
 		data_institute = "ICRAF",
-		project=NA
+		project=NA,
+		treatment_vars="N_fertilizer;P_fertilizer;K_fertilizer;intercrop"
 	)
-
-
 
 	f <- ff[basename(ff) == "Sileshi Stab analysis data.xlsx"]
 	# process file(s)
@@ -107,13 +103,15 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	
 	gli <- grep("Gliricidia", d$treatment)
 	d$treatment <- "no Gliricidia"
+	d$intercrop <- "none"
 	d$treatment[gli] <- "Gliricidia"
-	d$trial_id <- paste(d$treatment, "-", d$exp)
+	d$intercrop[gli] <- "Gliricidia"
+	
+	d$trial_id <- "1"
 	d$exp <- NULL
 	d$on_farm <- FALSE
 
 
-	
 	d$rep <- as.integer(d$rep)
 	d <- d[!is.na(d$yield), ]
 	

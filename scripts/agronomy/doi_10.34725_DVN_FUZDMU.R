@@ -17,7 +17,8 @@ Water availability is a major constraint to crop production in sub-Saharan Afric
 		carob_date="2021-06-01",
 		data_type = "experiment",
 		data_institute ="ICRAF",
-		project=NA
+		project=NA,
+		treatment_vars="N_fertilizer;P_fertilizer;K_fertilizer;intercrop"		
 	)
 
 
@@ -120,7 +121,10 @@ Water availability is a major constraint to crop production in sub-Saharan Afric
 	d$fertilizer_type[d$N_fertilizer > 0] <- "urea; NPK"
 	
 	
-	d$trial_id <- paste0(d$treatment, "-", d$site)
+	d$trial_id <- d$site
+
+	d$is_survey <- FALSE
+	d$irrigated <- FALSE
 
 	carobiner::write_files(meta, d, path=path)
 }

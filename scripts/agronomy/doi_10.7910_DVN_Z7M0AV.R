@@ -26,7 +26,8 @@ T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on
     data_institute = "CIMMYT",
     data_type="experiment",
     carob_contributor="Fredy Chimire",
-    carob_date="2024-01-16"
+    carob_date="2024-01-16",
+	treatment_vars = "land_prep_method"
   )
   
   f <- ff[basename(ff) == "AR_ZAM_CIMMYT_Msekera_LT trial_2020.csv"]

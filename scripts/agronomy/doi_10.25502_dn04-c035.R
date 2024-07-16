@@ -159,6 +159,11 @@ carob_script <- function(path){
 	d$variety <- v
 	
 	d$yield_part <- ifelse(d$crop == "groundnut", "pod", "seed")
-# all scripts should end like this
+	
+	
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
+	d$irrigated <- NA
+	
 	carobiner::write_files(path=path, meta, d)
 }

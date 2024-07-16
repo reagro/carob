@@ -1,17 +1,8 @@
 # R script for "carob"
 
-
-
-
 carob_script <- function(path) {
   
-  "
-
-  N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, 
-  improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder
-  farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
-
-"
+"N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries."
   
   uri <- "doi:10.25502/ysjw-cw72"
   group <- "agronomy"
@@ -23,16 +14,13 @@ carob_script <- function(path) {
     data_institute = "IITA",
     carob_contributor="Cedric Ngakou",
     carob_date="2023-09-18",
-    data_type="farm monitoring",
+    data_type="survey",
+	treatment_vars="none",
     project=NA 
   )
   
-  
-  
   bn <- basename(ff)
-  
-  # read the dataset
-  
+
   r1 <- read.csv(ff[bn == "a_general.csv"])
   r2 <- read.csv(ff[bn == "a_inputs.csv"])
   r3 <- read.csv(ff[bn == "c_use_of_package_1.csv"])

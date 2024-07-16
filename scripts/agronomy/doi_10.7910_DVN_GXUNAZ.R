@@ -2,8 +2,8 @@
 
 
 carob_script <- function(path){
-  "
- Title: Non-responsiveness of crops to fertilizers under some soils in sub-Saharan Africa
+
+"Title: Non-responsiveness of crops to fertilizers under some soils in sub-Saharan Africa
  
 Low productivity of agriculture observed in different parts of sub-Saharan Africa is threatening food 
 security in the region. Decades of production with mostly application of small amounts of inorganic 
@@ -12,9 +12,7 @@ management (ISFM) result in nutrient mining of secondary and micronutrients in m
 With the last decade, crop non-responsiveness to nutrient application has become an important issue requiring 
 scientific understanding. We provide data focused on identifying the extent of non-responsiveness of crops to 
 nutrient application and the associated factors. Data contains crop yield response to secondary and 
-micronutrient (SMN), manure and lime application relative to yields of only NP/K application. (2020-02-25)
-  
-  "
+micronutrient (SMN), manure and lime application relative to yields of only NP/K application. (2020-02-25)"
   
 	uri <- "doi:10.7910/DVN/GXUNAZ"
 	group <- "agronomy"
@@ -28,7 +26,8 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 		data_institute = "CIAT",
 		carob_contributor="Rachel Mukami",
 		carob_date="2023-05-29",
-		data_type="compilation"
+		data_type="compilation",
+		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer"		
 	)
   
 	  ## downloading data 
@@ -197,6 +196,9 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 	
 	# removing records without coordinates from Kihara_Wkenya
 	d <- d[!is.na(d$latitude), ]
+	
+	is_survey <- NA
+	irrigated <- NA
 	
 	carobiner::write_files(meta, d, path=path)
 }

@@ -3,12 +3,8 @@
 
 carob_script <- function(path){
 
-"
-N2Africa farm monitoring - Mozambique, 2012 - 2013
-N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project.
-
-The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
-"
+"N2Africa farm monitoring - Mozambique, 2012 - 2013
+N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries."
  
 	uri <- "doi:10.25502/hwdb-p578"
 	group <- "agronomy"
@@ -73,6 +69,11 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	i <- which(d$variety == "Mamane")
 	d$crop[i] <- "groundnut"
 	d$yield_part[i] <- "pod"
+			
+	d$is_survey <- FALSE
+	d$irrigated <- NA
+	d$on_farm <- TRUE
+
 			
 	# all scripts should end like this
 	carobiner::write_files(meta, d, path=path)

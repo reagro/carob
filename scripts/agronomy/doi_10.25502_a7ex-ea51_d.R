@@ -114,6 +114,9 @@ carob_script <- function(path){
 	
 	e$yield_part <- "seed"
 	
+	e$is_survey <- FALSE
+	e$irrigated <- NA
+	
 	# all scripts should end like this
 	carobiner::write_files(meta, e, path=path)
 }
