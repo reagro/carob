@@ -1,20 +1,16 @@
 # R script for "carob"
 
-
-
 carob_script <- function(path) {
 
-"
-Title: Bean yield and economic response to fertilizer in eastern and southern Africa
+"Title: Bean yield and economic response to fertilizer in eastern and southern Africa
 
-Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for human dietary protein. Low yields are attributed to biotic and abiotic constraints including inadequate nutrient availability. Research was conducted to determine nutrient response functions for bean production areas of Kenya, Mozambique, Rwanda, Tanzania, and Zambia.
-"
+Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for human dietary protein. Low yields are attributed to biotic and abiotic constraints including inadequate nutrient availability. Research was conducted to determine nutrient response functions for bean production areas of Kenya, Mozambique, Rwanda, Tanzania, and Zambia."
+
 
 	uri <- "doi:10.5061/dryad.q8p95mg"
 	group <- "agronomy"
 	ff <- carobiner::get_data(uri, path, group)
 
-  ## data set level data0
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		publication= "doi:10.1007/s10705-018-9915-9",
@@ -26,11 +22,10 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 		treatment_vars="N_fertilizer;P_fertilizer;K_fertilizer"		
 	)
 
-	# reading the datasets
 	f <- ff[basename(ff) == "ESA Bean Nutrient Response Dataset.xlsx"]
 
 ### Kenya
-	r0 <- readxl::read_xlsx(f, sheet = 1)
+	r0 <- carobiner::read.excel(f, sheet = 1)
 	r0$Yr[r0$Yr == "2015b"] <- "2015"
 
 	d0 <- data.frame(
@@ -52,12 +47,12 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	#d0[d0$trial_id == "KE_Kisii"] <- "KE_Migori"
 
 ### Mozambique
-	r1 <- readxl::read_xlsx(f, sheet = 2)
+	r1 <- carobiner::read.excel(f, sheet = 2)
 	d1 <- data.frame(
 		country = "Mozambique",
 		adm1 = NA,
-		adm2 = r1$District,
-		location=NA,
+		adm2 = NA,
+		location=r1$District,
 		planting_date = r1$Y,
 		trial_id = paste0("MZ_", r1$District),
 		variety = r1$v,
@@ -71,15 +66,13 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 
 
 ### Rwanda
-	r2 <- readxl::read_xlsx(f, sheet = 3)
+	r2 <- carobiner::read.excel(f, sheet = 3)
 	r2$Prov[r2$Tr %in% c("E_Ngoma_Sake_15A", "E_Busegerwa_Mareba_15A")] <- "E"
 
 	d2 <- data.frame(
 		country="Rwanda",
 		adm1 = ifelse(r2$Prov == "N", "Amajyaruguru",
 				ifelse(r2$Prov == "E", "Iburasirazuba", "Amajyepfo")),
-		adm2 = NA,
-		location=NA,
 		planting_date = ifelse(grepl("14", r2$Tr), 2014, 2015),
 		trial_id = paste0("RW_", r2$Tr),
 		variety = ifelse(r2$BT == "CL", "MAC44", "RWR2245"),
@@ -91,9 +84,29 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 		yield = r2$GrainYld
 	)
 
+	loc <- gsub("^E|^S|^N|A$|B$", "", r2$Tr,  TRUE)
+	loc <- gsub("_", "XXX", loc)
+	loc <- gsub("[^[[:alpha:]]", "", loc)
+	loc <- trimws(gsub("XXX", " ", loc))
+	loc <- gsub("Nyagat", "Nyagat ", loc, TRUE)
+	loc <- gsub("Nyagat ara", "Nyagatara", loc, TRUE)
+	loc <- gsub("BURERA", "Burera ", loc)
+	loc <- gsub("BUGESE", "Bugese ", loc, TRUE)
+	loc <- gsub("Nyanza", "Nyanza ", loc, TRUE)
+	loc <- gsub("Huye", "Huye ", loc)
+	loc <- gsub("NGOMA", "Ngoma ", loc)
+	loc <- gsub("KIREHE", "Kirehe ", loc)
+	loc <- carobiner::fix_name(gsub("  ", " ", loc), "title")
+	loc <- gsub("Burera Rwerer", "Burera Rwerere", loc)
+	loc <- gsub("Huye Statio", "Huye Station", loc)
+	loc <- do.call(rbind, strsplit(loc, " "))
+	d2$adm2 <- loc[,1]
+	d2$location <- loc[,2]
+
+
 ### Tanzania
 
-	r3 <- readxl::read_xlsx(f, sheet = 4)
+	r3 <- carobiner::read.excel(f, sheet = 4)
 	r3$S[r3$S %in% c("Kar", "Kar2")] <- "Karangai"
 	r3$Diagnostic[is.na(r3$Diagnostic)] <- 0
 
@@ -114,7 +127,7 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	)
 
 ### Zambia
-	r4 <- readxl::read_xlsx(f, sheet = 5)
+	r4 <- carobiner::read.excel(f, sheet = 5)
 	r4$Diagnostic[is.na(r4$Diagnostic)] <- 0
 
 	d4 <- data.frame(
@@ -133,7 +146,7 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 		yield = r4$GrainYld
 	)
 
-	d4$location[d4$location == "Mt Makulu"] <- "Mt. Makulu"
+	d4$location[d4$location == "Mt.Makulu"] <- "Mt. Makulu"
 
 
 	z <- rbind(d1, d2, d3, d4)
@@ -156,16 +169,21 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 	# gi <- carobiner::geocode(country = go$country,
 	#                 location = ifelse(is.na(go$location) & is.na(go$adm2), go$adm1,
 	#                  ifelse(is.na(go$location) & is.na(go$adm1), go$adm2, go$location)))
-	gi <- data.frame(
-		country = c("Mozambique", "Rwanda", "Rwanda", "Rwanda", "Tanzania", "Tanzania", "Tanzania", "Zambia", "Zambia", "Zambia", "Zambia", "Zambia"),
-	    location = c("Gurue", "Iburasirazuba", "Amajyepfo", "Amajyaruguru", "Selian", "Karangai", "Uyole", "Mt.Makulu", "Kasama", "Mufulira", "Msekera", "Mt. Makulu"), 
-	    longitude = c(36.941, 30.5404, 29.6818, 29.9119, 36.6496, 36.8836, 33.5279, 28.2608, 31.1877, 28.1922, 32.5404, 28.2608), 
-	    latitude = c(-15.4545, -1.7415, -2.2855, -1.6107, -3.3255, -3.5229, -8.9172, -15.5443, -10.2045, -12.5441, -13.621, -15.5443)
-	)
-	z <- z[,!(colnames(z) %in% c("longitude", "latitude"))]
-	z <- merge(z, gi, by = c("country", "location"))
 	
-	carobiner::write_files(path, meta, z)
+	message("Rwanda needs to be georeferenced")
+	
+	geo <- data.frame(
+		country = c("Mozambique", "Tanzania", "Tanzania", "Tanzania", "Zambia", "Zambia", "Zambia", "Zambia"),
+	    location = c("Gurue", "Selian", "Karangai", "Uyole", "Mt. Makulu", "Kasama", "Mufulira", "Msekera"), 
+	    longitude = c(36.941, 36.6496, 36.8836, 33.5279, 28.2608, 31.1877, 28.1922, 32.5404), 
+	    latitude = c(-15.4545, -3.3255, -3.5229, -8.9172, -15.5443, -10.2045, -12.5441, -13.621)
+	)
+
+	d <- merge(z, geo, by = c("country", "location"), all.x=TRUE)
+	d$on_farm <- NA
+	d$is_survey <- FALSE
+	
+	carobiner::write_files(path, meta, d)
 }
 
 

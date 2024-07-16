@@ -197,8 +197,8 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 	# removing records without coordinates from Kihara_Wkenya
 	d <- d[!is.na(d$latitude), ]
 	
-	is_survey <- NA
-	irrigated <- NA
+	d$is_survey <- NA
+	d$irrigated <- NA
 	
 	carobiner::write_files(meta, d, path=path)
 }

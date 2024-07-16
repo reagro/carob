@@ -18,21 +18,18 @@ carob_script <- function(path) {
 		carob_date="2021-10-06",
 		data_type="on-farm experiment",
 		project="AFSIS",
-		treatment_vars = "N_fertilizer;K_fertilizer;P_fertilizer;Zn_fertilizer;S_fertilizer;lime"
+		treatment_vars = "N_fertilizer;K_fertilizer;P_fertilizer;Zn_fertilizer;S_fertilizer;lime_used"
  	)
 
 	f1 <- ff[basename(ff) == "Kiberashi_DT2010_field.csv"]
 	r1 <- read.csv(f1)
-#	d <- d[complete.cases(d[ , 6:7]),]
+
 	d1 <- data.frame(
 		country = "Tanzania",
 		location = r1$Site,
 		site = r1$Village,
-		trial_id = paste0(r1$ID),
 		latitude = r1$Flat,
 		longitude = r1$Flong,
-#	planting_date = format(as.Date(js$result$coverage_start_date), "%Y-%m-%d")
-#	harvest_date = format(as.Date(js$result$coverage_end_date), "%Y-%m-%d")
 		on_farm = TRUE,
 		is_survey = FALSE,
 		crop = tolower(r1$TCrop),
@@ -41,7 +38,9 @@ carob_script <- function(path) {
 	##intercrops = r1$CS
 		previous_crop = r1$PCrop1,
 		yield_part = "grain",
-		FieldID = r1$FieldID
+		landscape_position = r1$Postn,
+		harvest_date = as.character(as.Date(r1$HarvDa, "%m/%d/%Y")),	
+		trial_id = r1$FieldID
 	)
 
 	p <- carobiner::fix_name(gsub("/", ";", d1$previous_crop), "lower")
@@ -53,35 +52,35 @@ carob_script <- function(path) {
 	f2 <- ff[basename(ff) == "Kiberashi_DT2010_plot.csv"]
 	r2 <- read.csv(f2)
 	
+## note that TGrainYld_adj (not used) is 25% higher than TGrainYld.	
+	
 	d2 <- data.frame(
-		yield = r2$TGrainYld*1000,
-		residue_yield = r2$Adj.TStoverYld*1000,
-		treatment  = r2$TrtDesc,
-		rep  = r2$Rep,
-		FieldID = r2$FieldID
+		yield = r2$TGrainYld * 1000,
+		residue_yield = r2$TStoverYld * 1000,
+		treatment = r2$TrtDesc,
+		rep = r2$Rep,
+		trial_id = r2$FieldID
 	)
-## RH: this is the treatment, not the _type_ of fertilizer 
-##	d2$fertilizer_type <- d1$TrtDesc
-	d2$N_fertilizer <- ifelse(r2$TrtDesc == "Control", 0,
-	                   ifelse(r2$TrtDesc == "PK", 0, 100))
 
-## RH: this is nice, but the field only stores how many splits there were
-##	d2$N_splits <- paste(d1$N_fertilizer*0.25,d1$N_fertilizer*0.375,d1$N_fertilizer*0.375, sep = " | ")
-
+	d2$N_fertilizer <- d2$P_fertilizer <- d2$K_fertilizer <- d2$Zn_fertilizer <- d2$S_fertilizer <- 0
+	d2$N_fertilizer[grep("NPK", d2$treatment)] <- 100
 	d2$N_splits <- NA
 	d2$N_splits[d2$N_fertilizer > 0] <- 3L
-	
-	d2$P_fertilizer <- ifelse(r2$TrtDesc == "Control", 0,
-	                   ifelse(r2$TrtDesc == "NK", 0, 30))
-	d2$K_fertilizer <- ifelse(r2$TrtDesc == "Control", 0,
-	                   ifelse(r2$TrtDesc == "NP", 0, 60))
-	d2$Zn_fertilizer <- ifelse(r2$TrtDesc == "NPK+MN", 3, 0)
-	d2$S_fertilizer <- ifelse(r2$TrtDesc == "NPK+MN", 5, 0)
+
+	d2$P_fertilizer[grep("P", d2$treatment)] <- 30
+	d2$K_fertilizer[grep("K", d2$treatment)] <- 60
+	d2$Zn_fertilizer[grep("MN", d2$treatment)] <- 3
+	d2$S_fertilizer[grep("MN", d2$treatment)] <- 5
 	d2$OM_used <- TRUE
 	d2$OM_type <- "farmyard manure"
 	d2$OM_amount <- 1000
+	d2$lime_used <- grepl("Lime", d2$treatment)
 	
-	d <- merge(d1, d2, by = "FieldID", all.x = TRUE)
+	d <- merge(d1, d2, by="trial_id", all.x = TRUE)
+	
 	d <- d[!is.na(d$yield), ]
+	d$irrigated <- NA
+	d$planting_date <- as.character(NA)
+	
 	carobiner::write_files(meta, d, path=path)
 }

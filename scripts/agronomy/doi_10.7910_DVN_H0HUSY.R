@@ -5,8 +5,8 @@ carob_script <- function(path){
   
 "Title: Impact of NPK fertilization on upland rice yield, Nicaragua
   
-Description: This dataset contains information of experiments carried out upland rice in two regions of Nicaragua (Caribbean and Pacific Region), as well as a compilation of soils data from different regions in Nicaragua collected during 2019 in seed banks of rice and beans. The experiments were designed to explore the effects of N, P and K in the yield of upland rice. The experiments were carried out on farmer’s field during the 2019 production cycle, the dataset contains yield and aerial biomass of the experiments.
-" 
+Description: This dataset contains information of experiments carried out upland rice in two regions of Nicaragua (Caribbean and Pacific Region), as well as a compilation of soils data from different regions in Nicaragua collected during 2019 in seed banks of rice and beans. The experiments were designed to explore the effects of N, P and K in the yield of upland rice. The experiments were carried out on farmer’s field during the 2019 production cycle, the dataset contains yield and aerial biomass of the experiments."
+ 
 	uri <- "doi:10.7910/DVN/H0HUSY"
 	group <- "agronomy"
 	ff <- carobiner::get_data(uri, path, group)
@@ -87,7 +87,8 @@ Description: This dataset contains information of experiments carried out upland
 	d$country <- "Nicaragua"
 	d$crop <- "rice"
 	d$yield_part <- "grain"
-	d$planting_date = "2019"
+	d$planting_date <- "2019"
+	d$irrigated <- NA
 	
 	carobiner::write_files(meta, d, path=path)
 }
