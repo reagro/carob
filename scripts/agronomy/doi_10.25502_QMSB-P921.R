@@ -11,15 +11,18 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
   group <- "agronomy"
   ff <- carobiner::get_data(uri, path, group)
    
-  meta <- data.frame(
-  	carobiner::read_metadata(uri, path, group, major=1, minor=0),
-    project="N2Africa",
-    publication= NA,
-    data_institute = "IITA",
-    carob_contributor="Rachel Mukami",
-    carob_date="2023-08-15",
-    data_type="on-farm experiment"
-  )
+	meta <- data.frame(
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
+		project="N2Africa",
+		publication= NA,
+		data_institute = "IITA",
+		carob_contributor="Rachel Mukami",
+		carob_date="2023-08-15",
+		data_type="on-farm experiment",
+		treatment_vars = "N_fertilizer;P_fertilizer;inoculated",
+		response_vars = "yield"
+	
+	)
   
   f <- ff[basename(ff) == "general.csv"]
   f1 <- ff[basename(ff) == "experiment.csv"]
@@ -211,6 +214,9 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
   z <- z[i,]
  
   # final data set
+  
+  z$on_farm <- TRUE
+  z$irrigated <- NA
   
   carobiner::write_files(meta, z, path=path)
 }

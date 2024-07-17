@@ -3,17 +3,7 @@
 
 carob_script <- function(path) {
   
-  "
-N2Africa is to contribute to increasing biological nitrogen 
-fixation and productivity of grain legumes among African smallholder 
-farmers which will contribute to enhancing soil fertility, improving
-household nutrition and increasing income levels of smallholder farmers.
-As a vision of success, N2Africa will build sustainable, long-term partnership
-s to enable African smallholder farmers to benefit from symbiotic N2-fixation by
-grain legumes through effective production technologies including 
-inoculants and fertilizers adapted to local settings.
-   
-"
+"N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings."
   
 	uri <- "doi:10.25502/V1CA-7Y60"
 	group <- "agronomy"
@@ -26,7 +16,9 @@ inoculants and fertilizers adapted to local settings.
 		data_institute = "IITA", 
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-06-01",
-		data_type="experiment"
+		data_type="experiment",
+		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer;Zn_fertilizer;S_fertilizer;inoculated",		
+		response_vars = "yield"
 	)
 	
 	
@@ -173,9 +165,9 @@ inoculants and fertilizers adapted to local settings.
 	# fix previous crops names
 	b <- carobiner::fix_name(d$previous_crop)	
 	b <- gsub("millet", "pearl millet", b)
-	b <- gsub("fallow", "no crop", b)
+	b <- gsub("fallow", "none", b)
 	b <- gsub("soyabean", "soybean", b)
-	b <- gsub("other", "no crop", b)
+	b <- gsub("other", "unknown", b)
 	b <- gsub("sweet_potato", "sweetpotato", b)
 	b <- gsub("bambara_bean", "bambara groundnut", b)
 	b <- gsub("bush_bean", "common bean", b)

@@ -17,7 +17,9 @@ carob_script <- function(path){
 		carob_contributor = "Effie Ochieng'",
 		carob_date="2022-08-12",
 		data_type = "on-farm experiment",
-		data_institute="IITA"
+		data_institute="IITA",
+		treatment_vars = "N_fertilizer;P_fertilizer;inoculated",
+		response_vars = "yield"
 	)
 	
 	
@@ -126,6 +128,10 @@ carob_script <- function(path){
 	    latitude = c(-2.2624, -2.0208, -1.6874, -1.7902, -2.1789, -1.956, -2.0279, -2.1496, -2.0831, -1.9464, -2.2329, -1.8616))
 	s <- s[,!(colnames(s) %in% c("longitude", "latitude"))]
 	s <- merge(s, gi, by = c("country", "location"))
+
+
+	s$is_survey <- FALSE
+	s$irrigated <- NA
 	
   # all scripts should end like this
 	carobiner::write_files(meta, s, path=path)

@@ -26,7 +26,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 		data_institute = "ICRAF",
 		project=NA,
 		response_vars= "yield",
-		treatment_vars="N_fertilizer;P_fertilizer;K_fertilizer;intercrop"
+		treatment_vars="N_fertilizer;P_fertilizer;K_fertilizer;intercrops"
 	)
 
 	f <- ff[basename(ff) == "Sileshi Stab analysis data.xlsx"]
@@ -104,9 +104,9 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	
 	gli <- grep("Gliricidia", d$treatment)
 	d$treatment <- "no Gliricidia"
-	d$intercrop <- "none"
+	d$intercrops <- "none"
 	d$treatment[gli] <- "Gliricidia"
-	d$intercrop[gli] <- "Gliricidia"
+	d$intercrops[gli] <- "Gliricidia"
 	
 	d$trial_id <- "1"
 	d$exp <- NULL
@@ -115,6 +115,9 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 
 	d$rep <- as.integer(d$rep)
 	d <- d[!is.na(d$yield), ]
+	
+	d$is_survey <- FALSE
+	d$irrigated <- NA
 	
 	carobiner::write_files(meta, d, path=path)
 }

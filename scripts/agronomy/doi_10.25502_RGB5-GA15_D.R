@@ -104,6 +104,7 @@ carob_script <- function(path) {
 #data type
   d$yield <- as.numeric(d$yield)
   d <- d[!is.na(d$yield), ]
+
  carobiner::write_files(meta, d, path=path)
  
 }

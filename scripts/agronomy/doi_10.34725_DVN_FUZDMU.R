@@ -19,7 +19,7 @@ Water availability is a major constraint to crop production in sub-Saharan Afric
 		data_institute ="ICRAF",
 		project=NA,
 		response_vars= "yield",
-		treatment_vars="N_fertilizer;P_fertilizer;K_fertilizer;intercrop"		
+		treatment_vars="N_fertilizer;P_fertilizer;K_fertilizer;trees"		
 	)
 
 
@@ -105,13 +105,17 @@ Water availability is a major constraint to crop production in sub-Saharan Afric
 	z$P_fertilizer[i] <- 18
 	z$K_fertilizer[i] <- 16
 
-	i <- z$treatment == "Leucaena"
-	z$treatment <- "no Leuceaena"
-	z$treatment[i] <- "Leuceaena"
 	z$variety <- NA
 	z$variety_type <- NA
 
 	d <- rbind(d, z)
+
+	i <- z$treatment == "Leucaena"
+	d$treatment <- "no Leuceaena"
+	d$treatment[i] <- "Leuceaena"
+	d$trees <- "none"
+	d$trees[i] <- "Leuceaena"
+
 	
 	d$rain <- as.numeric(d$rain)
 	d$on_farm <- FALSE
@@ -122,7 +126,7 @@ Water availability is a major constraint to crop production in sub-Saharan Afric
 	d$fertilizer_type[d$N_fertilizer > 0] <- "urea; NPK"
 	
 	
-	d$trial_id <- d$site
+	d$trial_id <- as.character(as.integer(as.factor(paste(d$location, d$planting_date))))
 
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE

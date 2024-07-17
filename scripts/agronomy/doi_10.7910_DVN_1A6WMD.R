@@ -16,7 +16,8 @@ carob_script <- function(path) {
 		data_institute = "IITA",
 		data_type="on-farm experiment", 
 		carob_contributor="Mitchelle Njukuya",
-		carob_date="2024-01-09"
+		carob_date="2024-01-09",
+		response_vars = "yield"
 	)
   
 	f <- ff[basename(ff) == "NewDesign_gnut yields.csv"]
@@ -56,8 +57,10 @@ carob_script <- function(path) {
 		latitude = c(-14.176, -14.567, -14.623),
 		longitude= c(34.125, 35.538, 35.6456 )
 	)
-
+	
 	d <- merge(d, geo, by="location", all.x=TRUE)   
+	d$irrigated <- FALSE
+
     carobiner::write_files(meta, d, path=path)
 }
 

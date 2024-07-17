@@ -129,6 +129,7 @@ carob_script <- function(path) {
 
 	d <- merge(d, geo, by="location", all.x=TRUE)
 	d$tn <- NULL
+	d$irrigated <- FALSE	
 	
 	carobiner::write_files(path, meta, d)
 }
