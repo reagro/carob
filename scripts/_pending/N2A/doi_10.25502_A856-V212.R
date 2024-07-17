@@ -1,7 +1,8 @@
 # R script for "carob"
 
 
-# fertilizer amount is not OK
+
+# NOTE fertilizer amount is not OK
 
 
 carob_script <- function(path) {

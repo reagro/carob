@@ -1,5 +1,6 @@
 # R script for "carob"
 
+
 # RH: not included because there are no yield data
 
 "Title: N2Africa farm monitoring - Malawi, 2011 - 2012
@@ -12,7 +13,7 @@ improving household nutrition and increasing income levels of smallholder farmer
 carob_script <- function(path) {
   
 	uri <- "doi:10.25502/14m8-cs44/d"
-	group <- "agronomy"
+	group <- "survey"
 	ff <- carobiner::get_data(uri, path, group)
   
   ## data set level data

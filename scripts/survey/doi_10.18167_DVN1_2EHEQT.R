@@ -6,7 +6,7 @@ carob_script <- function(path) {
 "Data on rainfed rice production and management were collected for cropping seasons 2006–2007, 2007–2008, 2008–2009 and 2009–2010 around five villages of the BV-Lac programme on lowland and hillside farmer's fields under conservation agriculture in the Lake Alaotra region of Madagascar,  resulting in 3803 site x management x soil x season combinations. (2020-10-07)"
   
   uri <-  "doi:10.18167/DVN1/2EHEQT"
-  group <- "agronomy" 
+  group <- "survey" 
   ff <- carobiner::get_data(uri, path, group)
   
   meta <- data.frame(
@@ -17,6 +17,7 @@ carob_script <- function(path) {
     carob_date="2023-10-18",
     data_type="survey",
 	response_vars = "yield",
+	# perhaps this is stratification (-like)?
    treatment_vars= "landscape_position;land_prep_method;OM_amount",
     project="Doctorant du Sud;ABACO",
     modified_by = "Siyabusa Mkuhlani", 
