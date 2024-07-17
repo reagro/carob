@@ -25,6 +25,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 		data_type = "experiment",
 		data_institute = "ICRAF",
 		project=NA,
+		response_vars= "yield",
 		treatment_vars="N_fertilizer;P_fertilizer;K_fertilizer;intercrop"
 	)
 

@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		publication= "doi:10.5194/soil-2020-69",
 		project="LSMS-ISA",
 		data_type= "survey",
+		response_vars = "none",
 		treatment_vars = "none",
 		carob_contributor= "Andrew Sila",
 		carob_date="2024-06-11"

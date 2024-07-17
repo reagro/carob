@@ -19,6 +19,7 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 		carob_contributor="Rachel Mukami",
 		carob_date="2023-07-06",
 		data_type="experiment",
+		response_vars= "yield",
 		treatment_vars="N_fertilizer;P_fertilizer;K_fertilizer"		
 	)
 

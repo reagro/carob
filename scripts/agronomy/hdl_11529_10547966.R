@@ -17,7 +17,9 @@ carob_script <- function(path) {
 		data_institute = "CIMMYT", 
 		data_type="on-farm experiment", 
 		carob_contributor="Mitchelle Njukuya", 
-		carob_date="2024-04-25"
+		carob_date="2024-04-25",
+		response_vars = "yield",
+		treatment_vars = "land_prep_method"
 	)
   
  
@@ -134,6 +136,9 @@ carob_script <- function(path) {
 	d <- merge(d, geo, by="location", all.x = TRUE)  
 	d <- d[!is.na(d$yield), ]
 	d <- d[d$yield > 0, ]
+	
+	d$fertilizer_type <- gsub("; NA|NA", "", unique(d$fertilizer_type))
+	d <- unique(d)
   
 	carobiner::write_files(meta, d, path=path)	
 }

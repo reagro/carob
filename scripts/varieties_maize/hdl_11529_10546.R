@@ -16,6 +16,7 @@ carob_script <- function(path) {
 		publication= NA,
 		project="International intermediate white hybrid trials",
 		data_type= "experiment",
+		response_vars = "yield",
 		treatment_vars = "variety;longitude;latitude",
 		carob_contributor= "Mitchelle Njukuya",
 		carob_date="2024-02-27"

@@ -17,6 +17,7 @@ carob_script <- function(path) {
 		carob_contributor="Robert Hijmans",
 		carob_date="2024-03-26",
 		data_type="on-station experiment",
+		response_vars = "yield",
 		treatment_vars = "variety_code"
 	)
 

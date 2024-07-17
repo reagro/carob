@@ -17,6 +17,7 @@ carob_script <- function(path) {
 		data_type="experiment",
 		data_institute="ICRISAT",
 		project=NA,
+		response_vars= "yield",
 		treatment_vars="N_fertilizer"
  	)
 

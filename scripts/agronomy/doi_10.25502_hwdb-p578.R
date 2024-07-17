@@ -17,6 +17,7 @@ N2Africa is to contribute to increasing biological nitrogen fixation and product
 		carob_contributor = "Effie Ochieng'",
 		carob_date="2022-09-07",
 		data_type = "survey",
+		response_vars = "none",
 		treatment_vars = "none",
 		data_institute="IITA"
 	)

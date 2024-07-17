@@ -18,6 +18,7 @@ carob_script <- function(path) {
     publication= "doi:10.1016/j.fcr.2019.04.005", 
     data_institute = "CIMMYT", 
     data_type="on-farm experiment", 
+	  response_vars = "yield",
 	  treatment_vars = "land_prep_method;crop_rotation;longitude;latitude",
     carob_contributor="Mitchelle Njukuya", 
     carob_date="2024-05-21"

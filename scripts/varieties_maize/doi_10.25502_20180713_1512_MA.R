@@ -17,6 +17,7 @@ carob_script <- function(path) {
 		carob_contributor = "Robert Hijmans",
 		carob_date="2023-07-03",
 		data_type = "experiment",
+		response_vars = "yield",
 		treatment_vars = "variety",
 		project="International Maize Trials",
 		data_institute="IITA"

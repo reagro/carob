@@ -17,6 +17,7 @@ carob_script <- function(path) {
 		data_type= "experiment",
 		carob_contributor= "Blessing Dzuda",
 		carob_date="2024-03-14",
+		response_vars = "yield",
 		treatment_vars = "land_prep_method;irrigated"
 	)
 	

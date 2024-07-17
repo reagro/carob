@@ -17,6 +17,7 @@ carob_script <- function(path) {
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-11-21", 
 		data_type="crop-cuts",
+		response_vars = "none",
 		treatment_vars = "none"
    )
    

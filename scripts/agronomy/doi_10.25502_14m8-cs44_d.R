@@ -23,7 +23,9 @@ carob_script <- function(path) {
 		data_institute = "IITA",
 		carob_contributor="Rachel Mukami",
 		carob_date="2022-09-26",
-		data_type = "survey"
+		data_type = "survey",
+		response_vars = "none",
+		treatment_vars = "none"
 	)
 
 

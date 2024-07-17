@@ -20,6 +20,7 @@ Description: This dataset contains information of experiments carried out upland
 		carob_date="2022-12-09",
 		data_type="experiment",
 		project=NA,
+		response_vars = "yield",
 		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer"		
     )
   

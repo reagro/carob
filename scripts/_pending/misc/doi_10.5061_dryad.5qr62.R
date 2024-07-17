@@ -28,6 +28,7 @@ Initial soil N pools were larger in Yala than Tumbi (240 vs. 79 kg/ha). Inorgani
       publication = "doi:10.1890/15-1518.1", 
       project = NA, 
       data_type = "experiment", 
+      response_vars = "yield",
       treatment_vars = "N_fertilizer", 
       carob_contributor = "Cedric Ngakou", 
       carob_date = "2024-07-05"

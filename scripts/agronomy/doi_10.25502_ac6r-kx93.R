@@ -22,6 +22,7 @@ carob_script <- function(path){
 		data_institute="IITA",
 		modified_by = "Eduardo Garcia Bendito",
 		last_modified = "2024-03-07",
+		response_vars = "yield",
 		treatment_vars = "inoculant;P_fertilizer"	
 	)
 

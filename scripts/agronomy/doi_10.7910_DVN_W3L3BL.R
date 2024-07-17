@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		publication = NA,
 		project = "IRRI LTE",
 		data_type = "experiment",
+		response_vars = "yield",
 		treatment_vars = "season;variety_code;N_fert_level",
 		carob_contributor = "Robert Hijmans",
 		carob_date = "2024-07-13"

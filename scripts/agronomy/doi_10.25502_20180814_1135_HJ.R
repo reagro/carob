@@ -18,6 +18,7 @@ carob_script <- function(path) {
 		carob_date="2021-10-06",
 		data_type="on-farm experiment",
 		project="AFSIS",
+		response_vars = "yield",
 		treatment_vars = "N_fertilizer;K_fertilizer;P_fertilizer;Zn_fertilizer;S_fertilizer;lime_used"
  	)
 

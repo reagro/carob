@@ -24,6 +24,7 @@ affect the variation in the yield of maize. The dataset was created through a co
 		data_type= "experiment",
 		carob_contributor= "Shumirai Manzvera",
 		carob_date="2024-04-02",
+		response_vars = "yield",
 		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer"						
 	)
 	

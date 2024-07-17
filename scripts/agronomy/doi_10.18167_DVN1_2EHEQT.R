@@ -12,11 +12,12 @@ carob_script <- function(path) {
   meta <- data.frame(
     carobiner::read_metadata(uri, path, group, major=1, minor=2),
     publication= "doi:10.1017/S0014479714000155",
-    treatment_vars= "landscape_position;land_prep_method;OM_amount",
     data_institute = "CIRAD",
     carob_contributor="Cedric Ngakou",
     carob_date="2023-10-18",
     data_type="survey",
+	response_vars = "yield",
+   treatment_vars= "landscape_position;land_prep_method;OM_amount",
     project="Doctorant du Sud;ABACO",
     modified_by = "Siyabusa Mkuhlani", 
     last_modified = "2024-07-05"

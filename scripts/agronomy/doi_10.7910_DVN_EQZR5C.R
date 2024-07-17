@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		data_institute = "CIMMYT",
 		publication= NA,
 		project="Africa Rising",
+		response_vars = "yield",
 		treatment_vars = "intercrops; crop_rotation",
 		data_type= "on-farm experiment",
 		carob_contributor= "Shumirai Manzvera",

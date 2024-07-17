@@ -14,6 +14,7 @@ carob_script <- function(path) {
 		publication = NA,
 		project="CARPE Phase II-Sustainable Opportunities for Improving Livelihoods Project",
 		data_type= "survey",
+		response_vars = "none",
 		treatment_vars = "none",
 		carob_contributor= "Andrew Sila",
 		carob_date="2024-05-29"

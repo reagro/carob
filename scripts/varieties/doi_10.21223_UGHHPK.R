@@ -17,6 +17,7 @@ carob_script <- function(path) {
       publication ="doi:10.1007/s11540-021-09495-z", 
       project = NA, 
       data_type = "experiment", 
+      response_vars = "yield",
       treatment_vars = "variety_code", 
       carob_contributor = "Cedric Ngakou", 
       carob_date = "2024-07-08"

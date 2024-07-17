@@ -18,6 +18,7 @@ carob_script <- function(path){
 		project = "N2Africa",
 		publication = NA,
 		data_type = "on-farm experiment",
+		response_vars = "yield",
 		treatment_vars = "inoculated; N_fertilizer; P_fertilizer; K_fertilizer; lime; gypsum",
 		data_institute="IITA",
 		carob_contributor = "Effie Ochieng'",

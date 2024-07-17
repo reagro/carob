@@ -24,6 +24,7 @@ Bean (Phaseolus vulgaris L.), maize and rice (Oryza sativa L.) grain concentrati
 		publication ="doi:10.2134/agronj2018.04.0274", 
 		project = NA, 
 		data_type = "experiment", 
+		response_vars = "yield",
 		treatment_vars = "N_fertilizer;P_fertilizer;P_fertilizer;K_fertilizer;S_fertilizer;Mg_fertilizer;Zn_fertilizer;B_fertilizer", 
 		carob_contributor = "Cedric Ngakou", 
 		carob_date = "2024-06-29"

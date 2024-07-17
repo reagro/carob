@@ -17,6 +17,7 @@ carob_script <- function(path) {
 		carob_contributor="Effie Ochieng'",
 		carob_date="2023-10-23",
 		project=NA,
+		response_vars= "yield",
 		treatment_vars="intercrops"
 	)
   

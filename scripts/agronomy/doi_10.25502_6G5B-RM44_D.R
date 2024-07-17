@@ -19,6 +19,7 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
 		carob_contributor="Rachel Mukami; Effie Ochieng'",
 		carob_date="2022-07-29",
 		data_type="on-farm experiment",
+		response_vars= "yield",
 		treatment_vars="N_fertilizer;P_fertilizer;K_fertilizer"
 	)
 

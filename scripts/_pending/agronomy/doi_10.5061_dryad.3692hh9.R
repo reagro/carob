@@ -16,6 +16,7 @@ carob_script <- function(path) {
 		publication = "abc", 
 		project = NA, 
 		data_type = "experiment", 
+		response_vars = "yield",
 		treatment_vars = "N_fertilizer;P_fertilizer;P_fertilizer;K_fertilizer;S_fertilizer;Mg_fertilizer;Zn_fertilizer;B_fertilizer", 
 		carob_contributor = "Robert Hijmans", 
 		carob_date = "2024-06-29"

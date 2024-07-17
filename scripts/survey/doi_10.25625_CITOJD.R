@@ -16,6 +16,7 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institute = "Göttingen",
 		data_type="survey", 
+		response_vars = "none",
 		treatment_vars = "none",
 		carob_contributor="Robert Hijmans",
 		carob_date="2024-01-29"

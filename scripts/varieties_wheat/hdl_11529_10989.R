@@ -18,6 +18,7 @@ carob_script <- function(path) {
 		carob_contributor="Mitchelle Njukuya; Blessing Dzuda",
 		carob_date="2023-11-14",
 		data_type="on-station experiment",
+		response_vars = "yield",
 		treatment_vars = "variety_code"
 	)
   

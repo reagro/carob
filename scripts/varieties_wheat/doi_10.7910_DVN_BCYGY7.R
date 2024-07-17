@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institute = "ILRI",
 		data_type="experiment",
+		response_vars = "yield",
 		treatment_vars = "variety",
 		carob_contributor="Fredy Chimire",
 		carob_date="2024-3-10"

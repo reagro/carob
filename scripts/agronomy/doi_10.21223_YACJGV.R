@@ -16,6 +16,7 @@ carob_script <- function(path) {
 		data_type="experiment", 
 		carob_contributor="Mary Njogu; Stephen Gichuhi",
 		carob_date="2023-01-22",
+		response_vars = "yield",
 		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer"
 	)
 	 

@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		publication= "doi:10.1016/j.earscirev.2016.01.012.",
 		project="FAO",
 		data_type= "survey",
+		response_vars = "none",
 		treatment_vars = "none",
 		carob_contributor= "Andrew Sila",
 		carob_date="2024-05-20"

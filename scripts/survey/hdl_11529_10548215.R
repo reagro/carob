@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		publication="doi:10.5897/AJAR2019.14338",
 		data_institute = "EIAR; CIMMYT",
 		data_type="crop-cuts",
+		response_vars = "none",
 		treatment_vars = "none", 
 		carob_contributor="Samar Attaher",
 		carob_date="2024-06-07"

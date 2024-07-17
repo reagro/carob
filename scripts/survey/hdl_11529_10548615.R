@@ -19,6 +19,7 @@ The objective of this survey was to identify the major wheat productivity and pr
 		publication= NA,
 		data_institute = "CIMMYT",
 		data_type="survey", 
+		response_vars = "none",
 		treatment_vars = "none",
 		carob_contributor="Robert Hijmans",
 		carob_date="2024-01-27"

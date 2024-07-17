@@ -34,6 +34,7 @@ Animal traction (AT) ripline seeding with maize rotated with legumes"
     data_type="experiment",
     carob_contributor="Fredy Chimire",
     carob_date="2024-01-16",
+	response_vars = "yield",
 	treatment_vars = "land_prep_method"
    )
   

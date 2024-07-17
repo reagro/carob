@@ -16,6 +16,7 @@ carob_script <- function(path) {
 		carob_contributor="Effie Ochieng'",
 		carob_date="2021-09-17",
 		data_type="crop-cuts",
+		response_vars = "none",
 		treatment_vars = "none"
 	)
 

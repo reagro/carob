@@ -18,6 +18,7 @@ carob_script <- function(path) {
 		data_type="experiment", 
 		carob_contributor="Mitchelle Njukuya",
 		carob_date="2023-10-10",
+		response_vars= "yield",
 		treatment_vars="N_fertilizer;P_fertilizer;K_fertilizer;B_fertilizer"				
 	)
 

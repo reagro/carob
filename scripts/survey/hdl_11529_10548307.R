@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institute = "CIMMYT",
 		data_type="crop-cuts",
+		response_vars = "none",
 		treatment_vars = "none",
 		carob_contributor="Shumirai Manzvera",
 		carob_date="2023-08-25",

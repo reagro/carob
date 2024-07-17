@@ -16,6 +16,7 @@ carob_script <- function(path) {
 		carob_date="2022-02-16",
 		data_type="on-farm experiment",
 		project="Africa Rising",	   
+		response_vars = "yield",
 		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer;Zn_fertilizer;S_fertilizer"
  	)
 
@@ -156,6 +157,8 @@ carob_script <- function(path) {
 ## so I remove it from all records
 	d$residue_yield <- NULL
 
+	d$irrigated <- NA
+	
 	carobiner::write_files(meta, d, path=path)
 }
 

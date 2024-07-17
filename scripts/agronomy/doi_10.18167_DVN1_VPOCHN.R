@@ -23,6 +23,7 @@ carob_script <- function(path) {
 		carob_date = "2024-02-15",
 		modified_by = "Eduardo Garcia Bendito",
 		last_modified = "2024-03-07",
+		response_vars = "yield",
 		treatment_vars = "land_prep_method;mulch"
 	)
   

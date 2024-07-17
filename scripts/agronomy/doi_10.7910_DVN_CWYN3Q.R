@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		publication = NA,
 		project = NA,
 		data_type = "experiment",
+		response_vars = "yield",
 		treatment_vars = "land_prep_method;variety", 
 		carob_contributor = "Shumirai Manzvera",
 		carob_date = "2024-05-21"

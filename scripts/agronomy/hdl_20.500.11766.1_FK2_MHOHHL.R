@@ -22,6 +22,7 @@ The trial includes 40 faba bean varieties and 2  wheat varieties that are grown 
 		data_institute = "ICARDA",
 		carob_contributor="Samar Attaher",
 		carob_date="2023-04-05",
+		response_vars= "yield",
 		treatment_vars="intercrops",
 		data_type="experiment"
 	)

@@ -16,6 +16,7 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institute = "CIMMYT",
 		data_type="experiment", 
+		response_vars = "yield",
 		treatment_vars = "variety;longitude;latitude",
 		carob_contributor="Mitchelle Njukuya",
 		carob_date="2023-01-30",

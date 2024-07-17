@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		publication="doi:10.1038/s41467-020-18317-8",
 		data_institute = "SARC",
    		data_type="experiment", 
+		response_vars = "yield",
 		treatment_vars = "variety",
 		carob_contributor="Blessing Dzuda",
 		carob_date="2024-01-24"

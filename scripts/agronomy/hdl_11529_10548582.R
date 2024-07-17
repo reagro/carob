@@ -18,6 +18,7 @@ Randomized complete block design for four environments (ENV) that combined tilla
 		carob_contributor="Effie Ochieng'",
 		carob_date="2021-07-26",
 		data_type="experiment",
+		response_vars = "yield",
 		treatment_vars = "land_prep_method;N_fertilizer",
 		project=NA
 	)

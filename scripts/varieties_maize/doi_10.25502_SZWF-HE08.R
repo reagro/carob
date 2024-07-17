@@ -16,6 +16,7 @@ carob_script <- function(path) {
 		carob_contributor = "Siyabusa Mkuhlani",
 		carob_date="2024-01-17",
 		data_type = "experiment",
+		response_vars = "yield",
 		treatment_vars = "variety;longitude;latitude",
 		project=NA,
 		data_institute="IITA"

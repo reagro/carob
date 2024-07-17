@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		publication = "doi.org/10.1016/j.agee.2021.107812",
 		project = NA,
 		data_type = "experiment",
+		response_vars = "yield",
 		treatment_vars = "yield", 
 		carob_contributor = "Blessing Dzuda",
 		carob_date = "2024-05-31"

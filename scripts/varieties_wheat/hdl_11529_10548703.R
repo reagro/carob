@@ -15,6 +15,7 @@ carob_script <- function(path) {
     carob_contributor="Hope Mazungunye",
     carob_date="2024-05-28",
     data_type="on-station experiment",
+    response_vars = "yield",
     treatment_vars = "variety_code"
   )
   

@@ -15,6 +15,7 @@ carob_script <- function(path) {
     publication= NA,
     project="Stress Adapted Trait Yield Nurseries",
     data_type= "experiment",
+    response_vars = "yield",
     treatment_vars = "variety_code",
     carob_contributor= "Blessing Dzuda",
     carob_date="2024-06-13"

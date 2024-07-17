@@ -17,6 +17,7 @@ carob_script <- function(path){
 		carob_date="2022-08-06",
 		data_type = "on-farm experiment",
 		data_institute="IITA",
+		response_vars = "yield",
 		treatment_vars = "inoculant;P_fertilizer"		
 	)
 	 

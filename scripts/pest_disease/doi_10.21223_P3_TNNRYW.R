@@ -18,6 +18,7 @@ carob_script <- function(path) {
 		carob_contributor="Henry Juarez",
 		carob_date="2023-06-21",	   
 		data_type="experiment",
+		response_vars= "yield",
 		treatment_vars="variety"
  	)
 

@@ -20,6 +20,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 		project = NA,
 		modified_by = "Eduardo Garcia Bendito",
 		last_modified = "2024-01-18",
+		response_vars= "yield",
 		treatment_vars= "P_fertilizer"
 	)
   

@@ -15,6 +15,7 @@ carob_script <- function(path) {
     carob_contributor="Cedric Ngakou",
     carob_date="2023-09-18",
     data_type="survey",
+	response_vars= "none",
 	treatment_vars="none",
     project=NA 
   )

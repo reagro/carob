@@ -17,6 +17,7 @@ International Durum Yield Nurseries (IDYN) are replicated yield trials designed 
 		publication=NA,
 		project="International Durum Yield Nursery",
 		data_type= "experiment",
+		response_vars = "yield",
 		treatment_vars = "variety_code",
 		carob_contributor= "Blessing Dzuda",
 		carob_date="2024-02-22"

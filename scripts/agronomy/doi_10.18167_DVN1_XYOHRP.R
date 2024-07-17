@@ -17,6 +17,7 @@ carob_script <- function(path) {
 		carob_date="2023-10-15",
 		data_type="experiment",
 		project=NA,
+		response_vars = "yield",
 		treatment_vars = "crop_rotation"		
 	)
    

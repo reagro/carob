@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-09-27",
 		data_type="experiment",
+		response_vars= "yield",
 		treatment_vars="herbicide_product",
 		project=NA 
 	)

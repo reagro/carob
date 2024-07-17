@@ -28,6 +28,7 @@ Notes: citation could be improved to include the underlying data sources.
 		data_type="compilation",
 		project=NA,
 		data_institute="CIAT",
+		response_vars = "yield",
 		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer"
 	)
 

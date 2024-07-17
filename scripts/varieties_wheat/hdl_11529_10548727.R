@@ -19,6 +19,7 @@ and white/red grain color. (2021)"
     carob_contributor="Mitchelle Njukuya",
     carob_date="2024-05-02",   
     data_type="on-station experiment",
+		response_vars = "yield",
 		treatment_vars = "variety_code"
   )
   

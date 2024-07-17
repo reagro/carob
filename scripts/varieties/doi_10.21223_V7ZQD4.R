@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		data_institute = "CIP",
 		carob_contributor="Cedric Ngakou",
 		data_type="experiment",
+		response_vars = "yield",
 		treatment_vars = "variety",
 		project=NA,
 		carob_date="2024-02-26"

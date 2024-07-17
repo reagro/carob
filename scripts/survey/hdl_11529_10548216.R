@@ -18,6 +18,7 @@ carob_script <- function(path) {
       publication ="doi:10.5897/AJAR2019.14338", 
       project = "TAMASA", 
       data_type="crop-cuts", 
+      response_vars = "none",
       treatment_vars = "none", 
       carob_contributor = "Cedric Ngakou", 
       carob_date = "2024-07-04"

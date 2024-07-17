@@ -18,6 +18,7 @@ carob_script <- function(path) {
 	   carob_contributor="Eduardo Garcia Bendito",
 	   carob_date="2023-04-20",
 	   data_type="compilation",
+	   response_vars= "yield",
 	   treatment_vars="land_prep_method"
 	)
 

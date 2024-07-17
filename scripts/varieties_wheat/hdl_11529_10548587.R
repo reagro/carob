@@ -21,6 +21,7 @@ carob_script <- function(path) {
 	   carob_contributor="Eduardo Garcia Bendito",
 	   carob_date="2023-02-06",
 	   data_type="on-station experiment",
+		response_vars = "yield",
 		treatment_vars = "variety_code"
  	)
 

@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-03-19", 
 		data_type="experiment", 
+		response_vars = "yield",
 		treatment_vars = "variety;longitude;latitude",
 		data_institute="IITA"
  	)

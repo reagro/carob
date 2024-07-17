@@ -32,6 +32,7 @@ Conventional ridge and furrow with continuous sole maize (CRF);
     data_type="experiment",
     carob_contributor="Fredy Chimire",
     carob_date="2024-01-16",
+	response_vars = "yield",
 	treatment_vars = "land_prep_method"	
   )
     

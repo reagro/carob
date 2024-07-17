@@ -21,6 +21,7 @@ carob_script <- function(path) {
 		carob_contributor="Layal Atassi",
 		carob_date="2024-03-24",
 		data_type="experiment",
+		response_vars = "yield",
 		treatment_vars = NA
 	)
 

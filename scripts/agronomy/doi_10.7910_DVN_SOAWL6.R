@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		publication= NA,
 		data_institute = "CIAT",
 		data_type="compilation",
+		response_vars= "yield",
 		treatment_vars="none",
 		carob_contributor="Fredy Chimire",
 		carob_date="2024-02-24"

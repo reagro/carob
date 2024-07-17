@@ -19,6 +19,7 @@ carob_script <- function(path) {
 		data_type="experiment", 
 		carob_contributor="Mitchelle Njukuya",
 		carob_date="2023-02-06",
+		response_vars = "yield",
 		treatment_vars = "land_prep_method;irrigation_?"
 	)
 	

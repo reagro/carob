@@ -18,6 +18,7 @@ of El Batán Texcoco, the State of Mexico, Mexico. The experiment was a randomiz
 		#Jaramillo-López, P.F., Blas Romero, J., Sarabia, M., Fonteyne, S., Saldivia-Tejeda, A., Verhulst, N., Vestergård, M., Larsen, J., 2023. Non-target effects of pesticide and microbial seed treatments on rhizosphere microbiota in maize and barley under conservation agriculture. In preparation 
 		project = NA,
 		data_type = "experiment",
+		response_vars = "yield",
 		treatment_vars = "seed_treatment", 
 		carob_contributor = "Blessing Dzuda",
 		carob_date = "2024-05-21"

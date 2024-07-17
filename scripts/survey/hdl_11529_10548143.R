@@ -16,6 +16,7 @@ carob_script <- function(path) {
 		publication =NA,
 		project = NA,
 		data_type="crop-cuts",
+		response_vars = "none",
 		treatment_vars = "none",
 		carob_contributor = "Blessing Dzuda",
 		carob_date = "2024-06-04"

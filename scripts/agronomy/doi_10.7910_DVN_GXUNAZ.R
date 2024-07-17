@@ -27,6 +27,7 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 		carob_contributor="Rachel Mukami",
 		carob_date="2023-05-29",
 		data_type="compilation",
+		response_vars = "yield",
 		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer"		
 	)
   

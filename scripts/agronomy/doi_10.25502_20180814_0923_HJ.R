@@ -18,6 +18,7 @@ carob_script <- function(path) {
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-04-04",
 		data_type="experiment",
+		response_vars = "yield",
 		treatment_vars = "N_fertilizer;K_fertilizer;P_fertilizer;Zn_fertilizer;S_fertilizer;lime"
     )
 

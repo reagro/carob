@@ -23,6 +23,7 @@ This dataset contains output of the research for Sierra Leone.
 		carob_contributor = "Camila Bonilla",
 		carob_date="2021-06-03",
 		data_type = "experiment",
+		response_vars = "yield",
 		treatment_vars = "variety",
 		project="International Maize Trials",
 		data_institute="IITA"

@@ -18,6 +18,7 @@ carob_script <- function(path) {
 		publication = NA,
 		project = NA,
 		data_type = "experiment",
+		response_vars = "yield",
 		treatment_vars = "variety_code", 
 		carob_contributor = "Mitchelle Njukuya",
 		carob_date = "2024-07-04"

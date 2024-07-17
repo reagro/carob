@@ -15,6 +15,7 @@ Maize grain and bio-mass yield were increased by application of different rates 
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2021-08-26",
 		data_type="experiment",
+		response_vars = "yield",
 		treatment_vars = "N_fertilizer; P_fertilizer; K_fertilizer",
 		data_institute=NA,
 		project=NA

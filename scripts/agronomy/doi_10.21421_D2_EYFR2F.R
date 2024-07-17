@@ -18,6 +18,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
 		data_type="experiment",
 		data_institute="ICRISAT",
 		project=NA,
+		response_vars = "yield",
 		treatment_vars = "P_fertilizer"
 	)
   

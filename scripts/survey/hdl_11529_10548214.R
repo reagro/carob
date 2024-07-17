@@ -16,6 +16,7 @@ carob_script <- function(path) {
 		publication = NA,
 		project = "TAMASA",
 		data_type="crop-cuts",
+		response_vars = "none",
 		treatment_vars = "none", 
 		carob_contributor = "Shumirai Manzvera",
 		carob_date = "2024-05-23"

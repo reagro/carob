@@ -28,6 +28,7 @@ The sample size for this survey is 1052 households and the inputs use were asked
 		publication= NA,
 		data_institute = "CIMMYT",
 		data_type="survey",
+		response_vars = "none",
 		treatment_vars = "none",
 		carob_contributor="Robert Hijmans",
 		carob_date="2024-01-27"

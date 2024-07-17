@@ -21,6 +21,7 @@ carob_script <- function(path) {
 		publication = "doi.org/10.1007/s00374-022-01678-1",
 		project = NA,
 		data_type = "experiment",
+		response_vars = "yield",
 		treatment_vars = "season;land_prep_method;crop_rotation;OM_used", 
 		carob_contributor = "Mitchelle Njukuya",
 		carob_date = "2024-06-24"

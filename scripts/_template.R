@@ -30,7 +30,9 @@ copy and paste the abstract from the repository. Do not add line breaks
 		data_type = "experiment",
 		# treatment_vars has semi-colon separated variable names that represent the
 		# treatments if the data is from an experiment. E.g. "N_fertilizer;P_fertilizer;K_fertilizer"
-		treatment_vars = NA, 
+		treatment_vars = "",
+		# response variables of interest such as yield, residue_yield, disease incidence, etc. Do not include variable that describe management for all treatments or other observations that were not related to the aim of the trial (e.g. the presence of a disease).
+		response_vars = "", 
 		carob_contributor = "Your Name",
 		carob_date = "2024-01-01"
 	)

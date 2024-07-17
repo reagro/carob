@@ -16,6 +16,7 @@ carob_script <- function(path) {
 	   carob_contributor="Eduardo Garcia Bendito",
 	   carob_date="2022-11-02",
 	   data_type= "crop cuts",
+	   response_vars = "none",
 	   treatment_vars = "none",
 	   project=NA
  	)

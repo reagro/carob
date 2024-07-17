@@ -22,6 +22,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1"
 		carob_contributor="Effie Ochieng'; Rachel Mukami", 
 		carob_date="2023-03-20", 
 		data_type="experiment",
+		response_vars = "yield",
 		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer;variety"
 	)
 	

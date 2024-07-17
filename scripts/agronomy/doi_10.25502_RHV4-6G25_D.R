@@ -21,6 +21,7 @@ are developed that are tested on farmer's fields in validation trials in a large
       carob_contributor= "Cedric Ngakou", 
       carob_date="2024-06-04", 
       data_type="experiment",
+      response_vars = "yield",
       treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer;Zn_fertilizer;S_fertilizer;B_fertilizer"
    )
    

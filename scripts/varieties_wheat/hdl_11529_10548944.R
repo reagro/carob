@@ -14,6 +14,7 @@ carob_script <- function(path) {
 		publication=NA,
 		project="High Temperature Wheat Yield Trial",
 		data_type= "experiment",
+		response_vars = "yield",
 		treatment_vars = "variety_code",
 		carob_contributor= "Mary Njogu",
 		carob_date="2024-03-15"

@@ -22,6 +22,7 @@ cropping system (sole maize, sole pigeonpea, maize-pigeonpea, maize-gliricidia, 
 		data_type= "experiment",
 		carob_contributor= "Mitchelle Njukuya",
 		carob_date="2024-04-09",
+		response_vars= "yield",
 		treatment_vars="intercrops"
 	)
 

@@ -18,6 +18,7 @@ Water availability is a major constraint to crop production in sub-Saharan Afric
 		data_type = "experiment",
 		data_institute ="ICRAF",
 		project=NA,
+		response_vars= "yield",
 		treatment_vars="N_fertilizer;P_fertilizer;K_fertilizer;intercrop"		
 	)
 

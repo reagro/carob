@@ -18,6 +18,7 @@ carob_script <- function(path) {
 		carob_contributor="Andrew Sila",
 		carob_date="2023-09-28",
 		data_type = "survey",
+		response_vars = "none",
 		treatment_vars = "none"
     )
   

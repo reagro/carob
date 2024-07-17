@@ -15,6 +15,7 @@ carob_script <- function(path) {
 		publication = "doi.org/10.1017/S1742170521000442",
 		project = NA,
 		data_type = "on-farm experiment",
+		response_vars = "yield",
 		treatment_vars = "land_prep_method", 
 		carob_contributor = "Blessing Dzuda",
 		carob_date = "2024-07-02"

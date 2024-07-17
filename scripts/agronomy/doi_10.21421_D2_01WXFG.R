@@ -18,6 +18,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 		data_type="experiment",
 		data_institute="ICRISAT",
 		project=NA,
+		response_vars= "yield",
 		treatment_vars="plant_density;P_fertilizer"		
 	)
 	  
