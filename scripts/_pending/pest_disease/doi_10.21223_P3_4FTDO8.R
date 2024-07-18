@@ -1,22 +1,22 @@
 # R script for "carob"
 
 
+## CN
+## Could the valid_max of AUDPC be review ? valid_max=150 in the records_crops.csv but this data set is showing very high values
+
+# Some variables names perhaps interesting such as NTP, SAUDPC, NoMTWP, TTWP, MTWP, MTYNA are exluded 
+
 
 carob_script <- function(path) {
    
-   "
-	Description:
-	The objective of this study was determinate the phenotypic stability for resistance to late blight of 15 late blight resistant B3 clones during 4 seasons in two locations in Peru. 
-	The experiments were performed under a randomized complete block designs (RCBD) with 4 replications of 40 hill-plots. All the plants were exposed to natural infection in the field 
-	and disease spread was enhanced by spreader rows planted systematically throughout the field and also by favorable weather conditions.
-"
+"The objective of this study was determinate the phenotypic stability for resistance to late blight of 15 late blight resistant B3 clones during 4 seasons in two locations in Peru. The experiments were performed under a randomized complete block designs (RCBD) with 4 replications of 40 hill-plots. All the plants were exposed to natural infection in the field 	and disease spread was enhanced by spreader rows planted systematically throughout the field and also by favorable weather conditions."
    
    uri <-  "doi:10.21223/P3/4FTDO8"
    group <- "disease"
    ff <- carobiner::get_data(uri, path, group)
   
    meta <- data.frame(
-   	carobiner::read_metadata(uri, path, group, major=1, minor=3),
+	  carobiner::read_metadata(uri, path, group, major=1, minor=3),
       publication= NA,# 
       data_institute = "CIP",
       carob_contributor="Cedric Ngakou",
@@ -84,7 +84,4 @@ carob_script <- function(path) {
    carobiner::write_files(meta, d, path=path)
    
 }
-## CN
-## Could the valid_max of AUDPC be review ? valid_max=150 in the records_crops.csv but this data set is showing very high values
 
-# Some variables names perhaps interesting such as NTP, SAUDPC, NoMTWP, TTWP, MTWP, MTYNA are exluded 
