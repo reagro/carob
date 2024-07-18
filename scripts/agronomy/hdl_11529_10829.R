@@ -34,7 +34,7 @@ carob_script <- function(path) {
  
   ## use a subset (like this to avoid subsetting later)
 	d1 <- r1[, c("Harvest Year", "District", "Village", "Plot No.", "crop grown", "Tmnt.", "Stalk yield (kg/ha)", "Grain yield (kg/ha)", "Farmer")]
-	colnames(d1) <- c("harvest_date", "adm1", "location", "rep", "crop", "treatment", "residue_yield", "yield", "fname")
+	colnames(d1) <- c("harvest_date", "adm1", "location", "rep", "crop", "treatment", "fwy_residue", "yield", "fname")
 
 	d2 <- r2[,  c("Site", "Tmnt.", "Crop grown", "Final stand (pl/ha)", "Grain yield (kg/ha)", "total Biomass yield (kg/ha)",  "Year", "Site name", "Plot No.")]
 	colnames(d2) <- c("location", "treatment", "crop", "plant_density", "yield", "dmy_total", "harvest_date", "fname", "rep")

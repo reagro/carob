@@ -67,7 +67,7 @@ carob_script <- function(path) {
 		variety= r1$Maize.variety.name.MVnam,
 		plot_area= r1$Size.of.the.net.plot.m.x.m,
 		yield= r1$Grain.Yield.kg.ha,
-		residue_yield= r1$Stover.Yield.kg.ha,
+		fwy_residue= r1$Stover.Yield.kg.ha,
 		dmy_total= r1$Above.ground.biomass.t.ha * 1000, ## to kg/ha
 
 	## soil data 
@@ -148,7 +148,7 @@ carob_script <- function(path) {
 		planting_date= as.character(as.Date(r2$Planting.date, "%d/%m/%Y")),
 		harvest_date= as.character(as.Date(r2$Harvest.Date)),
 		yield= r2$Grain.Yield.kg.ha,
-		residue_yield= r2$Stalk.Yield.kg.ha,
+		fwy_residue= r2$Stalk.Yield.kg.ha,
 		dmy_total= r2$Above.ground.biomass.t.ha*1000,## in kg/ha
 		leaf_N= r2$pct.N.46,
 		leaf_P= r2$pct.P.47,

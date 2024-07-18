@@ -38,7 +38,7 @@ carob_script <- function(path) {
 
 	r1 <- r1[, c("Ecozone", "Trial.type", "Rep", "Trt", "Trt_Descr", "Mz.Grain_Yld.t.ha", "Mz.Stover_Yld.t.ha", "Bn.Grain.Yld.t.ha", "Bn.Haulm.Yld.t.ha", "PP.Grain_Yld.t.ha", "PP.Stalks_Yld.t.ha")]
 
-	r1 <- carobiner::change_names(r1, names(r1), c("location", "trial", "rep", "Trt", "treatment", "yield_M", "residue_yield_M", "yield_B", "residue_yield_B", "yield_P", "residue_yield_P"))
+	r1 <- carobiner::change_names(r1, names(r1), c("location", "trial", "rep", "Trt", "treatment", "yield_M", "fwy_residue_M", "yield_B", "fwy_residue_B", "yield_P", "fwy_residue_P"))
 
 	# these are the treatments, not the trials d0$trial_id <- paste(d0$trial, d0$Trt, sep ="_")
 	## create a long data set 	
@@ -46,13 +46,13 @@ carob_script <- function(path) {
 			new_name <- gsub(i, "", names(r1), fixed=TRUE) 
 			d <- carobiner::change_names(r1, names(r1), new_name)
 			d$crop <- i
-			d[, c("crop", "location", "rep", "treatment", "yield", "residue_yield")]
+			d[, c("crop", "location", "rep", "treatment", "yield", "fwy_residue")]
 		}
 	) 
 	d1 <- do.call(rbind, d1)
 	
 	d1$yield <- d1$yield*1000 # in kg/ha
-	d1$residue_yield <- d1$residue_yield*1000 # in kg/ha
+	d1$fwy_residue <- d1$fwy_residue*1000 # in kg/ha
 	d1$rep <- as.integer(d1$rep)
    
 	d1$crop <- gsub("_M", "maize", d1$crop )

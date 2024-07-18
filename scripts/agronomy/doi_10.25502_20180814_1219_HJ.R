@@ -54,7 +54,7 @@ carob_script <- function(path) {
 		yield = 1000 * r$TGrainYld / 0.85
 	)
 
-	d$residue_yield <- r$TStoverFW / r$Harea
+	d$fwy_residue <- r$TStoverFW / r$Harea
 	d$dmy_residue <- r$TStoverYld * 1000
 	
 	# Fertilizers according doi:10.1016/j.agee.2016.05.012

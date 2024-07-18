@@ -34,7 +34,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 		variety=r$Variety,
 		treatment=r$Fertilizer,
 		yield = r$`Pod weight`,
-		residue_yield = r$`fodder weight`,
+		fwy_residue = r$`fodder weight`,
 		seed_weight = r$`seed weight`
 	)
 

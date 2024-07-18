@@ -33,7 +33,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 		treatment= r$Fertilizer,
 		plant_density= r$Spacing, 
 		yield=r$`Pod weight`, 
-		residue_yield=r$`fodder weight`,
+		fwy_residue=r$`fodder weight`,
 		harvest_days = r$`Number of days to maturity`,
 		plant_height = r$`Plant height`
 	)

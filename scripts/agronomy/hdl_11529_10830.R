@@ -34,7 +34,7 @@ is kept in the ground, there is no preparation of the ground, and the sowing is 
 		treatment=r0$Tmnt.,
 		variety=r0$Variety,
 		plant_density=r0$`Final stand (pl/ha)`,
-		residue_yield=r0$`Stalk yield (kg/ha)`,
+		fwy_residue=r0$`Stalk yield (kg/ha)`,
 		yield=r0$`Grain yield (kg/ha)`
 	)
 		
@@ -47,7 +47,7 @@ is kept in the ground, there is no preparation of the ground, and the sowing is 
 		treatment=r1$Tmnt.,
 		crop=r1$`Crop grown`,
 		plant_density=r1$`Final stand (pl/ha)`,
-		residue_yield=r1$`Stalk yield (kg/ha)`,
+		fwy_residue=r1$`Stalk yield (kg/ha)`,
 		yield=r1$`Grain yield (kg/ha)`
 	)
 	

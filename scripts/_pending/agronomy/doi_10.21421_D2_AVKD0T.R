@@ -78,7 +78,7 @@ The experiment was established in 1986 and continued until 2018 at the ICRISAT S
 	d$yield <- d$`Grain weight` 
 # need to think about "stover yield".
 # sometimes you get stems and leaves, but here it is together	
-	d$residue_yield <- d$`Stover yield`
+	d$fwy_residue <- d$`Stover yield`
 
 ## pod weight is for cowpea
 ## what to do? Add another variable "yield2"? Or replicate the treatments that have cowpea, and now 

@@ -9,7 +9,6 @@ carob_script <- function(path) {
 3. CA plot with maize intercropped with a legume [cowpea or pigeon pea or groundnut. Both crops were planted with the dibble stick into the previous years’ ridges (where they still existed) or directly into the plot without further ridging. Crop residues were retained as surface mulch as in treatment 2.]
 
 "
-  
   uri <- "doi:10.7910/DVN/NZW56Q"
   group <- "agronomy"
   ff <- carobiner::get_data(uri, path, group)
@@ -18,7 +17,7 @@ carob_script <- function(path) {
   	carobiner::read_metadata(uri, path, group, major=2, minor=0),
     project=NA,
     publication= NA,
-    data_institute = "CIMMYT; IFPRI",
+    data_institute = "CIMMYT",
     data_type="on-farm experiment", 
     carob_contributor="Mitchelle Njukuya",
     carob_date="2024-01-16"
@@ -29,14 +28,19 @@ carob_script <- function(path) {
   r <- read.csv(f)
   
   ## process file(s)
-  d <- data.frame(trial_id=r$No, country=r$Country, 
-					adm2=r$District, location=r$Village, 
-					treatment=r$Treat, variety=r$Variety, crop=r$crop.grown, 
-					plant_density=r$Plantpopulation, yield=r$Grain.yield, 
-					harvest_date=as.character(r$Harvest.Year), 
-					residue_yield=r$Biomassyield
-
-				)
+	d <- data.frame(
+		trial_id=r$No, 
+		country=r$Country, 
+		adm2=r$District, 
+		location=r$Village, 
+		treatment=r$Treat, 
+		variety=r$Variety, 
+		crop=r$crop.grown, 
+		plant_density=r$Plantpopulation, 
+		yield=r$Grain.yield, 
+		harvest_date=as.character(r$Harvest.Year), 
+		fwy_residue=r$Biomassyield
+	)
   
 #  d <- carobiner::change_names(d,
 # note error in district/village c("No","Country","District","Village","Treat","Variety","crop.grown","Plantpopulation","Grain.yield")
@@ -88,6 +92,7 @@ carob_script <- function(path) {
   d <- merge(d, geo, by=c("country", "adm2"), all.x=TRUE)  
 
 	d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+	d$irrigated <- FALSE
       
     carobiner::write_files(meta, d, path=path)
 }

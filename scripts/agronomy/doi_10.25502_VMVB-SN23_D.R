@@ -36,7 +36,7 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
   d$harvest_date[d$harvest_date=="0-08-04"] <- "2011-08-04"
   
   d$yield <- d$grain_yield_ha_calc
-  d$residue_yield <- d$tot_stover_yield_haulm_husks_calc
+  d$fwy_residue <- d$tot_stover_yield_haulm_husks_calc
   d$dmy_roots <- d$root_dry_weight_roots_no_nodules
   d$dmy_total <- (d$above_ground_dry_biomass + d$root_dry_weight_roots_no_nodules + d$nodule_dry_weight)
   d$seed_weight <- as.numeric(d$dry_weight_100_seeds)*10 # to get the 1000 grain weight
@@ -122,7 +122,7 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
 # variety names are listed in the publication attached above  
   d$variety <- vv 
   
-  d <- d[,c("trial_id","rep","variety","treatment","inoculated","planting_date","harvest_date","fertilizer_type","N_splits","N_fertilizer","P_fertilizer","K_fertilizer","yield","residue_yield","seed_weight","dmy_roots","dmy_total")]
+  d <- d[,c("trial_id","rep","variety","treatment","inoculated","planting_date","harvest_date","fertilizer_type","N_splits","N_fertilizer","P_fertilizer","K_fertilizer","yield","fwy_residue","seed_weight","dmy_roots","dmy_total")]
   
   # ignoring the rust_score.csv data it's redundant and carob doesn't cater to rust and economic related variables
   
@@ -175,7 +175,7 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
 	#rearranging the data 
 	
 	z <- z[, c("trial_id","country","location","latitude","longitude","elevation","rep","treatment","crop","variety", "planting_date","harvest_date","inoculated","seed_weight","dmy_roots","dmy_total","fertilizer_type","N_fertilizer","N_splits",
-	"P_fertilizer","K_fertilizer","residue_yield","yield","on_farm")] 
+	"P_fertilizer","K_fertilizer","fwy_residue","yield","on_farm")] 
 	
 	z$yield_part <- "seed"
 	z$is_survey <- FALSE

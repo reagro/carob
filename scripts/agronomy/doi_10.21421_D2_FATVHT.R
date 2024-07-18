@@ -45,7 +45,7 @@ carob_script <- function(path) {
 		variety = r$Sorghum,
 		
 		yield = r$`Grain yield`,
-		residue_yield = r$`Stalk yield`,
+		fwy_residue = r$`Stalk yield`,
 		seed_weight = r$GW_1000grnM_g,
 # Not reported in the associated publication	
 		fertilizer_type = "unknown" ,

@@ -41,7 +41,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 		N_fertilizer = 0,
 		K_fertilizer = 0,
 		yield = r$PodKgHa,
-		residue_yield = r$FdWtKgHa,
+		fwy_residue = r$FdWtKgHa,
 		seed_weight = r$seedgm,
 		crop = "groundnut",
 		yield_part = "pod",

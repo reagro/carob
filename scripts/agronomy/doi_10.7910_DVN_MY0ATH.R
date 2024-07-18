@@ -57,7 +57,7 @@ carob_script <- function(path) {
 	  variety=r2$VARTY, 
 	  plant_height=r2$PLNTH, 
 	  yield=r2$`GYD /ha`, 
-	  residue_yield=r2$`FODDER /ha`, 
+	  fwy_residue=r2$`FODDER /ha`, 
 	  dmy_total=r2$TBMSS
 	)
 	#fixing names as given in label sheet
@@ -75,7 +75,7 @@ carob_script <- function(path) {
 	  plant_height=r3$PLNTH, 
 	  flowering_days=r3$DFFLW, 
 	  yield=r3$GYD...17, 
-	  residue_yield=r3$FODDER...13, 
+	  fwy_residue=r3$FODDER...13, 
 	  dmy_total=r3$TBMSS
 	)
 	
@@ -88,7 +88,7 @@ carob_script <- function(path) {
 	  plant_height=r4$PLNTH, 
 	  flowering_days=NA, 
 	  yield=r4$GYD...10, 
-	  residue_yield=r4$STOVER...12, 
+	  fwy_residue=r4$STOVER...12, 
 	  dmy_total=r4$TBMSS
 	)
 
@@ -108,7 +108,7 @@ carob_script <- function(path) {
 	  plant_height=r5$PLNTH, 
 	  flowering_days=r5$DFFLW, 
 	  yield=r5$GRAIN, 
-	  residue_yield=r5$FODDER, 
+	  fwy_residue=r5$FODDER, 
 	  dmy_total=r5$TBMM
 	)
 	
@@ -121,7 +121,7 @@ carob_script <- function(path) {
 	  plant_height=r6$PLNTH, 
 	  flowering_days=NA, 
 	  yield=r6$GRAIN, 
-	  residue_yield=r6$FODDER, 
+	  fwy_residue=r6$FODDER, 
 	  dmy_total=r6$TBMM
 	)
 

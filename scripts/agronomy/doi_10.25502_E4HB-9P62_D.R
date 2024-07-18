@@ -20,7 +20,7 @@ carob_script <- function(path) {
 		carob_date="2022-08-07",
 		data_type = "on-farm experiment",
 		response_vars = "yield",
-		treatment_vars = "inoculant;N_fertilizerP_fertilizer;K_fertilizer"		
+		treatment_vars = "inoculated;N_fertilizer;P_fertilizer;K_fertilizer"		
     )
   
   
@@ -52,7 +52,7 @@ carob_script <- function(path) {
 	d$harvest_date <- as.Date(paste(d$date_harvest_yyyy,d$date_harvest_mm,d$date_harvest_dd, sep = "-"))
 	d$seed_weight <- as.numeric(d$dry_weight_100_seeds)*10
 	d$yield <- d$grain_yield_ha_calc
-	d$residue_yield <- d$tot_stover_yield_haulm_husks_calc
+	d$fwy_residue <- d$tot_stover_yield_haulm_husks_calc
 	
 	d[, c("above_ground_dry_biomass", "root_dry_weight_roots_no_nodules","nodule_dry_weight")] <- 
 		lapply(d[, c("above_ground_dry_biomass", "root_dry_weight_roots_no_nodules","nodule_dry_weight")], as.numeric)
@@ -96,7 +96,7 @@ carob_script <- function(path) {
 	d$N_fertilizer <- ifelse(d$fertilizer_type == "DAP",tot_DAP*0.18,d$N_fertilizer)
 	d$N_splits <- 2L
 	
-	x <- d[,c("trial_id","rep","treatment","variety","planting_date","harvest_date","seed_weight","yield","residue_yield", "dmy_total", "fertilizer_type","N_fertilizer","N_splits","K_fertilizer","P_fertilizer","inoculated")]
+	x <- d[,c("trial_id","rep","treatment","variety","planting_date","harvest_date","seed_weight","yield","fwy_residue", "dmy_total", "fertilizer_type","N_fertilizer","N_splits","K_fertilizer","P_fertilizer","inoculated")]
 	x <- unique(x) #removing duplicates
 
 	# reading the general.csv data
@@ -174,9 +174,9 @@ carob_script <- function(path) {
 	# data type fixed
 	w$harvest_date <- as.character(w$harvest_date)
 	w$planting_date <- as.character(w$planting_date)
-	w$residue_yield <- as.numeric(w$residue_yield)
+	w$fwy_residue <- as.numeric(w$fwy_residue)
  
-	w <- w[,c("trial_id","country","adm2","location","latitude", "longitude","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","seed_weight","dmy_total","residue_yield","yield","fertilizer_type", "N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH","soil_sand","soil_clay","soil_silt","soil_N", "soil_K","soil_SOC", "on_farm")]
+	w <- w[,c("trial_id","country","adm2","location","latitude", "longitude","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","seed_weight","dmy_total","fwy_residue","yield","fertilizer_type", "N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH","soil_sand","soil_clay","soil_silt","soil_N", "soil_K","soil_SOC", "on_farm")]
 
 	w$yield_part <- "seed"
 	w$N_fertilizer[is.na(w$N_fertilizer)] <- 0

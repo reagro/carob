@@ -35,14 +35,14 @@ carob_script <- function(path) {
 	d1 <- data.frame(
 		location=r12$Location, 
 		variety=r12$Wheat.Variety, 
-		residue_yield=r12$Straw.Yield..ton.ha.*1000, 
+		fwy_residue=r12$Straw.Yield..ton.ha.*1000, 
 		yield = r12$Grain.yield..ton.ha. * 1000,
 		planting_date = "2016"  # from metadata but not sure
 	)
 	d3 <- data.frame(
 		location=r3$Site, 
 		variety=r3$Wheat.Variety, 
-		residue_yield=r3$Straw.yield..ton.ha. * 1000, 
+		fwy_residue=r3$Straw.yield..ton.ha. * 1000, 
 		yield=r3$Grain.yield..ton.ha. * 1000,
 		planting_date = 2017
 	)

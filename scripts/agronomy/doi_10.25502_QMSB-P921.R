@@ -159,7 +159,7 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
   b3$OM_used[b3$OM_amount > 0 & !is.na(b3$OM_amount)] <- TRUE
   
   b3$yield <- b3$`grain_weight_shelledcrop1_kg/plot`/b3$plot_size_ha
-  b3$residue_yield <- b3$`above_ground_biomass_husksstover_kg/plot`/b3$plot_size_ha
+  b3$fwy_residue <- b3$`above_ground_biomass_husksstover_kg/plot`/b3$plot_size_ha
   
   b3$row_spacing <- b3$experimental_treatments_density_1_row_spacing.m
   b3$plant_spacing <- b3$experimental_treatments_density_1_plant_spacing.m
@@ -185,7 +185,7 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
   # subset to variables of interest
   
   r1 <- b3[,c("trial_id","crop","variety","treatment","inoculated","inoculant","fertilizer_type","N_fertilizer","P_fertilizer","K_fertilizer",
-                    "OM_used","OM_type","OM_amount","row_spacing","plant_spacing","residue_yield","yield")]
+                    "OM_used","OM_type","OM_amount","row_spacing","plant_spacing","fwy_residue","yield")]
   
   # production
   

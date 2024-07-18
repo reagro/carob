@@ -38,7 +38,7 @@ carob_script <- function(path) {
 	d <- data.frame(
 		adm1 = r$adm1, site=r$village, treatment=r$tmnt, 
 		crop = tolower(r$crop.grown),
-		residue_yield = r$stalk.yield.kg.ha, 
+		fwy_residue = r$stalk.yield.kg.ha, 
 		yield = r$grain.yield.kg.ha,
 		rep = as.integer(r$site.rep),
 		plant_density = r$final.stand.pl.ha,
@@ -99,8 +99,8 @@ carob_script <- function(path) {
 	
 	d <- merge(d, geo, by="adm1", all.x=TRUE)
 
-	# fixes residue_yield and plant_density out of the bounds
-	d$residue_yield[d$residue_yield > 100000] <- NA
+	# fixes fwy_residue and plant_density out of the bounds
+	d$fwy_residue[d$fwy_residue > 100000] <- NA
 	d$plant_density[d$plant_density == 0] <- NA
 	d <- d[!is.na(d$yield), ]
 

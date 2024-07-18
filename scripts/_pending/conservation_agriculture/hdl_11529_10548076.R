@@ -62,7 +62,7 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
                     treatment = r$Tmnt, 
                     yield = r$Sun.dry.grain.yield.t.ha * 1000,	
                     biomass_total = r$Total.Biomass.t.ha * 1000,
-                    residue_yield = (r$Total.Biomass.t.ha-r$Sun.dry.grain.yield.t.ha) * 1000,
+                    fwy_residue = (r$Total.Biomass.t.ha-r$Sun.dry.grain.yield.t.ha) * 1000,
                     N_fertilizer = r$N.kg.ha,
                     P_fertilizer = r$P2O5.kg.ha / 2.29,
                     K_fertilizer = r$K2O.kg.ha / 1.2051,

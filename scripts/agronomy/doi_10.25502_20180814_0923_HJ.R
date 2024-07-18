@@ -34,7 +34,7 @@ carob_script <- function(path) {
 	colnames(d1) <- c("site", "cluster", "field", "latitude", "longitude", "location", "season", "soil_type", "crop", "previous_crop", "fertilizer_type", "OM_type")
 
 	d2 <- r2[, c("Cluster", "Field", 'Rep', 'TrtDesc', 'Adj.StoverYld', 'Grn.yld.adj')]
-	colnames(d2) <- c("cluster", "field", "rep", "treatment", "residue_yield", "yield")
+	colnames(d2) <- c("cluster", "field", "rep", "treatment", "fwy_residue", "yield")
 
 	#merge d1 and d2
 	d2 <- d2[!is.na(d2$yield), ]

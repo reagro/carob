@@ -25,7 +25,7 @@ carob_script <- function(path) {
     country = character(0), site = character(0), treatment = character(0), 
     longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
     harvest_date = character(0), trial_id = character(0), crop = character(0), 
-    yield = numeric(0), residue_yield = numeric(0), seed_weight = numeric(0), 
+    yield = numeric(0), fwy_residue = numeric(0), seed_weight = numeric(0), 
     previous_crop = character(0), OM_type = character(0), N_fertilizer = numeric(0), 
     K_fertilizer = numeric(0), P_fertilizer = numeric(0), Zn_fertilizer = numeric(0), 
     S_fertilizer = numeric(0), yield_part = character(0))
@@ -82,7 +82,7 @@ carob_script <- function(path) {
 
 # d3$yield <- (d3$TGrainYld_adj)*1000
 
-# d3$residue_yield <- (d3$AdjTStoverYld)*1000
+# d3$fwy_residue <- (d3$AdjTStoverYld)*1000
 # d3$season <- d3$Season
 # d3$site <- d3$Site
 
@@ -101,7 +101,7 @@ carob_script <- function(path) {
 
 # d3=transform(d3,N_splits=ifelse(d3$N_fertilizer>0,3,0))
 
-# d3 <- d3[,c("site","rep","treatment","season","yield","residue_yield","N_fertilizer",
+# d3 <- d3[,c("site","rep","treatment","season","yield","fwy_residue","N_fertilizer",
           # "K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
 
 #merge all the data

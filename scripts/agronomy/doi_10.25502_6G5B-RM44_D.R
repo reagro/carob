@@ -72,7 +72,7 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
 
 	d$dmy_roots <- d$root_dry_weight_roots_no_nodules
 	d$dmy_total <- d$above_ground_dry_biomass + d$dmy_roots + d$nodule_dry_weight
-	d$residue_yield <- d$tot_stover_yield_haulm_husks_calc
+	d$fwy_residue <- d$tot_stover_yield_haulm_husks_calc
 	d$yield <- d$grain_yield_ha_calc
 
 	d$inoculated <- ifelse(d$main_treatment == "inoculated",TRUE,FALSE)
@@ -80,7 +80,7 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
 	d$seed_weight <- d$dry_weight_100_seeds*10 # converting to g per 1000 seeds
 	d <- d[d$yield > 0,]
 
-	d <- d[,c("experiment_id","rep","variety","planting_date","harvest_date","treatment","fertilizer_type","inoculated","plant_density","seed_weight","dmy_roots","dmy_total","residue_yield","yield")]
+	d <- d[,c("experiment_id","rep","variety","planting_date","harvest_date","treatment","fertilizer_type","inoculated","plant_density","seed_weight","dmy_roots","dmy_total","fwy_residue","yield")]
 
 	f1 <- ff[basename(ff) == "soil_properties.csv"]
 	d1 <- read.csv(f1)
@@ -133,7 +133,7 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
 	d4$K_fertilizer <- ifelse(grepl("KCl", d4$fertilizer_type), 30, 0)
 	d4$N_splits <- ifelse(grepl("urea",d4$fertilizer_type), 2L, 0L)
 	
-	d4 <- d4[, c("trial_id","country","location","latitude", "longitude", "elevation","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","plant_density","seed_weight","dmy_roots","dmy_total", "residue_yield","yield","fertilizer_type","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH", "soil_K", "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm")]
+	d4 <- d4[, c("trial_id","country","location","latitude", "longitude", "elevation","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","plant_density","seed_weight","dmy_roots","dmy_total", "fwy_residue","yield","fertilizer_type","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH", "soil_K", "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm")]
 
 	d4$yield_part <- "seed"
 	d4$is_survey <- FALSE

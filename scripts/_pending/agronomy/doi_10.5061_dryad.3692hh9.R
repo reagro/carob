@@ -88,7 +88,7 @@ carob_script <- function(path) {
 		P_fertilizer = r3$P,
 		K_fertilizer = r3$K,
 		yield = r3$`GraYldHa (kg)`,
-		residue_yield = r3$`StoYldHa (kg)`,
+		fwy_residue = r3$`StoYldHa (kg)`,
 		rep = r3$Rep
 	)
 	

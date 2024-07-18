@@ -1,6 +1,5 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
    
 "The purpose of this study was to estimate the genetic gains for yield and quality traits in sweetpotatoes. The field evaluation was conducted in San Ramon 2016, 2018A, 2018B; Huaral 2016, 2019A, 2019B; Ica 2016, 2019A, 2019B and Satipo 2016, 2018A, 2018B evaluating 17 clones (Abigail, Adriano, Alexander, Arne, Atacama, Benjamin, Caplina, Costanero, Huambachero, INA-100, Isabel, Jonathan, Milagrosa, PZ06.120, Sumi, Tacna, Yarada) and 3 checks (Cemsa, Dagga, Salyboro).  Each of the trials was harvested at 90 and then 120 days."
@@ -43,7 +42,7 @@ carob_script <- function(path) {
 	)
    
 ##CN
-### The unit of residue_yield and dmy_leaves is unclear: it is given in tons/ha, but after conversion to kg/ha, almost all values are  out of bounds.
+### The unit of fwy_residue and dmy_leaves is unclear: it is given in tons/ha, but after conversion to kg/ha, almost all values are  out of bounds.
    #d$fwt_residue <- d$fwt_residue*1000 # in kg/ha
    #d$dmy_leaves<- d$dmy_leaves*1000
    d <- d[!is.na(d$yield),] ## remove NA in yield

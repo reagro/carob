@@ -23,7 +23,7 @@ carob_script <- function(path){
 		modified_by = "Eduardo Garcia Bendito",
 		last_modified = "2024-03-07",
 		response_vars = "yield",
-		treatment_vars = "inoculant;P_fertilizer"	
+		treatment_vars = "inoculated;P_fertilizer"	
 	)
 
 	p_year <- 2014 #planting year
@@ -318,7 +318,7 @@ carob_script <- function(path){
 	
 	
 	# Finally select the fields to be included
-	#d <- d[, c("trial_id","on_farm","treatment","crop", "planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","yield","seed_weight","residue_yield","dmy_total")]
+	#d <- d[, c("trial_id","on_farm","treatment","crop", "planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","yield","seed_weight","fwy_residue","dmy_total")]
 	
 	d$treatment[c(65,75)] <- NA
 	d$P_fertilizer <- as.numeric(d$P_fertilizer)

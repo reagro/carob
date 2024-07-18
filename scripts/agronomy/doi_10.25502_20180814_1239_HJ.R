@@ -28,7 +28,7 @@ carob_script <- function(path) {
     country = character(0), site = character(0), treatment = character(0), 
     longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
     harvest_date = character(0), trial_id = character(0), crop = character(0), 
-    yield = numeric(0), residue_yield = numeric(0), seed_weight = numeric(0), 
+    yield = numeric(0), fwy_residue = numeric(0), seed_weight = numeric(0), 
     previous_crop = character(0), OM_type = character(0), N_fertilizer = numeric(0), 
     K_fertilizer = numeric(0), P_fertilizer = numeric(0), Zn_fertilizer = numeric(0), 
     S_fertilizer = numeric(0), yield_part = character(0))
@@ -76,7 +76,7 @@ carob_script <- function(path) {
   # d3$season <- d3$Season
   # d3$treatment <- d3$TrtDesc
   # d3$yield <- (d3$TGrainYld_adj)*1000
-  # d3$residue_yield <- (d3$AdjTStoverYld)*1000
+  # d3$fwy_residue <- (d3$AdjTStoverYld)*1000
   # d3$seed_weight <- d3$Wgt100grain
   # d3$N_fertilizer <- ifelse(d3$TrtDesc=="Control",0,
                           # ifelse(d3$TrtDesc=="PK",0,100))
@@ -93,7 +93,7 @@ carob_script <- function(path) {
   
   # d3=transform(d3,N_splits=ifelse(d3$N_fertilizer>0,3,0))
   
-  # d3 <- d3[,c("rep","season","treatment","trial_id","yield","residue_yield","seed_weight","N_fertilizer",
+  # d3 <- d3[,c("rep","season","treatment","trial_id","yield","fwy_residue","seed_weight","N_fertilizer",
             # "K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
   # process field data
   
@@ -131,7 +131,7 @@ carob_script <- function(path) {
   
   #d$OM_used <- as.character(d$OM_used)
   # d <- d[,c("rep","season","country","site","treatment","longitude","latitude","planting_date",
-          # "harvest_date","trial_id","crop","yield","residue_yield","seed_weight","previous_crop","OM_type","N_fertilizer",
+          # "harvest_date","trial_id","crop","yield","fwy_residue","seed_weight","previous_crop","OM_type","N_fertilizer",
             # "K_fertilizer","P_fertilizer","Zn_fertilizer","S_fertilizer","N_splits")]
   # change date format
   # d$planting_date <- format(as.Date(d$planting_date, format = "%d/%m/%Y"), "%Y-%m-%d")

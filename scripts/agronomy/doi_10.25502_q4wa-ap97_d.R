@@ -42,7 +42,7 @@ carob_script <- function(path){
 	## EGB:
 	## there should be a way to cathch biomass variables... But the values do not make sense...
 	# d$dmy_total <- ((d$above_ground_fresh_biomass/d$area_biomass_sampling)*10)*0.86 # g/m2 -> kg/ha to dry weight (~16% moisture content)
-	# d$residue_yield <- ((d$above_ground_fresh_biomass/d$area_biomass_sampling)*10) - ((d$total_fresh_weight_all_pods/d$plot_area_harvest)*10)
+	# d$fwy_residue <- ((d$above_ground_fresh_biomass/d$area_biomass_sampling)*10) - ((d$total_fresh_weight_all_pods/d$plot_area_harvest)*10)
 	
 	#adding fertilizer information
 	## RH. Initialize to zero. I assume that all the other cases 

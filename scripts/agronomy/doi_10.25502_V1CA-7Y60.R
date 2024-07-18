@@ -44,7 +44,7 @@ carob_script <- function(path) {
 	oldnms <- c("id", "lga_district_woreda", "country", "treatmentX", "row_spacing_crop_1_plot_X.cm" , "plant_spacing_crop_1_plot_X.cm", "grain_weight_crop_1_plot_X.kg", "pod_weight_groundnut_crop_1_plot_X.kg", "above_ground_biomass_weight_crop_1_plot_X.kg", "width_of_harvested_plot_crop_1_plot_X.m", "no_plants_hole_crop_1_plot_X.nr", "number_of_rows_crop_1_plot_X.nr")
 	
  
-	newnms <- c("trial_id", "location", "country", "treatment", "row_spacing", "plant_spacing", "yield1", "yield2", "residue_yield", "width_size_plot", "number_plant", "number_row")
+	newnms <- c("trial_id", "location", "country", "treatment", "row_spacing", "plant_spacing", "yield1", "yield2", "fwy_residue", "width_size_plot", "number_plant", "number_row")
 
 	names(r) <- gsub("number_of_rows_crop_1_plot_.nr", "number_of_rows_crop_1_plot_3.nr", names(r))
  
@@ -82,7 +82,7 @@ carob_script <- function(path) {
 	dd$yield <- 10000 * dd$yield1 / dd$area #kg/ha
 	dd$yield[dd$yield > 6000] <- NA
 	
-	dd$residue_yield <- dd$residue_yield / dd$area
+	dd$fwy_residue <- dd$fwy_residue / dd$area
 
 	#plant density
 	dd$plant_spacing[dd$plant_spacing > 30] <- NA
@@ -111,7 +111,7 @@ carob_script <- function(path) {
 	d	 <- merge(d, dd, by=c("country", "location", "trial_id"))
 
 	d <- d[, c("country", "trial_id", "location", "site", "longitude", "latitude", "planting_date"
-			, "harvest_date", "crop", "previous_crop", "variety", "inoculated", "treatment", "row_spacing", "plant_spacing", "yield", "residue_yield", "plant_density")]
+			, "harvest_date", "crop", "previous_crop", "variety", "inoculated", "treatment", "row_spacing", "plant_spacing", "yield", "fwy_residue", "plant_density")]
 
 # Add columns
 		 

@@ -39,7 +39,7 @@ carob_script <- function(path){
 	colnames(r2)[colnames(r2) %in% c("width_of_harvested_plot_crop_1_plot_1", "pod_weight_unshelled_grain_groundnut_crop_1_plot_2.kg","grain_weight_shelled_grain_crop_1_plot_2.kg")] <- c("width_of_harvested_plot_crop_1_plot_1.m", "pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_2.kg","grain_weight_kg_shelled_grain_crop_1_plot_2.kg")
 	
 	t <- c("name_treatment_X", "description_treatment_X","width_of_harvested_plot_crop_1_plot_X.m","depth_of_harvested_plot_perpen_dicular_to_rows_crop_1_plot_X.m","number_of_rows_in_plot_crop_1_plot_X","grain_weight_kg_shelled_grain_crop_1_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_1_plot_X.kg","above_ground_biomass_weight_husks_stover_res_crop_1_plot_X.kg") 
-	x <- c("treatment","description","width","length","row_count","seed_weight","pod_weight","residue_yield")	
+	x <- c("treatment","description","width","length","row_count","seed_weight","pod_weight","fwy_residue")	
 
 	lst <- list()
 	for (i in 1:8) {
@@ -58,7 +58,7 @@ carob_script <- function(path){
 	
 	# assembling everything for crop 2
 	t <- c("name_treatment_X", "description_treatment_X","width_of_harvested_plot_crop_2_plot_X.m","depth_of_harvested_plot_perpen_dicular_to_rows_crop_2_plot_X.m","number_of_rows_in_plot_crop_2_plot_X","grain_weight_kg_shelled_grain_crop_2_plot_X.kg","pod_weight_kg_unshelled_grain_groundnut_crop_2_plot_X.kg","above_ground_biomass_weight_husks_stover_res_crop_2_plot_X.kg")
-	x <- c("treatment","description","width","length","row_count","seed_weight","pod_weight","residue_yield")
+	x <- c("treatment","description","width","length","row_count","seed_weight","pod_weight","fwy_residue")
 	
 	lst <- list()
 	for (i in 1:8) {
@@ -105,7 +105,7 @@ carob_script <- function(path){
 	d0$length[d0$length == 0.75] <- 10 #to change that one entry with 0.75 as the length
 	d0$yield <- 10000 / (d0$width*d0$length) * ifelse(is.na(d0$seed_weight), d0$pod_weight , d0$seed_weight)
 	
-	d0$residue_yield <- 10000 / as.numeric(d0$width * d0$width) * d0$residue_yield
+	d0$fwy_residue <- 10000 / as.numeric(d0$width * d0$width) * d0$fwy_residue
 	d0$fertilizer_type[grepl("\\+p|\\+ p", d0$treatment, perl = TRUE)] <- "SSP"
 	d0$SSP_amt_per_plot[grepl("SSP",d0$fertilizer_type)] <- 2
 	
@@ -116,7 +116,7 @@ carob_script <- function(path){
 	d0$K_fertilizer <- 0
 	d0 <- d0[!duplicated(d0), ]
 	d0$treatment <- carobiner::fix_name(d0$treatment)
-	d0 <- d0[, c("trial_id","treatment","fertilizer_type","inoculated","N_fertilizer","P_fertilizer","K_fertilizer","crop","yield", "residue_yield")]
+	d0 <- d0[, c("trial_id","treatment","fertilizer_type","inoculated","N_fertilizer","P_fertilizer","K_fertilizer","crop","yield", "fwy_residue")]
   
 	#the next dataset 
 	d1 <- carobiner::change_names(r1,c("district","sector_ward","village"),c("adm1","adm2","location"))

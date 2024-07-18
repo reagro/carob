@@ -24,7 +24,7 @@ Lower GWP under CSAPs resulted in 36–44% lower emission intensity (383 kg CO2 
 	
 	get_data <- function(r) {
 		d <- data.frame(
-				residue_yield = r$`straw yield (t/ha)` * 1000,
+				fwy_residue = r$`straw yield (t/ha)` * 1000,
 				treatment = as.character(r$Scenario),
 				rep = as.integer(r$Replication),
 				grain_N = r$`N uptake grain`,

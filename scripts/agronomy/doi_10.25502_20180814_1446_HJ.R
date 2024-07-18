@@ -91,7 +91,7 @@ carob_script <- function(path) {
 	
 
 	r$CobFW[r$CobFW == "."] <- NA
-	d$residue_yield <- 10000 * (r$TStoverYld + as.numeric(r$CobFW) / r$Harea) - d$yield
+	d$fwy_residue <- 10000 * (r$TStoverYld + as.numeric(r$CobFW) / r$Harea) - d$yield
 	
 	d$seed_weight <- r$X100GrainDW*10 # Adjusting to 1000 grains
 	

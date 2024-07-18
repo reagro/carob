@@ -18,7 +18,7 @@ carob_script <- function(path){
 		data_type = "on-farm experiment",
 		data_institute="IITA",
 		response_vars = "yield",
-		treatment_vars = "inoculant;P_fertilizer"			
+		treatment_vars = "inoculated;P_fertilizer"			
 	)
 
 	f <- ff[basename(ff) == "data.csv"]
@@ -86,7 +86,7 @@ carob_script <- function(path){
 	#getting residue yield according to the reference
 	d$plot_area_harvest <- as.numeric(d$plot_area_harvest)
 	d$dry_weight_sub_husks <- as.numeric(d$dry_weight_sub_husks)/1000 # convert to kg
-	d$residue_yield <- (10000/d$plot_area_harvest) *d$dry_weight_sub_husks
+	d$fwy_residue <- (10000/d$plot_area_harvest) *d$dry_weight_sub_husks
 	
 	#getting the yield
 	d$dry_weight_sub_grains_sep_husks <- as.numeric(d$dry_weight_sub_grains_sep_husks)/1000
@@ -95,7 +95,7 @@ carob_script <- function(path){
 	#RH removing fiels with zero area. Please check if this is necessary.
 	message("    Effie Ochieng', please check")
 	i <- d$plot_area_harvest == 0
-	d$residue_yield[i] <- NA
+	d$fwy_residue[i] <- NA
 	d$yield[i] <- NA
 
 
@@ -107,7 +107,7 @@ carob_script <- function(path){
 	d$P_fertilizer[v %in% c("DAP", "TSP", "TSP/KCL")] <- 30
 	d$K_fertilizer[v == "TSP/KCL"] <- 30
 	
-	d <- d[, c("trial_id","on_farm","treatment","crop", "planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","yield","seed_weight","residue_yield","dmy_total")]
+	d <- d[, c("trial_id","on_farm","treatment","crop", "planting_date","harvest_date","N_fertilizer","P_fertilizer","K_fertilizer","yield","seed_weight","fwy_residue","dmy_total")]
 	
 	# combining the processed data sets to one
 	e <- merge(d1, d, by = "trial_id")

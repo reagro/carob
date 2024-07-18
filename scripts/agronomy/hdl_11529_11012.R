@@ -57,7 +57,7 @@ carob_script <- function(path) {
 	
 	d$yield <- r$Kernel.yield.kg.ha
 	d$dmy_total <- (as.numeric(r$Total.Biomass.Weight.kg)/(18/10000))*0.875
-	# d$residue_yield <- as.numeric(r$Field.Weight.of.subsample.3.stalk.kg)/(18/10000)
+	# d$fwy_residue <- as.numeric(r$Field.Weight.of.subsample.3.stalk.kg)/(18/10000)
 
 	r$TN.pct[r$TN.pct == "."] <- NA
 	d$soil_N <- (as.numeric(r$TN.pct) * 10000)

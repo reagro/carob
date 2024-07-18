@@ -86,7 +86,7 @@ carob_script <- function(path) {
 		lg_harvest_date = r2$Date.harvesting_Legume.if.any,
 		lg_variety = r2$Legume.cultivar,
 		lg_yield = r2$Legume.grain.yield_.kg.DM.ha,
-		lg_residue_yield = r2$Legume.residue.production_.kg.DM.ha
+		lg_fwy_residue = r2$Legume.residue.production_.kg.DM.ha
 	)
 	
 	

@@ -36,7 +36,7 @@ carob_script <- function(path) {
 		trial_id = as.character(r1$Experiment.site.code),
 		treatment=r1$Experimental.design_Treatment,
 		yield = r1$Grain.Yield.kg.ha,
-		residue_yield = r1$Stover.yield.kg.ha,
+		fwy_residue = r1$Stover.yield.kg.ha,
 		variety=r1$Maize.variety.name.MVnam,
 		variety_type = r1$Maize.variety.type,
 		planting_date = r1$Agronomic.management_Planting.date.PLNdat,

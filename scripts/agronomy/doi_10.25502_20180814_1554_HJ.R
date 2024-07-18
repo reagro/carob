@@ -64,7 +64,7 @@ carob_script <- function(path) {
 		rep = r2$Rep,
 		treatment = r2$TrtDesc,
 		yield = r2$TGrainYld * 1000,
-		residue_yield = r2$TStoverYld * 1000,
+		fwy_residue = r2$TStoverYld * 1000,
 		season = as.character(r2$Season),
 		trial_id = r2$FieldID
 	)

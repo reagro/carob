@@ -71,7 +71,7 @@ carob_script <- function(path) {
   
   # Yield variables
 	d$yield_part <- "grain"
-	d$residue_yield <- r$`Veg_Biomass (kg/ha)`
+	d$fwy_residue <- r$`Veg_Biomass (kg/ha)`
 	# Adding fresh weight
 	d$yield[d$crop == "cowpea"] <- d$yield[d$crop == "cowpea"] * 1.125 
 	d$yield[d$crop == "maize"] <- d$yield[d$crop == "maize"] * 1.13

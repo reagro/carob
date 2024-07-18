@@ -50,7 +50,7 @@ T10: Crop rotation B2 (B2S): direct seeding with animal drawn seeder, maize-sunf
 		rep=as.integer(r1$Rep),
 		yield_part="grain",
 		yield=r1$`Grain/cotton yield (kg/ha)`,
-		residue_yield = r1$`Biomass yield (kg/ha)`,
+		fwy_residue = r1$`Biomass yield (kg/ha)`,
 		latitude= -17.60527,
 		longitude= 31.13669,
 		trial_id="1"
@@ -72,7 +72,7 @@ T10: Crop rotation B2 (B2S): direct seeding with animal drawn seeder, maize-sunf
 		rep=as.integer(r2$Rep),
 		yield_part="seed",
 		yield=r2$`Grain yield (kg/ha)`,
-		residue_yield = r2$`Biomass yield (kg/ha)`,
+		fwy_residue = r2$`Biomass yield (kg/ha)`,
 		latitude= -17.60527,
 		longitude= 31.13669,
 		trial_id="2"

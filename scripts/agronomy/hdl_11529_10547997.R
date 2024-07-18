@@ -57,7 +57,7 @@ carob_script <- function(path) {
 			treatment = r$Tmnt, 
 			yield = r$Grain.yield.t.ha * 1000,	
 			dmy_total = r$Biomass.t.ha * 1000,
-			residue_yield = r$Straw.yield.t.ha * 1000,
+			fwy_residue = r$Straw.yield.t.ha * 1000,
 			N_fertilizer = r$N.kg.ha,
 			P_fertilizer = r$P2O5.kg.ha / 2.29,
 			K_fertilizer = r$K2O.kg.ha / 1.2051,

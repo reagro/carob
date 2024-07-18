@@ -57,7 +57,7 @@ carob_script <- function(path) {
 	
 	d2 <- data.frame(
 		yield = r2$TGrainYld * 1000,
-		residue_yield = r2$TStoverYld * 1000,
+		fwy_residue = r2$TStoverYld * 1000,
 		treatment = r2$TrtDesc,
 		rep = r2$Rep,
 		trial_id = r2$FieldID

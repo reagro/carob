@@ -58,7 +58,7 @@ Randomized complete block design for four environments (ENV) that combined tilla
 	d$`YIELD 12%`[d$`YIELD 12%` == "."] <- NA
 	d$yield <- as.numeric(d$`YIELD 12%`)
 	d$STRAW[d$STRAW == "."] <- NA
-	d$residue_yield <- as.numeric(d$STRAW)
+	d$fwy_residue <- as.numeric(d$STRAW)
 	d$TKW[d$TKW == "."] <- NA
 	d$seed_weight <- as.numeric(d$TKW)
 	d$fertilizer_type <- ifelse(d$FERT == 1 , "none", "urea")
@@ -90,7 +90,7 @@ Randomized complete block design for four environments (ENV) that combined tilla
 		"latitude", "longitude", "planting_date", "harvest_date",
 		"on_farm", "is_survey", "rep", "crop", "dmy_total", "yield",
 		"fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer",
-		"residue_yield", "seed_weight", "irrigated", "land_prep_method", "plant_density")]
+		"fwy_residue", "seed_weight", "irrigated", "land_prep_method", "plant_density")]
 	
 	
 	d$yield_part <- "grain"

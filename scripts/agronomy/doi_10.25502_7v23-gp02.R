@@ -168,7 +168,7 @@ carob_script <- function(path) {
 	# Yield
 	d$yield <- (as.numeric(d$yield) / plot_size) * 10000 # kg/ha
 	d$yield_part <- "seed"
-	d$residue_yield <- (as.numeric(d$residue) / plot_size) * 10000 # kg/ha
+	d$fwy_residue <- (as.numeric(d$residue) / plot_size) * 10000 # kg/ha
 	d$dmy_total <- (as.numeric(d$dmy_total) / plot_size) * 10000 # kg/ha
 	
 	# Other
@@ -194,7 +194,7 @@ carob_script <- function(path) {
 	d <- d[,c('trial_id','treatment','country','adm1','adm2','longitude','latitude',
 				'date','on_farm','is_survey','crop','variety',
 				'fertilizer_type','N_fertilizer','P_fertilizer','K_fertilizer','OM_used','OM_type','OM_amount', 'planting_date',
-				'yield', 'yield_part', 'residue_yield', 'dmy_total',
+				'yield', 'yield_part', 'fwy_residue', 'dmy_total',
 				'irrigated', 'row_spacing', 'plant_spacing', 'plant_density')]
 	
 	

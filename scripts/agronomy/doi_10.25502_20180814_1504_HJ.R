@@ -64,7 +64,7 @@ return(T)
 
 # d3$yield <- (d3$Grn_yld_adj)*1000
 # d3$seed_weight <- d3$X100GrainFW
-#d3$residue_yield <- (d3$AdjTStoverYld)*1000
+#d3$fwy_residue <- (d3$AdjTStoverYld)*1000
 # d3$season <- d3$Season
 # d3$site <- d3$Site
 

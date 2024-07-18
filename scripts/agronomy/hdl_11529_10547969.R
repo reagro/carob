@@ -68,7 +68,7 @@ carob_script <- function(path) {
       location=r3$Node,
       trial_id=paste0(r3$Node, "_", r3$Site.No), 
       yield=r3$Grain.yield.t.ha * 1000,
-      residue_yield=r3$Straw.yield.t.ha * 1000,
+      fwy_residue=r3$Straw.yield.t.ha * 1000,
       dmy_total=r3$Biomass.t.ha * 1000
     )
     

@@ -67,7 +67,7 @@ carob_script <- function(path) {
 		d4 <- data.frame(
 				treatment=r4$Tmnt, trial_id=r4$Site.No, 
 				yield=r4$Grain.yield.t.ha * 1000,
-				residue_yield=r4$Straw.yield.t.ha * 1000,
+				fwy_residue=r4$Straw.yield.t.ha * 1000,
 				dmy_total=r4$Biomass.t.ha * 1000)
 
 		## merge all 

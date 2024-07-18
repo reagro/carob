@@ -38,7 +38,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
 		variety = r$Sorghum,
 		rep = as.integer(r$`Replication number`),
 		seed_weight = r$GW_1000grnM_g,
-		residue_yield = r$`Stalk yield`,
+		fwy_residue = r$`Stalk yield`,
 		yield = r$GHvYld_C_kgha,
 		P_fertilizer = r$Phosphorus,
 		trial_id = paste(r$Year, r$Location, sep = "_")

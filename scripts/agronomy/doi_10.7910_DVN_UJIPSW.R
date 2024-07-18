@@ -62,7 +62,7 @@ carob_script <- function(path) {
 		rep = r1$Rep,
 		plot_area = r1$Net.plot.size..M2.,
 		yield = r1$Grain.weight..kg.ha.,
-		residue_yield = r1$stover.dry.weight..kg.ha.,
+		fwy_residue = r1$stover.dry.weight..kg.ha.,
 		dmy_total = r1$Total.biomass..kg.ha.,
 		row_spacing = r1$Distance.between.ridges..m.*100, # to cm
 		treatment = r1$Treatment
@@ -79,7 +79,7 @@ carob_script <- function(path) {
 	  rep = r2$Rep,
 	  plot_area = r2$Net.plot.size..m2.,
 	  yield = r2$Grain.weight..kg.ha.,
-	  residue_yield = r2$stover.dry.weight..kg.ha.,
+	  fwy_residue = r2$stover.dry.weight..kg.ha.,
 	  dmy_total = r2$Total.biomass..kg.ha.,
 	  row_spacing = r2$Distance.between.ridges..m.*100, # to cm
 	  treatment = r2$Treatment

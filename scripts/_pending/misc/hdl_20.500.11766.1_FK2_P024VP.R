@@ -78,7 +78,7 @@ carob_script <- function(path) {
 	#plant height
 	d$plant_height<-d$Plant_Height
 	#residual yield
-	d$residue_yield<-d$Stover
+	d$fwy_residue<-d$Stover
 	carobiner::write_files(meta, d, path=path)
 }
 

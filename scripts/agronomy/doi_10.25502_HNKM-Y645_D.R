@@ -28,7 +28,7 @@ carob_script <- function(path) {
 		
 	from1 <- c("Country", "Loc", "Treatment", "Variety", "pH_value", "Nitrogen", "Rep", "Yld_FW_kg_ha", "Harvested_Biomass_kg_ha", "Days_to_Flowering_R1", "Days_to_Full_Maturity_R8", "Days_to_Harvest", "Season")
 	d1 <- carobiner::change_names(r1[,from1], from1,
-		c("country", "adm1", "treatment", "variety", "P_fertilizer", "N_fertilizer", "rep", "yield", "residue_yield", "flowering_days", "maturity_days", "harvest_days", "season"))
+		c("country", "adm1", "treatment", "variety", "P_fertilizer", "N_fertilizer", "rep", "yield", "fwy_residue", "flowering_days", "maturity_days", "harvest_days", "season"))
 	
 	#d1$inoculated <- ifelse(d1$Inoculant == "Yes", TRUE, FALSE)
 	d1$inoculated <- r1$Inoculant == "Yes"
@@ -45,7 +45,7 @@ carob_script <- function(path) {
 	## note that P-fertilizer was labeled as pH_value
 	from2 <- c("Country", "Loc", "Treatment", "Variety", "pH_value", "Nitrogen", "Rep", "Yld_FW_kg_ha", "Harvested_Biomass_kg_ha", "NOD_WT", "Season")
 	d2 <- carobiner::change_names(r2[ from2], from2, 
-		c("country", "adm1", "treatment", "variety", "P_fertilizer", "N_fertilizer", "rep", "yield", "residue_yield", "nodule_weight", "season"))
+		c("country", "adm1", "treatment", "variety", "P_fertilizer", "N_fertilizer", "rep", "yield", "fwy_residue", "nodule_weight", "season"))
 	d2$plant_density <- 10000 * r2$PLST
 	d2$trial_id <- paste(1:nrow(d2), d2$adm1, d2$treatment, sep = "_")
 

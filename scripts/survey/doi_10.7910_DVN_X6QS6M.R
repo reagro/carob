@@ -37,7 +37,7 @@ carob_script <- function(path) {
 		variety_type=r$VarietyName, 
 		weeding_done=TRUE, 
 		weeding_times=r$WeedingFreq, 
-		weeding_implement=r$WeedMethod, 
+		weeding_implement=tolower(r$WeedMethod), 
 		weed_severity=as.character(r$WeedRating), 
 		weed_species=tolower(r$MainWeed), 
 		intercrops=tolower(r$CropsInter),
@@ -48,16 +48,17 @@ carob_script <- function(path) {
 		previous_crop = tolower(r$S1crops),
 		ear_rot = r$PercRot,
 		plant_density = r$Density,
-		residue_yield = r$StoverYld,
+		fwy_residue = r$StoverYld,
 		yield = r$GrainYld * 1000,
 		landscape_position = r$Position,
-		house_distance = r$Position, 
+		house_distance = r$Dist, 
 		trial_id = as.character(r$Code),
 		planting_date = as.character(as.Date("2012-11-01") + r$PlantingDelay),
 		fertilizer_used = r$S1Fert == 1
 	)
 
 	d$weed_species[d$weed_species == ""] <- NA
+	d$weeding_implement[d$weeding_implement == "hand hoe"] <- "hoe"
 	
 	d$on_farm <- FALSE
 	d$is_survey <- TRUE

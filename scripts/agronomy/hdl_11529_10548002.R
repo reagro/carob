@@ -70,7 +70,7 @@ carob_script <- function(path) {
 			treatment=r4$Tmnt, 
 			trial_id=paste0(r4$Node, "_", r4$Site.No),
 			yield=r4$Grain.yield.t.ha * 1000,
-			residue_yield=r4$Straw.yield.t.ha * 1000,
+			fwy_residue=r4$Straw.yield.t.ha * 1000,
 			dmy_total=r4$Biomass.t.ha * 1000
 	)
 
@@ -129,7 +129,7 @@ carob_script <- function(path) {
 			treatment=r8$Tmnt, 
 			trial_id=paste0(r8$X.6, "_", r8$Site.No),
 			yield=r8$Grain.yield.t.ha * 1000,
-			residue_yield=r8$Straw.yield.t.ha * 1000,
+			fwy_residue=r8$Straw.yield.t.ha * 1000,
 			dmy_total=r8$Biomass.t.ha * 1000
 	)
 		

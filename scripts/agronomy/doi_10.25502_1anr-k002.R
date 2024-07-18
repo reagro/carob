@@ -31,7 +31,7 @@ carob_script <- function(path) {
 	
 	#subsetting each treatment with their respective observations into data different datasets then appending the rows later
 	old_nms <- c("trial_id","treatmentX", "row_spacing_crop_1_plot_X.cm", "plant_spacing_crop_1_plot_X.cm","no_plants_hole_crop_1_plot_X.nr", "width_of_harvested_plot_crop_1_plot_X.m","number_of_rows_crop_1_plot_X.nr", "grain_weight_crop_1_plot_X.kg", "pod_weight_groundnut_crop_1_plot_X.kg","above_ground_biomass_weight_crop_1_plot_X.kg")
-	new_names <- c("trial_id","treatment","row_spacing","plant_spacing","plants_hole","width_harvest","no_rows","seed_weight","pod_weight","residue_yield")
+	new_names <- c("trial_id","treatment","row_spacing","plant_spacing","plants_hole","width_harvest","no_rows","seed_weight","pod_weight","fwy_residue")
 
 	old_nms3 = gsub("number_of_rows_crop_1_plot_X.nr", "number_of_rows_crop_1_plot_.nr", old_nms)
 
@@ -146,13 +146,13 @@ carob_script <- function(path) {
 	## some yields are crazy
 	dd5$yield[dd5$yield > 6000] <- NA
 
-	dd5$residue_yield <- 10000 * dd5$residue_yield / dd5$plot_size
-	dd5$residue_yield[dd5$residue_yield > 10000] <- NA
+	dd5$fwy_residue <- 10000 * dd5$fwy_residue / dd5$plot_size
+	dd5$fwy_residue[dd5$fwy_residue > 10000] <- NA
 
 	dd5$planting_date <- as.character(as.Date(dd5$planting_date, format = "%m/%d/%Y"))
 	dd5$harvest_date <- as.character(as.Date(dd5$harvest_date, format = "%m/%d/%Y"))
 
-	z <- dd5[, c("trial_id", "irrigated","on_farm","is_survey","country", "adm2", "location","latitude","longitude","planting_date","harvest_date","crop","variety","inoculated","row_spacing","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","S_fertilizer","OM_used","plant_spacing","yield","residue_yield")]
+	z <- dd5[, c("trial_id", "irrigated","on_farm","is_survey","country", "adm2", "location","latitude","longitude","planting_date","harvest_date","crop","variety","inoculated","row_spacing","N_fertilizer","P_fertilizer","K_fertilizer","Zn_fertilizer","S_fertilizer","OM_used","plant_spacing","yield","fwy_residue")]
 
 	z <- z[is.finite(z$yield), ]
 	z$yield_part <- "grain"

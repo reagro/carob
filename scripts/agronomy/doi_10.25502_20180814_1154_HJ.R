@@ -36,13 +36,13 @@ carob_script <- function(path) {
 	
 	#process plot data 
 	d2 <- r3[,c("Cluster","FieldID","Field","Site","Rep","TrtDesc","TGrainYld","TStoverYld","Season")]
-	colnames(d2) <- c("cluster","FieldID","Field","site","rep","treatment","yield","residue_yield","season")
+	colnames(d2) <- c("cluster","FieldID","Field","site","rep","treatment","yield","fwy_residue","season")
 	
 	#merge d1 and d2
 	d <- merge(d1,d2,by=c("cluster","FieldID","Field","site"), all.x = TRUE)
 	
 	# keep the relevant columm
-	d <- d[,c("country","location","site","latitude","longitude","variety","crop","previous_crop","planting_date","harvest_date","rep","treatment","yield","residue_yield","season")]
+	d <- d[,c("country","location","site","latitude","longitude","variety","crop","previous_crop","planting_date","harvest_date","rep","treatment","yield","fwy_residue","season")]
 	
 	#fertilizer apply	 more information can be found here  10.1016/j.agee.2016.05.012
 	d$N_fertilizer <- ifelse(d$treatment=="Control",0,
@@ -80,7 +80,7 @@ carob_script <- function(path) {
 	d$crop <- "sorghum"
 	# fix yield unit
 	d$yield <- d$yield*1000
-	d$residue_yield <- d$residue_yield*1000
+	d$fwy_residue <- d$fwy_residue*1000
 		# data type
 	d$season <- as.character(d$season)
 	# change date format

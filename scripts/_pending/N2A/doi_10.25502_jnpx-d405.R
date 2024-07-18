@@ -158,7 +158,7 @@ carob_script <- function(path){
   # Above ground biomass is assumed to be wet and not dry, hence used as residue yield. It is in kg/plot. 
   # Plot size is unknown hence residue yield value in kg/ha can't be extrapolated.
   
-  b3$residue_yield <- as.numeric(b3$`above_ground_biomass_kg/plot`)/b3$plotsize
+  b3$fwy_residue <- as.numeric(b3$`above_ground_biomass_kg/plot`)/b3$plotsize
   b3$dataset_id <- dataset_id
   b3$previous_crop[b3$previous_crop == "other"] <- NA
 
@@ -167,10 +167,10 @@ carob_script <- function(path){
   z <- b3[,c("dataset_id","trial_id","country","adm1","adm2","adm3","location","site","latitude","longitude","elevation",
              "crop","variety","variety_type","treatment","planting_date","harvest_date","inoculated",
              "previous_crop","row_spacing","plant_spacing","fertilizer_type","N_fertilizer","P_fertilizer",
-             "K_fertilizer","residue_yield","yield_part","yield","on_farm","is_survey")]
+             "K_fertilizer","fwy_residue","yield_part","yield","on_farm","is_survey")]
   
   # dropping inputs without treatment, residue yield and yield information
-  i <- complete.cases(z[,c("treatment","residue_yield","yield"),])
+  i <- complete.cases(z[,c("treatment","fwy_residue","yield"),])
   z <- z[i,]
   
   # correcting spacing variables that are out of bounds
@@ -230,7 +230,7 @@ carob_script <- function(path){
   z <- z[,c("dataset_id","trial_id","country","adm1","adm2","adm3","location","site","latitude","longitude","elevation",
              "crop","variety","variety_type","treatment","planting_date","harvest_date","inoculated",
              "previous_crop","row_spacing","plant_spacing","fertilizer_type","N_fertilizer","P_fertilizer",
-             "K_fertilizer","residue_yield","yield_part","yield","on_farm","is_survey")]
+             "K_fertilizer","fwy_residue","yield_part","yield","on_farm","is_survey")]
   
   carobiner::write_files(meta, z, path=path)
   # resulting error is from pigeon pea's yield. It's low amount could result from lack of proper yield units due to unknown plot size .
