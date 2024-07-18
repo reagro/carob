@@ -33,36 +33,46 @@ carob_script <- function(path) {
 		adm3= r1$Site,
 		rep=r1$Rep,
 		plant_height=r1$`Plant height (m)`,
-		yield=r1$`Yield (t/ha 14% moisture)`,
-		land_prep=r1$Tillage,
-		treatment=r1$`Weed Management`
+		yield=r1$`Yield (t/ha 14% moisture)`*1000,
+		land_prep_method=r1$Tillage,
+		weeding_method=r1$`Weed Management`
 	)
 
 	d2 <- data.frame(
 		adm3= r2$Site,
-		land_prep=r2$Tillage,
-		treatment=r2$Treatment,
+		land_prep_method=r2$Tillage,
 		rep= r2$Rep,
-		weed_biomass=r2$FW 
+		weed_biomass=r2$FW ,
+		weeding_method=r2$Treatment,
+		planting_date=r2$`Sowing date`
 	)
+	d <- merge(d1, d2, by =c("adm3","rep","land_prep_method","weeding_method"), all.x= TRUE )
 	
-	d2$land_prep_method <- gsub("CT", "conventional", d2$land_prep)
-	d2$land_prep_method <- gsub("ZT", "none", d2$land_prep)
-	d2$land_prep_method <- gsub("MT", "reduced tillage", d2$land_prep)
+	#fixing names
+	d$land_prep_method <- gsub("CT", "conventional", d$land_prep)
+	d$land_prep_method <- gsub("ZT", "none", d$land_prep)
+	d$land_prep_method <- gsub("MT", "reduced tillage", d$land_prep)
+	
+	d$weeding_method <- gsub("CONT", "Control without weed management", d$weeding_method)
+	d$weeding_method <- gsub("MEC", "Mechanical control", d$weeding_method)
+	d$weeding_method <- gsub("POST", "Postemergence application", d$weeding_method)
+	d$weeding_method <- gsub("PRE", "Preemergence application", d$weeding_method)
+	d$weeding_method <- gsub("PRE+POST", "Preemergent and Postemergent application", d$weeding_method)
+	d$rep<- as.integer(d$rep)
+	d$weed_biomass<- as.integer(d$weed_biomass)
+	
+
+	
 		
-	
-    d2$trial_id <- d2$planting_date=="2016"] <- "1"
-    d2$trial_id[d2$planting_date=="2017"] <- "2"
+	d$trial_id <- "1"
 
 
-	d2$longitude[d2$adm3=="Mixteca"] <- -96.8578
-	d2$latituded[d2$adm3=="Mixteca"] <- 16.9294
-	d2$longitude[d2$adm3=="Papaloapan"] <- -96.094722199
-	d2$latitude[d2$adm3=="Papaloapan"] <- 18.1591666
-	d2$longitude[d2$adm3=="Valles Centrales"] <- -96.48651
-	d2$latitude[d2$adm3=="Valles Centrales"] <- 16.92554
-
-	d <- merge(d1, d2, by =
+	d$longitude[d$adm3=="Mixteca"] <- -96.8578
+	d$latitude[d$adm3=="Mixteca"] <- 16.9294
+	d$longitude[d$adm3=="Papaloapan"] <- -96.094722199
+	d$latitude[d$adm3=="Papaloapan"] <- 18.1591666
+	d$longitude[d$adm3=="Valles Centrales"] <- -96.48651
+	d$latitude[d$adm3=="Valles Centrales"] <- 16.92554
 	
 	d$on_farm <- TRUE
 
@@ -71,8 +81,8 @@ carob_script <- function(path) {
 
 	d$crop <- "maize"
 
-	d$planting_date <- as.character(as.Date(d2$   ))
-	d$harvest_date  <- as.character(as.Date(    ))
+	d$planting_date <- as.character(as.Date(d$planting_date  ))
+	
 
 	d$yield_part <- "grain"
 	
