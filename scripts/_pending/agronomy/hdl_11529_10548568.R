@@ -27,65 +27,68 @@ carob_script <- function(path) {
 
 	f <- ff[basename(ff) == "PUB-DAT-WeedsOaxaca.xlsx"]
 	r1 <- carobiner::read.excel(f, sheet = "Yield data")
-	r2 <- carobiner::read.excel(f, sheet = "Weed data")
+	r1$record_id <- as.integer(1:nrow(r1))
 
-	d1 <- data.frame(
-		adm3= r1$Site,
-		rep=r1$Rep,
-		plant_height=r1$`Plant height (m)`,
-		yield=r1$`Yield (t/ha 14% moisture)`*1000,
-		land_prep_method=r1$Tillage,
-		weeding_method=r1$`Weed Management`
+	r2 <- carobiner::read.excel(f, sheet = "Weed data", na=c("", "NA"))
+	r2 <- unique(r2)
+
+	r <- merge(r2, r1, by.x=c("Site", "Year", "Tillage", "Treatment", "Rep"), 
+			by.y=c("Site", "Year", "Tillage", "Weed Management", "Rep"), all.x=TRUE)	
+
+	d <- data.frame(
+		record_id = r$record_id,
+		location = r$Site,
+		rep= as.integer(r$Rep),
+		plant_height=r$`Plant height (m)` * 100,
+		yield=r$`Yield (t/ha 14% moisture)`*1000,
+		land_prep_method=r$Tillage,
+		weeding_method=r$Treatment,
+		weed_biomass=r$FW ,
+		planting_date=as.character(r2$`Sowing date`),
+		date = r$`Sampling Date`
 	)
 
-	d2 <- data.frame(
-		adm3= r2$Site,
-		land_prep_method=r2$Tillage,
-		rep= r2$Rep,
-		weed_biomass=r2$FW ,
-		weeding_method=r2$Treatment,
-		planting_date=r2$`Sowing date`
-	)
-	d <- merge(d1, d2, by =c("adm3","rep","land_prep_method","weeding_method"), all.x= TRUE )
 	
 	#fixing names
 	d$land_prep_method <- gsub("CT", "conventional", d$land_prep)
-	d$land_prep_method <- gsub("ZT", "none", d$land_prep)
-	d$land_prep_method <- gsub("MT", "reduced tillage", d$land_prep)
+	d$land_prep_method <- gsub("ZT", "none", d$land_prep) # zero-tillage
+	d$land_prep_method <- gsub("MT", "reduced tillage", d$land_prep) # minimal-tillage
 	
-	d$weeding_method <- gsub("CONT", "Control without weed management", d$weeding_method)
-	d$weeding_method <- gsub("MEC", "Mechanical control", d$weeding_method)
-	d$weeding_method <- gsub("POST", "Postemergence application", d$weeding_method)
-	d$weeding_method <- gsub("PRE", "Preemergence application", d$weeding_method)
-	d$weeding_method <- gsub("PRE+POST", "Preemergent and Postemergent application", d$weeding_method)
-	d$rep<- as.integer(d$rep)
-	d$weed_biomass<- as.integer(d$weed_biomass)
-	
+	d$weeding_method <- gsub("CONT", "none", d$weeding_method) # control
+	d$weeding_method <- gsub("MEC", "mechanical", d$weeding_method)
+	d$weeding_method <- gsub("POST", "herbicide, post-emergence", d$weeding_method)
+	d$weeding_method <- gsub("PRE", "herbicide, pre-emergence", d$weeding_method)
+	d$weeding_method <- gsub("PRE+POST", "herbicide, pre- and post-emergence", d$weeding_method)
 
-	
-		
 	d$trial_id <- "1"
 
+	geo <- data.frame(
+		location = c("Mixteca", "Papaloapan", "Valles Centrales"), 
+		site = c("Sitio Experimental Mixteca", "San Juan Cotzocón", "Ciénega de Zimatlán"),
+		elevation = c(2195, 60, 1552),
+		soil_type = c("vertisol", "luvisol", "vertisol"),
+		longitude = c(-96.8578, -96.094722199, -96.48651), 
+		latitude = c(16.9294, 18.1591666, 16.92554)
+	)
+	d <- merge(d, geo, by="location", all.x=TRUE)
 
-	d$longitude[d$adm3=="Mixteca"] <- -96.8578
-	d$latitude[d$adm3=="Mixteca"] <- 16.9294
-	d$longitude[d$adm3=="Papaloapan"] <- -96.094722199
-	d$latitude[d$adm3=="Papaloapan"] <- 18.1591666
-	d$longitude[d$adm3=="Valles Centrales"] <- -96.48651
-	d$latitude[d$adm3=="Valles Centrales"] <- 16.92554
-	
+
 	d$on_farm <- TRUE
-
 	d$country <- "Mexico"
 	d$adm1 <- "Oaxaca"
-
 	d$crop <- "maize"
-
-	d$planting_date <- as.character(as.Date(d$planting_date  ))
-	
-
 	d$yield_part <- "grain"
-	
-	carobiner::write_files(path, meta, d)
+	d$is_survey <- FALSE
+	d$irrigated <- NA
+	d$P_fertilizer <- d$K_fertilizer <- d$N_fertilizer <- as.numeric(NA)
+
+
+	x <- d[, c("record_id", "date", "weed_biomass")]
+	x <- na.omit(x)
+
+	d$date <- d$weed_biomass <- NULL
+	d <- unique(d)
+		
+	carobiner::write_files(path, meta, d, timerecs=x)
 }
 
