@@ -1,9 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# 1. Yield in the original dataset is in kg/ha and has high values.
-# 2. 
-
 
 carob_script <- function(path) {
 
@@ -29,24 +25,25 @@ carob_script <- function(path) {
 	f2 <- ff[basename(ff) == "DAT-BV106-17-Yield_Chickpea.xlsx"]
 	r1 <- carobiner::read.excel(f1, sheet ="Calculation")
 	r2 <- carobiner::read.excel(f2, sheet = "Calculations")
-  
-    # r1 and r2 should have the same treatments/order
-	stopifnot(all(r1[,1:4] == r2[,1:4]))
-  
+
+	r1$WidthArea <- r1$LengthArea <- r1$Area <- NULL
+	colnames(r1) <- gsub("^W", "BM_", colnames(r1))
+	r <- merge(r1, r2, by=c("Rep", "Trt"))
+	
 	d <- data.frame(
 		country="Mexico",
 		longitude= -100.202839,
 		latitude= 20.312523,
-		rep=r1$Rep,
-		variety_code=as.character(r1$Trt),
-		dmy_total=r1$Yield_Dry,
-		fwy_total=r1$WTotal,		   
-		yield=r2$WGrain,
-		fwy_storage = r2$WGrain,
-		dmy_storage = r2$WGrain * r2$WDry / r2$WFresh   ,
-		flowering_days=r2$Flowering,
-		maturity_days=r2$Maturity,
-		seed_weight=r2$Thou,
+		rep=r$Rep,
+		variety_code=as.character(r$Trt),
+		dmy_total=r$Yield_Dry,
+		fwy_total=r$BM_Total,		   
+		yield=r$WGrain,
+		fwy_storage = r$WGrain,
+		dmy_storage = r$WGrain * r$WDry / r$WFresh   ,
+		flowering_days=r$Flowering,
+		maturity_days=r$Maturity,
+		seed_weight=r$Thou,
 		yield_part="grain",
 		crop="chickpea",
 		planting_date="2017",
@@ -55,9 +52,9 @@ carob_script <- function(path) {
 
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
-	d$irrigated <-FALSE
+	d$irrigated <- NA
 	d$P_fertilizer <- d$K_fertilizer <- d$N_fertilizer <- as.numeric(NA)
-	d$inoculated <- FALSE
+	d$inoculated <- NA
   
 	d$rep <- as.integer(d$rep)
 
