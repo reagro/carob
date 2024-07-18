@@ -37,7 +37,7 @@ carob_script <- function(path) {
 		K_fertilizer=r$Potassium,
 		soil_clay=r$Clay,
 		soil_SOC=r$OrgC,
-		biomass_yield=r$Biomass,
+		fwt_total=r$Biomass,
 		yield=r$Grain*1000,
 		yield_part="grain",
 		crop="maize"

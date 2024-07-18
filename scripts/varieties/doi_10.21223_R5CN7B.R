@@ -38,13 +38,13 @@ carob_script <- function(path) {
 		leaf_Zn = r$zn,
 		leaf_Ca = r$ca,
 		leaf_Mg = r$mg,
-		biomass_yield = r$bytha * 1000,
-		leaves_yield= r$fytha * 1000
+		fwt_total = r$bytha * 1000,
+		fwt_leaves= r$fytha * 1000
 	)
    
 ##CN
 ### The unit of residue_yield and dmy_leaves is unclear: it is given in tons/ha, but after conversion to kg/ha, almost all values are  out of bounds.
-   #d$residue_yield<- d$residue_yield*1000 # in kg/ha
+   #d$fwt_residue <- d$fwt_residue*1000 # in kg/ha
    #d$dmy_leaves<- d$dmy_leaves*1000
    d <- d[!is.na(d$yield),] ## remove NA in yield
    ## add columns
