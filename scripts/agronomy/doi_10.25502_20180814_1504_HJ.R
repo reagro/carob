@@ -1,11 +1,11 @@
 # R script for "carob"
 
-
-# The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments)
+#ignored why?
 
 carob_script <- function(path) {
 
-return(T)
+"The AFSIS project aimed to establish an  Africa Soil Information system. Data was collected in sentinel sites across sub-Saharan Africa using the Land Degradation Surveillance framework and included also multi-location diagnostic trials in selected sentinel sites to determine nutrient limitations and response to improved soil management practices (soil amendments)"
+
 
 	uri <- "doi:10.25502/20180814/1504/HJ"
 	group <- "agronomy"
@@ -20,6 +20,12 @@ return(T)
 		carob_date="2023-02-20",
 		data_type="experiment"
 	)
+
+	meta$dataset_id <- paste0(meta$dataset_id, "_nodata")
+	carobiner::write_files(path, meta)
+
+}
+
 
 # f1 <- ff[basename(ff) == "Sidindi_SR2010_Field.csv"] ## get Field dataset
 # f2 <- ff[basename(ff) == "Sidindi_SR2010_Plant.csv"] ## get Plant dataset
@@ -107,4 +113,4 @@ return(T)
 
 # carobiner::write_files(meta, d, path=path)
 
-}
+

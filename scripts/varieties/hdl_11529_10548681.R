@@ -32,8 +32,8 @@ carob_script <- function(path) {
 	
 	d <- data.frame(
 		country="Mexico",
-		longitude= -100.202839,
-		latitude= 20.312523,
+		longitude= -100.2028,
+		latitude= 20.3125,
 		rep=r$Rep,
 		variety_code=as.character(r$Trt),
 		dmy_total=r$Yield_Dry,
@@ -47,7 +47,10 @@ carob_script <- function(path) {
 		yield_part="grain",
 		crop="chickpea",
 		planting_date="2017",
-		trial_id="1"
+		trial_id="1",
+		plot_length = r$LengthArea,
+		plot_width = r$WidthArea,
+		plot_area = r$Area
 	)
 
 	d$on_farm <- FALSE

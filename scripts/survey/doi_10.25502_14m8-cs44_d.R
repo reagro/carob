@@ -28,7 +28,8 @@ carob_script <- function(path) {
 	)
 
 
-	carobiner::write_files("ignore")
+	meta$dataset_id <- paste0(meta$dataset_id, "_nodata")
+	carobiner::write_files(path, meta)
 }
 
   

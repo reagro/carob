@@ -4,7 +4,27 @@
 ## although the yield values are not the same; this needs to be looked into and perhaps reported.
 
 carob_script <- function(path) {
-	carobiner::write_files("ignore")
+
+	uri <- "hdl:11529/10548245"
+	group <- "agronomy"
+
+	ff  <- carobiner::get_data(uri, path, group)
+
+	meta <- data.frame(
+		carobiner::read_metadata(uri, path, group, major=2, minor=0),
+		data_institute = "CIMMYT",
+		publication = NA,
+		project = "TAMASA",
+		data_type = "experiment",
+		treatment_vars ="Control;PK;NK;NP;NPK;NPK+S+Ca+Zn+B;NA", 
+		carob_contributor = "Shumirai Manzvera",
+		carob_date = "2024-04-06"
+	)
+	
+
+
+	meta$dataset_id <- paste0(meta$dataset_id, "_nodata")
+	carobiner::write_files(path, meta)
 }
 
 

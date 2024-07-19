@@ -45,11 +45,20 @@ copy and paste the abstract from the repository. Do not add line breaks
 
 ## select the variables of interest and assign them to the correct name
 	d <- data.frame(
-		crop=r$crop, 
-		latitude=r$lat,
-		longitude=r$lon,
-		yield = r$yield_tonha * 1000
-		# etc
+		country = r$Country,
+		crop=tolower(r$crop), 
+
+## make sure that names are normalized (proper capitalization, spelling, no additional white space).
+## you can use carobiner::fix_name()
+## first use "location", then use "site"
+		location = r$Site,
+		elevation = r$Alt,
+
+		adm1 = carobiner::fix_name(r$Province, "title"),
+		adm2 = carobiner::fix_name(r$District, "title"),
+
+	## the treatment code/description (if any)	
+		d$treatment <- r$Treatment
 	)
 
 ## separate individual trials. For example trials in different locations or years. 
@@ -61,32 +70,17 @@ copy and paste the abstract from the repository. Do not add line breaks
 	d$is_survey <- 
 	d$irrigated <-
 	
-## the treatment code	
-	d$treatment <- 
 
-### Location
-## make sure that the names are normalized (proper capitalization, spelling, no additional white space).
-## you can use carobiner::fix_name()
-	d$country <- 
-	d$site <- 
-	d$adm1 <- 
-	d$adm2 <- 
-	d$adm3 <- 
-	d$elevation <- NA
+	
 ## each site must have corresponding longitude and latitude
+## if the raw data do not provide them you can estimate them from the location/adm data 
 ## see carobiner::geocode
 	d$longitude <- 
 	d$latitude <- 
 
-### Crop 
-## normalize variety names
-## see carobiner::fix_name
-	d$crop <- 
-	d$variety <- 
 
-### Time 
-## time can be year (four characters), year-month (7 characters) or date (10 characters).
-## use 	as.character(as.Date()) for dates to assure the correct format.
+## time can be year ("2023", four characters), year-month ("2023-07", 7 characters) or date ("2023-07-21", 10 characters).
+## if dates come as character values, you can use as.character(as.Date()) for dates to assure the correct format.
 	d$planting_date <- as.character(as.Date(   ))
 	d$harvest_date  <- as.character(as.Date(    ))
 
@@ -101,18 +95,29 @@ copy and paste the abstract from the repository. Do not add line breaks
    d$lime <- 
 ## normalize names 
    d$fertlizer_type <- 
-   
+
+## for legumes   
    d$inoculated <- TRUE or FALSE
-   d$inoculant <- 
+   d$inoculant <- "name of inoculant"
    
 ### in general, add comments to your script if computations are
 ### based on information gleaned from metadata, a publication, 
 ### or when they are not immediately obvious for other reasons
 
 ### Yield
-	d$yield <- 
+
+	yield <- r$yield_tonha * 1000
 	#what plant part does yield refer to?
-	d$yield_part <- 
+	d$yield_part <- "tubers"
+	d$yield_moisture <- r$moisture * 100
+
+#NOTE: yield is the _fresh weight_ production (kg/ha) of the "yield_part 
+# Also record fresh and/or dry weight production of other organs (or "residue" or "total")
+# if the data allow for that 
+
+	d$fwy_storage <- r$yield_tonha * 1000
+	d$dmy_storage <- (1-r$moisture) * r$yield_tonha * 1000
+	d$dmy_totat <- r$dry_biomass
 	
 # all scripts must end like this
 	carobiner::write_files(path, meta, d)
