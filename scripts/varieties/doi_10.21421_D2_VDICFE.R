@@ -1,11 +1,9 @@
-
-
 # R script for "carob"
-## Note
+
 
 carob_script <- function(path) {
    
-   " This dataset includes the research work carried out in evaluating marker assisted backcross (MABC) lines for rust and late leaf spot (LLS) resistance in five locations during 2015 rainy season. The evaluation were carried out at Aliyarnagar, Tamil Nadu; Directorate of Groundnut Research (DGR) Junagadh, Gujarat; Dharwad, Karnataka; ICRISAT, Patancheru and Kasbe Digraj, Maharashtra. A set of 41 ILs – 18 ILs in ICGV 91114 background, 14 ILs in TAG 24 background and 9 in JL 24 background along with recurrent parents – ICGV 91114, TAG 24, JL24; donor parent – GPBD 4 and three local checks were evaluated. Multi-location evaluation is useful to identify stable performing entries across locations to facilitate their release both at national and state level. Based on the data on disease score, yield and yield associated traits (Shelling percent and Hundred seed weight), 12 ILs were selected and used for conducting first ever near isogenic line (NIL) trial under All India Co-ordinated Research Project on Groundnut (AICRP-G). Subsequently three best performing ILs were identified and advanced to Advanced Varietal Trials (AVT-1 & AVT-2) under AICRP-G. The data presented here is the mean location wise performance of the entries for disease resistance, yield and associated traits that enabled selection and advancement of best performing ILs at Directorate of groundnut research, Junagadh, Gujarat, India location. " 
+"This dataset includes the research work carried out in evaluating marker assisted backcross (MABC) lines for rust and late leaf spot (LLS) resistance in five locations during 2015 rainy season. The evaluation were carried out at Aliyarnagar, Tamil Nadu; Directorate of Groundnut Research (DGR) Junagadh, Gujarat; Dharwad, Karnataka; ICRISAT, Patancheru and Kasbe Digraj, Maharashtra. A set of 41 ILs – 18 ILs in ICGV 91114 background, 14 ILs in TAG 24 background and 9 in JL 24 background along with recurrent parents – ICGV 91114, TAG 24, JL24; donor parent – GPBD 4 and three local checks were evaluated. Multi-location evaluation is useful to identify stable performing entries across locations to facilitate their release both at national and state level. Based on the data on disease score, yield and yield associated traits (Shelling percent and Hundred seed weight), 12 ILs were selected and used for conducting first ever near isogenic line (NIL) trial under All India Co-ordinated Research Project on Groundnut (AICRP-G). Subsequently three best performing ILs were identified and advanced to Advanced Varietal Trials (AVT-1 & AVT-2) under AICRP-G. The data presented here is the mean location wise performance of the entries for disease resistance, yield and associated traits that enabled selection and advancement of best performing ILs at Directorate of groundnut research, Junagadh, Gujarat, India location. " 
   
    uri <- "doi:10.21421/D2/VDICFE"
    dataset_id <- carobiner::simple_uri(uri)
@@ -32,7 +30,7 @@ carob_script <- function(path) {
          yield= r$PYH,
          seed_weight = as.numeric(r$HSW)* 10, ## 1000 seed weight,
          diseases = "late leaf spot",
-         trial_id= gsub(".xlsx", "", basename(f)),
+         trial_id= "1",
          disease_severity =  as.character(round(r$`LLS 90`, 2)),
          shelling_percentage = r$SHP
       )     
@@ -50,7 +48,7 @@ carob_script <- function(path) {
    d$irrigated[grep("RF DGR", d$trial_id)] <- FALSE 
    d$on_farm <- TRUE
    d$is_survey <- FALSE
-   d$inoculated <- FALSE
+   d$inoculated <- NA
    d$yield_part <- "pod"
    
    d$planting_date <- "2015"
