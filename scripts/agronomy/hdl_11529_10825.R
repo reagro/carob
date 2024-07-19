@@ -16,7 +16,9 @@ carob_script <- function(path) {
 		data_institute = "CIMMYT",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-08-02",
-		data_type="on-station experiment"
+		data_type="on-station experiment",
+		treatment_vars = "crop_rotation;planting_method;intercrops",
+		response_vars = "yield"		
     )
   
   	f <- ff[basename(ff) == "Summary Zambia On-farm Demonstration 2006-2015.xls"]
@@ -36,7 +38,9 @@ carob_script <- function(path) {
 	r <- carobiner::bindr(r1, r2)
 	
 	d <- data.frame(
-		adm1 = r$adm1, site=r$village, treatment=r$tmnt, 
+		adm1 = r$adm1, 
+		location=r$village, 
+		treatment=r$tmnt, 
 		crop = tolower(r$crop.grown),
 		fwy_residue = r$stalk.yield.kg.ha, 
 		yield = r$grain.yield.kg.ha,
@@ -58,7 +62,7 @@ carob_script <- function(path) {
 	###d$planting_date <- "2006"
 	###d$harvest_date	<- "2015"
 
-	d$trial_id <- paste0(d$crop, "_", r$site.rep)
+	d$trial_id <- paste0(d$crop, "_", d$location)
 	
 	p <- carobiner::fix_name(d$treatment)
 	p <- gsub("DS", "direct seeder", p)

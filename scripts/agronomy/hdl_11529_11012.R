@@ -18,7 +18,9 @@ carob_script <- function(path) {
 		carob_contributor="Mary Njogu",
 		carob_date="2023-02-20",
 		modified_by = "Eduardo Garcia Bendito",
-		last_modified = "2024-03-05"
+		last_modified = "2024-03-05",
+		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer",
+		response_vars = "yield"
 	)
 
   
@@ -108,6 +110,10 @@ carob_script <- function(path) {
 	d$planting_date <- "2016"
 	d$harvest_date <- "2016"
 	d$treatment <- tolower(d$treatment)
+
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
+	d$irrigated <- NA
 	
 	carobiner::write_files(meta, d, path=path)
 }

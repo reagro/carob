@@ -27,7 +27,6 @@ carob_script <- function(path) {
 		treatment_vars = "none"
 	)
 
-
 	meta$dataset_id <- paste0(meta$dataset_id, "_nodata")
 	carobiner::write_files(path, meta)
 }

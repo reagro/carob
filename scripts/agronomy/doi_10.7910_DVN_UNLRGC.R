@@ -10,10 +10,8 @@ Abstract: The objective of this study was to determine the attainable maize grai
 There are two datasets, AFSIS and FAO. 
 
 AFSIS has more detail than the public AFSIS data so we used these. 
-AFSIS has data for five countries, each with one or two sites. Sites have subsites, referred to as 'cluster' . 
+AFSIS has data for five countries, each with one or two sites. Sites have subsites, referred to as 'cluster' . "
 
-Notes: citation could be improved to include the underlying data sources.
-"
 
 	uri <- "doi:10.7910/DVN/UNLRGC"
 	group <- "agronomy"
@@ -182,6 +180,9 @@ Notes: citation could be improved to include the underlying data sources.
 	# most likely here
 	zz$K_fertilizer[is.na(zz$K_fertilizer)] <- 0
 
+	zz$irrigated <- NA
+	zz <- unique(zz)
+	
 	carobiner::write_files(meta, zz, path=path)
 ##	affao <- carobiner::bindr(afsis_data, zz)
 ##	carobiner::write_files(meta, affao, path=path)

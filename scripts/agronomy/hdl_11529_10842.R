@@ -31,7 +31,9 @@ T10: Crop rotation B2 (B2S): direct seeding with animal drawn seeder, maize-sunf
 		project=NA,
 		data_type= "experiment",
 		carob_contributor= "Blessing Dzuda",
-		carob_date="2024-04-12"
+		carob_date="2024-04-12",
+		treatment_vars = "crop_rotation;planting_method;residue_prevcrop",
+		response_vars = "yield"
 	)
 
 	f <- ff[basename(ff) == "Domboshawa 2010.2016.xlsx"]

@@ -26,6 +26,9 @@ carob_script <- function(path) {
   f <- ff[basename(ff) =="SSNM_Meta-analysis_data.csv"] 
   
   # read the dataset
+# RH works just as good?
+#	r <- read.csv(f, stringsAsFactors=FALSE, fileEncoding="latin1")
+  
 	r <- read.csv(f,header=FALSE, stringsAsFactors=FALSE, fileEncoding="latin1")
 	colnames(r) <- r[1,]
 	r <- r[-1,] # drop the first rows
@@ -143,7 +146,7 @@ carob_script <- function(path) {
   p <- carobiner::fix_name(d$crop, "lower")
   d$crop <- p
   p1 <- carobiner::fix_name(d$previous_crop,"lower")
-  p1 <- gsub("upland crop","no crop",p1) # no specification about upland crop
+  p1 <- gsub("upland crop", "unknown", p1)
   p1 <- gsub("mungbean","mung bean",p1)
   d$previous_crop <- p1
   #fix white space in soil_SOC column
@@ -161,6 +164,8 @@ carob_script <- function(path) {
   d$soil_pH <- as.double(d$soil_pH)
   d$soil_SOC <- as.double(d$soil_SOC)
   d$yield_part <- "grain"
+	
+	d$trial_id <- 1:nrow(d)
 	
   carobiner::write_files(meta, d, path=path)
   

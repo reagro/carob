@@ -5,6 +5,7 @@ carob_script <- function(path) {
   
 "Developing efficient and affordable fertilizer products for increased and sustained yields in the maize belt of Nigeria. Maize belt of Nigeria that covers 8 states: Bauchi, Kaduna, Kano, Katsina, Nasarawa, Niger, Plateau and Taraba"
 
+
   uri <- "doi:10.25502/RGB5-GA15/D"
   group <- "agronomy"
   ff <- carobiner::get_data(uri, path, group)
@@ -100,7 +101,7 @@ carob_script <- function(path) {
   d$harvest_date <- "2017-11-01"
   d$season <- "2017"
   
-  d$trial_id <- d$Location
+  d$trial_id <- d$location
 #data type
   d$yield <- as.numeric(d$yield)
   d <- d[!is.na(d$yield), ]

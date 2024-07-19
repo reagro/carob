@@ -2,11 +2,12 @@
 
 ##ISSUES
 ### Soil information is missing in the data ( not clear in the protocol)
+### Need lon/lat data for sites 
+
 
 carob_script <- function(path) {
    
-"Characterising soils of the maize belt in Nigeria to deteminie limiting nutrients based on which new fertilzer formulations 
-are developed that are tested on farmer's fields in validation trials in a large number of locations against the commonly used NPK 15-15-15 fertilizer."
+"Characterising soils of the maize belt in Nigeria to deteminie limiting nutrients based on which new fertilzer formulations are developed that are tested on farmer's fields in validation trials in a large number of locations against the commonly used NPK 15-15-15 fertilizer."
 
    uri <- "doi:10.25502/3348-6831/D"
    group <- "agronomy"
@@ -29,18 +30,16 @@ are developed that are tested on farmer's fields in validation trials in a large
 	d <- data.frame(
 		treatment = r$trt_name, 
 		yield = r$Yld_harvest_plot.kg.ha,
-		trial_id = "1"
+		trial_id = as.character(r$parent_index)
 	#	rep = NA
 	)
 
 # From VT protocol
    d$country <- "Nigeria"
-   d$location <- "Niger-kaduma" 
    d$crop <- "maize"
    d$variety <- "Sammaz 15" 
    d$row_spacing <- 75
    d$plant_spacing <- 25 
-   d$trial_id<- "1"
    
    d$on_farm <- TRUE
    d$is_survey <- FALSE
@@ -62,19 +61,19 @@ are developed that are tested on farmer's fields in validation trials in a large
 		treatment=c("Control", "NPK", "OCPF1", "OCPF2" ),
 		N_fertilizer=c(0, 15, 11, 14),
         P_fertilizer=c(0,15, 22, 31) / 2.29,
-		 K_fertilizer=c(0, 15, 21, 0) /1.2051,
+		K_fertilizer=c(0, 15, 21, 0) /1.2051,
 		Zn_fertilizer=c(0, 0, 1, 1),
         S_fertilizer=c(0, 0, 5, 9),
 		B_fertilizer=c(0, 0, 1, 1)
 	)  
 
-  d <- merge(d, fert, by="treatment", all.x = TRUE) 
+	d <- merge(d, fert, by="treatment", all.x = TRUE) 
 
   # from VT protocol
-  d$longitude <- 5.6511088  
-  d$latitude <- 9.9326083    
-  d$planting_date <- "2017-06-01"
-  d$harvest_date <- "2017-11-01"
+	d$longitude <- 5.6511088  
+	d$latitude <- 9.9326083    
+	d$planting_date <- "2017-06-01"
+	d$harvest_date <- "2017-11-01"
  
    carobiner::write_files(path, meta, d)   
 }

@@ -5,20 +5,12 @@ carob_script <- function(path){
 
 "Title: Non-responsiveness of crops to fertilizers under some soils in sub-Saharan Africa
  
-Low productivity of agriculture observed in different parts of sub-Saharan Africa is threatening food 
-security in the region. Decades of production with mostly application of small amounts of inorganic 
-fertilizers (mostly macronutrients) and scarce organic resources in the context of integrated soil fertility 
-management (ISFM) result in nutrient mining of secondary and micronutrients in majority of smallholder farms. 
-With the last decade, crop non-responsiveness to nutrient application has become an important issue requiring 
-scientific understanding. We provide data focused on identifying the extent of non-responsiveness of crops to 
-nutrient application and the associated factors. Data contains crop yield response to secondary and 
-micronutrient (SMN), manure and lime application relative to yields of only NP/K application. (2020-02-25)"
+Low productivity of agriculture observed in different parts of sub-Saharan Africa is threatening food security in the region. Decades of production with mostly application of small amounts of inorganic fertilizers (mostly macronutrients) and scarce organic resources in the context of integrated soil fertility management (ISFM) result in nutrient mining of secondary and micronutrients in majority of smallholder farms. With the last decade, crop non-responsiveness to nutrient application has become an important issue requiring scientific understanding. We provide data focused on identifying the extent of non-responsiveness of crops to nutrient application and the associated factors. Data contains crop yield response to secondary and micronutrient (SMN), manure and lime application relative to yields of only NP/K application. (2020-02-25)"
   
 	uri <- "doi:10.7910/DVN/GXUNAZ"
 	group <- "agronomy"
 	ff <- carobiner::get_data(uri, path, group)
   
-  # The metadata at the dataset level
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=2),
 		project=NA,
@@ -30,13 +22,10 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 		response_vars = "yield",
 		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer"		
 	)
-  
-	  ## downloading data 
-	  
 	
 	# reading the data.csv data
 	f <- ff[basename(ff) == "Non responsiveness of crop to fertiliser dat V2.xlsx"]
-	r <- carobiner::read.excel(f)
+	r <- carobiner::read.excel(f) |> unique()
 	
 	d <- data.frame(
 		variety = carobiner::fix_name(r$Var_Type,"title"),
@@ -56,7 +45,9 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 		rain = r$Rainfall,
 		reference = r$Dataset
 	)
-	d$SiteID = carobiner::fix_name(r$`Site ID`,"title")
+	d$SiteID = carobiner::fix_name(r$`Site ID`, "title")
+	d <- cbind(d,  r[,  c("Abs_Control",  "NK", "NP", "NPK", "NPK+S+Ca+Mg+Zn+B", "PK", "NPK+Lime", "NPK+Manure")])
+
 
 	# country sites based on publication and coordinates
 	cntrlocs <- rbind(
@@ -147,7 +138,6 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 
 	d$longitude[d$location == "Ibadan" & d$longitude == 34.960000] <- 3.867000
 
-	d <- cbind(d,  r[,  c("Abs_Control",  "NK", "NP", "NPK", "NPK+S+Ca+Mg+Zn+B", "PK", "NPK+Lime", "NPK+Manure")])
 	d$id <- 1:nrow(d)
 	# converting dataset from wide to long
 	d <- reshape(d,  direction = "long", 
@@ -196,10 +186,10 @@ micronutrient (SMN), manure and lime application relative to yields of only NP/K
 	d$SiteID <- NULL
 	
 	# removing records without coordinates from Kihara_Wkenya
-	d <- d[!is.na(d$latitude), ]
 	
 	d$is_survey <- NA
 	d$irrigated <- NA
+	d <- unique(d)
 	
 	carobiner::write_files(meta, d, path=path)
 }

@@ -1,10 +1,10 @@
 # R script for "carob"
 
+#RH: treatments need to be present as variables
 
 carob_script <- function(path) {
 
-"The present data is from a long-term trial set at Msekera Research Station in Zambia to monitor and evaluate the the longer term effects of conservation agriculture practices on soil quality, soil water dynamics, weeds, pests/diseases and crop yield. The treatments set to investigate this are: T1: Control plot 1 (CPM1); traditional farmers practice mouldboard plough on the flat, maize as a sole crop, no residue retention, stubble incorporated into the row for the following season. T2: Control plot 2 (CPM2); ridge and furrow system dug by hand, maize as a sole crop, no residue retention, stubble incorporated into the row for the following season T3: Basins (BAM), residue retention on the surface, maize as a sole crop T4: Dibble stick (DISM), residue retention on the surface, maize as a sole crop T5: Direct seeder (DSM), residue retention on the surface, maize as a sole crop T6: Direct seeding maize/cowpea intercropping (DS-M/C), 90cm rows, residue retention on the surface T7: Direct seeding cowpea (Cowpea-maize rotation) (DS-MC), residue retention on the surface T8:Direct seeding maize (Maize-cowpea rotation) (DS-CM), residue retention on the surface T9:Direct seeding soya (Soybean-maize r otation) (DS-MS), residue retention on the surface T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on the surface
-The present data set is from 2012 to 2016. (2016)"
+"The present data is from a long-term trial set at Msekera Research Station in Zambia to monitor and evaluate the the longer term effects of conservation agriculture practices on soil quality, soil water dynamics, weeds, pests/diseases and crop yield. The treatments set to investigate this are: T1: Control plot 1 (CPM1); traditional farmers practice mouldboard plough on the flat, maize as a sole crop, no residue retention, stubble incorporated into the row for the following season. T2: Control plot 2 (CPM2); ridge and furrow system dug by hand, maize as a sole crop, no residue retention, stubble incorporated into the row for the following season T3: Basins (BAM), residue retention on the surface, maize as a sole crop T4: Dibble stick (DISM), residue retention on the surface, maize as a sole crop T5: Direct seeder (DSM), residue retention on the surface, maize as a sole crop T6: Direct seeding maize/cowpea intercropping (DS-M/C), 90cm rows, residue retention on the surface T7: Direct seeding cowpea (Cowpea-maize rotation) (DS-MC), residue retention on the surface T8:Direct seeding maize (Maize-cowpea rotation) (DS-CM), residue retention on the surface T9:Direct seeding soya (Soybean-maize r otation) (DS-MS), residue retention on the surface T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on the surface. The present data set is from 2012 to 2016. (2016)"
 
 	uri <- "hdl:11529/10844"
 	group <- "agronomy"
@@ -20,7 +20,6 @@ The present data set is from 2012 to 2016. (2016)"
 		carob_date = "2024-05-03"
 	)
 
-# read data 
 
 	f <- ff[basename(ff) == "Msekera 2012.2016.xlsx"]
 	r1 <- carobiner::read.excel(f, sheet ="All maize yield Msekera")

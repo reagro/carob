@@ -30,6 +30,8 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 		data_type = "experiment", 
 		carob_contributor = "Mitchelle Njukuya",
 		carob_date = "2023-12-18",
+		treatment_vars = "planting_date;variety;N_fertilizer",
+		response_vars="yield",
 		modified_by = "Eduardo Garcia Bendito",
 		last_modified = "2024-02-28"
 	)
@@ -50,7 +52,8 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 		adm2 = r$UPAZILLA_NAME,
 		crop = "wheat",
 		yield_part = "grain",
-		row_spacing = 20
+		row_spacing = 20,
+		is_survey=FALSE
 	)
 	
 	d$trial_id <- as.character(as.integer(as.factor(paste(r$UPAZILLA_NAME, r$FARMER))))
@@ -65,8 +68,8 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 
 	w1 <- as.character(as.Date(r$WEEDING_DATE_1, "%d/%m/%y"))
 	w2 <- as.character(as.Date(r$WEEDING_DATE_2, "%d/%m/%y"))
-	w <- paste0(w1, "; ", w2)
-	d$weeding_dates <- gsub("; NA", "", w)
+	w <- paste0(w1, ";", w2)
+	d$weeding_dates <- gsub(";NA", "", w)
 
 	ird <- as.matrix(r[, paste0("IRRIGATION_DATE_", 1:4)])
 	ird[ird=="."] <- NA
