@@ -1,11 +1,10 @@
 # R script for "carob"
 
 # ## ISSUES
-"
-Grain yield not specified if it is kg/ha,
-CP2 is not explicitly defined under column treatment in carob
-RH: what is CP2?
-"
+# 
+# CP2 is not explicitly defined under column treatment in carob
+# RH: what is CP2?
+
 
 carob_script <- function(path) {
   
