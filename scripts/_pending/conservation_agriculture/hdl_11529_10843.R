@@ -1,17 +1,21 @@
 # R script for "carob"
 
 # ## ISSUES
-"Grain yield not specified if it is kg/ha,
- CP2 is not explicitly defined under column treatment in carob
-
+"
+Grain yield not specified if it is kg/ha,
+CP2 is not explicitly defined under column treatment in carob
+RH: what is CP2?
 "
 
 carob_script <- function(path) {
   
-  "
-	This trial is designed with 1 conventional farmers practice and 4 conservation agriculture (CA) treatments in 5 replications; Plots are subdivided into a continues maize area and a maize/legume (sunnhemp) rotation to investigate the effect of CA practices on soil quality and system productivity. The trial was set in the growing season of 2005 and is still running through to 2017 and beyond. The treatments are as follows: T1. Conventional mouldboard ploughing (CPM): maize with residue removal, manual seeding and fertilization in the tilled seedbed after ploughing. Plots are subdivided into split plots with continues maize and a maize/sunnhemp rotation T2. Sub-soiling with a Magoye ripper (RIM): maize with residue retention, manual seeding and fertilization in the ripping line. Plots are subdivided into split plots with continues maize and a maize/sunnhemp rotation T3. Direct seeding (DSM) with a Fitarelli Jabplanter: maize with residue retention, seeding and fertilization is carried out with the Jabplanter. Plots are subdivided into split plots with continues maize and a maize/sunnhemp rotation T4. Basin Planting (BAM): maize with residue retention, a manual system were basins (at 15cm x 15cm x 15cm spacing) are dug with hoes during the winter period and manually seeded and fertilized at the onset of rains. Plots are subdivided into split plots with continues maize and a maize/sunnhemp rotation T5. Magoye ripping (RI-ML): maize with residue retention, intercropped with cowpea (Vigna unguiculata) at seeding of maize. Plots are subdivided into split plots with continues maize/cowpea pea and a maize/cowpea//sunnh emp rotation.
+"This trial is designed with 1 conventional farmers practice and 4 conservation agriculture (CA) treatments in 5 replications; Plots are subdivided into a continues maize area and a maize/legume (sunnhemp) rotation to investigate the effect of CA practices on soil quality and system productivity. The trial was set in the growing season of 2005 and is still running through to 2017 and beyond. The treatments are as follows: 
+T1. Conventional mouldboard ploughing (CPM): maize with residue removal, manual seeding and fertilization in the tilled seedbed after ploughing. Plots are subdivided into split plots with continues maize and a maize/sunnhemp rotation 
+T2. Sub-soiling with a Magoye ripper (RIM): maize with residue retention, manual seeding and fertilization in the ripping line. Plots are subdivided into split plots with continues maize and a maize/sunnhemp rotation 
+T3. Direct seeding (DSM) with a Fitarelli Jabplanter: maize with residue retention, seeding and fertilization is carried out with the Jabplanter. Plots are subdivided into split plots with continues maize and a maize/sunnhemp rotation 
+T4. Basin Planting (BAM): maize with residue retention, a manual system were basins (at 15cm x 15cm x 15cm spacing) are dug with hoes during the winter period and manually seeded and fertilized at the onset of rains. Plots are subdivided into split plots with continues maize and a maize/sunnhemp rotation 
+T5. Magoye ripping (RI-ML): maize with residue retention, intercropped with cowpea (Vigna unguiculata) at seeding of maize. Plots are subdivided into split plots with continues maize/cowpea pea and a maize/cowpea//sunnh emp rotation."
 
-  "
   uri <- "hdl:11529/10843"
   group <- "agronomy"
   ff <- carobiner::get_data(uri, path, group)
@@ -21,13 +25,11 @@ carob_script <- function(path) {
     project=NA,
     publication= "doi:10.2135/cropsci2014.11.0796",
     data_institute = "CIMMYT",
-    treatment_vars = "intercrops; crop_rotation",
+    treatment_vars = "land_prep_method;residue_prevcrop;intercrops;crop_rotation",
     response_vars="yield",
     data_type="experiment",
-    carob_contributor="Fredy Chimire", 
-    carob_date="2023-08-21",
-    modified_by = "Siyabusa Mkuhlani",
-    last_modified = "2024-07-21"
+    carob_contributor="Siyabusa Mkuhlani;Fredy Chimire", 
+    carob_date="2024-07-20"
   )
   
   f <- ff[basename(ff) == "Henderson 2005.2016.xlsx"]
@@ -39,13 +41,9 @@ carob_script <- function(path) {
     trial_id = (paste0(r1$Location, r1$'Harvest year')), 
     planting_date = as.character(r1$'Harvest year'-1), #Subtracting 1 because the harvest year is the following year after planting.
     country = r1$Country,
-    adm1='Mashonaland central',
-    adm2='Mazowe',
     location=r1$Location,
     rep=as.integer(r1$Rep),
     crop=tolower(r1$Crop), 
-    longitude = 30.986926,
-    latitude = -17.572072,
     treatment=r1$Label,
     dmy_residue=r1$'Non-cob Biomass',
     yield=r1$'Grainy ield',
@@ -57,36 +55,31 @@ carob_script <- function(path) {
     trial_id = (paste0(r2$Location, r2$'Harvest year')), 
     planting_date = as.character(r2$'Harvest year'-1), #Subtracting 1 because the harvest year is the following year after planting.
     country = r2$Country,
-    adm1='Mashonaland central',
-    adm2='Mazowe',
     location=r2$Location,
     rep=as.integer(r2$Rep),
     crop=tolower(r2$Crop), 
-    longitude = 30.986926,
-    latitude = -17.572072,
     treatment=r2$Label,
     dmy_residue=r2$'Biomass yield (kg/ha)',
     yield=r2$'Grain yield (kg/ha)',
     yield_part = "grain")  
   
   #Read and process third sheet of the data set
-  #Sunhemp has no 'grain yield' because its purpose is for Nitrogen fixation, so there is only stover available.
+  #Sunhemp has no 'yield' because its purpose is for Nitrogen fixation, so there is only stover available.
   r3 <-carobiner::read.excel(f, sheet="HRS sunnhemp yield")
   d3 <- data.frame(
     trial_id = (paste0(r3$Location, r3$Year)), 
     planting_date = as.character(r3$Year-1), #Subtracting 1 because the harvest year is the following year after planting.
     country = r3$Country,
-    adm1='Mashonaland central',
-    adm2='Mazowe',
     location=r3$Location,
     rep=as.integer(r3$Rep),
     crop=tolower(r3$Crop), 
-    longitude = 30.986926,
-    latitude = -17.572072,
     treatment=r3$Label,
+	## how do you know this is dmy and not fwy? 
+	## if correct, we would need to estimate fresh yield for yield
     dmy_residue=r3$'Biomass yield (kg/ha)',
-    yield= NA,
-    yield_part = 'stover')  
+    yield = r3$'Biomass yield (kg/ha)',
+    yield_part = "aboveground biomass"
+  )  
   
   #Specify information about the cropping systems
   d1$crop_rotation <- NA
@@ -103,7 +96,13 @@ carob_script <- function(path) {
   d3$crop_rotation <- NA
   d3$intercrops <- NA
   
-  d<-rbind(d1,d2,d3)
+  d <-rbind(d1,d2,d3)
+
+    d$adm1 <- "Mashonaland Central"
+    d$adm2 <- "Mazowe"
+    d$longitude = 30.9869
+    d$latitude = -17.5721
+
   
   d$crop[d$crop== 'sunnhemp'] <-"sunn hemp"
   d$crop[d$crop== 'maize +cp'] <-"maize"
@@ -114,12 +113,12 @@ carob_script <- function(path) {
   d$crop[d$crop== 'maize+pigeonpea'] <-"maize"
   
   d$intercrops[d$intercrops== 'mucuna']<-"velvet bean"
-  d$crop_rotation[d$crop_rotation== 'maize +cp']<- 'cowpea'
-  d$crop_rotation[d$crop_rotation== 'maize +pp']<- 'pigeon pea'
+  d$crop_rotation[d$crop_rotation== 'maize +cp']<- 'maize;cowpea'
+  d$crop_rotation[d$crop_rotation== 'maize +pp']<- 'maize;pigeon pea'
   
-  #Add fertilizer
-  #All treatments
   d$plot_area <- 18
+
+  # fertilizer
   #Basal dressing 7:14:7 NPK for 150Kg/ha, meaning 10.5, 9.177 and 8.715 kg/ha,
   #for all treatments.Top dressing of 30kg N/ha, equally split applied twice. 
   d$fertilizer_type <- 'D-compound; AN'
@@ -151,10 +150,8 @@ carob_script <- function(path) {
   
   d$treatment <- treatname[match(d$treatment,treatcode)]
   
-  #This removes all data from r3, as there is no grain yields.
-  #Remove rows without yield values 
-  d<-d[!is.na(d$yield),]     
- carobiner::write_files(meta, d, path=path)
+
+  carobiner::write_files(meta, d, path=path)
 }
 
 
