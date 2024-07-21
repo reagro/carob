@@ -4,7 +4,7 @@
 #ISSUES 
 # the groundnut intercrop and yield needs to be processed
 # it is clear from the description that the presence or absence of an intercrop this is a treatment variable but it is not treated as such
-
+# 
 
 carob_script <- function(path) {
      
@@ -33,6 +33,8 @@ carob_script <- function(path) {
       names(r) <- gsub("SorGrYld", "SorGrYd", names(r))
       names(r) <- gsub("SorStYd|SorStYld", "SorFoYd", names(r))
       if(is.null(r$`Manure rate, Mg ha-1`)){r$`Manure rate, Mg ha-1` <- NA}
+      
+      ### sorghum
       d <- data.frame(
          location= r$Site, 
          planting_date= as.character(r$Y), 
@@ -44,22 +46,48 @@ carob_script <- function(path) {
          OM_amount= r$`Manure rate, Mg ha-1`*1000, # kg/ha
          crop= "sorghum", 
          yield= r$SorGrYd*1000, # in kg/ha
-         fwy_total= r$SorFoYd, 
+         fwy_total= r$SorFoYd*1000, # in kg/ha, 
          intercrops="groundnut", 
          trial_id= i
-         
-      )
-   })
+         )
+   }
+   )
      
    d <- do.call(rbind, d) 
     i <- which(is.na(d$N_fertilizer) & (d$yield == 0))
 	d <- d[-i,]
-   
+	
+	### Process Groundnut intercrop
+	dlst <- list()
+	for (i in c(c("NigerOFT", "NigerOST"))){
+	   
+	   r <- carobiner::read.excel(ff[basename(ff)=="W Africa Sorghum data set.xlsx"], sheet = i)
+	   dlst[[i]] <- data.frame(
+	      location= r$Site, 
+	      planting_date= as.character(r$Y), 
+	      rep= as.integer(r$Rep), 
+	      treatment= r$Trt, 
+	      N_fertilizer= r$Nrate, 
+	      P_fertilizer= r$Prate, 
+	      K_fertilizer= r$Krate, 
+	      OM_amount= 2.5*1000, # kg/ha ## from data description
+	      crop= "groundnut", 
+	      yield= r$GNGrYd *1000, # in kg/ha
+	      fwy_total= r$GNFoYd*1000, # in kg/ha, 
+	      intercrops= "sorghum", 
+	      trial_id= i 
+	      )
+	}
+	
+	d <- carobiner::bindr(d,do.call(rbind, dlst) |> na.omit())
+	
+	d$intercrops[grep("Mali|Burkina",d$trial_id)] <- NA #Sorghum sole crop
+	
    d$country <- NA
    d$country[grep("Niger", d$trial_id)] <- "Niger"
    d$country[grep("Mali", d$trial_id)] <- "Mali"
    d$country[grep("Burkina", d$trial_id)] <- "Burkina Faso"
-   
+    
    d$irrigated <- as.logical(NA)
    d$on_farm <- TRUE
    d$on_farm[grep("NigerOST", d$trial_id)] <- FALSE
@@ -82,11 +110,6 @@ carob_script <- function(path) {
       
    d <- merge(d, geo, by="location", all.x = TRUE)
  
-   
-   ## remove Na in yield
-   ## do not use unique, it hides errors!
-##   d <- d[!is.na(d$yield), ]
-   
     carobiner::write_files(path, meta, d)
    
 }
