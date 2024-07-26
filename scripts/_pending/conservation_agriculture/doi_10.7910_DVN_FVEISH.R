@@ -2,18 +2,12 @@
 
 
 
-## needs info from Christian Thierfelder about meaning of 
-## treatments and fertilizer 
-
 carob_script <- function(path) {
 	
 "
+AfricaRISING- Sustainable Intensification of Maize-Legume-Livestock Integrated Farming Systems in East and Southern Africa
+
 The datasets contain field level trial data on low-input agriculture systems in Zambia
-
-About the project
-Project title: AfricaRISING- Sustainable Intensification of Maize-Legume-Livestock Integrated Farming Systems in East and Southern Africa
-
-Project abstract
 
 Sustainable intensification of mixed crop-livestock systems is a key pathway towards better food security, improved livelihoods, and a healthy environment. As part of the US government’s Feed the Future initiative to address hunger and food security issues in sub-Saharan Africa, the US Agency for International Development (USAID) is supporting three multi-stakeholder agricultural research projects to sustainably intensify key African farming systems. In East and Southern Africa, the project is being implemented in Tanzania and Malawi, and Zambia. In Tanzania, the project is being implemented in Babati and Kongwa districts in Manyara region of northern Tanzania and Kiteto district in Dodoma region, central Tanzania. The action sites were selected to acknowledge agro-ecological differences, allow appropriate targeting of technologies and strategies, and complement the development efforts of another USAID-supported program, the Tanzania Staples Value Chain (NAFAKA) project. In Malawi, the project is being implemented in Ntechu and Dedza districts in central Malawi where maize-based productions systems are dominant. Agroecological considerations guided the identification of research action sites. The pilot site for the study will be Eastern and Lusaka Provinces in Zambia.
 "	
@@ -29,10 +23,8 @@ Sustainable intensification of mixed crop-livestock systems is a key pathway tow
 	  data_type="on-farm experiment", #Mixture of on farm and on station trials, in different files.
 	  treatment_vars = "intercrops; land_prep_method; N_fertilizer; P_fertilizer; K_fertilizer",
 	  response_vars="yield",
-	  carob_contributor="No Name",
-	  carob_date="2023-09-25",
-	  modified_by="Siyabusa Mkuhlani",
-	  last_modified = "2024-07-23"
+	  carob_contributor="Siyabusa Mkuhlani",
+	  carob_date="2024-07-23"
 	)
 	
 	#Read and process first data set
@@ -76,13 +68,13 @@ Sustainable intensification of mixed crop-livestock systems is a key pathway tow
 	d1$planting_method[d1$treatment== "CP sole" | d1$treatment== "RI sole" | d1$treatment== "RI rot" | d1$treatment== "ATDS sole" | d1$treatment== "ATDS rot"] <- "manual"
 	d1$planting_method[d1$treatment== "DS sole" | d1$treatment== "DS inter" | d1$treatment== "DS Inter" | d1$treatment== "DS rot" | d1$treatment== "DS Rot"] <- "mechanized"
 	
-	d1$treatment <- ifelse(d1$treatment == "CP sole" , "conventional ploughing",
-	                       ifelse(d1$treatment == "DS sole" , "Direct seeding sole",
-	                              ifelse(d1$treatment == "DS inter" , "Direct seeding intercrop",
-	                                     ifelse(d1$treatment == "DS rot" , "Direct seeding rotation",
-	                                            ifelse(d1$treatment == "RI sole" , "Ripper sole",
-	                                                   ifelse(d1$treatment == "RI rot" , "Ripper rotation",
-	                                                          ifelse(d1$treatment == "ATDS sole" , "Tractor drawn plough sole", "Tractor drawn plough rotation")))))))
+	d1$treatment <- ifelse(d1$treatment == "CP sole" , "Conventional ploughing",
+	                ifelse(d1$treatment == "DS sole" , "Direct seeding sole",
+	                ifelse(d1$treatment == "DS inter" , "Direct seeding intercrop",
+	                ifelse(d1$treatment == "DS rot" , "Direct seeding rotation",
+	                ifelse(d1$treatment == "RI sole" , "Ripper sole",
+	                ifelse(d1$treatment == "RI rot" , "Ripper rotation",
+	                ifelse(d1$treatment == "ATDS sole" , "Tractor drawn plough sole", "Tractor drawn plough rotation")))))))
 	
 	#Read and process second data set
 	#There is an intercrop treatment but there was no mention of the other crops in the intercrop.

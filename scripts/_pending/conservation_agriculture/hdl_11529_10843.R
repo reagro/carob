@@ -1,6 +1,5 @@
 # R script for "carob"
 
-# ## ISSUES
 
 carob_script <- function(path) {
   
@@ -139,21 +138,17 @@ T5. Magoye ripping (RI-ML): maize with residue retention, intercropped with cowp
   d$planting_method[d$treatment %in% c("CP", "CPM", "CPR", "MCP", "BAM", "BAMR", "MBA", "RIM", "RIML", "MRMR",  "MRM", "MRMP", "MRMRPR", "MR")] <- "manual" 
   d$planting_method[d$treatment %in% c("DSM", "DSMR", "MDS", "MDSP")] <- "mechanized" 
   
-  d$land_prep_method = NA
+  d$land_prep_method <- NA
   d$land_prep_method[d$treatment %in% c("CP", "CPM", "CPR", "MCP")] <- "conventional" 
   d$land_prep_method[d$treatment %in% c("BAM", "BAMR", "MBA")] <- "basins" 
   d$land_prep_method[d$treatment %in% c("RIM", "RIML", "MRMR", "MRM","MRMP","MRMRPR","MR")] <- "ripping" 
   d$land_prep_method[d$treatment %in% c("DSM", "DSMR", "MDS", "MDSP")] <- "reduced tillage" 
   
-  d$residue_prevcrop<- NA
-  d$residue_prevcrop[d$planting_date== 2005] <- 0
-  d$residue_prevcrop[d$planting_date== 2006] <- d$dmy_residue[d$planting_date== 2005]
+  d$residue_prevcrop <- NA
   d$residue_prevcrop[d$planting_date== 2007] <- d$dmy_residue[d$planting_date== 2006]
   d$residue_prevcrop[d$planting_date== 2008] <- d$dmy_residue[d$planting_date== 2007]
   d$residue_prevcrop[d$planting_date== 2009] <- d$dmy_residue[d$planting_date== 2008]
   d$residue_prevcrop[d$planting_date== 2010] <- d$dmy_residue[d$planting_date== 2009]
-  d$residue_prevcrop[d$planting_date== 2011] <- d$dmy_residue[d$planting_date== 2010]
-  d$residue_prevcrop[d$planting_date== 2012] <- d$dmy_residue[d$planting_date== 2011]
   d$residue_prevcrop[d$planting_date== 2013] <- d$dmy_residue[d$planting_date== 2012]
   d$residue_prevcrop[d$planting_date== 2014] <- d$dmy_residue[d$planting_date== 2013]
   d$residue_prevcrop[d$planting_date== 2015] <- d$dmy_residue[d$planting_date== 2014]
@@ -173,7 +168,6 @@ T5. Magoye ripping (RI-ML): maize with residue retention, intercropped with cowp
   
   d$treatment <- treatname[match(d$treatment,treatcode)]
   
-
   carobiner::write_files(meta, d, path=path)
 }
 
