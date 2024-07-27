@@ -71,7 +71,7 @@ carob_script <- function(path) {
 		latitude = 12.00218,
 		crop = "cowpea",
 		yield_part = "seed",
-		record_id = make.unique(r$gid),
+		record_id = r$gid,
 		rep = as.integer(r$rep),
 		variety = r$variety,
 		yield = r$seedkgha,
