@@ -10,10 +10,8 @@
 #        8         8         6         6         6         4         4         4         3         3         3 
 #    dules  nodulewt  seedspod       ots  d_mature  standinf      dff1       trt        ot       and        ds 
 #        3         3         3         3         3         2         2         2         1         1         1 
-#  podkgha  drfdkgha    swt100  anthripc  plinfstr  pod_plnt    blight  d_striga  pltinstr    strplt   t_seeds 
+#  podkgha  drfdkgha    swt100  anthripc  plinfstr    blight  pltinstr    strplt   t_seeds     dummy    sttand 
 #        1         1         1         1         1         1         1         1         1         1         1 
-#    dummy    sttand 
-#        1         1 
 
 
 carob_script <- function(path) {
@@ -43,15 +41,16 @@ carob_script <- function(path) {
 			cn <- gsub("aphhids|aphid|aphidss|aphidss", "aphids", cn)
 			cn <- gsub("plot_no", "plotno", cn)
 			cn <- gsub("sd_pod|num_s_pod", "seed_pod" , cn)
-			cn <- gsub("podplant|pd_plt", "pod_pla", cn)
-			cn <- gsub("seedkha", "seedkgha", cn) # yield is something else
+			cn <- gsub("podplant|pd_plt|pod_pla", "pod_plnt", cn)
+			cn <- gsub("seedkha", "seedkgha", cn) # yield is in kg per plot
 			cn <- gsub("viruse", "virus", cn)  
 			cn <- gsub("dffl", "dff1", cn)  
 			cn <- gsub("^x__..", "", cn)  
 			cn <- gsub("x_50.dff", "dff", cn)  
-			cn <- gsub("foderkgh", "fodkgha", cn) # fodder is something else
+			cn <- gsub("foderkgh", "fodkgha", cn) # fodder is in kg per plot
 			cn <- gsub("thr.|thripp", "thrip", cn)  
 			cn <- gsub("maturity", "mature", cn)  
+			cn <- gsub("d_striga", "striga", cn)  
 			names(x) <- cn
 			x$source <- gsub(".csv$", "", basename(f))
 			x
@@ -75,15 +74,17 @@ carob_script <- function(path) {
 		rep = as.integer(r$rep),
 		variety = r$variety,
 		yield = r$seedkgha,
+		fwy_storage = r$seedkgha,		
+		fwy_residue = r$fodkgha,		
 		flowering_days = r$dff,
 		maturity_days = r$mature,
 		plant_density = r$stand,
 		seed_weight = as.numeric(r$x_100sdwt) * 10,
 		seeds_pod = r$seeds,
-		bacterial_blight = r$bb,
-		smut = r$smut,
-		striga = r$striga,
-		aphids = r$aphids
+		bacterial_blight_score = r$bb,
+		smut_score = r$smut,
+		striga_score = r$striga,
+		aphid_score = r$aphids
 	)
 
 	d$on_farm <- d$is_survey <- FALSE

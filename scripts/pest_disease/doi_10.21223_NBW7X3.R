@@ -28,7 +28,7 @@ carob_script <- function(path) {
 		AUDPC= r1$AUDPC / 100,
 		rAUDPC= r1$rAUDPC / 100,
 		virus_severity=tolower(r1$Virus),
-		seed_amount=r1$SPBE,
+		seed_density=r1$SPBE,
 		planting_date="2018-06-04", ## from data description
 		trial_id = "3"
 	)
@@ -50,7 +50,7 @@ carob_script <- function(path) {
 			AUDPC=r$AUDPC / 100,
 			rAUDPC=r$rAUDPC / 100,
 			virus_severity=tolower(r$Virus),
-			seed_amount=r$seeds,
+			seed_density=r$seeds,
 			planting_date= as.character(r$Planted),
 			yield=r$Yield*1000, # in kg/ha
 			trial_id = as.character(i)
