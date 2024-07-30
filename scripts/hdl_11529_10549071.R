@@ -41,9 +41,10 @@ carob_script <- function(path) {
 
 	f <- ff[basename(ff) == "ConsAgri__Yield_Mexico2013-2020.xlsx"]
   r <- carobiner::read.excel(f, sheet="Data field experiments")
+  r1 <- carobiner::read.excel(f, sheet="Data farmer's fields")
 
 ## select the variables of interest and assign them to the correct name
-	d <- data.frame(
+	d0 <- data.frame(
 	
 ## make sure that names are normalized (proper capitalization, spelling, no additional white space).
 ## you can use carobiner::fix_name()
@@ -55,9 +56,25 @@ carob_script <- function(path) {
     crop_rotation=tolower(r$Crop_rotation),
     land_prep_method=r$Till, #conventional=conv till, wide permanent beds="Permanent wide beds"
 	## the treatment code/description (if any)	
-		 treatment =as.character(r$Treatment )#there's no description of the treatment method
-    
+		 treatment =as.character(r$Treatment), #there's no description of the treatment method,
+	   rain=NA
 	)
+	d1 <- data.frame(
+	  
+	  ## make sure that names are normalized (proper capitalization, spelling, no additional white space).
+	  ## you can use carobiner::fix_name()
+	  ## first use "location", then use "site"
+	  
+	  adm2 = r1$Municipality,
+	  rep=NA,
+	  crop=tolower(r1$Crop),
+	  crop_rotation=tolower(r1$Crop_rotation),
+	  land_prep_method=r1$Till, #conventional=conv till, wide permanent beds="Permanent wide beds"
+	  ## the treatment code/description (if any)	
+	  treatment =as.character(r1$Treatment ),
+	  rain=r1$PP
+	)
+d <- carobiner::bindr(d0, d1)
 # fixing bad data
 	d$crop[d$crop=="bean"]<-"common bean"
 	d$land_prep_method[d$land_prep_method=="Conventional Tillage"]<-"conventional"
@@ -69,6 +86,8 @@ carob_script <- function(path) {
 	d$crop_rotation[d$crop_rotation=="bean-maize"]<-"common bean;maize"
 	d$crop_rotation[d$crop_rotation=="maize-triticale"]<-"maize;triticale"
 	d$crop_rotation[d$crop_rotation=="triticale-maize"]<-"triticale;maize"
+	d$adm2[d$adm2=="San Juan del Río"]<-"San Juan del Rio"
+	d$adm2[d$adm2=="Cadereyta de Montes"]<-"Cadereyta"
 	
 ## separate individual trials. For example trials in different locations or years. 
 ## do _not_ separate by treatments within a trial. For a survey, each row gets a unique trial_id
@@ -84,6 +103,15 @@ carob_script <- function(path) {
 	d$longitude[d$adm2=="Cadereyta"] <- -99.99681670000001
 	d$latitude[d$adm2=="San Juan del Rio"]<- 20.3951106 
 	d$longitude[d$adm2=="San Juan del Rio"]<--99.9856344
+	d$latitude[d$adm2=="Corregidora"]<- 20.5334645 
+	d$longitude[d$adm2=="Corregidora"]<- -100.4462861
+	d$latitude[d$adm2=="Pedro Escobedo"]<-  20.5010443 
+	d$longitude[d$adm2=="Pedro Escobedo"]<- -100.1395169
+	d$latitude[d$adm2=="Ezequiel Montes"]<-  20.6713387
+	d$longitude[d$adm2=="Ezequiel Montes"]<- -99.8962279
+	d$latitude[d$adm2=="El Marqués"]<-  16.7956 
+	d$longitude[d$adm2=="El Marqués"]<- -99.8206
+	
 	
 
 	d$planting_date <- "2013"
