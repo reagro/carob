@@ -1,10 +1,5 @@
 # R script for "carob"
 
-# ## ISSUES
-# 
-# CP2 is not explicitly defined under column treatment in carob
-# RH: what is CP2?
-
 
 carob_script <- function(path) {
   
@@ -24,7 +19,7 @@ T5. Magoye ripping (RI-ML): maize with residue retention, intercropped with cowp
     project=NA,
     publication= "doi:10.2135/cropsci2014.11.0796",
     data_institute = "CIMMYT",
-    treatment_vars = "land_prep_method;residue_prevcrop;intercrops;crop_rotation",
+    treatment_vars = "land_prep_method;residue_prevcrop_used;intercrops;crop_rotation",
     response_vars="yield",
     data_type="experiment",
     carob_contributor="Siyabusa Mkuhlani;Fredy Chimire", 
@@ -32,10 +27,9 @@ T5. Magoye ripping (RI-ML): maize with residue retention, intercropped with cowp
   )
   
   f <- ff[basename(ff) == "Henderson 2005.2016.xlsx"]
-  # d <- carobiner::read.excel(f, sheet = "All Maize yields Henderson")
   
-  #Read and process first sheet of the data set
-  r1 <-carobiner::read.excel(f, sheet="All Maize yields Henderson")
+  # first sheet
+  r1 <- carobiner::read.excel(f, sheet="All Maize yields Henderson")
   d1 <- data.frame(
     trial_id = (paste0(r1$Location, r1$'Harvest year')), 
     planting_date = as.character(r1$'Harvest year'-1), #Subtracting 1 because the harvest year is the following year after planting.
@@ -48,8 +42,8 @@ T5. Magoye ripping (RI-ML): maize with residue retention, intercropped with cowp
     yield=r1$'Grainy ield',
     yield_part = "grain")
   
-  #Read and process second sheet of the data set
-  r2 <-carobiner::read.excel(f, sheet="Maize HRS Mz-SH rotation")
+  # second sheet
+  r2 <- carobiner::read.excel(f, sheet="Maize HRS Mz-SH rotation")
   d2 <- data.frame(
     trial_id = (paste0(r2$Location, r2$'Harvest year')), 
     planting_date = as.character(r2$'Harvest year'-1), #Subtracting 1 because the harvest year is the following year after planting.
@@ -62,9 +56,8 @@ T5. Magoye ripping (RI-ML): maize with residue retention, intercropped with cowp
     yield=r2$'Grain yield (kg/ha)',
     yield_part = "grain")  
   
-  #Read and process third sheet of the data set
-  #Sunhemp has no 'yield' because its purpose is for Nitrogen fixation, so there is only stover available.
-  r3 <-carobiner::read.excel(f, sheet="HRS sunnhemp yield")
+  # third sheet 
+  r3 <- carobiner::read.excel(f, sheet="HRS sunnhemp yield")
   d3 <- data.frame(
     trial_id = (paste0(r3$Location, r3$Year)), 
     planting_date = as.character(r3$Year-1), #Subtracting 1 because the harvest year is the following year after planting.
@@ -73,8 +66,7 @@ T5. Magoye ripping (RI-ML): maize with residue retention, intercropped with cowp
     rep=as.integer(r3$Rep),
     crop=tolower(r3$Crop), 
     treatment=r3$Label,
-	## how do you know this is dmy and not fwy? 
-	## if correct, we would need to estimate fresh yield for yield
+	## assumed dmy based on paper
     dmy_residue=r3$'Biomass yield (kg/ha)',
     yield = r3$'Biomass yield (kg/ha)',
     yield_part = "aboveground biomass"
@@ -137,6 +129,21 @@ T5. Magoye ripping (RI-ML): maize with residue retention, intercropped with cowp
   d$is_survey <- FALSE
   d$irrigated <- FALSE
   
+  d$land_prep_method <- NA
+  d$planting_method <- NA
+  
+  d$planting_method[d$treatment %in% c("CP", "CPM", "CPR", "MCP", "BAM", "BAMR", "MBA", "RIM", "RIML", "MRMR",  "MRM", "MRMP", "MRMRPR", "MR")] <- "manual" 
+  d$planting_method[d$treatment %in% c("DSM", "DSMR", "MDS", "MDSP")] <- "mechanized" 
+  
+  d$land_prep_method <- NA
+  d$land_prep_method[d$treatment %in% c("CP", "CPM", "CPR", "MCP")] <- "conventional" 
+  d$land_prep_method[d$treatment %in% c("BAM", "BAMR", "MBA")] <- "basins" 
+  d$land_prep_method[d$treatment %in% c("RIM", "RIML", "MRMR", "MRM","MRMP","MRMRPR","MR")] <- "ripping" 
+  d$land_prep_method[d$treatment %in% c("DSM", "DSMR", "MDS", "MDSP")] <- "reduced tillage" 
+  
+  d$residue_prevcrop_used <- TRUE
+  d$residue_prevcrop_used[d$treatment %in% c("CP", "CPM", "CPR", "MCP")] <- FALSE
+  
   #Replace treatment names in abbreviations with full names.
   treatcode = c("CPM","RIM","DSM","BAM","RIML","CPR","MRMR","DSMR","BAMR",
                 "MRMRPR", "MCP","MR","MDS", "MBA","MDSP","CP","MRM","MRMP" )
@@ -149,7 +156,6 @@ T5. Magoye ripping (RI-ML): maize with residue retention, intercropped with cowp
   
   d$treatment <- treatname[match(d$treatment,treatcode)]
   
-
   carobiner::write_files(meta, d, path=path)
 }
 

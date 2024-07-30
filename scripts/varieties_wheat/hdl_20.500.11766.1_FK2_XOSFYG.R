@@ -38,7 +38,7 @@ carob_script <- function(path) {
 		longitude = -6.535,
 		crop = "durum wheat",
 		yield_part = "grain",
-		seed_amount = 160,
+		seed_density = 160,
 		rain = 378,
 		P_fertilizer = 200,
 		N_fertilizer = 60

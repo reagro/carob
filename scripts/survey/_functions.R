@@ -81,7 +81,7 @@ do_LCAS <- function(r) {
 	if (is.null(d$planting_date)) d$planting_date <- r$D.q415_seedingSowingTransDate
 
 
-	d$seed_amount = r$D.q420_cropSeedAmt / plot_ha
+	d$seed_density = r$D.q420_cropSeedAmt / plot_ha
 	d$seed_source = ifelse(r$D.q421_seedSource == "other", 
 							r$D.q422_otherSeedSource, r$D.q421_seedSource)
 

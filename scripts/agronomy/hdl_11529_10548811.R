@@ -35,7 +35,7 @@ carob_script <- function(path) {
 			land_prep_method=r$Tillage,
 			variety=r$Hibrid, 
 			planting_method=r$Planting.method,
-			seed_amount=r$planting.density.Kg.ha,
+			seed_density=r$planting.density.Kg.ha,
 			rep=r$Inf.Experiment_REP,
 			treatment=r$Number.of.Treatment,
 			Zn_fertilizer=r$Rate.Zn,
@@ -93,8 +93,8 @@ carob_script <- function(path) {
 	d$rep[d$rep == "-"] <- NA
 	d$rep <- as.integer(d$rep)
 
-	d$seed_amount[d$seed_amount == "-"] <- NA
-	d$seed_amount <- as.numeric(d$seed_amount)
+	d$seed_density[d$seed_density == "-"] <- NA
+	d$seed_density <- as.numeric(d$seed_density)
 
 ## you cannot just this and lose all the data!
 #	d$Zn_fertilizer <- as.numeric(d$Zn_fertilizer)

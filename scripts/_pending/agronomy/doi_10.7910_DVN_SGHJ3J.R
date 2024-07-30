@@ -1,6 +1,13 @@
+# R script for "carob"
+
+#ISSUES
+# need to unpack the treatmens
+# process weather data (use carobiner::write_files(path, dset, d, wth=w))
+
 
 carob_script <- function(path) {
-  "In the Sudanian region of Mali where sorghum is an important crop, inorganic fertilizer use is limited due to the high cost and limited availability, and limited soil moisture availability. However, fertilizers from livestock and poultry manure are largely available. This study evaluated different fertilizer response scenarios which will combine both organic and inorganic sources. Our target is to increase productivity (grain and biomass). Biomass so produced could further be used as a source of feed for the livestock and vice-versa. Furthermore, data collected from different agro-ecologies will be used to set up crop simulation models with climate model output of the Coupled Model Inter-comparison Project Phase 5 (CMIP5) to assess climate change impacts on sorghum yields and to evaluate the marginal cost-benefit of different fertility scenarios and varieties as adaptation options to climate change"
+
+"In the Sudanian region of Mali where sorghum is an important crop, inorganic fertilizer use is limited due to the high cost and limited availability, and limited soil moisture availability. However, fertilizers from livestock and poultry manure are largely available. This study evaluated different fertilizer response scenarios which will combine both organic and inorganic sources. Our target is to increase productivity (grain and biomass). Biomass so produced could further be used as a source of feed for the livestock and vice-versa. Furthermore, data collected from different agro-ecologies will be used to set up crop simulation models with climate model output of the Coupled Model Inter-comparison Project Phase 5 (CMIP5) to assess climate change impacts on sorghum yields and to evaluate the marginal cost-benefit of different fertility scenarios and varieties as adaptation options to climate change"
   
   uri <- "doi:10.7910/DVN/SGHJ3J"
   group <- "agronomy"
@@ -13,9 +20,8 @@ carob_script <- function(path) {
     publication = NA,
     project = NA,
     data_type = "experiment",
-    # treatment_vars has semi-colon separated variable names that represent the
-    # treatments if the data is from an experiment. E.g. "N_fertilizer;P_fertilizer;K_fertilizer"
-    treatment_vars = NA,
+    treatment_vars = "N_fertilizer;P_fertlizer;OM_applied",
+	response_vars = "yield",
     carob_contributor = "Hope Takudzwa Mazungunye",
     carob_date = "2024-07-18"
   )
@@ -48,10 +54,10 @@ carob_script <- function(path) {
   )
   d1$crop[d1$variety %in% c("Fadda", "Tieble","Soumba")]<- "sorghum"
   d1$site <- "Bougouni"
-  d1$trial_id[d1$site=="Bougouni"]<-"1"
-  d1$longitude[d1$site=="Bougouni"]<- as.numeric("-7.48323")
-  d1$latitude[d1$site=="Bougouni"]<- as.numeric("11.41768")
-  d1$elevation[d1$site=="Bougouni"]<- as.numeric("344")
+  d1$trial_id[d1$site=="Bougouni"] <-"1"
+  d1$longitude[d1$site=="Bougouni"] <- -7.48323
+  d1$latitude[d1$site=="Bougouni"] <- 11.41768
+  d1$elevation[d1$site=="Bougouni"] <- 344
   d2 <- data.frame(
     variety=r2$Sorghum,
     planting_date=r2$Year,
@@ -66,10 +72,10 @@ carob_script <- function(path) {
   )
   d2$crop[d2$variety %in% c("Fadda", "Tieble","Soumba")]<- "sorghum"
   d2$site <- " Koutiala"
-  d2$trial_id[d2$site=="Koutiala"]<- "2"
-  d2$longitude[d2$site=="Koutiala"]<- as.numeric("-5.7168")
-  d2$latitude[d2$site=="Koutiala"]<- as.numeric("12.6666")
-  d2$elevation[d2$site=="Koutiala"]<- as.numeric("351")
+  d2$trial_id[d2$site=="Koutiala"] <- "2"
+  d2$longitude[d2$site=="Koutiala"] <- -5.7168
+  d2$latitude[d2$site=="Koutiala"]<- 12.6666
+  d2$elevation[d2$site=="Koutiala"] <- 351
   ## geolocation data for this site "Koutiala" is is coming off as NA's. Assistance required. 
   ## I have so far ommitted the weather data sheets d3 and d4 as i cannot merge with the agronomic datasheets. 
   #d3 <- data.frame(
@@ -107,9 +113,9 @@ carob_script <- function(path) {
   d5$crop[d5$variety %in% c("Fadda", "Tieble","Soumba")]<- "sorghum"
   d5$site <- "Samako"
   d5$trial_id[d5$site=="Samako"]<- "3"
-  d5$longitude[d5$site=="Samako"]<- as.numeric("-5.7168")
-  d5$latitude[d5$site=="Samako"]<- as.numeric("12.6666")
-  d5$elevation[d5$site=="Samako"]<- as.numeric("351")
+  d5$longitude[d5$site=="Samako"]<- -5.7168
+  d5$latitude[d5$site=="Samako"]<- 12.6666
+  d5$elevation[d5$site=="Samako"]<- 351
   
   d <-carobiner::bindr(d1,d2,d5)
   d$on_farm <- TRUE 
@@ -121,8 +127,4 @@ carob_script <- function(path) {
   d$yield_part <- "grain"
     carobiner::write_files(path, dset, d)
 }
-
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
 
