@@ -14,7 +14,7 @@ carob_script <- function(path) {
 		carobiner::read_metadata(uri, path, group=group, major=2, minor=0),
 		data_institute = "CIMMYT",
 		publication=NA,
-		project="IWIN",
+		project="Karnal Bunt Screening Nursery",
 		data_type= "experiment",
 		response_vars = "yield",
 		treatment_vars = "variety_code",
@@ -27,4 +27,4 @@ carob_script <- function(path) {
 	d$crop <- "wheat"
 	
 	carobiner::write_files(path, meta, d)
-	}
+}
