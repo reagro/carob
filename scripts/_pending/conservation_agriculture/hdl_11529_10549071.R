@@ -3,6 +3,9 @@
 ## ISSUES
 # Treatment contains numbers with no description on what the numbers mean
 
+# RH: The treatment is avaialble in variables: Crop_rotation, Till, Residue
+
+
 
 carob_script <- function(path) {
 
@@ -10,61 +13,39 @@ carob_script <- function(path) {
 
 "
 
-## Identifiers
 	uri <- "hdl:11529/10549071"
 	group <- "agronomy"
-
-## Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 
-## metadata 
 	meta <- data.frame(
 		# change the major and minor versions if you see a warning
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIMMYT",
-		# if there is a paper, include the paper's doi here
-		# also add a RIS file in references folder (with matching doi)
 		publication = NA,
 		project = NA,
-		# data_type can be e.g. "on-farm experiment", "survey", "compilation"
 		data_type = "experiment",
-		# treatment_vars has semi-colon separated variable names that represent the
-		# treatments if the data is from an experiment. E.g. "N_fertilizer;P_fertilizer;K_fertilizer"
-		treatment_vars = "treatment",
-		# response variables of interest such as yield, fwy_residue, disease incidence, etc. Do not include variable that describe management for all treatments or other observations that were not related to the aim of the trial (e.g. the presence of a disease).
+		treatment_vars = NA,
 		response_vars = "yield", 
 		carob_contributor = "Shumirai Manzvera",
 		carob_date = "2024-07-30"
 	)
 	
-## read data 
-
 	f <- ff[basename(ff) == "ConsAgri__Yield_Mexico2013-2020.xlsx"]
-  r <- carobiner::read.excel(f, sheet="Data field experiments")
-  r1 <- carobiner::read.excel(f, sheet="Data farmer's fields")
+	r <- carobiner::read.excel(f, sheet="Data field experiments")
+	r1 <- carobiner::read.excel(f, sheet="Data farmer's fields")
 
-## select the variables of interest and assign them to the correct name
 	d0 <- data.frame(
 	
-## make sure that names are normalized (proper capitalization, spelling, no additional white space).
-## you can use carobiner::fix_name()
-## first use "location", then use "site"
-	
 		adm2 = r$Site,
-    rep =as.integer(r$Repetition),
-    crop=tolower(r$Crop),
-    crop_rotation=tolower(r$Crop_rotation),
-    land_prep_method=r$Till, #conventional=conv till, wide permanent beds="Permanent wide beds"
+		rep =as.integer(r$Repetition),
+		crop=tolower(r$Crop),
+		crop_rotation=tolower(r$Crop_rotation),
+		land_prep_method=r$Till, #conventional=conv till, wide permanent beds="Permanent wide beds"
 	## the treatment code/description (if any)	
 		 treatment =as.character(r$Treatment), #there's no description of the treatment method,
-	   rain=NA
 	)
-	d1 <- data.frame(
-	  
-	  ## make sure that names are normalized (proper capitalization, spelling, no additional white space).
-	  ## you can use carobiner::fix_name()
-	  ## first use "location", then use "site"
-	  
+
+	d1 <- data.frame( 
 	  adm2 = r1$Municipality,
 	  rep=NA,
 	  crop=tolower(r1$Crop),
@@ -74,7 +55,9 @@ carob_script <- function(path) {
 	  treatment =as.character(r1$Treatment ),
 	  rain=r1$PP
 	)
-d <- carobiner::bindr(d0, d1)
+
+	d <- carobiner::bindr(d0, d1)
+
 # fixing bad data
 	d$crop[d$crop=="bean"]<-"common bean"
 	d$land_prep_method[d$land_prep_method=="Conventional Tillage"]<-"conventional"
@@ -115,11 +98,6 @@ d <- carobiner::bindr(d0, d1)
 	
 
 	d$planting_date <- "2013"
-### in general, add comments to your script if computations are
-### based on information gleaned from metadata, a publication, 
-### or when they are not immediately obvious for other reasons
-
-### Yield
 
 	yield <- r$`Yield (kg/ha)`
 	#what plant part does yield refer to?
@@ -127,11 +105,6 @@ d <- carobiner::bindr(d0, d1)
 	d$country <- "Mexico"
 	
 	
-# all scripts must end like this
 	carobiner::write_files(path, meta, d)
 }
-
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
 
