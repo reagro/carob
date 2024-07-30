@@ -1,19 +1,24 @@
 # R script for "carob"
 
+# NOTE 
+# needs to include crop data (yield !)
+# also needs processing of crop nutrient contend
 
 carob_script <- function(path) {
-    "Nutrient Omission Trials (NOTs) from three states in Nigeria. Six treatments, yield, soil and ear leaf, stover and grain nutrient contents (2016)"
-  uri <- "hdl:11529/10548238" 
-	group <- "soil_samples"
+
+"Nutrient Omission Trials (NOTs) from three states in Nigeria. Six treatments, yield, soil and ear leaf, stover and grain nutrient contents (2016)"
+
+	uri <- "hdl:11529/10548238" 
+	group <- "agronomy"
 	ff  <- carobiner::get_data(uri, path, group)
   
-meta <- data.frame(
+	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		data_institute = "CIMMYT",
-		#publication= "doi:10.3390/su10051610",
+		publication= "doi:10.3390/su10051610",
 		project="NG 2015 2016 NOTs soil leaf yield database",
 		data_type= "experiment",
-		#treatment_vars = "NPK_fertilizer;Urea_fertilizer;DAP_fertilizer;NPK_fertilizer;SSP_fertilizer",
+		treatment_vars = "NPK_fertilizer;Urea_fertilizer;DAP_fertilizer;NPK_fertilizer;SSP_fertilizer",
 		carob_contributor= "Andrew Sila",
 		carob_date="2024-07-29"
 	)
@@ -30,7 +35,7 @@ meta <- data.frame(
 	# Remove the first row with colnames now 
 	r <- r[-1,]
   # Remove row with NA
-  r <- r[-which(is.na(r$`N (%)`)== TRUE),]
+	r <- r[-which(is.na(r$`N (%)`)),]
 	
   	# Get required columns with data	
 	d <- data.frame(
