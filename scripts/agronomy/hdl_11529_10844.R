@@ -1,7 +1,5 @@
 # R script for "carob"
 
-#RH: treatments need to be present as variables
-
 carob_script <- function(path) {
 
 "The present data is from a long-term trial set at Msekera Research Station in Zambia to monitor and evaluate the the longer term effects of conservation agriculture practices on soil quality, soil water dynamics, weeds, pests/diseases and crop yield. The treatments set to investigate this are: T1: Control plot 1 (CPM1); traditional farmers practice mouldboard plough on the flat, maize as a sole crop, no residue retention, stubble incorporated into the row for the following season. T2: Control plot 2 (CPM2); ridge and furrow system dug by hand, maize as a sole crop, no residue retention, stubble incorporated into the row for the following season T3: Basins (BAM), residue retention on the surface, maize as a sole crop T4: Dibble stick (DISM), residue retention on the surface, maize as a sole crop T5: Direct seeder (DSM), residue retention on the surface, maize as a sole crop T6: Direct seeding maize/cowpea intercropping (DS-M/C), 90cm rows, residue retention on the surface T7: Direct seeding cowpea (Cowpea-maize rotation) (DS-MC), residue retention on the surface T8:Direct seeding maize (Maize-cowpea rotation) (DS-CM), residue retention on the surface T9:Direct seeding soya (Soybean-maize r otation) (DS-MS), residue retention on the surface T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on the surface. The present data set is from 2012 to 2016. (2016)"
@@ -73,7 +71,7 @@ carob_script <- function(path) {
 	d$intercrops <- ifelse(d$treatment %in% c("DS-M/C"), "cowpea", NA)
 	d$residue_prevcrop_used <- ifelse(d$treatment %in% c("CPM", "CPM1", "CRFM", "CPM2"), FALSE, TRUE)
 	d$planting_method <- ifelse(d$treatment %in% c("DiSM", "DISM"), "dibbling",
-	                            ifelse(grepl(c("DS"), d$treatment), "line sowing; mechanized", NA))
+	                     ifelse(grepl(c("DS"), d$treatment), "mechanized line sowing", NA))
 	d$row_spacing <- ifelse(d$treatment %in% c("DS-M/C"), 90, NA)
 	d$seed_density <- 44444
 	
