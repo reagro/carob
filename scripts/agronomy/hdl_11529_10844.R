@@ -13,15 +13,18 @@ carob_script <- function(path) {
 	dset <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=1),
 		data_institute = "CIMMYT",
-		publication = "doi.org/10.1016/j.agee.2021.107812", # Seems also doi_10.1017_S1742170521000028 refers to this dataset?
+		# Seems also doi_10.1017_S1742170521000028 refers to this dataset?
+		publication = "doi.org/10.1016/j.agee.2021.107812", 
 		project = NA,
 		data_type = "on-farm experiment",
 		carob_contributor = "Blessing Dzuda",
-		treatment_vars = "land_prep_method; intercrops; residue_prevcrop_used; planting_method; previous_crop", # If trial_id == 1 for all, then planting_date needs to be added here
+		# If trial_id == 1 for all, then planting_date needs to be added here
+		treatment_vars = "land_prep_method; intercrops; residue_prevcrop_used; planting_method; previous_crop",
 		response_vars = "yield; dmy_total",
 		carob_date = "2024-05-03",
 		last_modified = "2024-07-31"
 	)
+
 
 
 	f <- ff[basename(ff) == "Msekera 2012.2016.xlsx"]
@@ -43,7 +46,6 @@ carob_script <- function(path) {
 
 	
 ### LEGUME TRIAL
-
 	d2 <- data.frame(
 		trial_id = "2",
 		treatment=r2$Label,
@@ -66,8 +68,8 @@ carob_script <- function(path) {
 	
 	# Management
 	d$land_prep_method <- ifelse(d$treatment %in% c("CPM", "CPM1", "CRFM"), "conventional tilled beds", 
-	                             ifelse(d$treatment %in% c("CPM2"), "ridge tillage",
-	                                    ifelse(d$treatment %in% c("BAM"), "basins", NA)))
+	                      ifelse(d$treatment %in% c("CPM2"), "ridge tillage",
+	                      ifelse(d$treatment %in% c("BAM"), "basins", NA)))
 	d$intercrops <- ifelse(d$treatment %in% c("DS-M/C"), "cowpea", NA)
 	d$residue_prevcrop_used <- ifelse(d$treatment %in% c("CPM", "CPM1", "CRFM", "CPM2"), FALSE, TRUE)
 	d$planting_method <- ifelse(d$treatment %in% c("DiSM", "DISM"), "dibbling",
@@ -93,42 +95,48 @@ carob_script <- function(path) {
 	
 	# EGB:
 	# # implement the crop rotations
+	
 	d$crop <- ifelse(d$treatment %in% c("CPM", "CPM1", "CRFM", "CPM2", "BAM", "DiSM", "DISM", "DSM", "DS-M/C"), "maize",
-	                 ifelse(d$treatment %in% c("DS-MC", "DS-MS") & as.integer(d$planting_date) %in% c(2012, 2014, 2016), "maize",
-	                        ifelse(d$treatment %in% c("DS-MC") & as.integer(d$planting_date) %in% c(2013, 2015), "cowpea", "soybean")))
-	d$previous_crop <- ifelse(d$treatment %in% c("CPM", "CPM1", "CRFM", "CPM2", "BAM", "DiSM", "DISM", "DSM", "DS-M/C"), "maize",
-	                          ifelse(d$treatment %in% c("DS-MC", "DS-MS") & as.integer(d$planting_date) %in% c(2013, 2015), "maize",
-	                                 ifelse(d$treatment %in% c("DS-MC") & as.integer(d$planting_date) %in% c(2014, 2016), "cowpea", "soybean")))
+	          ifelse(d$treatment %in% c("DS-MC", "DS-MS") & as.integer(d$planting_date) %in% c(2012, 2014, 2016), "maize",
+	          ifelse(d$treatment %in% c("DS-MC") & as.integer(d$planting_date) %in% c(2013, 2015), "cowpea", "soybean")))
+	d$previous_crop <- 
+              ifelse(d$treatment %in% c("CPM", "CPM1", "CRFM", "CPM2", "BAM", "DiSM", "DISM", "DSM", "DS-M/C"), "maize",
+	          ifelse(d$treatment %in% c("DS-MC", "DS-MS") & as.integer(d$planting_date) %in% c(2013, 2015), "maize",
+	          ifelse(d$treatment %in% c("DS-MC") & as.integer(d$planting_date) %in% c(2014, 2016), "cowpea", "soybean")))
+
 	# # implement trial_id
 	# # If each year is a different implementation of the experiment then:
-	for (year in seq_along(unique(d$planting_date))) {d$trial_id[grepl(unique(d$planting_date)[year], d$planting_date)] <- year}
+#	for (year in seq_along(unique(d$planting_date))) {
+#		d$trial_id[grepl(unique(d$planting_date)[year], d$planting_date)] <- year
+#	}
 	# # else:
 	# d$trial_id <- 1
+	d$trial_id <- as.character(as.integer(as.factor(paste(d$crop, d$planting_date))))
 	
 	# # dates
 	d$planting_date <- ifelse(d$planting_date == 2012, "2012-12-13",
-	                          ifelse(d$planting_date == 2013, "2013-12-24",
-	                                 ifelse(d$planting_date == 2014, "2015-01-02",
-	                                        ifelse(d$planting_date == 2015, "2015-12-21", "2016-11-30"))))
+	                   ifelse(d$planting_date == 2013, "2013-12-24",
+	                   ifelse(d$planting_date == 2014, "2015-01-02",
+	                   ifelse(d$planting_date == 2015, "2015-12-21", "2016-11-30"))))
 	d$harvest_date <- ifelse(d$planting_date == "2012-12-13", "2013-05-01",
-	                         ifelse(d$planting_date == "2013-12-24", "2014-05-09",
-	                                ifelse(d$planting_date == "2015-01-02", "2015-06-02",
-	                                       ifelse(d$planting_date == "2015-12-21", "2016-05-08", "2017-05-08"))))
+	                  ifelse(d$planting_date == "2013-12-24", "2014-05-09",
+	                  ifelse(d$planting_date == "2015-01-02", "2015-06-02",
+	                  ifelse(d$planting_date == "2015-12-21", "2016-05-08", "2017-05-08"))))
 
 	# EGB:
 	# # Descriptive treatments
 	d$treatment <- ifelse(d$treatment %in% c("CPM", "CPM1", "CRFM"), "Control plot 1 (CP); traditional farmers practice mouldboard plough on the flat, maize as a sole crop, no residue retention, stubble incorporated into the row for the following season.", 
-	                      ifelse(d$treatment %in% c("DiSM", "DISM"), "Dibble stick (DiS), residue retention on the surface, maize as a sole crop",
-	                             ifelse(d$treatment %in% c("CPM2"), "Control plot 2 (CP2); ridge and furrow system dug by hand, maize as a sole crop, no residue retention, stubble incorporated into the row for the following season",
-	                                    ifelse(d$treatment %in% c("BAM"), "Basins (BAM), residue retention on the surface, maize as a sole crop",
-	                                           ifelse(d$treatment %in% c("DSM"), "Direct seeder (DS), residue retention on the surface, maize as a sole crop",
-	                                                  ifelse(d$treatment %in% c("DS-MC"), "Direct seeding cowpea (Cowpea-maize rotation) (DS-MC), residue retention on the surface",
-	                                                         ifelse(d$treatment %in% c("DS-M/C"), "Direct seeding maize/cowpea intercropping (DS-M+C),  residue retention on the surface",
-	                                                                ifelse(d$treatment %in% c("DS-MS"), "Direct seeding with maize-soybean (DS-MSy), residue retention on the surface", NA))))))))
+	               ifelse(d$treatment %in% c("DiSM", "DISM"), "Dibble stick (DiS), residue retention on the surface, maize as a sole crop",
+	               ifelse(d$treatment %in% c("CPM2"), "Control plot 2 (CP2); ridge and furrow system dug by hand, maize as a sole crop, no residue retention, stubble incorporated into the row for the following season",
+	               ifelse(d$treatment %in% c("BAM"), "Basins (BAM), residue retention on the surface, maize as a sole crop",
+	               ifelse(d$treatment %in% c("DSM"), "Direct seeder (DS), residue retention on the surface, maize as a sole crop",
+	               ifelse(d$treatment %in% c("DS-MC"), "Direct seeding cowpea (Cowpea-maize rotation) (DS-MC), residue retention on the surface",
+	               ifelse(d$treatment %in% c("DS-M/C"), "Direct seeding maize/cowpea intercropping (DS-M+C),  residue retention on the surface",
+	               ifelse(d$treatment %in% c("DS-MS"), "Direct seeding with maize-soybean (DS-MSy), residue retention on the surface", NA))))))))
 	
-	d$dataset_id <- carobiner::simple_uri(uri)
-	
+
+	d <- d[!is.na(d$yield), ]
+		
 	carobiner::write_files(path, dset, d)
 }
 
-# carob_script(path)
