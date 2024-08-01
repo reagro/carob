@@ -1,7 +1,7 @@
 # R script for "carob"
 
 ## ISSUES
-# ....
+# if there are remaining issues, please put these in "meta$notes"
 
 
 carob_script <- function(path) {
@@ -34,7 +34,8 @@ copy and paste the abstract from the repository. Do not add line breaks
 		# response variables of interest such as yield, fwy_residue, disease incidence, etc. Do not include variable that describe management for all treatments or other observations that were not related to the aim of the trial (e.g. the presence of a disease).
 		response_vars = "", 
 		carob_contributor = "Your Name",
-		carob_date = "2024-01-01"
+		carob_date = "2024-01-01",
+		notes = ""
 	)
 	
 ## read data 
