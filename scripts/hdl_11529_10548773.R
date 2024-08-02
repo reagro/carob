@@ -73,12 +73,19 @@ carob_script <- function(path) {
 	 
 	d$planting_date <- "2019"
 	d$crop <- "rice" 
-	d$latitude <- 20.5937
-	d$longitude <-78.9629
-	d$geo_from_source <- FALSE 
+	
+	# paper states location is at  "Borlaug Institute for South Asia (BISA)-CIMMYT, Ladhowal (30.99 °N latitude, 75.44 °E longitude, 229 m amsl), Punjab, India." 
+	# But the BISA is at 30.99, 75.735
+	d$country  <-  "India"
+	d$adm1 <- "Punjab"
+	d$location <- "Ladhowal"
+	d$site <- "Borlaug Institute for South Asia"
+	d$latitude <- 30.992
+	d$longitude <- 75.735
+	d$elevation <- 229
+	d$geo_from_source <- FALSE # ? TRUE because from article, but improved so it is FALSE
 	d$is_survey <- FALSE 
 	d$yield_part  <-  "grain"
-	d$country  <-  "India"
 	d$trial_id <- "1"
 	
 	d$on_farm <- TRUE
