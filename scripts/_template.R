@@ -78,6 +78,8 @@ copy and paste the abstract from the repository. Do not add line breaks
 ## see carobiner::geocode
 	d$longitude <- 
 	d$latitude <- 
+# are the coordinates from the source (data/publication) or estimated by you?	
+	d$geo_from_source <- TRUE/FALSE
 
 
 ## time can be year ("2023", four characters), year-month ("2023-07", 7 characters) or date ("2023-07-21", 10 characters).
