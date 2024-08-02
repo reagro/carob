@@ -82,12 +82,13 @@ carob_script <- function(path) {
 	d$site <- "Borlaug Institute for South Asia"
 	d$latitude <- 30.992
 	d$longitude <- 75.735
+	d$geo_uncertainty <- 1000
 	d$elevation <- 229
 	d$geo_from_source <- FALSE # ? TRUE because from article, but improved so it is FALSE
 	d$is_survey <- FALSE 
 	d$yield_part  <-  "grain"
 	d$trial_id <- "1"
-	
+		
 	d$on_farm <- TRUE
 	d$irrigated <- TRUE
 
