@@ -1,96 +1,89 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
-
 carob_script <- function(path) {
 
-"
-A field study was framed in rice crop under conservation agriculture (CA) based rice-wheat system at experimental farm of Borlaug Institute for South Asia (BISA)-CIMMYT, Ladhowal, Punjab, India during kharif 2019. In the present study, nine treatments were imposed out of which four are CA-based treatments (ZT-N0, ZT-N50, ZT-N75 and ZT-N100), four are CA coupled with subsurface drip fertigation (CA+) based treatments (SSD-N0,SSD-N50, SSD-N75 and SSD-N100) and puddled transplanted rice (PTR) treatment as farmer’s practice. The findings of the study showed that PTR treatment out yielded in terms of yield attributing characters and biological yield than other treatments. CA+ treatment (SSD-N100) resulted higher biological yield (2.8%) than CA-based treatments (ZT-N100). SSD-N100 dominated ZT-N100 and PTR treatment in terms of plant N content (both grain and straw), total N uptake and N harvest index. PTR treatment resulted 22-33% higher ANUE than ZT-N100 and SSD-N100 treatments. (2020-12-01)
-"
+"A field study was framed in rice crop under conservation agriculture (CA) based rice-wheat system at experimental farm of Borlaug Institute for South Asia (BISA)-CIMMYT, Ladhowal, Punjab, India during kharif 2019. In the present study, nine treatments were imposed out of which four are CA-based treatments (ZT-N0, ZT-N50, ZT-N75 and ZT-N100), four are CA coupled with subsurface drip fertigation (CA+) based treatments (SSD-N0,SSD-N50, SSD-N75 and SSD-N100) and puddled transplanted rice (PTR) treatment as farmer’s practice. The findings of the study showed that PTR treatment out yielded in terms of yield attributing characters and biological yield than other treatments. CA+ treatment (SSD-N100) resulted higher biological yield (2.8%) than CA-based treatments (ZT-N100). SSD-N100 dominated ZT-N100 and PTR treatment in terms of plant N content (both grain and straw), total N uptake and N harvest index. PTR treatment resulted 22-33% higher ANUE than ZT-N100 and SSD-N100 treatments. (2020-12-01)"
 
-## Identifiers
 	uri <- "hdl:11529/10548773"
 	group <- "agronomy"
 
-## Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 
-## metadata 
 	meta <- data.frame(
-		# change the major and minor versions if you see a warning
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		data_institute = "CIMMYT",
-		# if there is a paper, include the paper's doi here
-		# also add a RIS file in references folder (with matching doi)
-		publication = "doi.org/10.56093/ijas.v91i4.112625",
+		publication = "doi:10.56093/ijas.v91i4.112625",
 		project = NA,
-		# data_type can be e.g. "on-farm experiment", "survey", "compilation"
 		data_type = "experiment",
-		# treatment_vars has semi-colon separated variable names that represent the
-		# treatments if the data is from an experiment. E.g. "N_fertilizer;P_fertilizer;K_fertilizer"
-		treatment_vars = "treatment",
-		# response variables of interest such as yield, residue_yield, disease incidence, etc. Do not include variable that describe management for all treatments or other observations that were not related to the aim of the trial (e.g. the presence of a disease).
-		response_vars = "yield", 
-		carob_contributor = "Shumirai Manzvera ",
+		treatment_vars = "N_fertilizer;land_prep_method;irrigation_method;planting_method",
+		response_vars = "yield;grain_N;residue_N", 
+		carob_contributor = "Shumirai Manzvera",
 		carob_date = "2024-08-01"
 	)
 	
-## read data 
-
 	f <- ff[basename(ff) == "CIMMYT Data.xlsx"]
-  r <- carobiner::read.excel(f, sheet= "IJAS-Rana", skip=1 )
+  h <- carobiner::read.excel(f, sheet= "IJAS-Rana")[1,]
 
-## select the variables of interest and assign them to the correct name
-  #fixing dataframe
+  r <- carobiner::read.excel(f, sheet= "IJAS-Rana", skip=1 )
  
-  r1 <- r[,c('Treatment', 'Biological yield (t/ha)', '...4', '...5')]
-  r1 <- r[,c('Treatment', 'Biological yield (t/ha)', '...4', '...5')]
-  names (r1) <- c('Treatment', 'R1', 'R2', 'R3')
-  r1 <- r1[-1,]
-  r1.1 <- data.table::melt(r1, id.vars = 'Treatment', variable.name = 'Rep', value.name = 'yield')
-  
-  r2 <- r[,c('Treatment', 'N grain content (%) at harvest', '...28', '...29')]
-  names (r2) <- c('Treatment', 'R1', 'R2', 'R3')
-  r2 <- r2[-1,]
-  r2.1 <- data.table::melt(r2, id.vars = 'Treatment', variable.name = 'Rep', value.name = 'grain_N')
-  
-  r3 <- r[,c('Treatment', 'N straw content (%) at harvest', '...32', '...33')]
-  names (r3) <- c('Treatment', 'R1', 'R2', 'R3')
-  r3 <- r3[-1,]
-  r3.1 <- data.table::melt(r3, id.vars = 'Treatment', variable.name = 'Rep', value.name = 'residue_N')
-  
-  
-  d0 <- merge(r1.1, r2.1 , by = c("Treatment","Rep") ,all.x=TRUE)
-  d <- merge(d0, r3.1 , by = c("Treatment","Rep") ,all.x=TRUE)
+    rr <- r[-1,]
+    r1 <- rr[, c(1, which(r[1,] == "R1"))]
+    r2 <- rr[, c(1, which(r[1,] == "R2"))]
+    r3 <- rr[, c(1, which(r[1,] == "R3"))]
+	colnames(r2) <- colnames(r3) <- colnames(r1)
+	r1$rep <- 1L
+	r2$rep <- 2L
+	r3$rep <- 3L
+	x <- rbind(r1, r2, r3)
+
+	d <- data.frame(
+		treatment = x$Treatment,
+		rep = x$rep,
+		yield = as.numeric(x$`Biological yield (t/ha)`) * 1000,
+		harvest_index = as.numeric(x$`Harvest index (%)`),
+		grain_N = as.numeric(x$`N grain content (%) at harvest`) * 10,
+		residue_N = as.numeric(x$`N straw content (%) at harvest`) * 10
+	)
  
-  d$planting_date <- "2019"
-  d$crop <- "rice" 
+	d$variety <- "PR 126" 
+	d$plot_length <- 25
+	d$plot_width <- 5.4 
+	
+	d$N_fertilizer <- 0
+	d$N_fertilizer[grep("N75", d$treatment)] <- 75
+	d$N_fertilizer[grep("112.5", d$treatment)] <- 112.5
+	d$N_fertilizer[grep("150", d$treatment)] <- 150
+	d$N_fertilizer[grep("PTR", d$treatment)] <- 120
+	d$N_splits <- 4L
+	d$N_splits[grep("PTR", d$treatment)] <- 3L
+	
+	# A common dose of 60 kg P2O5 + 40 kg K2O + 25 kg ZnSO4/ha  was  applied  as  basal  in  all  the ZTDSR plots
+	d$P_fertilizer <- 60 / 2.29
+	d$K_fertilizer <- 40 / 1.2051
+	d$Zn_fertilizer <- 25 / 2.74
+	
+	d$land_prep_method <- "none"
+	d$land_prep_method[grep("PTR", d$treatment)] <- "puddling"
+
+	d$irrigation_method <- "continuous flooding"
+	d$irrigation_method[grep("SSD", d$treatment)] <- "sub-surface drip"
+
+	d$planting_method <- "direct seeding"
+	d$planting_method[grep("PTR", d$treatment)] <- "transplanting"
+	 
+	d$planting_date <- "2019"
+	d$crop <- "rice" 
 	d$latitude <- 20.5937
 	d$longitude <-78.9629
-	d$yield <- as.numeric(d$yield )
-	d$yield <- d$yield * 1000
-	d$grain_N <- as.numeric(d$grain_N)
-	d$residue_N <- as.numeric(d$residue_N)
-	d$treatment <- d$Treatment
-	d$rep <- as.integer(d$Rep)
+	d$geo_from_source <- FALSE 
+	d$is_survey <- FALSE 
 	d$yield_part  <-  "grain"
 	d$country  <-  "India"
-	d$trial_id <- as.character(as.integer(as.factor("1")))
+	d$trial_id <- "1"
 	
-		
-	
-## about the data (TRUE/FALSE)
 	d$on_farm <- TRUE
 	d$irrigated <- TRUE
 
-
-# all scripts must end like this
 	carobiner::write_files(path, meta, d)
 }
-
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
 
