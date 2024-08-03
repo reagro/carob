@@ -74,7 +74,9 @@ carob_script <- function(path) {
     x <- reshape(dd, direction="long", varying =rsvars, v.names="severity", timevar="step")
     x$time <- date[x$step]
     x$id <- x$step <- NULL
-    
+    x$severity_scale <- "1-9"    
+	x$disease <- "rust"
+	
 	d[rsvars] <- NULL
 	
    carobiner::write_files (path, meta, d,timerecs=x)    
