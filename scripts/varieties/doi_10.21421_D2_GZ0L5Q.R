@@ -1,14 +1,14 @@
 # R script for "carob"
-## Note
+
 
 carob_script <- function(path) {
    
 " This dataset includes the research work carried out in evaluating rust disease resistance in Groundnut mini core accessions. The experiment was laid out in field during rainy seasons of 2012 and 2013 at ICRISAT, Patancheru, India. A total of 190 accessions (184 mini core plus two standard checks and two other checks) were screened for rust experiment. The trial was laid out in a randomized complete block design (RCBD) on June during both years with three replications on broad bed furrows. The size of the beds was 4.0 m×1.5 m and the mean planting density was 26.7plants/m2. Altogether, there were 80 plants/ replication for each accession, spread in two rows, and there were four rows for each bed. Precaution was taken to ensure uniform and proper depth of planting (5 cm). Standard agronomic and cultural practices were followed during the cropping season. Infector row method was followed by sowing one bed (4 rows) of TMV 2 (susceptible to rust) for every four beds of test materials. The pathological data (disease severity- based on disease rating scale 1-9) on rust infection @ 75, 90 and 105 days after sowing (DAS) intervals respectively were presented here. The data on pod yield (kg/ha) in disease plot was also presented here. " 
    
    uri <- "doi:10.21421/D2/GZ0L5Q"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "varieties" 
    ff  <- carobiner::get_data(uri, path, group)
+
    meta <- data.frame(
       carobiner::read_metadata(uri, path, group, major=1, minor=3), 
       data_institute = "ICRISAT", 
@@ -24,29 +24,35 @@ carob_script <- function(path) {
    ff <-ff[grep("xlsx",basename(ff))]
    
    process <- function(f){
-      
-      r <- carobiner::read.excel(f,na=c("Damage",NA))
-      names(r) <- gsub("Rust  at 105 Days After Sowing","Rust at 105Days After Sowing",names(r))
+      r <- carobiner::read.excel(f, na=c("Damage",NA))
+      names(r) <- gsub("Rust  at 105 Days After Sowing", "Rust at 105Days After Sowing", names(r))
       names(r) <- gsub("Genotye","Genotype",names(r))
-      d <- data.frame(
+      data.frame(
          variety = r$Genotype,
          diseases = "rust",
          yield= as.numeric(r$`Pod yield`),
-         trial_id= substr(gsub("xlsx", "", basename(f)),45,59),
-         planting_date= ifelse(grepl("2012",basename(f)),"2012-06-20","2013-06-20"),
+         trial_id= substr(gsub("xlsx", "", basename(f)), 45, 59),
+         planting_date= ifelse(grepl("2012", basename(f)), "2012-06-20", "2013-06-20"),
          plot_area= 2*4,
-         disease_severity = paste0(r$`Rust at 105Days After Sowing`,"(1-9)",collapse = NULL) ## rust at 105 days after planting
+		 ## rust at 105 days after planting
+         disease_severity = paste0(r$`Rust at 105Days After Sowing`, "(1-9)",collapse = NULL),
+		 rust75 = r$`Rust at 75 Days After Sowing`,
+		 rust90 = r$`Rust at 90 Days After Sowing`,
+		 rust105 = r$`Rust at 105Days After Sowing`
       )
-      d
    }
    
    d <- lapply(ff, process)
    d <- do.call(rbind,d)
    #  Removing one row with NA in yield
-   d <- unique(d[!is.na(d$yield),]) ## unique because the data contain duplicate rows
+   ## unique because the data contain duplicate rows
+   d <- unique(d[!is.na(d$yield),]) 
+	d$record_id <- 1:nrow(d)
+
    d$country <- "India"
-   d$adm1 <- "Hyderabad"
-   d$location <- "Patancheru" 
+   d$adm1 <- "Telangana"
+   d$location <- "Hyderabad"
+   d$site <- "Patancheru" 
    d$crop <- "groundnut"
    d$plant_density <- 26.7*10000 ## plants/ha
    d$irrigated <- FALSE ## rainy season
@@ -55,28 +61,21 @@ carob_script <- function(path) {
    d$inoculated <- FALSE
    d$yield_part <- "pod"
    d$geo_from_source <- FALSE
-   d$longitude  <- 78.2674254
-   d$latitude  <-  17.5286092
+   d$longitude  <- 78.2674
+   d$latitude  <-  17.5286
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
    ## Rust disease score at different time after planting
-   rdisease <- function(f){
-      r <- carobiner::read.excel(f)
-      names(r) <- gsub("Rust  at 105 Days After Sowing","Rust at 105Days After Sowing",names(r))
-      rsvars <- grep('^Rust', colnames(r), value=TRUE)
-      dd <- r[,rsvars]
-      dd$record_id <- 1:nrow(dd)
-      planting_date= as.Date(ifelse(grepl("2012",basename(f)),"2012-06-20","2013-06-20"))
-      date <- as.character(c(planting_date+75,planting_date+90, planting_date+105))
-      x <- reshape(dd, direction="long", varying =rsvars, v.names="severity", timevar="step")
-      x$time <- date[x$step]
-      x$id <- x$step <- NULL
-      x
-      }
-    X <- lapply(ff, rdisease)
-    X <- do.call(rbind,X)
-   
+    rsvars <- grep("^rust", colnames(d), value=TRUE)
+    dd <- d[, c("record_id", "planting_date", rsvars)]
+	dd$planting_date <- as.Date(dd$planting_date)
+	date <- as.character(c(dd$planting_date+75, dd$planting_date+90, dd$planting_date+105))
+    x <- reshape(dd, direction="long", varying =rsvars, v.names="severity", timevar="step")
+    x$time <- date[x$step]
+    x$id <- x$step <- NULL
     
-   carobiner::write_files (path, meta, d,timerecs=X)    
+	d[rsvars] <- NULL
+	
+   carobiner::write_files (path, meta, d,timerecs=x)    
 }
