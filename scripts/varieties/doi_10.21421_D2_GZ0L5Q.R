@@ -51,8 +51,8 @@ carob_script <- function(path) {
 
    d$country <- "India"
    d$adm1 <- "Telangana"
-   d$location <- "Hyderabad"
-   d$site <- "Patancheru" 
+   d$location <- "Patancheru"
+   d$site <-  "ICRISAT campus"
    d$crop <- "groundnut"
    d$plant_density <- 26.7*10000 ## plants/ha
    d$irrigated <- FALSE ## rainy season
@@ -61,8 +61,10 @@ carob_script <- function(path) {
    d$inoculated <- FALSE
    d$yield_part <- "pod"
    d$geo_from_source <- FALSE
-   d$longitude  <- 78.2674
-   d$latitude  <-  17.5286
+   d$longitude  <- 78.2739
+   d$latitude  <-  17.5119
+	d$geo_undertainty <- 1500
+   
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
