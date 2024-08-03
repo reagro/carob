@@ -5,14 +5,11 @@ carob_script <- function(path) {
 
 "Summary results and individual trial results from the International Late Yellow Hybrid - ILYH, (Elite Tropical Late Yellow Normal and QPM Hybrid Trial - CHTTY) conducted in 2006."
 
-## Identifiers
 	uri <- "hdl:11529/10560"
 	group <- "varieties_maize"
 
-## Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 
-## metadata 
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIMMYT",
@@ -24,8 +21,6 @@ carob_script <- function(path) {
 		carob_contributor = "Mitchelle Njukuya",
 		carob_date = "2024-08-01"
 	)
-	
-## read data 
 	
 	get_data <- function(fname, id, country, longitude, latitude, elevation, location, adm1, planting, harvest) {
 	  
@@ -70,7 +65,7 @@ carob_script <- function(path) {
   d7 <- get_data("06CHTTY27-1.xls", 8, "Vietnam", 105.75, 21.0333, 5, "Dan Phuong-Hatay", NA, "2007-07-29", "2007-11-03")
   d8 <- get_data("06CHTTY28-1.xls", 9, "Bolivia", -60.8, -15.4667, 205, "El Palmar", "Santa Cruz", "2006-12-06", "2007-04-12")
   d9 <- get_data("06CHTTY29-1.xls", 10, "Sudan", 32.8333, 14.4, 0, "Wad Medani", NA, "2007-07-29", "2007-11-06")
-  d10 <- get_data("06CHTTY33-1.xls", 11, "Bolivia", -62.95, 17.75, 380, "Cotoca", "Santa Cruz", "2006-12-04", "2007-04-10")
+  d10 <- get_data("06CHTTY33-1.xls", 11, "Bolivia", -62.95, -17.75, 380, "Cotoca", "Santa Cruz", "2006-12-04", "2007-04-10")
   d11 <- get_data("06CHTTY36-1.xls", 12, "Mexico", -96.1428, 19.1803, 15, "Cotaxtla", "Veracruz", "2006-09-27", "2007-01-30")
   
   d <- carobiner::bindr(d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11)
@@ -84,7 +79,8 @@ carob_script <- function(path) {
   d$irrigated <- FALSE
   
   d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
-  
+  d$geo_from_source <- TRUE
+
 	
 	carobiner::write_files(path, meta, d)
 }
