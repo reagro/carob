@@ -1,0 +1,80 @@
+# R script for "carob"
+
+
+carob_script <- function(path) {
+
+"Productivity and water use efficiency of Sorghum [Sorghum bi color (L.) Moench] grown under different nitrogen applications in Sudan Savanna Zone, Nigeria. To review the nutrient needs, especially N of some of selected sorghum varieties and their water use efficiency on marginal land."
+
+
+## Identifiers
+	uri <- "doi:10.21421/D2/NRCQKU"
+	group <- "agronomy"
+
+## Download data 
+	ff  <- carobiner::get_data(uri, path, group)
+
+## metadata 
+	meta <- data.frame(
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
+		data_institute = "ICRISAT",
+		publication = NA,
+		project = NA,
+		data_type = "experiment",
+		treatment_vars = "N_fertilizer",
+		response_vars = "yield", 
+		carob_contributor = "Mitchelle Njukuya",
+		carob_date = "2024-08-06",
+		notes = NA
+	)
+	
+## read data 
+
+	f <- ff[basename(ff) == "Data file of Sorghum grown under different nitrogen application in sudan savanna zone.xlsx"]
+	r <- carobiner::read.excel(f)
+
+## select the variables of interest and assign them to the correct name
+	d <- data.frame(
+		country = "Nigeria",
+		location = r$Location,
+		crop= "sorghum",
+		yield_part = "grain",
+		variety = r$Sorghum,
+		date = as.character(r$Year),
+		rep = as.integer(r$`Replication number`),
+		N_fertilizer = r$Nitrogen,
+		LAI = r$LAI_9WAP,
+		plant_height = r$PH_M_cm,
+		flowering_days = r$Flo_c_day,
+		maturity_days = r$Mat_c_day,
+		yield = r$GStdYld_c_Kgha,
+		dym_residue = r$`Stalk yield`,
+		seed_weight = r$GW_1000gmM_g
+	)
+	
+	d$P_fertilizer<-d$K_fertilizer<-as.numeric(NA)
+	
+	#co-ordinates obtained through carobiner::geocode function
+	d$longitude[d$location=="BUK"] <- 8.427
+	d$latitude[d$location=="BUK"] <- 11.9703
+	d$longitude[d$location=="Minjibir"] <- 8.6142
+	d$latitude[d$location=="Minjibir"] <- 12.1936
+	
+	d$location <- gsub("BUK","Bayero University Kano",d$location)
+	
+	d$trial_id <- as.character(as.integer(as.factor(1)))
+	
+## about the data (TRUE/FALSE)
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
+	d$irrigated <- FALSE
+	d$geo_from_source <- FALSE
+
+
+## Database stated the project started 2014-06-14 and ended 2015-12-25, there are no specific planting and harvesting dates
+	#d$planting_date <- as.character(as.Date(   ))
+	#d$harvest_date  <- as.character(as.Date(    ))
+
+	carobiner::write_files(path, meta, d)
+}
+
+
