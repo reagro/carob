@@ -76,7 +76,7 @@ carob_script <- function(path) {
    # since the data has not provided the exact planting date we are using Days After Planting (DAP)
    days <- rep(c(75, 90, 105), 2)
    x <- reshape(dd, direction="long", varying =dvars, v.names="disease_severity", timevar="step")
-   x$dap <- days[x$step]
+   x$DAP <- days[x$step]
    x$diseases <- ifelse(x$step < 4, "rust", "late leaf spot")
    x$severity_scale <- "1-9"    
    x$id <- x$step <- NULL
