@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
    
-   " Introgression lines (ILs) of groundnut with enhanced resistance to rust and late leaf spot (LLS) recorded increased pod and haulm yield in multilocation testing. Marker-assisted backcrossing (MABC) approach was used to introgress a genomic region containing a major QTL that explains >80% of phenotypic variance (PV) for rust resistance and 67.98% PV for LLS resistance. ILs in the genetic background of TAG-24, ICGV 91114 and JL 24 were evaluated for two seasons (Rainy 2013 and 2014) to select 20 best ILs based on resistance, productivity parameters and maturity duration. Multilocation evaluation of the selected ILs was conducted including disease hot spots. Disease incidence at these two locations is by natural infection wherein, both late leaf spot and rust occur together. The incidence of rust is severe at Aliyarnagar during the season, while LLS is moderate. In all the locations, infector rows of susceptible variety around the experimental plot and in between test entries ensured uniform spread of disease. Only the disease scores at Aliyarnagar, were considered for ANOVA as the scoring at Dharwad-Karnataka was recorded on single replication. Background genotype, environment and genotype X environment interactions are important for expression of resistance governed by the QTL region. Six best ILs namely ICGV13192, ICGV 13193, ICGV 13200, ICGV 13206, ICGV 13228 and ICGV 13229 were selected with 39–79% higher mean pod yield and 25-89% higher mean haulm yield over their respective recurrent parents. Pod yield increase was contributed by increase in seed mass and number of pods per plant. "
+"Introgression lines (ILs) of groundnut with enhanced resistance to rust and late leaf spot (LLS) recorded increased pod and haulm yield in multilocation testing. Marker-assisted backcrossing (MABC) approach was used to introgress a genomic region containing a major QTL that explains >80% of phenotypic variance (PV) for rust resistance and 67.98% PV for LLS resistance. ILs in the genetic background of TAG-24, ICGV 91114 and JL 24 were evaluated for two seasons (Rainy 2013 and 2014) to select 20 best ILs based on resistance, productivity parameters and maturity duration. Multilocation evaluation of the selected ILs was conducted including disease hot spots. Disease incidence at these two locations is by natural infection wherein, both late leaf spot and rust occur together. The incidence of rust is severe at Aliyarnagar during the season, while LLS is moderate. In all the locations, infector rows of susceptible variety around the experimental plot and in between test entries ensured uniform spread of disease. Only the disease scores at Aliyarnagar, were considered for ANOVA as the scoring at Dharwad-Karnataka was recorded on single replication. Background genotype, environment and genotype X environment interactions are important for expression of resistance governed by the QTL region. Six best ILs namely ICGV13192, ICGV 13193, ICGV 13200, ICGV 13206, ICGV 13228 and ICGV 13229 were selected with 39–79% higher mean pod yield and 25-89% higher mean haulm yield over their respective recurrent parents. Pod yield increase was contributed by increase in seed mass and number of pods per plant."
    
    uri <- "doi:10.21421/D2/FPFACD"
    dataset_id <- carobiner::simple_uri(uri)
@@ -15,7 +15,7 @@ carob_script <- function(path) {
       publication ="doi.org/10.1111/pbr.12358", 
       project = NA, 
       data_type = "experiment", 
-      response_vars = "yield",
+      response_vars = "yield;severity",
       treatment_vars = "variety", 
       carob_contributor = "Cedric Ngakou", 
       carob_date = "2024-08-04"
@@ -36,22 +36,20 @@ carob_script <- function(path) {
          location= substr(gsub("xlsx", "", basename(f)), 64, 70),
          shelling_percentage = r$Shelling.outturn,
          longitude= ifelse(grepl("Dharwad",basename(f)), 75.1332867, 77.09922),
-         latitude= ifelse(grepl("in Aliy",basename(f)), 27.42397, 15.3707296),
-         diseases = "rust;late leaf spot",
-         
-         ## rust and late leaf spot at 105 days after planting
-         disease_severity = apply(r[, c("Rust.severity.105", "Late.leaf.spot.severity.105")], 1, \(i) paste0(i, "(1-9)", collapse=";")),
-         
-         rustLLS75= paste(r$Rust.severity.75, r$Late.leaf.spot.severity.75, sep=";"),
-         rustLLS90= paste(r$Rust.severity.90, r$Late.leaf.spot.severity.90, sep=";"),
-         rustLLS105= paste(r$Rust.severity.105, r$Late.leaf.spot.severity.105, sep=";")
+         latitude= ifelse(grepl("in Aliy",basename(f)), 27.42397, 15.3707296),        
+         rust75= r$Rust.severity.75,
+         rust90= r$Rust.severity.90,
+         rust105= r$Rust.severity.105,
+         LLS75= r$Late.leaf.spot.severity.75,
+         LLS90= r$Late.leaf.spot.severity.90,
+         LLS105= r$Late.leaf.spot.severity.105
       )    
    }
    
    d <- lapply(ff, process)
    d <- do.call(rbind,d)
    
-   #  Removing one row with NA in yield
+   #  Removing two rows with NA in yield
    d <- d[!is.na(d$yield),]
    
    d$record_id <- 1:nrow(d)
@@ -73,17 +71,17 @@ carob_script <- function(path) {
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
    ## Rust and LLS disease score at different time after planting
-   rsvars <- grep("^rust", colnames(d), value=TRUE)
-   dd <- d[, c("record_id", "planting_date", rsvars)]
+   dvars <- grep("^rust|^LLS", colnames(d), value=TRUE)
+   dd <- d[, c("record_id", dvars)]
    # since the data has not provided the exact planting date we are using Days After Planting (DAP)
-   date <- as.character(c(75, 90, 105)) 
-   x <- reshape(dd, direction="long", varying =rsvars, v.names="severity", timevar="step")
-   x$time <- date[x$step]
-   x$id <- x$step <- NULL
+   days <- rep(c(75, 90, 105), 2)
+   x <- reshape(dd, direction="long", varying =dvars, v.names="disease_severity", timevar="step")
+   x$dap <- days[x$step]
+   x$diseases <- ifelse(x$step < 4, "rust", "late leaf spot")
    x$severity_scale <- "1-9"    
-   x$disease <- "rust;late leaf spot"
-   
-   d[rsvars] <-  NULL
+   x$id <- x$step <- NULL
+
+   d[dvars] <-  NULL
    
    carobiner::write_files (path, meta, d,timerecs=x)    
 }
