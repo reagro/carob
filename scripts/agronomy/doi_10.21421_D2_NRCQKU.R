@@ -45,7 +45,7 @@ carob_script <- function(path) {
 		seed_weight = r$GW_1000gmM_g
 	)
 	
-	d$P_fertilizer<-d$K_fertilizer<-as.numeric(NA)
+	d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	
 	#co-ordinates obtained through carobiner::geocode function
 	d$longitude[d$location=="BUK"] <- 8.427

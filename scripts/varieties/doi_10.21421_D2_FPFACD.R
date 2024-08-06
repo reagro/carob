@@ -35,8 +35,9 @@ carob_script <- function(path) {
          seed_weight = as.numeric(r$Hundred.seed.weight)* 10, ## 1000 seed weight,
          location= substr(gsub("xlsx", "", basename(f)), 64, 70),
          shelling_percentage = r$Shelling.outturn,
-         longitude= ifelse(grepl("Dharwad",basename(f)), 75.1332867, 77.09922),
-         latitude= ifelse(grepl("in Aliy",basename(f)), 27.42397, 15.3707296),        
+         longitude= ifelse(grepl("Dharwad",basename(f)), 75.1333, 77.0992),
+         latitude= ifelse(grepl("in Aliy",basename(f)), 27.4240, 15.3707),        
+		 geo_from_source=FALSE,
          rust75= r$Rust.severity.75,
          rust90= r$Rust.severity.90,
          rust105= r$Rust.severity.105,
@@ -54,6 +55,7 @@ carob_script <- function(path) {
    
    d$record_id <- 1:nrow(d)
    d$country <- "India"
+
    d$location[d$location=="in Aliy"] <- "Aliyar Nagar"
    d$adm1 <- "Karnataka"
    d$adm1[d$location=="Aliyar Nagar"] <- "Tamil Nadu"
@@ -61,7 +63,6 @@ carob_script <- function(path) {
    d$planting_date <- "2013"
    d$planting_date[d$rep==1] <- "2014"
    d$trial_id <- "1"
-   d$geo_from_source <- FALSE 
    d$irrigated <- FALSE ## rainy season
    d$on_farm <- TRUE
    d$is_survey <- FALSE
@@ -83,5 +84,5 @@ carob_script <- function(path) {
 
    d[dvars] <-  NULL
    
-   carobiner::write_files (path, meta, d,timerecs=x)    
+   carobiner::write_files (path, meta, d, timerecs=x)    
 }
