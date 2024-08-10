@@ -1,9 +1,8 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
-   
-" Medium-Duration Multi-location trial conducted under Post-season .The trial was aimed to test their adaptability, yield superiority, resistance and tolerance to biotic and abiotic stresses across the location which includes, Fud(Federal University Dutse, Nigeria) "
+
+"Medium-Duration Multi-location trial conducted under Post-season .The trial was aimed to test their adaptability, yield superiority, resistance and tolerance to biotic and abiotic stresses across the location which includes, Fud(Federal University Dutse, Nigeria)"
    
    uri <- "doi:10.21421/D2/THR8L8"
    dataset_id <- carobiner::simple_uri(uri)
@@ -21,7 +20,7 @@ carob_script <- function(path) {
       carob_date = "2024-08-09"
    )
    
-  r <- carobiner::read.excel.hdr(ff[basename(ff)=="Data file of medium duration multi-location trial post rainy in Fud.xlsx"],skip=0)
+  r <- carobiner::read.excel(ff[basename(ff)=="Data file of medium duration multi-location trial post rainy in Fud.xlsx"])
    
    d <- data.frame(
       rep= as.integer(r$Replication.number),
@@ -43,15 +42,15 @@ carob_script <- function(path) {
    d$location <- "Federal University Dutse"
    d$crop <- "groundnut"
    d$trial_id <- "1"
-   d$irrigated <- TRUE # post rainy season
-   d$on_farm <- TRUE
+   d$irrigated <- NA # post rainy season
+   d$on_farm <- FALSE
    d$is_survey <- FALSE
    d$inoculated <- FALSE
    d$geo_from_source <- FALSE
    d$yield_part <- "pod"
    
    d$planting_date <- "2015"
-   d$longitude  <- 9.33921
+   d$longitude  <- 9.3392
    d$latitude  <- 11.7594
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
