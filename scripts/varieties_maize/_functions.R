@@ -211,6 +211,7 @@ intmztrial_striga <- function(ff, sf=NULL) {
 	d$is_survey <- FALSE	
 	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	d$irrigated <- as.logical(NA)
-	
+	d$geo_from_source <- TRUE
+
 	d
 }
