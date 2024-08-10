@@ -651,35 +651,46 @@ proc_wheat <- function(ff) {
 	# more could be done. But we should not keep ALL CAPS
 	d$location <- carobiner::fix_name(d$location, "title")
 	d$location <- gsub(" Ltd$", " LTD", d$location)
+
+	d$geo_from_source <- TRUE
+	d$geo_from_source[is.na(d$latitude)|is.na(d$longitude)] <- NA
 	
 	i <- which(d$location == "Aurangabad, Gangapur, Ajeet Seeds LTD")
 	d$longitude[i] <- 75.0822
 	d$latitude[i] <- 19.6927
+	d$geo_from_source[i] <- FALSE
 	
 	i <- which(d$location == "Black Sea  A.R.I.")
 	d$longitude[i] <- 36.4889
 	d$latitude[i] <- 41.2335
+	d$geo_from_source[i] <- FALSE
 
 	i <- which(d$location == "Sanliurfa-Akcakale,  A.R.I")
 	d$latitude[i] <- 36.72
+	d$geo_from_source[i] <- FALSE
 
 	i <- d$location == "Bagh-E-Zakherah Taloqan, Aria"
 	d$longitude[i] <- 69.48988
+	d$geo_from_source[i] <- FALSE
 
 	i <- d$location == "Bardc, Quetta"
 	d$latitude[i] <- 30.193
+	d$geo_from_source[i] <- FALSE
 
 	i <- which(d$location == "Exp.Farm Kasapa, U.Lubumbashi")
 	d$location[i] <- "Exp. Farm Kasapa, University of Lubumbashi"
 	d$longitude[i] <- 27.4144
 	d$latitude[i] <- -11.5657
+	d$geo_from_source[i] <- FALSE
 
 	i <- which(d$location == "Lyamungo")
 	d$longitude[i] <- 37.249
 	d$latitude[i] <- -3.248
+	d$geo_from_source[i] <- FALSE
 
 	i <- grep("Karaj", d$location)
 	d$latitude[i] <- 35.802
+	d$geo_from_source[i] <- FALSE
 
 	tolow <- function(x) if (is.null(x)) NULL else tolower(x)
 

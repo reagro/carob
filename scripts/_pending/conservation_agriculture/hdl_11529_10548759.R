@@ -1,7 +1,5 @@
 # R script for "carob"
 
-
-
 carob_script <- function(path) 
 
 	uri <- "hdl:11529/10548759"
@@ -16,7 +14,7 @@ carob_script <- function(path)
 		publication= "doi:10.1002/ldr.4321",
 		data_institute = "CIMMYT",
    		data_type="on-farm experiment", # or, e.g. "on-farm experiment", "survey", "compilation"
-		carob_contributor="Hope Takudzwa Mazungunye", 
+		carob_contributor="Hope Mazungunye", 
 		carob_date="2023-08-02"
 	)
 

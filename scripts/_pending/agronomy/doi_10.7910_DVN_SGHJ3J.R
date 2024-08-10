@@ -22,7 +22,7 @@ carob_script <- function(path) {
     data_type = "experiment",
     treatment_vars = "N_fertilizer;P_fertlizer;OM_applied",
 	response_vars = "yield",
-    carob_contributor = "Hope Takudzwa Mazungunye",
+    carob_contributor = "Hope Mazungunye",
     carob_date = "2024-07-18"
   )
   
