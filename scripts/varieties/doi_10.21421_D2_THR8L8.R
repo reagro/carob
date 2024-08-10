@@ -20,7 +20,8 @@ carob_script <- function(path) {
       carob_date = "2024-08-09"
    )
    
-  r <- carobiner::read.excel(ff[basename(ff)=="Data file of medium duration multi-location trial post rainy in Fud.xlsx"])
+   f <- ff[basename(ff)=="Data file of medium duration multi-location trial post rainy in Fud.xlsx"]
+  r <- carobiner::read.excel(f, fix_names=TRUE)
    
    d <- data.frame(
       rep= as.integer(r$Replication.number),
