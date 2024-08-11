@@ -23,7 +23,6 @@ carob_script <- function(path) {
 	
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)	
-	d$crop <- "wheat"
 	
 	## yield much too high
 	i <- which(d$location %in% c("Sharkia Station", "Gujarat Agic Univ, Junagadh"))
