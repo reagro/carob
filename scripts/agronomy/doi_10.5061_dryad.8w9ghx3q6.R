@@ -1,13 +1,9 @@
 # R script for "carob"
 
-### Weather variables need to be clarified , there is no description.  
-
-
-
 
 carob_script <- function(path) {
    
- " The data set were generated through on-farm field trials that were established in Maluti-a-Phofung municipality, situated in the eastern Free State province of South Africa as part of a project entitled Innovations in Technology, Institutional and Extension Approaches towards Sustainable Agriculture and enhanced Food and Nutrition Security in Africa (Acronym-InnovAfrica). This project was implemented by a consortium of 16 institutions from Africa and Europe continents across six African countries (viz. Ethiopia, Kenya, Malawi, Rwanda, South Africa and Tanzania) from June 2017 to November 2021. Farmer-led trials were established for three planting seasons (2017/2018 to 2019/2020) to demonstrate, test and upscale the best-bet sustainable agricultural intensification practices for improved food and nutrition security in smallholder settings."
+"The data set were generated through on-farm field trials that were established in Maluti-a-Phofung municipality, situated in the eastern Free State province of South Africa as part of a project entitled Innovations in Technology, Institutional and Extension Approaches towards Sustainable Agriculture and enhanced Food and Nutrition Security in Africa (Acronym-InnovAfrica). This project was implemented by a consortium of 16 institutions from Africa and Europe continents across six African countries (viz. Ethiopia, Kenya, Malawi, Rwanda, South Africa and Tanzania) from June 2017 to November 2021. Farmer-led trials were established for three planting seasons (2017/2018 to 2019/2020) to demonstrate, test and upscale the best-bet sustainable agricultural intensification practices for improved food and nutrition security in smallholder settings."
    
    uri <- "doi:10.5061/dryad.8w9ghx3q6"
    group <- "agronomy"
@@ -22,7 +18,7 @@ carob_script <- function(path) {
       response_vars= "yield", 
       treatment_vars = "variety;intercrops", 
       carob_contributor= "Cedric Ngakou", 
-      carob_date="2024-08-10"
+      carob_date="2024-08-10"  
    )
    
    ff <- ff[grepl("xlsx", basename(ff))]
@@ -44,7 +40,7 @@ carob_script <- function(path) {
          crop= r1$Crop.species,
          variety= r1$Cultivar.variety,
          intercrops = ifelse(grepl("Maize/beans Intercrop",r1$Cropping.System)& r1$Crop.species=="maize", "common bean",
-                             ifelse(grepl("Maize/beans Intercrop",r1$Cropping.System)& r1$Crop.species=="Beans","maize","none")),
+                      ifelse(grepl("Maize/beans Intercrop",r1$Cropping.System)& r1$Crop.species=="Beans", "maize", "none")),
       
          planting_date= as.character(as.Date(r1$Plant.date, "%d/%m/%Y")),
          weeding_dates= paste0(as.Date(r1$First.weeding.date, "%d/%m/%Y"), ";", as.Date(r1$Second.weeding.date, "%d/%m/%Y")),
@@ -76,8 +72,8 @@ carob_script <- function(path) {
          latitude= r2$Latitute.degree,
          longitude= r2$Longitude.degree,
          elevation=  r2$altitude.m,
-         soil_sample_bottom= substr(r2$Depth,3,5),
-         soil_sample_top = substr(r2$Depth,1,2),
+         soil_sample_bottom= substr(r2$Depth, 3, 5),
+         soil_sample_top = substr(r2$Depth, 1, 2),
          soil_pH= as.numeric(r2$pH),
          soil_P_available= as.numeric(r2$P),
          soil_Ca= as.numeric(r2$Ca),
@@ -100,16 +96,16 @@ carob_script <- function(path) {
    d <- do.call(rbind,d)
    d$weeding_dates[grepl("2029-01-15",d$weeding_dates)] <- "2019-01-15"
    d$crop <- gsub("Beans", "common bean", d$crop)
-   d$soil_sample_bottom <- as.numeric(gsub("-60",60,d$soil_sample_bottom))
-   d$soil_sample_top <- as.numeric(gsub("0-",0,d$soil_sample_top))
+   d$soil_sample_bottom <- as.numeric(gsub("-60", 60, d$soil_sample_bottom))
+   d$soil_sample_top <- as.numeric(gsub("0-", 0, d$soil_sample_top))
    
-   d$irrigated <- as.logical(NA)
+   d$irrigated <- NA
    d$on_farm <- TRUE
    d$is_survey <- FALSE
    d$inoculated <- FALSE
    d$yield_part <- "grain"
    d$adm3 <- "Maluti a Phofung"
-   d$adm2 <- "Thabo Mofutsanyana District Municipality"
+   d$adm2 <- "Thabo Mofutsanyana" # District Municipality
    d$adm1 <- "Free State"
    d$geo_from_source <- TRUE
    
@@ -129,41 +125,41 @@ carob_script <- function(path) {
    
   weather <- function(f){
      Sheet <- "Climate data"
-     if (grepl("2019_2020",basename(f)) ) Sheet <- "Sheet1"
+     if (grepl("2019_2020", basename(f)) ) Sheet <- "Sheet1"
      w <- carobiner::read.excel(f, sheet = Sheet, na=c("--",NA))
      ## treat header 
-     names(w) <- w[grep("Year" ,w[,1])[1],] ## 
+     names(w) <- w[grep("Year", w[,1])[1], ] ## 
      w <- w[-1,1:11] ### keep rows with useful information 
      ## removing separate line between trials to get continuous data 
-     ind=grep("Average|Total|Highest|Lowest|Day" ,w[,3]) 
+     ind=grep("Average|Total|Highest|Lowest|Day", w[,3]) 
      w <- w[-ind,] 
      w <- w[!is.na(w$Year),]
      ## process
      data.frame(
         country = "South Africa",
-        date = as.character(as.Date(paste(w$Day,w$Month,w$Year, sep="-"),"%d-%m-%Y")),
+        date = as.character(as.Date(paste(w$Day, w$Month, w$Year, sep="-"), "%d-%m-%Y")),
         location = "Maluti a Phofung",
         station_name= "QWAQWA; UNIQWA",
         longitude= 28.82518,
         latitude= -28.48291,
-        temp = w$Tx, 
-        prec = w$Rain,
-        rhum = w$RHx, 
-        wspd = w$U2, 
-        srad = w$Rs
+		elevation = 1696,
+        tmin = as.numeric(w$Tn), 
+        tmax = as.numeric(w$Tx), 
+        prec = as.numeric(w$Rain),
+        rhmn = as.numeric(w$RHn), 
+        rhmx = as.numeric(w$RHx), 
+        wspd = as.numeric(w$U2), 
+        srad = as.numeric(w$Rs),
+		eto = as.numeric(w$ET0)
      )
-     
    }
    
     dw <- lapply(ff, weather)
     dw <- do.call(rbind,dw)  
- 
-   ## remove empty rows in date 
-   dw <- dw[!is.na(dw$date),] 
+    ## remove empty rows in date 
+    dw <- dw[!is.na(dw$date),] 
 
-
-carobiner::write_files(path, meta, d,wth = dw)
-   
+	d$soil_pH[d$soil_pH < 1] <- NA
+   carobiner::write_files(path, meta, d,wth = dw)
 }
 
-#carob_script(path)
