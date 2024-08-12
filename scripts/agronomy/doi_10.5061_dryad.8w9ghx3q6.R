@@ -11,7 +11,7 @@ carob_script <- function(path) {
    
    meta <- data.frame(
       carobiner::read_metadata(uri, path, group, major=1, minor=2), 
-      data_institute = "CIMMYT", 
+      data_institute = "ARC", #Agricultural Research Council of South Africa 
       publication=NA, 
       project=NA, 
       data_type= "experiment", 
@@ -34,19 +34,8 @@ carob_script <- function(path) {
       r1 <- carobiner::read.excel.hdr(f, sheet = "Agronomy Data", skip=0)
 	  r1 <- fill_missing(r1, c("Farm.No", "Latitute.degree", "Longitude.degree", "altitude.m"))
 
-
-   ## Fixing longitude and latitude  
-
-       #for (i in 2:nrow(r1)) {
-	#	if (is.na(r1$Latitute.degree[i])) {
-	#		r1$Latitute.degree[i] <- r1$Latitute.degree[i-1]
-     #       r1$Longitude.degree[i] <- r1$Longitude.degree[i-1]
-      #      r1$altitude.m[i] <- r1$altitude.m[i-1]
-       #     r1$Farm.No[i] <- r1$Farm.No[i-1]
-       # }
-       #}
-	   
-   ## Agron0my data
+ 
+   ## Agronomy data
       d1 <- data.frame(
 		 trial_id = r1$Farm.No,
          latitude= r1$Latitute.degree,
@@ -64,7 +53,7 @@ carob_script <- function(path) {
          season= substr(gsub("_", "-", basename(f)), 26, 34),
          country= "South Africa",
 		 f = f
-         )
+       )
   
    ## soil data 
    #here you could do 
@@ -73,13 +62,10 @@ carob_script <- function(path) {
        r2 <- carobiner::read.excel(f, sheet = "Soil data", fix_names=TRUE)
        r2 <- r2[-1,] ## removing the first row
         names(r2) <- gsub("Farmer.No", "Farm.No", names(r2))
-   ## Fixing longitude and latitude
 
+   ## Fixing longitude and latitude
  	  r2 <- fill_missing(r2, c("Farm.No", "Latitute.degree", "Longitude.degree", "altitude.m"))
  
-		#for (i in 2:nrow(r2)) if (is.na(r2$Latitute.degree[i])) r2$Latitute.degree[i] <- r2$Latitute.degree[i-1]
-       #for (i in 2:nrow(r2)) if (is.na(r2$Longitude.degree[i])) r2$Longitude.degree[i] <- r2$Longitude.degree[i-1]
-       #for (i in 2:nrow(r2)) if (is.na(r2$altitude.m[i])) r2$altitude.m[i] <- r2$altitude.m[i-1] 
         names(r2) <- gsub("pH.H2O", "pH", names(r2))
         names(r2) <- gsub("Particle.size.distribution", "Sand", names(r2))
         names(r2) <- gsub("X.14", "Silt", names(r2))
@@ -87,15 +73,10 @@ carob_script <- function(path) {
 
        if (!is.null(r2$Depth))  r2 <- r2[r2$Depth == "0-30", ]
 
-       if(is.null(r2$S)) r2$S <- NA
-       if(is.null(r2$EC)) r2$EC <- NA
-       if(is.null(r2$CEC)) r2$CEC <- NA
-       if(is.null(r2$Clay))  r2$Clay <- NA
-       if(is.null(r2$Silt))  r2$Silt <- NA
-       if(is.null(r2$Sand))  r2$Sand <- NA
-       if(is.null(r2$EA)) r2$EA <- NA
-       if(is.null(r2$AS)) r2$AS <- NA
-   
+		for (v in c("S", "EC", "CEC", "Clay", "Silt", "Sand", "EA", "AS")) {
+			if (is.null(r2[[v]])) r2[v] <- NA
+		}
+	
       d2 <- data.frame(
 		 trial_id = r2$Farm.No,
          soil_sample_bottom= 30,
