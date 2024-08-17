@@ -92,11 +92,12 @@ carob_script <- function(path) {
     P_fertilizer= rep(c(0, 0, 14, 14),6),
     intercrops= c(rep(c("none","pigeon pea", "none", "pigeon pea"),3), rep(c("none","soybean", "none", "soybean"),3)),
     crop= c(rep("soybean",12), rep("pigeon pea",12)),
-    yield= c(1522, 1419, 1941, 1721, 820, 641, 876, 779, 1150, 1073, 1372, 1308,rep(c(783,383,887,503),2),NA,NA,NA,NA)
+    yield= c(1522, 1419, 1941, 1721, 820, 641, 876, 779, 1150, 1073, 1372, 1308, NA, NA, NA, NA, rep(c(783,383,887,503),2))
   )
   
-## NOT OK. You cannot assign the mean to each rep. In this case you need to remove the reps (and add nrep=x)  
-  
+  ## The yield is a mean of each treatment and has not been reported for each replication.
+  d$rep <- NULL 
+
   d <- merge(d, yd, by=c("location", "P_fertilizer", "intercrops", "crop"), all.x = TRUE)
   
   ## adding longitude , latitude and soil information from publication
@@ -119,9 +120,11 @@ carob_script <- function(path) {
   
   d$N_fertilizer <-  d$K_fertilizer <- 0
   
-  ## Remove duplicate rows ( This is due to NA in the BNF variable)
+  ## Remove duplicate rows ( This is due to NA in the BNF variable )
   d <- unique(d)
   
   carobiner::write_files(path, meta, d)
 }
 
+
+nrep=rep(d)
