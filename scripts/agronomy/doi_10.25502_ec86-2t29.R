@@ -1,13 +1,8 @@
 # R script for "carob"
 
-## ISSUES
-
-## Need to clarify the intercropping with banana situation. 
-
-
 carob_script <- function(path) {
   
-  "N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project."
+"N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project."
   
   uri <- "doi:10.25502/ec86-2t29"
   group <- "agronomy"
@@ -23,10 +18,9 @@ carob_script <- function(path) {
     treatment_vars = "variety; fertilizer_date; weeding_dates; weeding_dates; insecticide_dates",
     response_vars = "flowering_date; maturity_date; yield",
     carob_contributor= "Mitchelle Njukuya",
-    carob_date="2024-03-19"
+    carob_date="2024-03-19",
+    notes="Need to clarify the intercropping with banana situation" 
   )
-  
-  ##### PROCESS data records
   
   f <- ff[basename(ff) == "data_table.csv"]
   r <- read.csv(f)
@@ -80,7 +74,8 @@ carob_script <- function(path) {
   d$planting_date <- as.character(as.Date(rr$date_of_planting_whole_n2africa_field.date, "%d-%b-%y"))
   d$fertilizer_date <- as.character(as.Date(rr$date_of_planting_whole_n2africa_field.date, "%d-%b-%y"))
   d$weeding_dates <- paste(as.Date(rr$date_of_1st_weeding_whole_n2africa_field_.date, "%d-%b-%y"),
-                           as.Date(rr$date_of_2nd_weeding_whole_n2africa_field.date, "%d-%b-%y"), sep = "; ")
+                           as.Date(rr$date_of_2nd_weeding_whole_n2africa_field.date, "%d-%b-%y"), sep = ";")
+  d$weeding_dates <- gsub("NA;", "",  d$weeding_dates) 
   d$insecticide_dates <- as.character(as.Date(rr$date_of_insecticide_application_1.date, "%d-%b-%y"))
   d$flowering_date <- as.character(as.Date(rr$X50pct_flowering_whole_n2africa_field.date, "%d-%b-%y"))
   d$maturity_date <- as.character(as.Date(rr$X50pct_maturity_whole_n2africa_field.date, "%d-%b-%y"))
@@ -111,6 +106,8 @@ carob_script <- function(path) {
   # Remove rows where treatments 5 and 6 where not carried
   dd <- d[!(d$trial_id %in% c("UGAKAN_CBBI_28", "UGAKAN_CBBI_27") & d$treatment %in% c("treatment5", "treatment6")), 
           colnames(d)[!(colnames(d) %in% c("width"))]]
+  
+  d$yield[which(d$yield > 25000)] <- NA
   
   carobiner::write_files(meta, dd, path=path)
 }
