@@ -1,12 +1,8 @@
 # R script for "carob"
 
-## For more information on the experiment and the dataset see 
-#Mzumara, E. 2016. Phosphorus use effiiency and productivity of pigeonpea (Cajanus cajan (l.) millsp.) and soybean (glycine max (l.) merrill) on smallholder farms in different agro-ecological zones of central Malawi. MSc thesis in Agronomy. Lilongwe, Malawi. Lilongwe University of Agriculture and Natural Resources.
-#available here https://hdl.handle.net/10568/125473
-
 carob_script <- function(path) {
   
-" Low soil fertility especially nitrogen (N) is one of the major constraints to increased maize productivity on smallholder farms in Malawi. Integration of grain legumes in maize based systems is one of the strategies to improve soil fertility and yields as legumes fix atmospheric nitrogen through a symbiotic relationship with Rhizobium bacteria. A study was conducted in the 2013/2014 growing season in Linthipe and Golomoti Extension Planning Areas (EPAs) in Dedza District, and Nsipe EPA in Ntcheu District. The objectives of the study were to evaluate the grain yields and biological nitrogen fixation (BNF) of the sole and intercropped pigeonpea and soybean under two levels of inorganic P fertilizer (0 and 14 kg P ha-1) and to determine the Phosphorus use efficiency (PUE). BNF was assessed using the N difference method. The experiment was laid out in a randomized complete block design (RCBD). Soils were sandy clay loams, loamy sand and sandy loams to sandy clay loams for Linthipe, Golomoti and Nsipe respectively. Soil pH was moderately acidic to acidic, pH 4.9 to 5.8 in the three sites. Available soil P (Mehlich-3) averaged 44, 84 and 39mg kg-1; and the mean soil organic matter (OM) were 2.55, 1.63 and 2.39% for Linthipe, Golomoti and Nsipe EPAs, respectively. " 
+"Low soil fertility especially nitrogen (N) is one of the major constraints to increased maize productivity on smallholder farms in Malawi. Integration of grain legumes in maize based systems is one of the strategies to improve soil fertility and yields as legumes fix atmospheric nitrogen through a symbiotic relationship with Rhizobium bacteria. A study was conducted in the 2013/2014 growing season in Linthipe and Golomoti Extension Planning Areas (EPAs) in Dedza District, and Nsipe EPA in Ntcheu District. The objectives of the study were to evaluate the grain yields and biological nitrogen fixation (BNF) of the sole and intercropped pigeonpea and soybean under two levels of inorganic P fertilizer (0 and 14 kg P ha-1) and to determine the Phosphorus use efficiency (PUE). BNF was assessed using the N difference method. The experiment was laid out in a randomized complete block design (RCBD). Soils were sandy clay loams, loamy sand and sandy loams to sandy clay loams for Linthipe, Golomoti and Nsipe respectively. Soil pH was moderately acidic to acidic, pH 4.9 to 5.8 in the three sites. Available soil P (Mehlich-3) averaged 44, 84 and 39mg kg-1; and the mean soil organic matter (OM) were 2.55, 1.63 and 2.39% for Linthipe, Golomoti and Nsipe EPAs, respectively. " 
   
   uri <- "doi:10.7910/DVN/WRBXUR"
   group <- "agronomy"
@@ -15,6 +11,7 @@ carob_script <- function(path) {
   meta <- data.frame(
     carobiner::read_metadata(uri, path, group, major=2, minor=0), 
     data_institute = "AfricaRice", 
+    #Mzumara, E. 2016. Phosphorus use effiiency and productivity of pigeonpea (Cajanus cajan (l.) millsp.) and soybean (glycine max (l.) merrill) on smallholder farms in different agro-ecological zones of central Malawi. MSc thesis in Agronomy. Lilongwe, Malawi. Lilongwe University of Agriculture and Natural Resources.
     publication="hdl:10568/125473", 
     project="AfricaRising", 
     data_type= "experiment", 
@@ -34,7 +31,8 @@ carob_script <- function(path) {
     r1 <- r[grep("pigeonpea", r$Cropping.system), ]
     d1 <- data.frame(
       location= r1$Site,
-      rep= r1$Rep,
+      # ignore rep because we do not have yield data for individual reps      
+      # rep= r1$Rep,
       P_fertilizer= ifelse(grepl("P0", r1$P.level), 0, 14),
       crop= "pigeon pea",
       variety= "Mwaiwathualimi",
@@ -54,7 +52,8 @@ carob_script <- function(path) {
     ## soybean  crop
     r2 <- r[grep("soybean",r$Cropping.system),]
     d2 <- data.frame(
-      rep= r2$Rep,
+      # ignore rep because we do not have yield data for individual reps      
+      #rep= r2$Rep,
       location= r2$Site,
       insecticide_used =FALSE,
       P_fertilizer= ifelse(grepl("P0", r2$P.level), 0, 14),
@@ -72,7 +71,7 @@ carob_script <- function(path) {
       BNF= r2$BNF.soybean..kgha.1.
     )
     
-    carobiner::bindr(d1,d2)
+     carobiner::bindr(d1,d2) |> unique()
   }
   
   d <- lapply(ff, process)
@@ -87,6 +86,7 @@ carob_script <- function(path) {
   d$geo_from_source <- FALSE
   
   ## Adding grain yield base on information from publication
+  ## The yield is a mean of each treatment and has not been reported for each replication.
   yd <- data.frame(
     location= rep(c(rep("Linthipe",4),rep("Golomoti",4), rep("Nsipe",4)),2),
     P_fertilizer= rep(c(0, 0, 14, 14),6),
@@ -95,9 +95,6 @@ carob_script <- function(path) {
     yield= c(1522, 1419, 1941, 1721, 820, 641, 876, 779, 1150, 1073, 1372, 1308, NA, NA, NA, NA, rep(c(783,383,887,503),2))
   )
   
-  ## The yield is a mean of each treatment and has not been reported for each replication.
-  d$rep <- NULL 
-
   d <- merge(d, yd, by=c("location", "P_fertilizer", "intercrops", "crop"), all.x = TRUE)
   
   ## adding longitude , latitude and soil information from publication
