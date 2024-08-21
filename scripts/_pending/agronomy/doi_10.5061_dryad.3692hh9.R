@@ -6,14 +6,14 @@ carob_script <- function(path) {
  
  
 	uri <- "doi:10.5061/dryad.3692hh9"
-	group <- "fertilizer" 
+	group <- "agronomy" 
    
 	ff  <- carobiner::get_data(uri, path, group)
    
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=4), 
 		data_institute = "UNL", 
-		publication = "abc", 
+		publication = "doi:10.1007/s10705-018-9912-z", # potentially also: "doi:10.1017/S0014479722000096"
 		project = NA, 
 		data_type = "experiment", 
 		response_vars = "yield",
@@ -51,7 +51,7 @@ carob_script <- function(path) {
 	d1 <- data.frame(
 		country= "Rwanda",
 		trial_id= r1$SiteYr,
-		planting_date = gsub("b", "",  r1$y),
+		planting_year = gsub("b", "",  r1$y),
 		treatment= r1$Treatment,
 		N_fertilizer = r1$N,
 		P_fertilizer = r1$P,
@@ -63,7 +63,7 @@ carob_script <- function(path) {
 		yield = r1$GY * 1000,
 		rep = r1$r
 	)
-	d1$planting_date[grep("15", d1$trial_id)] <- "2015"
+	d1$planting_year[grep("15", d1$trial_id)] <- "2015"
 	i <- which(d1$K_fertilizer == "d")
 	
 	d2 <- data.frame(
@@ -81,9 +81,9 @@ carob_script <- function(path) {
 
 	d3 <- data.frame(
 		country= "Tanzania",
-		trial_id= r3$SY,
+		trial_id= paste0(r3$S, r3$Y),
 		location = r3$S,
-		planting_date = r3$Y,
+		planting_year = r3$Y,
 		N_fertilizer = r3$N,
 		P_fertilizer = r3$P,
 		K_fertilizer = r3$K,
@@ -99,7 +99,92 @@ carob_script <- function(path) {
     d$irrigated= NA
     d$is_survey= FALSE
 	d$crop <- "wheat"
+	d$yield_part <- "seed"
 	
+	# EGB:
+	# # As per publication (Table 3)
+	d$N_fertilizer[i] <- as.numeric(90)
+	d$P_fertilizer[i] <- as.numeric(15)
+	d$K_fertilizer[i] <- as.numeric(20)
+	d$Mg_fertilizer[i] <- as.numeric(10)
+	d$S_fertilizer[i] <- as.numeric(15)
+	d$Zn_fertilizer[i] <- as.numeric(2.5)
+	d$B_fertilizer[i] <- as.numeric(0.5)
+	
+	d$N_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(90)
+	d$P_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(15)
+	d$K_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(20)
+	d$Mg_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(10)
+	d$S_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(15)
+	d$Zn_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(2.5)
+	d$B_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(0.5)
+	
+	d$N_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(90)
+	d$P_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(15)
+	d$K_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(20)
+	d$Mg_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(10)
+	d$S_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(15)
+	d$Zn_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(2.5)
+	d$B_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(0.5)
+
+	d$N_fertilizer <- as.numeric(d$N_fertilizer)
+	d$K_fertilizer <- as.numeric(d$K_fertilizer)
+	
+		
+	# EGB:
+	# # Georeferencing from publication
+	d$geo_from_source <- FALSE
+	d$longitude <- NA
+	d$longitude[d$trial_id == "Njoro14"] <- 35.946
+	d$longitude[d$trial_id == "Eldoret14"] <- 35.708 
+	d$longitude[d$trial_id == "Selian15"] <- 36.628
+	d$longitude[d$trial_id == "NBURGah15b"] <- 29.675
+	d$longitude[d$trial_id %in% c("SNyamAka14b", "SNyaTare14b", "SNyaTar2015A", "SNYATar15b")] <- 29.5
+	d$longitude[d$trial_id %in% c("NBureRus14b", "NBurRusa14b", "NBURRus15b")] <- 29.842
+	d$longitude[d$trial_id %in% c("NBurButa14b", "NBurBut2015A")] <- 29.85
+	d$longitude[d$trial_id %in% c("NMusaBus14b", "NMusGat2015A")] <- 29.569
+	d$longitude[d$trial_id %in% c("Selian2015", "Selian2016")] <- 36.628
+	d$longitude[d$trial_id %in% c("Uyole2015", "Uyole2016")] <- 33.514
+	d$latitude <- NA
+	d$latitude[d$trial_id == "Njoro14"] <- -0.344
+	d$latitude[d$trial_id == "Eldoret14"] <- 0.569
+	d$latitude[d$trial_id == "Selian15"] <- -3.357
+	d$latitude[d$trial_id == "NBURGah15b"] <- -1.443
+	d$latitude[d$trial_id %in% c("SNyamAka14b", "SNyaTare14b", "SNyaTar2015A", "SNYATar15b")] <- -2.511
+	d$latitude[d$trial_id %in% c("NBureRus14b", "NBurRusa14b", "NBURRus15b")] <- -1.507
+	d$latitude[d$trial_id %in% c("NBurButa14b", "NBurBut2015A")] <- -1.379
+	d$latitude[d$trial_id %in% c("NMusaBus14b", "NMusGat2015A")] <- -1.549
+	d$latitude[d$trial_id %in% c("Selian2015", "Selian2016")] <- -3.357
+	d$latitude[d$trial_id %in% c("Uyole2015", "Uyole2016")] <- -8.916
+	
+	d$planting_date <- NA
+	d$planting_date[d$trial_id == "Njoro14"] <- paste("2014", "05", sep = "-")
+	d$planting_date[d$trial_id == "Eldoret14"] <- paste("2014", "06", "19", sep = "-")
+	d$planting_date[d$trial_id == "Selian15"] <- paste("2015", "04", "06", sep = "-")
+	d$planting_date[d$trial_id == "NBURGah15b"] <- paste("2015", "03", "16", sep = "-")
+	d$planting_date[d$trial_id == "SNYATar15b"] <- paste("2015", "10", "18", sep = "-")
+	d$planting_date[d$trial_id == "SNyaTar2015A"] <- paste("2015", "03", "28", sep = "-")
+	d$planting_date[d$trial_id == "NBureRus14b"] <- paste("2014", "04", "22", sep = "-")
+	d$planting_date[d$trial_id == "NBurRusa14b"] <- paste("2014", "04", "22", sep = "-")
+	d$planting_date[d$trial_id == "NBURRus15b"] <- paste("2015", "04", "27", sep = "-")
+	d$planting_date[d$trial_id == "NBurBut2015A"] <- paste("2015", "10", "13", sep = "-")
+	
+	d$harvest_date <- NA
+	d$harvest_date[d$trial_id == "Njoro14"] <- paste("2014", "08", sep = "-")
+	d$harvest_date[d$trial_id == "Eldoret14"] <- paste("2014", "10", "28", sep = "-")
+	d$harvest_date[d$trial_id == "Selian15"] <- paste("2015", "08", "22", sep = "-")
+	d$harvest_date[d$trial_id == "Selian2015"] <- paste("2015", "08", "22", sep = "-")
+	d$harvest_date[d$trial_id == "NBURGah15b"] <- paste("2015", "08", "16", sep = "-")
+	d$harvest_date[d$trial_id == "SNYATar15b"] <- paste("2016", "02", "27", sep = "-")
+	d$harvest_date[d$trial_id == "SNyaTar2015A"] <- paste("2015", "08", "10", sep = "-")
+	d$harvest_date[d$trial_id == "NBureRus14b"] <- paste("2014", "08", "23", sep = "-")
+	d$harvest_date[d$trial_id == "NBurRusa14b"] <- paste("2014", "08", "23", sep = "-")
+	d$harvest_date[d$trial_id == "NBURRus15b"] <- paste("2015", "08", "18", sep = "-")
+	d$harvest_date[d$trial_id == "NBurBut2015A"] <- paste("2015", "02", "24", sep = "-")
+	
+	d$country[grep("Selian15", d$trial_id)] <- "Tanzania"
+	d$planting_year <- NULL
+
 	carobiner::write_files(path, meta, d)
 }
 
