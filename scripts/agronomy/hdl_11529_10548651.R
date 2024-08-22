@@ -1,20 +1,15 @@
 # R script for "carob"
 
-## ISSUES
-# if there are remaining issues, please put these in "meta$notes"
 
+# treatment var "herbicide_product" is not a variable
 
 carob_script <- function(path) {
 
 "
-copy and paste the abstract from the repository. Do not add line breaks
+Effectiveness of 14 herbicides were compared during 2016 in El Batán, México. The trial was set up in rainy cycle of 2016, to evaluate herbicides for developing weed management strategies for maize. (2016-07-01)
 "
-
-## Identifiers
 	uri <- "hdl:11529/10548651"
 	group <- "agronomy"
-
-## Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 
 ## metadata 
@@ -28,25 +23,22 @@ copy and paste the abstract from the repository. Do not add line breaks
 		response_vars = "yield", 
 		carob_contributor = "Blessing Dzuda",
 		carob_date = "2024-08-20",
-		notes = ""
+		notes = NA
 	)
 	
-## read data 
-
 	f <- ff[basename(ff) == "DAT-BV101_MAIZE-16.xlsx"]
 	r <- carobiner::read.excel(f, sheet = "Calculations_Maize")
 
-## select the variables of interest and assign them to the correct name
 	d <- data.frame(
 		country = "Mexico",
 		adm3="El Batán",
 		latitude=19.5275,
 		longitude=-98.8559,
-		trial_id=1,
-		planting_date=2016,
+		trial_id="1",
+		planting_date="2016",
 		crop= "maize",
-		treatment= r$TrT,
-		rep= r$Rep,
+		treatment= as.character(r$TrT),
+		rep= as.integer(r$Rep),
 		tassling_days=r$Tasseling,
 		silking_days=r$Silking,
 		maturity_days=r$Maturity,
@@ -54,12 +46,13 @@ copy and paste the abstract from the repository. Do not add line breaks
 		harvest_index=r$HI,
 		dmy_stems=r$DryBiomass10,
 		dmy_total=r$TotBiomass10,
-		yield_moisture=r$`%HumGrain`,
+		yield_moisture=r$`%HumGrain` * 1000,
 		yield=r$`Yield_12%H2O`,
 		fwy_storage=r$`Yield/BiomCobs`*1000,
 		yield_part="grain",
 		seed_weight=r$Thou,
-		seed_density=r$`Grains/m²`,
+## RH I doubt this is (input) seed, it is more likely output?
+## seed_density=r$`Grains/m²`,
 		asi=r$ASI,
 		flowering_days=r$Flowering
 	)
@@ -70,11 +63,6 @@ copy and paste the abstract from the repository. Do not add line breaks
 	d$irrigated <-FALSE
 	d$geo_from_source <- TRUE
 	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
-	d$trial_id <- as.character(d$trial_id)
-	d$planting_date <- as.character(d$planting_date)
-	d$treatment <- as.character(d$treatment)
-	d$rep <- as.integer(d$rep)
-	
 	# all scripts must end like this
 	carobiner::write_files(path, meta, d)
 
