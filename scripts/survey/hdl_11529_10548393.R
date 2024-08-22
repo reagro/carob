@@ -26,7 +26,7 @@ Replicated crop-cuts from farmers' fields at harvest at multiple locations in Ta
 	f1 <- ff[basename(ff) == "TAMASA_TZ_CC_Soil_2015 (Blurred).xlsx"]
 	f2 <- ff[basename(ff) == "TAMASA_TZ_CC_Yield_2015 (Blurred).xlsx"]
   r1 <- carobiner::read.excel(f1, sheet ="Data")
-  r2 <- carobiner::read.excel(f2, sheet ="Data")
+  r2 <- suppressWarnings(carobiner::read.excel(f2, sheet ="Data"))
   
   #remove last rows with summary stats 
   r1 <- r1[which(r1$Country == "Tanzania"), ]

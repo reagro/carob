@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=5, minor=0),
+		carobiner::read_metadata(uri, path, group, major=6, minor=0),
 		project=NA,
 		publication="doi:20.500.11766/4516",
 		data_institute = "ICARDA",
@@ -36,6 +36,7 @@ carob_script <- function(path) {
 		location = "Afourer experiment station",
 		latitude = 32.262,
 		longitude = -6.535,
+		geo_from_source = FALSE,
 		crop = "durum wheat",
 		yield_part = "grain",
 		seed_density = 160,

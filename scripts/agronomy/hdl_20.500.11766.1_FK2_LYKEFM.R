@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
   
    meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=2, minor=0),
+		carobiner::read_metadata(uri, path, group, major=3, minor=0),
       project=NA, 
       publication= NA, 
       data_institute = "ICARDA", 
@@ -70,13 +70,12 @@ carob_script <- function(path) {
 	d$latitude <- 10.401
 	d$longitude[d$site == "Mandie"] <- 37.583
 	d$latitude[d$site == "Mandie"] <- 12.421
-
+  d$geo_from_source <- FALSE
+  
     d$planting_date <- "2013-06-03"
     d$harvest_date <- "2013-10-25"
 
-# assuming
-	d$P_fertilizer <- 0
-	d$K_fertilizer <- 0
+	d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
    ##  fix dmy_total range
    #d$dmy_total[d$dmy_total>20000] <- NA

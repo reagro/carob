@@ -1,6 +1,5 @@
 # R script for "carob"
 
-
 # not included because there no yield data are provided. So these data are not in scope for us.
 
 "
@@ -25,7 +24,7 @@ carob_script <- function(path) {
 		data_institute = "IITA",
 		carob_contributor="Rachel Mukami",
 		carob_date="2022-09-28",
-		data_type="variety_performance"
+		data_type="survey"
 	)
 	
 	
@@ -38,7 +37,7 @@ carob_script <- function(path) {
     K_fertilizer = numeric(0), P_fertilizer = numeric(0), Zn_fertilizer = numeric(0), 
     S_fertilizer = numeric(0), yield_part = character(0))
  
-	carobiner::write_files(path, meta, d, dataset_id, group)
+	carobiner::write_files(path, meta, d, group)
 
 }
 
