@@ -1,5 +1,9 @@
 # R script for "carob"
 
+## Fertilizer amounts are wrong. 
+## 100 DAP has both N and P (but not 100). Urea is not 100% N. 
+## It seems that this file has mulitple observations in time for some variables. If so, these are higly valuable and need to be captured as "timevars"
+
 carob_script <- function(path) {
 
 "Data on sequential observations of agronomically important traits like Leaf biomass, Stem biomass, Total biomass, Leaf area, and Grain yield during cropping season for the year 2016 in Kharif for Sorghum at ICRISAT Patancheru campus research fields.Data on multi factorial treatments in 2016-17 Kharif Sorghum at Patancheru"
@@ -28,10 +32,10 @@ carob_script <- function(path) {
 	d1 <- data.frame(
 		trial_id=as.character(r1$Plot),
 		variety_code=r1$Genotype, 
-		planting_date=r1$`Sowing-date`,
-		emergence_date=r1$`Emergence-date`,
-		flowering_date=r1$`Flowering-date`,
-		maturity_date=r1$`Maturity-date`,
+		planting_date=as.character(as.Date(r1$`Sowing-date`, "%d/%m/%Y")),
+		emergence_date=as.character(as.Date(r1$`Emergence-date`, "%d/%m/%Y")),
+		flowering_date=as.character(as.Date(r1$`Flowering-date`, "%d/%m/%Y")),
+		maturity_date=as.character(as.Date(r1$`Maturity-date`, "%d/%m/%Y")),
 		row_spacing=r1$`Row-spacing`,
 		soil_type=r1$`Soil-type`,
 		irrigated=TRUE,
@@ -44,7 +48,7 @@ carob_script <- function(path) {
 	)
 		
 	f2 <- ff[basename(ff) == "1.Growth and development.xlsx"]
-	r2 <- carobiner::read.excel(f2)
+	r2 <- suppressWarnings(carobiner::read.excel(f2))
 		
 	d2 <- data.frame(
 	  variety_code=r2$`Cultivar-short-name`,
@@ -64,14 +68,16 @@ carob_script <- function(path) {
 	
 	d <- merge(d1, d2, by=c("trial_id","variety_code"), all.x = TRUE)
 
-	 # location details extracted from: https://www.geonames.org/search.html?q=patancheru&country=
-	#conversions Source: https://www.vercalendario.info/en/how/convert-latitude-longitude-degrees-decimals.html
+## location details extracted from: https://www.geonames.org/search.html?q=patancheru&country=
+## RH: use Google Maps to find lon/lat for the ICRISAT campus instead 
+	
 	d$country <- "India"	
 	d$location <- "Patancheru"
-	d$adm1 <- carobiner::fix_name("Telanyana")
-	d$adm2 <- carobiner::fix_name("Sangareddy")
-	d$longitude <- 78.2294
-	d$latitude <- 17.53
+	d$site <- "ICRISAT"
+	d$adm1 <- "Telanyana"
+	d$adm2 <- "Sangareddy"
+	d$longitude <- NA #78.2294
+	d$latitude <- NA #17.53
 	d$geo_from_source <- FALSE
 
   d$crop <- "sorghum"
@@ -79,15 +85,7 @@ carob_script <- function(path) {
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	
-	#fixing dates
-	#project dates where stated as Start: 2016-07-11 ; End: 2016-11-11
-	#d$harvest_date <- as.character(2016-11)
-	
 	d$flowering_date[d$flowering_date=="no panical"] <- NA
-	d$planting_date <- as.Date(d$planting_date, "%d/%m/%Y")
-	d$emergence_date <- as.Date(d$emergence_date, "%d/%m/%Y")
-	d$maturity_date <- as.Date(d$maturity_date, "%d/%m/%Y")
-	d$flowering_date <- as.Date(d$flowering_date, "%d/%m/%Y")
 
 	carobiner::write_files(path, meta, d)
 }
