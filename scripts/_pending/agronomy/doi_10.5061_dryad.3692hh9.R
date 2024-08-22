@@ -64,7 +64,6 @@ carob_script <- function(path) {
 		rep = r1$r
 	)
 	d1$planting_year[grep("15", d1$trial_id)] <- "2015"
-	i <- which(d1$K_fertilizer == "d")
 	
 	d2 <- data.frame(
 		country= "Kenya",
@@ -103,30 +102,16 @@ carob_script <- function(path) {
 	
 	# EGB:
 	# # As per publication (Table 3)
-	d$N_fertilizer[i] <- as.numeric(90)
-	d$P_fertilizer[i] <- as.numeric(15)
-	d$K_fertilizer[i] <- as.numeric(20)
-	d$Mg_fertilizer[i] <- as.numeric(10)
-	d$S_fertilizer[i] <- as.numeric(15)
-	d$Zn_fertilizer[i] <- as.numeric(2.5)
-	d$B_fertilizer[i] <- as.numeric(0.5)
+	i <- which(d$treatment == "Diagnostic"| d$treatment == "Diagnostic package" | d$N_fertilizer  == "Diagnostic package")
 	
-	d$N_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(90)
-	d$P_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(15)
-	d$K_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(20)
-	d$Mg_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(10)
-	d$S_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(15)
-	d$Zn_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(2.5)
-	d$B_fertilizer[d$country == "Kenya" & d$treatment == "Diagnostic package"] <- as.numeric(0.5)
+	d$N_fertilizer[i] <- 90
+	d$P_fertilizer[i] <- 15
+	d$K_fertilizer[i] <- 20
+	d$Mg_fertilizer[i] <- 10
+	d$S_fertilizer[i] <- 15
+	d$Zn_fertilizer[i] <- 2.5
+	d$B_fertilizer[i] <- 0.5
 	
-	d$N_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(90)
-	d$P_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(15)
-	d$K_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(20)
-	d$Mg_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(10)
-	d$S_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(15)
-	d$Zn_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(2.5)
-	d$B_fertilizer[d$country == "Rwanda" & d$treatment == "Diagnostic"] <- as.numeric(0.5)
-
 	d$N_fertilizer <- as.numeric(d$N_fertilizer)
 	d$K_fertilizer <- as.numeric(d$K_fertilizer)
 	
@@ -158,33 +143,35 @@ carob_script <- function(path) {
 	d$latitude[d$trial_id %in% c("Uyole2015", "Uyole2016")] <- -8.916
 	
 	d$planting_date <- NA
-	d$planting_date[d$trial_id == "Njoro14"] <- paste("2014", "05", sep = "-")
-	d$planting_date[d$trial_id == "Eldoret14"] <- paste("2014", "06", "19", sep = "-")
-	d$planting_date[d$trial_id == "Selian15"] <- paste("2015", "04", "06", sep = "-")
-	d$planting_date[d$trial_id == "NBURGah15b"] <- paste("2015", "03", "16", sep = "-")
-	d$planting_date[d$trial_id == "SNYATar15b"] <- paste("2015", "10", "18", sep = "-")
-	d$planting_date[d$trial_id == "SNyaTar2015A"] <- paste("2015", "03", "28", sep = "-")
-	d$planting_date[d$trial_id == "NBureRus14b"] <- paste("2014", "04", "22", sep = "-")
-	d$planting_date[d$trial_id == "NBurRusa14b"] <- paste("2014", "04", "22", sep = "-")
-	d$planting_date[d$trial_id == "NBURRus15b"] <- paste("2015", "04", "27", sep = "-")
-	d$planting_date[d$trial_id == "NBurBut2015A"] <- paste("2015", "10", "13", sep = "-")
+	d$planting_date[d$trial_id == "Njoro14"] <- "2014-05"
+	d$planting_date[d$trial_id == "Eldoret14"] <- "2014-06-19"
+	d$planting_date[d$trial_id == "Selian15"] <- "2015-04-06"
+	d$planting_date[d$trial_id == "NBURGah15b"] <- "2015-03-16"
+	d$planting_date[d$trial_id == "SNYATar15b"] <- "2015-10-18"
+	d$planting_date[d$trial_id == "SNyaTar2015A"] <- "2015-03-28"
+	d$planting_date[d$trial_id == "NBureRus14b"] <- "2014-04-22"
+	d$planting_date[d$trial_id == "NBurRusa14b"] <- "2014-04-22"
+	d$planting_date[d$trial_id == "NBURRus15b"] <- "2015-04-27"
+	d$planting_date[d$trial_id == "NBurBut2015A"] <- "2015-10-13"
 	
 	d$harvest_date <- NA
-	d$harvest_date[d$trial_id == "Njoro14"] <- paste("2014", "08", sep = "-")
-	d$harvest_date[d$trial_id == "Eldoret14"] <- paste("2014", "10", "28", sep = "-")
-	d$harvest_date[d$trial_id == "Selian15"] <- paste("2015", "08", "22", sep = "-")
-	d$harvest_date[d$trial_id == "Selian2015"] <- paste("2015", "08", "22", sep = "-")
-	d$harvest_date[d$trial_id == "NBURGah15b"] <- paste("2015", "08", "16", sep = "-")
-	d$harvest_date[d$trial_id == "SNYATar15b"] <- paste("2016", "02", "27", sep = "-")
-	d$harvest_date[d$trial_id == "SNyaTar2015A"] <- paste("2015", "08", "10", sep = "-")
-	d$harvest_date[d$trial_id == "NBureRus14b"] <- paste("2014", "08", "23", sep = "-")
-	d$harvest_date[d$trial_id == "NBurRusa14b"] <- paste("2014", "08", "23", sep = "-")
-	d$harvest_date[d$trial_id == "NBURRus15b"] <- paste("2015", "08", "18", sep = "-")
-	d$harvest_date[d$trial_id == "NBurBut2015A"] <- paste("2015", "02", "24", sep = "-")
+	d$harvest_date[d$trial_id == "Njoro14"] <- "2014-08"
+	d$harvest_date[d$trial_id == "Eldoret14"] <- "2014-10-28"
+	d$harvest_date[d$trial_id == "Selian15"] <- "2015-08-22"
+	d$harvest_date[d$trial_id == "Selian2015"] <- "2015-08-22"
+	d$harvest_date[d$trial_id == "NBURGah15b"] <- "2015-08-16"
+	d$harvest_date[d$trial_id == "SNYATar15b"] <- "2016-02-27"
+	d$harvest_date[d$trial_id == "SNyaTar2015A"] <- "2015-08-10"
+	d$harvest_date[d$trial_id == "NBureRus14b"] <- "2014-08-23"
+	d$harvest_date[d$trial_id == "NBurRusa14b"] <- "2014-08-23"
+	d$harvest_date[d$trial_id == "NBURRus15b"] <- "2015-08-18"
+	d$harvest_date[d$trial_id == "NBurBut2015A"] <- "2015-02-24"
 	
 	d$country[grep("Selian15", d$trial_id)] <- "Tanzania"
 	d$planting_year <- NULL
 
+	d <- d[!is.na(d$N_fertilizer), ]
+	
 	carobiner::write_files(path, meta, d)
 }
 
