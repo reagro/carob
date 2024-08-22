@@ -1,194 +1,126 @@
 # R script for "carob"
 
-
-
 carob_script <- function(path) {
 
 "
 Replicated crop-cuts from farmers' fields at harvest at multiple locations in Tanzania (180 to 2400 m), and Soil analysis from 0-20 cm and 20-50 cm depths from crop-cut fields in Southern Highlands, Eastern and Northern Zones of Tanzania in 2015.
 "
-
-
 	uri <- "hdl:11529/10548393"
-	group <- "agronomy"
-
- 
+	group <- "survey"
 	ff  <- carobiner::get_data(uri, path, group)
 
-
 	meta <- data.frame(
-		
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
 		data_institute = "CIMMYT",
-		
 		publication = NA,
-		project = NA,
-
-		data_type = "experiment",
-	
-		treatment_vars = "longitude;latitude;adm2",
+		project = "TAMASA",
+		data_type = "survey",
+		treatment_vars = "none",
 		response_vars = "yield", 
 		carob_contributor = "Shumirai Manzvera",
 		carob_date = "2024-08-22",
 		notes = NA
 	)
 	
- 
 
-	f <- ff[basename(ff) == "TAMASA_TZ_CC_Soil_2015 (Blurred).xlsx"]
-	f1<- ff[basename(ff) == "TAMASA_TZ_CC_Yield_2015 (Blurred).xlsx"]
-  r <- carobiner::read.excel(f,sheet ="Data")
-  r1 <- carobiner::read.excel(f1,sheet ="Data")
-  r <- head(r, -8)
-  r1 <- head(r1, -7)
+	f1 <- ff[basename(ff) == "TAMASA_TZ_CC_Soil_2015 (Blurred).xlsx"]
+	f2 <- ff[basename(ff) == "TAMASA_TZ_CC_Yield_2015 (Blurred).xlsx"]
+  r1 <- carobiner::read.excel(f1, sheet ="Data")
+  r2 <- carobiner::read.excel(f2, sheet ="Data")
   
-
-
-	d1 <- data.frame(
-		country = r$Country,
-		adm1=r$Region,
-		adm2=r$District,
-		adm3=r$Ward,
-		adm4=r$Village,
-		trial_id=r$SSID,
-		soil_C=r$C,
-		soil_pH=r$pH,
-		soil_Al=r$Al,
-		soil_Ca= r$Ca,
-		soil_P_Mehlich= r$P,
-		soil_S = r$S,
-		soil_Mn = r$Mn,
-		soil_Zn= r$Zn,
-		soil_K = r$K,
-		soil_Na = r$Na,
-		soil_Mg = r$Mg,
-		soil_Fe = r$Fe,
-		soil_B= r$B,
-		soil_N =r$N,
-		soil_EC =r$EC.S,
-		cob_density=NA,
-		fwy_total=NA,
-		dmy_total=NA,
-		yield=NA,
-		Date= r$Date)
-
-	
-	i <- grep('^4', d1$Date)
-	as.Date(as.numeric(d1$Date[i]), origin = '1900-01-01')
-	dd<- as.character(as.Date(as.numeric(d1$Date[i]), origin = '1900-01-01'))
-	d1$Date[i]<-dd
-	d1$Date[-i]
-	dp<- as.character(as.Date(d1$Date[-i], format = '%d/%m/%Y'))
-	d1$Date[-i]<-dp
-	
-	
-	d2 <- data.frame(
-		
-	  country = r1$Country,
+  #remove last rows with summary stats 
+  r1 <- r1[which(r1$Country == "Tanzania"), ]
+  r2 <- r2[which(r2$Country == "Tanzania"), ]
+  
+	soil <- data.frame(
+		country = r1$Country,
 		adm1=r1$Region,
 		adm2=r1$District,
 		adm3=r1$Ward,
 		adm4=r1$Village,
-		trial_id=r1$SSID,
-		soil_C=NA,
-		soil_pH=NA,
-    soil_Al=NA,
-		soil_Ca=NA,       
-		soil_P_Mehlich=NA,
-		soil_S=NA,      
-    soil_Mn=NA,       
-		soil_Zn=NA,      
-		soil_K=NA,
-		soil_Na=NA,      
-    soil_Mg= NA,
-		soil_Fe = NA,
-		soil_B= NA,
-		soil_N = NA,    
-    soil_EC= NA,
-		cob_density = r1$`Number of Cobs`,
-		fwy_total = r1$`FWt of Cobs_all (kg)`,
-		dmy_total = r1$`Grain dry weight (kg/25m2 @12.5%)`,
-		yield= r1$`Grain yield (kg/ha@12.5%)`,
-		Date=r1$`sampling Date`)
+		trial_id=r1$FarmID,
+		depth = r1$Depth,
+		soil_C=r1$C,
+		soil_pH=r1$pH,
+		soil_Al=r1$Al,
+		soil_Ca= r1$Ca,
+		soil_P_Mehlich= r1$P,
+		soil_S = r1$S,
+		soil_Mn = r1$Mn,
+		soil_Zn = r1$Zn,
+		soil_K = r1$K,
+		soil_Na = r1$Na,
+		soil_Mg = r1$Mg,
+		soil_Fe = r1$Fe,
+		soil_B = r1$B,
+		soil_N = r1$N,
+		soil_EC = r1$EC.S,
+		date = r1$Date
+	)
+	i <- grepl("^4", soil$date)
+	soil$date[i] <- as.character(as.Date(as.numeric(soil$date[i]), origin="1900-01-01"))
+	soil$date[!i] <- as.character(as.Date(soil$date[!i], "%d/%m/%Y"))
 	
-		Date<-	as.Date(as.numeric(d1$Date), origin = '1900-01-01')
-
-	  d<-rbind(d1,d2)
-	  
-   
-   q <-unique(d[,c("country","adm2")])
-   
-   geocode <- data.frame (adm2 = c("Kilolo", "Mufindi", "Ileje", "Mbeya Rural", "Makete", "Njombe", 
-                                       "Sumbawanga", "Namtumbo", "Mbozi", "Momba", "Handeni", 
-                                        "Kilindi", "Lushoto", "Muheza", "Tanga"), 
-                          longitude = c(36.3134, 35.2783, 33.3101, 33.2403, 34.1295, 34.7702, 31.6232, 
-                                        36.1902, 32.9516, 32.3014, 38.4074, 37.6133, 38.448, 38.7731, 38.2922),
-                          latitude = c(-7.7859, -8.5742, -9.3921,-9.2648, -9.2747, -9.6026, -7.9524, -10.6729, -8.9742, 
-                                       -8.7905, -5.4948, -5.5042, -4.4953, -5.1815, -5.0665))
-    
-    d <- merge(d, geocode, by="adm2", all.x = TRUE)
-    
-    d$longitude[d$adm2 =="Iringa Rural"]<- 35.699120
-    d$latitude[d$adm2 =="Iringa Rural"]<- -7.773094
-   
-    d$longitude[d$adm2 =="Ludewa"]<- 34.68012119999999
-    d$latitude[d$adm2 =="Ludewa"]<- -10.1130361
-          
-          
-     d$longitude[d$adm2 =="Wangingombe"]<- 34.5485200
-     d$latitude[d$adm2 =="Wangingombe"]<- -9.0205400
-    
-     
-     d$longitude[d$adm2 =="Songea Rural"]<- 35.655785
-     d$latitude[d$adm2 =="Songea Rural"]<- -10.676803
-    
-     d$longitude[d$adm2 =="Songea Urban"]<- 35.6205
-     d$latitude[d$adm2 =="Songea Urban"]<- -10.6570
-     
-     d$longitude[d$adm2 =="Korogwe"]<- 38.4192
-     d$latitude[d$adm2 =="Korogwe"]<- -5.0827
-            
-     d$longitude[d$adm2 =="Arumeru"]<- 36.837243
-     d$latitude[d$adm2 =="Arumeru"]<- -3.359298
-     
-     d$longitude[d$adm2 =="Karatu"]<- 35.65811200
-     d$latitude[d$adm2 =="Karatu"]<- -3.33860200
-     
-     d$longitude[d$adm2 =="Moshi Rural"]<- 37.340382
-     d$latitude[d$adm2 =="Moshi Rural"]<- -3.334883
-     
-     d$longitude[d$adm2 =="Babati"]<- 35.75
-     d$latitude[d$adm2 =="Babati"]<- -4.21667
-     
-     d$longitude[d$adm2 =="Hai"]<- 37.16873390
-     d$latitude[d$adm2 =="Hai"]<- -3.14705320
-     
-     d$longitude[d$adm2 =="Siha"]<- 37.35066580
-     d$latitude[d$adm2 =="Siha"]<- -3.06646480
-     
-	  
-	   
-	   
-     d$is_survey <- FALSE
-	d$irrigated <- FALSE
+	d <- data.frame(
+	  country = r2$Country,
+		adm1=r2$Region,
+		adm2=r2$District,
+		adm3=r2$Ward,
+		adm4=r2$Village,
+		trial_id=r2$Farm_ID,
+		cob_density = r2$`Number of Cobs`,
+		fwy_total = r2$`FWt of Cobs_all (kg)`,
+		dmy_total = r2$`Grain dry weight (kg/25m2 @12.5%)`,
+		yield= r2$`Grain yield (kg/ha@12.5%)`,
+		date=r2$`sampling Date`
+	)
 	
-	d$geo_from_source <- FALSE
-
-
-
-	d$planting_date <- as.character(as.Date( 2015  ))
-	
+   d$date[d$date == 374] <- NA
+   i <- grepl("^4", d$date)
+   d$date[i] <- as.character(as.Date(as.numeric(d$date[i]), origin = "1900-01-01"))
+   d$date[!i] <- as.character(as.Date(d$date[!i], "%d/%m/%Y"))
    
+   #all farms 
+   usid <- unique(soil$trial_id) 
+   usid <- usid[!usid %in% unique(d$trial_id)]
+   addid <- unique(soil[, c('country', 'adm1', 'adm2', 'adm3', 'adm4', 'trial_id', 'date')])
+   addid <- addid[addid$trial_id %in% usid, ]
+   
+   d <- carobiner::bindr(d, addid)   
 
-  d$crop <- "maize"
-	d$yield_part <- "grain"
+   
+   geo <- data.frame(
+           adm2 = c("Arumeru", "Babati", "Hai", "Handeni", "Ileje", "Iringa Rural", "Karatu", "Kilindi", "Kilolo", "Korogwe", 
+                    "Ludewa", "Lushoto", "Makete", "Mbeya Rural", "Mbozi", "Momba", "Moshi Rural", "Mufindi", "Muheza", "Namtumbo", "Ngorongoro", 
+                    "Njombe", "Siha", "Songea Rural", "Songea Urban", "Sumbawanga", "Tanga", "Wangingombe"), 
+           longitude = c(36.8372, 35.75,  37.1687, 38.4074, 33.3101, 35.6991, 35.6581, 37.6133, 36.3134, 
+                         38.4192, 34.6801, 38.448, 34.1295, 33.2403, 32.9516, 32.3014, 37.3404, 35.2783, 38.7731, 36.1902, NA, 
+                         34.7702, 37.3507, 35.655785, 35.6205, 31.6232, 38.2922, 34.54852), 
+           latitude = c(-3.3593, -4.2167, -3.1471, -5.4948, -9.3921, -7.7731, -3.3386, -5.5042, -7.7859, 
+                        -5.0827, -10.113, -4.4953, -9.2747, -9.2648, -8.9742, -8.7905, -3.3349, -8.5742, -5.1815, -10.6729, NA,
+                        -9.6026, -3.0665, -10.6768, -10.657, -7.9524, -5.0665, -9.020)
+           ) 
+   
+    d <- merge(d, geo, by="adm2", all.x = TRUE)
+    d$geo_from_source <- FALSE
+    
+    d$is_survey <- TRUE
+    d$irrigated <- NA
+	 	d$planting_date <- "2015"
 	
+    d$crop <- "maize"
+  	d$yield_part <- "grain"
+  	d$on_farm <- TRUE
+  	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 
-# all scripts must end like this
-	carobiner::write_files(path, meta, d)
+  	
+  	soil$country <- soil$adm1 <- soil$adm2 <- soil$adm3 <- soil$adm4 <- soil$date <- NULL 
+    soil$soil_sample_top <- 0
+    soil$soil_sample_bottom <- 20
+    soil$soil_sample_top[soil$depth == "20 – 50"] <- 20
+    soil$soil_sample_bottom[soil$depth == "20 – 50"] <- 50
+    soil$depth <- NULL
+      	
+  		 carobiner::write_files(path, meta, d, timerecs=soil)
 }
-
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
 
