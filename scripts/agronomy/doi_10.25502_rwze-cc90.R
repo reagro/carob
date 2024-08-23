@@ -27,18 +27,8 @@ carob_script <- function(path) {
 		data_type="survey"
 	)
 	
-	
-	d <- data.frame(rep = integer(0), season = character(0), 
-    country = character(0), site = character(0), treatment = character(0), 
-    longitude = numeric(0), latitude = numeric(0), planting_date = character(0), 
-    harvest_date = character(0), trial_id = character(0), crop = character(0), 
-    yield = numeric(0), fwy_residue = numeric(0), seed_weight = numeric(0), 
-    previous_crop = character(0), OM_type = character(0), N_fertilizer = numeric(0), 
-    K_fertilizer = numeric(0), P_fertilizer = numeric(0), Zn_fertilizer = numeric(0), 
-    S_fertilizer = numeric(0), yield_part = character(0))
- 
-	carobiner::write_files(path, meta, d, group)
-
+	meta$dataset_id <- paste0(meta$dataset_id, "_nodata")
+	carobiner::write_files(path, meta)
 }
 
 
