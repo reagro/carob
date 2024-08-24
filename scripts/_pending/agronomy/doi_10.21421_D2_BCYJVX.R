@@ -40,9 +40,9 @@ carob_script <- function(path) {
 		irrigated=TRUE,
 		irrigation_number= as.integer(3) ,
 		irrigation_amount= r1$`Irri1-amt`+ r1$`Irri2-amt`+ r1$`Irri3-amt`,
-		## DAP: 18% N 46% P205; urea: 46% N
+		## DAP: 18% N 20.1% P; urea: 46% N
 		N_fertilizer= (r1$`Fert1-amt`)*0.18+ (r1$`Fert2-amt`)*0.46 + (r1$`Fert3-amt`)*0.46,
-		P_fertilizer= (r1$`Fert1-amt`)*0.46/2.29,
+		P_fertilizer= (r1$`Fert1-amt`)*0.201,
 		fertilizer_date= paste(as.Date(r1$`Fert1-date`,"%d/%m/%Y") , as.Date(r1$`Fert2-date`, "%d/%m/%Y"), as.Date(r1$`Fert3-date`, "%d/%m/%Y"), sep = ";"),
 		irrigation_dates= paste(as.Date(r1$`Irri1-date`,"%d/%m/%Y"), as.Date(r1$`Irri2-date`, "%d/%m/%Y"), as.Date(r1$`Irri3-date`,"%d/%m/%Y"), sep = ";"),
 		K_fertilizer = 0, 
@@ -50,7 +50,7 @@ carob_script <- function(path) {
 	)
 		
 	f2 <- ff[basename(ff) == "1.Growth and development.xlsx"]
-	r2 <- suppressWarnings(carobiner::read.excel(f2,na=c("NA",NA)))
+	r2 <- suppressWarnings(carobiner::read.excel(f2,na="NA"))
 		
 	d2 <- data.frame(
 	  variety_code=r2$`Cultivar-short-name`,
@@ -70,7 +70,7 @@ carob_script <- function(path) {
 	
 	d2$treatment[d2$treatment=="WW_LD_HN"] <- "well watered_low density_high nitrogen"
 	
-	d <- merge(d1, d2, by=c("trial_id","variety_code","code","plot_Nr"), all.x = TRUE)
+	d <- merge(d1, d2, by=c("trial_id", "variety_code", "code", "plot_Nr"), all.x = TRUE)
 
 	d$plot_Nr <- d$code <- NULL
 
