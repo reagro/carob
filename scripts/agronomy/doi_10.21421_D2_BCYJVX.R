@@ -94,8 +94,14 @@ carob_script <- function(path) {
 	r3 <- carobiner::read.excel(f3)
 	
 	dw <- data.frame(
-	   country= "india",
-	   location = "ICRISAT Patancheru campus",
+	   country= "India",
+	   adm1 = "Telanyana",
+	   adm2 = "Sangareddy",
+	   location = "Patancheru",
+	   site = "ICRISAT Patancheru campus",
+	   longitude = 78.276, 
+	   latitude = 17.51,
+	   geo_from_source = FALSE,
 	   station_name= r3$`MetStation-Name`,
 	   date= as.character(as.Date(r3$Date,"%d/%m/%Y")),
 	   prec= r3$Rain,
