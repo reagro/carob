@@ -69,9 +69,9 @@ carob_script <- function(path) {
       names(r2) <- gsub(".dd.mm.yy|.mm.dd.yy","", names(r2))
       names(r2) <- gsub("variety","Variety", names(r2))
       names(r2) <- gsub("X","Systems", names(r2))
-      names(r2) <- gsub("Systems.6","Node", names(r2))
-      if(is.null(r2$Date.of.100pct.plant.emergence)) r2$Date.of.100pct.plant.emergence <- NA
-      if(is.null(r2$Date.of.80pct.physiological.maturity)) r2$Date.of.80pct.physiological.maturity <- NA
+      names(r2) <- gsub("Systems.6", "Node", names(r2))
+      if (is.null(r2$Date.of.100pct.plant.emergence)) r2$Date.of.100pct.plant.emergence <- NA
+      if (is.null(r2$Date.of.80pct.physiological.maturity)) r2$Date.of.80pct.physiological.maturity <- NA
       
       d3 <- data.frame(
          year= r2$Year,
@@ -93,11 +93,9 @@ carob_script <- function(path) {
          maturity_days= as.numeric(r2$Systems80pct.physiological.maturity.DAS),
          harvest_days= r2$Harvesting.DAS,
          harvest_date= as.character(r2$harvest_date)
-         
       )
       
-      
-      d <- merge(d,d3,by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name"), all.x = TRUE)
+      d <- merge(d, d3, by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name"), all.x = TRUE)
       
       ## Crop Mgmt Operations
       r3 <- carobiner::read.excel.hdr(f,  sheet = "5- Crop Mgmt Operations", skip=4)
@@ -116,17 +114,17 @@ carob_script <- function(path) {
          weeding_implement= r3$X0peration.2.Implement.used
       )
       
-      d <- merge(d,d4,by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name"), all.x = TRUE)
+      d <- merge(d, d4, by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name"), all.x = TRUE)
       
       ## Fertilizer amounts
       r4 <- carobiner::read.excel.hdr(f,   sheet = "6 - Fertilizer amounts ", skip=4, na=c(".kg.ha.kg.ha",""))
-      names(r4)  <- gsub("K2O.kg.ha","K", names(r4))
-      names(r4)  <- gsub("N.kg.ha","N", names(r4))
-      names(r4)  <- gsub("P2O5.kg.ha","P", names(r4))
-      names(r4)  <- gsub("K2O5.kg.ha","K", names(r4))
-      names(r4)  <- gsub("Total.TSP2O5.kg.ha.kg.ha","Total.TSP.kg.ha", names(r4))
-      names(r4)  <- gsub("Total.MOP2O5.kg.ha.kg.ha","Total.MOP.kg.ha", names(r4))
-      names(r4)  <- gsub("Fertilizer.1.Application_P2O5.kg.haroduct.used","Fertilizer.1.Application_Product.used", names(r4))
+      names(r4)  <- gsub("K2O.kg.ha", "K", names(r4))
+      names(r4)  <- gsub("N.kg.ha", "N", names(r4))
+      names(r4)  <- gsub("P2O5.kg.ha", "P", names(r4))
+      names(r4)  <- gsub("K2O5.kg.ha", "K", names(r4))
+      names(r4)  <- gsub("Total.TSP2O5.kg.ha.kg.ha", "Total.TSP.kg.ha", names(r4))
+      names(r4)  <- gsub("Total.MOP2O5.kg.ha.kg.ha", "Total.MOP.kg.ha", names(r4))
+      names(r4)  <- gsub("Fertilizer.1.Application_P2O5.kg.haroduct.used", "Fertilizer.1.Application_Product.used", names(r4))
       names(r4)  <- gsub("Fertilizer.2.Application_P2O5.kg.haroduct.used","Fertilizer.2.Application_Product.used", names(r4))
       names(r4)  <- gsub("Fertilizer.3.Application_P2O5.kg.haroduct.used","Fertilizer.3.Application_Product.used", names(r4))
       names(r4)  <- gsub("N.kg.haode","Node", names(r4))
@@ -150,8 +148,7 @@ carob_script <- function(path) {
       )
       
       d <- merge(d,d5,by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name"), all.x = TRUE)
-      
-      
+
       ## Pesticide applications
       r5 <- carobiner::read.excel.hdr(f, sheet = "9 - Pesticide applications", skip=4)
       
@@ -169,14 +166,13 @@ carob_script <- function(path) {
          insecticide_used= TRUE
       )
       
-      d <- merge(d,d6,by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name"), all.x = TRUE)
-      
-      
+      d <- merge(d, d6, by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name"), all.x = TRUE)
+
       ## Grain Harvest
       r6 <- carobiner::read.excel.hdr(f, sheet = "14 - Grain Harvest ", skip=4)
-      names(r6) <- gsub("Calcultaion_Sun.dry.grain.wt.t.ha","Sun.dry.grain.wt.t.ha", names(r6))
-      names(r6) <- gsub("Calculation_Sun.dry.grain.wt.t.ha","Sun.dry.grain.wt.t.ha", names(r6))
-      names(r6) <- gsub("Biomass.t.Ha","Biomass.t.ha", names(r6))
+      names(r6) <- gsub("Calcultaion_Sun.dry.grain.wt.t.ha", "Sun.dry.grain.wt.t.ha", names(r6))
+      names(r6) <- gsub("Calculation_Sun.dry.grain.wt.t.ha", "Sun.dry.grain.wt.t.ha", names(r6))
+      names(r6) <- gsub("Biomass.t.Ha", "Biomass.t.ha", names(r6))
       
       d7 <- data.frame(
          year= r6$Year,
@@ -193,21 +189,18 @@ carob_script <- function(path) {
          
       )
       
-       merge(d,d7,by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name", "plot_area"), all.x = TRUE)
-      
-      
+      merge(d, d7, by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name", "plot_area"), all.x = TRUE)
    }
    
-  d  <- lapply(ff, process)
-  
-  d <- do.call(rbind,d) 
+  d <- lapply(ff, process)
+  d <- do.call(rbind, d) 
   
    d$trial_id <- paste0(d$farmer_name, "_", d$location)
    d$planting_date <- as.character(as.Date(d$harvest_date)- d$harvest_days)
    
-   d$crop_rotation <- ifelse(grepl("R-M",d$crop_sys),"rice",
-                       ifelse(grepl("R-W-MB",d$crop_sys),"rice;mung bean",
-                       ifelse(grepl("R-W",d$crop_sys),"rice","rice"))) 
+   d$crop_rotation <- ifelse(grepl("R-M", d$crop_sys), "rice",
+                      ifelse(grepl("R-W-MB", d$crop_sys), "rice;mung bean",
+                      ifelse(grepl("R-W", d$crop_sys), "rice", "rice"))) 
    
    d$country <- "Bangladesh"
    d$irrigated <- TRUE
@@ -245,8 +238,8 @@ carob_script <- function(path) {
    
    geo <- data.frame(
       location = c("Dharampur", "Nabinagar", "Nabinagr", "Baduria", "Bijoy Nagar", "Laxmipur"),
-      latitude= c(24.8790, 23.8846, NA, 24.3425, 22.2496, 22.9445),
-      longitude= c(89.3533, 90.9699, NA, 88.7201, 91.8252, 90.8276)
+      latitude= c(24.8790, 23.8846, 23.8846, 24.3425, 22.2496, 22.9445),
+      longitude= c(89.3533, 90.9699, 90.9699, 88.7201, 91.8252, 90.8276)
    )
    
    d <- merge(d, geo, by="location", all.x= TRUE)
@@ -276,14 +269,10 @@ carob_script <- function(path) {
    d$land_prep_implement[grepl("Strip till seeder", d$land_prep_implement)] <- "direct seeder"
    d$land_prep_implement[grepl("power tiller|PTOS", d$land_prep_implement)] <- "unknown"
    
-   
    d$season <- paste0(d$season,"_",d$year)
    
    d$farmer_name <- d$crop_sys <- d$year <- NULL
-   
-   
    carobiner::write_files(path, meta, d)
-   
 }
 
 
