@@ -2,7 +2,7 @@
 
 carob_script <- function(path) {
    
-   " Farmers participatory researchers managed long-term trails aimed to improve the productivity, profitability, and sustainability of smallholder agriculture in the EGP by activities carried out to address the objectives: 1. Understand farmer circumstances with respect to cropping systems, natural and economic resources base, livelihood strategies, and capacity to bear risk and undertake technological innovation. 2. Develop with farmers more productive and sustainable technologies that are resilient to climate risks and profitable for small holders. 3. Facilitate widespread adoption of sustainable, resilient, and more profitable farming systems. (2018-02-16) "
+"Farmers participatory researchers managed long-term trails aimed to improve the productivity, profitability, and sustainability of smallholder agriculture in the EGP by activities carried out to address the objectives: 1. Understand farmer circumstances with respect to cropping systems, natural and economic resources base, livelihood strategies, and capacity to bear risk and undertake technological innovation. 2. Develop with farmers more productive and sustainable technologies that are resilient to climate risks and profitable for small holders. 3. Facilitate widespread adoption of sustainable, resilient, and more profitable farming systems. (2018-02-16) "
    
    uri <- "hdl:11529/10547963"
    group <- "agronomy"
@@ -26,7 +26,7 @@ carob_script <- function(path) {
       
       ## process site information file 
       r <- carobiner::read.excel.hdr(f, sheet="2 - Site information", skip=5, fix_names = TRUE)
-      names(r) <- gsub("Type.of.trial","Crop", names(r))
+      names(r) <- gsub("Type.of.trial", "Crop", names(r))
       d1 <- data.frame(
          year= r$Year,
          season= r$Season,
@@ -61,7 +61,7 @@ carob_script <- function(path) {
          land_prep_implement= r1$X0peration.1.Implement.used
       )
       
-      d <- merge(d1,d2,by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name"), all.x = TRUE)
+      d <- merge(d1, d2, by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name"), all.x = TRUE)
       
       ## Stand counts & Phenology
       r2 <- carobiner::read.excel.hdr(f,  sheet = "4- Stand counts & Phenology", skip=4)
@@ -138,7 +138,7 @@ carob_script <- function(path) {
          treatment= r4$Tmnt,
          fertilizer_type= paste(r4$Fertilizer.1.Application_Product.used, r4$Fertilizer.2.Application_Product.used, r4$Fertilizer.3.Application_Product.used, sep =";"),
          fertilizer_amount= rowSums(r4[,c("Total.TSP.kg.ha", "Total.MOP.kg.ha", "Gypsum.kg.ha")]),
-         fertilizer_price= as.character((r4$Total.fertiliser.cost.Tk.ha)/rowSums(r4[,c("Total.TSP.kg.ha", "Total.MOP.kg.ha", "Gypsum.kg.ha")])), ## TK/Kg
+         fertilizer_price= r4$Total.fertiliser.cost.Tk.ha) / rowSums(r4[, c("Total.TSP.kg.ha", "Total.MOP.kg.ha", "Gypsum.kg.ha")], ## BDT/kg
          currency= "BDT",
          N_fertilizer= r4$N,
          P_fertilizer= r4$P,
@@ -240,22 +240,17 @@ carob_script <- function(path) {
    d$insecticide_implement <- gsub("Spray", "backpack sprayer", d$insecticide_implement)  
    d$insecticide_implement <- gsub("Broadcast", "unknown", d$insecticide_implement)
    
-   
-   
    d$herbicide_product <-  gsub("Round up","glyphosate", d$herbicide_product)
    d$herbicide_product[grep("Rifit", d$insecticide_product)] <- "glyphosate;pretilachlor" 
    d$herbicide_product[grep("Affinity|Afinity", d$insecticide_product)] <- "glyphosate;tribenuron-methyl"
    d$herbicide_amount[grep("Rifit|Affinity|Afinity", d$insecticide_product)] <-  d$herbicide_amount[grep("Rifit|Affinity|Afinity", d$insecticide_product)] + d$insecticide_amount[grep("Rifit|Affinity|Afinity", d$insecticide_product)]
-   d$insecticide_amount[grep("Rifit|Affinity|Afinity", d$insecticide_product)] <- 0 
    
+   d$insecticide_amount[grep("Rifit|Affinity|Afinity", d$insecticide_product)] <- 0 
    d$insecticide_product <- gsub("Rifit", "none", d$insecticide_product)
    d$insecticide_product <- gsub("Regent", "fipronil", d$insecticide_product)
    d$insecticide_product <- gsub("Affinity|Afinity", "none", d$insecticide_product)
    d$insecticide_product <- gsub("Karata|karate", "lambda-cyhalothrin", d$insecticide_product)
-   
-   
-   
-    
+
 ## Fixing weeding 
    d$weeding_implement[grepl("Hand|Manual", d$weeding_implement)] <- "manual"
    d$weeding_implement[grepl("Sprayer", d$weeding_implement)] <- "unknown"
@@ -267,9 +262,8 @@ carob_script <- function(path) {
       latitude= c(24.8790, 23.8846, 23.8846, 24.3425, 22.2496, 22.9445),
       longitude= c(89.3533, 90.9699, 90.9699, 88.7201, 91.8252, 90.8276)
    )
-   
+   d$geo_from_source <- FALSE
    d <- merge(d, geo, by="location", all.x= TRUE)
-   
 
 ## Fixing treatment and land_prep
    d$treatment[grepl("CTTPR", d$treatment)] <- "Conventional tillage transplanted puddle rice"
@@ -291,15 +285,11 @@ carob_script <- function(path) {
    d$land_prep_implement[grepl("power tiller|PTOS", d$land_prep_implement)] <- "unknown"
    
    d$season <- paste0(d$season,"_",d$year)
-   
    d$farmer_name <- d$crop_sys <- d$year <- NULL
    
-   d$insecticide_used <- ifelse(is.na(d$insecticide_product)| grepl("none",d$insecticide_product),FALSE, TRUE)
-   d$herbicide_used <- ifelse(is.na(d$herbicide_product)| grepl("none",d$herbicide_product),FALSE, TRUE)
-   
-   
-   
-   
+   d$insecticide_used <- ifelse(is.na(d$insecticide_product)| grepl("none", d$insecticide_product),FALSE, TRUE)
+   d$herbicide_used <- ifelse(is.na(d$herbicide_product)| grepl("none", d$herbicide_product),FALSE, TRUE)
+
    carobiner::write_files(path, meta, d)
 }
 
