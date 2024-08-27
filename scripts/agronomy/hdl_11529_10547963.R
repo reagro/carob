@@ -138,7 +138,7 @@ carob_script <- function(path) {
          treatment= r4$Tmnt,
          fertilizer_type= paste(r4$Fertilizer.1.Application_Product.used, r4$Fertilizer.2.Application_Product.used, r4$Fertilizer.3.Application_Product.used, sep =";"),
          fertilizer_amount= rowSums(r4[,c("Total.TSP.kg.ha", "Total.MOP.kg.ha", "Gypsum.kg.ha")]),
-         fertilizer_price= as.character(r4$Total.fertiliser.cost.Tk.ha),
+         fertilizer_price= as.character((r4$Total.fertiliser.cost.Tk.ha)/rowSums(r4[,c("Total.TSP.kg.ha", "Total.MOP.kg.ha", "Gypsum.kg.ha")])), ## TK/Kg
          currency= "BDT",
          N_fertilizer= r4$N,
          P_fertilizer= r4$P,
@@ -159,11 +159,14 @@ carob_script <- function(path) {
          crop_sys= r5$Systems,
          treatment= r5$Tmnt,
          farmer_name= r5$Farmer.s.name,
-         insecticide_dates=  as.character(gsub("11-19-15", "2015-11-19", r5$Pesticide.application.1.herbicide.insecticide.or.fungicide._Date.of.application.dd.mm.yy)),
-         insecticide_product= r5$Product.applied,
-         insecticide_implement= r5$Method.of.application,
-         insecticide_amount= rowSums(r5[,c("Pesticides.g.or.ml.ha._P1", "P2")]),
-         insecticide_used= TRUE
+         herbicide_dates=  as.character(gsub("11-19-15", "2015-11-19", r5$Pesticide.application.1.herbicide.insecticide.or.fungicide._Date.of.application.dd.mm.yy)),
+         insecticide_dates= as.character(r5$Pesticide.application.2.herbicide.insecticide.or.fungicide._Date.of.application.dd.mm.yy),
+         herbicide_product= r5$Product.applied,
+         insecticide_product= r5$Product.applied.1,
+         herbicide_implement= r5$Method.of.application,
+         insecticide_implement= r5$Method.of.application.1,
+         herbicide_amount= r5$Pesticides.g.or.ml.ha._P1/1000, ## kg/ha
+         insecticide_amount= r5$P2/1000 ## kg/ha
       )
       
       d <- merge(d, d6, by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name"), all.x = TRUE)
@@ -194,7 +197,7 @@ carob_script <- function(path) {
    
   d <- lapply(ff, process)
   d <- do.call(rbind, d) 
-  
+ 
    d$trial_id <- paste0(d$farmer_name, "_", d$location)
    d$planting_date <- as.character(as.Date(d$harvest_date)- d$harvest_days)
    
@@ -215,21 +218,44 @@ carob_script <- function(path) {
    p <- gsub("boro rice", "rice",p)
    p <- gsub("rabi maize", "maize",p)
    d$crop <- p
+   
+## Fixing date variables
+   d$insecticide_dates <- gsub("42353", NA, d$insecticide_dates)
+   i <- grep("12-16-15|11-25-15|12-29-15|12-23-15|12-14-15|11-23-15", d$insecticide_dates)
+   d$insecticide_dates[i] <- as.character(as.Date(d$insecticide_dates[i],"%m-%d-%y"))
+   d$herbicide_dates <- gsub("42288", NA, d$herbicide_dates)
+   d$weeding_dates <- gsub("42288|42407|42335", NA, d$weeding_dates)
+   j <- grep("11-29-15|11-25-15|11-20-15|11-26-15|11-19-15", d$weeding_dates)
+   d$weeding_dates[j] <- as.character(as.Date(d$weeding_dates[j],"%m-%d-%y"))
+   
   
 ## Fixing fertilizer type
    d$fertilizer_type <- gsub("Muriate", "KCl", d$fertilizer_type)
    d$fertilizer_type <- gsub("Urea", "urea", d$fertilizer_type)
 ## Fixing insecticide variables 
+   d$herbicide_implement <- gsub("Spray", "backpack sprayer", d$herbicide_implement)  
+   d$herbicide_implement <- gsub("NA", "none", d$herbicide_implement)  
+   d$herbicide_implement <- gsub("Broadcast", "unknown", d$herbicide_implement)
+   
    d$insecticide_implement <- gsub("Spray", "backpack sprayer", d$insecticide_implement)  
-   d$insecticide_implement <- gsub("NA", "none", d$insecticide_implement)  
    d$insecticide_implement <- gsub("Broadcast", "unknown", d$insecticide_implement)
    
-   d$insecticide_product <- gsub("Round up", "glyphosate", d$insecticide_product)
-   d$insecticide_product <- gsub("Rifit", "pretilachlor", d$insecticide_product)
-   d$insecticide_product <- gsub("Regent", "phenyl pyrazole", d$insecticide_product)
-   d$insecticide_product <- gsub("Affinity|Afinity", "phenyl pyrazole", d$insecticide_product)
+   
+   
+   d$herbicide_product <-  gsub("Round up","glyphosate", d$herbicide_product)
+   d$herbicide_product[grep("Rifit", d$insecticide_product)] <- "glyphosate;pretilachlor" 
+   d$herbicide_product[grep("Affinity|Afinity", d$insecticide_product)] <- "glyphosate;tribenuron-methyl"
+   d$herbicide_amount[grep("Rifit|Affinity|Afinity", d$insecticide_product)] <-  d$herbicide_amount[grep("Rifit|Affinity|Afinity", d$insecticide_product)] + d$insecticide_amount[grep("Rifit|Affinity|Afinity", d$insecticide_product)]
+   d$insecticide_amount[grep("Rifit|Affinity|Afinity", d$insecticide_product)] <- 0 
+   
+   d$insecticide_product <- gsub("Rifit", "none", d$insecticide_product)
+   d$insecticide_product <- gsub("Regent", "fipronil", d$insecticide_product)
+   d$insecticide_product <- gsub("Affinity|Afinity", "none", d$insecticide_product)
    d$insecticide_product <- gsub("Karata|karate", "lambda-cyhalothrin", d$insecticide_product)
-
+   
+   
+   
+    
 ## Fixing weeding 
    d$weeding_implement[grepl("Hand|Manual", d$weeding_implement)] <- "manual"
    d$weeding_implement[grepl("Sprayer", d$weeding_implement)] <- "unknown"
@@ -244,13 +270,8 @@ carob_script <- function(path) {
    
    d <- merge(d, geo, by="location", all.x= TRUE)
    
-## Fixing date variables
-   d$insecticide_dates <- gsub("42288", NA, d$insecticide_dates)
-   d$weeding_dates <- gsub("42288|42407|42335", NA, d$weeding_dates)
-   j <- grep("11-29-15|11-25-15|11-20-15|11-26-15|11-19-15", d$weeding_dates)
-   d$weeding_dates[j] <- as.character(as.Date(d$weeding_dates[j],"%m-%d-%y"))
-   
-   ## Fixing treatment and land_prep
+
+## Fixing treatment and land_prep
    d$treatment[grepl("CTTPR", d$treatment)] <- "Conventional tillage transplanted puddle rice"
    d$treatment[grepl("CTW", d$treatment)] <- "Conventional tillage wheat"
    d$treatment[grepl("STW", d$treatment)] <- "Strip tillage wheat"
@@ -272,6 +293,13 @@ carob_script <- function(path) {
    d$season <- paste0(d$season,"_",d$year)
    
    d$farmer_name <- d$crop_sys <- d$year <- NULL
+   
+   d$insecticide_used <- ifelse(is.na(d$insecticide_product)| grepl("none",d$insecticide_product),FALSE, TRUE)
+   d$herbicide_used <- ifelse(is.na(d$herbicide_product)| grepl("none",d$herbicide_product),FALSE, TRUE)
+   
+   
+   
+   
    carobiner::write_files(path, meta, d)
 }
 
