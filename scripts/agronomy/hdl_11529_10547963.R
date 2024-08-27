@@ -287,6 +287,9 @@ carob_script <- function(path) {
    d$insecticide_used <- ifelse(is.na(d$insecticide_product)| grepl("none", d$insecticide_product), FALSE, TRUE)
    d$herbicide_used <- ifelse(is.na(d$herbicide_product)| grepl("none", d$herbicide_product), FALSE, TRUE)
 
+   # so that you can specify the price per fertilizer type
+   d$fertlizer_price <- as.character(d$fertlizer_price)
+   
    carobiner::write_files(path, meta, d)
 }
 
