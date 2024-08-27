@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
  
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=2, minor=0),
+		carobiner::read_metadata(uri, path, group, major=3, minor=0),
 		publication="hdl:20.500.11766/5084",
 		data_institute = "ICARDA",
 		carob_contributor="Eduardo Garcia Bendito",
@@ -35,6 +35,7 @@ carob_script <- function(path) {
 		# It's assumed to be EPSG:32637 since this is a common system in Ethiopia and the coordinates match a farming region.
 		d$latitude <- ifelse(farm == "Mandie", 12.4215, 12.3971)
 		d$longitude <- ifelse(farm == "Mandie", 37.5833, 37.5621)
+    d$geo_from_source <- FALSE
 		# There is no year 2 in the original dataset
 		d$planting_date <- ifelse(d$Year == 1, "2013-06-03", "2014-06-08")
 		d$harvest_date <- ifelse(d$Year == 1, "2013-10-25", "2014-10-27")

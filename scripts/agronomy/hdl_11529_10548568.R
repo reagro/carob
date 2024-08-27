@@ -65,9 +65,11 @@ carob_script <- function(path) {
 		elevation = c(2195, 60, 1552),
 		soil_type = c("vertisol", "luvisol", "vertisol"),
 		longitude = c(-96.8578, -96.094722199, -96.48651), 
-		latitude = c(16.9294, 18.1591666, 16.92554)
+		latitude = c(16.9294, 18.1591666, 16.92554),
+	  geo_from_source = TRUE
 	)
-	d <- merge(d, geo, by="location", all.x=TRUE)
+
+		d <- merge(d, geo, by="location", all.x=TRUE)
 
 
 	d$on_farm <- TRUE
@@ -78,14 +80,15 @@ carob_script <- function(path) {
 	d$is_survey <- FALSE
 	d$irrigated <- NA
 	d$P_fertilizer <- d$K_fertilizer <- d$N_fertilizer <- as.numeric(NA)
-
-
-	x <- d[, c("record_id", "date", "weed_biomass")]
+	d <- unique(d)
+	
+	x <- unique(d[, c("record_id", "date", "weed_biomass")])
 	x <- na.omit(x)
-
+  x$date <- as.character(x$date)
+    
 	d$date <- d$weed_biomass <- NULL
 	d <- unique(d)
-		
+	
 	carobiner::write_files(path, meta, d, timerecs=x)
 }
 

@@ -75,7 +75,7 @@ carob_script <- function(path) {
   }
   
   d <- lapply(ff, process)
-  d <-  do.call(rbind,d)
+  d <-  do.call(rbind, d)
   
   d$country <- "Malawi"
   d$trial_id <- as.character(as.integer(as.factor(d$location)))
