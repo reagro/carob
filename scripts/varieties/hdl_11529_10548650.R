@@ -38,7 +38,7 @@ carob_script <- function(path) {
 		crop="grass pea",
 		rep=r$REP,
 		variety=r$VAR,
-		yield_moisture=r$`%Humidity`,
+		yield_moisture=r$`%Humidity` * 100,
 		dmy_storage=r$`Yield_Dry/ plot`,
 		yield_part="grain",
 		yield=r$`yld kg /ha`,
@@ -50,8 +50,9 @@ carob_script <- function(path) {
 		
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
-	d$geo_from_source <- TRUE
-
+  d$irrigated <- FALSE
+  d$geo_from_source <- TRUE
+  
   d$P_fertilizer <- d$K_fertilizer <-  d$N_fertilizer <- d$S_fertilizer <- as.numeric(NA)
   d$rep <- as.integer(d$rep)
   d$variety <- as.character(d$variety)
