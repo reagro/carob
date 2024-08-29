@@ -1,11 +1,9 @@
 # R script for "carob"
 
-#RH: needs a lot more work
 
 # Notes EGB (2024-08-28):
-# # 1. It has been worked and a lot of the missing data is now captured.
-# # 2. The data includes 2 seasons but the protocols only indicate 1.
-# # 3. Biomass information (2a Dry matter measurements.xlsx) contains in-season measurements of biomass that carob cannot capture.
+# Biomass information (2a Dry matter measurements.xlsx) contains in-season measurements of biomass 
+## that need to be captured (timevars).
 
 carob_script <- function(path) {
 
@@ -28,7 +26,6 @@ carob_script <- function(path) {
 		last_modified = "2024-08-28",
 		notes = "Assuming that the biomass, stover and soil records correspond to season 1. Season 2 is nowhere indicated in the protocols"
 	)
-
 
 	f <- ff[basename(ff) == "9a Yield data.xlsx"]
 	r <- carobiner::read.excel(f)
