@@ -32,20 +32,24 @@ carob_script <- function(path) {
 	d <- data.frame(
 		country = "Mexico",
 		trial_id="1",
-		latitude=19.529684,
-		longitude=98.853228,
-		planting_date="2016",
+		latitude=23.951259,
+		longitude= -102.514361,
+		planting_date="2016-11-23",
 		crop="grass pea",
 		rep=r$REP,
 		variety=r$VAR,
 		yield_moisture=r$`%Humidity`,
 		dmy_storage=r$`Yield_Dry/ plot`,
 		yield_part="grain",
-		yield=r$`yld kg /ha`)
+		yield=r$`yld kg /ha`,
+		soil_texture="silty loam",
+		soil_SOM=1.95,
+		soil_pH=7.19,
+		land_prep_method="raised beds",
+		seed_density=333333)
 		
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
-	d$irrigated <-FALSE
 	d$geo_from_source <- TRUE
 
   d$P_fertilizer <- d$K_fertilizer <-  d$N_fertilizer <- d$S_fertilizer <- as.numeric(NA)
