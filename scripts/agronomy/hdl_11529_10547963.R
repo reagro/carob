@@ -23,8 +23,7 @@ carob_script <- function(path) {
    ff <- ff[grep("xlsx",basename(ff))]
    
    process <- function(f){
-      
-      ## process site information file 
+      ## site information  
       r <- carobiner::read.excel.hdr(f, sheet="2 - Site information", skip=5, fix_names = TRUE)
       names(r) <- gsub("Type.of.trial", "Crop", names(r))
       d1 <- data.frame(
@@ -82,14 +81,14 @@ carob_script <- function(path) {
          treatment= r2$Tmnt,
          variety= r2$Variety,
          row_spacing= as.numeric(gsub("B'cast|Random", NA, r2$Row.spacing.cm)),
-         #emergence_date50=r2$Date.of.50pct.plant.emergence.mm.dd.yy,
-         emergence_date= as.character(r2$Date.of.100pct.plant.emergence),
-         anthesis_date= as.character(r2$Date.of.50pct.anthesis),
+         emergence_date=r2$Date.of.50pct.plant.emergence.mm.dd.yy,
+         ##emergence_date= as.character(r2$Date.of.100pct.plant.emergence),
+         flowering_date= as.character(r2$Date.of.50pct.anthesis),
          maturity_date= as.character(r2$Date.of.80pct.physiological.maturity),
-         #emergence_days50= r2$X50pct.emergence.DA,
-         emergence_days= r2$Systems100pct.emergence.DAS,
-         flowering_days= r2$Systems50pct.first.flowering.DAS,
-         anthesis_days= r2$Systems50pct.anthesis.DAS,
+         emergence_days= r2$X50pct.emergence.DA,
+         ##emergence_days= r2$Systems100pct.emergence.DAS,
+         #flowering_days= r2$Systems50pct.first.flowering.DAS,
+         flowering_days= r2$Systems50pct.anthesis.DAS,
          maturity_days= as.numeric(r2$Systems80pct.physiological.maturity.DAS),
          harvest_days= r2$Harvesting.DAS,
          harvest_date= as.character(r2$harvest_date)
@@ -138,7 +137,7 @@ carob_script <- function(path) {
          treatment= r4$Tmnt,
          fertilizer_type= paste(r4$Fertilizer.1.Application_Product.used, r4$Fertilizer.2.Application_Product.used, r4$Fertilizer.3.Application_Product.used, sep =";"),
          fertilizer_amount= rowSums(r4[,c("Total.TSP.kg.ha", "Total.MOP.kg.ha", "Gypsum.kg.ha")]),
-         fertilizer_price= r4$Total.fertiliser.cost.Tk.ha) / rowSums(r4[, c("Total.TSP.kg.ha", "Total.MOP.kg.ha", "Gypsum.kg.ha")], ## BDT/kg
+         fertilizer_price= r4$Total.fertiliser.cost.Tk.ha / rowSums(r4[, c("Total.TSP.kg.ha", "Total.MOP.kg.ha", "Gypsum.kg.ha")]), ## BDT/kg
          currency= "BDT",
          N_fertilizer= r4$N,
          P_fertilizer= r4$P,
@@ -189,9 +188,7 @@ carob_script <- function(path) {
          seed_weight= r6$X1000.grain.weight.g,
          fwy_total= r6$Biomass.t.ha*1000, ## kg/ha
          harvest_index= r6$HI
-         
       )
-      
       merge(d, d7, by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name", "plot_area"), all.x = TRUE)
    }
    
@@ -287,9 +284,12 @@ carob_script <- function(path) {
    d$season <- paste0(d$season,"_",d$year)
    d$farmer_name <- d$crop_sys <- d$year <- NULL
    
-   d$insecticide_used <- ifelse(is.na(d$insecticide_product)| grepl("none", d$insecticide_product),FALSE, TRUE)
-   d$herbicide_used <- ifelse(is.na(d$herbicide_product)| grepl("none", d$herbicide_product),FALSE, TRUE)
+   d$insecticide_used <- ifelse(is.na(d$insecticide_product)| grepl("none", d$insecticide_product), FALSE, TRUE)
+   d$herbicide_used <- ifelse(is.na(d$herbicide_product)| grepl("none", d$herbicide_product), FALSE, TRUE)
 
+   # so that you can specify the price per fertilizer type
+   d$fertilizer_price <- as.character(d$fertilizer_price)
+   
    carobiner::write_files(path, meta, d)
 }
 
