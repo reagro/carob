@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# experiment had more than 1 herbicide product applied, need to correctly input the different herbicide amounts 
-
 
 carob_script <- function(path) {
 
@@ -10,16 +7,11 @@ carob_script <- function(path) {
 Lower yield of wheat in eastern India can be attributed to several input factors i.e., inappropriate crop management practices including other social and environmental factors. Among them, sub-optimal irrigation is one of the important factors. Recommended number of irrigations for optimal wheat harvest is 4-5 depending upon crop growth stages and availability of water. Observations by the project team and a recent survey conducted by CSISA at a landscape-level found that majority of farmers in this part of India apply 2-3 irrigations. Moreover, several studies have suggested to apply irrigation to wheat at its grain filling stage to protect the crop from terminal heat stress thereby safeguarding yield. To validate the effect of number of irrigations and irrigation at the grain-filling stage of wheat, multi-location on-farm trials were conducted continuously over six years starting from 2016-17. Krishi Vigyan Kendras, district-level extension center of national agriculture research and extension system were involved in this process. Ten districts were selected in a way that all agro-climatic zones of this area are covered. The treatment in this trial was application of additional irrigation at maturity/grain-filling stage of wheat crop against general farmer practice. Number of irrigations with farmers vary from 1 to 4, so our treatments included 1+1, 2+1, 3+1, and 4+1 irrigations. We applied these treatments in two sets of wheat crop establishment i.e., zero-tillage and conventional tillage methods. There is asymmetry in distribution of samples within treatments and over years. That happened as trial was in farmer’s participatory mode and numbers were dependent completely on willingness of farmers to participate. Altogether, the trial was conducted at 1810 sites, and we captured 63 variables including yield and yield attributing traits. (2023-08-17)
 "
 
-
 	uri <- "hdl:11529/10548945"
 	group <- "agronomy"
-
-
 	ff  <- carobiner::get_data(uri, path, group)
 
- 
 	meta <- data.frame(
-
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		data_institute = "CIMMYT",
 		project = NA,
@@ -29,15 +21,14 @@ Lower yield of wheat in eastern India can be attributed to several input factors
 		response_vars = "yield", 
 		carob_contributor = "Shumirai Manzvera",
 		carob_date = "2024-08-29",
-		notes = NA
+		notes = "herbicide amounts per product needs improvement"
 	)
 	
 ## read data 
 
 	f <- ff[basename(ff) == "CSISA_IND_Irrigation_Trial_Data_2017-22.csv"]
-	r <- read.csv(f, fileEncoding = "UTF-8")
+	r <- suppressWarnings(read.csv(f, fileEncoding = "UTF-8"))
 	
-
 	d <- data.frame(
 		country = "India",
 		crop= "wheat",
@@ -60,47 +51,39 @@ Lower yield of wheat in eastern India can be attributed to several input factors
 		herbicide_amount=r$HerbicideDose,
 		herbicide_dates=r$HerbicideDate,
 		previous_crop_residue_perc=r$PrevCropResidue,
-		N_splits= 3)
+		N_splits= 3L)
 	
-	d$irrigation_number <- gsub("Three", 3, d$irrigation_number)
-	d$irrigation_number <- gsub("Four", 4, d$irrigation_number)
-	d$irrigation_number <- gsub("Two", 2, d$irrigation_number)
-	d$irrigation_number <- gsub("One", 1, d$irrigation_number)
-	d$irrigation_number= as.integer(d$irrigation_number)
-	d$N_splits= as.integer(d$N_splits)
-	 
+	d$irrigation_number <- match(d$irrigation_number, c("One", "Two", "Three", "Four")) 
 	d$herbicide_amount <- gsub("gm", "", d$herbicide_amount)
-	
-	
 
-
- d$trial_id <- "1"
- d$yield_part <- "grain"
+  d$yield_part <- "grain"
 
 	d$on_farm <- TRUE
 	d$is_survey <-FALSE 
 	d$irrigated <-TRUE
-	
-
-
 	d$geo_from_source <- TRUE
 
+	d$planting_date<- gsub("\\.", "-", d$planting_date)
+	d$harvest_date <- gsub("\\.", "-", d$harvest_date)
+	d$herbicide_dates <- gsub("\\.", "-", d$herbicide_dates)
+	d$herbicide_dates[d$herbicide_dates == ""] <- NA
+	d$harvest_date[d$harvest_date == ""] <- NA
 	
-	d$planting_date<- gsub("\\.", "/", d$planting_date)
-	d$harvest_date <- gsub("\\.", "/", d$harvest_date)
-	d$herbicide_dates <- gsub("\\.", "/", d$herbicide_dates)
-	d$harvest_date <- as.character(as.Date(d$harvest_date))
-	d$herbicide_dates <- as.character(as.Date(d$herbicide_dates))
+	#d$harvest_date <- as.character(as.Date(d$harvest_date))
+	#d$herbicide_dates <- as.character(as.Date(d$herbicide_dates))
 	
-   d$P_fertilizer <- rowSums(cbind( r$BasalDAP,  r$BasalNPK), na.rm = T)
-   d$K_fertilizer <- r$BasalMOP/1.2105
-   d$N_fertilizer <- rowSums(cbind( r$Split1Urea, r$Split2Urea,r$Split3Urea), na.rm = T)    
-  
+# it seems that "r$GradeNPK" should tell us what type of NPK we have. 
+# But it is not clear how interpret its values: 0.5224074 0.8473727 0.7819444
+# assuming NPK 20-20-20 for now. RH has send an email inquiry.
+
+	d$N_fertilizer <- rowSums(r[, c("Split1Urea", "Split2Urea", "Split3Urea")], na.rm = TRUE) * 0.46
+	d$N_fertilizer <- rowSums(cbind(d$N_fertilizer, r$BasalDAP * 0.18, r$BasalNPK * 0.2), na.rm = TRUE)
+	d$P_fertilizer <- rowSums(cbind(r$BasalDAP * 0.201,  r$BasalNPK * (0.2 / 2.29)), na.rm = TRUE)
+	d$K_fertilizer <- rowSums(cbind(r$BasalMOP * 0.498 , r$BasalNPK * (0.2 / 1.2051)), na.rm=TRUE)
+   d$Zn_fertilizer <- r$BasalZn
+   
    d$land_prep_method<- gsub("CT", "conventional", d$land_prep_method)
    d$land_prep_method<- gsub("ZT", "none", d$land_prep_method)
-   
-
- 
    
    d$herbicide_product[d$herbicide_product =="Clodinafop Propargyl 15% + Metsulfuron Methyl 1% WP (Vesta)"]<- "clodinafop;metsulfuron"
    d$herbicide_product[d$herbicide_product=="Sulphosulfuron 75% (Leader)+Carfentrazone Ethyl 40DF (Affinity)"] <-"sulfosulfuron;carfentrazone-ethyl"
@@ -117,11 +100,14 @@ Lower yield of wheat in eastern India can be attributed to several input factors
    d$herbicide_product[d$herbicide_product =="2,4-dichlorophenoxyacetic acid (2,4-D)"] <- "2,4-D"
    d$herbicide_product[d$herbicide_product =="2,4-Dichlorophenoxyacetic acid"] <- "2,4-D"
    
-   # all scripts must end like this
-	carobiner::write_files(path, meta, d)
-}
+   d$herbicide_amount <- gsub("g", "", d$herbicide_amount)
+   d$herbicide_amount <- gsub(",", "+", d$herbicide_amount)
+   d$herbicide_amount[d$herbicide_amount == ""] <- NA
+   d$herbicide_amount <- sapply(d$herbicide_amount, \(i) eval(parse(text=i)))
+   
+   y <- substr(d$planting_date, 1, 4)   
+   d$trial_id <- as.character(as.integer(as.factor(paste(y, d$longitude, d$latitude))))
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
+   carobiner::write_files(path, meta, d)
+}
 
