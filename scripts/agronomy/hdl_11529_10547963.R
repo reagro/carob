@@ -81,12 +81,14 @@ carob_script <- function(path) {
          treatment= r2$Tmnt,
          variety= r2$Variety,
          row_spacing= as.numeric(gsub("B'cast|Random", NA, r2$Row.spacing.cm)),
-         emergence_date=r2$Date.of.50pct.plant.emergence.mm.dd.yy,
-         ##emergence_date= as.character(r2$Date.of.100pct.plant.emergence),
+## not always available         
+##         emergence_date=r2$Date.of.50pct.plant.emergence.mm.dd.yy,
+         emergence_date= as.character(r2$Date.of.100pct.plant.emergence),
          flowering_date= as.character(r2$Date.of.50pct.anthesis),
          maturity_date= as.character(r2$Date.of.80pct.physiological.maturity),
-         emergence_days= r2$X50pct.emergence.DA,
-         ##emergence_days= r2$Systems100pct.emergence.DAS,
+## not always available
+##       emergence_days= r2$X50pct.emergence.DA,
+         emergence_days= r2$Systems100pct.emergence.DAS,
          #flowering_days= r2$Systems50pct.first.flowering.DAS,
          flowering_days= r2$Systems50pct.anthesis.DAS,
          maturity_days= as.numeric(r2$Systems80pct.physiological.maturity.DAS),
@@ -192,8 +194,8 @@ carob_script <- function(path) {
       merge(d, d7, by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name", "plot_area"), all.x = TRUE)
    }
    
-  d <- lapply(ff, process)
-  d <- do.call(rbind, d) 
+   d <- lapply(ff, process)
+   d <- do.call(rbind, d) 
  
    d$trial_id <- paste0(d$farmer_name, "_", d$location)
    d$planting_date <- as.character(as.Date(d$harvest_date)- d$harvest_days)
