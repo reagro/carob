@@ -95,6 +95,7 @@ carob_script <- function(path) {
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- NA
+	d$geo_from_source <- TRUE
 	
 	carobiner::write_files(meta, d, path=path)
 }

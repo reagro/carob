@@ -31,6 +31,7 @@ carob_script <- function(path) {
 		site = r1$Village,
 		latitude = r1$Flat,
 		longitude = r1$Flong,
+		geo_from_source = TRUE,
 		on_farm = TRUE,
 		is_survey = FALSE,
 		crop = tolower(r1$TCrop),

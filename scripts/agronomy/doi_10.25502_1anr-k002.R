@@ -224,6 +224,7 @@ carob_script <- function(path) {
 	i <- which(z$country=="Nigeria" & is.na(z$adm2) & z$location=="Uran I")
 	z$latitude[i] <- 8.8028 
 	z$longitude[i] <- 12.0435
+	z$geo_from_source <- FALSE
 	
 		
 	carobiner::write_files(meta, z, path=path)

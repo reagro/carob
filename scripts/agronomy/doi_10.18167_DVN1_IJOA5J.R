@@ -114,6 +114,7 @@ carob_script <- function(path) {
   # efyrouwa : spatial info provided is only for Goromonzi
 	d$latitude <- -17.80695
 	d$longitude <- 31.36372
+	d$geo_from_source <- FALSE
   
   #processing the second data set
 	d1 <- r1[, c("Site","Field","Treatment","Treatment_desc","System","Cowpea_variety","Fertilizer","Year","Previous_crop","Clay_perc","Silt_perc","Total_sand_perc","pH_CaCl2","Available_P","Total_Nitrogen","SOC_perc","Zn_ICP_mg_kg","Ca_ICP_mg_kg" ,"Mg_ICP_mg_kg", "K_ICP_mg_kg","P_ICP_mg_kg","Cu_ICP_mg_kg","Fe_ICP_mg_kg","Mn_ICP_mg_kg","Al_ICP_mg_kg")]

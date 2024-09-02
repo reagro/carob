@@ -107,6 +107,7 @@ carob_script <- function(path) {
 	d$season <- as.character(d$season) 
 	d$crop <- "maize"
 	d$yield_part <- "grain"
+	d$geo_from_source <- TRUE
 
 	# all scripts must end like this	
 	carobiner::write_files(path, meta, d)
