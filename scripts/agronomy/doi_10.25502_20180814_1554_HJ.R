@@ -90,6 +90,14 @@ carob_script <- function(path) {
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
+	
+	# Fixing and completing goereferencing
+	d$latitude <- d$latitude * -1 # Source was in north hemisphere... for Malawi.
+	d$geo_from_source <- ifelse(!is.na(d$latitude) & !is.na(d$longitude), TRUE, FALSE)
+	d$longitude[d$location == "Liphutu"] <- 35.314
+	d$latitude[d$location == "Liphutu"] <- -15.898
+	d$longitude[d$location == "Tambala"] <- 35.577
+	d$latitude[d$location == "Tambala"] <- -14.450
 
 	carobiner::write_files(meta, d, path=path)
 }
