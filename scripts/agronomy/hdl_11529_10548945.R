@@ -34,7 +34,7 @@ carob_script <- function(path) {
 		adm1 = r$State, 
 		adm2= r$District,
 		adm3 = r$Block,
-		adm4= r$Village,
+		location = r$Village,
 		latitude=r$Latitude,
 		longitude=r$Longitude,
 		previous_crop=tolower(r$PreviousCrop),
