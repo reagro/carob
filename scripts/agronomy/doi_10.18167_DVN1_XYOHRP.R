@@ -60,6 +60,7 @@ carob_script <- function(path) {
 	d$location <- "Vakinankaratra"
 	d$longitude <- 46.836
 	d$latitude <- -19.711
+	d$geo_from_source <- FALSE
 	d$trial_id <- "1"
 	d$yield_part <- "grain"
 	d$on_farm <- TRUE

@@ -52,6 +52,7 @@ Abstract: Low soil fertility and water shortage are major constraints to food pr
 	e$location <- ifelse(d$Location == "BUK", "Bayero University", d$Location)
 	e$longitude <- ifelse(e$location == "Minjibir", 8.637, 8.429)
 	e$latitude <- ifelse(e$location == "Minjibir", 12.192, 11.975)
+	e$geo_from_source <- FALSE
 
 ##RH
 ## wrong

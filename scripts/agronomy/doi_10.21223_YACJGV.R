@@ -33,7 +33,8 @@ carob_script <- function(path) {
 		yield=r$tuberY * 1000, 
 		latitude=r$Latitude, 
 		longitude=r$Longitude, 
-		elevation=r$Altitude, 
+		elevation=r$Altitude,
+		geo_from_source = TRUE,
 		treatment=r$treat
 	)
  
