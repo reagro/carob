@@ -25,102 +25,94 @@ carob_script <- function(path) {
   
   #Process sheet: Yield and Attributing Character
   bn <- basename(ff)
-  r1<- carobiner::read.excel(ff[bn=="IJAS_Table_Replicated_Data.xlsx"], sheet= "Yield and Attributing Character")
-  d1<-r1[-c(2:19)] #Selecting columns of interest, as some parameters cannot be processed.
+#  r1 <- carobiner::read.excel(ff[bn=="IJAS_Table_Replicated_Data.xlsx"], sheet= "Yield and Attributing Character")
+#  d1 <-d1[-1,] #row is redundant. 
+  r1 <- carobiner::read.excel.hdr(ff[bn=="IJAS_Table_Replicated_Data.xlsx"], sheet="Yield and Attributing Character", hdr=1, skip=1)
+  d1 <- r1[, -c(2:19)] #Selecting columns of interest, as some parameters cannot be processed.
   
   #Added new column names, as they get mixed up when data set is read. Some of the cells in the raw data set are merged.
-  colnames(d1)<-c("treatment", "R1_dmy_total", "R2_dmy_total", "R3_dmy_total", "R1_harvest_index", "R2_harvest_index", "R3_harvest_index")
+  colnames(d1) <- c("treatment", "R1_dmy_total", "R2_dmy_total", "R3_dmy_total", "R1_harvest_index", "R2_harvest_index", "R3_harvest_index")
   
-  d1<-d1[-1,] #Row is now redundant. 
-  
-  d1<-reshape(d1,
+  d1 <-reshape(d1,
               varying=c("R1_dmy_total", "R1_harvest_index",
                         "R2_dmy_total", "R2_harvest_index",
                         "R3_dmy_total", "R3_harvest_index"),
-              v.names=c("R", "H"),
-              timevar="Rep",
-              times=c("1", "2","3"),
-              direction='long')
+              v.names=c("harvest_index", "dmy_total"),
+              timevar="rep",
+              times=c("1", "2", "3"),
+              direction="long")
   
-  colnames(d1)<-c("treatment","rep","harvest_index","dmy_total", "trial_id")
-  d1$trial_id<-as.character(paste0(d1$treatment,'_',d1$rep,'_',d1$trial_id))
-  
+#  hadcolnames(d1)<-c("treatment","rep","harvest_index","trial_id")
+#  d1$trial_id<-as.character(paste0(d1$treatment,'_',d1$rep,'_',d1$trial_id))
+
   #process yield values
-  d1[, c("dmy_total", "harvest_index")] <-lapply(d1[, c("dmy_total", "harvest_index")], as.numeric)
   d1$yield_part <- "grain"
-  d1$dmy_total<-d1$dmy_total*1000
-  d1$yield<-d1$dmy_total*(d1$harvest_index/100) #No grain yield value but can be extrapolated using Harvest index.
-  d1$dmy_residue<-d1$dmy_total-d1$yield
+  d1$dmy_total <- d1$dmy_total * 1000
+  #grain yield computed using Harvest index.
+  d1$dm_yield <- d1$dmy_total * d1$harvest_index / 100 
+  d1$dmy_residue <- d1$dmy_total - d1$dm_yield
   
-  #Management data 
-  d1$land_prep_method<-NA
-  d1$land_prep_method<-ifelse(grepl("PB",d1$treatment),"raised beds","conventional")
-  d1$residue_prevcrop_used<-ifelse(grepl("WR",d1$treatment),TRUE,FALSE)
-  d1$irrigated<-TRUE
-  d1$irrigation_method<-ifelse(grepl("SSD",d1$treatment),"sub-surface drip","furrow")
-  
-  d1$fertilizer_used<-ifelse(grepl("N0",d1$treatment),FALSE,TRUE) 	#fertilizer information (from the data and the paper)
-  d1$fertilization_method<-ifelse(grepl("N0",d1$treatment),NA,"fertigation")
-  
-  d1$P_fertilizer<- 60*0.346  #Basal applied. 60kg/ha p205 & 30kg/ha k2O
-  d1$K_fertilizer<- 30*0.831  #Basal applied. 60kg/ha p205 & 30kg/ha k2O
-  d1$N_fertilizer<-NA
-  d1$N_fertilizer<-ifelse(grepl("N0",d1$treatment),0,d1$N_fertilizer)
-  d1$N_fertilizer<-ifelse(grepl("N120",d1$treatment),96.5,d1$N_fertilizer)
-  d1$N_fertilizer<-ifelse(grepl("N150",d1$treatment),126,d1$N_fertilizer)
-  d1$N_splits<-NA
-  d1$N_splits<-ifelse(grepl("PBWOR-SSD",d1$treatment),4,d1$N_splits)
-  d1$N_splits<-ifelse(grepl("PBWR-SSD",d1$treatment),4,d1$N_splits)
-  d1$N_splits<-ifelse(grepl("CTWOR-Furrow",d1$treatment),2,d1$N_splits)
-  d1$N_splits<-ifelse(grepl("PBWR-Furrow",d1$treatment),2,d1$N_splits)
-  d1$N_splits<-as.integer(d1$N_splits)
-  
-  #Additional details
-  d1$rep<-as.integer(d1$rep)
-  d1$geo_from_source <- TRUE
-  d1$crop<- "maize"
-  d1$on_farm <- FALSE
-  d1$is_survey <- FALSE
+  #management
+  d1$land_prep_method <- ifelse(grepl("PB", d1$treatment), "raised beds", "conventional")
+  d1$residue_prevcrop_used <- grepl("WR", d1$treatment)
   d1$irrigated <- TRUE
-  d1$country <- "India" 
-  d1$adm1<-"Punjab"
-  d1$adm2<-"Ludhiana"
-  d1$adm3<-"Ludhiana West"
-  d1$location<-"Ladhowal"
-  d1$site<-'bisa-cimmyt'
-  d1$longitude <- 75.44
-  d1$latitude <- 30.99
-  d1$elevation <- 229
-  d1$planting_date<- '2019/06/20'
-  d1$harvest_date<- '2019/10/13'
-  d1$variety<- "P3396"
+  d1$irrigation_method <- ifelse(grepl("SSD", d1$treatment), "sub-surface drip", "furrow")
   
+  # fertilizer information (from the data and the paper)
+  d1$fertilizer_used <- grepl("N0", d1$treatment)
+  d1$fertilization_method <- ifelse(grepl("N0", d1$treatment), NA, "fertigation")
   
-  #Process sheet: N Data (NUE, Uptake)
-  r2<- carobiner::read.excel(ff[bn=="IJAS_Table_Replicated_Data.xlsx"], sheet= "N Data (NUE, Uptake)")
-  d2<-r2[c(1:7)] #Selecting columns of interest, as some parameters cannot be processed.
-  
+  #Basal applied. 60kg/ha p205 & 30kg/ha k2O
+  d1$P_fertilizer <- 60 * 0.346  
+  d1$K_fertilizer <- 30 * 0.831
+  d1$N_fertilizer <- 0
+  d1$N_fertilizer <- ifelse(grepl("N120", d1$treatment), 96.5, d1$N_fertilizer)
+  d1$N_fertilizer <- ifelse(grepl("N150", d1$treatment), 126, d1$N_fertilizer)
+  d1$N_splits <- ifelse(grepl("-SSD", d1$treatment), 4L, 2L)
+  d1$N_splits[d1$N_fertilizer == 0] <- 0L
+
+  #process sheet: N Data (NUE, Uptake)
+  r2 <- carobiner::read.excel(ff[bn=="IJAS_Table_Replicated_Data.xlsx"], sheet= "N Data (NUE, Uptake)")
+  #selecting columns of interest, as some parameters cannot be processed.
+  d2 <- r2[-1, c(1:7)] 
   #Added new column names, as they get mixed up when data set is read. Some of the cells in the raw data set are merged.
-  colnames(d2)<-c("treatment", "R1_grain_N", "R2_grain_N", "R3_grain_N", "R1_leaf_N", "R2_leaf_N", "R3_leaf_N")
+  colnames(d2) <- c("treatment", "R1_grain_N", "R2_grain_N", "R3_grain_N", "R1_leaf_N", "R2_leaf_N", "R3_leaf_N")
   
-  d2<-d2[-1,] #Row is now redundant. 
-  
-  d2<-reshape(d2,
+  d2 <- reshape(d2,
               varying=c("R1_grain_N", "R1_leaf_N",
                         "R2_grain_N", "R2_leaf_N",
                         "R3_grain_N", "R3_leaf_N"),
               v.names=c("grain_N", "leaf_N"),
-              timevar="Rep",
+              timevar="rep",
               times=c("1", "2","3"),
               direction='long')
   
-  colnames(d2)<-c("treatment","rep","grain_N","leaf_N", "trial_id")
-  d2$trial_id<-as.character(paste0(d2$treatment,'_',d2$rep,'_',d2$trial_id))
-  d2[, c("grain_N", "leaf_N")] <-lapply(d2[, c("grain_N", "leaf_N")], as.numeric)
-  d<-merge(d1,d2,by='trial_id')
-  d <- d[, !names(d) %in% c("treatment.y", "rep.y")]
-  names(d)[names(d) == "treatment.x"] <- "treatment"
-  names(d)[names(d) == "rep.x"] <- "rep"
-  
-  carobiner::write_files(meta, d, path=path)
+#  colnames(d2)<-c("treatment","rep","grain_N","leaf_N", "trial_id")
+
+    d2[, c("grain_N", "leaf_N")] <- lapply(d2[, c("grain_N", "leaf_N")], as.numeric)
+
+    d <- merge(d1, d2, by=c("treatment", "rep", "id"))
+    d$id <- NULL 
+    d$rep <- as.integer(d$rep)
+    d$trial_id <- "1"
+    d$geo_from_source <- TRUE
+    d$crop <- "maize"
+    d$on_farm <- FALSE
+    d$is_survey <- FALSE
+    d$irrigated <- TRUE
+    d$country <- "India" 
+    d$adm1 <-"Punjab"
+    d$adm2 <-"Ludhiana"
+    d$adm3 <-"Ludhiana West"
+    d$location <-"Ladhowal"
+    d$site <- "BISA-CIMMYT"
+    d$longitude <- 75.44
+    d$latitude <- 30.99
+    d$elevation <- 229
+    d$planting_date <- "2019-06-20"
+    d$harvest_date <- "2019-10-13"
+    d$variety <- "P3396"
+
+    carobiner::write_files(meta, d, path=path)
 }
+
