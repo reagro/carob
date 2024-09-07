@@ -1,38 +1,62 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
-
 carob_script <- function(path) {
   
   "Description:
 
-    [copy the abstract from the repo]"
+    Group B1, cycle B1C5 of Population B (fifth cycle of recombination of the pure native Andigena group B1), is the result of a new population improvement strategy in the absence of R genes started at CIP in 1990. The group B1 derives from the primitive cultivars of Solanum tuberosum ssp. andigena, known to be free of R-genes. \r\n\r\nThese clones were planted in a randomized complete block design (RCBD) with 2-4  replicates at Oxapampa,  located at 1810 masl in Pasco-Peru in the Eastern mountain ranges facing the Amazon. The trials were established at Oxapampa due to the high disease pressure of late blight in these areas from 2005 to 2006."
   
+  # Set doi, dataset id and group
+    
   uri <- "doi:10.21223/P3/VYCLVX"
   dataset_id <- carobiner::simple_uri(uri)
   group <- "varieties"
   
   
-  ## download and read data 
+  ## Download and read data 
   
   ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::read_metadata(uri, path, group, major=1, minor=3)
+  metadata <- carobiner::read_metadata(uri, path, group, major=1, minor=3)
   
+  ## Fill missing metadata
   
+  metadata_requirements <- carobiner::accepted_variables(type = 'metadata')
+  metadata_requirements <- metadata_requirements[which(metadata_requirements$required=="yes"),]
   
-  # f <- ff[basename(ff) == "16470_PTYield082019_Parental_Value_B3C3_CIPSRM19_02.xlsx"]
+  ### Helper code to see missing metadata
   
-  # r <- read.csv(f, sep = ";")
+  missing_metadata_idx <- which(!metadata_requirements$name %in% colnames(metadata))
+  
+  missing_metadata_vars <- metadata_requirements[missing_metadata_idx,]$name
+  
+  # print(missing_metadata_vars)
+  
+  ### Fill missing metadata
+  
+  fill_metadata <- c(
+      "Henry Juarez",
+      "experiment",
+      "treatment",
+      "AUDPC, rAUDPC, yield, yield_marketable",
+      NA,
+      "CIP",
+      NA,
+      as.character(Sys.Date())
+  )
+  
+  data_vector <- setNames(fill_metadata, missing_metadata_vars)
+  
+  metadata <- cbind(metadata, t(as.data.frame(data_vector)))
   
   ## process file(s)
   
-  files <- list.files(file.path(paste0(path,"/data/raw/varieties/",dataset_id,"/")), pattern = "OXAPMP", full.names = T)
-  cat("These are the available files for the doi link:\n\n")
-  print(files)
+  ### Retrieve files with records based on a pattern
   
-  ###
+  files <- list.files(file.path(paste0(path,"/data/raw/varieties/",dataset_id,"/")), pattern = "OXAPMP", full.names = T)
+  # cat("These are the available files for the doi link:\n\n")
+  # print(files)
+  
+  ## Helper functions to process the data of multiple sheets of excel files
   
   filter_dfs <- function(file, variables=c("REP","INSTN","AUDPC","rAUDPC","TTYNA","MTYNA")){
       
@@ -51,16 +75,11 @@ carob_script <- function(path) {
           
       }
       
-      
-      # idx <- which(colnames(df) %in% c("REP","INSTN","TTYNA","MTYNA"))
-      # 
-      # colnames(df)[idx] <- c("rep","variety","yield","yield_marketable") 
-      
       df = carobiner::change_names(df, from=c("REP","INSTN","TTYNA","MTYNA"), to = c("rep","variety","yield","yield_marketable") )
       
       
       tryCatch({
-          df$rep <- df$rep |> as.integer()
+          df$rep <- as.integer(df$rep)
           df$yield <- df$yield * 1000
           df$yield_marketable <- df$yield_marketable * 1000
           df$AUDPC <- df$AUDPC / 100
@@ -74,8 +93,6 @@ carob_script <- function(path) {
       
   }
   
-  ###
-  
   extract_metadata <- function(file, data){
       
       metadata <- carobiner::read.excel(f = file, sheet="Minimal")
@@ -84,12 +101,9 @@ carob_script <- function(path) {
       data$adm1 <- metadata[which(metadata$Factor=="Admin1"),]$Value
       data$adm2 <- metadata[which(metadata$Factor=="Admin2"),]$Value
       data$adm3 <- metadata[which(metadata$Factor=="Admin3"),]$Value
-      data$longitude <- metadata[which(metadata$Factor=="Longitude"),]$Value |> 
-          as.numeric()
-      data$latitude <- metadata[which(metadata$Factor=="Latitude"),]$Value |> 
-          as.numeric()
-      data$elevation <- metadata[which(metadata$Factor=="Elevation"),]$Value |> 
-          as.numeric()
+      data$longitude <- as.numeric(metadata[which(metadata$Factor=="Longitude"),]$Value)
+      data$latitude <- as.numeric(metadata[which(metadata$Factor=="Latitude"),]$Value)
+      data$elevation <- as.numeric(metadata[which(metadata$Factor=="Elevation"),]$Value)
       data$planting_date <- metadata[which(metadata$Factor=="Begin date"),]$Value
       data$harvest_date <- metadata[which(metadata$Factor=="End date"),]$Value
       
@@ -97,7 +111,7 @@ carob_script <- function(path) {
       
   }
   
-  ###
+  ## Fill missing records with a for loop
   
   df_list <- list()
   
@@ -118,10 +132,7 @@ carob_script <- function(path) {
       d$crop <- "potato"
       d$pathogen <- "Phytophthora infestans"
       d$yield_part <- "tubers"
-      # d$is_experiment <- 'yes'
-      # d$sciname <- 'Solanum tuberosum'
-      d$trial_id = (trial_id_counter) |> 
-          as.character()
+      d$trial_id = as.character(trial_id_counter) 
       
       trial_id_counter = trial_id_counter + 1
       
@@ -130,58 +141,26 @@ carob_script <- function(path) {
       
   }
   
+  ## Join records
+  
   d <- do.call(rbind, df_list)
   
   d$record_id <- as.integer(1:nrow(d))
   
-  ## required variabeles for metadata
   
-  metadata_requirements <- read.csv("https://raw.githubusercontent.com/reagro/terminag/main/variables/variables_metadata.csv", sep = ",")
-  metadata_requirements <- metadata_requirements[which(metadata_requirements$required=="yes"),]
-  
-  
-  ## required variables for records
-  
-  crop_requirements <- read.csv("https://raw.githubusercontent.com/reagro/terminag/main/variables/variables_crop.csv", sep = ",")
+  ## Helper code to check the required variables for records
+
+  crop_requirements <- carobiner::accepted_variables(type = 'records', group = 'varieties')
   crop_requirements <- crop_requirements[which(crop_requirements$required=="yes"),]
-  
-  ## filling metadata 
-  
-  missing_metadata_idx <- which(!metadata_requirements$name %in% colnames(js))
-  
-  missing_metadata_vars <- metadata_requirements[missing_metadata_idx,]$name
-  
-  print(missing_metadata_vars)
-  
-  fill_metadata <- c(
-      "Henry Juarez",
-      "experiment",
-      "treatment",
-      "AUDPC, rAUDPC, yield, yield_marketable",
-      NA,
-      "CIP",
-      NA,
-      Sys.Date() |> as.character()
-  )
-  
-  data_vector <- setNames(fill_metadata, missing_metadata_vars)
-  
-  js <- cbind(js, data_vector |> 
-                  as.data.frame() |> 
-                  t())
-  
-  ###
-  
+
   missing_data_idx <-  which(!crop_requirements$name %in% colnames(d))
-  
   missing_data_vars <- crop_requirements[missing_data_idx,]$name
   
-  print(missing_data_vars)
+  # print(missing_data_vars)
   
   
-  # Data
+  ## Fill missing records 
   
-  # d$trial_id = js$dataset_id
   d$geo_from_source = TRUE
   d$N_fertilizer = NA
   d$P_fertilizer = NA
@@ -189,7 +168,7 @@ carob_script <- function(path) {
   
   
   carobiner::write_files(path = path,
-                         metadata = js,
+                         metadata = metadata,
                          records = d)
   
 }
