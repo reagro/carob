@@ -14,7 +14,7 @@ carob_script <- function(path) {
   
 	uri <- "doi:10.25502/rwze-cc90"
 	group <- "agronomy"
-	ff	<- carobiner::get_data(uri, path, group)
+	ff <- carobiner::get_data(uri, path, group)
 	 
 	## data set level data
 	meta <- data.frame(
