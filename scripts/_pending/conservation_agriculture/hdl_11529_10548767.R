@@ -16,7 +16,7 @@ carob_script <- function(path) {
     project=NA,
     data_type = "on-farm experiment",
     response_vars = "yield",
-    treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer",
+    treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer;irrigated;land_prep_method;residue_prevcrop_used;N_splits",
     carob_contributor="Hope Mazungunye",
     carob_date="2023-09-15",
     modified_by="Siyabusa Mkuhlani",
@@ -25,9 +25,8 @@ carob_script <- function(path) {
   
   #Process sheet: Yield and Attributing Character
   bn <- basename(ff)
-#  r1 <- carobiner::read.excel(ff[bn=="IJAS_Table_Replicated_Data.xlsx"], sheet= "Yield and Attributing Character")
-#  d1 <-d1[-1,] #row is redundant. 
-  r1 <- carobiner::read.excel.hdr(ff[bn=="IJAS_Table_Replicated_Data.xlsx"], sheet="Yield and Attributing Character", hdr=1, skip=1)
+
+    r1 <- carobiner::read.excel.hdr(ff[bn=="IJAS_Table_Replicated_Data.xlsx"], sheet="Yield and Attributing Character", hdr=1, skip=1)
   d1 <- r1[, -c(2:19)] #Selecting columns of interest, as some parameters cannot be processed.
   
   #Added new column names, as they get mixed up when data set is read. Some of the cells in the raw data set are merged.
@@ -42,9 +41,6 @@ carob_script <- function(path) {
               times=c("1", "2", "3"),
               direction="long")
   
-#  hadcolnames(d1)<-c("treatment","rep","harvest_index","trial_id")
-#  d1$trial_id<-as.character(paste0(d1$treatment,'_',d1$rep,'_',d1$trial_id))
-
   #process yield values
   d1$yield_part <- "grain"
   d1$dmy_total <- d1$dmy_total * 1000
@@ -62,9 +58,16 @@ carob_script <- function(path) {
   d1$fertilizer_used <- grepl("N0", d1$treatment)
   d1$fertilization_method <- ifelse(grepl("N0", d1$treatment), NA, "fertigation")
   
+  #Type and formulae of the basal dressing applied was not stated but in the publication
+  #authors state '....A common dose of 60 kg/ha P2O5 + 30 kg/ha K2O was applied
+  #to all plots as basal.'
   #Basal applied. 60kg/ha p205 & 30kg/ha k2O
   d1$P_fertilizer <- 60 * 0.346  
   d1$K_fertilizer <- 30 * 0.831
+  
+  #The type and formula of the fertilizer applied was not stated in the publication.
+  #The authors simply mentioned '...96.5 kg and   126.5 kg N was allotted for 
+  #SSD-N120 Eq (both PBWOR and PBWR) and SSD-N150 Eq (both PBWOR and PBWR) plots, respectively
   d1$N_fertilizer <- 0
   d1$N_fertilizer <- ifelse(grepl("N120", d1$treatment), 96.5, d1$N_fertilizer)
   d1$N_fertilizer <- ifelse(grepl("N150", d1$treatment), 126, d1$N_fertilizer)
@@ -87,10 +90,7 @@ carob_script <- function(path) {
               times=c("1", "2","3"),
               direction='long')
   
-#  colnames(d2)<-c("treatment","rep","grain_N","leaf_N", "trial_id")
-
     d2[, c("grain_N", "leaf_N")] <- lapply(d2[, c("grain_N", "leaf_N")], as.numeric)
-
     d <- merge(d1, d2, by=c("treatment", "rep", "id"))
     d$id <- NULL 
     d$rep <- as.integer(d$rep)
@@ -101,11 +101,11 @@ carob_script <- function(path) {
     d$is_survey <- FALSE
     d$irrigated <- TRUE
     d$country <- "India" 
-    d$adm1 <-"Punjab"
-    d$adm2 <-"Ludhiana"
-    d$adm3 <-"Ludhiana West"
-    d$location <-"Ladhowal"
-    d$site <- "BISA-CIMMYT"
+    d$adm1 <- "Punjab"
+    d$adm2 <- "Ludhiana"
+    d$adm3 <- "Ludhiana West"
+    d$location <- "Ladhowal"
+    d$site <- tolower("BISA-CIMMYT")
     d$longitude <- 75.44
     d$latitude <- 30.99
     d$elevation <- 229
