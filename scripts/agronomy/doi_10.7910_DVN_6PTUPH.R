@@ -2,15 +2,15 @@
 
 carob_script <- function(path) {
    
-" This dataset was generated from the study conducted to determine whether there is any significant difference in the uptake of sustainable intensification (SI) technologies by farmers because of their interaction with the research team during project implementation. Africa RISING project started interacting with farmers during the 2012/13 cropping season in three agro-ecologies in central Malawi. International Maize and Wheat Improvement Center (CIMMYT) started interacting with farmers who were using conservation agriculture-based SI technologies since the 2007/2008 cropping season in three agro-ecologies in central Malawi. In this study, both CIMMYT and Michigan State University (MSU) led trials were selected. Over time, some new farmers were engaged, creating an opportunity to also study exposure time as a factor to understand the intensity and use of SI technologies. We grouped farmers into two categories to assess the effect of exposure time: (1) farmers who were engaged at the onset of the project (2012/2013), and (2) farmers who were engaged starting 2016/2017 cropping season. Farmers were primarily engaged at different levels"
-   
+"This dataset was generated from the study conducted to determine whether there is any significant difference in the uptake of sustainable intensification (SI) technologies by farmers because of their interaction with the research team during project implementation. Africa RISING project started interacting with farmers during the 2012/13 cropping season in three agro-ecologies in central Malawi. International Maize and Wheat Improvement Center (CIMMYT) started interacting with farmers who were using conservation agriculture-based SI technologies since the 2007/2008 cropping season in three agro-ecologies in central Malawi. In this study, both CIMMYT and Michigan State University (MSU) led trials were selected. Over time, some new farmers were engaged, creating an opportunity to also study exposure time as a factor to understand the intensity and use of SI technologies. We grouped farmers into two categories to assess the effect of exposure time: (1) farmers who were engaged at the onset of the project (2012/2013), and (2) farmers who were engaged starting 2016/2017 cropping season. Farmers were primarily engaged at different levels"
+
    uri <- "doi:10.7910/DVN/6PTUPH"
    group <- "agronomy"
    ff  <- carobiner::get_data(uri, path, group)
    
    meta <- data.frame(
       carobiner::read_metadata(uri, path, group, major=1, minor=1), 
-      data_institute = "MSU", #Michigan State University
+      data_institute = "CIMMITY;MSU",
       publication=NA, 
       project=" AfricaRISING",
       data_type= "experiment", 
