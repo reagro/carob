@@ -65,7 +65,8 @@ The data support a research article which is under review “Increased cassava g
 ### add long and lat coordinate
 	geoc <- data.frame(location=c("Kasheke","Cibanda","Cibandja","Muhongoza","Munanira"),
 				latitude=c(-2.1518846,-2.1065462,-2.1065462,-2.0976667,-2.1057639),
-				longitude=c(28.8560076,28.9186227,28.9186227,28.9069167,28.9202472))
+				longitude=c(28.8560076,28.9186227,28.9186227,28.9069167,28.9202472),
+				geo_from_source = FALSE)
 	
 	d <- merge(d,geoc,by="location")
 

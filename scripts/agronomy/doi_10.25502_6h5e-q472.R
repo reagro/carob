@@ -229,7 +229,8 @@ carob_script <- function(path) {
                   adm2 = c("Kanungu", "Kanungu"),
                   adm4 = c("Mpungu", "Rutenga"),
                   latitude = c(-0.99308, -0.99617),
-                  longitude = c(29.72256, 29.84895))
+                  longitude = c(29.72256, 29.84895),
+                  geo_from_source = TRUE)
   d5 <- merge(d4, s, by = c("adm1", "adm2", "adm4"), all.x=TRUE)
   d5$country <- "Uganda"
   d5$crop <- "common bean"

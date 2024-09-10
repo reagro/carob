@@ -43,7 +43,8 @@ carob_script <- function(path){
 	d0$adm3 <- carobiner::fix_name(d0$sector_ward, "title")
 	d0$longitude <- d0$gps_latitude
 	d0$latitude <- -(d0$gps_longitude)
-	d0 <- d0[, c("trial_id", "adm2", "adm3", "latitude","longitude")]
+	d0$geo_from_source <- TRUE
+	d0 <- d0[, c("trial_id", "adm2", "adm3", "latitude","longitude", "geo_from_source")]
 	# EGB:
 	# Completing lat long records...
 	# g <- carobiner::geocode(country = "Mozambique",
@@ -55,12 +56,15 @@ carob_script <- function(path){
 	                adm3 = c("Nametil", "Gurue"),
 	                location = c("Nametil", "Gurue"),
 	                lon = c(39.3379, 36.9875),
-	                lat = c(-15.7088, -15.4651))
+	                lat = c(-15.7088, -15.4651),
+	                geo_from_source = FALSE)
 	i <- is.na(d0$longitude) | is.na(d0$latitude)
 	d0[i & d0$adm2 == "Gurue", "longitude"] <- g[g$adm2 == "Gurue" & g$adm3 == "Gurue", "lon"]
 	d0[i & d0$adm2 == "Mogovolas" & d0$adm3 == "Nametil", "longitude"] <- g[g$adm2 == "Mogovolas" & g$adm3 == "Nametil", "lon"]
 	d0[i & d0$adm2 == "Gurue", "latitude"] <- g[g$adm2 == "Gurue" & g$adm3 == "Gurue", "lat"]
 	d0[i & d0$adm2 == "Mogovolas" & d0$adm3 == "Nametil", "latitude"] <- g[g$adm2 == "Mogovolas" & g$adm3 == "Nametil", "lat"]
+	d0$geo_from_source[d0$adm2 == "Gurue"] <- FALSE
+	d0$geo_from_source[d0$adm2 == "Mogovolas" & d0$adm3 == "Nametil"] <- FALSE
 	
 	#processing the 2nd dataset
 	d1$trial_id <- d1$farm_id
