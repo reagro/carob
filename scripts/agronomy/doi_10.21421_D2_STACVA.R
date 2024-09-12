@@ -45,6 +45,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	d$site <- "Wudil"
 	d$longitude <- 8.8307
 	d$latitude <- 11.8094
+	d$geo_from_source <- FALSE
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$P_fertilizer[d$treatment=="F1"] <- 0

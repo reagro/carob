@@ -42,8 +42,9 @@ carob_script <- function(path){
 	d1$adm3 <- carobiner::fix_name(d1$adm3, "title")
 
 	crds <- data.frame(adm3=c('Cyuve', 'Cyabingo', 'Kinoni', 'Mareba', 'Muko', 'Musambira', 'Musenyi', 'Nyamata', 'Nyamirama', 'Nyamiyaga', 'Nyarubaka', 'Rukara', 'Rwaza'), 
-	longitude=c(29.65572, 29.69453, 29.73912, 30.06256, 30.60027, 29.8395, 30.0297, 30.09802, 30.52925, 29.76667, 29.83537, 30.4725, 29.66713), 
-	latitude=c(-1.47401, -1.58553, -1.46114, -2.25791, -2.05674, -2.02396, -2.18864, -2.14395, -1.95002, -2.43333, -2.08663, -1.8005, -1.55886))
+	                   longitude=c(29.65572, 29.69453, 29.73912, 30.06256, 30.60027, 29.8395, 30.0297, 30.09802, 30.52925, 29.76667, 29.83537, 30.4725, 29.66713), 
+	                   latitude=c(-1.47401, -1.58553, -1.46114, -2.25791, -2.05674, -2.02396, -2.18864, -2.14395, -1.95002, -2.43333, -2.08663, -1.8005, -1.55886),
+	                   geo_from_source = FALSE)
 
 	d1 <- d1[, c("trial_id", "country","adm2","adm3")]
 	d1 <- merge(d1, crds, by="adm3", all.x=TRUE)

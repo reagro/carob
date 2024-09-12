@@ -124,6 +124,8 @@ carob_script <- function(path) {
 	d$longitude[d$site=="Odenyo"] <- 32.4943264
 	d$latitude[d$site=="Odyenyo"] <- 2.1460009
 	d$longitude[d$site=="Odyenyo"] <- 32.4943264
+	
+	d$geo_from_sorce <- FALSE
 
 	# drop rows containing non-existent locations	
 	d <- d[!(d$site=="Vigi"| d$site=="KYAGHAEU" | d$site=="Tartio" | d$site=="Auk East"),]

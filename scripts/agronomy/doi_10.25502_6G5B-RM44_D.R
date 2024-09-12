@@ -105,6 +105,7 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
 	d2$latitude <- d2$gps_latitude_dec
 	d2$longitude <- d2$gps_longitude_dec
 	d2$elevation <- as.numeric(d2$gps_altitude_dec)
+	d2$geo_from_source <- TRUE
 	d2$crop <- ""
 	d2$crop[ grep("_CB", d2$experiment_id) ] <- "common bean" # climbing
 	d2$crop[ grep("_BB", d2$experiment_id) ] <- "common bean" # bush

@@ -71,7 +71,8 @@ carob_script <- function(path) {
 
   # from VT protocol
 	d$longitude <- 5.6511088  
-	d$latitude <- 9.9326083    
+	d$latitude <- 9.9326083
+	d$geo_from_source <- FALSE
 	d$planting_date <- "2017-06-01"
 	d$harvest_date <- "2017-11-01"
  

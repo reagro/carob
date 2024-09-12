@@ -228,7 +228,8 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
   adm1 <- data.frame(country = c("Nigeria", "Nigeria", "Nigeria"), 
                      adm1 = c("Kano", "Kaduna", "Niger"),
                      lat = c(12.00012,10.52641, 18),
-                     lon = c(8.51672, 7.43879, 9))
+                     lon = c(8.51672, 7.43879, 9),
+                     geo_from_source = FALSE)
   
   z <- merge(z,adm1,by= c("country","adm1"),all.x = TRUE)
   
