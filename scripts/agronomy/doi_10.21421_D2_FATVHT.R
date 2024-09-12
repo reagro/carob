@@ -32,6 +32,7 @@ carob_script <- function(path) {
 		trial_id = paste0(r$Location, "_", r$Year),
 		latitude = ifelse(r$Location == "BUK", 8.5922, 8.5978),
 		longitude = ifelse(r$Location == "BUK", 12.0034, 12.1733),
+		geo_from_source = FALSE,
 		# As reported in the associated publication:
 		planting_date = ifelse(r$Location == "BUK" & r$Year == 2014, "2014-07-19",
                   ifelse(r$Location == "BUK" & r$Year == 2015, "2014-07-20",

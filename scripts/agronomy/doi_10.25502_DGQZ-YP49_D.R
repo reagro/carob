@@ -89,9 +89,10 @@ carob_script <- function(path){
 	d1$longitude <- d1$gps_longitude_dec
 	d1$latitude <- d1$gps_latitude_dec
 	d1$elevation <- d1$gps_altitude_dec
+	d1$geo_from_source <- TRUE
 	
 	#subset the processed variables
-	d1 <- d1 [, c("trial_id", "country", "location", "adm1", "longitude", "latitude", "elevation")]
+	d1 <- d1 [, c("trial_id", "country", "location", "adm1", "longitude", "latitude", "elevation", "geo_from_source")]
 	
 	d2$trial_id <- d2$experiment_id
 	d2$soil_pH <- d2$ph

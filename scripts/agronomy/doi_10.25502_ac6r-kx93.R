@@ -325,15 +325,18 @@ carob_script <- function(path){
 	d$inoculated <- as.logical(d$inoculated)
 	d$latitude <- as.numeric(d$latitude)
 	d$longitude <- as.numeric(d$longitude)
+	d$geo_from_source <- TRUE
 	dikpong.lon <- d$longitude[d$location == "Dikpong"]
 	dikpong.lat <- d$latitude[d$location == "Dikpong"]
 	d$longitude[d$location == "Dikpong"] <- dikpong.lat
 	d$latitude[d$location == "Dikpong"] <- dikpong.lon
 	d$longitude[d$location %in% c("Kaleo", "Toure", "Sawaba per Savelugu", "Totenyili", "Agumisi", "Gumyogo", "Azumsapeliga", "Tambiigu", "Yong")] <- d$longitude[d$location %in% c("Kaleo", "Toure", "Sawaba per Savelugu", "Totenyili", "Agumisi", "Gumyogo", "Azumsapeliga", "Tambiigu", "Yong")] * -1
+	d$geo_from_source[d$location %in% c("Kaleo", "Toure", "Sawaba per Savelugu", "Totenyili", "Agumisi", "Gumyogo", "Azumsapeliga", "Tambiigu", "Yong")] <- TRUE
 	d$longitude[d$location == "Ombo"] <- -2.46
 	d$longitude[d$location == "Bini"] <- -0.49
 	d$latitude[d$location == "Bini"] <- 9.4
 	d$longitude[d$location == "Bussie"] <- -2.5
+	d$geo_from_source[d$location %in% c("Ombo", "Bini", "Bussie")] <- FALSE
 	omit <- which(colnames(d) %in% c('SN', 'ssid', 'farm_id', 'plot', 'fertilizer'))
 	d <- d[,-omit]
 	

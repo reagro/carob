@@ -186,12 +186,13 @@ carob_script <- function(path) {
 		adm1 = c("Lushoto", "Lushoto", "Lushoto", "Lushoto", "Lushoto", "Lushoto", "Lushoto", "Moshi Rural", "Moshi Rural", "Moshi Rural"),
 		adm2 = c("Lushoto", "Kwemashai", "Shume", "Migambo", "Manoro", "Mwangoi", "Dule m", "Makuyuni", "Marangu East", "Mwika South"),
 		latitude = c(-4.545, -4.806, -4.7, -4.545, -4.545, -4.603, -4.545, -3.402, -3.283, -3.283),
-		longitude = c(38.439, 38.328, 38.216, 38.439, 38.439, 38.313, 38.439, 37.57, 37.516, 37.583))
+		longitude = c(38.439, 38.328, 38.216, 38.439, 38.439, 38.313, 38.439, 37.57, 37.516, 37.583),
+		geo_from_source = FALSE)
 	
 	d <- merge(d,s, by = c("country", "adm1", "adm2"))
 	
 	# Subset final
-	d <- d[,c('trial_id','treatment','country','adm1','adm2','longitude','latitude',
+	d <- d[,c('trial_id','treatment','country','adm1','adm2','longitude','latitude','geo_from_source',
 				'date','on_farm','is_survey','crop','variety',
 				'fertilizer_type','N_fertilizer','P_fertilizer','K_fertilizer','OM_used','OM_type','OM_amount', 'planting_date',
 				'yield', 'yield_part', 'fwy_residue', 'dmy_total',

@@ -45,6 +45,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	d$site <- "Minjibir"
 	d$longitude <- 8.557
 	d$latitude <- 11.980
+	d$geo_from_source <- FALSE
 	
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE

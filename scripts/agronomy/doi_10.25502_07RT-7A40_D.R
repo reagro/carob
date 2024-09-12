@@ -41,6 +41,7 @@ carob_script <- function(path) {
 	
 	d$latitude <- 10.26858
 	d$longitude <- 7.78896
+	d$geo_from_source <- FALSE
 	d$K_fertilizer <- 0
 	d$fertilizer_type <- "urea;DAP;NPK;SSP" # One of these
 	d$treatment <- paste0("N", d$N_fertilizer, "P", d$P_fertilizer)

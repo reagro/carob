@@ -33,6 +33,7 @@ carob_script <- function(path) {
 		adm2=r$LGA_District,
 		longitude=r$lon, 
 		latitude=r$lat,
+		geo_from_source = TRUE,
 		crop="cassava",
 		planting_date = as.character(as.Date(r$plantingDate, "%d/%m/%Y")),
 		harvest_date = as.character(as.Date(r$Hdate, "%d/%m/%Y")),	
