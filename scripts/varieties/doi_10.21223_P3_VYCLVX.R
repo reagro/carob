@@ -16,13 +16,12 @@ carob_script <- function(path) {
         project = NA,
         data_type = "experiment",
         treatment_vars = "variety",
-        response_vars = "treatment", 
+        response_vars = "yield;yield_marketable", 
         carob_contributor = "Henry Juarez",
         carob_date = "2024-09-11",
         notes = NA
     )
     
-    f <- ff[grep("OXAPMP", basename(ff))]
     
     process <- function(filename){
 
@@ -51,6 +50,7 @@ carob_script <- function(path) {
 		)
     }
 	
+    f <- ff[grep("OXAPMP", basename(ff))]
     d <- lapply(f, process)
     d <- do.call(rbind, d)
     
