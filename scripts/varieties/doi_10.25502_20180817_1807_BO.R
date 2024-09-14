@@ -59,7 +59,6 @@ carob_script <- function(path) {
 	
 	r <- do.call(carobiner::bindr, r)
 	r <- r[, colSums(is.na(r)) < nrow(r)]
-	r$rep <- gsub("REP", "", r$rep)
 	r[r == -32768] <- NA
 
 	d <- data.frame(
@@ -70,8 +69,8 @@ carob_script <- function(path) {
 		latitude = 12.00218,
 		crop = "cowpea",
 		yield_part = "seed",
-		record_id = r$gid,
-		rep = as.integer(r$rep),
+		#record_id = r$gid,
+		rep = as.integer(gsub("REP|-", "", r$rep)),
 		variety = r$variety,
 		yield = r$seedkgha,
 		fwy_storage = r$seedkgha,		
