@@ -1,16 +1,14 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
     
-    "Datasets from four experiments planted in Huancayo under normal conditions for potato crop and one experiment planted under high temperatures in order to determinate Parental value for yield in advanced clones of B3C3 population. In the field experiments, the randomized complete block design was used with 3 replications  and 40 plants."
+"Datasets from four experiments planted in Huancayo under normal conditions for potato crop and one experiment planted under high temperatures in order to determinate Parental value for yield in advanced clones of B3C3 population. In the field experiments, the randomized complete block design was used with 3 replications  and 40 plants."
     
     uri <- "doi:10.21223/RHSVIY"
     group <- "varieties"
     ff  <- carobiner::get_data(uri, path, group)
+
     meta <- data.frame(
         carobiner::read_metadata(uri, path, group, major=4, minor=0),
         data_institute = "CIP",
@@ -62,11 +60,9 @@ carob_script <- function(path) {
     d$yield_part <- "tubers"
     d$geo_from_source <- TRUE
     d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
-    
+
+	d <- d[!is.na(d$yield), ]
     carobiner::write_files(path = path, metad = meta, records = d)
     
 }
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
