@@ -1,9 +1,11 @@
 # R script for "carob"
 
 
+## "farming_technique" is not a good variable. It appears to capture fertilizer application (method, material, and amount) and these should become treatment variables.
+
 carob_script <- function(path) {
    
- " In Ghana, Zai has been successfully been introduced on a limited scale to farmers in the East Gonja, East Mamprusi districts in the Northern region and Guru and Builsa district in Upper East region Presbyterian Agricultural Services. However, Zai farming is an innovative technology which involves the burial of manure/organic matter in holes/ pits and planting the crop later on top of the pit. The objectives of this study are to evaluate and disseminate the Zai and fertilizer Micro-dosing techniques on-farm; to undertake cost benefit analysis of the Zai and fertilizer Micro-dosing; to explore the potential increase in grain yield of Zai and fertilizer Micro-dosing over farmers practice in the Africa RISING intervention communities; to undertake comparative analysis of the effect of Zai and fertilizer Micro-dosing on maize,sorghum, and millet."
+"In Ghana, Zai has been successfully been introduced on a limited scale to farmers in the East Gonja, East Mamprusi districts in the Northern region and Guru and Builsa district in Upper East region Presbyterian Agricultural Services. However, Zai farming is an innovative technology which involves the burial of manure/organic matter in holes/ pits and planting the crop later on top of the pit. The objectives of this study are to evaluate and disseminate the Zai and fertilizer Micro-dosing techniques on-farm; to undertake cost benefit analysis of the Zai and fertilizer Micro-dosing; to explore the potential increase in grain yield of Zai and fertilizer Micro-dosing over farmers practice in the Africa RISING intervention communities; to undertake comparative analysis of the effect of Zai and fertilizer Micro-dosing on maize,sorghum, and millet."
    
    uri <- "doi:10.7910/DVN/J6BHT8"
    group <- "agronomy" 
