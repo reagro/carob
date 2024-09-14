@@ -9,15 +9,15 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
   
    meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=2, minor=0),
+		carobiner::read_metadata(uri, path, group, major=3, minor=0),
       project=NA, 
-      publication= NA, 
+		publication="hdl:20.500.11766/5084",
       data_institute = "ICARDA", 
       data_type="on-farm experiment", 
       carob_contributor="Cedric Ngakou", 
       carob_date="2023-11-10",
 	  response_vars = "yield",
-	  treatment_vars = "N_fertilizer"
+	  treatment_vars = "N_fertilizer;N_splits"
    )
    
    
@@ -70,19 +70,17 @@ carob_script <- function(path) {
 	d$latitude <- 10.401
 	d$longitude[d$site == "Mandie"] <- 37.583
 	d$latitude[d$site == "Mandie"] <- 12.421
-
+  d$geo_from_source <- FALSE
+  
     d$planting_date <- "2013-06-03"
     d$harvest_date <- "2013-10-25"
 
-# assuming
-	d$P_fertilizer <- 0
-	d$K_fertilizer <- 0
+	d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
    ##  fix dmy_total range
    #d$dmy_total[d$dmy_total>20000] <- NA
    ## CN 
-   # the plant_height values are lower than the valmin in record.csv (10cm) which doesn't make sense. The unit is given in cm, but I suppose this is probably an error.Should we remove the variable ?
-   
+   # the plant_height values are very low. The unit is given in cm, but I suppose this is probably an error.
    # assuming it was in dm and convert into cm
    d$plant_height <- d$plant_height * 10
    carobiner::write_files(meta, d, path=path)	

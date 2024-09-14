@@ -37,7 +37,7 @@ carob_script <- function(path) {
 		soil_C=r$`C concentration (mg/g Soil)`,
 		soil_CEC=r$`Exchangeable cations (meq/100g)`,
 		soil_ex_acidity=r$`Exchangeable acidity (meq/100g)`,
-		dmy_total=r$`Mean biomass yield (kg/ha)`,
+		fwy_total=r$`Mean biomass yield (kg/ha)`,
 		yield_part="grain",
 		yield=r$`Mean grain yield (kg/ha)`
 	)

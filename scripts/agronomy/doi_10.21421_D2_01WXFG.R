@@ -32,6 +32,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 		adm3 = "Wasai", #from the reference
 		latitude = 8.67,
 		longitude = 12.15,
+		geo_from_source = FALSE,
 		# sown during the growing seasons of 2012 and 2013 no actual dates mentioned
 		planting_date = as.character(r$Year),
 		harvest_date = as.character(r$Year),

@@ -35,6 +35,7 @@ Phosphorus was applied at rate of 0 or 20 kg P ha-1. P fertilizer application in
 		trial_id = as.character(as.integer(as.factor(r$Location))),
 		latitude = 11.793702,
 		longitude = 8.838846,
+		geo_from_source = TRUE, # Coordinates in metadata (JSON) as bounding box
 		on_farm = FALSE,
 		is_survey = FALSE,
 		rep = as.integer(r$Replication.number),

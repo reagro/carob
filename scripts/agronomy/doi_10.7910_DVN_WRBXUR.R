@@ -75,7 +75,7 @@ carob_script <- function(path) {
   }
   
   d <- lapply(ff, process)
-  d <-  do.call(rbind,d)
+  d <-  do.call(rbind, d)
   
   d$country <- "Malawi"
   d$trial_id <- as.character(as.integer(as.factor(d$location)))
@@ -110,8 +110,8 @@ carob_script <- function(path) {
     soil_clay= c(12.4, 24.1, 21.85),
     soil_silt= c(4.6, 7.9, 4.9),
     soil_sand= c( 82.9, 67.9, 73.25),
-    soil_sample_top= rep(c(0),3),
-    soil_sample_bottom= rep(c(40),3)
+    soil_sample_top= 0,
+    soil_sample_bottom= 40
   )
   d <- merge(d, geo, by="location", all.x = TRUE)
   
@@ -122,6 +122,3 @@ carob_script <- function(path) {
   
   carobiner::write_files(path, meta, d)
 }
-
-
-nrep=rep(d)

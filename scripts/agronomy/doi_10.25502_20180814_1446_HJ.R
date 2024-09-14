@@ -50,6 +50,7 @@ carob_script <- function(path) {
 		site = trimws(r$Village),
 		longitude = r$Flong,
 		latitude = r$Flat,
+		geo_from_source = TRUE,
 		crop = trimws(tolower(r$TCrop)),
 		variety = r$TCVariety,
 		trial_id = gsub("Sidi2010a", "", r$FieldID),
