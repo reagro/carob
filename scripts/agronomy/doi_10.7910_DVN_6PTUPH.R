@@ -10,7 +10,7 @@ carob_script <- function(path) {
    
    meta <- data.frame(
       carobiner::read_metadata(uri, path, group, major=1, minor=1), 
-      data_institute = "CIMMITY;MSU",
+      data_institute = "CIMMIT;MSU",
       publication=NA, 
       project=" AfricaRISING",
       data_type= "experiment", 
@@ -56,7 +56,7 @@ carob_script <- function(path) {
    
    ## Fixing crop names
    d$crop <- gsub("soya bean|soyobean", "soybean", d$crop)
-   d$crop <- gsub("mzama|zama", "mzama bean", d$crop) # 
+   d$crop <- gsub("mzama|zama", "bambara groundnut", d$crop) # 
    d$crop <- gsub("beans", "common bean", d$crop) 
    
    d$irrigated <- NA
