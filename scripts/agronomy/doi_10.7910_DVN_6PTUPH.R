@@ -10,7 +10,7 @@ carob_script <- function(path) {
    
    meta <- data.frame(
       carobiner::read_metadata(uri, path, group, major=1, minor=1), 
-      data_institute = "CIMMIT;MSU",
+      data_institute = "CIMMYT;MSU",
       publication=NA, 
       project=" AfricaRISING",
       data_type= "experiment", 
