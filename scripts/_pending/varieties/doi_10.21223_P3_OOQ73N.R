@@ -1,18 +1,13 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
-
 carob_script <- function(path) {
   
-  "In anticipation of the effects of global warming on potato cultivation in both tropical and subtropical environments. Since 2004, efforts have turned to the development of a new group in Population B with improved adaptation to warm environments, resistance to late blight and virus, mid-season maturity (90 day growing period under short day length conditions), adaptation to mid elevations, low glycoalkaloids content, along with economically important traits such as high tuber yield, quality for table and industry. And so group LBHT of population B was developed, denominated LBHT because of its late blight and heat tolerance. All trials were conducted in randomized complete block design (RCBD) with 2-4 replicates or in simple lattice design at Comas, located at 2400 to 2788 masl in Junin situated in the Central mountain ranges in Peru\r\nThe trials were established at Comas due to high disease pressure of late blight, disease endemic, highly favorable for disease development and severity during the rainy periods in these areas from 2006 to 2007."
+"In anticipation of the effects of global warming on potato cultivation in both tropical and subtropical environments. Since 2004, efforts have turned to the development of a new group in Population B with improved adaptation to warm environments, resistance to late blight and virus, mid-season maturity (90 day growing period under short day length conditions), adaptation to mid elevations, low glycoalkaloids content, along with economically important traits such as high tuber yield, quality for table and industry. And so group LBHT of population B was developed, denominated LBHT because of its late blight and heat tolerance. All trials were conducted in randomized complete block design (RCBD) with 2-4 replicates or in simple lattice design at Comas, located at 2400 to 2788 masl in Junin situated in the Central mountain ranges in Peru\r\nThe trials were established at Comas due to high disease pressure of late blight, disease endemic, highly favorable for disease development and severity during the rainy periods in these areas from 2006 to 2007."
   
   uri <- "doi:10.21223/P3/OOQ73N"
   group <- "varieties"
   ff  <- carobiner::get_data(uri, path, group)
-  
-  
+    
   meta <- data.frame(
     carobiner::read_metadata(uri, path, group, major=1, minor=3),
     data_institute = "CIP",
@@ -26,8 +21,6 @@ carob_script <- function(path) {
     notes = NA
   )
   
-  
-  
   process <- function(filename){
     
     r <- carobiner::read.excel(filename, sheet="Fieldbook")               
@@ -38,46 +31,16 @@ carob_script <- function(path) {
     names(m) <- minimal$Factor
     
     n <- as.list(installation$Value)
-    names(n) <- installation$Factor
-    
-    if((!"yield"%in%colnames(r)) && ("TTWP" %in% colnames(r))){
-      
-      TTYNA = (as.numeric(r$TTWP) / as.numeric(n$`Plot size (m2)`)) * 10
-      
-      r$yield = TTYNA * 1000
-      
-    } 
-    
-    if((!"yield_marketable"%in%colnames(r)) && ("MTWP" %in% colnames(r))){
-      
-      MTYNA = (as.numeric(r$MTWP) / as.numeric(n$`Plot size (m2)`)) * 10
-      r$yield_marketable = MTYNA * 1000
-      
-    }
-    
-    df <- data.frame(
+    names(n) <- installation$Factor    
+    plot_adj <- 10000 / as.numeric(n$`Plot size (m2)`)
+ 
+    data.frame(
       rep = as.integer(r$REP),
       variety = r$INSTN,
-      yield = if('yield' %in% colnames(r)) {
-        r$yield
-      } else {
-        as.numeric(NA)
-      },
-      yield_marketable = if('yield_marketable' %in% colnames(r)) {
-        r$yield_marketable
-      } else {
-        as.numeric(NA)
-      },
-      AUDPC = if('AUDPC' %in% colnames(r)) {
-        as.numeric(r$AUDPC) / 100
-      } else {
-        as.numeric(NA)
-      },
-      rAUDPC = if('rAUDPC' %in% colnames(r)) {
-        as.numeric(r$rAUDPC)
-      } else {
-        as.numeric(NA)
-      },
+      yield = as.numeric(r$TTWP) * plot_adj,
+      yield_marketable = as.numeric(r$MTWP) * plot_adj,
+      AUDPC = as.numeric(r$AUDPC) / 100,
+      rAUDPC = as.numeric(r$rAUDPC),
       country = m$Country,
       adm1 = m$Admin1,
       adm2 = m$Admin2,
@@ -105,15 +68,7 @@ carob_script <- function(path) {
   d$geo_from_source <- TRUE
   d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
   
-  
-  carobiner::write_files(path = path,
-                         metadata = meta,
-                         records = d)
-  
+  carobiner::write_files(path = path, metadata = meta, records = d)
 }
 
 
-
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
