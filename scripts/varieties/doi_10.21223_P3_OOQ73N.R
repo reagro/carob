@@ -15,60 +15,18 @@ carob_script <- function(path) {
     project = NA,
     data_type = "experiment",
     treatment_vars = "variety",
-    response_vars = "yield;yield_marketable", 
+    response_vars = "yield;yield_marketable;AUDPC;rAUDPC", 
     carob_contributor = "Henry Juarez",
     carob_date = "2024-09-13",
     notes = NA
   )
   
-  process <- function(filename){
-    
-    r <- carobiner::read.excel(filename, sheet="Fieldbook")               
-    minimal <- carobiner::read.excel(filename, sheet="Minimal")
-    installation <- carobiner::read.excel(filename, sheet="Installation")
-    
-    m <- as.list(minimal$Value)
-    names(m) <- minimal$Factor
-    
-    n <- as.list(installation$Value)
-    names(n) <- installation$Factor    
-    plot_adj <- 10000 / as.numeric(n$`Plot size (m2)`)
- 
-    data.frame(
-      rep = as.integer(r$REP),
-      variety = r$INSTN,
-      yield = as.numeric(r$TTWP) * plot_adj,
-      yield_marketable = as.numeric(r$MTWP) * plot_adj,
-      AUDPC = as.numeric(r$AUDPC) / 100,
-      rAUDPC = as.numeric(r$rAUDPC),
-      country = m$Country,
-      adm1 = m$Admin1,
-      adm2 = m$Admin2,
-      adm3 = m$Admin3,
-      location = m$Locality,
-      longitude = as.numeric(m$Longitude),
-      latitude = as.numeric(m$Latitude),
-      elevation = as.numeric(m$Elevation),
-      planting_date = m$`Begin date`,
-      harvest_date = m$`End date`,
-      trial_id = gsub(".xls", "", basename(filename))
-    )
-    
-  }
+  process <- carobiner::get_function("process_cip_lbvars", path, group)
   
   f <- ff[grep("-1COM", basename(ff))]
   d <- lapply(f, process)
   d <- do.call(rbind, d)
-  d$on_farm <- TRUE
-  d$is_survey <- FALSE
-  d$irrigated <- FALSE
-  d$crop <- "potato"
-  d$pathogen <- "Phytophthora infestans"
-  d$yield_part <- "tubers"
-  d$geo_from_source <- TRUE
-  d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
   
   carobiner::write_files(path = path, metadata = meta, records = d)
 }
-
 
