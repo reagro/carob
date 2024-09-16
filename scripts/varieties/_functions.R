@@ -52,3 +52,5 @@ process_cip_lbvars <- function(filename, addvars=NULL) {
     d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	d
 }
+
+

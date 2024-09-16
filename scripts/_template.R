@@ -1,8 +1,8 @@
 # R script for "carob"
+# license: GPL v3
 
 ## ISSUES
 # if there are remaining issues, please put these in "meta$notes"
-
 
 carob_script <- function(path) {
 
