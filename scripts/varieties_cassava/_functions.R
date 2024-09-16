@@ -1,4 +1,6 @@
 
+## there are more variables to be processed; depending on the dataset
+
 process_cassava <- function(f, country) {
 
 	r <- read.csv(f)
