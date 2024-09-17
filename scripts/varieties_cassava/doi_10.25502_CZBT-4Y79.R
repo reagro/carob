@@ -39,7 +39,6 @@ carob_script <- function(path) {
       mc1= r$cassava.mosaic.disease.severity.1.month.evaluation.CO_334.0000191,
       mc3= r$cassava.mosaic.disease.severity.3.month.evaluation.CO_334.0000192,
       mc6= r$cassava.mosaic.disease.severity.6.month.evaluation.CO_334.0000194,
-      Bb1= NA,
       Bb3= r$cassava.bacterial.blight.incidence.3.month.evaluation.CO_334.0000178,
       Bb6= r$cassava.bacterial.blight.severity.6.month.evaluation.CO_334.0000176
       
@@ -53,8 +52,8 @@ carob_script <- function(path) {
    d$on_farm <- TRUE
    d$yield_part <- "roots"
    d$geo_from_source <- FALSE
-   d$longitude <- 3.8969928 
-   d$latitude <- 7.3786064 
+   d$longitude <- 3.8970
+   d$latitude <- 7.3786 
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
@@ -62,11 +61,11 @@ carob_script <- function(path) {
    dmb <- names(d)[grepl("mc|Bb", names(d))]
    
    dd <- d[,c("record_id", dmb)]
-   dates <- rep(c("2008-08-09","2008-09-09","2008-12-09"),2)
+   dates <- c("2008-08-09", "2008-09-09", "2008-12-09", "2008-09-09", "2008-12-09")
    x <- reshape(dd, direction="long", varying =dmb , v.names="disease_severity", timevar="step")
    x$time <- dates[x$step]
    x$diseases <- ifelse(x$step < 4, "mosaic", "bacterial blight")
-   #x$severity_scale <- "1-4"	# not sure  
+   x$severity_scale <- as.character(NA) #"1-4"	# not sure  
    x$disease_severity <- as.character(x$disease_severity)
    x$id <- x$step <- NULL
    
