@@ -5,7 +5,7 @@
 
 carob_script <- function(path) {
   
-"Assessment of Varieties (Polyploid) of Cassava for high yield, disease resistance in a Uniform Yield Trial"
+"Assessment of Varieties of Cassava for high yield and disease resistance in an Uniform Yield Trial (19 clones) at Danyi, Togo in 1992/1993 Breeding Season"
   
 	uri <- "doi:10.25502/T7DW-6Q14"
 	group <- "varieties_cassava"

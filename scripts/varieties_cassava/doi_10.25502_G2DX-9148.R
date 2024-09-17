@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
   
-"Assessment of Varieties (Polyploid) of Cassava for high yield, disease resistance in a Uniform Yield Trial"
+"Assessment of Varieties of Cassava for high yield, disease resistance and mealiness in an Uniform Yield Trial (18 clones) in Fumesua, Ghana 1996/97 Breeding Season"
   
 	uri <- "doi:10.25502/G2DX-9148"
 	group <- "varieties_cassava"
@@ -23,10 +23,7 @@ carob_script <- function(path) {
 	)
 
 	process_cassava <- carobiner::get_function("process_cassava", path, group)
-	f <- grep(".csv$", ff, value=TRUE)
-	
-	d <- process_cassava(f, "Nigeria")
-
+	d <- process_cassava(ff)
 	carobiner::write_files(path = path, metadata = meta, records = d)
 }
 
