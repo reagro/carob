@@ -1,0 +1,85 @@
+# R script for "carob"
+   
+   
+
+   carob_script <- function(path) {
+      
+   " Preliminary Yield Trial using 14 GS C2 clones in Ibadan 2015/2016 Breeding season" 
+      
+      uri <- "doi:10.25502/QKG6-9N23/D"
+      group <- "pest_disease" 
+      ff  <- carobiner::get_data(uri, path, group)
+      
+      meta <- data.frame(
+         carobiner::read_metadata(uri, path, group, major=1, minor=0), 
+         data_institute ="IITA", 
+         publication = NA, 
+         project = NA, 
+         data_type = "experiment",
+         response_vars = "yield;fwy_storage;disease_severity",
+         treatment_vars = "variety", 
+         carob_contributor = "Cedric Ngakou", 
+         carob_date = "2024-09-17",
+         notes = NA
+      )
+      
+      f <- ff[basename(ff)=="2019-06-10t045818phenotype_download.csv"]
+      
+      r <- read.csv(f)  
+      
+      d <- data.frame(
+         country= "Nigeria",
+         #description= r$programDescription,
+         planting_date= r$plantingDate,
+         harvest_date= r$harvestDate,
+         location= r$locationName,
+         trial_id= r$observationUnitName,
+         rep= r$replicate,
+         variety= r$germplasmNam,
+         plot_width= r$plotWidth,
+         plot_length= r$plotLength,
+         plot_area= r$plotWidth*r$plotLength, # m2
+         yield= (r$fresh.shoot.weight.measurement.in.kg.per.plot.CO_334.0000016/r$plotWidth*r$plotLength)*10000,
+         fwy_storage= (r$fresh.storage.root.weight.per.plot.CO_334.0000012/r$plotWidth*r$plotLength)*10000,
+         mc1= r$cassava.mosaic.disease.severity.1.month.evaluation.CO_334.0000191,
+         mc3= r$cassava.mosaic.disease.severity.3.month.evaluation.CO_334.0000192,
+         Bb1= NA,
+         Bb3= r$cassava.bacterial.blight.severity.3.month.evaluation.CO_334.0000175
+         
+      )
+      d$record_id <- 1:nrow(d)
+      d$planting_date <- gsub("December","12", d$planting_date)
+      d$harvest_date <- gsub("October","10", d$harvest_date)
+      d$crop <- "cassava"
+      d$irrigated <- NA
+      d$is_survey <- FALSE
+      d$inoculated <- FALSE
+      d$on_farm <- TRUE
+      d$yield_part <- "roots"
+      d$geo_from_source <- FALSE
+      d$longitude <- 3.943487 
+      d$latitude <- 7.3807587 
+      
+      d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+      
+      ### capturing disease score
+      dmb <- names(d)[grepl("mc|Bb", names(d))]
+      
+      dd <- d[,c("record_id", dmb)]
+      dates <- rep(c("2016-01-09","2016-03-09"),2)
+      x <- reshape(dd, direction="long", varying =dmb , v.names="disease_severity", timevar="step")
+      x$time <- dates[x$step]
+      x$diseases <- ifelse(x$step < 3, "mosaic", "bacterial blight")
+      #x$severity_scale <- "1-4"	# not sure  
+      x$disease_severity <- as.character(x$disease_severity)
+      x$id <- x$step <- NULL
+      
+      d[dmb] <-  NULL
+      
+      carobiner::write_files (path, meta, d, timerecs = x)
+      
+   }
+   
+   
+   
+
