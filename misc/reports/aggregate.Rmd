@@ -89,7 +89,7 @@ scrolltab(head(d, 25), "records")
 ```
 
 </br>
-The observations are for `r nrow(locs)` locations, `r xytxt`
+We have `r nrow(locs)` observations, `r xytxt`
 </br></br>
 
 
