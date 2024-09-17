@@ -4,7 +4,7 @@
 carob_script <- function(path) {
   
 "Assessment of Varieties of Cassava for high yield, disease resistance in a Uniform Yield Trial (10 clones) in Damango, Ghana 1997/98 Breeding Season"
-  
+
 	uri <- "doi:10.25502/972W-RH33"
 	group <- "varieties_cassava"
 	ff  <- carobiner::get_data(uri, path, group)
