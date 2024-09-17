@@ -65,7 +65,7 @@ carob_script <- function(path) {
       dmb <- names(d)[grepl("mc|Bb", names(d))]
       
       dd <- d[,c("record_id", dmb)]
-      dates <- c("2016-01-09", "2016-03-09", "2016-01-09")
+      dates <- c("2016-01-09", "2016-03-09", "2016-03-09")
       x <- reshape(dd, direction="long", varying =dmb , v.names="disease_severity", timevar="step")
       x$time <- dates[x$step]
       x$diseases <- ifelse(x$step < 3, "mosaic", "bacterial blight")

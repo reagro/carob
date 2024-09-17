@@ -1,8 +1,7 @@
 ## there are more variables to be processed; depending on the dataset
-## the table below shows the variable name and frequency in the 132 datasets
+## the table below shows the non processed variable name and frequency in the 132 datasets
 
 #Variable, Count
-#studyYear, 132
 #studyName, 132
 #studyDesign, 132
 #studyDescription, 132
@@ -12,11 +11,8 @@
 #programName, 132
 #programDescription, 132
 #programDbId, 132
-#plotWidth, 132
 #plotNumber, 132
-#plotLength, 132
 #plantNumber, 132
-#plantingDate, 132
 #plantedSeedlotTransactionWeight, 132
 #plantedSeedlotTransactionDescription, 132
 #plantedSeedlotTransactionCount, 132
@@ -29,12 +25,7 @@
 #observationUnitDbId, 132
 #observationLevel, 132
 #notes, 132
-#locationName, 132
 #locationDbId, 132
-#harvestDate, 132
-#germplasmSynonyms, 132
-#germplasmName, 132
-#germplasmDbId, 132
 #fieldTrialIsPlannedToCross, 132
 #fieldTrialIsPlannedToBeGenotyped, 132
 #fieldSize, 132
@@ -42,10 +33,7 @@
 #colNumber, 132
 #blockNumber, 132
 #availableGermplasmSeedlotUniquenames, 132
-#fresh.storage.root.weight.per.plot.CO_334.0000012, 105
-#fresh.root.yield.CO_334.0000013, 97
 #root.number.counting.CO_334.0000011, 91
-#fresh.shoot.weight.measurement.in.kg.per.plot.CO_334.0000016, 77
 #plant.stands.harvested.counting.CO_334.0000010, 59
 #rotted.storage.root.counting.CO_334.0000084, 54
 #taste.of.boiled.root.rating.1.3.CO_334.0000085, 51
@@ -55,32 +43,23 @@
 #number.of.planted.stakes.per.plot.counting.CO_334.0000159, 41
 #top.yield.CO_334.0000017, 40
 #storage.root.size.visual.rating.1.7.CO_334.0000019, 37
-#cassava.mosaic.disease.severity.3.month.evaluation.CO_334.0000192, 35
 #sprouting.proportion.CO_334.0000008, 30
-#cassava.mosaic.disease.incidence.3.month.evaluation.CO_334.0000196, 24
 #dry.matter.content.percentage.CO_334.0000092, 17
-#cassava.bacterial.blight.severity.3.month.evaluation.CO_334.0000175, 17
-#cassava.mosaic.disease.severity.1.month.evaluation.CO_334.0000191, 15
-#cassava.mosaic.disease.severity.6.month.evaluation.CO_334.0000194, 14
 #dry.yield.CO_334.0000014, 13
-#cassava.bacterial.blight.severity.6.month.evaluation.CO_334.0000176, 11
 #sprout.count.at.one.month.CO_334.0000213, 10
 #non.marketable.root.number.counting.CO_334.0000168, 9
 #marketable.root.number.counting.CO_334.0000169, 9
 #root.neck.length.visual.rating.0.7.CO_334.0000022, 8
-#cassava.mosaic.disease.incidence.1.month.evaluation.CO_334.0000195, 7
 #cassava.green.mite.severity.first.evaluation.CO_334.0000189, 7
 #storage.root.shape.visual.rating.1.6.CO_334.0000020, 6
 #non.marketable.root.weight.measurement.in.kg.CO_334.0000132, 6
 #marketable.root.weight.measurement.in.kg.CO_334.0000131, 6
 #storage.root.cortex.color.visual.rating.1.4.CO_334.0000115, 5
 #ease.of.peeling.root.cortex.visual.rating.1.3.CO_334.0000308, 5
-#cassava.bacterial.blight.incidence.6.month.evaluation.CO_334.0000179, 3
 #cassava.anthractnose.disease.severity.in.3.month.CO_334.0000218, 3
 #stem.number.counting.CO_334.0000129, 2
 #starch.content.percentage.CO_334.0000071, 2
 #leaf.retention.visual.rating.1.5.CO_334.0000048, 2
-#cassava.mosaic.disease.incidence.6.month.evaluation.CO_334.0000198, 2
 #staygreen.visual.scale.1.9.CO_334.0000224, 1
 #plant.height.measurement.in.cm.CO_334.0000018, 1
 #initial.vigor.assessment.1.7.CO_334.0000009, 1
@@ -88,7 +67,6 @@
 #gari.content.g.kg.CO_334.0000096, 1
 #first.apical.branch.height.measurement.in.cm.CO_334.0000106, 1
 #dry.matter.visual.rating.1.3.CO_334.0002012, 1
-#cassava.mosaic.disease.severity.12.month.evaluation.CO_334.0000199, 1
 #cassava.anthractnose.disease.severity.in.6.month.CO_334.0000184, 1
 #branching.level.counting.CO_334.0000079, 1
 
@@ -97,8 +75,6 @@ process_cassava <- function(ff, location=NULL, adm1=NULL) {
 
 	f <- grep("\\.csv$", ff, value=TRUE)
 	r <- read.csv(f)
-	
-	if (is.null(r$fresh.root.yield.CO_334.0000013 )) r$fresh.root.yield.CO_334.0000013 <- NA
 	
 	d <- data.frame(
 		planting_date = r$plantingDate,
@@ -110,25 +86,76 @@ process_cassava <- function(ff, location=NULL, adm1=NULL) {
 		variety = r$germplasmName,
 		variety_alt = as.character(r$germplasmSynonyms),
 		variety_code = as.character(r$germplasmDbId),
-		rep = r$replicate,
-		yield = r$fresh.root.yield.CO_334.0000013 * 1000
-		
-		#"fresh.shoot.weight.measurement.in.kg.per.plot.CO_334.0000016"
-		#"plant.stands.harvested.counting.CO_334.0000010"              
-		#"poundability.assessment.0.4.CO_334.0000074"
-		#"root.number.counting.CO_334.0000011"                         
-		#"rotted.storage.root.counting.CO_334.0000084"                  
-		#"storage.root.size.visual.rating.1.7.CO_334.0000019"          
-		#"taste.of.boiled.root.rating.1.3.CO_334.0000085"               
-		#"notes"                                                       
+		rep = r$replicate
 	)
+	if (!is.null(r$fresh.root.yield.CO_334.0000013)) {
+		d$fwy_storage <- d$yield <- 1000 * r$fresh.root.yield.CO_334.0000013
+	} else if (!is.null(r$fresh.storage.root.weight.per.plot.CO_334.0000012)) {
+		d$fwy_storage <- d$yield <- 1000 * r$fresh.storage.root.weight.per.plot.CO_334.0000012 / (d$plot_length * d$plot_width)
+	}
+	if (!is.null(r$fresh.shoot.weight.measurement.in.kg.per.plot.CO_334.0000016)) {
+		d$fwy_residue <- 1000 * r$fresh.shoot.weight.measurement.in.kg.per.plot.CO_334.0000016 / (d$plot_length * d$plot_width)	
+	}
+	d$planting_date <- carobiner:::eng_months_to_nr(d$planting_date) |> as.Date() |> as.character()
+	d$harvest_date <- carobiner:::eng_months_to_nr(d$harvest_date) |> as.Date() |> as.character()
 	if (!is.null(location)) {
 		d$location <- location
 		d$adm1 <- adm1
 	}
 
-	d$planting_date <- carobiner:::eng_months_to_nr(d$planting_date) |> as.Date() |> as.character()
-	d$harvest_date <- carobiner:::eng_months_to_nr(d$harvest_date) |> as.Date() |> as.character()
+
+	vdis <- c("cassava.mosaic.disease.incidence.1.month.evaluation.CO_334.0000195", "cassava.mosaic.disease.incidence.3.month.evaluation.CO_334.0000196", "cassava.mosaic.disease.incidence.6.month.evaluation.CO_334.0000198", "cassava.mosaic.disease.severity.1.month.evaluation.CO_334.0000191", "cassava.mosaic.disease.severity.3.month.evaluation.CO_334.0000192", "cassava.mosaic.disease.severity.6.month.evaluation.CO_334.0000194", "cassava.mosaic.disease.severity.12.month.evaluation.CO_334.0000199", "cassava.bacterial.blight.severity.3.month.evaluation.CO_334.0000175", "cassava.bacterial.blight.severity.6.month.evaluation.CO_334.0000176", "cassava.bacterial.blight.incidence.6.month.evaluation.CO_334.0000179")
+
+	i <- match(vdis, names(r))
+	tmrecs <- NULL
+	if (any(!is.na(i))) {
+		vnms <- vdis[which(!is.na(i))]
+		dd <- r[, vnms, drop=FALSE]
+		d$record_id <- dd$record_id <- 1:nrow(d)
+		DAP <- rep(NA, ncol(dd)-1)
+		DAP[grepl("1.month", vnms)] <- 30
+		DAP[grepl("3.month", vnms)] <- 91
+		DAP[grepl("6.month", vnms)] <- 182
+		DAP[grepl("11.month", vnms)] <- 365
+		DAP <- as.integer(DAP)
+		dates <- NULL
+		if (!is.na(d$planting_date[1])) {
+			dates <- as.Date(d$planting_date[1]) + DAP
+		}
+		diseases <- rep("mosaic", length(vnms))
+		diseases[grep("blight", vnms)] <- "bacterial blight"
+		incidence <- severity <- NULL
+		sev <- grepl("severity", names(dd))	
+		if (any(sev)) {
+			ddi <- dd[, c("record_id", names(dd)[sev])]
+			severity <- reshape(ddi, direction="long", varying=vnms[sev], v.names="disease_severity", timevar="step")
+			severity$time <- dates[sev][severity$step]
+			severity$DAP <- DAP[sev][severity$step]
+			severity$diseases <- diseases[sev]
+			severity$disease_severity <- as.character(severity$disease_severity)
+			severity$severity_scale <- as.character(NA) #perhaps "1-4?  
+			severity <- na.omit(severity)
+			if (nrow(severity) == 0) severity <- NULL
+		}
+		inc <- grepl("incidence", names(dd))	
+		if (any(inc)) {
+			ddi <- dd[, c("record_id", names(dd)[inc])]
+			incidence <- reshape(ddi, direction="long", varying=vnms[inc], v.names="disease_incidence", timevar="step")
+			incidence$time <- dates[inc][incidence$step]
+			incidence$DAP <- DAP[inc][incidence$step]
+			incidence$diseases <- diseases[inc]
+			incidence$disease_incidence <- as.character(incidence$disease_incidence)
+			incidence <- na.omit(incidence)
+			if (nrow(incidence) == 0) incidence <- NULL
+			
+		}
+		tmrecs <- carobiner::bindr(severity, incidence)
+		if (!is.null(tmrecs)) {
+			tmrecs$id <- tmrecs$step <- NULL      
+		}
+		d[vnms] <-  NULL
+	}
+
 
 	if (all(is.na(d$planting_date))) d$planting_date <- as.character(d$year)
 	d$year <- NULL
@@ -136,12 +163,6 @@ process_cassava <- function(ff, location=NULL, adm1=NULL) {
 	d$trial_id <- "1"
 	d$longitude <- d$latitude <- as.numeric(NA)
 	d$geo_from_source <- FALSE
-	d$on_farm <- NA
-	d$is_survey <- FALSE
-	d$crop <- "cassava"
-	d$yield_part <- "roots"
-	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
-	d$irrigated <- NA
 	
 	geo <- data.frame(
 		country = c("Nigeria", "Togo", "Ghana", "Togo", 
@@ -182,9 +203,15 @@ process_cassava <- function(ff, location=NULL, adm1=NULL) {
 	d$longitude <- geo$longitude[i]
 	d$latitude <- geo$latitude[i]
 
-	d
+	d$on_farm <- NA
+	d$is_survey <- FALSE
+	d$crop <- "cassava"
+	d$yield_part <- "roots"
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+	d$irrigated <- NA
 
+
+	list(records=d, timerecs=tmrecs)
 }
 
 
-#Ibadin, Edo
