@@ -50,46 +50,39 @@ process_cassava <- function(ff, location=NULL, adm1=NULL) {
 	d$irrigated <- NA
 	
 	geo <- data.frame(
-		location = c("Agbarho", "Adeta", "Assin Fosu", "Ativeme", "Bengou", "Damongo", "Danyi", "Davie", "Ejura", 
-		"Ekekhen", "Fada", "Farakoba", "Fumesua", "Ibadin", "Ina", "Ivue", "Kumasi", "Lossa", "Niaouli", "Nyankpala", 
-		"Ohawu", "Oki", "Okeredafe", "Okurekpo", "Onire", "Oteva", "Pokuase", "Rivers", "Sohe", "Sotouboua", "Umuede", 
-		"Urhuo", "Usenu", "Ute", "Warake"),
-		country = c("Nigeria", "Togo", "Ghana", "Togo", "Niger", "Ghana", "Togo", "Togo", "Ghana", 
-		"Nigeria", "Burkina Faso", "Burkina Faso", "Ghana", "Nigeria", "Benin", "Nigeria", "Ghana", "Niger", "Benin", "Ghana", 
-		"Ghana", "Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria","Ghana", "Nigeria", "Nigeria", "Togo", "Nigeria", 
-		"Nigeria", "Nigeria", "Nigeria", "Nigeria"),
-		longitude = c(5.8575, 0.7287, NA, NA, NA, -1.8224, NA, NA, NA, 
-			NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
-			NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
-			NA, NA, NA, NA),
-		latitude = c(5.5936, 7.1232, NA, NA, NA, 9.0905, NA, NA, NA, 
-			NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
-			NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
-			NA, NA, NA, NA)
+		country = c("Nigeria", "Togo", "Ghana", "Togo", 
+			"Niger", "Ghana", "Togo", "Togo", "Ghana", "Nigeria", "Burkina Faso", 
+			"Burkina Faso", "Ghana", "Nigeria", "Benin", "Nigeria", "Ghana", 
+			"Niger", "Benin", "Ghana", "Ghana", "Nigeria", "Nigeria", "Nigeria", 
+			"Nigeria", "Nigeria", "Ghana", "Nigeria", "Nigeria", "Togo", 
+			"Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria"), 
+		location = c("Agbarho", "Adeta", "Assin Fosu", "Ativeme", 
+			"Bengou", "Damongo", "Danyi", "Davie", "Ejura", "Ekekhen", "Fada", 
+			"Farakoba", "Fumesua", "Ibadin", 
+			"Ina", "Ivue", "Kumasi", "Lossa", "Niaouli", "Nyankpala", "Ohawu", 
+			"Oki", "Okeredafe", "Okurekpo", "Onire", "Oteva", "Pokuase", 
+			"Rivers", "Sohe", "Sotouboua", "Umuede", "Urhuo", "Usenu", "Ute", 
+			"Warake"), 
+		longitude = c(5.8664, 0.7368, -1.2769, 1.1118, 3.5932, -1.8201, 
+			0.6943, 1.2162, -1.3559, 6.2487, 0.3542, -4.3409, -1.5214, 
+			NA, 2.7265, 6.2717, -1.6233, 1.5754, 2.1369, -0.9815, 0.8967, 7.2865, 
+			NA, 5.9515, 4.0315, NA, -0.2826, 6.8357, NA, 0.9472, 7.0992, NA, 6.2158, 
+			5.6837, 6.1763), 
+		latitude = c(5.5881, 7.1342, 5.7005, 6.421, 11.9906, 
+			9.0851, 7.1596, 6.3681, 7.3847, 6.6222, 12.0502, 11.0828, 6.7108, 
+			NA, 9.9668, 6.7392, 6.6986, 13.9207, 6.7436, 9.4005, 6.1313, 5.6312, 
+			NA, 5.6955, 7.9812, NA, 5.6892, 5.0233, NA, 8.4848, 5.1170, NA, 6.7355, 6.3953, 
+			6.9990)
 	)
-
-	geo <- data.frame(
-		country = c("Nigeria", "Togo", "Ghana", "Togo", "Niger", 
-			"Ghana", "Togo", "Togo", "Ghana", "Nigeria", "Burkina Faso", 
-			"Burkina Faso", "Ghana", "Benin", "Nigeria", "Ghana", "Niger", 
-			"Benin", "Ghana", "Nigeria", "Nigeria", "Ghana", "Nigeria", 
-			"Togo", "Nigeria"), 
-		location = c("Agbarho", "Adeta", "Assin Fosu", "Ativeme",
-			"Bengou", "Damongo", "Danyi", "Davie", "Ejura", 
-			"Ekekhen", "Fada", "Farakoba", "Fumesua", "Ina", "Ivue", 
-			"Kumasi", "Lossa", "Niaouli", "Nyankpala", "Oki", "Onire", 
-			"Pokuase", "Rivers", "Sotouboua", "Ute"), 
-		lon = c(5.8664, 0.7368, -1.2769, 1.1118, 3.5932, -1.8201, 0.6943, 1.2162, 
-			-1.3559, 6.2487, 0.3542, -4.3409, -1.5214, 2.7265, 6.2717, 
-			-1.6233, 1.5754, 2.1369, -0.9815, 7.2865, 4.0315, -0.2826, 
-			6.8357, 0.9472, 5.6837), 
-		lat = c(5.5881, 7.1342, 5.7005, 6.421, 11.9906, 
-			9.0851, 7.1596, 6.3681, 7.3847, 6.6222, 12.0502, 
-			11.0828, 6.7108, 9.9668, 6.7392, 6.6986, 13.9207, 6.7436, 
-			9.4005, 5.6312, 7.9812, 5.6892, 5.0233, 8.4848, 6.3953)
-	)
-    	
-		
+	
+#geo[is.na(geo[,4]), ]
+#   country  location longitude latitude
+#14 Nigeria    Ibadin        NA       NA
+#23 Nigeria Okeredafe        NA       NA
+#26 Nigeria     Oteva        NA       NA
+#29 Nigeria      Sohe        NA       NA
+#32 Nigeria     Urhuo        NA       NA
+	
 	i <- match(d$location, geo$location)	
 	d$country <- geo$country[i]
 	d$longitude <- geo$longitude[i]
@@ -98,3 +91,6 @@ process_cassava <- function(ff, location=NULL, adm1=NULL) {
 	d
 
 }
+
+
+#Ibadin, Edo
