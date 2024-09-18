@@ -1,7 +1,9 @@
 # R script for "carob"
 
-## Contact authors for georeferencing?
-
+## RH has contacted AA for georeferencing
+## years 2 and 3 do not have village names 
+# There are three years of experimental data on maize in Mayurbhanj district in Odisha. The data for the first year includes the village names, but the second and third years do not have that.  None of the years has location coordinates. 
+# There is data on soil properties in the associated publication https://doi.org/10.1017/S0014479722000187; but the the village names in the publication do not match the names in the data very well.
 
 carob_script <- function(path) {
 
@@ -111,6 +113,8 @@ carob_script <- function(path) {
 	d$yield <- d$yield * 1000
      
 	d$trial_id <- as.character(as.integer(as.factor(paste(d$adm2, d$location, d$year))))
+	d$land_prep_method <- gsub("zerotillage", "none", d$land_prep_method)
+    d$fertilizer_price <- as.character(d$fertilizer_price)
 	
 	d$yield_part <- "grain"
 	d$on_farm <- TRUE
@@ -127,12 +131,26 @@ carob_script <- function(path) {
     d$S_fertilizer <- ifelse(micro, 25, 0)
     d$B_fertilizer <- ifelse(micro, 10, 0)
     d$Zn_fertilizer <- ifelse(micro, 25 * .405, 0)
-	d$N_splits  <- ifelse(d$S_fertilizer > 0, 2, NA)
+	d$N_splits  <- ifelse(d$S_fertilizer > 0, 2, NA) |> as.integer()
 	
 
-	d$land_prep_method <- gsub("zerotillage", "none", d$land_prep_method)
-    d$fertilizer_price <- as.character(d$fertilizer_price)
+# unique(d$location) |> sort()
+# [1] "Bagdofa"        "Barbill"        "Baria"          "Batupondugandi" "Deogaon"        "Jashipur"       "Labda"          "Rasamtala"     
+# [9] "Sarangarh"      "Singarpur"      "Tikarpara"      "Tisira"        
+
+# Table 1; names do not match
+	soils <- data.frame(
+		location = c("Badbil", "Deogaon", "Kashipal", "Majigaon", "Dhanguriposi", "Panasi", "Batapondugondi", "Dayaposi"), 
+		#            "Barbill", "Deogaon", "?",           "?",     "?",            "?",     "Batupondugandi"," ?"
+		pH = c(4.9, 4.77, 5.42, 4.94, 5, 5.25, 4.84, 4.82), 
+		EC.dSm = c(0.17, 0.13, 0.09, 0.12, 0.12, 0.09, 0.09, 0.1), 
+		Organic.carbon = c(0.14, 0.32, 1, 0.56, 0.26, 0.82, 0.36, 0.36), 
+		Available.nitrogen.kg.ha = c(150, 112, 162, 137, 150, 200, 150, 150), 
+		Available.phosphorus.kg.ha = c(63, 66, 26, 30, 28, 92, 38, 80),
+		Available.potassium.kg.ha = c(228, 117, 308, 364, 197, 328, 247, 86)
+	)
 	
 	d <- unique(d)
     carobiner::write_files(path, meta, d)
 }
+
