@@ -1,5 +1,7 @@
 # R script for "carob"
 
+## Contact authors for georeferencing?
+
 
 carob_script <- function(path) {
 
@@ -12,14 +14,13 @@ carob_script <- function(path) {
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIMMYT",
-		publication = NA,
+		publication = "doi:10.1017/S0014479722000187",
 		project = NA,
 		data_type = "on-farm experiment",
-		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer",
+		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer;lime_used",
 		response_vars = "yield", 
 		carob_contributor = "Blessing Dzuda",
-		carob_date = "2024-09-05",
-		notes = "Fertilizer type and amount of lime not specified"
+		carob_date = "2024-09-05"
 	)
 	
 	f1 <- ff[basename(ff) == "Experiment-I.csv"]
@@ -40,7 +41,7 @@ carob_script <- function(path) {
 		location=r1$Village,
 		treatment=r1$Treat_details,
 		rep=r1$Rep,
-		land_prep_method=r1$Tillage,
+		land_prep_method=tolower(r1$Tillage),
 		variety=r1$Var,
 		maturity_days=r1$Duration,
 		seed_density=r1$SdRate,
@@ -108,13 +109,6 @@ carob_script <- function(path) {
 	d$country <- "India"
 	d$crop <- "maize"
 	d$yield <- d$yield * 1000
-### ???
-###	d$latitude <- 21.8650
-###	d$longitude <- 86.421587
-###	d$geo_from_source <- TRUE ????
-
-### ???
-###	d$trial_id <- "1"
      
 	d$trial_id <- as.character(as.integer(as.factor(paste(d$adm2, d$location, d$year))))
 	
@@ -122,20 +116,21 @@ carob_script <- function(path) {
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE 
 	d$irrigated <- NA
-    d$S_fertilizer <- 0
 
-## d$lime_used <- ifelse(d$treatment=="NPK +( Micro-nutrient +S) -Lime (150:70:120)",FALSE,TRUE) 
-## more direct
-## d$lime_used <- d$treatment != "-Lime (150:70:120)"
-## better?
-## d$lime_used <- !grepl("-Lime", d$treatment, ignore.case=TRUE)
-## or should it be:
 	d$lime_used <- grepl("\\+lime", d$treatment, ignore.case=TRUE)
+	micro <- grepl("Micro", d$treatment)
 
+	# from publication
+	# lime 500 kg ha−1 as paper mill sludge
+	# Zn sulfate 25 kg ha−1, S 25 kg ha−1, B 10 kg ha−1 as Borax,
+	d$lime <- d$lime_used * 500
+    d$S_fertilizer <- ifelse(micro, 25, 0)
+    d$B_fertilizer <- ifelse(micro, 10, 0)
+    d$Zn_fertilizer <- ifelse(micro, 25 * .405, 0)
+	d$N_splits  <- ifelse(d$S_fertilizer > 0, 2, NA)
+	
 
-    d$land_prep_method <- gsub("Conventional", "conventional", d$land_prep_method)
-## zero is not "reduced", it is "none"   
-	d$land_prep_method <- gsub("Zerotillage", "none", d$land_prep_method)
+	d$land_prep_method <- gsub("zerotillage", "none", d$land_prep_method)
     d$fertilizer_price <- as.character(d$fertilizer_price)
 	
 	d <- unique(d)

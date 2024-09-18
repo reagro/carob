@@ -55,7 +55,7 @@ carob_script <- function(path) {
 	d$irrigation_number <- match(d$irrigation_number, c("One", "Two", "Three", "Four")) 
 	d$herbicide_amount <- gsub("gm", "", d$herbicide_amount)
 
-  d$yield_part <- "grain"
+	d$yield_part <- "grain"
 
 	d$on_farm <- TRUE
 	d$is_survey <-FALSE 
@@ -71,12 +71,12 @@ carob_script <- function(path) {
 	#d$harvest_date <- as.character(as.Date(d$harvest_date))
 	#d$herbicide_dates <- as.character(as.Date(d$herbicide_dates))
 	
-# it seems that "r$GradeNPK" should tell us what type of NPK we have. 
-# But it is not clear how interpret its values: 0.5224074 0.8473727 0.7819444
-# assuming NPK 20-20-20 for now. RH has send an email inquiry.
 
-#	0.522407407 12:32:16 0.522407407 18:46:00 0.781944444 18:46:00 0.847372685 20:20:13 
-#	279                    1                    1                   17 
+# in the current version values of "r$GradeNPK" cannot be interpreted: 0.5224074 0.8473727 0.7819444
+# this is the key, based on email from AA to RH
+# 0.522407407 12:32:16
+# 0.781944444 18:46:00
+# 0.847372685 20:20:13 
 
 	npk <- matrix(0, nrow=nrow(d), ncol=3)
 	if (is.numeric(r$GradeNPK)) {
