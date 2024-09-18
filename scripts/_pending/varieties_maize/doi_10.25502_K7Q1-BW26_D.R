@@ -1,15 +1,8 @@
 # R script for "carob"
 
-
-
 carob_script <- function(path) {
 	
-	"
-	Description:
-	Availability of multiple-stress tolerant maize is critical for improvement in maize production in West and Central Africa (WCA). A study was carried out to (i) assess a set of inbred lines for combining ability under stressed and optimal conditions, (ii) determine the performance of the testcrosses under different conditions, and (iii) identify outstanding hybrids across the conditions. Two hundred and five testcrosses were planted with five hybrid checks under Striga-infested, low soil nitrogen, drought and optimal conditions between 2015 and 2016 in Nigeria.
-	The grain yield inheritance under optimal condition was largely regulated by additive gene effect whereas non-additive gene effects largely regulated grain yield under the three stresses. Four of the inbreds had significant positive general combining ability effects each under low N and drought, and three under Striga infestation for grain yield. The inbreds could be vital sources of beneficial alleles for development and improvement of tropical yellow maize hybrids and populations. Hybrids TZEI 443 x ENT 13 and TZEI 462 x TZEI 10 were high yielding and stable; 
-	they out-performed the three early maturing released hybrids in WCA. The new hybrids should be extensively assessed and released in the sub-region to improve food security.
-	
+"Availability of multiple-stress tolerant maize is critical for improvement in maize production in West and Central Africa (WCA). A study was carried out to (i) assess a set of inbred lines for combining ability under stressed and optimal conditions, (ii) determine the performance of the testcrosses under different conditions, and (iii) identify outstanding hybrids across the conditions. Two hundred and five testcrosses were planted with five hybrid checks under Striga-infested, low soil nitrogen, drought and optimal conditions between 2015 and 2016 in Nigeria. The grain yield inheritance under optimal condition was largely regulated by additive gene effect whereas non-additive gene effects largely regulated grain yield under the three stresses. Four of the inbreds had significant positive general combining ability effects each under low N and drought, and three under Striga infestation for grain yield. The inbreds could be vital sources of beneficial alleles for development and improvement of tropical yellow maize hybrids and populations. Hybrids TZEI 443 x ENT 13 and TZEI 462 x TZEI 10 were high yielding and stable; they out-performed the three early maturing released hybrids in WCA. The new hybrids should be extensively assessed and released in the sub-region to improve food security.
 "
 	
 	uri <-  "doi:10.25502/K7Q1-BW26/D"
@@ -26,10 +19,7 @@ carob_script <- function(path) {
 		carob_date="2023-10-03"	  
 	)
 	
-	
 	bn <- basename(ff)
-	
-	# read the dataset
 	r <- read.csv(ff[bn=="BA15188 ACROSS.csv"])  
 	
 	d <- r[,c("ID","LOC","Rep","Entry","Pedigree","YIELD","PLST","POLLEN","DYSK","ASI","PLHT","EHT","PASP","PHARV","EHARV","EROT","FWT","CO1","CO2","RAT1","RAT2")]#
