@@ -2,7 +2,7 @@
 
 carob_script <- function(path) {
 
-"This study contains grain yield data collected from IRRI's long term continuous cropping experiment, year"
+"This study contains grain yield data collected from IRRI's long term continuous cropping experiment, 2005"
 
 	uri <- "doi:10.7910/DVN/5LRABO"
 	group <- "agronomy"
