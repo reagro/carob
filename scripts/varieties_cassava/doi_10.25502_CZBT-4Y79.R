@@ -6,7 +6,7 @@ carob_script <- function(path) {
 " Biofortification of Cassava using Uniform Yield Trial (21 clones) in Ibadan 2008/2009 Breeding Season "
    
    uri <- "doi:10.25502/CZBT-4Y79"
-   group <- "pest_disease" 
+   group <- "varieties_cassava" 
    ff  <- carobiner::get_data(uri, path, group)
    
    meta <- data.frame(
