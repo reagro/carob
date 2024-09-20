@@ -168,47 +168,9 @@
 #petiole.length.visual.rating.0.7.CO_334.0000024	2
 #dry.weight.of.biomass.in.kg.CO_334.0002046	2
 #cassava.mosaic.disease.severity.12.month.evaluation.CO_334.0000199	2
-#X.9	1
-#X.8	1
-#X.7	1
-#X.6	1
-#X.5	1
-#X.4	1
-#X.3	1
-#X.20	1
-#X.2	1
-#X.19	1
-#X.18	1
-#X.17	1
-#X.16	1
-#X.15	1
-#X.14	1
-#X.13	1
-#X.12	1
-#X.11	1
-#X.10	1
-#X.1	1
-#X	1
-#weibull.fit.shape.variable.week.46.COMP.0000117	1
-#weibull.fit.shape.variable.week.38.COMP.0000116	1
-#weibull.fit.shape.variable.week.33.COMP.0000115	1
-#weibull.fit.scale.variable.week.46.COMP.0000114	1
-#weibull.fit.scale.variable.week.38.COMP.0000113	1
-#weibull.fit.scale.variable.week.33.COMP.0000112	1
 #Typhlodromalus.aripo...visual.1.0.month.6.COMP.0000165	1
-#Trough	1
-#title	1
 #tip.shoot.weight.measurement.in.kg.CO_334.0000130	1
-#Tab	1
-#subject.agrovoc	1
-#subject	1
-#source.file	1
-#source.date	1
-#source	1
-#Setback	1
 #root.surface.texture.visual.rating.1.7.CO_334.0000054	1
-#rights	1
-#relation	1
 #plot.volume.in.m3.week.46.COMP.0000091	1
 #plot.volume.in.m3.week.38.COMP.0000090	1
 #plot.volume.in.m3.week.33.COMP.0000089	1
@@ -254,7 +216,7 @@
 process_cassava <- function(ff, location=NULL, adm1=NULL) {
 
 	f <- grep("\\.csv$", ff, value=TRUE)
-	r <- read.csv(f)
+	r <- read.csv(f) |> unique()
 	fd <- dirname(f)
 	fj <- file.path(fd, paste0(basename(fd), ".json"))
 	m <- jsonlite::fromJSON(fj)$result
@@ -264,7 +226,7 @@ process_cassava <- function(ff, location=NULL, adm1=NULL) {
 		longitude = as.numeric(m$coverage_y), #!!
 		latitude = as.numeric(m$coverage_x),
 		geo_from_source = TRUE,
-		country = m$coverage_country,
+		country = trimws(m$coverage_country),
 		planting_date = r$plantingDate,
 		harvest_date = r$harvestDate,
 		year = r$studyYear,
@@ -291,10 +253,10 @@ process_cassava <- function(ff, location=NULL, adm1=NULL) {
 		yield_moisture <- 100 - r$dry.matter.content.percentage.CO_334.0000092
 	}
 	d$harvest_index <- r$harvest.index.variable.CO_334.0000015
-	d$country[grepl("Tanzania", d$country, ignore.case=TRUE)] <- "Tanzania"
+	d$country[grepl("Tanzania|United Republic", d$country, ignore.case=TRUE)] <- "Tanzania"
 	d$country[d$country == "DRC"] <- "Democratic Republic of the Congo"
 	d$variety_alt[d$variety_alt == ""] <- NA
-
+	d$country[d$country == ""] <- NA
 
 	d$planting_date <- carobiner:::eng_months_to_nr(d$planting_date) |> as.Date() |> as.character()
 	d$harvest_date <- carobiner:::eng_months_to_nr(d$harvest_date) |> as.Date() |> as.character()

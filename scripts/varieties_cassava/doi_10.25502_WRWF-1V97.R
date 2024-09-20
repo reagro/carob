@@ -23,7 +23,7 @@ carob_script <- function(path) {
 	)
 
 	process_cassava <- carobiner::get_function("process_cassava", path, group)
-	d <- process_cassava(ff, "???", "Edo")
+	d <- process_cassava(ff, as.character(NA), "Edo")
 	carobiner::write_files(path = path, metadata = meta, records = d$records, timerecs=d$timerecs)
 }
 
