@@ -1,79 +1,20 @@
 ## there are more variables to be processed; depending on the dataset
-## the table below shows the non processed variable name and frequency in the 132 datasets
-
-#Variable, Count
-#studyName, 132
-#studyDesign, 132
-#studyDescription, 132
-#studyDbId, 132
-#rowNumber, 132
-#replicate, 132
-#programName, 132
-#programDescription, 132
-#programDbId, 132
-#plotNumber, 132
-#plantNumber, 132
-#plantedSeedlotTransactionWeight, 132
-#plantedSeedlotTransactionDescription, 132
-#plantedSeedlotTransactionCount, 132
-#plantedSeedlotStockUniquename, 132
-#plantedSeedlotStockDbId, 132
-#plantedSeedlotCurrentWeightGram, 132
-#plantedSeedlotCurrentCount, 132
-#plantedSeedlotBoxName, 132
-#observationUnitName, 132
-#observationUnitDbId, 132
-#observationLevel, 132
-#notes, 132
-#locationDbId, 132
-#fieldTrialIsPlannedToCross, 132
-#fieldTrialIsPlannedToBeGenotyped, 132
-#fieldSize, 132
-#entryType, 132
-#colNumber, 132
-#blockNumber, 132
-#availableGermplasmSeedlotUniquenames, 132
-#root.number.counting.CO_334.0000011, 91
-#plant.stands.harvested.counting.CO_334.0000010, 59
-#rotted.storage.root.counting.CO_334.0000084, 54
-#taste.of.boiled.root.rating.1.3.CO_334.0000085, 51
-#poundability.assessment.0.4.CO_334.0000074, 47
-#boiled.storage.root.color.visual.1.3.CO_334.0000114, 45
-#number.of.planted.stakes.per.plot.counting.CO_334.0000159, 41
-#top.yield.CO_334.0000017, 40
-#storage.root.size.visual.rating.1.7.CO_334.0000019, 37
-#sprouting.proportion.CO_334.0000008, 30
-#sprout.count.at.one.month.CO_334.0000213, 10
-#non.marketable.root.number.counting.CO_334.0000168, 9
-#marketable.root.number.counting.CO_334.0000169, 9
-#root.neck.length.visual.rating.0.7.CO_334.0000022, 8
-#cassava.green.mite.severity.first.evaluation.CO_334.0000189, 7
-#storage.root.shape.visual.rating.1.6.CO_334.0000020, 6
-#non.marketable.root.weight.measurement.in.kg.CO_334.0000132, 6
-#marketable.root.weight.measurement.in.kg.CO_334.0000131, 6
-#storage.root.cortex.color.visual.rating.1.4.CO_334.0000115, 5
-#ease.of.peeling.root.cortex.visual.rating.1.3.CO_334.0000308, 5
-#cassava.anthractnose.disease.severity.in.3.month.CO_334.0000218, 3
-#stem.number.counting.CO_334.0000129, 2
-#starch.content.percentage.CO_334.0000071, 2
-#leaf.retention.visual.rating.1.5.CO_334.0000048, 2
-#staygreen.visual.scale.1.9.CO_334.0000224, 1
-#plant.height.measurement.in.cm.CO_334.0000018, 1
-#initial.vigor.assessment.1.7.CO_334.0000009, 1
-#gari.weight.after.drying.in.kg.g.CO_334.0000246, 1
-#gari.content.g.kg.CO_334.0000096, 1
-#first.apical.branch.height.measurement.in.cm.CO_334.0000106, 1
-#dry.matter.visual.rating.1.3.CO_334.0002012, 1
-#cassava.anthractnose.disease.severity.in.6.month.CO_334.0000184, 1
-#branching.level.counting.CO_334.0000079, 1
 
 
 process_cassava <- function(ff, location=NULL, adm1=NULL) {
 
 	f <- grep("\\.csv$", ff, value=TRUE)
 	r <- read.csv(f)
+	fd <- dirname(f)
+	fj <- file.path(fd, paste0(basename(fd), ".json"))
+	m <- jsonlite::fromJSON(fj)$result
+	
 	
 	d <- data.frame(
+		longitude = as.numeric(m$coverage_y), #!!
+		latitude = as.numeric(m$coverage_x),
+		geo_from_source = TRUE,
+		country = m$coverage_country,
 		planting_date = r$plantingDate,
 		harvest_date = r$harvestDate,
 		year = r$studyYear,
@@ -166,56 +107,6 @@ process_cassava <- function(ff, location=NULL, adm1=NULL) {
 
 	if (all(is.na(d$planting_date))) d$planting_date <- as.character(d$year)
 	d$year <- NULL
-
-	d$longitude <- d$latitude <- as.numeric(NA)
-	d$geo_from_source <- FALSE
-	
-	geo <- data.frame(
-		country = c("Nigeria", "Togo", "Ghana", "Togo", 
-			"Niger", "Ghana", "Togo", "Togo", "Ghana", "Nigeria", "Burkina Faso", 
-			"Burkina Faso", "Ghana", "Nigeria", "Benin", "Nigeria", "Ghana", 
-			"Niger", "Benin", "Ghana", "Ghana", "Nigeria", "Nigeria", "Nigeria", 
-			"Nigeria", "Nigeria", "Ghana", "Nigeria", "Togo", 
-			"Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria", 
-			"Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria",
-			"Nigeria", "Uganda", "Nigeria", "Nigeria", "Nigeria", "Nigeria", "Uganda"), 
-		location = c("Agbarho", "Adeta", "Assin Fosu", "Ativeme", 
-			"Bengou", "Damongo", "Danyi", "Davie", "Ejura", "Ekekhen", "Fada", 
-			"Farakoba", "Fumesua", "Ibadin", "Ina", "Ivue", "Kumasi", 
-			"Lossa", "Niaouli", "Nyankpala", "Ohawu", 
-			"Oki", "Okeredafe", "Okurekpo", "Onire", "Oteva", "Pokuase", 
-			"Sohe", "Sotouboua", "Umuede", "Urhuo", "Usenu", "Ute", "Warake", 
-			"Abua", "Agbeta", "Bori", "Degema", "Elele", "Etche", "Ogbakiri", "Malam Madori",
-			"Ibadan", "Serere", "Mokwa", "Ubiaja", "Ikenne", "Warri", "Namulonge"), 
-		longitude = c(5.8664, 0.7368, -1.2769, 1.1118, 3.5932, -1.8201, 
-			0.6943, 1.2162, -1.3559, 6.2487, 0.3542, -4.3409, -1.5214, 
-			NA, 2.7265, 6.2717, -1.6233, 1.5754, 2.1369, -0.9815, 0.8967, 7.2865, 
-			NA, 5.9515, 4.0315, NA, -0.2826, NA, 0.9472, 7.0992, NA, 6.2158, 
-			5.6837, 6.1763, 6.56, NA, 7.3656, 6.9389, 6.7281, 7.0926, 6.9108, 10.0305,
-			3.9005, 33.549, 5.3103, 6.39177, 3.71051, 5.7932, 32.63), 
-		latitude = c(5.5881, 7.1342, 5.7005, 6.421, 11.9906, 
-			9.0851, 7.1596, 6.3681, 7.3847, 6.6222, 12.0502, 11.0828, 6.7108, 
-			NA, 9.9668, 6.7392, 6.6986, 13.9207, 6.7436, 9.4005, 6.1313, 5.6312, 
-			NA, 5.6955, 7.9812, NA, 5.6892, NA, 8.4848, 5.1170, NA, 6.7355, 6.3953, 
-			6.9990, 4.8469, NA, 4.6748, 4.5906, 5.0536, 5.0765, 4.7938, 12.5563,
-			7.4983, 1.4994, 9.2394, 6.64933, 6.87174, 5.5544, 0.5142)
-	)
-
-
-#geo[is.na(geo[,4]), 1:2]
-#   country  location
-#14 Nigeria    Ibadin
-#23 Nigeria Okeredafe
-#26 Nigeria     Oteva
-#28 Nigeria      Sohe
-#31 Nigeria     Urhuo
-#36 Nigeria    Agbeta
-
-
-	i <- match(d$location, geo$location)	
-	d$country <- geo$country[i]
-	d$longitude <- geo$longitude[i]
-	d$latitude <- geo$latitude[i]
 
 	d$is_survey <- FALSE
 	d$crop <- "cassava"
