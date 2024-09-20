@@ -41,7 +41,7 @@ carob_script <- function(path) {
             rep= as.integer(r$REP),
             plant_density= (as.numeric(r$STANDS)/18)*10000,
             yield_marketable= (as.numeric(r$`WT.MKT RTS(KG)`)/18)*10000,
-            yield= as.numeric(r$`WT. UN MKT RTS (KG)`) + as.numeric(r$`WT.MKT RTS(KG)`)*1000,
+            yield= ((as.numeric(r$`WT. UN MKT RTS (KG)`) + as.numeric(r$`WT.MKT RTS(KG)`))/18)*10000,
             on_farm= FALSE,
             planting_date= ifelse(grepl("NaCRRI", i), "2011-04-07",
                                   ifelse(grepl("Serere", i), "2011-05-25",
@@ -82,7 +82,7 @@ carob_script <- function(path) {
          rep= as.integer(r$REP),
          plant_density= (as.numeric(r$STANDS)/18)*10000,
          yield_marketable= (as.numeric(r$`WT.MKT RTS(KG)`)/18)*10000,
-         yield= (as.numeric(r$`WT. UN MKT RTS (KG)`) + as.numeric(r$`WT.MKT RTS(KG)`)/18)*10000,
+         yield= ((as.numeric(r$`WT. UN MKT RTS (KG)`) + as.numeric(r$`WT.MKT RTS(KG)`))/18)*10000,
          on_farm= FALSE,
          planting_date= ifelse(grepl("Serere 12", i), "2012-05-10",
                                ifelse(grepl("Ngetta 12", i), "2012-05-15", "2012-06-17")),
@@ -114,7 +114,7 @@ carob_script <- function(path) {
       rep= as.integer(r$REP),
       plant_density= (as.numeric(r$STANDS)/18)*10000,
       yield_marketable= (as.numeric(r$WT.MKT.RTS.KG)/18)*10000,
-      yield= (as.numeric(r$WT.UN.MKT.RTS.KG) + as.numeric(r$WT.MKT.RTS.KG)/18)*1000,
+      yield= ((as.numeric(r$WT.UN.MKT.RTS.KG) + as.numeric(r$WT.MKT.RTS.KG))/18)*10000,
       on_farm= TRUE,
       location= r$LOCATION,
       planting_date = "2012",
@@ -132,6 +132,7 @@ carob_script <- function(path) {
   d$code <- NULL
   d$plot_area <- 18 # m2
   
+  d$location[d$location=="Kachw"] <- "Kachwekano"
    d$country <- "Uganda"
    d$crop <- "sweetpotato"
    d$irrigated <- NA
@@ -142,7 +143,7 @@ carob_script <- function(path) {
    ## Adding longitude and latitude 
    
    geo <- data.frame(
-      location=c("Kachw", "Ngetta", "Serere", "NaCRRI", "Isingiro", "Kabale", "Oyam", "Rakai", "Buyende"),
+      location=c("Kachwekano", "Ngetta", "Serere", "NaCRRI", "Isingiro", "Kabale", "Oyam", "Rakai", "Buyende"),
       latitude=c(-1.2558, 2.3113, 1.5011, 0.5205, -0.7801, -1.2558, 2.4270, -0.709811, 1.146247),
       longitude= c(29.9504, 32.9265, 33.5467, 32.6264, 30.7975, 29.9504, 31.4061, 31.40809, 33.16102)
    )
