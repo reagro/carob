@@ -141,8 +141,8 @@ carob_script <- function(path) {
   d$location[d$location=="Kachw"] <- "Kachwekano"
   d$flesh_color <- ifelse(grepl(1, d$flesh_color),"white", 
                    ifelse(grepl(2, d$flesh_color), "cream", 
-                   ifelse(grepl(6, d$flesh_color), "yello with orange or vice versa",
-                   ifelse(grepl(7, d$flesh_color),"pale orange",
+                   ifelse(grepl(6, d$flesh_color), "Pale orange",
+                   ifelse(grepl(7, d$flesh_color),"Intermediate orange",
                    ifelse(grepl(8, d$flesh_color), "dark orange", "none")))))
   
    d$variety <- gsub(" ", "", d$variety)
