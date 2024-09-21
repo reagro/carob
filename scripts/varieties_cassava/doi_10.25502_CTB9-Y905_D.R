@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
 
-"text"
+"Assessment of Varieties of Cassava for high yield and disease resistance in an Preliminary Yield Trial (30 clones) in Serere 2013-2014 Breeding Season."
   
 	uri <- "doi:10.25502/CTB9-Y905/D"
 	group <- "varieties_cassava"

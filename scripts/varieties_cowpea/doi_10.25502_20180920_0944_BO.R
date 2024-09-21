@@ -25,6 +25,7 @@ carob_script <- function(path) {
 	process_cowpea <- carobiner::get_function("process_cowpea", path, group)
 	d <- process_cowpea(ff)
 	d$country <- "Tanzania"
+	d$location <- "Ilonga"
 	carobiner::write_files(path = path, metadata = meta, records = d)
 }
 

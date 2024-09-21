@@ -5,7 +5,7 @@ carob_script <- function(path) {
   
 "The Cowpea Breeding Unit develops improved cowpea lines with high grain yield potential and resistance/tolerance to biotic and abiotic stresses and possessing farmers and consumers preferences. Data generated from multi-year evaluation trials carried out on different sets of materials developed within several projects conducted by the cowpea breeding unit are contained in the database."
   
-	uri <- "doi:10.25502/20180918/1445/BO"
+	uri <- "doi:10.25502/20180918/1421/BO"
 	group <- "varieties_cowpea"
 	ff  <- carobiner::get_data(uri, path, group)
 		
@@ -24,6 +24,7 @@ carob_script <- function(path) {
 
 	process_cowpea <- carobiner::get_function("process_cowpea", path, group)
 	d <- process_cowpea(ff)
+	d$location <- "Bakura"
 	carobiner::write_files(path = path, metadata = meta, records = d)
 }
 
