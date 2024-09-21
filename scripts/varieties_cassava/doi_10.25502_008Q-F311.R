@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
 
-"Assessment of Varieties of Cassava for low cyanide using Uniform Yield Trial (20 clones) in Mokwa 2001/2002 Breeding Season"
+"The Cowpea Breeding Unit develops improved cowpea lines with high grain yield potential and resistance/tolerance to biotic and abiotic stresses and possessing farmers and consumers preferences. Data generated from multi-year evaluation trials carried out on different sets of materials developed within several projects conducted by the cowpea breeding unit are contained in the database."
   
 	uri <- "doi:10.25502/008Q-F311"
 	group <- "varieties_cassava"

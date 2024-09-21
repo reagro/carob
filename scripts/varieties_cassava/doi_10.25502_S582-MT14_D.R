@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
 
-"text"
+"Assessment of Varieties(White flesh) of Cassava for high yield and disease resistance in an Uniform Yield Trial (17 clones) in Namulonge 2011-2012 Breeding Season."
   
 	uri <- "doi:10.25502/S582-MT14/D"
 	group <- "varieties_cassava"
