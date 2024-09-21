@@ -6,7 +6,7 @@ carob_script <- function(path) {
 " The data set has on-station advanced yied trials for 2011 to 2012 for Kachwekano, Ngetta, Serere, and Namulonge, and 2012 on-farm trials for Isingiro, Buyende, Rakai, Oyam, and Kabale districts in in Uganda. The data is in CloneSelector format or Excel and format for Sweetpotato Breeding Protocol (manual) (http://www.sweetpotatoknowledge.org/). The on-station and on-farm data on disease resistance, beta-carotene content, dry matter content, taste test and root weght from plots used to compute root yield, and biomass yield was the basis for official cultivar release in Uganda."
    
    uri <- "doi:10.21223/P3/CYD0PI"
-   group <- "agronomy" 
+   group <- "varieties" 
    ff  <- carobiner::get_data(uri, path, group)
    
    meta <- data.frame(
