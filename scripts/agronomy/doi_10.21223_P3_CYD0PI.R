@@ -18,7 +18,8 @@ carob_script <- function(path) {
       response_vars = "yield, marketable_yield",
       treatment_vars = "variety;longitude;latitude", 
       carob_contributor = "Cedric Ngakou", 
-      carob_date = "2024-09-19"
+      carob_date = "2024-09-19",
+      notes="dry matter and beta-carotene content data are missing"
    )
    
    f1 <- ff[grepl("0FSP", basename(ff))]
@@ -131,8 +132,8 @@ carob_script <- function(path) {
   d <- carobiner::bindr(d1, d2, d3)
   d$code <- NULL
   d$plot_area <- 18 # m2
-  
   d$location[d$location=="Kachw"] <- "Kachwekano"
+  d$variety <- gsub(" ", "", d$variety)
    d$country <- "Uganda"
    d$crop <- "sweetpotato"
    d$irrigated <- NA
@@ -140,17 +141,29 @@ carob_script <- function(path) {
    d$inoculated <- FALSE
    d$yield_part <- "roots"
    
-   ## Adding longitude and latitude 
+  
+   
+   ## Adding longitude ,latitude and biomass from publication (On_farm trials)
    
    geo <- data.frame(
       location=c("Kachwekano", "Ngetta", "Serere", "NaCRRI", "Isingiro", "Kabale", "Oyam", "Rakai", "Buyende"),
       latitude=c(-1.2558, 2.3113, 1.5011, 0.5205, -0.7801, -1.2558, 2.4270, -0.709811, 1.146247),
-      longitude= c(29.9504, 32.9265, 33.5467, 32.6264, 30.7975, 29.9504, 31.4061, 31.40809, 33.16102)
+      longitude= c(29.9504, 32.9265, 33.5467, 32.6264, 30.7975, 29.9504, 31.4061, 31.40809, 33.16102),
+      fwy_total= c(NA, NA, NA, NA, 31.1, 29.6, 20.6, 26.7, 33.1) ## mean total biomass for On-farm trials 
    )
    
    d$geo_from_source <- FALSE
    
    d <- merge(d, geo, by= "location", all.x = TRUE)
+   
+   ## Adding biomass from publication (On-station trials)
+   
+   d$fwy_total <- ifelse(grepl("NASPOT1", d$variety), 67,
+                  ifelse(grepl("NAS7/2006/1185", d$variety), 57.7,
+                  ifelse(grepl("JEWEL(OP)/2005/6", d$variety), 58.3,
+                  ifelse(grepl("NASPOT8", d$variety), 66.3,
+                  ifelse(grepl("NKA", d$variety), 53.2,
+                  ifelse(grepl("DIMBUKA", d$variety), 57.9, d$fwy_total))))))
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
