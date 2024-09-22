@@ -16,10 +16,10 @@ carob_script <- function(path) {
       project =NA, 
       data_type = "experiment",
       response_vars = "yield, marketable_yield",
-      treatment_vars = "variety;longitude;latitude", 
+      treatment_vars = "variety", 
       carob_contributor = "Cedric Ngakou", 
       carob_date = "2024-09-19",
-      notes="dry matter content data is missing"
+      notes="beta-carotene and dry matter content data are not available"
    )
    
    f1 <- ff[grepl("0FSP", basename(ff))]
@@ -88,9 +88,9 @@ carob_script <- function(path) {
          yield= ((as.numeric(r$`WT. UN MKT RTS (KG)`) + as.numeric(r$`WT.MKT RTS(KG)`))/18)*10000,
          on_farm= FALSE,
          planting_date= ifelse(grepl("Serere 12", i), "2012-05-10",
-                               ifelse(grepl("Ngetta 12", i), "2012-05-15", "2012-06-17")),
+                        ifelse(grepl("Ngetta 12", i), "2012-05-15", "2012-06-17")),
          harvest_date= ifelse(grepl("Serere 12", i), "2012-12-20",
-                               ifelse(grepl("Ngetta 12", i), "2012-11-08", "2012-12-08")),                            
+                       ifelse(grepl("Ngetta 12", i), "2012-11-08", "2012-12-08")),                            
          location= gsub(" 12", "", i),
          trial_id= paste0("2012", "-",i),
          code= r$CODE_ENTRY,
@@ -139,11 +139,10 @@ carob_script <- function(path) {
   d$code <- NULL
   d$plot_area <- 18 # m2
   d$location[d$location=="Kachw"] <- "Kachwekano"
-  d$flesh_color <- ifelse(grepl(1, d$flesh_color),"white", 
-                   ifelse(grepl(2, d$flesh_color), "cream", 
-                   ifelse(grepl(6, d$flesh_color), "Pale orange",
-                   ifelse(grepl(7, d$flesh_color),"Intermediate orange",
-                   ifelse(grepl(8, d$flesh_color), "dark orange", "none")))))
+  
+	cols <- c("white", "cream", "dark cream", "pale yellow", "dark yellow", "pale orange", "intermediate orange", "dark orange", "strongly 	pigmented with anthocyanins")
+	d$flesh_color[d$flesh_color==0] <- NA
+	d$flesh_color <- cols[d$flesh_color]
   
    d$variety <- gsub(" ", "", d$variety)
    d$country <- "Uganda"
@@ -153,10 +152,7 @@ carob_script <- function(path) {
    d$inoculated <- FALSE
    d$yield_part <- "roots"
    
-  
-   
-   ## Adding longitude ,latitude and biomass from publication (On_farm trials)
-   
+   ## Adding longitude ,latitude and biomass from publication (On_farm trials)   
    geo <- data.frame(
       location=c("Kachwekano", "Ngetta", "Serere", "NaCRRI", "Isingiro", "Kabale", "Oyam", "Rakai", "Buyende"),
       latitude=c(-1.2558, 2.3113, 1.5011, 0.5205, -0.7801, -1.2558, 2.4270, -0.709811, 1.146247),
