@@ -16,8 +16,6 @@ proc_wheat <- function(ff) {
 	floc <- ff[grep("Loc_data.xls", basename(ff))]
 	fraw <- ff[grep("RawData.xls", basename(ff))]
 
-
-
 	if (carobiner::is_excel(floc)) {
 		loc <- carobiner::read.excel(floc)
 		if (basename(fraw) %in% c("30TH IBWSN_RawData.xlsx", "31ST IBWSN_RawData.xlsx", "7HRWSN_RawData.xlsx", "4HRWYT_RawData.xlsx", "5HRWYT_RawData.xlsx", "4TH HTWYT_RawData.xlsx", "5TH HTWYT_RawData.xlsx")) {
@@ -84,13 +82,17 @@ proc_wheat <- function(ff) {
 		trial_id = r$trial.name,
 		country = carobiner::fix_name(r$country, "title"),
 		location = gsub(" - ", ", ", r$loc_desc),
-		planting_date = as.Date(r$sowing_date, "%b %d %Y"),
 		rep = as.integer(r$rep),
-		yield = as.numeric(r$grain_yield) * 1000, 
 		variety_code = r$gen_name,
 		longitude = r$longitude,
 		latitude = r$latitude
 	)
+	if (!is.null(r$grain_yield)) d$yield = as.numeric(r$grain_yield) * 1000
+	if (!is.null(r$sowing_date)) {
+		d$planting_date = as.Date(r$sowing_date, "%b %d %Y")
+	} else {
+		d$planting_date <- NA
+	}
 	
 	d$variety_code[d$variety_code == ""] <- NA
 	
@@ -114,21 +116,23 @@ proc_wheat <- function(ff) {
 
 	if (!is.null(r$harvest_starting_date)) {
 		d$harvest_date <- as.Date(r$harvest_starting_date, "%b %d %Y")
-	} else {
+	} else if (!is.null(r$harvest_finishing_date)){
 		d$harvest_date <- as.Date(r$harvest_finishing_date, "%b %d %Y")
 	}
 	
 	d$heading_days <- r$days_to_heading
-	if (!is.null(d$heading_days)) {
-		season <- as.numeric(d$harvest_date - d$planting_date)	
-		h <- which((d$heading_days > 150) & (d$heading_days > (season + 15)))
-		d$heading_days[h] <- NA
+	if (!is.null(d$harvest_date)) {
+		if (!is.null(d$heading_days)) {
+			season <- as.numeric(d$harvest_date - d$planting_date)	
+			h <- which((d$heading_days > 150) & (d$heading_days > (season + 15)))
+			d$heading_days[h] <- NA
+		}
+		d$harvest_date <- as.character(d$harvest_date)
 	}
 	d$planting_date <- as.character(d$planting_date)
-	d$harvest_date <- as.character(d$harvest_date)
 	i <- is.na(d$planting_date)
 	d$planting_date[i] <- as.character(r$cycle[i])
-	
+
 	d$maturity_days <- r$days_to_maturity
 		
 	if (is.null(r$irrigated))  {
