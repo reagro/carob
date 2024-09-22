@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
@@ -10,7 +7,6 @@ carob_script <- function(path) {
 
 	uri <- "hdl:11529/10548395"
 	group <- "varieties_wheat"
-
 	ff  <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
