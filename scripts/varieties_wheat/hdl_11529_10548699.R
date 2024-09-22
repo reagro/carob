@@ -2,7 +2,8 @@
 
 carob_script <- function(path) {
   
-  "The International Septoria Observation Nursery (earlier Septoria Monitoring Nursery – SMN) is a single replicate nursery that contains diverse spring bread wheat (Triticum aestivum) germplasm adapted to ME2 (High rainfall environment) and ME4 (Low rainfall, semi-arid environment) with total 50-100 entries and white/red grain color. (2020)"
+"The International Septoria Observation Nursery (earlier Septoria Monitoring Nursery – SMN) is a single replicate nursery that contains diverse spring bread wheat (Triticum aestivum) germplasm adapted to ME2 (High rainfall environment) and ME4 (Low rainfall, semi-arid environment) with total 50-100 entries and white/red grain color. (2020)"
+
   uri <- "hdl:11529/10548699"
   group <- "varieties_wheat"
   ff  <- carobiner::get_data(uri, path, group)
@@ -24,4 +25,3 @@ carob_script <- function(path) {
 
   carobiner::write_files(path, meta, d)
 }
-carob_script(path)
