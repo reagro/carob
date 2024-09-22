@@ -19,7 +19,7 @@ carob_script <- function(path) {
       treatment_vars = "variety;longitude;latitude", 
       carob_contributor = "Cedric Ngakou", 
       carob_date = "2024-09-19",
-      notes="dry matter and beta-carotene content data are missing"
+      notes="dry matter content data is missing"
    )
    
    f1 <- ff[grepl("0FSP", basename(ff))]
@@ -55,7 +55,9 @@ carob_script <- function(path) {
             virus_severity= r$SPVD,
             diseases= "alternaria blight",
             disease_severity= r$ALT,
-            severity_scale= "1-9"
+            severity_scale= "1-9",
+            flesh_color= as.numeric(r$`FLESH COL.`),
+            fwy_residue= (as.numeric((r$`WT.VINES(KG)`))/18)*10000
          )
          
          ### Adding variety in the data
@@ -95,7 +97,9 @@ carob_script <- function(path) {
          virus_severity= r$SPVD,
          diseases= "alternaria blight",
          disease_severity= r$ALT,
-         severity_scale= "1-9"
+         severity_scale= "1-9",
+         flesh_color= as.numeric(r$`FLESH COL.`),
+         fwy_residue= (as.numeric((r$`WT.VINES(KG)`))/18)*10000
       )
       
       ### Adding variety in the data
@@ -119,11 +123,13 @@ carob_script <- function(path) {
       on_farm= TRUE,
       location= r$LOCATION,
       planting_date = "2012",
-      trial_id= paste0("2012", "-",r$LOCATION),
+      trial_id= paste0("2012", "-", r$LOCATION),
       virus_severity= r$SPVD,
       diseases= "alternaria blight",
       disease_severity= r$ALT,
-      severity_scale= "1-9"
+      severity_scale= "1-9",
+      flesh_color= r$FLESH.COL,
+      fwy_residue= (r$WT.VINES.KG/18)*10000
    )
    
    ## remove duplicate rows (3). 
@@ -133,7 +139,13 @@ carob_script <- function(path) {
   d$code <- NULL
   d$plot_area <- 18 # m2
   d$location[d$location=="Kachw"] <- "Kachwekano"
-  d$variety <- gsub(" ", "", d$variety)
+  d$flesh_color <- ifelse(grepl(1, d$flesh_color),"white", 
+                   ifelse(grepl(2, d$flesh_color), "cream", 
+                   ifelse(grepl(6, d$flesh_color), "Pale orange",
+                   ifelse(grepl(7, d$flesh_color),"Intermediate orange",
+                   ifelse(grepl(8, d$flesh_color), "dark orange", "none")))))
+  
+   d$variety <- gsub(" ", "", d$variety)
    d$country <- "Uganda"
    d$crop <- "sweetpotato"
    d$irrigated <- NA
@@ -158,12 +170,12 @@ carob_script <- function(path) {
    
    ## Adding biomass from publication (On-station trials)
    
-   d$fwy_total <- ifelse(grepl("NASPOT1", d$variety), 67,
+   d$fwy_total <- (ifelse(grepl("NASPOT1", d$variety), 67,
                   ifelse(grepl("NAS7/2006/1185", d$variety), 57.7,
                   ifelse(grepl("JEWEL(OP)/2005/6", d$variety), 58.3,
                   ifelse(grepl("NASPOT8", d$variety), 66.3,
                   ifelse(grepl("NKA", d$variety), 53.2,
-                  ifelse(grepl("DIMBUKA", d$variety), 57.9, d$fwy_total))))))
+                  ifelse(grepl("DIMBUKA", d$variety), 57.9, d$fwy_total)))))))*1000
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
