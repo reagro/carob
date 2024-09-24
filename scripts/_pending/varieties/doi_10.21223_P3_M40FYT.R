@@ -1,12 +1,9 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
   
-    "Group B1, cycle B1C5 of Population B (fifth cycle of recombination of the pure native Andigena group B1), is the result of a new population improvement strategy in the absence of R- genes started at CIP in 1990. The group B1 derives of primitive cultivars of Solanum tuberosum ssp. andigena, known to be free of R- genes. \r\nThese clones were planted in a randomized complete block design (RCBD) with 2-4 replicates at La Victoria, Huancayo, Junin-Peru, located at 3290 masl."
+"Group B1, cycle B1C5 of Population B (fifth cycle of recombination of the pure native Andigena group B1), is the result of a new population improvement strategy in the absence of R- genes started at CIP in 1990. The group B1 derives of primitive cultivars of Solanum tuberosum ssp. andigena, known to be free of R- genes. \r\nThese clones were planted in a randomized complete block design (RCBD) with 2-4 replicates at La Victoria, Huancayo, Junin-Peru, located at 3290 masl."
   
   uri <- "doi:10.21223/P3/M40FYT"
   group <- "varieties"
@@ -31,14 +28,6 @@ carob_script <- function(path) {
   d <- lapply(f, process, addvars=c("AUDPC","rAUDPC","TTWP","MTWP"))
   d <- do.call(rbind, d)
   
-  
-  carobiner::write_files(path = path,
-                         metadata = meta,
-                         records = d)
-  
-  
- }
+  carobiner::write_files(path = path, metadata = meta, records = d)
+}
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
