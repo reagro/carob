@@ -1,0 +1,115 @@
+# R script for "carob"
+# license: GPL v3
+
+carob_script <- function(path) {
+
+"Maize (Zea mays L.), an important source of calories and nutrients in sub-Saharan Africa, is threatened by northern corn leaf blight (NCLB) caused by Exserohilum turcicum. This study examined combining ability and heterotic patterns of earlymaturing maize inbreds, gene action conditioning NCLB resistance, and performance of derived hybrids across environments and identified testers. Fifteen each of white and yellow inbreds were intercrossed using North Carolina Design II to obtain 75 hybrids per endosperm color. Hybrids plus six checks were inoculated with a virulent isolate of E. turcicum 4 wk after planting in six inoculated and three non-inoculated environments in Nigeria in 2018 and 2019. Inbreds were assigned to heterotic groups using general combining ability (GCA) of multiple traits method. Specific combining ability (SCA), GCA, and genotype × environment (G × E) interactions were significant for grain yield (GYLD), disease severity, and other traits. Northern corn leaf blight caused 46% GYLD reduction. The effects of GCA were preponderant over SCA for GYLD and NCLB severity across environments, indicating that hybridization and recurrent selection would enhance genetic gains and hybrid performance. White and yellow inbreds were placed in two and three heterotic groups, respectively. High-yielding NCLB-resistant testers identified could be used to classify other inbreds yet to be field-tested into heterotic groups. Genotypes TZEI 32 × TZEI 5 and TZEI 124 × TZEI 134 were identified as single-cross testers. Genotypes TZEI 32 × TZEI 5 and TZEI 5 × TZEI 75 (white) and TZEI 124 × TZEI 134 and TZEI 124 × TZEI 11 (yellow)were identified for on-farmtesting and possible commercialization."
+
+	uri <- "doi:10.25502/fgty-g146/d"
+	group <- "varieties_maize"
+
+
+	ff  <- carobiner::get_data(uri, path, group)
+
+	meta <- data.frame(
+		carobiner::read_metadata(uri, path, group, major=1, minor=0),
+		data_institute = "IITA",
+		publication = "doi.org/10.1002/agj2.20746",
+		project = "Stress Tolerant Maize for Africa",
+		data_type = "experiment",
+		treatment_vars = "variety",
+		response_vars = "yield", 
+		carob_contributor = "Mitchelle Njukuya",
+		carob_date = "2024-09-23",
+		notes = "dataset has no planting dates, harvest dates and fertilizer rates"
+	)
+	
+	process_data <- function(file_name, id) {
+	  
+	  f <- ff[basename(ff) == file_name]
+	  r <- read.csv(f) 
+	  
+	  d <- data.frame (
+	    trial_id = as.character(id),
+	    rep = r$Rep,
+	    variety = r$Pedigree,
+	    location = r$Loc,
+	    treatment = r$Treatment,
+	    yield = r$Grain_yield_ha_Kgha,
+	    anthesis_days = r$Days_to_anthesis,
+	    silking_days = r$DY_SK,
+	    asi = r$ASI,
+	    plant_height = r$PLHT,
+	    ear_height = r$E_HT,
+	    rlper = r$RL_PERC,
+	    slper = r$SL_PERC,
+	    husk = r$HC,
+	    p_asp = r$PL_ASP,
+	    e_asp = r$E_ASP,
+	    e_rot = r$E_rot,
+	    disease_severity = as.character(r$TURC6WAF),
+	    e_harv = r$E_HARV,
+	    p_harv = r$PHARV,
+	    moist = r$MOIST,
+	    curv = r$CURV
+	     )
+	  
+	}
+	
+	d0 <- process_data("Ikenne_Infected.csv", 1)
+	d1 <- process_data("Ikenne_Uninfected.csv", 2)
+	d2 <- process_data("Ile_Ife_Infected.csv", 3)
+	d3 <- process_data("Ile_Ife_Uninfected.csv", 4)
+	d4 <- process_data("Zaria_Infected.csv", 5)
+	d5 <- process_data("Zaria_Uninfected.csv", 6)
+	
+	d <- rbind(d0, d1, d2, d3, d4, d5)
+	
+	#adding geo data
+	
+	d$country <- "Nigeria"
+	d$geo_from_source <- FALSE
+	d$longitude[d$location=="Ikenne"] <- 3.6758
+	d$latitude[d$location=="Ikenne"] <- 6.9189
+	d$longitude[d$location=="Ile-Ife"] <- 4.5603
+	d$latitude[d$location=="Ile-Ife"] <- 7.4822
+	d$longitude[d$location=="Zaria"] <- 7.7159
+	d$latitude[d$location=="Zaria"] <- 11.0819
+	d$elevation[d$location=="Ikenne"] <- 235.2
+	d$elevation[d$location=="Ile-ife"] <- 275
+	d$elevation[d$location=="Zaria"] <- 643.65
+	  
+	  
+	d$crop <- "maize"
+	d$yield_part <- "grain"
+	
+	d$on_farm <- TRUE
+	d$is_survey <- FALSE
+	d$irrigated <- FALSE
+	d$striga_trial <- FALSE
+	d$borer_trial <- FALSE
+	d$striga_trial <- FALSE
+	d$striga_infected <- FALSE
+	
+	d$inoculated <- ifelse(d$treatment=="Infected",TRUE,FALSE)
+	d$inoculant <- ifelse(d$inoculated==TRUE,"Exserohilum turcicum",NA)
+	
+	#d$planting_date <- as.character(as.Date(   ))
+	#d$harvest_date  <- as.character(as.Date(    ))
+
+  #d$P_fertilizer <- 
+  #d$K_fertilizer <-
+  #d$N_fertilizer <- 
+ 
+	d$asi[d$asi > 30] <- NA
+	d$yield[d$yield < 0 ] <- NA
+	d$anthesis_days[d$anthesis_days < 0] <- NA
+	d$silking_days[d$silking_days < 0] <- NA
+	d$plant_height[d$plant_height > 350] <- NA
+  d$plant_height[d$plant_height==1] <- NA
+  
+  
+	carobiner::write_files(path, meta, d)
+}
+
+
