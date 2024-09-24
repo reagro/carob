@@ -94,21 +94,18 @@ carob_script <- function(path) {
 	d$inoculated <- ifelse(d$treatment=="Infected",TRUE,FALSE)
 	d$inoculant <- ifelse(d$inoculated==TRUE,"Exserohilum turcicum",NA)
 	
-	#d$planting_date <- as.character(as.Date(   ))
-	#d$harvest_date  <- as.character(as.Date(    ))
+	d$planting_date <- d$harvest_date <- as.character(NA)
 
-  #d$P_fertilizer <- 
-  #d$K_fertilizer <-
-  #d$N_fertilizer <- 
+	d$P_fertilizer <- d$K_fertilizer <- d$N_fertilizer <- as.numeric(NA)
  
-	d$asi[d$asi > 30] <- NA
 	d$yield[d$yield < 0 ] <- NA
 	d$anthesis_days[d$anthesis_days < 0] <- NA
 	d$silking_days[d$silking_days < 0] <- NA
-	d$plant_height[d$plant_height > 350] <- NA
-  d$plant_height[d$plant_height==1] <- NA
-  
-  
+
+	d$asi[d$asi > 100] <- NA
+	d$plant_height[d$plant_height==1] <- NA
+	#d$plant_height[d$plant_height > 350] <- NA
+
 	carobiner::write_files(path, meta, d)
 }
 
