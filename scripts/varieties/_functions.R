@@ -37,6 +37,7 @@ process_cip_lbvars <- function(filename, addvars=NULL) {
 		location = m$Locality,
 		longitude = as.numeric(m$Longitude),
 		latitude = as.numeric(m$Latitude),
+		geo_from_source = TRUE,
 		elevation = as.numeric(m$Elevation),
 		planting_date = m$Begin_date,
 		harvest_date = m$End_date,
@@ -46,16 +47,20 @@ process_cip_lbvars <- function(filename, addvars=NULL) {
 		trial_id = gsub(".xls|.xlsx", "", basename(filename))
 	)
 	
-	if (!is.null(r$AUDPC)) d$AUDPC <- as.numeric(r$AUDPC) / 100
-	if (!is.null(r$AUDPC)) d$rAUDPC <- as.numeric(r$rAUDPC)
-
+	if (!is.null(r$AUDPC)) {
+		d$AUDPC <- as.numeric(r$AUDPC) / 100
+	    d$pathogen <- "Phytophthora infestans"
+	}
+	if (!is.null(r$AUDPC)) {
+		d$rAUDPC <- as.numeric(r$rAUDPC)
+	    d$pathogen <- "Phytophthora infestans"
+	}
+	
     d$on_farm <- TRUE
     d$is_survey <- FALSE
     d$irrigated <- FALSE
     d$crop <- "potato"
-    d$pathogen <- "Phytophthora infestans"
     d$yield_part <- "tubers"
-    d$geo_from_source <- TRUE
     d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	d
 }
