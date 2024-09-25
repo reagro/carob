@@ -1,14 +1,20 @@
 
 process_cip_lbvars <- function(filename, addvars=NULL) {      
 
-	r <- carobiner::read.excel(filename, sheet="Fieldbook")		   
+	sheets <- readxl::excel_sheets(filename)
 	minimal <- carobiner::read.excel(filename, sheet="Minimal")
 	installation <- carobiner::read.excel(filename, sheet="Installation")
-	
+
+	if ("Fieldbook" %in% sheets) {
+		r <- carobiner::read.excel(filename, sheet="Fieldbook")		  
+		n <- as.list(installation$Value)
+	} else {
+		r <- carobiner::read.excel(filename, sheet="F4_ Harvest_Mother")
+		n <- as.list(installation$Mother)
+	}
 	m <- as.list(minimal$Value)
 	names(m) <- gsub(" ", "_", minimal$Factor)
 	
-	n <- as.list(installation$Value)
 	names(n) <- gsub(" ", "_", installation$Factor)
 	
 	for (v in addvars) if (is.null(r[[v]])) r[v] <- NA
@@ -24,8 +30,6 @@ process_cip_lbvars <- function(filename, addvars=NULL) {
 		variety = r$INSTN,
 		yield = as.numeric(r$TTWP) * plot_adj,
 		yield_marketable = as.numeric(r$MTWP) * plot_adj,
-		AUDPC = as.numeric(r$AUDPC) / 100,
-		rAUDPC = as.numeric(r$rAUDPC),
 		country = m$Country,
 		adm1 = m$Admin1,
 		adm2 = m$Admin2,
@@ -41,6 +45,9 @@ process_cip_lbvars <- function(filename, addvars=NULL) {
 		plant_spacing = as.numeric(n$`Distance_between_plants_(m)`) * 100,
 		trial_id = gsub(".xls|.xlsx", "", basename(filename))
 	)
+	
+	if (!is.null(r$AUDPC)) d$AUDPC <- as.numeric(r$AUDPC) / 100
+	if (!is.null(r$AUDPC)) d$rAUDPC <- as.numeric(r$rAUDPC)
 
     d$on_farm <- TRUE
     d$is_survey <- FALSE
