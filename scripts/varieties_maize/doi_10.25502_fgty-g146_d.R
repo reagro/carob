@@ -94,9 +94,20 @@ carob_script <- function(path) {
 	d$inoculated <- ifelse(d$treatment=="Infected",TRUE,FALSE)
 	d$inoculant <- ifelse(d$inoculated==TRUE,"Exserohilum turcicum",NA)
 	
-	d$planting_date <- d$harvest_date <- as.character(NA)
-
-	d$P_fertilizer <- d$K_fertilizer <- d$N_fertilizer <- as.numeric(NA)
+	d$planting_date[d$location=="Ikenne"] <- "2019-06-13"
+	d$planting_date[d$location=="Ile-Ife"] <- "2019-07-04"
+	d$planting_date[d$location=="Zaria"] <- "2019-07-19"
+	  
+	d$harvest_date[d$location=="Ikenne"] <-"2019-09-26"
+	d$harvest_date[d$location=="Ile-Ife"] <-"2019-10-16"
+	d$harvest_date[d$location=="Zaria"] <-"2019-10-27"
+	  
+	d$fertilizer_used <- TRUE
+	d$fertilizer_type <- "NPK;urea"
+	d$N_fertilizer <- 90
+	d$N_splits <- as.integer(2)
+	d$P_fertilizer <- 60
+	d$K_fertilizer <- 60
  
 	d$yield[d$yield < 0 ] <- NA
 	d$anthesis_days[d$anthesis_days < 0] <- NA
