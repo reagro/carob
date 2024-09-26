@@ -13,8 +13,7 @@ process_cip_lbvars <- function(filename, addvars=NULL) {
 		n <- as.list(installation$Mother)
 	}
 	m <- as.list(minimal$Value)
-	names(m) <- gsub(" ", "_", minimal$Factor)
-	
+	names(m) <- gsub(" ", "_", minimal$Factor)	
 	names(n) <- gsub(" ", "_", installation$Factor)
 	
 	for (v in addvars) if (is.null(r[[v]])) r[v] <- NA
@@ -67,6 +66,14 @@ process_cip_lbvars <- function(filename, addvars=NULL) {
 	if (!is.null(r$AUDPC)) {
 		d$rAUDPC <- as.numeric(r$rAUDPC)
 	    d$pathogen <- "Phytophthora infestans"
+	}
+
+
+	if ("Soil_analysis" %in% sheets) {
+		soil <- carobiner::read.excel(filename, sheet="Soil_analysis")
+		names(soil) <- gsub(" ", "_", tolower(names(soil)))
+		d$soil_pH <- soil$soil_ph
+		d$soil_SOM <- soil$organic_matter
 	}
 	
     d$on_farm <- TRUE
