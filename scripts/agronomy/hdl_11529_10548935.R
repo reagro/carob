@@ -153,7 +153,7 @@ of El Batán Texcoco, the State of Mexico, Mexico. The experiment was a randomiz
 	d$elevation <- 2257  # define as numeric, not character
 	d$longitude <- -98.88056
 	d$latitude <- 19.517
-	
+	d$geo_from_source <- FALSE
 	d$crop <- tolower(d$crop)
 	d$rep <- as.integer(d$rep)
 	
@@ -166,6 +166,8 @@ of El Batán Texcoco, the State of Mexico, Mexico. The experiment was a randomiz
 
 	# empty rep 
 	d <- d[!is.na(d$yield), ]
+	
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	
 	carobiner::write_files(path, meta, d)
 }

@@ -26,7 +26,7 @@ carob_script <- function(path) {
 	r1 <- carobiner::read.excel(f, sheet="Data farmer's fields")
 
 	d0 <- data.frame(
-		location = r0$Site,
+		adm2 = r0$Site,
 		planting_date = as.character(r0$Year),
 		rep =as.integer(r0$Repetition),
 		crop=tolower(r0$Crop),
@@ -65,21 +65,21 @@ carob_script <- function(path) {
 	d$land_prep_method[d$land_prep_method=="permanent wide beds"] <- "wide permanent beds"
 	d$crop_rotation <- gsub("-", ";", d$crop_rotation)
 	d$crop_rotation <- gsub("bean", "common bean", d$crop_rotation)
-
+   
+	### Fixing adm2
+	d$adm2[d$adm2=="Cadereyta"] <-  "Cadereyta de Montes"
+	d$adm2 <- gsub("San Juan del Rio", "San Juan del Río", d$adm2)
+	d$adm2 <- gsub("El Marqués", "Ezequiel Montes", d$adm2)
 	
-	d$latitude[d$adm2=="Cadereyta de Montes"] <- 25.5859879
-	d$longitude[d$adm2=="Cadereyta de Montes"]  <-  -99.99681670000001
-	d$latitude[d$adm2=="San Juan del Río"] <-  20.3951106 
-	d$longitude[d$adm2=="San Juan del Río"] <- -99.9856344
-	d$latitude[d$adm2=="Corregidora"] <-  20.5334645 
-	d$longitude[d$adm2=="Corregidora"] <-  -100.4462861
-	d$latitude[d$adm2=="Pedro Escobedo"] <-   20.5010443 
-	d$longitude[d$adm2=="Pedro Escobedo"] <-  -100.1395169
-	d$latitude[d$adm2=="Ezequiel Montes"] <-   20.6713387
-	d$longitude[d$adm2=="Ezequiel Montes"] <-  -99.8962279
-	d$latitude[d$adm2=="El Marqués"] <-   16.7956 
-	d$longitude[d$adm2=="El Marqués"] <-  -99.8206
+	geo <- data.frame(
+	   adm2= c("Cadereyta de Montes", "San Juan del Río", "Corregidora", "Pedro Escobedo", "Ezequiel Montes", "El Marqués"),
+	   latitude= c(25.5859879, 20.3951106, 20.5334645,  20.5010443,20.6713387,16.7956),
+	   longitude= c(-99.996816, -99.9856344, -100.4462861, -100.1395169, -99.8962279, -99.8206)
+	)
 	
+	d <- merge(d, geo, by="adm2", all.x = TRUE) 
+	
+	d$geo_from_source <- FALSE
 	
 	carobiner::write_files(path, meta, d)
 }
