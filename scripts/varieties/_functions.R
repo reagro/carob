@@ -13,8 +13,7 @@ process_cip_lbvars <- function(filename, addvars=NULL) {
 		n <- as.list(installation$Mother)
 	}
 	m <- as.list(minimal$Value)
-	names(m) <- gsub(" ", "_", minimal$Factor)
-	
+	names(m) <- gsub(" ", "_", minimal$Factor)	
 	names(n) <- gsub(" ", "_", installation$Factor)
 	
 	for (v in addvars) if (is.null(r[[v]])) r[v] <- NA
@@ -22,9 +21,22 @@ process_cip_lbvars <- function(filename, addvars=NULL) {
 	plot_size <- as.numeric(n$`Plot_size_(m2)`)
 	plot_adj <- 10000 / plot_size
      
-  	if (grepl("/", m$Begin_date)) m$Begin_date <- as.character(as.Date(m$Begin_date,format = "%d/%m/%Y"))
-  	if (grepl("/", m$End_date)) m$End_date <- as.character(as.Date(m$End_date,format = "%d/%m/%Y"))
-	 
+  	if (grepl("/", m$Begin_date)) {
+		i <- is.na(m$Begin_date)
+		m$Begin_date <- as.character(as.Date(m$Begin_date,format = "%d/%m/%Y"))
+		j <- is.na(m$Begin_date)
+		if (sum(j) > sum(i)) warning("NAs introduced in Begin_date")
+  	}
+	if (grepl("/", m$End_date)) {
+		if (grepl("-", m$End_date)) {
+			# taking the last one, should perhaps take the average (doi_10.21223_KNC22E.R)
+			m$End_date <- strsplit(m$End_date, "-")[[1]][2]
+		}
+		i <- is.na(m$End_date)
+		m$End_date <- as.character(as.Date(m$End_date,format = "%d/%m/%Y"))
+		j <- is.na(m$End_date)
+		if (sum(j) > sum(i)) warning("NAs introduced in End_date")
+	} 
 	d <- data.frame(
 		rep = as.integer(r$REP),
 		variety = r$INSTN,
@@ -54,6 +66,14 @@ process_cip_lbvars <- function(filename, addvars=NULL) {
 	if (!is.null(r$AUDPC)) {
 		d$rAUDPC <- as.numeric(r$rAUDPC)
 	    d$pathogen <- "Phytophthora infestans"
+	}
+
+
+	if ("Soil_analysis" %in% sheets) {
+		soil <- carobiner::read.excel(filename, sheet="Soil_analysis")
+		names(soil) <- gsub(" ", "_", tolower(names(soil)))
+		d$soil_pH <- soil$soil_ph
+		d$soil_SOM <- soil$organic_matter
 	}
 	
     d$on_farm <- TRUE
