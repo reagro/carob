@@ -33,13 +33,14 @@ Despite the recent release of several improved varieties of groundnut in Nigeria
 		treatment=paste(r$Variety, r$Fertilizer, r$Spacing, sep="_"),
 		yield = r$Pod.weight,
 		fwy_residue = r$fodder.weight,
-		seed_weight = r$seed.weight
+		seed_weight = r$seed.weight,
+		harvest_index = r$HI_Calc_ratio
 	)
 
 	d$trial_id <- d$planting_date
 
 	d$P_fertilizer <- 0
-	d$P_fertilizer[grep("F2", d$treatment==)] <- 20
+	d$P_fertilizer[grep("F2", d$treatment)] <- 20
 
 	d$N_fertilizer <- 0
 	d$K_fertilizer <- 20
