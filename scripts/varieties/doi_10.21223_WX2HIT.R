@@ -58,6 +58,7 @@ We use the randomized complete blocks (RCB) statistical design, with three repet
 	d$on_farm <- TRUE
 	d$crop <- "potato"
 	d$yield_part <- "tubers" 
+	d$geo_from_source <- TRUE
 	## NPK dose used (200-180 -160)
 	d$N_fertilizer <- 200
 	d$P_fertilizer <- 180/2.29

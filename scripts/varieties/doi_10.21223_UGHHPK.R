@@ -59,6 +59,7 @@ carob_script <- function(path) {
    d$on_farm <- TRUE
    d$crop <- "potato"
    d$yield_part <- "tubers"
+   d$geo_from_source <- TRUE
    d$row_spacing <- 100  
    d$plant_spacing <- 30 
    d$harvest_days <- 120

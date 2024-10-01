@@ -48,10 +48,11 @@ carob_script <- function(path) {
    d$planting_date <- "2016"
    d$longitude  <- 9.4044169
    d$latitude  <-  12.6232524
+   d$geo_from_source <- FALSE
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
    carobiner::write_files (path, meta, d)    
 }
 
-carob_script(path)
+#carob_script(path)

@@ -56,6 +56,7 @@ carob_script <- function(path) {
 	# Nampula
 	d$longitude <- 39.271
 	d$latitude <- -14.967
+	d$geo_from_source <- FALSE
 
 	## Planting and harvest date are taken from metadata 
 	d$planting_date <- "2018-01-20"
