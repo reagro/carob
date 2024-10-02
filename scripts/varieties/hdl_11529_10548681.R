@@ -56,6 +56,7 @@ carob_script <- function(path) {
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$irrigated <- NA
+	d$geo_from_source <- FALSE
 	d$P_fertilizer <- d$K_fertilizer <- d$N_fertilizer <- as.numeric(NA)
 	d$inoculated <- NA
   

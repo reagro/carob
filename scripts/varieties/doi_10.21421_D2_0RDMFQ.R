@@ -58,7 +58,7 @@ carob_script <- function(path) {
       longitude=c(38.4689187, 40.1625663, 34.2424799, 33.3568368, 39.8185303, 39.2707752, 34.8866104, 33.6538127, 32.1760991, 32.5638197),
       country=c(rep("Tanzania",2), rep("Uganda",2), rep("Mozambique",2),rep("Malawi",2),rep("Zambia",2))
    )
-
+   d$geo_from_source <- FALSE
    d <- merge(d,geo,by="location",all.x = TRUE)
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)

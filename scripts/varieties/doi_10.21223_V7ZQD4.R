@@ -45,6 +45,7 @@ carob_script <- function(path) {
    ## add long and lat  Huancayo
    d$latitude <-  -12.068098
    d$longitude <- -75.2100953
+   d$geo_from_source <- FALSE
 
    d$trial_id <- "1"
    d$irrigated <- NA

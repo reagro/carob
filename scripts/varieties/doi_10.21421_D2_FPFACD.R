@@ -79,7 +79,8 @@ carob_script <- function(path) {
 	x <- reshape(dd, direction="long", varying =dvars, v.names="disease_severity", timevar="step")
 	x$DAP <- days[x$step]
 	x$diseases <- ifelse(x$step < 4, "rust", "late leaf spot")
-	x$severity_scale <- "1-9"	 
+	x$severity_scale <- "1-9"	
+	x$disease_severity <- as.character(x$disease_severity)
 	x$id <- x$step <- NULL
 
 	d[dvars] <-  NULL
