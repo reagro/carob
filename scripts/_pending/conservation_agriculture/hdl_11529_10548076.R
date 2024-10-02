@@ -135,4 +135,3 @@ Farmers’ participatory researchers managed long-term trails aimed to improve t
   
   #carobiner::write_files(meta, dd, path=path)
 }
-carob_script(path)

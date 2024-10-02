@@ -121,7 +121,6 @@ carob_script <- function(path) {
 	d$irrigated <- FALSE
  
 	carobiner::write_files(meta, d, path=path)
-	#carob_script(path)
 }
 
 

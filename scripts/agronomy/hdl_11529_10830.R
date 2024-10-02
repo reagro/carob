@@ -115,5 +115,4 @@ is kept in the ground, there is no preparation of the ground, and the sowing is 
 	carobiner::write_files(meta, d, path=path)
 }
 
-# carob_script(path)
 

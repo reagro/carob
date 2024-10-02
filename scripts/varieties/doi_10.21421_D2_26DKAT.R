@@ -55,4 +55,3 @@ carob_script <- function(path) {
    carobiner::write_files (path, meta, d)    
 }
 
-#carob_script(path)
