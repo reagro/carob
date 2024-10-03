@@ -17,6 +17,8 @@ carob_script <- function(path) {
 		publication="hdl:10883/22808",
 		project=NA,
 		data_type= "experiment",
+		treatment_vars="land_prep_method;variety" , 
+		response_vars="yield",
 		carob_contributor= "Blessing Dzuda",
 		carob_date="2024-05-16"
 	)
@@ -62,7 +64,8 @@ carob_script <- function(path) {
 	d$irrigated <- TRUE
 	d$trial_id <- paste0(d$adm1,"_", d$rep)
 	d$country <- "Mexico"
-
+   d$geo_from_source <- TRUE
+   
 ##### Time #####
 	d$planting_date <- as.character(as.Date(d$planting_date))
 	d$harvest_date  <- as.character(as.Date(d$harvest_date))
@@ -80,9 +83,9 @@ carob_script <- function(path) {
 	d$crop_rotation <- gsub("C", "barley", d$crop_rotation)
 	d$crop_rotation <- gsub("-", ";", d$crop_rotation)
 	d$soil_texture <- gsub("Vertisol", "clay", d$soil_texture)
-	d$land_prep_method <- gsub("LC", "conventional tilled beds", d$land_prep_method)
+	d$land_prep_method <- gsub("LC|LR", "conventional tilled beds", d$land_prep_method)
 	d$land_prep_method <- gsub("CPA", "wide permanent beds", d$land_prep_method)
-	
+	d$land_prep_method <- gsub("CP", "conventional", d$land_prep_method)
 	d$currency <- "MXN"
 	i <- which(d$plant_height < 1)
 	d$plant_height[i] <- d$plant_height[i] * 100

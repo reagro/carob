@@ -29,13 +29,10 @@ carob_script <- function(path) {
       names(r) <- gsub("Genotye","Genotype",names(r))
       data.frame(
          variety = r$Genotype,
-         diseases = "rust",
          yield= as.numeric(r$`Pod yield`),
          trial_id= substr(gsub("xlsx", "", basename(f)), 45, 59),
          planting_date= ifelse(grepl("2012", basename(f)), "2012-06-20", "2013-06-20"),
          plot_area= 2*4,
-		 ## rust at 105 days after planting
-         disease_severity = paste0(r$`Rust at 105Days After Sowing`, "(1-9)",collapse = NULL),
 		 rust75 = r$`Rust at 75 Days After Sowing`,
 		 rust90 = r$`Rust at 90 Days After Sowing`,
 		 rust105 = r$`Rust at 105Days After Sowing`
@@ -63,7 +60,7 @@ carob_script <- function(path) {
    d$geo_from_source <- FALSE
    d$longitude  <- 78.2739
    d$latitude  <-  17.5119
-	d$geo_undertainty <- 1500
+	d$geo_uncertainty <- 1500
    
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
@@ -72,14 +69,16 @@ carob_script <- function(path) {
     rsvars <- grep("^rust", colnames(d), value=TRUE)
     dd <- d[, c("record_id", "planting_date", rsvars)]
 	dd$planting_date <- as.Date(dd$planting_date)
-	date <- as.character(c(dd$planting_date+75, dd$planting_date+90, dd$planting_date+105))
-    x <- reshape(dd, direction="long", varying =rsvars, v.names="severity", timevar="step")
-    x$time <- date[x$step]
-    x$id <- x$step <- NULL
+	DAP <- c(75, 90 , 105) |> as.integer()
+    x <- reshape(dd, direction="long", varying =rsvars, v.names="disease_severity", timevar="step")
+    x$time <- as.character(as.Date(x$planting_date)+ DAP[x$step])
+    x$DAP <- DAP[x$step]
+    x$id <- x$step <- x$planting_date <- NULL
+    x$disease_severity <- as.character(x$disease_severity)
     x$severity_scale <- "1-9"    
-	x$disease <- "rust"
+	x$diseases <- "rust"
 	
 	d[rsvars] <- NULL
 	
-   carobiner::write_files (path, meta, d,timerecs=x)    
+   carobiner::write_files (path, meta, d, timerecs=x)    
 }

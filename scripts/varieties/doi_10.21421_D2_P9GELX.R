@@ -55,6 +55,7 @@ f <- ff[basename(ff)=="Data file of Medium duration lines for agronomic traits i
    d$planting_date <- "2015"
    d$longitude  <- 8.5446236
    d$latitude  <- 12.95365
+   d$geo_from_source <- FALSE
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    

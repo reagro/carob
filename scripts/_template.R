@@ -1,14 +1,13 @@
 # R script for "carob"
-# license: GPL v3
+# license: GPL (>=3)
 
 ## ISSUES
 # if there are remaining issues, please put these in "meta$notes"
 
 carob_script <- function(path) {
 
-"
-copy and paste the abstract from the repository. Do not add line breaks
-"
+"copy and paste the title and abstract from the repository"
+
 
 ## Identifiers
 	uri <- "doi:10xxx/yyy"
@@ -35,7 +34,9 @@ copy and paste the abstract from the repository. Do not add line breaks
 		response_vars = "", 
 		carob_contributor = "Your Name",
 		carob_date = "2024-01-01",
-		notes = ""
+		notes = "",
+		# if available report the experimental or survey design
+		design = NA
 	)
 	
 ## read data 
