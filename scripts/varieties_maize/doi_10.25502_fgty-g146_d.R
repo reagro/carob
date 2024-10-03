@@ -94,6 +94,8 @@ carob_script <- function(path) {
 	d$inoculated <- ifelse(d$treatment=="Infected",TRUE,FALSE)
 	d$inoculant <- ifelse(d$inoculated==TRUE,"Exserohilum turcicum",NA)
 	
+	#dates and fertilizer rates obtained in correspondence with Ortega-Beltran Alejando
+	
 	d$planting_date[d$location=="Ikenne"] <- "2019-06-13"
 	d$planting_date[d$location=="Ile-Ife"] <- "2019-07-04"
 	d$planting_date[d$location=="Zaria"] <- "2019-07-19"
@@ -101,7 +103,7 @@ carob_script <- function(path) {
 	d$harvest_date[d$location=="Ikenne"] <-"2019-09-26"
 	d$harvest_date[d$location=="Ile-Ife"] <-"2019-10-16"
 	d$harvest_date[d$location=="Zaria"] <-"2019-10-27"
-	  
+	
 	d$fertilizer_used <- TRUE
 	d$fertilizer_type <- "NPK;urea"
 	d$N_fertilizer <- 90
