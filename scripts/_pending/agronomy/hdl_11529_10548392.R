@@ -186,7 +186,4 @@ carob_script <- function(path) {
 	carobiner::write_files(meta, d, path=path)
 }
 
-## now test your function in a clean R environment 
-# path <- _____
-# carob_script(path)
 

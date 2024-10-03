@@ -59,6 +59,7 @@ carob_script <- function(path) {
    d$planting_date <- "2016"
    d$longitude  <- 8.6142193
    d$latitude  <-  12.1936317
+   d$geo_from_source <- FALSE
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
