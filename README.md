@@ -6,7 +6,7 @@
 
 Carob is an open access *Extract, Transform, and Load* (ETL) framework supported by [CGIAR](https://www.cgiar.org/initiative/excellence-in-agronomy/) to support predictive analytics (machine learning, artifical intelligence) and other types of data analysis. 
 
-Contributions are welcome from anyone, and they can be made via pull-requests. Feel free to improve these scripts, or provide new ones. See the instructions on how to write a Carob script described [here](https://carob-data.org/contribute/index.html). You can also raise [issues](https://github.com/reagro/carob/issues) on this github site. A good place to discover new data sets is the [Gardian](https://gardian.bigdata.cgiar.org/) website or our [to-do list](https://carob-data.org/contribute/todo.html). 
+Contributions are welcome from anyone, and they can be made via pull-requests. Feel free to improve these scripts, or provide new ones. See the instructions on how to write a Carob script described [here](https://carob-data.org/contribute/index.html). You can also [raise an issues](https://github.com/reagro/carob/issues). A good place to discover new data sets is the [Gardian](https://gardian.bigdata.cgiar.org/) website or our [to-do list](https://carob-data.org/contribute/todo.html). 
 
 ### Get the data
 
