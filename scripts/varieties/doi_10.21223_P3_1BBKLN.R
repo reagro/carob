@@ -12,7 +12,7 @@ carob_script <- function(path) {
    meta <- data.frame(
       carobiner::read_metadata(uri, path, group, major=1, minor=1), 
       data_institute ="CIP", 
-      publication ="doi: https://doi.org/10.21273/HORTSCI.46.2.317", 
+      publication ="doi:10.21273/HORTSCI.46.2.317",
       project =NA, 
       data_type = "experiment",
       response_vars = "yield;yield_marketable;fwy_residue",
@@ -73,7 +73,7 @@ carob_script <- function(path) {
          severity_scale= "1-9"
          )
       
-      if(grepl("6PPB Kiboga", i)){
+      if (grepl("6PPB Kiboga", i)){
          rr <- r1[c(grep("CLONE|Code", r1[,vr[1]]): nrow(r1)),]
          rr <- rr[, vr]
          names(rr) <- rr[1,]
@@ -82,7 +82,7 @@ carob_script <- function(path) {
          d$variety <- rr$variety[as.numeric(d$variety)]
       }
       
-      if(grepl("7Kabale", i)){
+      if (grepl("7Kabale", i)){
          rr <- r1[c(grep("CLONE|Code", r1[,vr[1]]): nrow(r1)),]
          rr <- rr[, vr]
          names(rr) <- rr[1,]
