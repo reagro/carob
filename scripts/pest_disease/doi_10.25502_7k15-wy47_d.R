@@ -1,6 +1,14 @@
 # R script for "carob"
 # license: GPL v3
 
+# 1. variables such as herbicide_efficacy need to be captured
+# 2. some more herbicide_product names need to be resolved
+# 3. weed species need to be captured
+# 4. "time-records" need to be captured; For example Wdden_m2_04WAP; Wdden_m2_06WAP; Wdden_m2_08WAP; Wdden_m2_10WAP; Wdden_m2_12WAP
+# TWControl_04WAP..TWControl_12WAP, Broadleaf_04WAP..Broadleaf_12WAP, Grass_04WAP..Grass_12WAP
+
+
+
 carob_script <- function(path) {
 
 "The ‘Sustainable Weed Management Technologies for Nigeria’ was a 5-year project that was developed and assessed with smallholder farmer participation modern, relevant and appropriate cassava weed management technologies suitable for sustainable intensification in major agro-ecological (humid rainforest, forest transition savanna and southern Guinea savanna) and socio-economic conditions of Nigeria. An important goal of the project was to help smallholder cassava growers achieve sustainable increases in their productivity and incomes through the development and adoption of improved weed control methods. The project evaluated enhanced cassava agronomy, including judicious, safe use of herbicides, toward improved weed management, across 4 states in Nigeria where cassava is central to food security and livelihoods of 4.5 million farm families.
@@ -26,10 +34,7 @@ Results from this project showed that with appropriate weed management couple wi
 		treatment_vars = "herbicide_used;weeding_done",
 		response_vars = "yield", 
 		carob_contributor = "Mitchelle Njukuya",
-		carob_date = "2024-10-03",
-		notes = "1. data has variables such as herbicide_efficacy that are not part of the CAROB workflow but are 
-		relevant for this particular study
-		2. some herbicide_product names are not part of the CAROB standard terms"
+		carob_date = "2024-10-03"
 	)
 	
 	f1 <- ff[basename(ff) == "Onfarm2017_All_Locations_DataFile_Rft.csv"]
@@ -78,22 +83,25 @@ Results from this project showed that with appropriate weed management couple wi
 	#d$weed_biomass <- r1$WdBiomass15_gm2/0.1
 	
 	#herbicide_products
-	d$herbicide_product <- gsub("La","lagon",d$herbicide_product)
+	d$herbicide_product <- gsub("_", ";", d$herbicide_product)
+	d$herbicide_product <- gsub("La","isoxaflutole;aclonifene",d$herbicide_product) # Lagon
+
 	d$herbicide_product <- gsub("Fi","flumioxazin",d$herbicide_product)
-	d$herbicide_product <- gsub("Pr","atrazine;s-metolachlor",d$herbicide_product)
+	d$herbicide_product <- gsub("Pr|Prt","atrazine;s-metolachlor",d$herbicide_product)
 	d$herbicide_product <- gsub("Ga","s-metolachlor;terbuthylazine",d$herbicide_product)
 	d$herbicide_product <- gsub("Se","metribuzin",d$herbicide_product)
-	d$herbicide_product <- gsub("Me","merlintotal",d$herbicide_product)
-	d$herbicide_product <- gsub("Mo","movon",d$herbicide_product)
-	
-	d$herbicide_product <- gsub("MPw","maisterpower",d$herbicide_product)
-	d$herbicide_product <- gsub("M61","maister61WG",d$herbicide_product)
-	d$herbicide_product <- gsub("FuC","fluazifop-butyl;cobra",d$herbicide_product)
-	d$herbicide_product <- gsub("SmC","clethodim;cobra",d$herbicide_product)
+	d$herbicide_product <- gsub("Me","isoxaflutole;indaziflam",d$herbicide_product) #merlintotal
+	d$herbicide_product <- gsub("Mo","flufenacet;diflufenican;flurtamone", d$herbicide_product) # movon
+
+	d$herbicide_product <- gsub("MPw","foramsulfuron;iodosulfuron;thiencarbazone-methyl;cyprosulfamide", d$herbicide_product) #maisterpower
+	d$herbicide_product <- gsub("M61","foramsulfuron;iodosulfuron-methyl-sodium", d$herbicide_product) #maister61WG
+	d$herbicide_product <- gsub("FuC","fluazifop-butyl;lactofen",d$herbicide_product) # C=Cobra
+	d$herbicide_product <- gsub("SmC","clethodim;lactofen",d$herbicide_product)
 	d$herbicide_product <- gsub("RUp","glyphosate",d$herbicide_product)
-	
-	d$herbicide_product <- gsub("Fa_Prt|NP_ZPo|NP_Zpo","none",d$herbicide_product)
-	d$herbicide_product <- gsub("_",";",d$herbicide_product)
+
+## Why this is "none"?	
+#	d$herbicide_product <- gsub("Fa_Prt|NP_ZPo|NP_Zpo","none",d$herbicide_product)
+# Why "" ?
 	d$herbicide_product <- gsub(";SHh","",d$herbicide_product)
 	
 	#total herbicide efficacy @ 12 weeks 
