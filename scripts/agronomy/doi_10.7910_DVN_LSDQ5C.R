@@ -8,8 +8,8 @@
 carob_script <- function(path) {
 
 "The data represent 804 cropping events of maize planting in Córdoba - Colombia from 2013 to 2016. Each cropping event has information on climate, soil, and agronomic management. The data was collected with the aim of determining the factors that 
-affect the variation in the yield of maize. The dataset was created through a collaboration project among International Center for Tropical Agriculture CIAT, the Colombian National Cereals, and Legumes Federation (FENALCE) and the Colombian Ministry of Agriculture and Rural Development (MADR).
-"
+affect the variation in the yield of maize. The dataset was created through a collaboration project among International Center for Tropical Agriculture CIAT, the Colombian National Cereals, and Legumes Federation (FENALCE) and the Colombian Ministry of Agriculture and Rural Development (MADR)."
+
 
 	uri <- "doi:10.7910/DVN/LSDQ5C"
 	group <- "agronomy"
@@ -19,14 +19,13 @@ affect the variation in the yield of maize. The dataset was created through a co
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIAT",
-		publication= "doi.org/10.1016/j.gfs.2019.08.004", 
+		publication= "doi:10.1016/j.gfs.2019.08.004", 
 		project=NA,
 		data_type= "experiment",
 		carob_contributor= "Shumirai Manzvera",
 		carob_date="2024-04-02",
 		response_vars = "yield",
-		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer",
-		notes= "soil texture contains unknown terms"
+		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer"
 	)
 	
 	f <- ff[basename(ff) == "Dataset_Maize_Cordoba.csv"]
