@@ -51,19 +51,16 @@ carob_script <- function(path) {
 	locs$latitude[i] <- 19.875
 	locs$longitude[i] <- -103.5987
 	locs$geo_from_source[i] <- FALSE
-		
-		
 	
 	get_data <- function(fname, id, cols=2:35) {
 		f <- ff[basename(ff) == fname]
 		r <- carobiner::read.excel(f) 
-		r <-r[22:34, cols]
-		
-		data.frame( 
+		r <-r[22:33, cols]
+
+		x <- data.frame( 
 		  trial_id = as.character(id),
 		  variety_code = as.character(r$Name),
 		  variety_pedigree=r$BreedersPedigree1,
-		  yield=as.numeric(r$GrainYieldTons_FieldWt)*1000,
 		  asi=as.numeric(r$ASI),
 		  plant_height=as.numeric(r$PlantHeightCm),
 		  ear_height = as.numeric(r$EarHeightCm),
@@ -79,6 +76,13 @@ carob_script <- function(path) {
 		  rust = r$CommonRust1_5,
 		  blight = r$LeafBlightTurcicum1_5
 		)
+		
+		x$yield <- if (fname == "07CHTSW11-1.xls") {
+			as.numeric(r$GrainYieldTons_GrainWt) * 1000
+		} else {
+			as.numeric(r$GrainYieldTons_FieldWt) * 1000
+		}
+		x
 	}
 	
 	d1 <- get_data("07CHTSW1-1.xls", 1)
