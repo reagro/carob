@@ -1,0 +1,26 @@
+TY  - JOUR
+T1  - A scalable scheme to implement data-driven agriculture for small-scale farmers
+AU  - Jiménez, Daniel
+AU  - Delerce, Sylvain
+AU  - Dorado, Hugo
+AU  - Cock, James
+AU  - Muñoz, Luis Armando
+AU  - Agamez, Alejandro
+AU  - Jarvis, Andy
+JO  - Global Food Security
+VL  - 23
+SP  - 256
+EP  - 266
+PY  - 2019
+DA  - 2019/12/01/
+SN  - 2211-9124
+DO  - https://doi.org/10.1016/j.gfs.2019.08.004
+UR  - https://www.sciencedirect.com/science/article/pii/S2211912419300070
+KW  - Data-driven
+KW  - Maize
+KW  - Machine learning
+KW  - Small-scale farmers
+KW  - Colombia
+KW  - Collaboration
+AB  - The Colombian Ministry of Agriculture Colombia, an international research center and a national farmers’ organization developed a data-driven agricultural program that: (i) compiles information from multiple sources; (ii) interprets that data; and (iii) presents the knowledge to farmers through the local advisory services. Data was collected from multiple sources, including small-scale farmers. Machine learning algorithms combined with expert opinion defined how variation in weather, soils and management practices interact and affect maize yield of small-scale farmers. This knowledge was then used to provide guidelines on management practices likely to produce high, stable yields. The effectiveness of the practices was confirmed in on-farm trials. The principles established can be applied to rainfed crops produced by small-scale farmers to better manage their crops with less risk of failure.
+ER  - 
