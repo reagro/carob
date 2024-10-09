@@ -2,21 +2,17 @@
 # license: GPL (>=3)
 
 ## ISSUES
-# if there are remaining issues, please put these in "meta$notes"
+# I double checked Mexico coordinates I cannot see where the error is originating from
+
 
 carob_script <- function(path) {
 
-" International Intermediate White Hybrid Trial - IIWH0730 Summary results and individual trial results from the International Intermediate White Hybrid - IIWH, (Elite Subtropical Late White Normal and QPM Hybrid Trial, Basically Single Crosses Trial - CHTSW) conducted in 2007."
+"International Intermediate White Hybrid Trial - IIWH0730 Summary results and individual trial results from the International Intermediate White Hybrid - IIWH, (Elite Subtropical Late White Normal and QPM Hybrid Trial, Basically Single Crosses Trial - CHTSW) conducted in 2007."
 
-
-## Identifiers
 	uri <- "hdl:11529/10542"
 	group <- "varieties_maize"
 
-## Download data 
 	ff  <- carobiner::get_data(uri, path, group)
-
-## metadata 
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIMMYT",
@@ -31,10 +27,8 @@ carob_script <- function(path) {
 		design = NA
 	)
 	
-## read data 
-	
-	f0 <- ff[basename(ff) == "07CHTSW11-1.xls"]
-	
+
+	f0 <- ff[basename(ff) == "07CHTSW11-1.xls"]	
 	r0 <- r <- carobiner::read.excel(f0)
 	r0 <-r0[22:34, 2:46]
 	
@@ -69,33 +63,34 @@ carob_script <- function(path) {
 	
 	
 	get_data <- function(fname, id, country, longitude, latitude, elevation) {
-	  f <- ff[basename(ff) == fname]
-	  r <- carobiner::read.excel(f) 
-	  r <-r[22:34, 2:35]
+		f <- ff[basename(ff) == fname]
+		r <- carobiner::read.excel(f) 
+		r <-r[22:34, 2:35]
 	
-	
-	d <- data.frame( 
-	  trial_id = as.character(r$Name),
-	  variety=r$BreedersPedigree1,
-	  yield=as.numeric(r$GrainYieldTons_FieldWt)*1000,
-	  asi=as.numeric(r$ASI),
-	  plant_height=as.numeric(r$PlantHeightCm),
-	  ear_height = as.numeric(r$EarHeightCm),
-	  rlper = as.numeric(r$RootLodgingPer),
-	  slper = as.numeric(r$StemLodgingPer),
-	  husk = as.numeric(r$BadHuskCoverPer),
-	  e_rot = as.numeric(r$EarRotTotalPer),
-	  moist = as.numeric (r$GrainMoisturePer),
-	  plant_density = as.numeric(r$PlantStand_NumPerPlot),
-	  e_asp = as.numeric(r$EarAspect1_5),
-	  p_asp = as.numeric(r$PlantAspect1_5),
-	  gls = r$GrayLeafSpot1_5,
-	  rust = r$CommonRust1_5,
-	  blight = r$LeafBlightTurcicum1_5,
-	  country=country,
-	  longitude=longitude,
-	  latitude=latitude,
-	  elevation = elevation)}
+		
+		d <- data.frame( 
+		  trial_id = as.character(r$Name),
+		  variety=r$BreedersPedigree1,
+		  yield=as.numeric(r$GrainYieldTons_FieldWt)*1000,
+		  asi=as.numeric(r$ASI),
+		  plant_height=as.numeric(r$PlantHeightCm),
+		  ear_height = as.numeric(r$EarHeightCm),
+		  rlper = as.numeric(r$RootLodgingPer),
+		  slper = as.numeric(r$StemLodgingPer),
+		  husk = as.numeric(r$BadHuskCoverPer),
+		  e_rot = as.numeric(r$EarRotTotalPer),
+		  moist = as.numeric (r$GrainMoisturePer),
+		  plant_density = as.numeric(r$PlantStand_NumPerPlot),
+		  e_asp = as.numeric(r$EarAspect1_5),
+		  p_asp = as.numeric(r$PlantAspect1_5),
+		  gls = r$GrayLeafSpot1_5,
+		  rust = r$CommonRust1_5,
+		  blight = r$LeafBlightTurcicum1_5,
+		  country=country,
+		  longitude=longitude,
+		  latitude=latitude,
+		  elevation = elevation)
+	}
 	
 	d0 <- get_data("07CHTSW1-1.xls",1,"Mexico", -103.5986529, 19.875 , 1340)  
 	d0$location <- "Usmajac Mpio. de Sayula, Jal"
@@ -121,10 +116,12 @@ carob_script <- function(path) {
 	d5$location <- "Tepalcingo, Mor"
 	d5$planting_date <- "2007-06-06"
 	d5$harvest_date  <- "2007-11-20"
+
 	
 	
 	d <- carobiner::bindr(d0, d1, d2, d3, d4, d5)
 	
+	d$geo_from_source <- FALSE
 	  
 	d$crop = "maize"
 	d$on_farm = TRUE
@@ -135,16 +132,8 @@ carob_script <- function(path) {
 	d$is_survey <- FALSE
 	d$irrigated <- NA
 	
+	d$N_fertilizer <- d$P_fertilizer  <- d$K_fertilizer <- as.numeric(NA)
 
-	
-	d$geo_from_source <- FALSE
-
-
-# all scripts must end like this
 	carobiner::write_files(path, meta, d)
 }
-
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
 
