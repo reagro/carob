@@ -166,6 +166,7 @@ carob_script <- function(path) {
 	  latitude=c(10.9078, 10.8950, 10.9078, 9.3750, 9.4319, 9.6242, 9.5636, 10.0606, 10.0606, 10.0676, 10.0367), 
 	  longitude=c(-0.8081, -1.0939, -0.8081, -1.0095, -1.0658, -0.8253, -0.8357, -2.5017, -2.5017, -2.5959, -2.7109)
 	)
+	d$geo_from_source <- FALSE
 	d <- merge(d, geo, by="location", all.x = TRUE)
    
 	carobiner::write_files(path, meta, d)

@@ -65,7 +65,7 @@ cropping system (sole maize, sole pigeonpea, maize-pigeonpea, maize-gliricidia, 
 	d$longitude <- 36.296
 	d$latitude <- -5.5656
 	d$elevation <- 1206
-
+   d$geo_from_source <- FALSE
 	d$N_fertilizer <- d$P_fertilizer <- 0
 	d$N_splits[r1$Fertilizer=="Fert"] <- 2L
 	d$N_fertilizer[r1$Fertilizer=="Fert"] <- 43

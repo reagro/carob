@@ -29,6 +29,8 @@ carob_script <- function(path) {
       publication= NA, 
       data_institute = "ABC", 
       carob_contributor="Cedric Ngakou", 
+      treatment_vars="variety;intercrops",
+      response_vars= "yield;fwy_residue",
       carob_date="2024-05-14", 
       data_type="experiment"
    )
@@ -89,7 +91,7 @@ carob_script <- function(path) {
 		latitude=c(-4.283, -4.346)
 	)
 	d1 <- merge(d1, geo, by="location", all.x = TRUE)
-
+   d1$geo_from_source <- FALSE
 
 # merge soil data and yield data
 	r2 <- carobiner::read.excel(ff[basename(ff)=="05_Soil_Characterization_Trial_2_Data_2019.xlsx"], fix_names=TRUE)
@@ -111,7 +113,9 @@ carob_script <- function(path) {
 		soil_CEC = r2$X.C.E.C.meq.100g
 	)
 	d <- merge(d1, d2, by=c("location", "rep"), all.x = TRUE)  
-
+   
+	## removing duplicate records (12 rows) (occur probably during the data collection process)
+	d <- unique(d)
 
 	w <- carobiner::read.excel(ff[basename(ff)=="07_Seasonal_Weather_2019_Trial_2_Data_2019.xlsx"], fix_names=TRUE)
 	dw <- data.frame(

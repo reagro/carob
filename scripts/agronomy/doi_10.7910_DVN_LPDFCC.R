@@ -96,6 +96,7 @@ carob_script <- function(path) {
                      latitude=c(-6.9578539, -5.255432, -5.2439856, -5.5775449, -6.1920415, -6.1777796, -7.427173),
                      longitude=c(37.5400781, 36.4554004, 36.2927092, 36.2865828, 36.6081316, 36.813072, 35.8786794))
    
+   d$geo_from_source <- FALSE
    d <- merge(d,geo, by="location",all.x = TRUE)
    
    d$planting_date <- "2019"
