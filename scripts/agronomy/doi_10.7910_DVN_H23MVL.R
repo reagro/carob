@@ -107,7 +107,9 @@ carob_script <- function(path) {
 	d$longitude[i] <- d$lon[i]
 	i <- is.na(d$latitude)
 	d$latitude[i] <- d$lat[i]
-    d$lat <- d$lon <- NULL
+   d$lat <- d$lon <- d$reference <- NULL
+   d$geo_from_source <- TRUE
+   d$geo_from_source[i] <- FALSE
     # fix soil_SOC range and fertilizer
     d$soil_SOC[d$soil_SOC>20] <- NA
     d$N_fertilizer[is.na(d$N_fertilizer)] <- 0
@@ -165,7 +167,9 @@ carob_script <- function(path) {
   d$soil_SOC <- as.double(d$soil_SOC)
   d$yield_part <- "grain"
 	
-	d$trial_id <- 1:nrow(d)
+	d$trial_id <- as.character(1:nrow(d))
+	#fixing land prep method
+	d$land_prep_method <- ifelse(grepl("Conventional tillage", d$land_prep_method),"conventional", "none")  
 	
   carobiner::write_files(meta, d, path=path)
   

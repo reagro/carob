@@ -19,8 +19,11 @@ carob_script <- function(path) {
     publication= NA,
     data_institute = "CIMMYT",
     data_type="on-farm experiment", 
+    treatment_vars= "variety",
+    response_vars= "yield;fwy_residue",
     carob_contributor="Mitchelle Njukuya",
-    carob_date="2024-01-16"
+    carob_date="2024-01-16",
+    notes="cropping systems need to be captured"
   )
    
   f <- ff[basename(ff) == "003_AR_MAL_CIMMYT_CAmother_onfarm_2019_Data.csv"]
@@ -78,7 +81,7 @@ carob_script <- function(path) {
   
 
   d$fertilizer_type <- "urea"
-  d$N_fertilizer <- 100
+  d$N_fertilizer <- 46
   d$yield_part <- "seed"
   d$yield_part[d$crop=="maize"] <- "grain"
 
@@ -88,7 +91,7 @@ carob_script <- function(path) {
                  adm2 = c("Balaka","Dowa", "Machinga", "Nkhotakota", "Salima", "Zomba"),
                  longitude = c(35.0532, 33.7781, 35.6026, 34.0329, 34.4524, 35.4575),
                  latitude = c(-15.0485, -13.5388, -14.9027, -12.8322, -13.7629, -15.4337))
-
+  d$geo_from_source <- FALSE
   d <- merge(d, geo, by=c("country", "adm2"), all.x=TRUE)  
 
 	d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)

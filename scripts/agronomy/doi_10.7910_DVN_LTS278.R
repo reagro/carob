@@ -31,7 +31,7 @@ Maize grain and bio-mass yield were increased by application of different rates 
 
 	#transfer columns
 	dd$country <- "Ethiopia"
-
+	
 	#Transfer locations & year
 	dd$adm3 <- NA
 	dd$adm3 <- replace(dd$adm3,1:11, "Limmu Sekka")
@@ -104,6 +104,7 @@ Maize grain and bio-mass yield were increased by application of different rates 
 	dv$crop <- 'maize'
 	dv$on_farm <- TRUE
 	dv$is_survey <- FALSE
+	dv$irrigated <- NA
 	dv$trial_id <- 'Blendedfert'
 
 	dv$yield <- as.numeric(dv$yield)
@@ -118,6 +119,7 @@ Maize grain and bio-mass yield were increased by application of different rates 
 	dv$latitude[dv$adm3=='Limmu Sekka'] <- 8.191739
 	dv$longitude[dv$adm3=='Omo Nada'] <- 37.25
 	dv$latitude[dv$adm3=='Omo Nada'] <- 7.6333333
+	dv$geo_from_source <- FALSE
 	dv$yield_part <- "grain"
 
 	carobiner::write_files(meta, dv, path=path)

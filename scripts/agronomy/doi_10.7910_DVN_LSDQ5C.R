@@ -19,13 +19,14 @@ affect the variation in the yield of maize. The dataset was created through a co
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIAT",
-		publication= NA, 
+		publication= "doi.org/10.1016/j.gfs.2019.08.004", 
 		project=NA,
 		data_type= "experiment",
 		carob_contributor= "Shumirai Manzvera",
 		carob_date="2024-04-02",
 		response_vars = "yield",
-		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer"						
+		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer",
+		notes= "soil texture contains unknown terms"
 	)
 	
 	f <- ff[basename(ff) == "Dataset_Maize_Cordoba.csv"]
@@ -62,12 +63,17 @@ affect the variation in the yield of maize. The dataset was created through a co
 
 	d$country <- "Colombia"
 	d$adm1 <- "Córdoba"
-#	d$longitude <- -75.57405
-#	d$latitude <- 8.049293
-
+	d$longitude <- -75.8040791
+	d$latitude <-  8.295031 
+	d$geo_from_source <- FALSE
+	d$is_survey <- FALSE
+	d$irrigated <- NA
+	d$row_spacing <- 85 #cm
+	d$plant_spacing <- 18.5 # cm
 
 	d$planting_date <-	as.character(as.Date(r$Planting_Date, format = '%m/%d/%Y'))
 	d$harvest_date  <-	as.character(as.Date(r$Harvest_Date, format = '%m/%d/%Y'))
+	d$planting_date[is.na(d$planting_date)] <- "2015"
 	d$yield_part <- "grain"
 	
 	carobiner::write_files(path, meta, d)
