@@ -2,7 +2,7 @@
 # license: GPL (>=3)
 
 ## ISSUES
-# if there are remaining issues, please put these in "meta$notes"
+# list processing issues here so that an editor can look at them
 
 carob_script <- function(path) {
 
@@ -34,7 +34,7 @@ carob_script <- function(path) {
 		response_vars = "", 
 		carob_contributor = "Your Name",
 		carob_date = "2024-01-01",
-		notes = "",
+		notes = "", # notes for the end-user
 		# if available report the experimental or survey design
 		design = NA
 	)
