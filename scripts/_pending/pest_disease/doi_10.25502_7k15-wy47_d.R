@@ -1,12 +1,14 @@
 # R script for "carob"
 # license: GPL v3
 
-# 1. variables such as herbicide_efficacy need to be captured
-# 2. some more herbicide_product names need to be resolved
-# 3. weed species need to be captured
-# 4. "time-records" need to be captured; For example Wdden_m2_04WAP; Wdden_m2_06WAP; Wdden_m2_08WAP; Wdden_m2_10WAP; Wdden_m2_12WAP
+# herbicide names from "Pretreat" and "Posttreat" should be used (not from the abbreviations in "Treatment";
+# The "Pretreat" and "Posttreat" herbicides should be separate variables. 
+# PostApplWAT needs to be captured
+# variables such as herbicide_efficacy need to be captured
+# some more herbicide_product names need to be resolved
+# weed species need to be captured
+# "time-records" need to be captured; For example Wdden_m2_04WAP; Wdden_m2_06WAP; Wdden_m2_08WAP; Wdden_m2_10WAP; Wdden_m2_12WAP
 # TWControl_04WAP..TWControl_12WAP, Broadleaf_04WAP..Broadleaf_12WAP, Grass_04WAP..Grass_12WAP
-
 
 
 carob_script <- function(path) {
