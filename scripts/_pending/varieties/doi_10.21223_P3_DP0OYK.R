@@ -1,7 +1,7 @@
 # R script for "carob"
 
-### Planting date and plot area are missing 
-### yield is given in Kg
+## NOTES 
+## yield is given in kg/plot but we do not know plot size 
 
 
 carob_script <- function(path) {
@@ -22,18 +22,15 @@ carob_script <- function(path) {
       treatment_vars = "variety;variety_code", 
       carob_contributor = "Cedric Ngakou", 
       carob_date = "2024-10-10",
-      notes= "1) yield is given in Kg
-             2) plot area and planting date are missing",
       design= "RCBD"
    )
    
-   ff <- ff[grepl("Clones|OFSP", basename(ff))]
+   ff <- ff[grepl("Clones", basename(ff))]
    
-   ### Processing  data
   process <- function(f){
      r <- carobiner::read.excel(f, fix_names = TRUE)
      if(is.null(r$geno)) r$geno <- NA
-     d <- data.frame(
+     data.frame(
         location= r$l,
         rep= as.integer(r$r),
         variety= r$g,
@@ -48,9 +45,7 @@ carob_script <- function(path) {
         root_Mg= r$mg,
         beta_carotene= r$bc,
         trial_id= gsub("xlsx", "", basename(f))
-        
      )
-     d
   }
   
   d <- lapply(ff, process)  
