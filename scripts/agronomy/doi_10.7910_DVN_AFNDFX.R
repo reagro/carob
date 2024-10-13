@@ -11,7 +11,7 @@ carob_script <- function(path) {
    ff  <- carobiner::get_data(uri, path, group)
    
    meta <- data.frame(
-      carobiner::read_metadata(uri, path, group, major=3, minor=0), 
+      carobiner::read_metadata(uri, path, group, major=2, minor=4), 
       data_institute = "CIAT", 
       publication = "doi:10.15517/ma.v29i1.27618",
       project =NA, 
@@ -27,24 +27,28 @@ carob_script <- function(path) {
    ## processing data
    r <- read.csv(f, fileEncoding='latin1',check.names=F, na=c("."))
    names(r) <- gsub("100SW", "Sw100", names(r))
+   irrigated <- grepl("Riego", r$Ambiente)
+   
    d <- data.frame(
      country= "Colombia",
      location= "Palmira",
      crop= "common bean",
-     planting_date= ifelse(grepl("Riego", r$Ambiente) & grepl("2012", r$Año), "2012-08-10",
-                    ifelse(grepl("Riego", r$Ambiente) & grepl("2013", r$Año), "2013-07-18",
-                    ifelse(grepl("Sequia", r$Ambiente) & grepl("2012", r$Año), "2012-08-03", "2013-07-15"))) ,
-     irrigated= ifelse(grepl("Riego", r$Ambiente), TRUE, FALSE),
-     treatment=  ifelse(grepl("Riego", r$Ambiente), "irrigation", "Drought"),
+     irrigated= irrigated,
+     planting_date= ifelse(irrigated, 
+						ifelse(r$Año == 2012, "2012-08-10", "2013-07-18"),
+						ifelse(r$Año == 2012, "2012-08-03", "2013-07-15")),
+     treatment=  ifelse(irrigated, "irrigated", "drought"),
      rep= r$Rep,
      variety= r$Genotipo,
      yield= r$YDHA,
      seed_weight= r$Sw100*10,
      flowering_days= r$DF,
-     harvest_index= r$HI,
+	# these numbers do not seem right
+	# harvest_index= r$HI,
      fwy_total= as.numeric(r$CB),
      LAI= r$LAI,
-     seed_density= r$SNA*10000,
+     # that seems to be the number of seeds harvested
+	 #seed_density= r$SNA*10000,
      trial_id= paste0(r$Año, "_", r$Ambiente)
      
    )
@@ -59,7 +63,7 @@ carob_script <- function(path) {
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
-   d$harvest_index[d$harvest_index > 100] <- NA
+#   d$harvest_index[d$harvest_index > 100] <- NA
    
    carobiner::write_files (path, meta, d)
 }
