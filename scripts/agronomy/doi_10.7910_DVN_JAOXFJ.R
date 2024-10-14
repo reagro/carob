@@ -41,6 +41,7 @@ carob_script <- function(path) {
       weeding_times= ifelse(r$`Management practice` == "Traditional", 1L, 3L),
       weeding_done= TRUE 
    )
+   d1$weed_biomass[d1$intercrops == "oats"] <- NA
    d1$crop_price <- d1$crop_price/d1$yield ### ETB/kg
 
    ### oats yield
