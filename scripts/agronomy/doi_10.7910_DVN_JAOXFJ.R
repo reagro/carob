@@ -1,7 +1,5 @@
 # R script for "carob"
 
-
-
 carob_script <- function(path) {
    
 "Small land holdings are among the main constraints for smallholders to produce enough food and feed to meet household demands. During the main cropping season, when all the land is covered by stable crops, feed is critically in short supply. Africa RISING’s diagnostic surveys showed that during such times weeds growing with faba bean crop are used as important feed resource by farmers in Ethiopia. Farmers leave the weed to grow with the faba bean until a certain stage, which is against the recommended agronomic practice through the extension system. A series of experiments were conducted to explore the rationale behind farmers preference, involving three faba bean production practices: 1) the traditional management practice (where weeds are used as forage), 2) improved practice (where weeds are frequently removed from faba bean plots) and 3) intercropping faba bean with fodder oat. The dataset contains the grain yield, straw yield, forage yield and gross income from the different practices and faba bean varieties in the Lemo district of Africa RISING site."
@@ -24,44 +22,46 @@ carob_script <- function(path) {
    
    f <- ff[basename(ff)=="data.xlsx"]
    
-   ## processing data
    r <- carobiner::read.excel(f)
    ### faba bean yield
-   d1<- data.frame(
-      treatment= ifelse(grepl("Traditional", r$`Management practice`), "one late weeding", 
-                 ifelse(grepl("Improved", r$`Management practice`), "two late weeding", "two late weeding + intercropped")),
+   d1 <- data.frame(
+      treatment= ifelse(r$`Management practice` == "Traditional", "one late weeding", 
+                 ifelse(r$`Management practice` == "Improved", "two late weedings",
+													"two late weedings + intercrop")),
       variety= r$`Faba bean Variety`,
-      planting_date= ifelse(r$Year=="1","2015",
-                            ifelse(r$Year=="2", "2016","2017")),
+      planting_date= as.character(r$Year + 2014),
       farmer_gender= r$`Gender of HH`,
-      yield= r$`Grain Yield (t/ha)`*1000,
-      fwy_residue= r$`Straw Yield (t/ha)`*1000,
+      yield= r$`Grain Yield (t/ha)` * 1000,
+      fwy_residue= r$`Straw Yield (t/ha)` * 1000,
       crop_price= r$`Gross Return (ETB/ha)`,
-      currency= "ETB",
-      country= "Ethiopia",
       crop="faba bean",
-      intercrops= ifelse(grepl("Intercropped",r$`Management practice`), "oats", "none"),
-      weeding_times= as.integer(ifelse(grepl("Traditional", r$`Management practice`), 1, 2)),
+	  currency= "ETB",
+      intercrops= ifelse(r$`Management practice` == "Intercropped", "oats", "none"),
+      weeding_times= ifelse(r$`Management practice` == "Traditional", 1L, 3L),
       weeding_done= TRUE 
    )
-   ### processing oats yield 
+   d1$crop_price <- d1$crop_price/d1$yield ### ETB/kg
+
+   ### oats yield
+   r2 <- r[r$`Management practice` == "Intercropped", ]
    d2 <- data.frame(
-      treatment= ifelse(grepl("Traditional", r$`Management practice`), "one late weeding", 
-                        ifelse(grepl("Improved", r$`Management practice`), "two late weeding", "two late weeding + intercropped")),
-      planting_date= ifelse(r$Year=="1","2015",
-                            ifelse(r$Year=="2", "2016","2017")),
-      farmer_gender= r$`Gender of HH`,
-      yield= r$`Forage Yield (t/ha)`*1000,
-      country= "Ethiopia",
+      treatment= "two late weedings + intercrop",
+      planting_date= as.character(r2$Year + 2014),
+      farmer_gender= r2$`Gender of HH`,
+      fwy_total = r2$`Forage Yield (t/ha)` * 1000,
       crop="oats",
-      intercrops= ifelse(grepl("Intercropped",r$`Management practice`), "faba bean", "none"),
-      weeding_times= as.integer(ifelse(grepl("Traditional", r$`Management practice`), 1, 3)),
+      intercrops= "faba bean",
+      weeding_times= 3L,
       weeding_done= TRUE 
    )
+   ### weed biomass
+   r3 <- r[r$`Management practice` == "Traditional", ]
+   
    
    d <- carobiner::bindr(d1, d2)
+   d$country= "Ethiopia"
    d$location <- "Lemo"
-   d$trial_id <- paste0(d$planting_date, "_", "Lemo")
+   d$trial_id <- d$planting_date
    d$row_spacing <- 40
    d$on_farm <- TRUE
    d$is_survey <- FALSE
@@ -78,11 +78,6 @@ carob_script <- function(path) {
    d$N_fertilizer <- 18
    d$P_fertilizer <- 20.1
    d$K_fertilizer <- 0
-   ## fixing crop price 
-   ## Assuming that all grain are marketable.
-   d$crop_price <- d$crop_price/d$yield ### ETB/kg
-   ### Removing duplicate (probably appear during the data collection process)
-   d <- unique(d)
   
    carobiner::write_files (path, meta, d)
 }
