@@ -33,6 +33,7 @@ carob_script <- function(path) {
       farmer_gender= r$`Gender of HH`,
       yield= r$`Grain Yield (t/ha)` * 1000,
       fwy_residue= r$`Straw Yield (t/ha)` * 1000,
+      weed_biomass = r2$`Forage Yield (t/ha)` * 1000,
       crop_price= r$`Gross Return (ETB/ha)`,
       crop="faba bean",
 	  currency= "ETB",
