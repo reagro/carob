@@ -23,27 +23,28 @@ carob_script <- function(path) {
    f <- ff[basename(ff)=="data.xlsx"]
    
    r <- carobiner::read.excel(f)
+   
    ### faba bean yield
+   r1 <- r[r$`Management practice`!= "Traditional",]
    d1 <- data.frame(
-      treatment= ifelse(r$`Management practice` == "Traditional", "one late weeding", 
-                 ifelse(r$`Management practice` == "Improved", "two late weedings",
-													"two late weedings + intercrop")),
-      variety= r$`Faba bean Variety`,
-      planting_date= as.character(r$Year + 2014),
-      farmer_gender= r$`Gender of HH`,
-      yield= r$`Grain Yield (t/ha)` * 1000,
-      fwy_residue= r$`Straw Yield (t/ha)` * 1000,
-      weed_biomass = r$`Forage Yield (t/ha)` * 1000,
-      crop_price= r$`Gross Return (ETB/ha)`,
+      treatment= ifelse(r1$`Management practice` == "Improved", "two late weedings",
+                        "two late weedings + intercrop"),
+      variety= r1$`Faba bean Variety`,
+      planting_date= as.character(r1$Year + 2014),
+      farmer_gender= r1$`Gender of HH`,
+      yield= r1$`Grain Yield (t/ha)` * 1000,
+      fwy_residue= r1$`Straw Yield (t/ha)` * 1000,
+      weed_biomass = r1$`Forage Yield (t/ha)` * 1000,
+      crop_price= r1$`Gross Return (ETB/ha)`,
       crop="faba bean",
-	  currency= "ETB",
-      intercrops= ifelse(r$`Management practice` == "Intercropped", "oats", "none"),
-      weeding_times= ifelse(r$`Management practice` == "Traditional", 1L, 3L),
+      currency= "ETB",
+      intercrops= ifelse(r1$`Management practice` == "Intercropped", "oats", "none"),
+      weeding_times= 3L,
       weeding_done= TRUE 
    )
    d1$weed_biomass[d1$intercrops == "oats"] <- NA
    d1$crop_price <- d1$crop_price/d1$yield ### ETB/kg
-
+   
    ### oats yield
    r2 <- r[r$`Management practice` == "Intercropped", ]
    d2 <- data.frame(
@@ -56,11 +57,26 @@ carob_script <- function(path) {
       weeding_times= 3L,
       weeding_done= TRUE 
    )
+   
    ### weed biomass
    r3 <- r[r$`Management practice` == "Traditional", ]
+   d3 <- data.frame(
+      treatment= "one late weeding",
+      planting_date= as.character(r3$Year + 2014),
+      farmer_gender= r3$`Gender of HH`,
+      variety= r3$`Faba bean Variety`,
+      crop= "faba bean",
+      yield= r3$`Grain Yield (t/ha)` * 1000,
+      fwy_residue= r3$`Straw Yield (t/ha)` * 1000,
+      weed_biomass = r3$`Forage Yield (t/ha)` * 1000,
+      weeding_times= 1L,
+      weeding_done= TRUE,
+      crop_price= r3$`Gross Return (ETB/ha)`,
+      currency= "ETB"
+   )
+   d3$crop_price <- d3$crop_price/d3$yield ### ETB/kg 
    
-   
-   d <- carobiner::bindr(d1, d2)
+   d <- carobiner::bindr(d1, d2, d3)
    d$country= "Ethiopia"
    d$location <- "Lemo"
    d$trial_id <- d$planting_date
@@ -80,7 +96,7 @@ carob_script <- function(path) {
    d$N_fertilizer <- 18
    d$P_fertilizer <- 20.1
    d$K_fertilizer <- 0
-  
+   
    carobiner::write_files (path, meta, d)
 }
 
