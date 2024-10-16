@@ -128,7 +128,7 @@ carob_script <- function(path) {
 	pd <- r1$Harvest.date.HDATE
 	pd[pd == "41"] <- NA
 	i <- grepl("^42", pd)
-	pd[i] <- as.character(as.Date("1900-01-01") + as.integer(pd[i]))
+	pd[i] <- as.character(as.Date("1900-01-01") + as.integer(pd[i]) - 2)
 	pd[!i] <- as.character(as.Date(pd[!i], "%d/%m/%Y"))
 	d1$planting_date <- pd
 	d1 <- unique(d1)

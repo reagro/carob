@@ -35,7 +35,7 @@ carob_script <- function(path) {
 		r$Row_dist[r$Row_dist == "v"] <- NA
 
 		if (is.character(r$Harvest_date)) { 
-			r$Harvest_date <- as.Date(as.numeric(r$Harvest_date), origin="1900-01-01")
+			r$Harvest_date <- as.Date(as.numeric(r$Harvest_date), origin="1900-01-01") - 2
 		}
 
 		d <- data.frame(

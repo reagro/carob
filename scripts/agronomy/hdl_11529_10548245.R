@@ -111,7 +111,7 @@ carob_script <- function(path) {
 #d$harvest_date<- HD
 
 	i <- grep("^4", d$harvest_date)
-	d$harvest_date[i] <- as.character(as.Date(as.numeric(d$harvest_date[i]), origin = "1900-01-01"))
+	d$harvest_date[i] <- as.character(as.Date(as.numeric(d$harvest_date[i]), origin = "1900-01-01") - 2)
 	i <- grep("/2015$", d$harvest_date)
 	d$harvest_date[i] <- as.character(as.Date(d$harvest_date[i], format = "%d/%m/%Y"))
 

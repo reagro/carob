@@ -58,7 +58,7 @@ Replicated crop-cuts from farmers' fields at harvest at multiple locations in Ta
 		date = r1$Date
 	)
 	i <- grepl("^4", soil$date)
-	soil$date[i] <- as.character(as.Date(as.numeric(soil$date[i]), origin="1900-01-01"))
+	soil$date[i] <- as.character(as.Date(as.numeric(soil$date[i]), origin="1900-01-01") - 2)
 	soil$date[!i] <- as.character(as.Date(soil$date[!i], "%d/%m/%Y"))
 	
 	d <- data.frame(
@@ -77,7 +77,7 @@ Replicated crop-cuts from farmers' fields at harvest at multiple locations in Ta
 	
    d$date[d$date == 374] <- NA
    i <- grepl("^4", d$date)
-   d$date[i] <- as.character(as.Date(as.numeric(d$date[i]), origin = "1900-01-01"))
+   d$date[i] <- as.character(as.Date(as.numeric(d$date[i]), origin = "1900-01-01") - 2)
    d$date[!i] <- as.character(as.Date(d$date[!i], "%d/%m/%Y"))
    
    #all farms 

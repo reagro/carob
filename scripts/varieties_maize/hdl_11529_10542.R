@@ -96,7 +96,6 @@ carob_script <- function(path) {
 
 	d <- merge(dd, locs, by="trial_id")
 
-	d$geo_from_source <- TRUE
 	d$crop = "maize"
 	d$on_farm = TRUE
 	d$striga_trial = FALSE 
