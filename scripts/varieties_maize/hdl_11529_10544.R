@@ -1,27 +1,21 @@
 # R script for "carob"
 # license: GPL (>=3)
 
-## ISSUES
-# list processing issues here so that an editor can look at them
 
 carob_script <- function(path) {
 
 "International Intermediate Yellow Hybrid Trial - IIYH0731 Summary results and individual trial results from the International Intermediate Yellow Hybrid - IIYH, (Elite Subtropical Late Yellow Normal and QPM Hybrid Trial Basically Single Crosses - CHTSY) conducted in 2007."
 
-
-
 	uri <- "hdl:11529/10544"
 	group <- "varieties_maize"
 
-
 	ff  <- carobiner::get_data(uri, path, group)
-
 
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIMMYT",
 		publication = NA,
-		project = "International Intermediate Yellow Hybrid Trial - IIYH0731",
+		project = "International Intermediate Yellow Hybrid Trial",
 		data_type = "experiment",
 		treatment_vars = "variety_code",
 		response_vars = "yield", 
@@ -109,7 +103,6 @@ carob_script <- function(path) {
 	
 	d <- merge(dd, locs, by="trial_id")
 	
-	d$geo_from_source <- TRUE
 	d$crop = "maize"
 	d$on_farm = TRUE
 	d$striga_trial = FALSE 
@@ -126,8 +119,4 @@ carob_script <- function(path) {
 
 	carobiner::write_files(path, meta, d)
 }
-
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
 

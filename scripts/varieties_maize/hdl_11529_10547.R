@@ -1,27 +1,20 @@
 # R script for "carob"
 # license: GPL (>=3)
 
-## ISSUES
-# list processing issues here so that an editor can look at them
 
 carob_script <- function(path) {
 
 "International Late Yellow Hybrid Trial - ILYH0753 Summary results and individual trial results from the International Late Yellow Hybrid - ILYH, (Highland Late Yellow Hybrids - CHTHLY) conducted in 2007."
 
-
-## Identifiers
 	uri <- "hdl:11529/10547"
 	group <- "varieties_maize"
-
-## Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 
-## metadata 
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIMMYT",
 		publication = NA,
-		project = "International Late Yellow Hybrid Trial ",
+		project = "International Late Yellow Hybrid Trial",
 		data_type = "experiment",
 		treatment_vars = "variety_code",
 		response_vars = "yield", 
@@ -31,34 +24,32 @@ carob_script <- function(path) {
 		design = NA
 	)
 	
-## read data 
 
 	f <- ff[basename(ff) == "07CHTHLY-Location.xls"]
 	rlocs <- carobiner::read.excel.hdr(f, skip=9, hdr=2) 
-	rlocs <- rlocs[-2, ]
+	rlocs <- rlocs[-(1:2), ]
 	names(rlocs) <- c("ID", names(rlocs)[-ncol(rlocs)])
 	
 	locs <- data.frame(
 	  trial_id = as.character(rlocs$ID),
 	  latitude = as.numeric(gsub("o", "", rlocs$Latitude_Latitud)) + 
-	    as.numeric(gsub("'", "", rlocs$X)) / 60,
+	  as.numeric(gsub("'", "", rlocs$X)) / 60,
 	  longitude = (as.numeric(gsub("o", "", rlocs$Longitude_Longitud)) + 
 	                 as.numeric(gsub("'", "", rlocs$X.2)) / 60 ) * 
-	    ifelse(rlocs$`X.3` == "W", -1, 1),
+	  ifelse(rlocs$`X.3` == "W", -1, 1),
 	  country = rlocs$Country_País,
 	  location = rlocs$Location_Localidad,
 	  elevation = rlocs$Masl_Altitud_msnm,
 	  planting_date = as.character(rlocs$Date_Fecha.de_Siembra),
-	  harvest_date = as.character(rlocs$Date_Fecha.de_Cosecha)
+	  harvest_date = rlocs$Date_Fecha.de_Cosecha
 	)
 	locs$country <- gsub("México", "Mexico", locs$country)
 	s <- sapply(strsplit(locs$location, ", "), \(i) i[1:2]) |> t()
 	locs$location <- s[,1]
 	locs$adm1 <- s[,2]
-	locs$harvest_date <- as.Date(as.numeric(locs$harvest_date), origin = "1900-01-01")
-	i <- locs$location == "Zotoluca"
+	i <- locs$harvest_date == "11/207/2007"
 	locs$harvest_date[i] <- "2007-11-07"
-	locs$harvest_date <- as.character(locs$harvest_date)
+	locs$harvest_date[!i] <- as.character(as.Date(as.numeric(locs$harvest_date[!i]), origin = "1900-01-01") - 2)
 	
 	i <- locs$location == "Usmajac"  
 	locs$latitude[i] <- 19.875
@@ -105,7 +96,6 @@ carob_script <- function(path) {
 	  
 	  d <- merge(dd, locs, by="trial_id")
 	  
-	  d$geo_from_source <- TRUE
 	  d$crop = "maize"
 	  d$on_farm = TRUE
 	  d$striga_trial = FALSE 
