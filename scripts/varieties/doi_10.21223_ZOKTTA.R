@@ -1,12 +1,15 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
+## need to extract more variables. 
+## use carobiner::read.excel.hdr
+## use d <- data.frame(var = r$Var, ...) to assingn old to new variables  
+## use carobiner::read.excel.hdr
+## location is not correct. Need to be full names and IDSs can be created with reshape; and no need for bizarre reg expr.  
+## do not use more than four decimals in coordinates if they are estimated
 
 carob_script <- function(path) {
   
-    "B3C3 Population is the resulted fromcrosses between the elite clones from the previous cycle of the same population made at 2011. Since 2012 until 2019 this population was evaluated  for late blight resistance.  51 clones were selected having high levels of late blight resistance in Oxapampa and good tuber yield in Huancayo, both better than in the control varieties. AUDPC values are in the range of 17.50 to 705.83, lower than the AUDPC values of the Yungay and Amarilis control varieties with 1586.67 and 1534.17 respectively. The tuber yield on average in Highlands was from 20.67 to 56.41 th-1 compared to the Yungay and Amarilis varieties with 26.29 and 35.66 th-1 respectively. Under high temperature conditions, the tuber yield in the heat tolerant clones was in the range of 16.32 to 33.71th-1, higher than the Desiree and Amarilis varieties with 13.39 and 5.24 th-1 respectively). Six clones were selected that have some potential for drought tolerance, but further trials are required to confirm these results. The dry matter content of the elite clones is in the range of 17.94 to 26.92% and 33 clones have good frying quality. Twenty-eight clones showed extreme resistance to PVX and 17 to PVY. Fifteen clones have a high parental value to be used as parents in a new selection cycle or in improvement programs in the regions or countries of Latin America, Africa and Asia. Fifteen clones show phenotypic stability for tuber yield.  The process of introduction of these clones to the genebank for international distribution is in progress."
+"B3C3 Population is the resulted fromcrosses between the elite clones from the previous cycle of the same population made at 2011. Since 2012 until 2019 this population was evaluated  for late blight resistance.  51 clones were selected having high levels of late blight resistance in Oxapampa and good tuber yield in Huancayo, both better than in the control varieties. AUDPC values are in the range of 17.50 to 705.83, lower than the AUDPC values of the Yungay and Amarilis control varieties with 1586.67 and 1534.17 respectively. The tuber yield on average in Highlands was from 20.67 to 56.41 th-1 compared to the Yungay and Amarilis varieties with 26.29 and 35.66 th-1 respectively. Under high temperature conditions, the tuber yield in the heat tolerant clones was in the range of 16.32 to 33.71th-1, higher than the Desiree and Amarilis varieties with 13.39 and 5.24 th-1 respectively). Six clones were selected that have some potential for drought tolerance, but further trials are required to confirm these results. The dry matter content of the elite clones is in the range of 17.94 to 26.92% and 33 clones have good frying quality. Twenty-eight clones showed extreme resistance to PVX and 17 to PVY. Fifteen clones have a high parental value to be used as parents in a new selection cycle or in improvement programs in the regions or countries of Latin America, Africa and Asia. Fifteen clones show phenotypic stability for tuber yield.  The process of introduction of these clones to the genebank for international distribution is in progress."
   
   uri <- "doi:10.21223/ZOKTTA"
   group <- "varieties"
@@ -27,6 +30,11 @@ carob_script <- function(path) {
   f <- ff[grep("Data.xls", basename(ff))]
   
   d <- carobiner::read.excel(f = f, sheet="Table")
+
+# use 
+#  d <- carobiner::read.excel(f = f, sheet="Table", skip=1)
+# or, what I would do:
+#  d <- carobiner::read.excel.hdr(f = f, sheet="Table", skip=1, hdr=1)
   
   cols_names <- c("record_id","Clone","MTYNA HYO 2015-2018","MTYNA SRA 2017","MTYNA OXA 2015-2018",
                   "MTYNA MAJ normal irrigation 2018-2019","MTYNA MAJ restricted irrigation 2018-2019",
@@ -34,7 +42,7 @@ carob_script <- function(path) {
                   "Drought Tolerance","Dry matter","Chips color","Phenotipic Stability MTY",
                   "Phenotipic Stability LB resistance")
   
-  d <- d[2:dim(d)[1],]
+  d <- d[2:nrow(d),]
   colnames(d) <- cols_names
   variable_cols <-
       c("MTYNA HYO 2015-2018", "MTYNA SRA 2017", "MTYNA OXA 2015-2018",
@@ -86,12 +94,7 @@ carob_script <- function(path) {
   d$location <- d$adm2
   d <- unique(d)
   
-  carobiner::write_files(path = path,
-                         metadata = meta,
-                         records = d)
+  carobiner::write_files(path = path, metadata = meta,records = d)
   
 }
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)

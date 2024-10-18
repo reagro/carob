@@ -1,12 +1,15 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
+## need to extract more variables. 
+## use carobiner::read.excel.hdr
+## use d <- data.frame(var = r$Var, ...) to assingn old to new variables  
+## use carobiner::read.excel.hdr
+## location is not correct. Need to be full names and IDSs can be created with reshape; and no need for bizarre reg expr.    
+## do not use more than four decimals in coordinates if they are estimated
 
 carob_script <- function(path) {
     
-    "The LBHT x LTVR population came from crossing the two populations developed at CIP: LBHT for late blight resistance and LTVR for virus resistance in order to exploit heterosis for tuber yield, in 2013 under quarantine greenhouses at La Molina. 7200  genotypes (45 families with 160 seeds each) were planted. At harvest 258 clones were selected. Since 2015 until 2019, these clones were tested for late blight and PVX, PVY virus resistance, heat and drought tolerance,  marketable tuber yield, dry matter and quality for industrial processing, The experiments were planted in sites where environmental conditions are favorable to have high pressure biotic and abiotic stresses that allow us to select clones with resistance and / or tolerance to these factors. Thirty-nine clones were selected for late blight resistance, heat tolerance, some clones have drought tolerance, resistance to virus PVX and or PVY an good quality for industrtial processing."
+"The LBHT x LTVR population came from crossing the two populations developed at CIP: LBHT for late blight resistance and LTVR for virus resistance in order to exploit heterosis for tuber yield, in 2013 under quarantine greenhouses at La Molina. 7200  genotypes (45 families with 160 seeds each) were planted. At harvest 258 clones were selected. Since 2015 until 2019, these clones were tested for late blight and PVX, PVY virus resistance, heat and drought tolerance,  marketable tuber yield, dry matter and quality for industrial processing, The experiments were planted in sites where environmental conditions are favorable to have high pressure biotic and abiotic stresses that allow us to select clones with resistance and / or tolerance to these factors. Thirty-nine clones were selected for late blight resistance, heat tolerance, some clones have drought tolerance, resistance to virus PVX and or PVY an good quality for industrtial processing."
     
     uri <- "doi:10.21223/8MZIKL"
     group <- "varieties"
@@ -86,13 +89,7 @@ carob_script <- function(path) {
     d$location <- d$adm2
     d <- unique(d)
     
-    carobiner::write_files(path = path,
-                           metadata = meta,
-                           records = d)
-    
-    
+    carobiner::write_files(path = path, metadata = meta, records = d)
+
 }
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
