@@ -3,11 +3,8 @@ carob_script <- function(path) {
 
 "International Late White Hybrid Trial - ILWH0609 Summary results and individual trial results from the International Late White Hybrid - ILWH, (Advanced Tropical Three Way and Single Crosses White Normal and QPM Late - TTWSCWL) conducted in 2006."
 
-
-
 	uri <- "hdl:11529/10561"
 	group <- "varieties_maize"
-
  
 	ff  <- carobiner::get_data(uri, path, group)
  
@@ -32,20 +29,18 @@ carob_script <- function(path) {
 	rlocs <- rlocs[-(1:2), ]
 	names(rlocs) <- c("ID", names(rlocs)[-ncol(rlocs)])
 	
-
-	
 	locs <- data.frame(
 	  latitude = as.numeric(gsub("o", "", rlocs$Latitude_Latitud)) +  as.numeric(gsub("'", "", rlocs$X)) / 60,
 	  longitude = (as.numeric(gsub("o", "", rlocs$Longitude_Longitud)) + as.numeric(gsub("'", "", rlocs$X.2)) / 60 ) * ifelse(rlocs$X.3 == "W", -1, 1),
 	  country = rlocs$Country_País,
 	  location = rlocs$Location_Localidad,
-	  elevation = rlocs$Altitude_Masl_Altitud,
+	  elevation = as.numeric(rlocs$Altitude_Masl_Altitud),
 	  planting_date = as.character(rlocs$Planting_Date_Fecha.de),
 	  harvest_date = as.character(rlocs$Harvest_Date_Fecha.de)
 	)
 	
-	locs$harvest_date <- as.character(as.Date(as.numeric(locs$harvest_date), origin = "1900-01-01") )
-	locs$planting_date <- as.character(as.Date(as.numeric(locs$planting_date), origin = "1900-01-01") )
+	locs$harvest_date <- as.character(as.Date(as.numeric(locs$harvest_date), origin = "1900-01-01") - 2)
+	locs$planting_date <- as.character(as.Date(as.numeric(locs$planting_date), origin = "1900-01-01") - 2 )
 	
 	
 	locs$country <- gsub("México", "Mexico", locs$country)
