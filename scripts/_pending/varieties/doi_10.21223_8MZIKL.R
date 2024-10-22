@@ -3,7 +3,6 @@
 ## need to extract more variables. 
 ## use carobiner::read.excel.hdr
 ## use d <- data.frame(var = r$Var, ...) to assingn old to new variables  
-## use carobiner::read.excel.hdr
 ## location is not correct. Need to be full names and IDSs can be created with reshape; and no need for bizarre reg expr.    
 ## do not use more than four decimals in coordinates if they are estimated
 
