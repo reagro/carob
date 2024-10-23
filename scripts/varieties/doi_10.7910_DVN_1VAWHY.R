@@ -6,7 +6,7 @@ carob_script <- function(path) {
 "A new methodology to estimate phenotypic differences in SNF ability. We used 15N natural abundance method to compare SNF ability estimated from shoot tissue sampled at mid-pod filling growth stage vs. grain tissue sampled at harvest. We suggest that the method of estimating Ndfa using grain tissue (Ndfa-G) could be applied in bean breeding programs to improve SNF ability. Using this method of Ndfa-G, we identified four bean lines (RCB 593, SEA 15, NCB 226 and BFS 29) that combine greater SNF ability with greater grain yield under drought stress and these could serve as potential parents to further improve SNF ability of common bean." 
    
    uri <- "doi:10.7910/DVN/1VAWHY"
-   group <- "agronomy"
+   group <- "varieties"
    ff  <- carobiner::get_data(uri, path, group)
    
    meta <- data.frame(
