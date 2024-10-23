@@ -30,8 +30,8 @@ carob_script <- function(path) {
 		yield=as.numeric(r$GrainYieldTons_FieldWt) * 1000, 
 		anthesis_days=as.integer(round(as.numeric(r$AnthesisDate))),
 		rlper=r$RootLodgingPer,
-		moist=r$GrainMoisturePer,
-		plant_density=as.numeric(r$PlantStand_NumPerPlot)
+		moist=r$GrainMoisturePer
+#		plant_density=as.numeric(r$PlantStand_NumPerPlot)
 	) 
     
     d$crop <- "maize"  

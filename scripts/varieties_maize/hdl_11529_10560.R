@@ -41,7 +41,7 @@ carob_script <- function(path) {
 	    husk = as.numeric(r$BadHuskCoverPer),
 	    e_rot = as.numeric(r$EarRotTotalPer),
 	    yield_moisture = as.numeric (r$GrainMoisturePer),
-	    plant_density = as.numeric(r$PlantStand_NumPerPlot),
+#	    plant_density = as.numeric(r$PlantStand_NumPerPlot),
 	    e_asp = as.numeric(r$EarAspect1_5),
 	    p_asp = as.numeric(r$PlantAspect1_5),
 	    country = country,
