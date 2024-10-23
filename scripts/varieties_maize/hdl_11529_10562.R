@@ -4,13 +4,10 @@ carob_script <- function(path) {
 
 "International Early White Hybrid Trial - IEWH0611 Summary results and individual trial results from the International Early White Hybrid - IEWH, (Tropical Early White Hybrid Trial - CHTTEW) conducted in 2006."
 
-
 	uri <- "hdl:11529/10562"
 	group <- "varieties_maize"
-
  
 	ff  <- carobiner::get_data(uri, path, group)
-
 
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
@@ -27,7 +24,7 @@ carob_script <- function(path) {
 	)
 	
 	f <- ff[basename(ff) == "06CHTTEW-Locations.xls"]
-	rlocs <- carobiner::read.excel.hdr(f, skip=8, hdr=2) 
+	rlocs <- carobiner::read.excel.hdr(f, skip=8, hdr=2, na=c("", "- - -"))
 	rlocs <- rlocs[-(1:2), ]
 	names(rlocs) <- c("ID", names(rlocs)[-ncol(rlocs)])
 	
@@ -36,7 +33,7 @@ carob_script <- function(path) {
 	  longitude = (as.numeric(gsub("o", "", rlocs$Longitude_Longitud)) + as.numeric(gsub("'", "", rlocs$X.3)) / 60 ) * ifelse(rlocs$X.4 == "W", -1, 1),
 	  country = rlocs$Country_País,
 	  location = rlocs$Location_Localidad,
-	  elevation = rlocs$Altitude_Masl_Altitud,
+	  elevation = as.numeric(rlocs$Altitude_Masl_Altitud),
 	  planting_date = as.character(rlocs$Planting_Date_Fecha.de),
 	  harvest_date = as.character(rlocs$Harvest_Date_Fecha.de)
 	)
@@ -70,7 +67,8 @@ carob_script <- function(path) {
 	    husk = as.numeric(r$BadHuskCoverPer),
 	    e_rot = as.numeric(r$EarRotTotalPer),
 	    moist = as.numeric (r$GrainMoisturePer),
-	    plant_density = as.numeric(r$PlantStand_NumPerPlot),
+	    # should be per ha. plot size is in the excel file boxes but varies by location.
+		# plant_density = 10000 * as.numeric(r$PlantStand_NumPerPlot) / plot_size,
 	    e_asp = as.numeric(r$EarAspect1_5),
 	    p_asp = as.numeric(r$PlantAspect1_5),
 	    gls = r$GrayLeafSpot1_5,
