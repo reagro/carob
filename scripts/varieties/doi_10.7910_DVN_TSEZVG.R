@@ -3,7 +3,7 @@
 
 carob_script <- function(path) {
    
-   "Phenotypic and Genotypic data based on 358 genotypes used to estimate genomic estimated breeding values (GEBV’s) for cooking time (CKT) Seed iron content (SeedFe), Seed Zin content (SeedZn) and Grain yield (GY). The data was used to select parents for the Rapid bean cooking project (RCBP) supported by the ACIAR"
+"Phenotypic and Genotypic data based on 358 genotypes used to estimate genomic estimated breeding values (GEBV’s) for cooking time (CKT) Seed iron content (SeedFe), Seed Zin content (SeedZn) and Grain yield (GY). The data was used to select parents for the Rapid bean cooking project (RCBP) supported by the ACIAR"
    
    uri <- "doi:10.7910/DVN/TSEZVG"
    group <- "varieties"
