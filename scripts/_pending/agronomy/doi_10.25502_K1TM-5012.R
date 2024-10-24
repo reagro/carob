@@ -1,20 +1,11 @@
 # R script for "carob"
 
-
-
-
 carob_script <- function(path) {
   
-  "
-
-  N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, 
-  improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder
-  farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries.
-
-"
+"N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries."
   
   uri <- "doi:10.25502/K1TM-5012"
-  group <- "agronomy"
+  group <- "survey"
   ff <- carobiner::get_data(uri, path, group)
  
   meta <- data.frame(
@@ -24,7 +15,7 @@ carob_script <- function(path) {
     carob_contributor="Cedric Ngakou",
     carob_date="2023-08-20",
     data_type="survey",
-  	treatment_vars='N_fertilizer; P_fertilizer; K_fertilizer; intercrops',
+  	treatment_vars= NA
   	response_vars = "yield", 
     project='N2AFRICA' 
   )
@@ -35,14 +26,14 @@ carob_script <- function(path) {
   f4 <- ff[basename(ff) == "e_changes_production_use_2.csv"]
   f5 <- ff[basename(ff) == "c_land_holding_management.csv"]
   # read the dataset
-  r <- read.csv(f)
+  r0 <- read.csv(f)
   r1 <- read.csv(f1)
   r2 <- read.csv(f2)
   r4 <- read.csv(f4)
   r5 <- read.csv(f5)
   
   ## process file(s)
-  d <- r[, c("farm_id","country","sector_state","action_site","village","gps_latitude","gps_longitude","gps_latitude_dec","gps_longitude_dec")] 
+  d <- r0[, c("farm_id","country","sector_state","action_site","village","gps_latitude","gps_longitude","gps_latitude_dec","gps_longitude_dec")] 
   
   colnames(d) <- c("trial_id", "country","location","adm2","adm3","latitude1","longitude1","latitude2","longitude2")
   
@@ -54,9 +45,6 @@ carob_script <- function(path) {
   d$longitude <- d$longitude1
   d$latitude <- d$latitude1
   
-  #Add planting date
-  d$planting_date <- as.character(as.Date(paste0(r$date_interview_yyyy, '-', r$date_interview_mm, '-', r$date_interview_dd))) 
-  d$planting_date <- ifelse(is.na(d$planting_date), 2013, d$planting_date)  
   
   # process management file
 	fix_cropnames <- function(p) {
@@ -65,9 +53,7 @@ carob_script <- function(path) {
 		p <- gsub("groundnuts", "groundnut", p)
 		p <- gsub("cabbages", "cabbage", p)
 		p <- gsub("potatoes", "potato", p)
-		p <- gsub("sweet potato", "sweetpotato", p)
-		p <- gsub("sweet potaotes", "sweetpotato", p)
-		p <- gsub("sweet potatoes", "sweetpotato", p)
+		p[grep("sweet pota")] <- "sweetpotato"
 		p <- gsub("irish",  "", p)
 		p <- gsub("^, ",  "", p)
 		p <- gsub("beans beans", "beans", p)
@@ -267,7 +253,7 @@ carob_script <- function(path) {
   
   d$crop[d$crop == "soycommon bean"] <- "soybean"
   d$intercrops[d$intercrops == "no crop"] <- "none"
-  d$crop <- fix_cropnames(carobiner::fix_name(trimws(d$crop), "lower"))
+  d$crop <- tolower(trimws(d$crop))
   
   ############################################################
   # EGB:
