@@ -1,5 +1,6 @@
 # R script for "carob"
 
+
 carob_script <- function(path) {
    
 "Traits related with drought resistance in common beans. A set of 36 bean genotypes belonging to the Middle American gene pool were evaluated under field conditions with two levels of water supply (irrigated and drought) over two seasons. Eight bean lines (NCB 280, NCB 226, SEN 56, SCR 2, SCR 16, SMC 141, RCB 593 and BFS 67) were identified as resistant to drought stress. Resistance to terminal drought stress was positively associated with EUW combined with increased dry matter partitioned to pod and seed production and negatively associated with days to flowering and days to physiological maturity. Based on phenotypic differences in CID, leaf stomatal conductance, canopy biomass and grain yield under drought stress, the lines tested were classified into two groups, water savers and water spenders."
@@ -28,6 +29,7 @@ carob_script <- function(path) {
    d <- data.frame(
       country= "Colombia",
       location= "Palmira",
+  	  site = "CIAT",
       crop= "common bean",
       planting_date= as.character(r$YEAR),
       irrigated= grepl("Riego", r$STRESS),
@@ -47,12 +49,13 @@ carob_script <- function(path) {
       row_spacing= 60 
    )
    
-   d$on_farm <- TRUE
+   d$on_farm <- FALSE
    d$is_survey <- FALSE
    d$inoculated <- FALSE
    d$yield_part <- "grain"
-   d$latitude <- 3.53782
-   d$longitude <- -76.2968
+   # CIAT campus
+   d$latitude <- 3.4961
+   d$longitude <-  -76.3553
    d$geo_from_source <- TRUE
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)

@@ -29,6 +29,7 @@ carob_script <- function(path) {
    d <- data.frame(
       country= "Colombia",
       location= "Palmira",
+	  site = "CIAT",
       crop= "common bean",
       planting_date= as.character(r$YEAR),
       irrigated= grepl("Riego", r$STRESS),
@@ -50,12 +51,15 @@ carob_script <- function(path) {
       N_fertilizer= r$YDHA/r$NUE
       )
       
-   d$on_farm <- TRUE
+   d$on_farm <- FALSE
    d$is_survey <- FALSE
    d$inoculated <- FALSE
    d$yield_part <- "grain"
-   d$latitude <- 3.53782
-   d$longitude <- -76.2968
+
+   # CIAT campus
+   d$latitude <- 3.4961
+   d$longitude <-  -76.3553
+   
    d$geo_from_source <- TRUE
    
    d$P_fertilizer <- d$K_fertilizer <- 0

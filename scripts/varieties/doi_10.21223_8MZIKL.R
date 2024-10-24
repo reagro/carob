@@ -50,7 +50,7 @@ carob_script <- function(path) {
  
     d$yield_marketable <- as.numeric(d$yield_marketable) * 1000
     
-    d$on_farm <- TRUE
+    d$on_farm <- FALSE
     d$is_survey <- FALSE
     d$irrigated <- FALSE	
     d$treatment <- "varieties"
