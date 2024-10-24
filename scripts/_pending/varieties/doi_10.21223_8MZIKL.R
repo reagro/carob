@@ -1,14 +1,12 @@
 # R script for "carob"
 
-## need to extract more variables. 
-## use carobiner::read.excel.hdr
-## use d <- data.frame(var = r$Var, ...) to assingn old to new variables  
-## location is not correct. Need to be full names and IDSs can be created with reshape; and no need for bizarre reg expr.    
-## do not use more than four decimals in coordinates if they are estimated
+## ISSUES
+# ....
+
 
 carob_script <- function(path) {
     
-"The LBHT x LTVR population came from crossing the two populations developed at CIP: LBHT for late blight resistance and LTVR for virus resistance in order to exploit heterosis for tuber yield, in 2013 under quarantine greenhouses at La Molina. 7200  genotypes (45 families with 160 seeds each) were planted. At harvest 258 clones were selected. Since 2015 until 2019, these clones were tested for late blight and PVX, PVY virus resistance, heat and drought tolerance,  marketable tuber yield, dry matter and quality for industrial processing, The experiments were planted in sites where environmental conditions are favorable to have high pressure biotic and abiotic stresses that allow us to select clones with resistance and / or tolerance to these factors. Thirty-nine clones were selected for late blight resistance, heat tolerance, some clones have drought tolerance, resistance to virus PVX and or PVY an good quality for industrtial processing."
+    "The LBHT x LTVR population came from crossing the two populations developed at CIP: LBHT for late blight resistance and LTVR for virus resistance in order to exploit heterosis for tuber yield, in 2013 under quarantine greenhouses at La Molina. 7200  genotypes (45 families with 160 seeds each) were planted. At harvest 258 clones were selected. Since 2015 until 2019, these clones were tested for late blight and PVX, PVY virus resistance, heat and drought tolerance,  marketable tuber yield, dry matter and quality for industrial processing, The experiments were planted in sites where environmental conditions are favorable to have high pressure biotic and abiotic stresses that allow us to select clones with resistance and / or tolerance to these factors. Thirty-nine clones were selected for late blight resistance, heat tolerance, some clones have drought tolerance, resistance to virus PVX and or PVY an good quality for industrtial processing."
     
     uri <- "doi:10.21223/8MZIKL"
     group <- "varieties"
@@ -29,19 +27,19 @@ carob_script <- function(path) {
     
     f <- ff[grep("Data.xls", basename(ff))]
     
-    d <- carobiner::read.excel(f = f, sheet="Table")
+    r <- carobiner::read.excel(f = f, sheet="Table")
     cols_names <- c("record_id","Clone","MTYNA SRA","MTYNA HYO 2017-2018","MTYNA OXA 2017-2018",
                     "MTYNA MAJ normal irrigation 2018-2019","MTYNA MAJ restricted irrigation 2018-2019",
                     "AUDPC","PVX Resistance","PVY Resistance","Heat Tolerance",
                     "Drought Tolerance","Dry matter","Chips color")
-    d <- d[3:nrow(d),]
-    colnames(d) <- cols_names
+    r <- r[3:nrow(r),]
+    colnames(r) <- cols_names
     variable_cols <-
         c("MTYNA SRA", "MTYNA HYO 2017-2018","MTYNA OXA 2017-2018",
           "MTYNA MAJ normal irrigation 2018-2019","MTYNA MAJ restricted irrigation 2018-2019")
     long_data <-
         reshape(
-            d,
+            r,
             direction = "long",
             idvar = "Clone",
             varying = list(variable_cols),
@@ -52,9 +50,27 @@ carob_script <- function(path) {
     names(long_data)[9] <- "MTYNA Category"
     names(long_data)[10] <- "MTYNA"
     
-    d = long_data[,c('Clone','AUDPC','MTYNA SRA')]
-    d = carobiner::change_names(d, from=c("Clone","MTYNA SRA"), 
-                                 to = c("variety","yield_marketable") )
+    location_mapping <- data.frame(
+        MTYNA = c("MTYNA SRA", "MTYNA HYO 2017-2018", "MTYNA OXA 2017-2018",
+                  "MTYNA MAJ normal irrigation 2018-2019", "MTYNA MAJ restricted irrigation 2018-2019"),
+        location = c("San Ramon", "Huancayo", "Oxapampa", "Majes", "Majes")
+    )
+    
+    
+    long_data <- merge(long_data, location_mapping, by = "MTYNA", all.x = TRUE)
+    
+    
+    r = long_data[,c('Clone','AUDPC','MTYNA SRA', 'location', "PVX Resistance","PVY Resistance","Heat Tolerance","Drought Tolerance")]
+    
+    d = data.frame(
+        variety = r$Clone,
+        AUDPC = r$AUDPC,
+        yield_marketable = r$`MTYNA SRA`,
+        pvx = r$`PVX Resistance`,
+        pvy = r$`PVY Resistance`,
+        heat = r$`Heat Tolerance`,
+        drought = r$`Drought Tolerance`
+    )
     
     d$yield_marketable <- as.numeric(d$yield_marketable) * 1000
     d$AUDPC <- as.numeric(d$AUDPC) / 100
@@ -68,13 +84,12 @@ carob_script <- function(path) {
     d$pathogen <- "Phytophthora infestans"
     d$country <- 'Peru'
     d$yield_part <- "tubers"
-    d$location <- sub(".*MTYNA\\s+([A-Za-z0-9]+(?:\\s+[A-Za-z]+)?)\\s*(?:irrigation|\\d+)?", "\\1", rownames(d))
-    d$location <- tolower(sub("([A-Za-z]+)(?:-\\d+|\\s+\\d+).*", "\\1", d$location))
+    d$location <- r$location
 
     location_coords <- data.frame(
-        location = tolower(unique(d$location)),
-        latitude = c(-12.00925833,-10.59535278,-10.59535278,-11.12858056,-12.00925833),
-        longitude = c(-75.22366389, -75.38681667,-75.38681667, -75.35643056,-75.22366389),
+        location = c("Huancayo","Majes","Majes","Oxapampa","San Ramon"),
+        latitude = c(-12.0092,-10.5953,-10.5953,-11.1285,-12.0092),
+        longitude = c(-75.2236, -75.3868,-75.3868, -75.3564,-75.2236),
         adm1 = c('Junin','Arequipa','Arequipa','Pasco','Junin'),
         adm2 = c('Huancayo','Majes','Majes','Oxapampa','San Ramon')
     )
@@ -88,7 +103,13 @@ carob_script <- function(path) {
     d$location <- d$adm2
     d <- unique(d)
     
-    carobiner::write_files(path = path, metadata = meta, records = d)
-
+    carobiner::write_files(path = path,
+                           metadata = meta,
+                           records = d)
+    
+    
 }
 
+## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
+# path <- _____
+# carob_script(path)
