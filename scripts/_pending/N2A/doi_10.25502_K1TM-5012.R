@@ -241,15 +241,15 @@ carob_script <- function(path) {
   #Assumption was of the 2 crops one was an intercrop 
   d$intercrops <- fix_cropnames(carobiner::fix_name(trimws(d$intercrops), "lower"))
   
-  d$crop[d$crop == "cassava sweetpotato"] <- "Cassava"; d$intercrops[d$crop == "Cassava"] <- "sweetpotato"
-  d$crop[d$crop == "cassava common bean"] <- "Cassava"; d$intercrops[d$crop == "Cassava"] <- "common bean"
-  d$crop[d$crop == "common bean maize"] <- "Common bean"; d$intercrops[d$crop == "Common bean"] <- "maize"
-  d$crop[d$crop == "common bean sweetpotato"] <- "Common bean"; d$intercrops[d$crop == "Common bean"] <- "sweetpotato"
-  d$crop[d$crop == "sweetpotato cassava"] <- "Sweetpotato"; d$intercrops[d$crop == "Sweetpotato"] <- "cassava"
-  d$crop[d$crop == "groundnut soycommon bean"] <- "Groundnut"; d$intercrops[d$crop == "Groundnut"] <- "soybean"
-  d$crop[d$crop == "common bean cassava"] <- "Common bean"; d$intercrops[d$crop == "Common bean"] <- "cassava"
-  d$crop[d$crop == "cassava groundnut"] <- "Cassava"; d$intercrops[d$crop == "Cassava"] <- "groundnut"
-  d$crop[d$crop == "cassava potato"] <- "Cassava"; d$intercrops[d$crop == "Cassava"] <- "potato"
+  i <- d$crop == "cassava sweetpotato"; d$crop[i] <- "cassava"; d$intercrops[i] <- "sweetpotato"
+  i <- d$crop == "cassava common bean"; d$crop[i] <- "cassava"; d$intercrops[i] <- "common bean"
+  i <- d$crop == "common bean maize"; d$crop[i] <- "common bean"; d$intercrops[i] <- "maize"
+  i <- d$crop == "common bean sweetpotato"; d$crop[i] <- "common bean"; d$intercrops[i] <- "sweetpotato"
+  i <- d$crop == "sweetpotato cassava"; d$crop[i] <- "sweetpotato"; d$intercrops[i] <- "cassava"
+  i <- d$crop == "groundnut soycommon bean"; d$crop[i] <- "groundnut"; d$intercrops[i] <- "soybean"
+  i <- d$crop == "common bean cassava"; d$crop[i] <- "common bean"; d$intercrops[i] <- "cassava"
+  i <- d$crop == "cassava groundnut"; d$crop[i] <- "cassava"; d$intercrops[i] <- "groundnut"
+  i <- d$crop == "cassava potato"; d$crop[i] <- "cassava"; d$intercrops[i] <- "potato"
   
   d$crop[d$crop == "soycommon bean"] <- "soybean"
   d$intercrops[d$intercrops == "no crop"] <- "none"
