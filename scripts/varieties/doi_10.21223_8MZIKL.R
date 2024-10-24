@@ -28,9 +28,9 @@ carob_script <- function(path) {
 
 	d <- data.frame(
 		variety = r$Clone,
-		SRA = r$Marketable.tuber.Yield.tons.MTYNA._SRA,
+		SRA_201_ = r$Marketable.tuber.Yield.tons.MTYNA._SRA,
 		HYO_2017.2018 = r$X2017.2018_HYO,
-		OXA = r$OXA,
+		OXA_201_ = r$OXA,
 		MAJ.NI_2018.2019 = r$X2018.2019_Majes.normal.irrigation.NI,
 		MAJ.RI_2018.2019 = r$Majes.restricted.irrigation.RI,
 		AUDPC = r$Resistance_LB.AUDPC.2017.2018 / 100
@@ -76,10 +76,14 @@ carob_script <- function(path) {
 	### how is this possible?
 	# d$planting_date <- "2017-05-04"
 	# d$harvest_date  <- "2017-11-17"
+	d$planting_date <- as.character(NA)
+
     d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 
 ##   this is a variable that captures treatment codes. Not a general description of an experiment
 ##    d$treatment <- "Clones under different locations & irrigations systems"
+
+	d <- d[!is.na(d$yield_marketable), ]
  
     carobiner::write_files(path = path, metadata = meta, records = d)
 }
