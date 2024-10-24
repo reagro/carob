@@ -58,6 +58,9 @@ carob_script <- function(path) {
    
    d <- d[!is.na(d$yield),]
    
+	i = which(d$variety == "M\x92sole")
+	d$variety[i] <- "M'sole"
+   
    carobiner::write_files(path, meta, d)
 }
 
