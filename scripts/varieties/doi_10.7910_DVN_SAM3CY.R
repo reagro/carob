@@ -6,7 +6,7 @@ carob_script <- function(path) {
 "Traits and genotypes related with resistance to intermittent and terminal drought stress. Three common bean elite lines (NCB 226, SEN 56, SER 125) were identified with superior levels of adaptation to both intermittent and terminal drought stress conditions. The greater performance of these lines under drought stress was associated with their ability to remobilize photosynthate to increase grain yield based on higher values of harvest index, pod harvest index, leaf area index and canopy biomass. Two wild bean germplasm accessions (G 19902, G 24390) showed very poor adaptation to both types of drought stress. One small-seeded black line (NCB 226) was superior in combining greater values of canopy biomass with greater ability to mobilize photosynthates to grain under both types of drought stress. Two small-seeded red lines (SER 78, SER 125) seem to combine the desirable traits of enhanced mobilization of photosynthates to seed with effective use of water through canopy cooling under terminal drought stress. Pod harvest index showed significant positive association with grain yield under both types of drought stress and this trait can be used by breeders as an additional selection method to grain yield in evaluation of breeding populations for both types of drought stress."
   
     uri <- "doi:10.7910/DVN/SAM3CY"
-   group <- "agronomy"
+   group <- "varieties"
    ff  <- carobiner::get_data(uri, path, group)
    
    meta <- data.frame(
@@ -29,7 +29,7 @@ carob_script <- function(path) {
    d <- data.frame(
       country= "Colombia",
       location= "Palmira",
-	  site = "CIAT",	  
+	  site = "CIAT campus",	  
       crop= "common bean",
       planting_date= as.character(r$YEAR),
       irrigated= grepl("Riego", r$STRESS),

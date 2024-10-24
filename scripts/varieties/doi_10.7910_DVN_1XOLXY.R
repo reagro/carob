@@ -29,7 +29,7 @@ carob_script <- function(path) {
    d <- data.frame(
       country= "Colombia",
       location= "Palmira",
-  	  site = "CIAT",
+  	  site = "CIAT campus",
       crop= "common bean",
       planting_date= as.character(r$YEAR),
       irrigated= grepl("Riego", r$STRESS),

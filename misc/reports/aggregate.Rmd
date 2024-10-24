@@ -33,6 +33,7 @@ if (!file.exists(f)) {
 
 ```{r setup2, include=FALSE}
 d <- data.table::fread(f) 
+
 m <- data.table::fread(gsub(".csv$", "_metadata.csv", f))
 
 get_values <- function(x, label) {
@@ -75,7 +76,6 @@ if (grepl("trials", group)) {
    
 ```
 
-
 This report describes the the Carob "*`r group`*" group. 
 </br>
 
@@ -87,6 +87,10 @@ These are the first `r min(nrow(d), 25)` records:
 ```{r tab1}
 scrolltab(head(d, 25), "records")
 ```
+
+
+</br>
+You can see the contributing datasets [here](https://carob-data.org/done.html) if you use the search term for `r paste0("[", group,"]")`.
 
 </br>
 We have `r nrow(locs)` observations, `r xytxt`

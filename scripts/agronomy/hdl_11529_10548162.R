@@ -1,5 +1,6 @@
 # R script for "carob"
 
+
 carob_script <- function(path) {
    
 "To identify the main limiting factors to maize and bean production in Central America, field trials were established in six maize- and bean-producing regions in Guatemala, Honduras and El Salvador. Potential yield-limiting factors were evaluated in the 2017 growing season, and included: water stress, nutrient deficiency, pest and disease pressure, and/or interplant competition. The data set contains daily weather data for the six sites for the duration of the growing season (rainfall, minimum and maximum temperature), crop data (grain yield, emergence and flowering dates) and economic data (costs associated with the different treatments, gross and net profit). Detailed descriptions of the experiments are also provided (in Spanish). (2018-12-17)"
