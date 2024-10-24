@@ -54,7 +54,6 @@ carob_script <- function(path) {
     d$is_survey <- FALSE
     d$irrigated <- FALSE	
     d$treatment <- "varieties"
-    d$trial_id <- "1"
     d$crop <- "potato"
     d$pathogen <- "Phytophthora infestans"
     d$country <- "Peru"
