@@ -301,7 +301,7 @@ carob_script <- function(path) {
 	# d$intercrops[grep(";", d$crop)] <- t[[2]]
 
   ### removing duplicate rows (occur probably during the data collection)  
-  d <- unique(d)
+  ### d <- unique(d)
   
   carobiner::write_files(meta, d, path=path)
 }
