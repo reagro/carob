@@ -15,6 +15,7 @@ do_LCAS <- function(r) {
 		variety_type = r$D.q409_varType,
 		latitude = r$O.largestPlotGPS.Latitude,
 		longitude = r$O.largestPlotGPS.Longitude,
+		geo_from_source = TRUE,
 		soil_texture = r$D.q401_soilTexture,
 		soil_quality = r$D.q403_soilPerception,
 		landscape_position = r$D.q402_drainClass,

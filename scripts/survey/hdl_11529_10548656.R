@@ -1,12 +1,8 @@
 # R script for "carob"
 
-## ISSUES
-
 carob_script <- function(path) { 
   
-  "
-Landscape Diagnostic Survey (LDS) data contains current rice production practices of rice applied by 8,355 farmers in eight states of India. The objective of collecting this data is to bridge the existing data-gap and to generate data-based evidence that can help in evidence-based planning. The LDS is designed in a way that data is collected from randomly selected farmers spread uniformly within a KVK (government extension system) domain/district. Survey questionnaire captures all production practices applied by farmers from land preparation to harvesting, including detailed sections on rice establishment, fertilizer use, weed control and irrigation application. Data is captured through electronically enabled Open Data Kit (ODK) tool on mobile phone or tablet. (2021-12-01)
-"
+"Landscape Diagnostic Survey (LDS) data contains current rice production practices of rice applied by 8,355 farmers in eight states of India. The objective of collecting this data is to bridge the existing data-gap and to generate data-based evidence that can help in evidence-based planning. The LDS is designed in a way that data is collected from randomly selected farmers spread uniformly within a KVK (government extension system) domain/district. Survey questionnaire captures all production practices applied by farmers from land preparation to harvesting, including detailed sections on rice establishment, fertilizer use, weed control and irrigation application. Data is captured through electronically enabled Open Data Kit (ODK) tool on mobile phone or tablet. (2021-12-01)"
 
 	uri <- "hdl:11529/10548656"
 	group <- "survey"
@@ -32,9 +28,6 @@ Landscape Diagnostic Survey (LDS) data contains current rice production practice
 	do_LCAS <- carobiner::get_function("do_LCAS", path, group)
 	d <- do_LCAS(r)
 	
-	#d$longitude <- d$latitude <- NULL
     carobiner::write_files(path, meta, d)
-	
-	return(TRUE)	
 }
 

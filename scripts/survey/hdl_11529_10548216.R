@@ -29,6 +29,7 @@ carob_script <- function(path) {
       country = "Ethiopia",
       latitude=r$latitude,
       longitude=r$longitude,
+	  geo_from_source = TRUE,
       elevation=r$altitude,
       crop = "maize",
       yield_part = "grain",

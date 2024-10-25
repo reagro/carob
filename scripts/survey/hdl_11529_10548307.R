@@ -29,9 +29,17 @@ carob_script <- function(path) {
 		r <- r[!is.na(r$Country), ]
 		r <- r[r$Country == "Tanzania", ]
 
-		d <- data.frame(country=r$Country, adm1=r$Region,
-			adm2=r$District, adm3=r$Ward, location=r$Village,  
-			elevation=r$Altitude, longitude= r$Longitude, latitude=r$Latitude)
+		d <- data.frame(
+			country=r$Country, 
+			adm1=r$Region,
+			adm2=r$District, 
+			adm3=r$Ward, 
+			location=r$Village,  
+			elevation=r$Altitude, 
+			longitude= r$Longitude, 
+			latitude=r$Latitude,
+			geo_from_source = TRUE
+		)
 
 		if (!is.null(r$Hamlet)) {
 			d$site=r$Hamlet

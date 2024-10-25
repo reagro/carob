@@ -34,6 +34,7 @@ carob_script <- function(path) {
 		location=r$Village,
 		latitude= r$Latitude,
 		longitude=r$Longitude,
+		geo_from_source = TRUE,
 		elevation=r$Altitude
 	)
     

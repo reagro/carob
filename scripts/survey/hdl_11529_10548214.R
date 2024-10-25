@@ -91,7 +91,7 @@ carob_script <- function(path) {
 	d$country <- "Ethiopia" 
 	d$adm1 <- "Oromia"
 	d$adm2 <- "West Showa"
-
+	d$geo_from_source <- TRUE
 	d$crop <- "maize"
 	d$yield_part <- "grain"
 	#d$trial_id <- "1"

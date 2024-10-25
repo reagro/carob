@@ -1,6 +1,5 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
 
 "TAMASA Agronomy Panel Survey 2016/17 Season. This file contains the maize grain yield from approximately 578 maize fields in the Southern Highlands, Northern and Eastern Zones of Tanzania in collected May-August 2017. Maize grain yield data can be linked to associated maize yield and soil by the common HHID."
@@ -25,9 +24,12 @@ carob_script <- function(path) {
 	r <- carobiner::read.excel(f, sheet = "Raw data", n_max = 1738)
 
 ## lon/lat reversed. but lat makes no sense.		
-	d <- data.frame(yield = r$`Grain yield (kg/ha@12.5%)`, 
-				latitude = r$`QRcode Cobs`,
-				longitude = r$Latitude)
+	d <- data.frame(
+		yield = r$`Grain yield (kg/ha@12.5%)`, 
+		latitude = r$`QRcode Cobs`,
+		longitude = r$Latitude,
+		geo_from_source = TRUE
+	)
 
 	d$country <- "Tanzania"
 	d$trial_id <- paste0(d$HHID, "-", d$QID)
@@ -41,7 +43,7 @@ carob_script <- function(path) {
 	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	
 
-    d <- d[!is.na(d$longitude) & !is.na(d$latitude),]
+   # d <- d[!is.na(d$longitude) & !is.na(d$latitude),]
     d <- d[!is.na(d$yield),]
 	carobiner::write_files(meta, d, path=path)
 }
