@@ -135,8 +135,9 @@ carob_script <- function(path) {
 	d <- carobiner::bindr(d0, d1, d2, d3, d4, d5, d6, d7)
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
-	
+	d$geo_from_source <- TRUE
 	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+		   
 		   
 	carobiner::write_files(meta, d, path=path)
 }

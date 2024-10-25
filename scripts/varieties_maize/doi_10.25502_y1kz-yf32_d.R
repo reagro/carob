@@ -54,6 +54,7 @@ carob_script <- function(path) {
 	d$elevation <- ifelse(r$LOC == "FUMESUA", 286, 97) # from pub
 	d$latitude <- ifelse(r$LOC == "FUMESUA", 6.7175, 5.6601) # from pub
 	d$longitude <- ifelse(r$LOC == "FUMESUA", -1.5326, -0.1919) # from pub
+	d$geo_from_source <- FALSE
 
 ##### Fertilizers
 	d$fertilizer_type <- "urea;KCl;TSP" # from pub

@@ -259,6 +259,7 @@ process_cowpea <- function(ff) {
 	d$country[d$country == "Cape Verde"] <- "Cabo Verde"	
 	d$country[d$country == "Republic of Benin"] <- "Benin"
 	d$country[d$country == "Zaire"] <- "Democratic Republic of the Congo"
+	d$country[d$country == "Democartic Republic of the Congo"] <- "Democratic Republic of the Congo"
 	d$country[d$country == "Swaziland"] <- "Eswatini"
 	d$country[d$country == "Columbia"] <- "Colombia"
 

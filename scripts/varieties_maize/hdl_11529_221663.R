@@ -42,6 +42,7 @@ carob_script <- function(path) {
 #Garun mallam:Latitude: 11.66361   Longitude: 8.37957   Latitude: 11.65863      Longitude: 8.37519            
 	d$longitude <- 8.4
 	d$latitude <- 11.73
+	d$geo_from_source <- FALSE
 
 	d$planting_date <- "2015-06"
 	d$harvest_date  <- "2015-11"
