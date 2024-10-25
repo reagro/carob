@@ -61,7 +61,7 @@ carob_script <- function(path) {
 	d$yield_marketable <- d$yield_marketable * 1000
 	d$rep <- 1L
 	d$yield <- as.numeric(NA)
-	d$on_farm <- TRUE
+	d$on_farm <- FALSE
 	d$is_survey <- FALSE
 	d$crop <- "potato"
 	d$pathogen <- "Phytophthora infestans"

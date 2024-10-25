@@ -60,10 +60,10 @@ if (!is.null(tvars)) {
    tvars <- trimws(unlist(strsplit(tvars, ";")))
    tvars <- tvars[!(tvars %in% c("none", "longitude", "latitude"))]
    tvars <- tvars[(tvars %in% names(d))]
-   if (length(tvars) > 0) {
-     treatments <- unique(d[ , tvars, drop=FALSE])
-     treatments <- treatments[order(treatments[,1]), , drop=FALSE]
-     rownames(treatments) <- NULL
+   ntreats <- length(tvars)
+   if (ntreats > 0) {
+     treatments <- unique(tvars)
+     treatments <- paste(sort(treatments), collapse=", ")
    }
 }
 
@@ -118,7 +118,7 @@ This is the full citation of the data set:
 
 `r pub`
 
-The dataset has `r nrow(d)` records and `r ncol(d)` variables for `r crop` in `r country`. `r vartxt`
+The dataset has `r nrow(d)` records and `r ncol(d)` variables for `r crop` in `r country`. `r vartxt` `r if(!is.null(treatments)) paste0("The dataset has ", ntreats, " treatment(s): ", treatments, ".")`
 
 </br>
 These are the first `r min(nrow(d), 25)` records: 
@@ -127,12 +127,6 @@ These are the first `r min(nrow(d), 25)` records:
 scrolltab(head(d, 25), "records")
 ```
 
-</br>
-`r if(!is.null(treatments)) paste("The dataset has", nrow(treatments), "treatments:")`
-
-```{r tab2}
-if (!is.null(treatments)) scrolltab(treatments, "treatments")
-```
 
 </br>
 
