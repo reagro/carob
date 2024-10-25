@@ -128,7 +128,8 @@ carob_script <- function(path) {
 		location=c("Domboshawa Training Centre", "Hereford", "Madziva", "University of Zimbabwe", "Zimuto"),
 	    latitude=c(-18.0333, -17.7000, -17.0000, -17.4200, -20.4167),
 	    longitude=c(31.2833, 31.7333, 31.7167, 31.0528, 31.4667),
-	    elevation=c(1500, 1054, 1169, 1223, 1483)
+	    elevation=c(1500, 1054, 1169, 1223, 1483),
+		geo_from_source = FALSE
 	)
 	d <- merge(d, geo, by="rawsite", all.x = TRUE)
 	d$rawsite <- NULL  

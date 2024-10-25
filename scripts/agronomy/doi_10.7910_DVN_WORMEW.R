@@ -21,7 +21,6 @@ carob_script <- function(path) {
 		carob_date = "2024-07-13"
 	)
 	
-
 	irri_lte <- carobiner::get_function("IRRI_LTE", path, group)
 	d <- irri_lte(ff)
 

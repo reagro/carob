@@ -10,7 +10,7 @@ carob_script <- function(path) {
 	ff  <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=1, minor=0),
+		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		data_institute = "TARI",
 		publication = NA,
 		project = NA,
@@ -57,6 +57,7 @@ carob_script <- function(path) {
 	d$adm2 <- "Kiteto"
 	d$longitude <- 36.29271 
 	d$latitude <- -5.24399
+	d$geo_from_source <- FALSE
 
 	d$crop <- "maize"
 	d$yield_part <- "grain"

@@ -1,8 +1,5 @@
 # R script for "carob"
 
-
-
-
 carob_script <- function(path) {
   
 "N2Africa is to contribute to increasing biological nitrogen fixation and productivity of grain legumes among African smallholder farmers which will contribute to enhancing soil fertility, improving household nutrition and increasing income levels of smallholder farmers. As a vision of success, N2Africa will build sustainable, long-term partnerships to enable African smallholder farmers to benefit from symbiotic N2-fixation by grain legumes through effective production technologies including inoculants and fertilizers adapted to local settings. A strong national expertise in grain legume production and N2-fixation research and development will be the legacy of the project. The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uganda and Ethiopia) and six other countries (DR Congo, Malawi, Rwanda, Mozambique, Kenya & Zimbabwe) as tier one countries."
@@ -70,9 +67,9 @@ carob_script <- function(path) {
   # append d3 and d2
   d3 <- rbind(d3,d2)
   
-  d3$yield <- ifelse((d3$yield_unit=="Kg"| d3$yield_unit=="kg" ) & d3$farm_size >0,d3$yield1/d3$farm_size,
-                     ifelse(d3$yield_unit=="tonnes" & d3$farm_size >0,d3$yield1*1000/d3$farm_size,
-                            ifelse(d3$yield_unit=="Kg/acre" & d3$farm_size >0,d3$yield1/0.4046,d3$yield1)))
+  d3$yield <- ifelse((d3$yield_unit=="Kg"| d3$yield_unit=="kg" ) & d3$farm_size >0, d3$yield1/d3$farm_size,
+                     ifelse(d3$yield_unit=="tonnes" & d3$farm_size >0, d3$yield1*1000/d3$farm_size,
+                           ifelse(d3$yield_unit=="Kg/acre" & d3$farm_size >0, d3$yield1/0.4046, d3$yield1)))
   d3 <- d3[d3$yield_unit!="Bunches" & d3$yield_unit!="Bags" & d3$yield_unit!="MT" & d3$yield_unit!="",]
   # merge d and d3
   d <- merge(d,d3,bx="trial_id", all.y = T)
@@ -109,9 +106,8 @@ carob_script <- function(path) {
   d$P_fertilizer[d$fertilizer_type=="Sympal(NPK)" |d$fertilizer_type=="Sympal"] <- 23
   d$K_fertilizer[d$fertilizer_type=="Sympal(NPK)" |d$fertilizer_type=="Sympal"] <- 26
   
-  
-  d$N_fertilizer[d$fertilizer_type=="Urea"] <- 60*0.46
-  d$N_fertilizer[d$fertilizer_type=="DAP"] <- 50*0.18
+  d$N_fertilizer[d$fertilizer_type=="Urea"] <- 60 * 0.46
+  d$N_fertilizer[d$fertilizer_type=="DAP"] <- 50 * 0.18
   d$P_fertilizer[d$fertilizer_type=="DAP"|d$fertilizer_type=="DAP, Urea" |d$fertilizer_type=="DAP, CAN"] <- 50*0.46/2.29
   d$P_fertilizer[d$fertilizer_type=="SSP"] <- 50
   d$N_fertilizer[d$fertilizer_type=="DAP, Urea"] <- 60*0.46 + 50*0.18 
@@ -167,26 +163,37 @@ carob_script <- function(path) {
   d$fertilizer_type[d$fertilizer_type=="Sympal(NPK)"] <- "NPK"
   d$fertilizer_type[d$fertilizer_type=="Sympal"] <- "NPK"
   # fix long and lat coordinate
-  geo <- data.frame(adm2=c("Ageti","Kadianga","Ojamii","Okuleu","Oyamu","Waanda","Bumagunda","Jemugongu","Kitumba","Manyatta","Mbale","Sio-Port","Stella","Abur-Rwatana","Apokor","Apokori","Katakua B'","Katakwa","Katelepai"),
-                  lat=c(0.3712048,-0.6627352,0.3712048,0.3712048,0.3712048,-0.1029109,0.3712048,-0.1029109,0.0819283,-0.374523,0.083501,0.2240966,-1.0211616,0.3712048,0.5299792,0.5299792,0.3712048,0.3712048,0.73333),
-                   long=c(34.2647952,34.6114179,34.2647952,34.2647952,34.2647952,34.7541761,34.2647952,34.7541761,34.7084197,37.4491755,34.7203265,34.0216329,34.3096432,34.2647952,34.28206,34.28206,34.3096432,34.3096432,34.36667))
+	geo <- data.frame(
+		adm2=c("Ageti","Kadianga","Ojamii","Okuleu","Oyamu","Waanda","Bumagunda","Jemugongu","Kitumba","Manyatta","Mbale","Sio-Port", "Stella", "Abur-Rwatana","Apokor","Apokori","Katakua B'","Katakwa","Katelepai"),
+        lat=c(0.3712048,-0.6627352,0.3712048,0.3712048,0.3712048,-0.1029109,0.3712048,-0.1029109,0.0819283,-0.374523,0.083501,0.2240966,-1.0211616,0.3712048,0.5299792,0.5299792,0.3712048,0.3712048,0.73333),
+        lon=c(34.2647952,34.6114179,34.2647952,34.2647952,34.2647952,34.7541761,34.2647952,34.7541761,34.7084197,37.4491755,34.7203265,34.0216329,34.3096432,34.2647952,34.28206,34.28206,34.3096432,34.3096432,34.36667)
+	)
   
-  d <- merge(d,geo,by="adm2",all.x = T)
+  d <- merge(d, geo, by="adm2", all.x = TRUE)
+  d$geo_from_source <- TRUE
   i <- !is.na(d$lat)
   d$latitude[i] <- d$lat[i]
-  d$longitude[i] <- d$long[i]
-  d$lat <- d$long <- NULL
+  d$longitude[i] <- d$lon[i]
+  d$geo_from_source[i] <- FALSE
+  d$lat <- d$lon <- NULL
   #Fix error in lon and lat
-  d$longitude[d$adm1=="Kakamega"] <- 34.75
-  d$latitude[d$ladm1=="Kakamega"] <- 0.2833
-  d$longitude[d$adm1=="Kisumu"] <- 34.7541761
-  d$latitude[d$ladm1=="Kisumu"] <- -0.1029109
-  d$longitude[d$adm1=="Busia"] <- 34.36667
-  d$latitude[d$ladm1=="Busia"] <- 0.73333
+  i <- d$adm1=="Kakamega"
+  d$longitude[i] <- 34.75
+  d$latitude[i] <- 0.2833
+  d$geo_from_source[i] <- FALSE
+  i <- d$adm1=="Kisumu"
+  d$longitude[i] <- 34.7542
+  d$latitude[i] <- -0.1029
+  d$geo_from_source[i] <- FALSE
+  i <- d$adm1=="Busia"
+  d$longitude[i] <- 34.36667
+  d$latitude[i] <- 0.73333
+  d$geo_from_source[i] <- FALSE
+  
   #fix crop yield limit by crop
-  d$yield[d$crop=="common bean" & d$yield>9000] <- NA
-  d$yield[d$crop=="groundnut" & d$yield>8500] <- NA
-  d$yield[d$crop=="soybean" & d$yield>15000] <- NA
+  d$yield[d$crop=="common bean" & d$yield > 9000] <- NA
+  d$yield[d$crop=="groundnut" & d$yield > 8500] <- NA
+  d$yield[d$crop=="soybean" & d$yield > 15000] <- NA
   # remove crop with very low yield value after divided by the plot area and it's not realistic
   d <- d[d$crop!="mung bean"&d$crop!="rice"&d$crop!="sesame"&d$crop!="bambara groundnut"&d$crop!="banana",]
   
@@ -204,5 +211,6 @@ carob_script <- function(path) {
   # data type
   d$location <- as.character(d$location)
   d$yield_part <- "seed"
+  d$planting_date <- as.character(NA)
   carobiner::write_files(meta, d, path=path)
 }

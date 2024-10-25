@@ -38,6 +38,7 @@ carob_script <- function(path) {
 		location = ifelse(r$Site == "DTC", "Domboshava Training Centre", "University of Zimbabwe Farm"),
         longitude = ifelse(r$Site == "DTC", 31.125, 31.013), 
 		latitude = ifelse(r$Site == "DTC", -17.588, -17.706),
+		geo_from_source = FALSE,
         treatment = r$Treatment, 
 		rep = as.integer(r$Rep), 
 		crop = tolower(r$Crop),

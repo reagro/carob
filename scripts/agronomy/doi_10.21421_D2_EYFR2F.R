@@ -12,7 +12,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
   
 	meta <- data.frame(
   	carobiner::read_metadata(uri, path, major=1, minor=0, group),
-		publication=NA, # "http://oar.icrisat.org/id/eprint/10842" Is the reference
+		publication="https://oar.icrisat.org/10842/",
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
 		data_type="experiment",
@@ -59,7 +59,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
     d$fertilizer_type[d$P_fertilizer == 0] <- "urea;KCl"
 
 	ss <- data.frame(
-		trial_id = c("2014_Minjibir","2015_Minjibir","2014_Bayero","2015_Bayero"),
+		trial_id = c("2014_Minjibir","2015_Minjibir","2014_BUK","2015_BUK"),
                  soil_pH = c(5.01,5.35 ,4.86,5.7),
                 soil_SOC = c(0.196,0.359,0.359,0.299),
         soil_P_available = c(9.013,3.352,4.456,9.219),

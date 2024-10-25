@@ -60,7 +60,9 @@ carob_script <- function(path) {
 		country = c("Malawi", "Mozambique", "Mozambique", "Zambia", "Zambia", "Malawi", "Mozambique"), 
 		adm1 = c("Bvumbwe", "Angonia", "Ruace", "Chipata", "Lusaka", "Chitedze", "Namarripe"), 
 		longitude = c(35.0267, 34.1445, 36.7011, 32.6458, 29.3143, 33.6538, 38.92), 
-		latitude = c(-15.9428, -14.7690, -15.1963, -13.6391, -15.3066, -13.9788, -15.23056))
+		latitude = c(-15.9428, -14.7690, -15.1963, -13.6391, -15.3066, -13.9788, -15.23056),
+		geo_from_source = FALSE
+	)
 	
 	dd <- merge(dd, geo, by = c("country", "adm1"), all.x = TRUE, sort = FALSE)
 	

@@ -25,18 +25,27 @@ carob_script <- function(path) {
 	f <- ff[basename(ff) == "OCP_Yld-data&covariates_complete.csv"] 
 	
 	# read the dataset
-	d <- read.csv(f)
-
+	r <- read.csv(f)
 # Team BUK1,BUK2,BUK3 data are already included in doi_10.25502_RGB5_GA15_D.R
-	d <- d[!(d$team %in% c("BUK1", "BUK2", "BUK3")), ] 
+	r <- r[!(r$team %in% c("BUK1", "BUK2", "BUK3")), ] 
 	
 	# process file(s)
-	d <- d[, c('state', 'lga', 'sid', 'lat', 'lon', 'trt', 'ayld', 'PH', 'SND', 'SOC')]
-	colnames(d) <- c("adm1", "adm2", "rep", "latitude", "longitude", "treatment",
-			"yield", "soil_pH", "soil_sand", "soil_SOC")
-	# Add columns
+	d <- data.frame(
+		adm1 = r$state, 
+		adm2 = r$lga, 
+		rep = r$sid,
+		latitude = r$lat, 
+		longitude = r$lon,
+		treatment = r$trt,
+		yield = r$ayld,
+		soil_pH = r$PH,
+		soil_sand = r$SND,
+		soil_SOC = r$SOC
+	)
+
 	d$plant_spacing <- 25 # get from VT protocol OCP Project Document 
 	d$row_spacing <- 75	 # get from VT protocol OCP Project Document
+	d$geo_from_source <- TRUE
 	
 	d$country <- "Nigeria"
 	d$crop <- "maize"

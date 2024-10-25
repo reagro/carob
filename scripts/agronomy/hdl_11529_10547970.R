@@ -130,6 +130,7 @@ carob_script <- function(path) {
 	d$latitude [d$location =="Gaurangapur"] <- 22.287
 	d$longitude [d$location =="Kalinagar"] <- 88.316
 	d$latitude [d$location =="Kalinagar"] <- 22.673
+	d$geo_from_source <- FALSE
 
 	d$crop <- gsub("kidneybean", "kidney bean", d$crop)
 

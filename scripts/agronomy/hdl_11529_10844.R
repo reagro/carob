@@ -83,7 +83,7 @@ carob_script <- function(path) {
 	d$elevation <- 1018
 	d$longitude <- 32.5585
 	d$latitude <- -13.645
-  
+	d$geo_from_source <- FALSE
 	# EGB:
   # # As per publication (supplementary material)
 	d$N_fertilizer <- 17 + 92

@@ -1,16 +1,14 @@
 # R script for "carob"
 
 
-
 carob_script <- function(path) {
 	
-"
-AfricaRISING- Sustainable Intensification of Maize-Legume-Livestock Integrated Farming Systems in East and Southern Africa
+"AfricaRISING- Sustainable Intensification of Maize-Legume-Livestock Integrated Farming Systems in East and Southern Africa
 
 The datasets contain field level trial data on low-input agriculture systems in Zambia
 
-Sustainable intensification of mixed crop-livestock systems is a key pathway towards better food security, improved livelihoods, and a healthy environment. As part of the US government’s Feed the Future initiative to address hunger and food security issues in sub-Saharan Africa, the US Agency for International Development (USAID) is supporting three multi-stakeholder agricultural research projects to sustainably intensify key African farming systems. In East and Southern Africa, the project is being implemented in Tanzania and Malawi, and Zambia. In Tanzania, the project is being implemented in Babati and Kongwa districts in Manyara region of northern Tanzania and Kiteto district in Dodoma region, central Tanzania. The action sites were selected to acknowledge agro-ecological differences, allow appropriate targeting of technologies and strategies, and complement the development efforts of another USAID-supported program, the Tanzania Staples Value Chain (NAFAKA) project. In Malawi, the project is being implemented in Ntechu and Dedza districts in central Malawi where maize-based productions systems are dominant. Agroecological considerations guided the identification of research action sites. The pilot site for the study will be Eastern and Lusaka Provinces in Zambia.
-"	
+Sustainable intensification of mixed crop-livestock systems is a key pathway towards better food security, improved livelihoods, and a healthy environment. As part of the US government’s Feed the Future initiative to address hunger and food security issues in sub-Saharan Africa, the US Agency for International Development (USAID) is supporting three multi-stakeholder agricultural research projects to sustainably intensify key African farming systems. In East and Southern Africa, the project is being implemented in Tanzania and Malawi, and Zambia. In Tanzania, the project is being implemented in Babati and Kongwa districts in Manyara region of northern Tanzania and Kiteto district in Dodoma region, central Tanzania. The action sites were selected to acknowledge agro-ecological differences, allow appropriate targeting of technologies and strategies, and complement the development efforts of another USAID-supported program, the Tanzania Staples Value Chain (NAFAKA) project. In Malawi, the project is being implemented in Ntechu and Dedza districts in central Malawi where maize-based productions systems are dominant. Agroecological considerations guided the identification of research action sites. The pilot site for the study will be Eastern and Lusaka Provinces in Zambia."
+	
 	uri <- "doi:10.7910/DVN/FVEISH"
 	group <- "agronomy"
 	ff	<- carobiner::get_data(uri, path, group)
@@ -20,7 +18,7 @@ Sustainable intensification of mixed crop-livestock systems is a key pathway tow
 	  project="Africa Rising",
 	  publication= NA,
 	  data_institute = "CIMMYT",
-	  data_type="on-farm experiment", #Mixture of on farm and on station trials, in different files.
+	  data_type="experiment", 
 	  treatment_vars = "intercrops; land_prep_method; N_fertilizer; P_fertilizer; K_fertilizer",
 	  response_vars="yield",
 	  carob_contributor="Siyabusa Mkuhlani",
@@ -306,8 +304,7 @@ Sustainable intensification of mixed crop-livestock systems is a key pathway tow
 	             "chikungu farm",  "kalimba", "kafwanda",  "vyalaviandu", "kamtemeni", "kwaule",  "mtavu",  "fobo", "luambwa",  "kajepu",                  
 	             "kanyondo",  "mahobe",   "holoholo", "chikungu farms",  "kafyanda", "0"),
 	  longitude=c(32.8513, 33.174511,32.52324,  31.80801,32.65,    33.2333,  32.6447, 33.1782,  31.1333333, 
-	              32.74398,32.74398, 32.6447001, 32.6447001,    32.6447001, 31.9333300, 32.6447001,    32.6447001,32.6447001,  32.6447001,32.6447001,
-	              33.1745097,33.1745097,  33.1745097, 33.1745097, 32.9166700,   33.1745097, 33.1745097,33.1745097,
+	              32.74398,32.74398, 32.6447001, 32.6447001,    32.6447001, 31.9333300, 32.6447001,    32.6447001,32.6447001,  32.6447001, 32.6447001, 33.1745097,33.1745097,  33.1745097, 33.1745097, 32.9166700,   33.1745097, 33.1745097,33.1745097,
 	              32.743987,  32.743987, 32.3      ,  32.743987, 32.52431, 33.2833,    33.1745097,  32.6447001, 32.65, 32.65, 
 	              31.63333, 32.1833300,    33.1782,  33.1782,   32.6447001, 32.7439873, 33.450,  33.1745097,33.18594, 33.1745097,
 	              33.1745097,  33.1745097,  33.1745097,  31.63333, 33.1782,  32.6447001),
@@ -317,7 +314,9 @@ Sustainable intensification of mixed crop-livestock systems is a key pathway tow
 	             -12.2848978,-12.2848978,-12.2848978,-12.2848978, -13.0166700, -12.2848978,-12.2848978,-12.2848978, 
 	             -12.532131, -12.532131, -11.1666667,-12.532131, -13.6407, -12.4000,  -12.2848978, -13.6445104, -13.63333, -13.63333,
 	             -14.53333, -13.2333300, -12.29292,-12.29292, -13.6445104, -12.532131, -12.417, -12.2848978,-11.831, -12.2848978,  
-	             -12.2848978, -12.2848978,  -12.2848978, -14.53333, -12.29292,-13.6445104))
+	             -12.2848978, -12.2848978,  -12.2848978, -14.53333, -12.29292,-13.6445104),
+		geo_from_source = FALSE
+	)
 	
 	d <- merge(d, pts, by=c("location"), all.x=TRUE)
 	d <- d[, !(names(d) %in% c("longitude.x", "latitude.x"))]
@@ -335,6 +334,8 @@ Sustainable intensification of mixed crop-livestock systems is a key pathway tow
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
+	
+	d <- d[!is.na(d$yield), ]
 	
 	carobiner::write_files(meta, d, path=path)
 }

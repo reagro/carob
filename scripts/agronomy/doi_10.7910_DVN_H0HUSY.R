@@ -77,7 +77,8 @@ Description: This dataset contains information of experiments carried out upland
 	geo <- data.frame(
 		adm3 = c("La Rebusca", "El Ensayo", "Rio chiquito", "El Tololar #1", "El Recreo", "El Panchon", "La Tortuga", "Montivideo"), 
 		longitude = c(-85.764, -87.17, -86.909579, -85.764, -84.312, -83.863, -84.469, -84.609), 
-		latitude = c(13.08, 12.587, 12.318, 13.08, 12.17, 12.323, 11.999, 11.808)
+		latitude = c(13.08, 12.587, 12.318, 13.08, 12.17, 12.323, 11.999, 11.808),
+		geo_from_source = FALSE
 	)
 
 	d <- merge(d, geo, by="adm3", all.x=TRUE)

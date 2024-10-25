@@ -159,6 +159,7 @@ AFSIS has data for five countries, each with one or two sites. Sites have subsit
 	zz$country[zz$country == "Guinea Biassu"] <- "Guinea-Bissau"
 	zz$country[zz$country == "DR Congo"] <- "Democratic Republic of the Congo"
 
+	zz$geo_from_source <- TRUE
 	zz$longitude <- as.numeric(gsub(",", ".", zz$longitude))
 
 	i <- zz$country=="Guinea-Bissau" & zz$longitude > 0
@@ -167,13 +168,16 @@ AFSIS has data for five countries, each with one or two sites. Sites have subsit
 	i <- zz$country=="Guinea-Bissau" & zz$adm1=="Cacheu" & zz$location=="PASSANGUE" 
 	zz$longitude[i] <- -16.1670
 	zz$latitude[i] <- 12.2596 
+	zz$geo_from_source[i] <- FALSE
 
 	i <- zz$country=="Botswana" & zz$adm1=="Southern Region" & zz$location=="DITLHARAPA" 
 	zz$longitude[i] <- 25.287
 	zz$latitude[i] <- -25.750
+	zz$geo_from_source[i] <- FALSE
 
 	i <- zz$country=="Botswana" & zz$adm1=="Southern Region" & zz$location=="PELOTSHETLA" 
 	zz$latitude[i] <- -25.6
+	zz$geo_from_source[i] <- FALSE
 
 	zz$location <- carobiner::fix_name(zz$location, "title")
 

@@ -134,23 +134,24 @@ carob_script <- function(path){
 	
 	d1 <- d1[,c("trial_id","country","latitude","longitude","adm1","adm2","location","date","harvest_date","is_survey","on_farm")]	
 	
-	df <- merge(d1, d0, by = "trial_id", all = TRUE)
-	df$yield_part <- "seed"
+	d <- merge(d1, d0, by = "trial_id", all = TRUE)
+	d$yield_part <- "seed"
 	
-	##efyrouwa: How can we incorporate r3 with df??
+	##efyrouwa: How can we incorporate r3 with d??
 	
 	# all scripts should end like this
 
-	df <- df[!is.na(df$crop), ]
-	df <- df[!is.na(df$yield), ]
-	df$planting_date <- as.character(NA)
+	d <- d[!is.na(d$crop), ]
+	d <- d[!is.na(d$yield), ]
+	d$planting_date <- as.character(NA)
 	
-	i <- df$location == "Danmaliki"
-	df$longitude[i] <- 8.82
-	df$latitude[i] <- 11.642
+	i <- d$location == "Danmaliki"
+	d$geo_from_source <- TRUE
+	d$longitude[i] <- 8.82
+	d$latitude[i] <- 11.642
+	d$geo_from_source[i] <- FALSE
+	d$irrigated <- NA
 	
-	df$irrigated <- NA
-	
-	carobiner::write_files(meta, df, path=path)
+	carobiner::write_files(meta, d, path=path)
 }
 

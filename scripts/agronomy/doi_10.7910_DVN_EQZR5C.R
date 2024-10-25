@@ -41,7 +41,9 @@ carob_script <- function(path) {
 		yield_part = "grain",
 		longitude = 32.6447,
 		latitude = -13.64451,
-		intercrop=r$Intercrop)
+		geo_from_source = FALSE,
+		intercrop=r$Intercrop
+	)
 
 	#Correct crop names   
 	d$crop <- carobiner::replace_values(d$crop,"pigeonpea","pigeon pea")

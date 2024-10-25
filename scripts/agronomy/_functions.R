@@ -30,6 +30,7 @@ IRRI_LTE <- function(f) {
 		location="Los Baños",
 		longitude = 121.2571,
 		latitude = 14.1678,
+		geo_from_source = FALSE,
 		irrigated = TRUE,
 		on_farm = FALSE, 
 		is_survey = FALSE,
@@ -49,6 +50,7 @@ IRRI_LTE <- function(f) {
 	x$season <- c("dry", "early wet", "late wet")[i]
 	x$N_fertilizer <- x$P_fertilizer <- x$K_fertilizer <- as.numeric(NA)
 	x$N_fertilizer[x$N_fert_level == "zero"] <- 0
+	x <- x[!is.na(x$yield), ]
 	x
 }
 

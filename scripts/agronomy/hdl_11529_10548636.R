@@ -20,7 +20,7 @@ carob_script <- function(path) {
 		carob_contributor="Mitchelle Njukuya",
 		carob_date="2023-02-06",
 		response_vars = "yield",
-		treatment_vars = "land_prep_method;irrigation_?"
+		treatment_vars = "land_prep_method;irrigation"
 	)
 	
 	f <- ff[basename(ff) == "PUB-201-DIB_2021-Data_2021-12-12_corrected.xlsx"]
@@ -77,7 +77,8 @@ carob_script <- function(path) {
 	d$location <- "Ciudad Obregón"
 	d$longitude <- -109.926
 	d$latitude <- 27.368
-
+	d$geo_from_source <- FALSE
+	
 	d$yield_part <- "grain"
 	
 	d$on_farm <- TRUE

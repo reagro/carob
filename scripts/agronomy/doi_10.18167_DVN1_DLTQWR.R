@@ -34,8 +34,15 @@ carob_script <- function(path) {
 
 	d <- data.frame(
 		on_farm = rr$Study_type == "on-farm",
-		trial_id = as.character(rr$ref)
+		trial_id = as.character(rr$ref),
+		mulch = rr$Initial_mulch,
+		mulch_type = rr$Mulch_type,
+		CA_years = rr$Years_CA,
+		treatment = rr$CA_type
 	)
+	d$mulch[d$mulch=="?"] <- NA
+	d$mulch <- as.numeric(d$mulch)
+
 
 ##### Location #####
 
@@ -85,6 +92,7 @@ carob_script <- function(path) {
 	lon[,1] <- make_decimal(lon[,1])
 	lon[,2] <- make_decimal(lon[,2])
 	d$longitude <- apply(lon, 1, mean, na.rm=TRUE)
+	d$geo_from_source <- TRUE
 
 #z = data.frame(crd, d$latitude, d$longitude)
 	
@@ -98,10 +106,9 @@ carob_script <- function(path) {
 	d$crop[grep("millet", tolower(rr$Crop), fixed = T)] <- "pearl millet"
 	d$crop[grep("bean", tolower(rr$Crop), fixed = T)] <- "common bean"
 	
-## EGB
-# crop_rotation and intercrops are included but only as binary legume...
-	# d$intercrops <- ifelse(rr$Legume_intercropping == "Y", "common bean", NA)
-	# d$crop_rotation <- ifelse(rr$Legume_rotation == "Y", "common bean", NA)
+# crop_rotation and intercrops are included but only as binary legume
+	d$intercrops <- ifelse(rr$Legume_intercropping == "Y", "legume", NA)
+	d$crop_rotation <- ifelse(rr$Legume_rotation == "Y", paste0(d$crop, ";legume"), NA)
 
 ##### Time #####
 ## time can be year (four characters), year-month (7 characters) or date (10 characters).
@@ -152,6 +159,8 @@ carob_script <- function(path) {
 	
 	d$is_survey <- NA
 	d$irrigated <- NA
+	
+	d <- unique(d)
 	
 	carobiner::write_files(meta, d, path=path)
 }
