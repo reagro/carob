@@ -46,7 +46,7 @@ carob_script <- function(path) {
    )
    
    d$country <- "Philippines"
-   d$adm1 <- "central Luzon"
+   d$adm1 <- "Luzon"
    d$latitude <- 15.5182
    d$longitude <-  121.3081
    d$geo_from_source <- FALSE

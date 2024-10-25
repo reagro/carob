@@ -176,17 +176,29 @@ carob_script <- function(path) {
   #remove crop with very low yield value after divided by the plot area
   d <- d[d$crop!="millet" &d$crop!="pearl millet"&d$crop!="rice",]
   # Fix long and lat coordinate
-  d$latitude <- (-1)*d$latitude
-  d$latitude[d$adm2=="Zano"] <- -20.2044496
-  d$longitude[d$adm2=="Zano"] <- 31.0951989
-  d$latitude[d$adm1=="Mudzi "] <- -17.7927323
-  d$longitude[d$adm1=="Mudzi "] <- 31.7678044
-  d$latitude[d$adm2=="Gumbodete "] <- -17.8182737
-  d$longitude[d$adm2=="Gumbodete "] <- 31.3723592
-  d$latitude[d$adm2=="Chirikure "] <- -16.3431777
-  d$longitude[d$adm2=="Chirikure "] <- 30.6290426
-  d$latitude[d$adm2=="Muzvuwe"] <- -18.3848893
-  d$longitude[d$adm2=="Muzvuwe"] <- 32.1371586
+  d$geo_from_source <- TRUE
+  
+  d$latitude <- -d$latitude
+  i <- d$adm2=="Zano"
+  d$latitude[i] <- -20.2044
+  d$longitude[i] <- 31.0952
+  d$geo_from_source[i] <- FALSE
+  i <- d$adm1=="Mudzi "
+  d$latitude[i] <- -17.7927
+  d$longitude[] <- 31.76780
+  d$geo_from_source[i] <- FALSE
+  i <- d$adm2=="Gumbodete "
+  d$latitude[i] <- -17.8183
+  d$longitude[i] <- 31.3724
+  d$geo_from_source[i] <- FALSE
+  i <- d$adm2=="Chirikure "
+  d$latitude[i] <- -16.3432
+  d$longitude[i] <- 30.6290
+  d$geo_from_source[i] <- FALSE
+  i <- d$adm2=="Muzvuwe"
+  d$latitude[i] <- -18.3849
+  d$longitude[i] <- 32.1372
+  d$geo_from_source[i] <- FALSE
   # fix whitespace in variable
   d$fertilizer_type[d$fertilizer_type==""] <- NA
   d$location[d$location==""] <- NA

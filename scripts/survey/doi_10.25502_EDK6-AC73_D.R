@@ -46,10 +46,12 @@ carob_script <- function(path) {
    ## add long and lat from metadata
 	d$longitude <- 32.29028   
 	d$latitude <- 1.37333
+	d$geo_from_source <- FALSE
    
    d$planting_date <- c("2016-02", "2017-02")[d$season]
    d$harvest_date <- c("2016-06", "2017-06")[d$season]	
    
+   d$season <- as.character(d$season)
 	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
    carobiner::write_files(meta, d, path=path)

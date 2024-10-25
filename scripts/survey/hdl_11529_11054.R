@@ -37,6 +37,7 @@ carob_script <- function(path) {
 		adm2 = r$DIST, 
 		longitude = r$LON, 
 		latitude=r$LAT,
+		geo_from_source=TRUE,
 		variety = r$VAR, 
 		planting_method = tolower(r$MSOW),
 		herbicide_product=tolower(r$HRBCDE), 

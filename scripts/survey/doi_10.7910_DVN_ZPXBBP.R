@@ -60,6 +60,7 @@ Data was taken in 40 fields (replications), for the two years of research we too
 	d$location <- "Kani"
 	d$latitude <- 12.2453
 	d$longitude <- -5.1828
+	d$geo_from_source = FALSE
 	d$elevation <- 384
 
    d$P_fertilizer <- d$K_fertilizer <- d$N_fertilizer <- as.numeric(NA)

@@ -38,6 +38,7 @@ carob_script <- function(path) {
 		fertilization_method = c("not in hole", "in hole")[r$fert_in_hole + 1],
 		latitude = r$lat,
 		longitude = r$lon,
+		geo_from_source = TRUE,
 		variety_release_year = r$hyb_yor,
 		weeding_done = r$weeding, 
 		insecticide_used = r$pesticide,

@@ -33,6 +33,7 @@ carob_script <- function(path) {
 		planting_date=as.character(NA),
 		longitude = r$GPS_LON,
 		latitude = r$GPS_LAT,
+		geo_from_source = TRUE,
 		elevation = r$GPS_ALT,
 		adm1 = carobiner::fix_name(r$region, case="title"),
 		location = r$sublocation,
@@ -51,6 +52,8 @@ carob_script <- function(path) {
 		country = c("Tanzania", "Guatemala", "El Salvador", "Honduras", "Mali", "Burkina Faso", "Malawi", "Kenya", "India", "Cambodia", "Vietnam", "Laos", "Ethiopia", "Democratic Republic of the Congo", "Zambia", "Ghana", "Uganda", "Costa Rica", "Burundi", "Peru", "Nicaragua")
 	)
 
+
+	d$is_survey <- TRUE
 	d$country <- cdf$country[match(r$ID_COUNTRY, cdf$code)]
 	carobiner::write_files(meta, d, path=path)
 }

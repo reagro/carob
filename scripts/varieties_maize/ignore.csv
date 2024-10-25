@@ -1,9 +1,1 @@
-"check","msg","group","dataset_id","contributor"
-"NA terms","NA in: longitude, latitude","maize_trials","doi_10.25502_20180727_1709_MA","Robert Hijmans"
-"NA terms","NA in: longitude, latitude","maize_trials","doi_10.25502_20180730_1112_MA","Robert Hijmans"
-"NA terms","NA in: longitude, latitude","maize_trials","doi_10.25502_20180730_1408_MA","Robert Hijmans"
-"NA terms","NA in: longitude, latitude","maize_trials","doi_10.25502_20180730_1420_MA","Robert Hijmans"
-"NA terms","NA in: longitude, latitude","maize_trials","doi_10.25502_20180730_1514_MA","Robert Hijmans"
-"NA terms","NA in: longitude, latitude","maize_trials","doi_10.25502_20180730_1551_MA","Robert Hijmans"
-"NA terms","NA in: longitude, latitude","maize_trials","doi_10.25502_20180925_1759_BB","Robert Hijmans"
-"NA terms","NA in: longitude, latitude","maize_trials","doi_10.25502_20180925_1906_BB","Robert Hijmans"
+check,msg,group,dataset_id,contributor

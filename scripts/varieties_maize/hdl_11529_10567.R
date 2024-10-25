@@ -41,6 +41,7 @@ carob_script <- function(path) {
     d$longitude <- -100.3833
     d$latitude <- 22.9833
     d$elevation <- 2103
+	d$geo_from_source <- FALSE
     d$planting_date <- "2006-05-02"
     d$harvest_date  <- "2006-12-05"
     

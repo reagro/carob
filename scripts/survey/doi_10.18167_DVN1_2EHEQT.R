@@ -70,7 +70,9 @@ carob_script <- function(path) {
  
   geo <- data.frame(location=c("Antsahamamy", "Ambohimiarina", "Ambohitsilaozana", "Ambongabe", "Ampitatsimo"),
                     latitude=c(-18.9185, -21.3561, -17.7014, -17.7067, -18.6729),
-                    longitude=c(47.5592 , 47.5680 , 48.4657 , 48.1885 , 47.4564))
+                    longitude=c(47.5592 , 47.5680 , 48.4657 , 48.1885 , 47.4564),
+					geo_from_source = FALSE
+					)
   
   d <- merge(d, geo, by="location", all.x=TRUE)
 

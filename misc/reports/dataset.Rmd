@@ -23,8 +23,8 @@ ktab <- function(data, caption) {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 }
 
-uri <- "doi:10.7910/DVN/1XOLXY"
-group <- "varieties"
+uri <- "doi:10.25502/3348-6831/D"
+group <- "agronomy"
 
 suri <- carobiner::simple_uri(uri)
 huri <- carobiner:::http_address(uri)
@@ -133,7 +133,7 @@ scrolltab(head(d, 25), "records")
 The observations are for `r nrow(locs)` locations, `r xytxt`
 
 ```{r map, include=haveXY}
-locs <- locs[!is.na(locs$latitude), ]
+locs <- locs[!is.na(locs$latitude), ,drop=FALSE]
 if (nrow(locs) > 0) {
   suppressMessages(library(terra))
   v <- terra::vect(locs, c("longitude", "latitude"), crs="+proj=longlat")
