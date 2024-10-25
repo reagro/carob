@@ -1,12 +1,9 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
   
-    "The Mother and Baby (M&B) trial methodology was adapted by CIP for Participatory Variety Selection (PVS) through decentralized evaluation networks and multi-year evaluations in potato growing areas in the Andean region. The M&B trial design encourages active participation of farmers through the application of treatments through systematic evaluations and selections of treatments in their own plots called \"Baby trials\" (i.e. farmer managed trials) and in fields with an experimental design called \"Mother trials\" (i.e. researcher managed trials).\r\nObjective: Analyze characteristics, attributes and preferences that men and women have when selecting a new potato variety at the phase of flowering and harvesting.\r\nA M&B trial was performed to evaluate 20 clones with frost resistance at the locality of Chaquicocha, in Pataz province, in La Libertad department, Peru. The trial design was a Randomized Complete Block Design (RCBD) with 2 replicates during 2009. \r\nIn this experiment, characteristics of plant (size, type of foliage) and resistance to diseases during flowering and harvesting were evaluated."
+"The Mother and Baby (M&B) trial methodology was adapted by CIP for Participatory Variety Selection (PVS) through decentralized evaluation networks and multi-year evaluations in potato growing areas in the Andean region. The M&B trial design encourages active participation of farmers through the application of treatments through systematic evaluations and selections of treatments in their own plots called \"Baby trials\" (i.e. farmer managed trials) and in fields with an experimental design called \"Mother trials\" (i.e. researcher managed trials).\r\nObjective: Analyze characteristics, attributes and preferences that men and women have when selecting a new potato variety at the phase of flowering and harvesting.\r\nA M&B trial was performed to evaluate 20 clones with frost resistance at the locality of Chaquicocha, in Pataz province, in La Libertad department, Peru. The trial design was a Randomized Complete Block Design (RCBD) with 2 replicates during 2009. \r\nIn this experiment, characteristics of plant (size, type of foliage) and resistance to diseases during flowering and harvesting were evaluated."
   
   uri <- "doi:10.21223/P3/DCQB18"
   group <- "varieties"
@@ -31,12 +28,6 @@ carob_script <- function(path) {
   d <- lapply(f, process, addvars=c("AUDPC","rAUDPC","TTWP"))
   d <- do.call(rbind, d)
   
-  carobiner::write_files(path = path,
-                         metadata = meta,
-                         records = d)
+  carobiner::write_files(path = path, metadata = meta, records = d)
   
 }
-
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
