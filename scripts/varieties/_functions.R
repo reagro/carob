@@ -8,6 +8,9 @@ process_cip_lbvars <- function(filename, addvars=NULL) {
 	if ("Fieldbook" %in% sheets) {
 		r <- carobiner::read.excel(filename, sheet="Fieldbook")		  
 		n <- as.list(installation$Value)
+	} else if ("F4_Harvest_Mother" %in% sheets) {
+		r <- carobiner::read.excel(filename, sheet="F4_Harvest_Mother")
+		n <- as.list(installation$Mother)
 	} else {
 		r <- carobiner::read.excel(filename, sheet="F4_ Harvest_Mother")
 		n <- as.list(installation$Mother)
