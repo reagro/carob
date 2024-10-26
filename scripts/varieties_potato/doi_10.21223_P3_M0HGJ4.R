@@ -41,6 +41,7 @@ carob_script  <- function(path) {
 	### add long and lat coordinate
 	d$longitude <- 32.3777344
 	d$latitude <- -26.0299562
+	d$geo_from_source <- FALSE
 	
 	## fix yield value
 	d$yield <- gsub("\\*",NA,d$yield)

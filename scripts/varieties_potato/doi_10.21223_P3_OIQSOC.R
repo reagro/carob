@@ -57,9 +57,12 @@ carob_script <- function(path) {
    d$dmy_leaves[d$dmy_leaves>20000] <- NA
    d$dmy_total[d$dmy_total>100000] <- NA
    ## add long and lat coordinate 
-   geo <- data.frame(location=c("Angonia", "Chokwe", "Gurue", "Umbeluzi"), 
-                    longitude=c(34.1444739, 32.8598472, 36.9410455, 32.56745), 
-                    latitude=c(-14.7689832, -24.4886204, -15.4544621, -25.966213))
+   geo <- data.frame(
+			location=c("Angonia", "Chokwe", "Gurue", "Umbeluzi"), 
+            longitude=c(34.1444739, 32.8598472, 36.9410455, 32.56745), 
+            latitude=c(-14.7689832, -24.4886204, -15.4544621, -25.966213),
+			geo_from_source = FALSE
+		)
    
    d <- merge(d, geo, by="location", all.x = TRUE)
    

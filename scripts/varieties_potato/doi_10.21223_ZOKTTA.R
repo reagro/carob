@@ -71,11 +71,11 @@ carob_script <- function(path) {
 
 	geo <- data.frame(
 		loc = c("HYO", "OXA", "SRA", "MAJ"),
-		location=c("Huancayo", "Oxapampa", "San Ramon", "Majes"), 
+		location=c("Huancayo", "Oxapampa", "San Ramón", "Majes"), 
 		adm1 = c("Junin", "Pasco", "Junin", "Arequipa"), 
-		adm2 = c("Huancayo", "Oxapampa", "San Ramon", "Majes"), 
-		longitude = c(-75.2237, -75.3564, -75.2237, -75.3868), 
-		latitude = c(-12.0093, -11.1286, -12.0093, -10.5954)
+		adm2 = c("Huancayo", "Oxapampa", "Chanchamayo", "Majes"), 
+		longitude = c(-75.2237, -75.3564,  -75.35835, -75.3868), 
+		latitude = c(-12.0093, -11.1286, -11.12787, -10.5954)
 	)
 
  

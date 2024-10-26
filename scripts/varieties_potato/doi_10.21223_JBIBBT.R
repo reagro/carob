@@ -54,7 +54,8 @@ carob_script <- function(path) {
     d$latitude <- as.numeric(r$Latitude)
     d$longitude <- as.numeric(r$Longitude)
     d$elevation <- as.numeric(r$Elevation)
-
+	d$geo_from_source <- TRUE
+	
     d$irrigated <- FALSE
     d$inoculated <- FALSE
     d$is_survey <- FALSE

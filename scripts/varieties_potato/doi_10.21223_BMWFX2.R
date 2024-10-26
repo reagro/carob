@@ -36,9 +36,12 @@ carob_script <- function(path) {
    )
    
    ## location
-   d$adm1 <- "San Ramón"
-   d$longitude <- -75.3521
-   d$latitude <- -11.1214
+   d$location <- "San Ramón"
+   d$adm1 <- "Junin"
+   d$adm2 <- "Chanchamayo"
+   d$longitude <- -75.35835
+   d$latitude <- -11.12787
+	d$geo_from_source <- FALSE
    
    d$planting_date <- "2021-08-11"
    d$harvest_date  <- "2021-11-16"

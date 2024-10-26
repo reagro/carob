@@ -3,8 +3,7 @@
 
 carob_script <- function(path) {
    
-"Breeding efforts for enriching potato tubers with more Zn and Fe are in progress at the International Potato Center (CIP). Knowledge of genotype by environment interaction effects on the micronutrient concentrations of different genotypes is needed to identify cultivars that show high and stable concentrations and to inform breeding and selection schemes. Stability analysis for micronutrient content has been applied to biofortification and varietal dissemination strategies. Forty native potato cultivars were evaluated to: assess the magnitude and nature of Genotype (G), Environment (E), and GxE interaction effects for Zn and Fe concentrations in the tropical highlands of Peru and study the contribution of soil fertility to the micronutrient content of potato tubers. Tubers were taken from plots grown in randomized complete block designs with three replications of one hill per plot in each of 6 sites of the central Peruvian Andes in 2010: Ccasapata (3765 m.a.s.l); Sotopampa (3754 m.a.s.l); Ccollpaccasa (4067 m.a.s.l); Conayca (4178 m.a.s.l), la Victoria (3265 m.a.s.l) and Rangra (3323 m.a.s.l). Well-matured tubers were harvested at 150 and 180 days. 
-Samples were prepared and analysed for Fe and Zn by inductively coupled plasma-optical emission spectrophotometry (ICP-OES) using an ARL 3580B ICP (ARL, Switzerland) (Burgos et al., 2007). Statistical analyses were performed using SAS software (SAS. 2003). ANOVA was performed using combined data for all environments. The Additive Main Effects and Multiplicative Interaction model (AMMI) was used for studying Genotype X Enviroment interaction, examining genotypic yield stability and adaptation (Crossa et al., 2002)."
+"Breeding efforts for enriching potato tubers with more Zn and Fe are in progress at the International Potato Center (CIP). Knowledge of genotype by environment interaction effects on the micronutrient concentrations of different genotypes is needed to identify cultivars that show high and stable concentrations and to inform breeding and selection schemes. Stability analysis for micronutrient content has been applied to biofortification and varietal dissemination strategies. Forty native potato cultivars were evaluated to: assess the magnitude and nature of Genotype (G), Environment (E), and GxE interaction effects for Zn and Fe concentrations in the tropical highlands of Peru and study the contribution of soil fertility to the micronutrient content of potato tubers. Tubers were taken from plots grown in randomized complete block designs with three replications of one hill per plot in each of 6 sites of the central Peruvian Andes in 2010: Ccasapata (3765 m.a.s.l); Sotopampa (3754 m.a.s.l); Ccollpaccasa (4067 m.a.s.l); Conayca (4178 m.a.s.l), la Victoria (3265 m.a.s.l) and Rangra (3323 m.a.s.l). Well-matured tubers were harvested at 150 and 180 days. Samples were prepared and analysed for Fe and Zn by inductively coupled plasma-optical emission spectrophotometry (ICP-OES) using an ARL 3580B ICP (ARL, Switzerland) (Burgos et al., 2007). Statistical analyses were performed using SAS software (SAS. 2003). ANOVA was performed using combined data for all environments. The Additive Main Effects and Multiplicative Interaction model (AMMI) was used for studying Genotype X Enviroment interaction, examining genotypic yield stability and adaptation (Crossa et al., 2002)."
 
 
 	uri <- "doi:10.21223/P3/FHUVF9"
@@ -39,15 +38,16 @@ Samples were prepared and analysed for Fe and Zn by inductively coupled plasma-o
       r$adm3 <- n$Admin3
 	  r$location <- n$Locality
 
-      r$latitude<- as.numeric(n$Latitude)  
-      r$longitude<- as.numeric(n$Longitude)
-      r$planting_date<- n$`Begin date` 
-      r$harvest_date<- n$`End date`
+      r$latitude <- as.numeric(n$Latitude)  
+      r$longitude <- as.numeric(n$Longitude)
+	  r$geo_from_source <- TRUE
+      r$planting_date <- n$`Begin date` 
+      r$harvest_date <- n$`End date`
 
       k <- carobiner::read.excel(f, sheet="Soil_analysis")
       k <- k[,c("Abbreviture","Unit","Data1")]
       kk <- as.list(k$Data1)
-      names(kk)<- k$Abbreviture
+      names(kk) <- k$Abbreviture
       r$soil_pH <- as.numeric(kk$SOILPH)
       r$soil_SOM <- as.numeric(kk$ORGM)
       r$soil_P_available <- as.numeric(kk$PHOS)

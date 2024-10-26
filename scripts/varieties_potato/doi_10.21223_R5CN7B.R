@@ -58,9 +58,13 @@ carob_script <- function(path) {
 
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
-   geo<- data.frame(location=c("San Ramon", "Huaral", "Ica", "Satipo"),
-                  longitude=c(-78.4544042, -76.916667, -75.499722, -74.1181641),
-                  latitude=c(-5.9768774, -11.25, -14.3325, -11.5538237))
+   geo <- data.frame(location=c("San Ramon", "Huaral", "Ica", "Satipo"),
+                  longitude=c(-75.2237, -76.916667, -75.35835, -74.1181641),
+                  latitude=c(-12.0093, -11.25, -11.12787, -11.5538237),
+				  geo_from_source = FALSE
+			)
+
+
    ## fix name
    d <- merge(d, geo, by="location", all.x = TRUE)
 

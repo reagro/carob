@@ -72,7 +72,8 @@ carob_script <- function(path) {
    geo <- data.frame(
 		location=c("Arcopampa", "La Soledad", "Macullida", "La Aurorita"), 
 		longitude=c(-77.89139, -77.87619, -77.883, -77.87444), 
-		latitude=c(-7.976944, -7.923611, -7.913889, -7.829167)
+		latitude=c(-7.976944, -7.923611, -7.913889, -7.829167),
+		geo_from_source = FALSE
 	)
    
    d <- merge(d, geo, by="location", all.x = TRUE)
