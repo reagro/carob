@@ -42,6 +42,7 @@ carob_script <- function(path) {
 		r$harvest_date <- n$`End date`
 		r$longitude <- as.numeric(n$Longitude)
 		r$latitude <- as.numeric(n$Latitude)
+		r$geo_from_source <- TRUE
 
 		k <- carobiner::read.excel(f, sheet="Soil_analysis")
 		k <- k[, c("Abbreviture", "Unit", "Data1", "Data2")]
