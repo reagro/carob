@@ -1,12 +1,8 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
-
 carob_script <- function(path) {
   
-    "The Mother and Baby (M&B) trial methodology was adapted by CIP for Participatory Variety Selection (PVS) through decentralized evaluation networks and multi-year evaluations in potato growing areas in the Andean region. The M&B trial design encourages active participation of farmers through the application of treatments through systematic evaluations and selections of treatments in their own plots called \"Baby trials\" (i.e. farmer managed trials) and in fields with an experimental design called \"Mother trials\" (i.e. researcher managed trials).\r\nObjective: Analyze characteristics, attributes and preferences that men and women have when selecting a new potato variety at the phase of flowering and harvesting.\r\nA M&B trial was performed to evaluate 11 clones of the population B1C5 with late blight resistance at the locality of Suyubamba,in the province of Pataz, in La Libertad department, Peru. The trial design was a Randomized Complete Block Design (RCBD) with 3 replicates for Mother trials and 3 replicates for Baby trials during 2012-2013. In the second period, A M&B trial was performed for 5 selected during 2013-2014.\r\nIn this experiment, characteristics of plant (size, type of foliage), yield, desirable quality, pest and disease resistance during flowering and harvesting were evaluated. \r\nTotal number of participants at flowering phase was 11 (men=6 and women=5) and 10 (men=5, women = 5) for the first and second period respectively. Total number of participants at harvesting phase was 11 (men=5 and women=6) and 10 (men=5, women = 5) for the first and second period respectively. \r\nAdditionally, an organoleptic evaluation was assessed at harvesting to evaluate appearance, taste and texture. The number of panelists was 10 (men=5, women=5) for the organoleptic evaluation."
+"The Mother and Baby (M&B) trial methodology was adapted by CIP for Participatory Variety Selection (PVS) through decentralized evaluation networks and multi-year evaluations in potato growing areas in the Andean region. The M&B trial design encourages active participation of farmers through the application of treatments through systematic evaluations and selections of treatments in their own plots called \"Baby trials\" (i.e. farmer managed trials) and in fields with an experimental design called \"Mother trials\" (i.e. researcher managed trials).Objective: Analyze characteristics, attributes and preferences that men and women have when selecting a new potato variety at the phase of flowering and harvesting.A M&B trial was performed to evaluate 11 clones of the population B1C5 with late blight resistance at the locality of Suyubamba,in the province of Pataz, in La Libertad department, Peru. The trial design was a Randomized Complete Block Design (RCBD) with 3 replicates for Mother trials and 3 replicates for Baby trials during 2012-2013. In the second period, A M&B trial was performed for 5 selected during 2013-2014.In this experiment, characteristics of plant (size, type of foliage), yield, desirable quality, pest and disease resistance during flowering and harvesting were evaluated. Total number of participants at flowering phase was 11 (men=6 and women=5) and 10 (men=5, women = 5) for the first and second period respectively. Total number of participants at harvesting phase was 11 (men=5 and women=6) and 10 (men=5, women = 5) for the first and second period respectively. Additionally, an organoleptic evaluation was assessed at harvesting to evaluate appearance, taste and texture. The number of panelists was 10 (men=5, women=5) for the organoleptic evaluation."
   
   uri <- "doi:10.21223/P3/XGKXGE"
   group <- "varieties"
@@ -31,12 +27,7 @@ carob_script <- function(path) {
   d <- lapply(f, process, addvars=c("AUDPC","rAUDPC","TTWP"))
   d <- do.call(rbind, d)
   
-  carobiner::write_files(path = path,
-                         metadata = meta,
-                         records = d)
+  carobiner::write_files(path = path, metadata = meta, records = d)
   
 }
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
