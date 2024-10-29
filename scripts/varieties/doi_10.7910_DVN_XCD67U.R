@@ -58,12 +58,11 @@ carob_script <- function(path) {
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
    ## Adding weather data
-   f <- ff[basename(ff)=="VEF_raw_phenotypic_data.csv"]
-   
    w <- read.csv(ff[basename(ff)=="VEF_meteoro.csv"])
 
    wh <- data.frame(
       date= as.character(as.Date(carobiner::eng_months_to_nr(w$Date),  "%d-%m-%y")),
+      station_name= ifelse(grepl("Pal", w$Season), "Palmira", "Darien"), 
       tmax= w$Maximum.temperature,
       tmin= w$Minimum.temperature,
       rhum= rowMeans(w[,c("Relative.humidity.07.H","Relative.humidity.13.H", "Relative.humidity.19.H")]) ,
