@@ -26,7 +26,7 @@ carob_script <- function(path) {
 		design = "16×9 lattice"
 	)
 	
-	sort_data <- function(fname, id, treatment, nrows=-1, skip=0) {
+	sort_data <- function(fname, treatment, nrows=-1, skip=0) {
 	  
 	  f <- ff[basename(ff) == fname]
       r <- read.csv(f, nrows=nrows, skip=skip)
