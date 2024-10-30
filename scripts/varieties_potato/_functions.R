@@ -11,9 +11,14 @@ process_cip_lbvars <- function(filename, addvars=NULL) {
 	} else if ("F4_Harvest_Mother" %in% sheets) {
 		r <- carobiner::read.excel(filename, sheet="F4_Harvest_Mother")
 		n <- as.list(installation$Mother)
-	} else {
+	} else if ("F4_harvest_mother" %in% sheets) {
+		r <- carobiner::read.excel(filename, sheet="F4_harvest_mother")
+		n <- as.list(installation$Mother)
+	} else if ("F4_ Harvest_Mother" %in% sheets) {
 		r <- carobiner::read.excel(filename, sheet="F4_ Harvest_Mother")
 		n <- as.list(installation$Mother)
+	} else {
+		stop("not clear which sheet should be used")
 	}
 	m <- as.list(minimal$Value)
 	names(m) <- gsub(" ", "_", minimal$Factor)	
