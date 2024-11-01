@@ -1,10 +1,9 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
   
+"The Harvest Plus Yield Trial (HPYT) contains spring bread wheat (Triticum aestivum) germplasm adapted to ME1 (Optimally Irrigated, low rainfall environment) and ME5 (Warmer area environment) environments. It has total 50 entries with 2 replications, white grain color and distributed to more than 70 locations. (2016)"
   
-  "The Harvest Plus Yield Trial (HPYT) contains spring bread wheat (Triticum aestivum) germplasm adapted to ME1 (Optimally Irrigated, low rainfall environment) and ME5 (Warmer area environment) environments. It has total 50 entries with 2 replications, white grain color and distributed to more than 70 locations. (2016)"
   uri <- "hdl:11529/10548445"
   group <- "varieties_wheat"
   ff <- carobiner::get_data(uri, path, group)

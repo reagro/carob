@@ -1,9 +1,9 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
   
-  "The Harvest Plus Advanced Nursery (HPAN) contains spring bread wheat (Triticum aestivum) germplasm adapted to ME1 (Optimally Irrigated, low rainfall environment) and ME5 (Warmer area environment) environments. It has 100-200 entries with a single replication, white grain color and distributed to more than 35 locations. (2011)"
+"The Harvest Plus Advanced Nursery (HPAN) contains spring bread wheat (Triticum aestivum) germplasm adapted to ME1 (Optimally Irrigated, low rainfall environment) and ME5 (Warmer area environment) environments. It has 100-200 entries with a single replication, white grain color and distributed to more than 35 locations. (2011)"
+  
   uri <- "hdl:11529/10548430"
   group <- "varieties_wheat"
   ff <- carobiner::get_data(uri, path, group)
