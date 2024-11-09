@@ -1,12 +1,9 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
   
-    "During the period 2020-2021, experiments were planted to study the phenotypic stability of tuber yield in thirty advanced clones of the B3C3 population, using the Row-Column statistical design with three replications of ten plants in each experiment. Amarilis, Canchan and Chucmarina varieties were used as controls, the fertilization dose was 200-180-160 kg NPK per hectare and pest control was carried out as in a normal potato crop; no fungicides were used for late blight control because the clones are resistant to the disease. The experiment was conducted in the Chinchao-Huanuco locality. Harvesting took place 120 days after planting."
+"During the period 2020-2021, experiments were planted to study the phenotypic stability of tuber yield in thirty advanced clones of the B3C3 population, using the Row-Column statistical design with three replications of ten plants in each experiment. Amarilis, Canchan and Chucmarina varieties were used as controls, the fertilization dose was 200-180-160 kg NPK per hectare and pest control was carried out as in a normal potato crop; no fungicides were used for late blight control because the clones are resistant to the disease. The experiment was conducted in the Chinchao-Huanuco locality. Harvesting took place 120 days after planting."
   
   uri <- "doi:10.21223/OOQ16Y"
   group <- "varieties_potato"
@@ -75,13 +72,7 @@ carob_script <- function(path) {
   df$K_fertilizer = 160 
   
   
-  carobiner::write_files(path = path,
-                         metadata = meta,
-                         records = df)
-  
- 
+  carobiner::write_files(path = path, metadata = meta, records = df)
+
 }
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)

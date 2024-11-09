@@ -1,11 +1,9 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
-    "During the period 2020-2021, experiments were planted to study the phenotypic stability of tuber yield in thirty advanced clones of the B3C3 population, using the Row-Column statistical design with three replications of ten plants in each experiment. Amarilis, Canchan and Chucmarina var"
+
+"During the period 2020-2021, experiments were planted to study the phenotypic stability of tuber yield in thirty advanced clones of the B3C3 population, using the Row-Column statistical design with three replications of ten plants in each experiment. Amarilis, Canchan and Chucmarina var"
     
     uri <- "doi:10.21223/NZUS1C"
     group <- "varieties_potato"
@@ -72,13 +70,7 @@ carob_script <- function(path) {
     df$geo_from_source = FALSE
     df$N_fertilizer <- df$P_fertilizer <- df$K_fertilizer <- as.numeric(NA)
     
-    
-    carobiner::write_files(path = path,
-                           metadata = meta,
-                           records = df)
+	carobiner::write_files(path = path, metadata = meta, records = df)
     
 }
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
