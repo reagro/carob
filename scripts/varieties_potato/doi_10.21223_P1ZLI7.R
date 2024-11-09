@@ -41,7 +41,7 @@ carob_script <- function(path) {
       adm1 = 'Arequipa',
       adm2 = 'Caylloma',
       longitude = -72.2874,
-      latitude = -16.3766
+      latitude = -16.3766,
       planting_date = as.character(as.Date(n$Planting, format = "%d/%m/%Y")),
       harvest_date = as.character(as.Date(n$Harvest, format = "%d/%m/%Y")),
       plant_density = as.numeric(n$`Planting_density_(plants/Ha)`),
