@@ -1,12 +1,13 @@
 # R script for "carob"
 
-## ISSUES
-# ....
+# do not leave empty comments
 
+## georeferencing needs to be fixed
 
 carob_script <- function(path) {
   
-    "In the 2020-2021 season, three clones with high levels of resistance to late blight were evaluated in adaptation and efficiency tests for tuber yield, dry matter content, frying and baking quality throughout Peru in six locations, compared Two varieties planted by farmers and very well accepted by end consumers, Canchan and Unica, are currently also used for frying in sticks, but without stability in all crops due to the genotype x environment interaction. The randomized complete block design was used with three replications of 150 plants, the fertilization dose was 200-220-180 Kg of NPK, using potassium sulfate as a source of potassium to improve frying quality. At harvest, samples were taken to determine the dry matter, reducing sugar content, traditional and blanched fixture color, and baking quality. The clone was equal to or superior to the check for the yield of tubers, it presented good quality of frying color in all localities compared to the control varieties that did not present good quality of frying color in all localities, It is expected to complete all the documents requested by the Peruvian Seed Authority (SENASA) to be registered as a new potato variety with resistance to late blight and quality for frying and/or baking. These experiments correspond to the second year"
+# do not indent   
+"In the 2020-2021 season, three clones with high levels of resistance to late blight were evaluated in adaptation and efficiency tests for tuber yield, dry matter content, frying and baking quality throughout Peru in six locations, compared Two varieties planted by farmers and very well accepted by end consumers, Canchan and Unica, are currently also used for frying in sticks, but without stability in all crops due to the genotype x environment interaction. The randomized complete block design was used with three replications of 150 plants, the fertilization dose was 200-220-180 Kg of NPK, using potassium sulfate as a source of potassium to improve frying quality. At harvest, samples were taken to determine the dry matter, reducing sugar content, traditional and blanched fixture color, and baking quality. The clone was equal to or superior to the check for the yield of tubers, it presented good quality of frying color in all localities compared to the control varieties that did not present good quality of frying color in all localities, It is expected to complete all the documents requested by the Peruvian Seed Authority (SENASA) to be registered as a new potato variety with resistance to late blight and quality for frying and/or baking. These experiments correspond to the second year"
   
   uri <- "doi:10.21223/L9WDYD"
   group <- "varieties_potato"
@@ -24,72 +25,59 @@ carob_script <- function(path) {
       carob_date = "2024-09-13",
       notes = NA
   )
-  
-  
+
   f <- ff[grep("Combinado", basename(ff))]
   
   r <- carobiner::read.excel(f[1], sheet="COMBINADO 2020-2021") 
   
-  r <- r[-c(1:8),] 
-  colnames(r) <- r[1,]
-  r <- r[-c(1),-c(20:38)]
+  colnames(r) <- r[9,]
+  r <- r[-c(1:9), -c(20:38)]
   colnames(r)[20] <- "Locations"
   
-  df <- data.frame(
+# use standard name "d"  
+  d <- data.frame(
       rep = as.integer(r$Rep),
       variety = r$Clone,
-      yield = if('MTYNA' %in% colnames(r)) {
-          as.numeric(r$MTYNA) *1000
-      } else {
-          as.numeric(NA)
-      },
-      yield_marketable = if('TTYNA' %in% colnames(r)) {
-          as.numeric(r$TTYNA) * 1000
-      } else {
-          as.numeric(NA)
-      },
-      AUDPC = if('AUDPC' %in% colnames(r)) {
-          as.numeric(r$AUDPC) / 100
-      } else {
-          as.numeric(NA)
-      },
+      yield = as.numeric(r$MTYNA) *1000,
+      yield_marketable = as.numeric(r$TTYNA) * 1000,
+      AUDPC = as.numeric(r$AUDPC) / 100,
       country = 'Peru',
       location = r$Locations,
       planting_date = "2020-09-20" ,
       harvest_date = "2021-05-15",
       trial_id = gsub(".xls", "", basename(f[1]))
   )
+
+  ## bottom rows with other info
+  d <- d[!is.na(d$yield),]
+   
   
-  df$on_farm <- TRUE
-  df$is_survey <- FALSE
-  df$irrigated <- FALSE
-  df$treatment = "varieties"
-  df$crop <- "potato"
-  df$pathogen <- "Phytophthora infestans"
-  df$yield_part <- "tubers"
-  df$geo_from_source = FALSE
-  df$N_fertilizer = 200
-  df$P_fertilizer = 220
-  df$K_fertilizer = 180 
+  d$on_farm <- TRUE
+  d$is_survey <- FALSE
+  d$irrigated <- FALSE
+# it makes not sense to use a single value for treatments!
+#  d$treatment <- "varieties"
+  d$crop <- "potato"
+  d$pathogen <- "Phytophthora infestans"
+  d$yield_part <- "tubers"
+  d$geo_from_source = FALSE
+  d$N_fertilizer = 200
+  d$P_fertilizer = 220
+  d$K_fertilizer = 180 
   
-  df <- df[!is.na(df$location),]
-  
-  df_geo <- data.frame(
-      location = unique(df$location),
+
+# this made no sense: the locations need to be spelled out.  
+  geo <- data.frame(
+      location = c("??", "??", "??", "??", "??", "??"),
       longitude = c(-78.611901,-77.859298, -77.871786, -76.067057, -75.419384, -72.245653),
       latitude = c(-7.098178,-7.906375, -8.617975, -9.634471, -11.763526,-16.305186)
-      
+
   )
   
-  df <- merge(df, df_geo, by = 'location')
+  #d <- merge(d, geo, by = "location", all.x=TRUE)
   
-  carobiner::write_files(path = path,
-                         metadata = meta,
-                         records = df)
-
+# this must be on one line  
+  carobiner::write_files(path = path, metadata = meta, records = d)
   
 }
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
