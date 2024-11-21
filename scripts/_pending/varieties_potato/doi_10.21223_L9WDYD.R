@@ -68,13 +68,13 @@ carob_script <- function(path) {
 
 # this made no sense: the locations need to be spelled out.  
   geo <- data.frame(
-      location = c("??", "??", "??", "??", "??", "??"),
+      location = c("Uñigan","Licame","Yanac","Chinchao","Jauja","Majes"),
       longitude = c(-78.611901,-77.859298, -77.871786, -76.067057, -75.419384, -72.245653),
       latitude = c(-7.098178,-7.906375, -8.617975, -9.634471, -11.763526,-16.305186)
 
   )
   
-  #d <- merge(d, geo, by = "location", all.x=TRUE)
+  d <- merge(d, geo, by = "location", all.x=TRUE)
   
 # this must be on one line  
   carobiner::write_files(path = path, metadata = meta, records = d)
