@@ -1,12 +1,8 @@
 # R script for "carob"
 
-# do not leave empty comments
-
-## georeferencing needs to be fixed
 
 carob_script <- function(path) {
   
-# do not indent   
 "In the 2020-2021 season, three clones with high levels of resistance to late blight were evaluated in adaptation and efficiency tests for tuber yield, dry matter content, frying and baking quality throughout Peru in six locations, compared Two varieties planted by farmers and very well accepted by end consumers, Canchan and Unica, are currently also used for frying in sticks, but without stability in all crops due to the genotype x environment interaction. The randomized complete block design was used with three replications of 150 plants, the fertilization dose was 200-220-180 Kg of NPK, using potassium sulfate as a source of potassium to improve frying quality. At harvest, samples were taken to determine the dry matter, reducing sugar content, traditional and blanched fixture color, and baking quality. The clone was equal to or superior to the check for the yield of tubers, it presented good quality of frying color in all localities compared to the control varieties that did not present good quality of frying color in all localities, It is expected to complete all the documents requested by the Peruvian Seed Authority (SENASA) to be registered as a new potato variety with resistance to late blight and quality for frying and/or baking. These experiments correspond to the second year"
   
   uri <- "doi:10.21223/L9WDYD"
@@ -41,7 +37,7 @@ carob_script <- function(path) {
       yield = as.numeric(r$MTYNA) *1000,
       yield_marketable = as.numeric(r$TTYNA) * 1000,
       AUDPC = as.numeric(r$AUDPC) / 100,
-      country = 'Peru',
+      country = "Peru",
       location = r$Locations,
       planting_date = "2020-09-20" ,
       harvest_date = "2021-05-15",
@@ -55,8 +51,6 @@ carob_script <- function(path) {
   d$on_farm <- TRUE
   d$is_survey <- FALSE
   d$irrigated <- FALSE
-# it makes not sense to use a single value for treatments!
-#  d$treatment <- "varieties"
   d$crop <- "potato"
   d$pathogen <- "Phytophthora infestans"
   d$yield_part <- "tubers"
@@ -66,18 +60,15 @@ carob_script <- function(path) {
   d$K_fertilizer = 180 
   
 
-# this made no sense: the locations need to be spelled out.  
   geo <- data.frame(
-      location = c("??", "??", "??", "??", "??", "??"),
+      location = c("Uñigan", "Licame", "Yanac", "Chinchao", "Jauja", "Majes"),
       longitude = c(-78.611901,-77.859298, -77.871786, -76.067057, -75.419384, -72.245653),
       latitude = c(-7.098178,-7.906375, -8.617975, -9.634471, -11.763526,-16.305186)
 
   )
   
-  #d <- merge(d, geo, by = "location", all.x=TRUE)
+  d <- merge(d, geo, by = "location", all.x=TRUE)
   
-# this must be on one line  
-  carobiner::write_files(path = path, metadata = meta, records = d)
-  
+  carobiner::write_files(path = path, metadata = meta, records = d) 
 }
 
