@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
   
@@ -61,7 +58,7 @@ carob_script <- function(path) {
   d <- d[!is.na(d$location),]
   
   geo <- data.frame(
-      location = c("Chinchao","Jauja","Licame","Majes","Uñigan","Yanac"),
+      location = c("Chinchao", "Jauja", "Licame", "Majes", "Uñigan", "Yanac"),
       longitude = c(-78.611901,-77.859298, -77.871786, -76.067057, -75.419384, -72.245653),
       latitude = c(-7.098178,-7.906375, -8.617975, -9.634471, -11.763526,-16.305186)
       
@@ -73,6 +70,3 @@ carob_script <- function(path) {
   
 }
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
