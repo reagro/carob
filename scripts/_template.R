@@ -20,6 +20,7 @@ carob_script <- function(path) {
 	meta <- data.frame(
 		# change the major and minor versions if you see a warning
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
+		# include the data provider and/or all institutes listed as authors (if any)
 		data_institute = "",
 		# if there is a paper, include the paper's doi here
 		# also add a RIS file in references folder (with matching doi)

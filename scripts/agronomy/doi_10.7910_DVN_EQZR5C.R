@@ -12,7 +12,7 @@ carob_script <- function(path) {
 
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
-		data_institute = "CIMMYT",
+		data_institute = "CIMMYT;ZARI",
 		publication= NA,
 		project="Africa Rising",
 		response_vars = "yield",
