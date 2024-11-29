@@ -38,9 +38,10 @@ carob_script <- function(path) {
       Mn_fertilizer= r$Mn_application_kg_ha,
       dmy_leaves= r$DMLeaves_g_m2*10,
       dmy_stems= r$Dmstems_g_m2*10,
-      dmy_roots= r$DMRoots_g_m2*10,
+      yield= r$DMRoots_g_m2*10,
       crop= "cassava"
    )
+   yield_part = "roots"
    
    d$trial_id <- paste0(d$planting_date, "-", d$location)
    d$treatment <- paste("N", d$N_fertilizer, "P", d$P_fertilizer, "K", d$K_fertilizer, sep="")
