@@ -1,24 +1,19 @@
 # R script for "carob"
 
-## ISSUES
 
 carob_script <- function(path) {
 
 "Integrating more grain legumes as intercrops or rotational system can allow farmers to achieve high and stable yield under varying rainfall, with modest fertilizer investments. This is critical for resource poor farmers who have limited access to mineral fertilizers. In these experiments that were initiated in 2012, we investigate soil organic carbon (SOC) changes over time for treatments that range from an unfertilized control, maize fertilized with NP optimally every year and when legumes are integrated as intercrops or rotations with maize. Recently we have applied stability analysis to assess impacts of grain legume integration on maize grain yield, yield stability, nitrogen use efficiency (NUE) and ability to meet household protein requirements. More details on these experiments are outlined in the publications Smith et al. 2016 , Snapp et al. 2018 , and Chimonyo et al. 2019"
 
-
-## Identifiers
 	uri <- "doi:10.7910/DVN/BUPNF4"
 	group <- "agronomy"
 
-## Download data 
 	ff  <- carobiner::get_data(uri, path, group)
 
-## metadata 
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=1),
 		data_institute = "IITA",
-		publication = "doi.org/10.2135/cropsci2018.09.0532",
+		publication = "doi:10.2135/cropsci2018.09.0532",
 		project = NA,
 		data_type = "on-farm experiment",
 		treatment_vars = "intercrops;crop_rotation;fertilizer_used",
@@ -26,10 +21,9 @@ carob_script <- function(path) {
 		carob_contributor = "Mitchelle Njukuya",
 		carob_date = "2024-11-29",
 		notes = NA,
-		design = "randomized complete block design"
+		design = "RCBD"
 	)
 	
-## read data 
 
 	f1 <- ff[basename(ff) == "maize_SItrials_2018_19_harvest.csv"]
 	f2 <- ff[basename(ff) == "soybean_SItrials_2018_19_harvest.csv"]
@@ -84,32 +78,37 @@ carob_script <- function(path) {
 	  treatment_code = r3$Treatment.number
 	  
 	)
+	# remove empty rows
+	d3 <- d3[!is.na(d3$yield), ]
 	
  d <- rbind(d1, d2, d3) 
  
+ d$yield[d$yield=="#DIV/0!"] <- NA
  d$yield <- as.numeric(d$yield)
+ d$fwy_total[d$fwy_total=="#DIV/0!"] <- NA
  d$fwy_total <- as.numeric(d$fwy_total)
- d$crop <- gsub("Groundnut","groundnut",d$crop)
+ d$crop <- gsub("Groundnut", "groundnut", d$crop)
  d$crop <- gsub("Soya","soybean",d$crop)
  
- d$intercrops <- "sole crop"
+ d$intercrops <- "none"
  d$intercrops[d$treatment_code==8 & d$crop=="groundnut"] <- "pigeon pea"
  d$intercrops[d$treatment_code==10 & d$crop=="soybean"] <- "pigeon pea"
  d$intercrops[d$treatment_code==7 & d$crop=="maize"] <- "pigeon pea"
  
  d$crop_rotation <- "none"
- d$crop_rotation[d$treatment_code==4 & d$crop=="groundnut"] <- "maize"
- d$crop_rotation[d$treatment_code==4 & d$crop=="maize"] <- "groundnut"
- d$crop_rotation[d$treatment_code==5 & d$crop=="soybean"] <- "maize"
- d$crop_rotation[d$treatment_code==5 & d$crop=="maize"] <- "soybean"
- d$crop_rotation[d$treatment_code==6 & d$crop=="maize"] <- "cowpea"
- d$crop_rotation[d$treatment_code==8 & d$crop=="groundnut"] <- "maize"
- d$crop_rotation[d$treatment_code==8 & d$crop=="maize"] <- "pigeon pea_groundnut"
- d$crop_rotation[d$treatment_code==9 & d$crop=="maize"] <- "pigeon pea_cowpea"
- d$crop_rotation[d$treatment_code==10 & d$crop=="soybean"] <- "maize"
- d$crop_rotation[d$treatment_code==10 & d$crop=="maize"] <- "pigeon pea_soybean"
+ d$crop_rotation[d$treatment_code==4 & d$crop=="groundnut"] <- "groundut;maize"
+ d$crop_rotation[d$treatment_code==4 & d$crop=="maize"] <- "groundnut;maize"
+ d$crop_rotation[d$treatment_code==5 & d$crop=="soybean"] <- "maize;soybean"
+ d$crop_rotation[d$treatment_code==5 & d$crop=="maize"] <- "maize;soybean"
+ d$crop_rotation[d$treatment_code==6 & d$crop=="maize"] <- "cowpea;maize"
+ d$crop_rotation[d$treatment_code==8 & d$crop=="groundnut"] <- "groundnut;maize"
+ d$crop_rotation[d$treatment_code==8 & d$crop=="maize"] <- "maize;pigeon pea_groundnut"
+ d$crop_rotation[d$treatment_code==9 & d$crop=="maize"] <- "maize;pigeon pea_cowpea"
+ d$crop_rotation[d$treatment_code==10 & d$crop=="soybean"] <- "maize;soybean"
+ d$crop_rotation[d$treatment_code==10 & d$crop=="maize"] <- "maize;pigeon pea_soybean"
  
  d$country <- "Malawi"
+ d$location <- trimws(d$location)
  d$longitude[d$location=="Golomoti"] <- 34.6003
  d$latitude[d$location=="Golomoti"] <- -14.43
  d$longitude[d$location=="Nsipe"] <- 34.9
@@ -133,14 +132,7 @@ carob_script <- function(path) {
  d$elevation[d$location=="Kandeu"] <- 878
  d$elevation[d$location=="Golomoti"] <- 1082
  
- d$trial_id[d$location=="Golomoti"] <- as.character(as.integer(as.factor(1)))
- d$trial_id[d$location=="Nsipe"] <- as.character(as.integer(as.factor(2)))
- d$trial_id[d$location=="Linthipe"] <- as.character(as.integer(as.factor(3)))
- d$trial_id[d$location=="Kandeu"] <- as.character(as.integer(as.factor(4)))
- d$trial_id[d$location=="Nsanama"] <- as.character(as.integer(as.factor(5)))
- d$trial_id[d$location=="Nyambi"] <- as.character(as.integer(as.factor(6)))
- d$trial_id[d$location=="Ntiya"] <- as.character(as.integer(as.factor(7)))
-	
+ d$trial_id <- d$location
 
 	d$on_farm <- TRUE
 	d$is_survey <- FALSE
@@ -152,23 +144,27 @@ carob_script <- function(path) {
 	#d$harvest_date  <- as.character(as.Date(    ))
 
  # Fertilizer data sourced from protocol 
-	 d$fertilizer_used <- ifelse(d$treatment_code==1,FALSE,TRUE)
-   d$P_fertilizer <- ifelse(d$fertilizer_used==TRUE,21/2.29,0) 
+   d$fertilizer_used <- d$treatment_code !=1
+   d$P_fertilizer <- ifelse(d$fertilizer_used, 21/2.29, 0) 
    d$P_fertilizer[d$crop=="maize"] <- 10.5/2.29
    d$K_fertilizer <- 0
-   d$N_fertilizer <- ifelse(d$fertilizer_used==TRUE,69,0)
+   d$N_fertilizer <- ifelse(d$fertilizer_used, 69, 0)
    d$N_fertilizer[d$crop=="maize"] <- 34.5
-   d$fertilizer_type <- ifelse(d$fertilizer_used==TRUE,"urea;unknown","none")
+   d$fertilizer_type <- ifelse(d$fertilizer_used, "urea;unknown", "none")
    d$yield_part <- ifelse(d$crop=="maize","grain","seed")
    
   
-   d$inoculated <- ifelse(d$crop=="soybean",TRUE,FALSE)
-   d$inoculant <- ifelse(d$inoculated=="TRUE","Rhizobium japonicum","none")
+   d$inoculated <- d$crop=="soybean"
+   d$inoculant <- ifelse(d$inoculated, "Rhizobium japonicum", "none")
    
    d$treatment_code <- NULL
    
    d$plant_density[d$plant_density < 1000] <- NA
    d$cob_density[d$cob_density < 1000] <- NA
+  d$rep <- as.integer(d$rep)
+  d$planting_date <- as.character(NA)
+
+#  d <- d[!is.na(d$yield), ]
   
 	carobiner::write_files(path, meta, d)
 }
