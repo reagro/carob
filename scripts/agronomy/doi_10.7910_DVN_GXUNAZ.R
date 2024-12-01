@@ -85,6 +85,8 @@ Low productivity of agriculture observed in different parts of sub-Saharan Afric
 		
 	d$latitude <- ifelse(d$location %in% swapped_coords,  r$Lon,  r$Lat)
 	d$longitude <- ifelse(d$location %in% swapped_coords,  r$Lat,  r$Lon)
+	d$geo_from_source <- !(d$location %in% swapped_coords)
+	d$geo_from_source[is.na(d$latitude)] <- FALSE
 
 	i <- grep("N",  r$Lat)
 	latlon <- t(sapply(strsplit(r$Lat[i],  " "),  \(i) 
@@ -137,6 +139,8 @@ Low productivity of agriculture observed in different parts of sub-Saharan Afric
 	d$latitude[i] <- 9.2979
 
 	d$longitude[d$location == "Ibadan" & d$longitude == 34.960000] <- 3.867000
+
+
 
 	d$id <- 1:nrow(d)
 	# converting dataset from wide to long

@@ -17,7 +17,9 @@ carob_script <- function(path) {
 		data_type="on-farm experiment",
 		carob_contributor="Mitchelle Njukuya",
 		carob_date="2023-06-21",
-		modified_by=c("Effie Ochieng', Robert Hijmans")
+		modified_by="Effie Ochieng';Robert Hijmans",
+		treatment_vars=NA,
+		response_vars="yield"
 	)
 
 
@@ -145,11 +147,17 @@ carob_script <- function(path) {
 		latitude = c(-14.967, -11.465, -13.633, -13.818, -13.214, -13.697, -14.979, -15.067, -13.063, -13.54,
 			-15.3, -13.811, -12.405, -12.581), 
 		longitude = c(34.992, 33.865, 33.472, 33.385, 34.317, 33.556, 34.956, 35.225, 33.436, 33.027, 35.483,
-			33.499, 33.643, 33.518))
+			33.499, 33.643, 33.518),
+		geo_from_source=FALSE
+	)
 
 	d <- merge(d, geo, by ="location", all.x = TRUE)
 
 	d$planting_date <- as.character(NA)
+	d$plant_density[d$plant_density < 1] <- NA
+	
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+	d$irrigated <- NA
 	
 	d <- d[!is.na(d$yield), ]
 	carobiner::write_files(meta,  d,  path=path)

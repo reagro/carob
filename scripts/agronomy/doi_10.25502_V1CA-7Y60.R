@@ -149,6 +149,10 @@ carob_script <- function(path) {
 	d <- merge(d, geo, by="location", all.x =TRUE)
 # Cedric, I think we should not overwrite existing lon/lat data (as you did)
 	d$latitude[d$latitude==0] <- NA
+
+	d$geo_from_source <- FALSE
+	d$geo_from_source[!is.na(d$latitude)] <- TRUE
+
 	d$longitude[is.na(d$longitude)] <- d$lon[is.na(d$longitude)]
 	d$latitude[is.na(d$latitude)] <- d$lat[is.na(d$latitude)]
 	d$lat <- d$lon <- NULL

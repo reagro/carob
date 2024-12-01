@@ -51,7 +51,8 @@ carob_script <- function(path) {
 	geo <- data.frame(
 		location = c("Hereford", "Shamva", "Madziva"),
 		longitude = c(31.4644, 31.6314, 31.6553),
-		latitude = c(-17.4343, -17.1763, -17.062)
+		latitude = c(-17.4343, -17.1763, -17.062),
+		geo_from_source = FALSE
 	)  
 	d <- merge(d, geo, by = "location", all.x = TRUE)
 	

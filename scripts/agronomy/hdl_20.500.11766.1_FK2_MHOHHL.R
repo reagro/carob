@@ -122,15 +122,16 @@ The trial includes 40 faba bean varieties and 2  wheat varieties that are grown 
 
 	d$irrigated <- NA
 	d$on_farm <- NA
-	d$country = "Lebanon"
-	d$adm1 = "Baalbek-Hermel Governorate"
-	d$adm2 = "Baalbek"
-	d$adm3 = "Kfar Dan"
-	d$location = "Lebanese Agricultural Research Institute station"
-	d$latitude = r5$Latitude
-	d$longitude = r5$Longitude
-	d$elevation = r5$Altitude
-	d$planting_date = "2018-02"
+	d$country <- "Lebanon"
+	d$adm1 <- "Baalbek-Hermel Governorate"
+	d$adm2 <- "Baalbek"
+	d$adm3 <- "Kfar Dan"
+	d$location <- "Lebanese Agricultural Research Institute station"
+	d$latitude <- r5$Latitude
+	d$longitude <- r5$Longitude
+	d$elevation <- r5$Altitude
+	d$geo_from_source <- TRUE
+	d$planting_date <- "2018-02"
 	
 	carobiner::write_files (path, meta, d)
 }

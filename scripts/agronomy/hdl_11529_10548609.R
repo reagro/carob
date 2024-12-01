@@ -52,7 +52,9 @@ carob_script <- function(path) {
 	    longitude=c(-99.666, -100.9429, -99.9879, -100.5922, -101.3885, 
 	                -99.9643, -98.8554, -101.8405),
 	    latitude=c(20.7912, 19.7602, 20.3756, 20.4326, 20.6749, 
-	               20.428, 19.4756, 20.4055))
+	               20.428, 19.4756, 20.4055),
+		geo_from_source = FALSE
+	)
 	
 	d <- merge(d, gg, by="adm2", all.x=TRUE)
 	d$trial_id <- as.character(as.factor(d$adm2))

@@ -3,8 +3,7 @@
 
 carob_script <- function(path) {
   
-"The objective of this work set is to demonstrate the best options currently available for the management of conservation agriculture (CA) practices in different communities in Mozambique. Eleven communities were selected from the districts of Sofala, Tete and Manica (approximately 100 to 200 families in each community) to host these demonstration sites and six demo fields were installed in each community from 2006-2015 (9 seasons). The treatments in each community were as follows: 1. Farmers' practice (control)- Traditional management with removal of stubble. 2. Conservation agriculture- The stubble
-is kept in the ground, there is no preparation of the ground, and the sowing is done manually in covachos previamento open (see the management of the covachos) and with SULCADOR in Nhamatiquite. 3. Direct sowing (SD): The stubble is kept in the soil, the direct sowing is done with Matraca or sharp bread. (2016-12-08)" 
+"The objective of this work set is to demonstrate the best options currently available for the management of conservation agriculture (CA) practices in different communities in Mozambique. Eleven communities were selected from the districts of Sofala, Tete and Manica (approximately 100 to 200 families in each community) to host these demonstration sites and six demo fields were installed in each community from 2006-2015 (9 seasons). The treatments in each community were as follows: 1. Farmers' practice (control)- Traditional management with removal of stubble. 2. Conservation agriculture- The stubble is kept in the ground, there is no preparation of the ground, and the sowing is done manually in covachos previamento open (see the management of the covachos) and with SULCADOR in Nhamatiquite. 3. Direct sowing (SD): The stubble is kept in the soil, the direct sowing is done with Matraca or sharp bread. (2016-12-08)" 
   
 	uri <- "hdl:11529/10830" 
 	group <- "agronomy"
@@ -17,7 +16,9 @@ is kept in the ground, there is no preparation of the ground, and the sowing is 
 		data_institute = "IITA",
 		data_type="experiment", 
 		carob_contributor="Effie Ochieng'",
-		carob_date="2023-11-21"
+		carob_date="2023-11-21",
+		treatment_vars=NA,
+		response_vars="yield"		
 	)
 	
 	f <- ff[basename(ff) == "Summary Mozambique On-farm Demonstration 2006-2015.xlsx" ]
@@ -105,12 +106,14 @@ is kept in the ground, there is no preparation of the ground, and the sowing is 
 	geo <- data.frame(
 		location = c("Pumbuto", "Nhanguo", "Puanda", "Guro", "Malomue", "Ruaca", "Nhamizinga", "Nzewe", "Nhamatiquite", "Tsangano", "Magiga", "Lamego", "Buzi", "Ulongue", "Nharuchonga", "Barue", "lamego", "Gimo"), 
 		latitude = c(-19.0025, -21.195, -19.8500034, -16.95262, -18.17028,	-13.11722, -17.06833, -14.519, -19.24278, -15.20012, -13.74806, -19.33251,-20.03925, -14.72278, -19.23972, -17.81047, -19.33251, -18.60111), 
-		longitude = c(33.75028, 34.94222, 34.17028, 33.51865, 33.3075, 38.21194, 34.83083, 34.304, 33.76694, 34.32685, 35.26222, 34.31678, 34.37237, 34.36083, 34.12306, 33.17267,34.31678, 34.545)
+		longitude = c(33.75028, 34.94222, 34.17028, 33.51865, 33.3075, 38.21194, 34.83083, 34.304, 33.76694, 34.32685, 35.26222, 34.31678, 34.37237, 34.36083, 34.12306, 33.17267,34.31678, 34.545),
+		geo_from_source=FALSE
 	)
 	
 	d <- merge(d, geo, by = "location", all.x = TRUE)
 
 	d <- unique(d[!is.na(d$yield), ])
+	d$plant_density[d$plant_density < 1] <- NA
 	
 	carobiner::write_files(meta, d, path=path)
 }

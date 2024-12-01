@@ -1,13 +1,9 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script <- function(path) {
 
-"
-	Weeds are responsible for major crop losses worldwide but can provide beneficial agroecosystem services. This study aimed to elucidate how arbuscular mycorrhizal fungi (AMF) in weeds respond to host identity and conservation agricultural practices. The study was carried out at two locations in Southern Africa during off-season and in-season maize cultivation. Off-season AMF root colonisation, diversity indices and community composition significantly differed among weed species at both locations. Glomus sp. VTX00280 explains most of the AMF community differences. In-season, implementation of conventional tillage with mulching alone (CT + M) or together with crop rotation (CT + M + R) resulted in a 20% increase in AMF colonisation of the constantly occurring weed species, Bidens pilosa (BIDPI) and Richardia scabra (RCHSC), compared with conventional tillage plus rotations (CT + R). The diversity of AMF was highest under no-tillage plus mulching (NT + M). Off-season and in-season AMF structures of both BIDPI and RCHSC were not related, but 39% of the taxa were shared. Structural equation modelling showed a significant effect of the cropping system on weed AMF diversity parameters and weed and maize root colonisation, but no significant influence of weed root AMF traits and maize colonisation was detected on maize yield. This may be explained by the improvement in weed competitive ability, which may have offset the AMF-mediated benefits on yield. Our findings highlight that implementing M and CR to CT and NT positively affected weed AMF colonisation and diversity. The similarity between the off-season and in-season AMF composition of weeds supports the fact that weeds functionally host AMF during the non-crop period.
+"Weeds are responsible for major crop losses worldwide but can provide beneficial agroecosystem services. This study aimed to elucidate how arbuscular mycorrhizal fungi (AMF) in weeds respond to host identity and conservation agricultural practices. The study was carried out at two locations in Southern Africa during off-season and in-season maize cultivation. Off-season AMF root colonisation, diversity indices and community composition significantly differed among weed species at both locations. Glomus sp. VTX00280 explains most of the AMF community differences. In-season, implementation of conventional tillage with mulching alone (CT + M) or together with crop rotation (CT + M + R) resulted in a 20% increase in AMF colonisation of the constantly occurring weed species, Bidens pilosa (BIDPI) and Richardia scabra (RCHSC), compared with conventional tillage plus rotations (CT + R). The diversity of AMF was highest under no-tillage plus mulching (NT + M). Off-season and in-season AMF structures of both BIDPI and RCHSC were not related, but 39% of the taxa were shared. Structural equation modelling showed a significant effect of the cropping system on weed AMF diversity parameters and weed and maize root colonisation, but no significant influence of weed root AMF traits and maize colonisation was detected on maize yield. This may be explained by the improvement in weed competitive ability, which may have offset the AMF-mediated benefits on yield. Our findings highlight that implementing M and CR to CT and NT positively affected weed AMF colonisation and diversity. The similarity between the off-season and in-season AMF composition of weeds supports the fact that weeds functionally host AMF during the non-crop period.
 "
 
 	uri <- "hdl:11529/10548831"
@@ -77,7 +73,7 @@ carob_script <- function(path) {
 	d$latitude[d$location=="DTC"] <- -17.605
 	d$location[d$location=="UZ"] <- "University of Zimbabwe"
 	d$location[d$location=="DTC"] <- "Domboshawa Training Center"
-	
+	d$geo_from_source <- FALSE
 	
 	
 	# about the data #####

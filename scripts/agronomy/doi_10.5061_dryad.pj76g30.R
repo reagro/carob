@@ -139,7 +139,8 @@ Bean (Phaseolus vulgaris L.), maize and rice (Oryza sativa L.) grain concentrati
    
    ## The data and the article do not specify the site where the experiment was carried out.
 	d$longitude <- d$latitude <- as.numeric(NA)
-
+	d$geo_from_source <- FALSE
+	
    d$yield_part= "grain"
    d$yield_part[d$crop=="cassava"] <- "roots"
 

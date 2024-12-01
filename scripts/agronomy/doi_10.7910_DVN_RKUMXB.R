@@ -184,7 +184,6 @@ K. Habtegebrial & B. R. Singh (2009) Response of Wheat Cultivars to Nitrogen and
 	p <- gsub("oats-vetch mixture", "oats; vetch", p)
 	p <- gsub("dolichos", "lablab", p)
 	p <- gsub("barely", "barley", p)
-	p <- gsub("none", "no crop", p)
 	
 	d$previous_crop <- p
 
@@ -287,6 +286,8 @@ K. Habtegebrial & B. R. Singh (2009) Response of Wheat Cultivars to Nitrogen and
 	pts$adm1 <- NULL
 	
 	d <- merge(d, pts, by=c("country", "location"), all.x=TRUE)
+	d$geo_from_source <- FALSE
+	d$geo_from_source[!is.na(d$longitude)] <- TRUE
 	d$longitude[is.na(d$longitude)] <- d$lon[is.na(d$longitude)]
 	d$latitude[is.na(d$latitude)] <- d$lat[is.na(d$latitude)]
 	d$lon <- d$lat <- NULL
@@ -299,29 +300,35 @@ K. Habtegebrial & B. R. Singh (2009) Response of Wheat Cultivars to Nitrogen and
 	i <- which(d$location %in% c("Annokere", "Gendesheno"))
 	d$longitude[i] <- 38.621
 	d$latitude[i] <- 9.808
+	d$geo_from_source[i] <- FALSE
 
 	#centroids(eth[eth$NAME_3=="Hulet Ej Enese", ]) |> crds()
 	i <- which(d$location == "Huleteju-Enebssie")
 	d$longitude[i] <- 37.903
 	d$latitude[i] <- 10.981
+	d$geo_from_source[i] <- FALSE
 
 	#centroids(eth[eth$NAME_3=="Godere", ]) |> crds()
 	i <- which(d$location == "Godere")
 	d$longitude[i] <- 35.258
 	d$latitude[i] <- 7.2424
+	d$geo_from_source[i] <- FALSE
 
 	i <- d$location == "Metema"
-	d[i, "latitude"] <- 12.965
-	d[i, "longitude"] <- 36.160
+	d$longitude[i] <- 36.160
+	d$latitude[i] <- 12.965
+	d$geo_from_source[i] <- FALSE
 
 	#centroids(eth[eth$NAME_3=="Lay Gayint", ]) |> crds()
 	i <- which(d$location == "Laie-Gaient Woreda")
 	d$longitude[i] <- 38.4315
 	d$latitude[i] <- 11.846
+	d$geo_from_source[i] <- FALSE
 
 	i <- which(d$location == "Estayesh, North Wollo")
 	d$longitude[i] <- 39.154
 	d$latitude[i] <- 11.835
+	d$geo_from_source[i] <- FALSE
 
 	#4) the last two
 	#Garadella = Garadella State Farm
@@ -330,10 +337,12 @@ K. Habtegebrial & B. R. Singh (2009) Response of Wheat Cultivars to Nitrogen and
 	i <- which(d$location == "Garadella")
 	d$longitude[i] <- 39.2
 	d$latitude[i] <- 7.19
+	d$geo_from_source[i] <- FALSE
 
 	i <- which(d$location == "Fereze Guraghe Zone")
 	d$longitude[i] <- 38.08
 	d$latitude[i] <- 8.19
+	d$geo_from_source[i] <- FALSE
 
 	d$location <- gsub("La’elay", "La'elay", d$location) 
 

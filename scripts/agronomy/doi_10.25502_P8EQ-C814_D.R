@@ -93,7 +93,8 @@ carob_script <- function(path) {
     d$yield_part <- "roots"
       
       #fix Long and lat
-    d$longitude[d$site=="Anyigba"] <- 8.7772877
+    d$geo_from_source <- TRUE
+	d$longitude[d$site=="Anyigba"] <- 8.7772877
     d$latitude[d$site=="Anyigba"] <- 7.3505747
     d$latitude[d$site=="Ido"] <- 7.55140 #instead of 7.5517
     d$longitude[d$site=="Ido"] <- 3.66990
@@ -104,6 +105,7 @@ carob_script <- function(path) {
     d$latitude[d$site=="Makurdi"] <- 12.906337
 	d$longitude[d$site=="Otobi"] <- 8.0701088
 	d$latitude[d$site=="Otobi"] <- 7.103026
+	d$geo_from_source[d$site %in% c("Anyigba", "Ido", "Moniya", "Makurdi", "Otobi")] <- FALSE
 	#data type
 	
 	# convert to kg/ha 

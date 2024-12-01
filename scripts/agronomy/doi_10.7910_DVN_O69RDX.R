@@ -18,7 +18,9 @@ carob_script <- function(path) {
     data_institute = "CIMMYT;ZARI",
     data_type="experiment",
     carob_contributor="Fredy Chimire",
-    carob_date="2024-01-16"
+    carob_date="2024-01-16",
+	treatment_vars = NA,
+	response_vars = "yield"
   )
    
  
@@ -62,6 +64,7 @@ carob_script <- function(path) {
   # https://www.findlatitudeandlongitude.com/l/Msekera+Chipata+Zambia/5548305/
   d$latitude <- -13.64451
   d$longitude <- 32.6447
+  d$geo_from_source <- FALSE
   
   d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	d$trial_id <- "1"

@@ -177,9 +177,13 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
 	z <- z[, c("trial_id","country","location","latitude","longitude","elevation","rep","treatment","crop","variety", "planting_date","harvest_date","inoculated","seed_weight","dmy_roots","dmy_total","fertilizer_type","N_fertilizer","N_splits",
 	"P_fertilizer","K_fertilizer","fwy_residue","yield","on_farm")] 
 	
+	z$geo_from_source <- FALSE
+	
 	z$yield_part <- "seed"
 	z$is_survey <- FALSE
 	z$irrigated <- NA
+	
+	z$elevation[z$elevation < -99] <- NA
 	
 	carobiner::write_files(meta, z, path=path)
 }

@@ -66,7 +66,7 @@ carob_script <- function(path) {
 
 	d$irrigated <- r$AECO != "Rainfed"
 	d$irrigated[r$AECO == ""] <- NA
-  
+	d$geo_from_source <- FALSE 
   
 	d[d==""] <- NA
 	adm1 <- substr(r$SiteID, 1, 2)

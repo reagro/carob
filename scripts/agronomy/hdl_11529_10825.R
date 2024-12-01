@@ -97,9 +97,12 @@ carob_script <- function(path) {
 			ifelse(grepl("soybean-maize rotation", p), "maize; soybean", "none")))
 													 
 	# add longitude and	latitude
-	geo <- data.frame(adm1=c("Monze","Kabwe","Chipata","Chibombo","Lundazi","Katete"),
-			longitude=c(27.4763925, 28.3992336, 32.6324569, 27.6530228, 33.3487457, 32.04272),
-			 latitude=c(-16.2759563, -14.4571147, -13.7478246, -14.8569383, -12.4137188, -14.060241)) 
+	geo <- data.frame(
+		adm1=c("Monze","Kabwe","Chipata","Chibombo","Lundazi","Katete"),
+		longitude=c(27.4763925, 28.3992336, 32.6324569, 27.6530228, 33.3487457, 32.04272),
+		latitude=c(-16.2759563, -14.4571147, -13.7478246, -14.8569383, -12.4137188, -14.060241),
+		geo_from_source=FALSE
+	) 
 	
 	d <- merge(d, geo, by="adm1", all.x=TRUE)
 
@@ -108,6 +111,7 @@ carob_script <- function(path) {
 	d$plant_density[d$plant_density == 0] <- NA
 	d <- d[!is.na(d$yield), ]
 
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- NA
 	carobiner::write_files(meta, d, path=path)
 }
 

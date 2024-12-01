@@ -32,6 +32,7 @@ carob_script <- function(path) {
 		adm3=r1$District,
 		latitude=r1$Latitude.Decimal.Degrees,
 		longitude=r1$Longitude.Decimal.Degrees,
+		geo_from_source=TRUE,
 		elevation=r1$Altitude.m.a.s.l,
 		trial_id = as.character(r1$Experiment.site.code),
 		treatment=r1$Experimental.design_Treatment,
@@ -84,6 +85,7 @@ carob_script <- function(path) {
 	lat <- d$longitude[i]
 	d$longitude[i] <- d$latitude[i]
 	d$latitude[i] <- lat
+	d$geo_from_source[i] <- FALSE
 
 	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- 0
 	d$Ca_fertilizer <- d$Mg_fertilizer <- d$Zn_fertilizer <- d$B_fertilizer <- 0
@@ -101,21 +103,23 @@ carob_script <- function(path) {
 	i <- trts == "NPK+Ca+Mg+Zn+B"
 	d$Ca_fertilizer[i] <- d$Mg_fertilizer[i] <- 10
 	d$Zn_fertilizer[i] <- d$B_fertilizer[i] <- 5 
-	d$fertilizer_type[i] <- paste0(d$fertilizer_type[i], ";CaSO4;MgSO4;ZnSO4;borax")
+	d$fertilizer_type[i] <- paste0(d$fertilizer_type[i], ";gypsum;MgSO4;ZnSO4;borax")
 	i <- grep("^;", d$fertilizer_type)
 	d$fertilizer_type[i] <- substr(d$fertilizer_type[i], 2, 100)
 	d$fertilizer_type[d$fertilizer_type==""] <- "none"
 	
 	#fixing bad data
-	d$planting_date[d$planting_date == '2/6//2016'] <- '2/6/2016'
-	d$planting_date[d$planting_date == '30/52016'] <- '30/5/2016'
+	d$planting_date[d$planting_date == "2/6//2016"] <- "2/6/2016"
+	d$planting_date[d$planting_date == "30/52016"] <- "30/5/2016"
 	i <- grepl("^4", d$planting_date)
 	d$planting_date[i] <- as.character(as.Date(as.numeric(d$planting_date[i]), origin = "1899-12-31"))
-	d$planting_date[!i] <- as.character(as.Date(d$planting_date[!i], format = '%d/%m/%Y'))
+	d$planting_date[!i] <- as.character(as.Date(d$planting_date[!i], format = "%d/%m/%Y"))
   
 	d$yield_part <- "grain"
 	d$on_farm <- TRUE
 	
+	d$irrigated <- NA
+	d$is_survey <- FALSE
 	
 	carobiner::write_files(path, meta, d)
 }

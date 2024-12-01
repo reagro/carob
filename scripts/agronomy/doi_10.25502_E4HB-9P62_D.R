@@ -125,7 +125,7 @@ carob_script <- function(path) {
 	w <- Reduce(function(...) merge(..., all=T), list(x,x1,x2))
 	w$on_farm <- TRUE
 
-	## Long	and Lat based on Location using GPS Coordinates
+	## Long	and Lat based on Location
 	w$longitude[w$location=="Nyamiyaga"] <- 30.1349783
 	w$latitude[w$location=="Nyamiyaga"] <- -1.6873919
 	w$longitude[w$location=="Musenyi"] <- 30.0208922
@@ -176,10 +176,11 @@ carob_script <- function(path) {
 	w$planting_date <- as.character(w$planting_date)
 	w$fwy_residue <- as.numeric(w$fwy_residue)
  
-	w <- w[,c("trial_id","country","adm2","location","latitude", "longitude","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","seed_weight","dmy_total","fwy_residue","yield","fertilizer_type", "N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH","soil_sand","soil_clay","soil_silt","soil_N", "soil_K","soil_SOC", "on_farm")]
+	d <- w[,c("trial_id","country","adm2","location","latitude", "longitude","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","seed_weight","dmy_total","fwy_residue","yield","fertilizer_type", "N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH","soil_sand","soil_clay","soil_silt","soil_N", "soil_K","soil_SOC", "on_farm")]
 
-	w$yield_part <- "seed"
-	w$N_fertilizer[is.na(w$N_fertilizer)] <- 0
+	d$yield_part <- "seed"
+	d$N_fertilizer[is.na(w$N_fertilizer)] <- 0
+	w$geo_from_source <- FALSE
   
 	w$soil_pH[w$soil_pH < 3] <- NA
 	w$soil_N[w$soil_N < 1] <- NA

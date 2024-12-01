@@ -60,6 +60,7 @@ carob_script <- function(path) {
 		location= r1$Community.village,
 		latitude= r1$GPS.Coordinate.Latitude,
 		longitude= r1$GPS.Coordinate.Longitude,
+		geo_from_source=TRUE,
 		elevation= r1$GPS.Coordinate.Altitude,
 		previous_crop= r1$Crops.grown.in.the.past.two.years,
 		treatment= r1$Treatment,

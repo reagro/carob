@@ -315,6 +315,7 @@ carob_script <- function(path) {
    
   d <- merge(d,geo,by="adm3",all.x = T)
   i <- !is.na(d$lat)
+  d$geo_from_source <- !i
   d$latitude[i] <- d$lat[i]
   d$longitude[i] <- d$long[i]
   d$lat <- d$long <- NULL
@@ -338,7 +339,12 @@ carob_script <- function(path) {
   d$location[d$location==""] <- NA
   d$adm2[d$adm2==""] <- NA
   d$adm3[d$adm3==""] <- NA
+  d$adm2 <- carobiner::fix_name(d$adm2, "title")
+  d$adm3 <- carobiner::fix_name(d$adm3, "title")
+	d$planting_date <- NA
   
   d$yield_part <- "seed"
+  
+  d <- unique(d)
   carobiner::write_files(meta, d, path=path)
 }

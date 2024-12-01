@@ -94,9 +94,12 @@ carob_script <- function(path) {
 	d$fertilizer_type <- gsub("Urea", "urea", d$fertilizer_type)
 	d$fertilizer_type <- gsub("Gypsum", "gypsum", d$fertilizer_type)
 	
-	geo= data.frame(location=c("Dharmapur", "Nabinagar", "Premtoli" , "Baduria", "Dharampur", "Laxmipur" ), 
-						 latitude=c(23.3108087, 23.8846959, 25, 24.34255, 24.879025, 22.9445365), 
-						 longitude=c(91.2876786, 90.9699944, 89, 88.72014, 89.3533518, 90.8276345))
+	geo= data.frame(
+		location=c("Dharmapur", "Nabinagar", "Premtoli" , "Baduria", "Dharampur", "Laxmipur" ), 
+		latitude=c(23.3108087, 23.8846959, 25, 24.34255, 24.879025, 22.9445365), 
+		longitude=c(91.2876786, 90.9699944, 89, 88.72014, 89.3533518, 90.8276345),
+		geo_from_source=FALSE
+	)
 	
 	d <- merge(d, geo, by="location", all.x = TRUE)  # do not use "T"
 	

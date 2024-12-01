@@ -134,7 +134,8 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	geo <- data.frame(
 		adm2 = c("Fultala", "Dumuria", "Sadar", "Kaligonj"),
 		longitude = c(89.458, 89.425, 89.075, 89.0417),
-		latitude = c(22.975, 22.808, 22.717, 22.45)
+		latitude = c(22.975, 22.808, 22.717, 22.45),
+		geo_from_source = FALSE
 	)
 
 	d <- merge(d, geo, by="adm2", all.x=TRUE)

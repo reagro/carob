@@ -108,8 +108,9 @@ carob_script <- function(path) {
 		out[southwest] <- -out[southwest]
 		round(out, 3)
 	}
-	d$longitude = get_geo(r$Longitude)
-	d$latitude = get_geo(r$Latitude)
+	d$longitude <- get_geo(r$Longitude)
+	d$latitude <- get_geo(r$Latitude)
+	d$geo_from_source <- TRUE
 
 	d$crop <- "maize"
 	d$yield_part <- "grain"
@@ -173,6 +174,10 @@ carob_script <- function(path) {
 
 	d$Fe_fertilizer[tolower(d$Fe_fertilizer) == "yes"] <- NA
 	d$Fe_fertilizer <- as.numeric(d$Fe_fertilizer)
+	
+	
+	d$on_farm <- NA
+	d$is_survey <- FALSE
 
 	carobiner::write_files(meta, d, path=path)
 }

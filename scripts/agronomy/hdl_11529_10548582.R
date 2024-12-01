@@ -94,6 +94,7 @@ Randomized complete block design for four environments (ENV) that combined tilla
 	
 	
 	d$yield_part <- "grain"
+	d$geo_from_source <- TRUE
 	d <- d[!is.na(d$yield), ]
 	carobiner::write_files(meta, d, path=path)
 	

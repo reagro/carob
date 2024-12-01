@@ -81,6 +81,9 @@ carob_script <- function(path) {
 	m <- na.omit(cbind(1:nrow(d), match(d$location, crds$location)))
 	d$longitude[m[,1]] <- crds[m[,2], 2]
 	d$latitude[m[,1]] <- crds[m[,2], 3]
+	d$geo_from_source <- TRUE
+	d$geo_from_source[m[,1]] <- FALSE
+	
 
 ##### Crop #####
 ## normalize variety names
@@ -152,28 +155,35 @@ carob_script <- function(path) {
 	tmp <- d$latitude[i]
 	d$latitude[i] <- d$longitude[i]
 	d$longitude[i] <- tmp
+	d$geo_from_source[i] <- FALSE
 	
 	i <- which(d$country=="Mali" & d$latitude < 0)
 	tmp <- d$latitude[i]
 	d$latitude[i] <- d$longitude[i]
 	d$longitude[i] <- tmp
+	d$geo_from_source[i] <- FALSE
 
 	i <- which(d$country=="Burkina Faso" & d$location == "Sourou Valley")
 	d$latitude[i] <- 13.1
+	d$geo_from_source[i] <- FALSE
 	  
 	i <- which(d$country=="Côte d'Ivoire" & d$location == "Guessihio")
 	d$longitude[i] <- -6
+	d$geo_from_source[i] <- FALSE
 
 	i <- which(d$country=="Nigeria" & d$location == "Ibadan")
 	d$longitude[i] <- 3.9
+	d$geo_from_source[i] <- FALSE
 
 	i <- which(d$country=="Nigeria" & d$location %in% c("Calabar", "Iwo"))
 	tmp <- d$latitude[i]
 	d$latitude[i] <- d$longitude[i]
 	d$longitude[i] <- tmp
+	d$geo_from_source[i] <- FALSE
 
 	i <- which(d$country=="Ghana" & d$longitude > .1)
 	d$longitude[i] <- -d$longitude[i]
+	d$geo_from_source[i] <- FALSE
 	  
   	d$soil_P_available[d$soil_P_available > 200] <- NA
 	

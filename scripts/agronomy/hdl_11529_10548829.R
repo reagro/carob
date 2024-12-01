@@ -6,7 +6,7 @@
 
 carob_script <- function(path) {
 
-"Weed development is one of the major constraints to cereal cropping systems in Southern Africa with potential severe crop losses. Understanding weed community responses to different conservation agriculture (CA) components (i.e., no-tillage, NT; crop rotation, R; and mulching, M) and/or their combinations is crucial in Southern Africa where farmers apply different combinations depending on local context. Here, for the first time, we assessed how weed density, community diversity and structure respond to different combinations of CA components[conventional tillage (CT), CT+M, CT+R, CT+M+R, NT, NT+M, NT+R, NT+M+R]. The study was carried out over three seasons at two locations with contrasting soil textures i.e., clayish, and sandy. At the sandy location, across seasons, weed density (number of individuals per unit area) and community diversity (distribution of individuals within the species) were significantly and positively affected by precipitation and not by cropping system. Weed richness (number of species) was affected by the interaction of season and cropping system, with the highest number of weed species being recorded in the NT+M+R system in the seasons with medium to high precipitation. At the clayish location, an opposite pattern was observed, and weed density was lower in    seasons with medium-high precipitation than under low precipitation. Weed community diversity was 50 % higher under NT+M than under CT+R, whereas weed species richness decreased with the increase of precipitation. At both locations, the implementation of rotation and mulching either in NT or CT systems resulted in the modification of the structure of weed community with respect to CT and NT alone, and these CA combinations were associated with highest maize grain yield. Overall, eight weed species common to both locations were responsible for most of the community   structure differences among cropping systems. Structural equation modelling showed that at the sandy location precipitation did not affect grain yield, but positively affected weed density, diversity, evenness, and richness. By contrast, at the clay location, precipitation positively affected grain yield, but did not modify weed density and evenness, and reduced weed community diversity and richness. At this location, weed density negatively affected grain yield. The differential weed-crop relationship supports the need to find a site-specific equilibrium between the control of weeds and the maintenance of their diversity"
+"Weed development is one of the major constraints to cereal cropping systems in Southern Africa with potential severe crop losses. Understanding weed community responses to different conservation agriculture (CA) components (i.e., no-tillage, NT; crop rotation, R; and mulching, M) and/or their combinations is crucial in Southern Africa where farmers apply different combinations depending on local context. Here, for the first time, we assessed how weed density, community diversity and structure respond to different combinations of CA components[conventional tillage (CT), CT+M, CT+R, CT+M+R, NT, NT+M, NT+R, NT+M+R]. The study was carried out over three seasons at two locations with contrasting soil textures i.e., clayish, and sandy. At the sandy location, across seasons, weed density (number of individuals per unit area) and community diversity (distribution of individuals within the species) were significantly and positively affected by precipitation and not by cropping system. Weed richness (number of species) was affected by the interaction of season and cropping system, with the highest number of weed species being recorded in the NT+M+R system in the seasons with medium to high precipitation. At the clayish location, an opposite pattern was observed, and weed density was lower in    seasons with medium-high precipitation than under low precipitation. Weed community diversity was 50% higher under NT+M than under CT+R, whereas weed species richness decreased with the increase of precipitation. At both locations, the implementation of rotation and mulching either in NT or CT systems resulted in the modification of the structure of weed community with respect to CT and NT alone, and these CA combinations were associated with highest maize grain yield. Overall, eight weed species common to both locations were responsible for most of the community   structure differences among cropping systems. Structural equation modelling showed that at the sandy location precipitation did not affect grain yield, but positively affected weed density, diversity, evenness, and richness. By contrast, at the clay location, precipitation positively affected grain yield, but did not modify weed density and evenness, and reduced weed community diversity and richness. At this location, weed density negatively affected grain yield. The differential weed-crop relationship supports the need to find a site-specific equilibrium between the control of weeds and the maintenance of their diversity"
 
 	uri <- "hdl:11529/10548829"
 	group <- "agronomy"
@@ -41,10 +41,10 @@ carob_script <- function(path) {
   ## process file
 	r$site <- r$Location
 	r$country <- "Zimbabwe"
-	r$adm1 <- ifelse(r$site == "DTC","Mashonaland_east", "Harare")
+	r$adm1 <- ifelse(r$site == "DTC", "Mashonaland_east", "Harare")
 	r$adm2 <- ifelse(r$site == "DTC","Goromonzi", "Harare")
-	r$latitude <- ifelse(r$site =="DTC",-17.4833,-17.7829)
-	r$longitude <- ifelse(r$site =="DTC",31.1000,31.0569)
+	r$latitude <- ifelse(r$site =="DTC", -17.4833, -17.7829)
+	r$longitude <- ifelse(r$site =="DTC", 31.1000, 31.0569)
 	r$crop <- "maize"
 	r$dmy_total <- r$Biomass
 	r$yield <- r$Grain
@@ -90,6 +90,10 @@ carob_script <- function(path) {
 	
 	d <- r[,c("trial_id", "country","adm1","adm2","latitude","longitude","treatment","crop","dmy_total", "yield","yield_part","planting_date", "on_farm", "soil_clay","soil_sand","soil_silt","soil_SOC","row_spacing","plant_spacing","N_fertilizer","P_fertilizer","K_fertilizer")] 
 	
+
+	d$geo_from_source <- FALSE
+	d$is_survey <- FALSE
+	d$on_farm <- TRUE
 
   	carobiner::write_files(meta, d, path=path)
  }

@@ -58,6 +58,7 @@ carob_script <- function(path) {
 	)
 		
 	d <- carobiner::bindr(d0, d1)
+	d$geo_from_source <- FALSE
 	
 	d$country<- "Malawi"
 	

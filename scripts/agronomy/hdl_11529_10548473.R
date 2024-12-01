@@ -18,7 +18,9 @@ carob_script <- function(path) {
 		data_institute = "CIMMYT",
 		data_type="experiment", 
 		carob_contributor="Fredy Chimire",
-		carob_date="2024-03-24"
+		carob_date="2024-03-24",
+		treatment_vars="land_preparation;irrigation_fulfilment",
+		response_vars="yield"
 	)
   
 	f <- ff[basename(ff) == "Database_902-Selection-Honsdorf_et_al.xlsx"]
@@ -38,13 +40,26 @@ carob_script <- function(path) {
 		country = "Mexico",
 		adm1 = "Sonora",
 		location = "Ciudad Obregon",
-		latitude = 27.4822,
-		longitude = -109.9313
+		site = "CIMMYT CENEB",
+		latitude = 27.3716, 
+		longitude = -109.9315,
+		geo_from_source = FALSE
 	)
+
+  	d$land_preparation[d$treatment == "CT"] <- "conventional"
+	d$land_preparation[d$treatment == "ZT"] <- "none"
+	d$land_preparation[d$treatment == "RI"] <- "conventional"
+	d$irrigation_fulfilment  = "full"
+	d$irrigation_fulfilment[d$treatment == "RI"] <- "reduced"
   
-	d$treatment[d$treatment == "CT"] <- "conventional tillage"
+  	d$treatment[d$treatment == "CT"] <- "conventional tillage"
 	d$treatment[d$treatment == "ZT"] <- "zero tillage"
 	d$treatment[d$treatment == "RI"] <- "reduced irrigation with conventional tillage"
+
+  
+	d$on_farm <- FALSE
+	d$is_survey <- FALSE
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- NA
   
 	carobiner::write_files(meta, d, path=path)
 }

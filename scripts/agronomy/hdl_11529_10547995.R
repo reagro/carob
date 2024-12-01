@@ -92,9 +92,12 @@ carob_script <- function(path) {
   d$location <- gsub("Kolkondo","Kolkonda", d$location)
   d$location <- gsub("Durgarpur","Durgapur", d$location)
   
-  geo <- data.frame(location=c("Borodarga", "Mohanpur", "Kolkonda" , "Lakkhitari", "Durgapur"), 
-                    latitude=c(25.7011, 25.9342, 25.8683, 25.88404, 25.55461), 
-                    longitude=c(89.3436, 88.6928, 89.2044, 89.25188, 89.29195))
+  geo <- data.frame(
+		location=c("Borodarga", "Mohanpur", "Kolkonda" , "Lakkhitari", "Durgapur"), 
+        latitude=c(25.7011, 25.9342, 25.8683, 25.88404, 25.55461), 
+        longitude=c(89.3436, 88.6928, 89.2044, 89.25188, 89.29195),
+		geo_from_source=FALSE
+	)
   
   d <- merge(d, geo, by="location", all.x = TRUE)  
   

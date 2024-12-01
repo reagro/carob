@@ -80,7 +80,8 @@ Conventional ridge and furrow with continuous sole maize (CRF);
 	geo <- data.frame(
 		adm2 = c("Chipata", "Lundazi", "Sinda"), 
 		longitude = c(32.65, 32.75, 32.012),
-		latitude = c(-14.017, -12.5, -14.187)
+		latitude = c(-14.017, -12.5, -14.187),
+		geo_from_source = FALSE
 	)
 
   	d <- merge(d, geo, by="adm2", all.x=TRUE)

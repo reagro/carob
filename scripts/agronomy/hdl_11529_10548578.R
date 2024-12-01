@@ -29,6 +29,7 @@ carob_script <- function(path) {
     adm1=r$State,
     latitude=r$Latitude,
     longitude=r$Longitude,
+	geo_from_source=TRUE,
     elevation=r$Altitude,
     treatment=r$Name_tr,
     crop=r$Crop,
@@ -51,6 +52,9 @@ carob_script <- function(path) {
     yield=r$Yield_moist,
     crop_price=r$Price
   )
+  
+  d$flowering_days[d$flowering_days > 1000] <- NA
+  d$maturity_days[d$maturity_days > 1000] <- NA
   
   d$on_farm <- TRUE
   d$is_survey <- FALSE

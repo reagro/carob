@@ -96,6 +96,7 @@ carob_script <- function(path){
 		ifelse(d1$location == "Mareba", -1.675,
         ifelse(d1$location == "Bugesera", -2.232, -1.905))))))))))))))
   
+  
 	d1$crop[grepl("SOY", d1$crop)] <- "soybean"
 	d1$crop[d1$crop %in% c("Bush BEANS INPUT", "Climbing BEANS INPUT")] <- "common bean"
   
@@ -132,6 +133,7 @@ carob_script <- function(path){
 
 	s$is_survey <- FALSE
 	s$irrigated <- NA
+	s$geo_from_source <- FALSE
 	
   # all scripts should end like this
 	carobiner::write_files(meta, s, path=path)

@@ -178,6 +178,8 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
 	f$is_survey <- FALSE
 	f$irrigated <- NA
 	
+	f$geo_from_source <- FALSE
+	
 	carobiner::write_files(meta, f, path=path)
 }
 

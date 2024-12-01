@@ -32,10 +32,10 @@ carob_script <- function(path) {
 	x <- data.frame(reference=d$Publication)
 	x$on_farm <- FALSE
 	x$is_survey <- FALSE
-	x$irrigated <- ifelse(d$Water_regime == "Irrigated", TRUE, FALSE)
+	x$irrigated <- d$Water_regime == "Irrigated"
 	## the treatment code	
-	x$reference <- d$Publication
-	x$trial_id <- paste0("lud_", as.integer(as.factor(x$reference)))
+	# x$reference <- d$Publication
+	x$trial_id <- paste0("lud_", as.integer(as.factor(d$Publication)))
 	
 	x$country <- d$Country
 	x$country[x$country == "Côte d\u0092Ivoire"] <- "Côte d'Ivoire"	
@@ -135,6 +135,7 @@ carob_script <- function(path) {
     #message("1492 records are missing yield. Should it be removed?")
 	x <- x[!is.na(x$yield), ]
 	x$planting_date <- as.character(NA)
-	
+
+	x <- unique(x)
 	carobiner::write_files(meta, x, path=path)
 }

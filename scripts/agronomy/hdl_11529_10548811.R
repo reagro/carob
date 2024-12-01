@@ -123,7 +123,7 @@ carob_script <- function(path) {
 	d$fertilizer_type <- "none"
 	d$fertilizer_type[d$N_fertilizer > 0] <- "urea"
 	i <- which(d$Zn_fertilizer > 0)
-	d$fertilizer_type[i] <- paste0(d$fertilizer_type[i], ";ZnSo4")
+	d$fertilizer_type[i] <- paste0(d$fertilizer_type[i], ";ZnSO4")
 	d$fertilizer_type <- gsub("none;", "", d$fertilizer_type)
 
 # could be added to capture the foliar applications

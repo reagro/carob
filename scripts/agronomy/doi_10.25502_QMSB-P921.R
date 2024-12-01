@@ -52,6 +52,8 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
   d$elevation <- d$gps_altitude_hh.m
   
   r <- d[,c("trial_id","country","adm1","adm2","adm3","latitude","longitude","elevation")]
+  r$geo_from_source <- TRUE
+  
   
   # EGB: 
   # # Fix coordinates from those already assumed to be correct in the dataset

@@ -113,6 +113,10 @@ carob_script <- function(path) {
   # Adding approximate coordinates
   # del <- unique(d[is.na(d$latitude) | is.na(d$longitude), c("country", "adm1", "adm2", "site")])
   # gi <- carobiner::geocode(country = "India", adm1 = del$adm1, location = del$site)
+
+  d$geo_from_source <- TRUE
+  d$geo_from_source[is.na(d$longitude)] <- FALSE
+
   gi <- data.frame(country = c("India", "India", "India", "India", "India", "India", "India", "India", "India", "India", "India", "India"),
                     adm1 = c("Bihar", "UP", "Bihar", "UP", "UP", "Bihar", "Bihar", "Bihar", "Bihar", "Bihar", "UP", "UP"),
                     location = c("Raxaul", "Kaptanganj", "Singheshwar", "fazilnagar", "Dudhi", "Halsi", "Piro", "Bandra", "Barauni", "Chakia", "Fazilnagar", "Hata"),
@@ -151,6 +155,7 @@ carob_script <- function(path) {
     d[d$trial_id == tid, "longitude"] <- el$longitude
     d[d$trial_id == tid, "latitude"] <- el$latitude
   }
+  
   
   carobiner::write_files(meta, d, path=path)
    

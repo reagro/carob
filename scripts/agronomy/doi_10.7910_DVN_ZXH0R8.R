@@ -149,7 +149,8 @@ carob_script <- function(path) {
 	geo <- data.frame(
 		location  = c("Goshe Bado", "Gudo Beret", "Hayk", "Kabe", "Lemo", "Selka", "Sinana", "Sirinka", "Tsibet"), 
 		longitude = c(39.446, 39.682, 39.684, 39.46, 37.851, 40.289, 40.215, 39.607, 39.482), 
-		latitude  = c(9.74, 9.799, 11.316, 10.826, 5.436, 6.857, 7.068, 11.748, 12.86)
+		latitude  = c(9.74, 9.799, 11.316, 10.826, 5.436, 6.857, 7.068, 11.748, 12.86),
+		geo_from_source = FALSE
 	)
 	d <- merge(d, geo, by="location", all.x=TRUE)
 

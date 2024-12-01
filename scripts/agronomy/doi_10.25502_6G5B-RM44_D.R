@@ -134,12 +134,23 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
 	d4$K_fertilizer <- ifelse(grepl("KCl", d4$fertilizer_type), 30, 0)
 	d4$N_splits <- ifelse(grepl("urea",d4$fertilizer_type), 2L, 0L)
 	
-	d4 <- d4[, c("trial_id","country","location","latitude", "longitude", "elevation","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","plant_density","seed_weight","dmy_roots","dmy_total", "fwy_residue","yield","fertilizer_type","N_fertilizer","N_splits","P_fertilizer","K_fertilizer","soil_pH", "soil_K", "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm")]
+	d <- d4[, c("trial_id","country","location","latitude", "longitude", "elevation","rep", "treatment","crop", "variety", "planting_date","harvest_date","inoculated","plant_density","seed_weight","dmy_roots","dmy_total", "fwy_residue","yield","fertilizer_type","N_fertilizer","N_splits","P_fertilizer","K_fertilizer", "soil_pH", "soil_K", "soil_sand", "soil_clay", "soil_SOC", "soil_N", "on_farm")]
 
-	d4$yield_part <- "seed"
-	d4$is_survey <- FALSE
-	d4$irrigated <- NA
 
-	carobiner::write_files(meta, d4, path=path)
+
+	d$soil_pH[d$soil_pH < 2] <- NA
+	
+	d$plant_density[d$plant_density == 0] <- NA
+	d$soil_K[d$soil_K==0] <- NA
+	d$soil_N[d$soil_N==0] <- NA
+
+	d$yield_part <- "seed"
+	d$is_survey <- FALSE
+	d$irrigated <- NA
+
+	d$geo_from_source <- TRUE
+
+
+	carobiner::write_files(meta, d, path=path)
 }
 

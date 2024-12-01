@@ -96,6 +96,7 @@ carob_script <- function(path) {
   d$longitude[d$location=="katsina-kaduna"] <- 7.6207063
   d$latitude[d$location=="kaduna-kano"] <- 10.5182899
   d$longitude[d$location=="kaduna-kano"] <- 7.4359863
+  d$geo_from_source <- FALSE
 # planting date is June 2017  get from VT protocol
   d$planting_date <- "2017-06-01"
   d$harvest_date <- "2017-11-01"

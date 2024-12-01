@@ -155,6 +155,7 @@ T5. Magoye ripping (RI-ML): maize with residue retention, intercropped with cowp
                 "Conventional mouldboard ploughing", "Magoye ripper","Magoye ripper-maize rotation")
   
   d$treatment <- treatname[match(d$treatment,treatcode)]
+	d$geo_from_source <- FALSE
   
   carobiner::write_files(meta, d, path=path)
 }

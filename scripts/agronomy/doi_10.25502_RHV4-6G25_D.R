@@ -69,7 +69,7 @@ are developed that are tested on farmer's fields in validation trials in a large
 
    d$longitude <- 8.2383
    d$latitude <- 8.4388
- 
+	d$geo_from_source <- FALSE
  # Planting and harvest date ( from VT protocol )
    d$planting_date <- "2017-04-01"
    d$harvest_date <- "2017-11-01"

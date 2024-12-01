@@ -96,7 +96,7 @@ carob_script <- function(path) {
  d$intercrops[d$treatment_code==7 & d$crop=="maize"] <- "pigeon pea"
  
  d$crop_rotation <- "none"
- d$crop_rotation[d$treatment_code==4 & d$crop=="groundnut"] <- "groundut;maize"
+ d$crop_rotation[d$treatment_code==4 & d$crop=="groundnut"] <- "groundnut;maize"
  d$crop_rotation[d$treatment_code==4 & d$crop=="maize"] <- "groundnut;maize"
  d$crop_rotation[d$treatment_code==5 & d$crop=="soybean"] <- "maize;soybean"
  d$crop_rotation[d$treatment_code==5 & d$crop=="maize"] <- "maize;soybean"

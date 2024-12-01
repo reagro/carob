@@ -17,7 +17,8 @@ carob_script <- function(path) {
 		data_type="on-farm experiment", 
 		carob_contributor="Mitchelle Njukuya",
 		carob_date="2024-01-09",
-		response_vars = "yield"
+		response_vars = "yield",
+		treatment_vars = NA
 	)
   
 	f <- ff[basename(ff) == "NewDesign_gnut yields.csv"]
@@ -55,7 +56,8 @@ carob_script <- function(path) {
 	geo <- data.frame(
 		location = c("Mbizi", "Mkambiri", "Tambula"), 
 		latitude = c(-14.176, -14.567, -14.623),
-		longitude= c(34.125, 35.538, 35.6456 )
+		longitude= c(34.125, 35.538, 35.6456 ),
+		geo_from_source = FALSE
 	)
 	
 	d <- merge(d, geo, by="location", all.x=TRUE)   

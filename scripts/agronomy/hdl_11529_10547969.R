@@ -19,7 +19,7 @@ carob_script <- function(path) {
     data_institute = "CIMMYT", 
     data_type="on-farm experiment", 
 	  response_vars = "yield",
-	  treatment_vars = "land_prep_method;crop_rotation;longitude;latitude",
+	  treatment_vars = "land_prep_method;crop_rotation",
     carob_contributor="Mitchelle Njukuya", 
     carob_date="2024-05-21"
   )
@@ -94,7 +94,9 @@ carob_script <- function(path) {
 	d$fertilizer_type <- gsub("UREA", "urea", d$fertilizer_type)
 	d$fertilizer_type <- gsub("N:P:K|10-26-26|1899-12-31 10:26:26|:26:26", "NPK", d$fertilizer_type)
 	d$fertilizer_type <- gsub("[0-9]|-|:|,", '', d$fertilizer_type)
-	d$fertilizer_type[grep("boron", d$fertilizer_type, TRUE)] <- "boron"
+	d$fertilizer_type[grep("boron", d$fertilizer_type, TRUE)] <- "borax"
+	d$fertilizer_type[d$fertilizer_type == "NA"] <- NA
+	
   
   
 	code = c("CTTPR-RL-JTJ", "CTTPR-RL-ZTJ", "UPTPR-RL-ZTJ", "CTTPR-CTL-ZTJ", "CTTPR-ZTL-ZTJ", 
@@ -141,7 +143,8 @@ carob_script <- function(path) {
 	geo <- data.frame(
 		location=c("Durganagar", "Mansai", "Falimari", "Ghughumari", "Patchara"), 
 		latitude=c(24.7696, 25.2347, 26.0617, 26.3339, 24.4878), 
-		longitude=c(79.0309, 87.6779, 89.4739, 89.3261, 82.0019)
+		longitude=c(79.0309, 87.6779, 89.4739, 89.3261, 82.0019),
+		geo_from_source=FALSE
 	)
   
   d <- merge(d, geo, by="location", all.x = TRUE)  
