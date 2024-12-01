@@ -17,7 +17,9 @@ carob_script <- function(path) {
 		project=NA,
 		data_type= "experiment",
 		carob_contributor= "Mitchelle Njukuya",
-		carob_date="2024-04-19"
+		carob_date="2024-04-19",
+		treatment_vars=NA, 
+		response_vars="yield"
 	)
 	
 
@@ -206,11 +208,16 @@ carob_script <- function(path) {
 # are you sure?
 #	d$irrigated <- FALSE
 
-	geo <- data.frame(location=c("Durgapur","Borodarga","Kolkondo","Mohanpur","Lakhitari"), 
-					latitude=c(25.55461, 25.82308, 25.86245, 25.93235, 25.88404), 
-					longitude=c(89.29195, 89.25810, 89.20563, 88.69496, 89.25188))
+	geo <- data.frame(
+		location=c("Durgapur","Borodarga","Kolkondo","Mohanpur","Lakhitari"), 
+		latitude=c(25.55461, 25.82308, 25.86245, 25.93235, 25.88404), 
+		longitude=c(89.29195, 89.25810, 89.20563, 88.69496, 89.25188),
+		geo_from_source=FALSE
+	)
 	
 	d <- merge(d, geo, by="location", all.x = TRUE)	
 
+	d$irrigated <- NA
+	
 	carobiner::write_files(path, meta, d)
 }

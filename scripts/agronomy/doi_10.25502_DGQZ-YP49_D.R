@@ -89,6 +89,7 @@ carob_script <- function(path){
 	d1$longitude <- d1$gps_longitude_dec
 	d1$latitude <- d1$gps_latitude_dec
 	d1$elevation <- d1$gps_altitude_dec
+	d1$elevation[d1$elevation < -99] <- NA
 	d1$geo_from_source <- TRUE
 	
 	#subset the processed variables

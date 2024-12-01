@@ -95,7 +95,7 @@ carob_script <- function(path) {
 	d$fertilizer_type <- gsub("N:P:K|10-26-26|1899-12-31 10:26:26|:26:26", "NPK", d$fertilizer_type)
 	d$fertilizer_type <- gsub("[0-9]|-|:|,", '', d$fertilizer_type)
 	d$fertilizer_type[grep("boron", d$fertilizer_type, TRUE)] <- "borax"
-	d$fertilizer_type[d$fertilizer_type == "NA"] <- NA
+	d$fertilizer_type[is.na(d$fertilizer_type)] <- "unknown"
 	
   
   

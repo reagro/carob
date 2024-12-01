@@ -12,9 +12,7 @@ carob_script <- function(path) {
 
 Across environments and genotypes, yield ranged from 2.11 to 4.77 t ha-1(mean: 3.9 t ha-1) under early-sowing, and from 0.83 to 4.27 t ha-1(mean: 2.74 t ha-1) under late-sowing. Wheat performance varied with environment (1.68 - 4.77 t ha-1 at 100 kg N ha-1across sowing groups); the lowest yields found where early sowing was delayed and soil salinity levels were elevated. Small but significant (P less than 0.001) yield differences (0.22 t ha-1) were found between 100 and 133 kg N ha-1 for the early-sowing group, though no difference was found between 67and 100 kg N ha-1 for late-sowing. Combining early- and late-sowing groups, significant environment x N rate and sowing-group x N rate interactions (both P less than 0.001) for 100 kg N ha-1 indicated the importance of site-and time-specific N management in these stress-prone environments.
 
-Considering all cultivars and environments, ECa at sowing, flowering and grain filling negatively correlated with yield (r = - 0.50, - 0.59 and - 0.54, all P less than 0.001). Correlations with ground water depth at flowering and grain filling were negative and significant, but less pronounced in the context of farmer-managed irrigation scheduling. Despite putative stress-tolerance traits in two of the three entries, no genotypic yield differences were found under early-sowing, though s mall differences (less than 0.19 t ha-1) were observed with late sowing. Agronomic fertilizer-N efficiency (AE-N) was consistently higher for 100 than 133 and 67 than 100 kg N ha-1 for early- and late-sowing. The marginal economic value of N application followed similar trends, indicating that rates of at most 100 and 67 kg N ha-1 are favorable for sowing before or after December 15th.]
-
-"
+Considering all cultivars and environments, ECa at sowing, flowering and grain filling negatively correlated with yield (r = - 0.50, - 0.59 and - 0.54, all P less than 0.001). Correlations with ground water depth at flowering and grain filling were negative and significant, but less pronounced in the context of farmer-managed irrigation scheduling. Despite putative stress-tolerance traits in two of the three entries, no genotypic yield differences were found under early-sowing, though s mall differences (less than 0.19 t ha-1) were observed with late sowing. Agronomic fertilizer-N efficiency (AE-N) was consistently higher for 100 than 133 and 67 than 100 kg N ha-1 for early- and late-sowing. The marginal economic value of N application followed similar trends, indicating that rates of at most 100 and 67 kg N ha-1 are favorable for sowing before or after December 15th.]"
 
 	uri <- "hdl:11529/11084"
 	group <- "agronomy"
@@ -70,6 +68,7 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	w2 <- as.character(as.Date(r$WEEDING_DATE_2, "%d/%m/%y"))
 	w <- paste0(w1, ";", w2)
 	d$weeding_dates <- gsub(";NA", "", w)
+	d$weeding_dates[d$weeding_dates=="NA" ] <- NA
 
 	ird <- as.matrix(r[, paste0("IRRIGATION_DATE_", 1:4)])
 	ird[ird=="."] <- NA

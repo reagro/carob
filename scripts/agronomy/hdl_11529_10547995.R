@@ -15,7 +15,9 @@ carob_script <- function(path) {
     data_institute = "CIMMYT", 
     data_type="on-farm experiment", 
     carob_contributor="Mitchelle Njukuya", 
-    carob_date="2024-04-30"
+    carob_date="2024-04-30",
+		treatment_vars=NA, 
+		response_vars="yield"	
   )
   
   
@@ -34,7 +36,8 @@ carob_script <- function(path) {
       planting_date=as.character(r1$Date.of.seeding.mm.dd.yy),
       harvest_date=as.character(r1$Datw.of.harvest.mm.dd.yy)
     )
-    
+    d1$row_spacing[d1$row_spacing == 0] <- NA
+	
     r2 <- carobiner::read.excel.hdr(f, sheet ="6 - Fertilizer amounts ", skip=4, hdr=3)
     
     colnames(r2) <- gsub("K.kg.ha","K2O.kg.ha",colnames(r2))
@@ -86,6 +89,8 @@ carob_script <- function(path) {
   d$fertilizer_type <- gsub("MOP", "KCl", d$fertilizer_type)
   d$fertilizer_type <- gsub("Urea", "urea", d$fertilizer_type)
   d$fertilizer_type <- gsub("Gypsum", "gypsum", d$fertilizer_type)
+  d$fertilizer_type[is.na(d$fertilizer_type)] <- "unknown"
+
   d$crop <- gsub("rabi maize", "maize", d$crop)
   d$location <- gsub("Borodorgha|Borodargha","Borodarga", d$location)
   d$location <- gsub("Mohonpur","Mohanpur", d$location)

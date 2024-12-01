@@ -35,7 +35,9 @@ carob_script <- function(path) {
 		project = "Africa RISING",
 		data_type = "experiment",
 		carob_contributor= "Eduardo Garcia Bendito",
-		carob_date="2024-05-07"
+		carob_date="2024-05-07",
+		treatment_vars=NA, 
+		response_vars = "yield"
 	)
 	
 	f1 <- ff[basename(ff) == "Old design_maize yields.csv"]
@@ -124,7 +126,8 @@ carob_script <- function(path) {
 	geo <- data.frame(
 		location = c("Nsanama", "Nyambi", "Ntiya"), 
 		longitude = c(35.507,  35.573,  35.395), 
-		latitude = c(-14.964, -14.689, -14.352)
+		latitude = c(-14.964, -14.689, -14.352),
+		geo_from_source = FALSE
 	)
 
 	d <- merge(d, geo, by="location", all.x=TRUE)

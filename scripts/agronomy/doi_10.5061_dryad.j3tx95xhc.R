@@ -45,6 +45,7 @@ carob_script <- function(path) {
 	## each site must have corresponding longitude and latitude
 	x$longitude <- d$GPS_long_DD
 	x$latitude <- d$GPS_lat_DD
+	x$geo_from_source <- TRUE
 
 	x$crop <- tolower(d$Crop)
 	
@@ -101,32 +102,37 @@ carob_script <- function(path) {
 	x$longitude[i] <- 86.14
 
 
-## ????? why remove?
-	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Bihar" & is.na(x$location) & x$latitude > 35)
-	x <- x[-i,]
+## ????? why remove? 
+#	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Bihar" & is.na(x$location) & x$latitude > 35)
+#	x <- x[-i,]
 
-	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "North Vietnam")
-	x <- x[-i,]
+#	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "North Vietnam")
+#	x <- x[-i,]
 
-	i <- which(x$longitude == -44.84954 & x$latitude == -21.97502)
-	x <- x[-i,]
+#	i <- which(x$longitude == -44.84954 & x$latitude == -21.97502)
+#	x <- x[-i,]
 ### ????? 
 
 	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Bukidnon" & x$location=="Crossing Poblacion")
 	x$longitude[i] <- 124.80
 	x$latitude[i] <- 8.32
+	x$geo_from_source[i] <- FALSE
 	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Bukidnon" & x$location=="Sta. Ana")
 	x$longitude[i] <- 124.805
 	x$latitude[i] <- 8.538
+	x$geo_from_source[i] <- FALSE
 	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Bukidnon" & x$location=="Kisolon")
 	x$longitude[i] <- 124.974
 	x$latitude[i] <- 8.334
+	x$geo_from_source[i] <- FALSE
 	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Bukidnon" & x$location=="Calatcat")
 	x$longitude[i] <- 124.476
 	x$latitude[i] <- 8.554
+	x$geo_from_source[i] <- FALSE
 	i <- which(x$reference == "Setiyono et al 2010" & x$adm1 == "Leyte" & x$location=="Maslug")
 	x$longitude[i] <- 124.7697
 	x$latitude[i] <- 10.5786
+	x$geo_from_source[i] <- FALSE
 	
 	# the locations for Rakshaskhali, India that are flagged as not on land
 	# are OK, not in the ocean (needs to be fixed in GADM)

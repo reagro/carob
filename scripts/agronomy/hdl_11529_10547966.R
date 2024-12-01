@@ -61,9 +61,9 @@ carob_script <- function(path) {
 		) 
 		
 		d2$fertilizer_type <- apply(r2[, grep("Application_Product.used", names(r2))], 1, 
-									\(i) paste(unique(i), collapse="; "))
+									\(i) paste(unique(i), collapse=";"))
 		
-		
+
 		string0 <- readxl::excel_sheets(f)[grep("Grain Harvest", readxl::excel_sheets(f))]
 		
 		r3 <- carobiner::read.excel.hdr(f, sheet = string0, skip=4, hdr=3)	
@@ -138,7 +138,8 @@ carob_script <- function(path) {
 	d <- d[!is.na(d$yield), ]
 	d <- d[d$yield > 0, ]
 	
-	d$fertilizer_type <- gsub("; NA|NA", "", unique(d$fertilizer_type))
+	d$fertilizer_type <- gsub(";NA|NA", "", d$fertilizer_type)
+	d$fertilizer_type[d$fertilizer_type == ""] <- "unknown"
 	d <- unique(d)
   
 	carobiner::write_files(meta, d, path=path)	

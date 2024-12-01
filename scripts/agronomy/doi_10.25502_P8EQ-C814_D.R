@@ -88,7 +88,7 @@ carob_script <- function(path) {
     d$P_fertilizer <- ifelse(d$treatment == "NoFert", 0, 20/2.29)
       
     # fix crop names 
-    d$intercrops <- ifelse(d$crop=="CasMz", "maize", "no crop") 
+    d$intercrops <- ifelse(d$crop=="CasMz", "maize", "none") 
     d$crop <- "cassava"
     d$yield_part <- "roots"
       

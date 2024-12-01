@@ -18,7 +18,9 @@ carob_script <- function(path) {
 		carob_contributor="Mitchelle Njukuya", 
 		carob_date="2023-08-17", 
 		modified_by="Cedric Ngakou, Robert Hijmans",
-		last_modified="2023-11-03"
+		last_modified="2023-11-03",
+		treatment_vars=NA, 
+		response_vars="yield"
 	)
 
 
@@ -102,6 +104,8 @@ carob_script <- function(path) {
 	)
 	
 	d <- merge(d, geo, by="location", all.x = TRUE)  # do not use "T"
+	
+	d$row_spacing[d$row_spacing == 0] <- NA
 	
 ##data type
 

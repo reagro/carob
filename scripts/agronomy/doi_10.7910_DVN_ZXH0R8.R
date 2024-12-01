@@ -58,9 +58,9 @@ carob_script <- function(path) {
 			fwy_residue = d$Stover.yield..kg.ha,
 			
 			fertilizer_type = 
-				ifelse(d$Treatment == "0.33NP/farmer practice" | d$Treatment == "NP", "urea; DAP",
-				ifelse(d$Treatment == "NPK", "urea; DAP; KNO",
-				ifelse(d$Treatment == "NPKS", "urea; DAP; SOP", "urea; DAP; SOP; ZnSO4")))
+				ifelse(d$Treatment == "0.33NP/farmer practice" | d$Treatment == "NP", "urea;DAP",
+				ifelse(d$Treatment == "NPK", "urea;DAP;KNO",
+				ifelse(d$Treatment == "NPKS", "urea;DAP;SOP", "urea;DAP;SOP;ZnSO4")))
 		)
 		# these are not present in all files
 		x$N_fertilizer <- d$N.fertilizer.amount..kg.ha.

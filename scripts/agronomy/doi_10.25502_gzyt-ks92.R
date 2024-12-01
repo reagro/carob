@@ -154,6 +154,7 @@ carob_script <- function(path) {
               "N_fertilizer","P_fertilizer","K_fertilizer","yield_part","irrigated")]
   dd <- carobiner::change_names(dd, c("pdate.y","hdate.y"), c("planting_date", "harvest_date"))
 
+  dd$geo_from_source <- TRUE
   
   carobiner::write_files(meta, dd, path=path)
 }

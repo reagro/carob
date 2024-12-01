@@ -177,7 +177,8 @@ Description: Bean (Phaseolus vulgaris L.) is important in sub-Saharan Africa for
 		country = c("Mozambique", "Tanzania", "Tanzania", "Tanzania", "Zambia", "Zambia", "Zambia", "Zambia"),
 	    location = c("Gurue", "Selian", "Karangai", "Uyole", "Mt. Makulu", "Kasama", "Mufulira", "Msekera"), 
 	    longitude = c(36.941, 36.6496, 36.8836, 33.5279, 28.2608, 31.1877, 28.1922, 32.5404), 
-	    latitude = c(-15.4545, -3.3255, -3.5229, -8.9172, -15.5443, -10.2045, -12.5441, -13.621)
+	    latitude = c(-15.4545, -3.3255, -3.5229, -8.9172, -15.5443, -10.2045, -12.5441, -13.621),
+		geo_from_source = FALSE
 	)
 
 	d <- merge(z, geo, by = c("country", "location"), all.x=TRUE)

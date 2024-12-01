@@ -22,7 +22,9 @@ carob_script <- function(path) {
 		carob_contributor="Fredy Chimire",
 		carob_date="2023-10-31",
 		modified_by="Robert Hijmans",
-		last_modified="2023-11-04"
+		last_modified="2023-11-04",
+		treatment_vars=NA, 
+		response_vars = "yield"
 	)
 	
 	
@@ -113,6 +115,7 @@ carob_script <- function(path) {
 			d$longitude <- NA
 			d$location <- "Saalbani"
 		}
+		d$geo_from_source <- FALSE
 		crop <- tolower(strsplit(basename(f), "-")[[1]][1])
 		d$crop <- gsub("kidneybean", "kidney bean", crop)
 		if (d$crop[1] == "potato") {
@@ -128,5 +131,7 @@ carob_script <- function(path) {
 	dd <- lapply(ff, fun)
 	dd <- do.call(rbind, dd)
 
+	dd$on_farm <- TRUE
+	dd$is_survey <- FALSE
 	carobiner::write_files(meta, dd, path=path)
 }

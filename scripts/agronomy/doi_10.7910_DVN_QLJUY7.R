@@ -74,7 +74,8 @@ carob_script <- function(path) {
 	geo <- data.frame(
 		adm2 = c("Balaka", "Dowa", "Machinga", "Nkhotakota", "Salima", "Zomba"), 
 		longitude = c(34.9511, 33.9329, 35.2963, 34.257, 34.4461, 35.3194), 
-		latitude = c(-14.9318, -13.6279, -15.1775, -12.7037, -13.7114, -15.3737)
+		latitude = c(-14.9318, -13.6279, -15.1775, -12.7037, -13.7114, -15.3737),
+		geo_from_source = FALSE
 	)
 
 	d <- merge(d, geo, by="adm2", all.x=TRUE)
