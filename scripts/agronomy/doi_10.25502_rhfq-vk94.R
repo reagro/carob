@@ -197,6 +197,10 @@ carob_script <- function(path) {
   d$yield_part <- "seed"
   d$yield_part[grepl("groundnut",d$crop)] <- "pod"
   
+  d$row_spacing[d$row_spacing == 0] <- NA
+  d$plant_spacing[d$plant_spacing == 0] <- NA
+  
+  d <- unique(d)
   carobiner::write_files(meta, d, path=path)
 }
 

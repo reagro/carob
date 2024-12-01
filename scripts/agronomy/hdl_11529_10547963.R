@@ -95,7 +95,8 @@ carob_script <- function(path) {
          harvest_days= r2$Harvesting.DAS,
          harvest_date= as.character(r2$harvest_date)
       )
-      
+      d3$row_spacing[d3$row_spacing == 0] <- NA
+	  
       d <- merge(d, d3, by=c("location", "crop_sys", "treatment", "year", "season", "farmer_name"), all.x = TRUE)
       
       ## Crop Mgmt Operations
@@ -139,7 +140,7 @@ carob_script <- function(path) {
          treatment= r4$Tmnt,
          fertilizer_type= paste(r4$Fertilizer.1.Application_Product.used, r4$Fertilizer.2.Application_Product.used, r4$Fertilizer.3.Application_Product.used, sep =";"),
          fertilizer_amount= rowSums(r4[,c("Total.TSP.kg.ha", "Total.MOP.kg.ha", "Gypsum.kg.ha")]),
-         fertilizer_price= r4$Total.fertiliser.cost.Tk.ha / rowSums(r4[, c("Total.TSP.kg.ha", "Total.MOP.kg.ha", "Gypsum.kg.ha")]), ## BDT/kg
+         fertilizer_price = r4$Total.fertiliser.cost.Tk.ha / rowSums(r4[, c("Total.TSP.kg.ha", "Total.MOP.kg.ha", "Gypsum.kg.ha")]), ## BDT/kg
          currency= "BDT",
          N_fertilizer= r4$N,
          P_fertilizer= r4$P,

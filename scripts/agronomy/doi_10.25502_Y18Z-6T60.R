@@ -341,7 +341,7 @@ carob_script <- function(path) {
   d$adm3[d$adm3==""] <- NA
   d$adm2 <- carobiner::fix_name(d$adm2, "title")
   d$adm3 <- carobiner::fix_name(d$adm3, "title")
-	d$planting_date <- NA
+	d$planting_date <- as.character(NA)
   
   d$yield_part <- "seed"
   

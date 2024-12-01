@@ -110,8 +110,10 @@ carob_script <- function(path) {
 	d$fwy_residue[d$fwy_residue > 100000] <- NA
 	d$plant_density[d$plant_density == 0] <- NA
 	d <- d[!is.na(d$yield), ]
-
-	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- NA
+	d <- unique(d)
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+	
+	
 	carobiner::write_files(meta, d, path=path)
 }
 
