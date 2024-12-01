@@ -54,11 +54,11 @@ Water availability is a major constraint to crop production in sub-Saharan Afric
 	d$treatment[i] <- "Leucaena"
 	d$longitude <- 3.54
 	d$latitude <- 7.30
-	d$location <- 'Ibadan'
-	d$country <- 'Nigeria'
-	d$adm2 <- 'Oyo'
-	d$variety <- 'MM604'
-	d$variety_type <- 'hybrid'
+	d$location <- "Ibadan"
+	d$country <- "Nigeria"
+	d$adm2 <- "Oyo"
+	d$variety <- "MM604"
+	d$variety_type <- "hybrid"
 	d$harvest_date <- paste0(d$planting_date, "-10")
 	d$planting_date <- paste0(d$planting_date, "-04")
 	d$soil_SOC <- NA
@@ -88,10 +88,10 @@ Water availability is a major constraint to crop production in sub-Saharan Afric
 	z$year <- NULL
 	z$longitude <- 32.34
 	z$latitude <- -13.39
-	z$location <- 'Msekera'
-	z$country <- 'Zambia'
+	z$location <- "Msekera"
+	z$country <- "Zambia"
 	z$adm2	 <- NA
-	z$soil_type <- 'Ferric luvisol'
+	z$soil_type <- "Ferric luvisol"
 	z$soil_sand <- 61
 	z$soil_clay <- 28
 	z$soil_SOC <- 10.2
@@ -130,6 +130,7 @@ Water availability is a major constraint to crop production in sub-Saharan Afric
 
 	d$is_survey <- FALSE
 	d$irrigated <- FALSE
+	d$geo_from_source <- FALSE
 
 	carobiner::write_files(meta, d, path=path)
 }

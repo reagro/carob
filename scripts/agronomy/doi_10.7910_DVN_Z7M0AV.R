@@ -75,6 +75,7 @@ T10: Direct seeding maize (Maize-soybean rotation) (DS-SM), residue retention on
   # https://www.findlatitudeandlongitude.com/l/Msekera+Chipata+Zambia/5548305/
   d$latitude <- -13.64451
   d$longitude <- 32.6447
+  d$geo_from_source <- FALSE
 
 	d$trial_id <- "1"
 	d$irrigated <- FALSE

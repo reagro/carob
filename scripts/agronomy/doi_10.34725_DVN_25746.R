@@ -46,9 +46,9 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	m$soil_pH <- 5.9
 	m$longitude <- 35.15
 	m$latitude <- -15.30
-	m$location <- 'Makoka'
-	m$country <- 'Malawi'
-	m$adm1 <- 'Machinga'
+	m$location <- "Makoka"
+	m$country <- "Malawi"
+	m$adm1 <- "Machinga"
 	m$K_fertilizer <- m$P_fertilizer <- m$N_fertilizer <- 0
 	i <- m$treatment == "Fertilizer"
 	m$N_fertilizer[i] <- 92
@@ -63,10 +63,10 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	e <- rbind(E1, E2)
 	e$longitude <- 32.34
 	e$latitude <- -13.39
-	e$location <- 'Msekera'
-	e$country <- 'Zambia'
+	e$location <- "Msekera"
+	e$country <- "Zambia"
 	e$adm1 <- NA
-	e$soil_type <- 'Ferric luvisol'
+	e$soil_type <- "Ferric luvisol"
 	e$soil_sand <- 61
 	e$soil_clay <- 28
 	e$soil_SOC <- 10.2
@@ -118,6 +118,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	
 	d$is_survey <- FALSE
 	d$irrigated <- NA
+	d$geo_from_source <- FALSE
 	
 	carobiner::write_files(meta, d, path=path)
 }

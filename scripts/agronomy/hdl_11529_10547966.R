@@ -132,6 +132,7 @@ carob_script <- function(path) {
         latitude=c(25.7711, 24.6722, 23.9759, 26.0944, 22.4917), 
         longitude=c(87.4822, 88.4500, 78.3306, 86.2764, 76.2655)
 	)
+	d$geo_from_source <- FALSE
   
 	d <- merge(d, geo, by="location", all.x = TRUE)  
 	d <- d[!is.na(d$yield), ]

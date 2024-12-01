@@ -65,8 +65,10 @@ carob_script <- function(path) {
 	d <- unique(d)
 	
 	d$country="Mexico"
-	d$longitude=-102.5528
-	d$latitude=23.6345
+	# CIMMYT Obregon
+	d$longitude=-109.9318
+	d$latitude=27.3719
+	d$geo_from_source = FALSE
 	d$crop="wheat"
 	d$yield_part="grain"
 

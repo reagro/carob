@@ -115,6 +115,7 @@ carob_script <- function(path) {
 	)
       
    d <- merge(d, geo, by="location", all.x = TRUE)
+	d$geo_from_source <- FALSE
  
 	#from Table 1
 	soil <- data.frame(

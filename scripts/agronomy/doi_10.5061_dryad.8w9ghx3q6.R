@@ -170,6 +170,8 @@ carob_script <- function(path) {
     dw <- dw[!is.na(dw$date), ] 
 
 	d$soil_pH[d$soil_pH < 1] <- NA
+	d$geo_from_source <- TRUE
+	
    carobiner::write_files(path, meta, d,wth = dw)
 }
 

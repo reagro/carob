@@ -46,6 +46,7 @@ carob_script <- function(path) {
 			adm2=r$Municipality,
 			latitude=r$Latitude,
 			longitude=r$Longitude,
+			geo_from_source = TRUE,
 			elevation=r$Altitude,
 			planting_date=as.character(r$Sowing_date),
 			rep=as.integer(r$Num_Rep),
