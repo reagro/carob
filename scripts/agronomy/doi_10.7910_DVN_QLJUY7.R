@@ -19,7 +19,9 @@ carob_script <- function(path) {
 		data_institute = "CIMMYT",
 		data_type="experiment",
 		carob_contributor="Fredy Chimire",
-		carob_date="2024-01-11"
+		carob_date="2024-01-11",
+		treatment_vars = NA,
+		response_vars = "yield"
 	)
   
   f <- ff[basename(ff) == "AR_MAL_CIMMYT_CAmother_onfarm_2020.csv"]

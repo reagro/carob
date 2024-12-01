@@ -10,11 +10,10 @@ carob_script <- function(path) {
 
 "This is a comprehensive dataset specifically on crop response to fertilizers and is obtained from published journal articles, thesis and proceedings spanning at least 5 decades. It represents all the agriculturally productive regions of Ethiopia. The data contains information on region, crop type and soil type under which experiments were conducted, as well as application rates of nutrients (N, P, K, and other nutrients) as well as yields of the control and fertilized treatment on which crop response ratios are derived.
 
-Towards understanding fertilizer responses in Ethiopia
-These is a data extracted from 98 other sources It has an odd database design with control treatments in separate columns; as in FAOs FERTIBASE. This is practical to compute fertilizer use efficiency, but it is not good for data storage/distribution.
+Towards understanding fertilizer responses in Ethiopia. These is a data extracted from 98 other sources It has an odd database design with control treatments in separate columns; as in FAOs FERTIBASE. This is practical to compute fertilizer use efficiency, but it is not good for data storage/distribution.
 
-The control is where fertilizer application of a particular element of interest is zero. The absolute control is where there is no fertilizer application. 
-Some of the sources included
+The control is where fertilizer application of a particular element of interest is zero. The absolute control is where there is no fertilizer application. Some of the sources included 
+
 Amare Aleminew and Adane Legas. 2015. Grain quality and yield response of malt barley varieties to nitrogen fertilizer on brown soils of Amhara region Ethiopia. World Journal of Agricultural Sciences, 11 (3): 135–143.
 
 Minale Liben, Alemayehu Assefa and Tilahun Tadesse. 2011. Grain yield and malting quality of barley inrelation to nitrogen application at mid- andhigh altitude in Northwest Ethiopia. Journal of Science and Development 1 (1) 
@@ -34,7 +33,9 @@ K. Habtegebrial & B. R. Singh (2009) Response of Wheat Cultivars to Nitrogen and
 	   carob_date="2021-06-01",
 	   data_type="compilation",
 	   data_institute="CIAT",
-	   project=NA
+	   project=NA,
+		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer;Zn_fertilizer;S_fertilizer",
+		response_vars = "yield"
  	)
 
 

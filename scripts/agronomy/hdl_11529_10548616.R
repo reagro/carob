@@ -20,7 +20,9 @@ carob_script <- function(path) {
 		project=NA,
 		data_type= "experiment",
 		carob_contributor= "Blessing Dzuda",
-		carob_date="2024-04-09"
+		carob_date="2024-04-09",
+		treatment_vars = NA,
+		response_vars = "yield"
 	)
 	
 # read data 

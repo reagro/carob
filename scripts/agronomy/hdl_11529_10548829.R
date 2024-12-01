@@ -20,7 +20,9 @@ carob_script <- function(path) {
 		data_type="on-farm experiment", 
 		carob_contributor="Hope Mazungunye"  ,
 		carob_date="2023-09-17",
-		modified_by = "Effie Ochieng'"  
+		modified_by = "Effie Ochieng'",
+		treatment_vars = NA,
+		response_vars = "yield"
 	)
 
  # path <- ("C:/carob/wd/data/raw/maize_trials")
@@ -94,7 +96,7 @@ carob_script <- function(path) {
 	d$geo_from_source <- FALSE
 	d$is_survey <- FALSE
 	d$on_farm <- TRUE
-
+	d$irrigated <- NA
   	carobiner::write_files(meta, d, path=path)
  }
  
