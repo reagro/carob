@@ -164,7 +164,7 @@ carob_script <- function(path) {
   d$rep <- as.integer(d$rep)
   d$planting_date <- as.character(NA)
 
-#  d <- d[!is.na(d$yield), ]
+  d <- d[!is.na(d$yield), ]
   
 	carobiner::write_files(path, meta, d)
 }
