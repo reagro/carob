@@ -18,7 +18,7 @@ carob_script <- function(path){
 		data_type = "on-farm experiment",
 		data_institute="IITA",
 		response_vars = "yield",
-		treatment_vars = "inoculant;P_fertilizer"		
+		treatment_vars = "inoculated;P_fertilizer"		
 	)
 	 
 	
@@ -127,7 +127,13 @@ carob_script <- function(path){
 
 	q$is_survey <- FALSE
 	q$irrigated <- NA
-
+	
+	
+	i <- (q$planting_date == "2012-10-12") & (q$harvest_date == "2012-02-18")
+	q$harvest_date[i] <- "2013-02-18"
+	i <- (q$planting_date == "2013-08-23") & (q$harvest_date == "2013-01-16")
+	q$planting_date[i] <- "2012-08-23"
+		
 	# all scripts should end like this
 	carobiner::write_files(meta, q, path=path)
 }  

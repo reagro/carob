@@ -208,7 +208,10 @@ carob_script <- function(path) {
 	d$yield_part <- "seed"
 	d$yield_part[grepl("groundnut",d$crop)] <- "pod"
 	
+	d$row_spacing[d$row_spacing == 0] <- NA
+	d$location[d$location == "KWAYA KUSAR"] <- "Kwaya Kusar"
+	d$location[d$location == "HAWUL"] <- "Hawul"
+		
 	carobiner::write_files(meta, d, path=path)
-	
 }
 

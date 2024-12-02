@@ -71,9 +71,7 @@ carob_script <- function(path) {
 
  # add and correct location names and georeferance colunms
   d1$adm1 <- "Western"
-  
-  library(stringr)
-  
+   
   d1[c('adm4', 'adm5', "location")] <- stringr::str_split_fixed(d1$sector_ward,' ',3)
   d1$adm4 [d1$adm4=="Rutenga,"] <- "Rutenga"
   d1$adm4 [d1$adm4=="Mpungu,"] <- "Mpungu"
@@ -220,7 +218,7 @@ carob_script <- function(path) {
               "country", "adm1", "adm2", "adm3", "adm4", "adm5", "location", "site", "elevation",
               "crop", "variety", "variety_type", "previous_crop",
               "planting_date", "harvest_date",
-              "treatment", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", 
+              "treatment", "fertilizer_type", "N_fertilizer", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "B_fertilizer",
               "OM_used", "OM_type", "OM_amount", "diseases",
               "yield", "yield_part", "row_spacing", "plant_spacing")]
   

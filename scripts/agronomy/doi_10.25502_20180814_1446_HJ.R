@@ -92,9 +92,10 @@ carob_script <- function(path) {
 	
 
 	r$CobFW[r$CobFW == "."] <- NA
-	d$fwy_residue <- 10000 * (r$TStoverYld + as.numeric(r$CobFW) / r$Harea) - d$yield
+	d$fwy_residue <- 10000 * r$TStoverYld / r$Harea
 	
-	d$seed_weight <- r$X100GrainDW*10 # Adjusting to 1000 grains
+	d$seed_weight <- r$X100GrainDW * 10 # Adjusting to 1000 grains
+	d$seed_weight[d$seed_weight == 0] <- NA
 	
 	d$previous_crop <- trimws(tolower(r$PCrop1))
 	d$previous_crop[d$previous_crop == "sweet potato"] <- "sweetpotato"
@@ -122,6 +123,7 @@ carob_script <- function(path) {
 	d$planting_date <- as.character(pdate1)
 	
 	d <- d[!is.na(d$yield), ]
+	d$seed_weight[d$seed_weight > 600] <- NA
 
 	carobiner::write_files(meta, d, path=path)
 }

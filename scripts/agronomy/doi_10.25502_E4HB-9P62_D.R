@@ -188,7 +188,11 @@ carob_script <- function(path) {
 
 	w$is_survey <- FALSE
 	w$irrigated <- NA
+	w$yield_part <- "seed"
 
+	i <- (w$planting_date == "2010-03-04") & (w$harvest_date == "2010-03-18")
+	w$harvest_date[i] <- "2010-06-18"
+    	
 	carobiner::write_files(meta, w, path=path)
 }
 

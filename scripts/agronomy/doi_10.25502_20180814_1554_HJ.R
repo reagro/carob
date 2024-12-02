@@ -99,5 +99,8 @@ carob_script <- function(path) {
 	d$longitude[d$location == "Tambala"] <- 35.577
 	d$latitude[d$location == "Tambala"] <- -14.450
 
+
+	d <- d[!is.na(d$yield), ]
+
 	carobiner::write_files(meta, d, path=path)
 }

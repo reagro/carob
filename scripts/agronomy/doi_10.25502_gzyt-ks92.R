@@ -17,7 +17,7 @@ carob_script <- function(path) {
     data_type="experiment",
     project="N2Africa" ,
 	response_vars= "yield",
-	treatment_vars="inoculated;N_fertilizer;P_fertilizer"
+	treatment_vars="N_fertilizer;P_fertilizer"
   )
   
   f <- ff[basename(ff) == "general.csv"] 
@@ -156,5 +156,9 @@ carob_script <- function(path) {
 
   dd$geo_from_source <- TRUE
   
+  ## the intervals are all over the place; retain the year
+  dd$harvest_date <- dd$planting_date <- substr(dd$planting_date, 1, 4)
+   
+   dd <- dd[!is.na(dd$yield), ]
   carobiner::write_files(meta, dd, path=path)
 }
