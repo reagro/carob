@@ -59,7 +59,7 @@ carob_script <- function(path) {
   
 	d$on_farm <- FALSE
 	d$is_survey <- FALSE
-	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- NA
+	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
   
 	carobiner::write_files(meta, d, path=path)
 }

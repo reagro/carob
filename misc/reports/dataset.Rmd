@@ -38,6 +38,7 @@ if (!file.exists(f)) {
 }
 
 fmsg <- gsub("clean", "messages", f)
+fqc <- gsub("clean", "evaluation", f)
 ```
 
 ```{r setup2, include=FALSE}
@@ -53,10 +54,24 @@ if (file.exists(fmsg)) {
   warnings <- "The standardization script does not emit non-compliance warnings."
 }
 
+if (file.exists(fqc)) {
+  have_qc <- TRUE
+  qc <- read.csv(fqc)
+  qc <- round(t(qc[,-1]) * 100, 1)
+  qc <- data.frame(variable=rownames(qc), `completeness`=qc[,1])
+  rownames(qc) <- NULL
+  names(qc) <- c("variable", "completeness (%)")
+  qcmean <- round(mean(qc[,2]) / 10, 1)
+  qctxt <- paste("The overall quality of the dataset, given the completeness of required variables was", qcmean, "on a scale of 10. See the table below")
+} else {
+  have_qc <- FALSE
+  qctxt <- ""
+}
+
 tvars <- m$treatment_vars
 treatments <- NULL 
 
-if (!is.null(tvars)) {
+if (!is.null(tvars) && !is.na(tvars)) {
    tvars <- trimws(unlist(strsplit(tvars, ";")))
    tvars <- tvars[!(tvars %in% c("none", "longitude", "latitude"))]
    tvars <- tvars[(tvars %in% names(d))]
@@ -153,6 +168,13 @@ if (have_msg) {
 }
 ```
 
+`r qctxt`
+
+```{r qc, include=have_qc}
+if (have_qc) {
+  ktab(qc, "")
+}
+```
 
 </br>
 The data are further summarized in the table below.
