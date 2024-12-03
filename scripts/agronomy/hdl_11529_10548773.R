@@ -1,5 +1,6 @@
 # R script for "carob"
 
+
 carob_script <- function(path) {
 
 "A field study was framed in rice crop under conservation agriculture (CA) based rice-wheat system at experimental farm of Borlaug Institute for South Asia (BISA)-CIMMYT, Ladhowal, Punjab, India during kharif 2019. In the present study, nine treatments were imposed out of which four are CA-based treatments (ZT-N0, ZT-N50, ZT-N75 and ZT-N100), four are CA coupled with subsurface drip fertigation (CA+) based treatments (SSD-N0,SSD-N50, SSD-N75 and SSD-N100) and puddled transplanted rice (PTR) treatment as farmer’s practice. The findings of the study showed that PTR treatment out yielded in terms of yield attributing characters and biological yield than other treatments. CA+ treatment (SSD-N100) resulted higher biological yield (2.8%) than CA-based treatments (ZT-N100). SSD-N100 dominated ZT-N100 and PTR treatment in terms of plant N content (both grain and straw), total N uptake and N harvest index. PTR treatment resulted 22-33% higher ANUE than ZT-N100 and SSD-N100 treatments. (2020-12-01)"

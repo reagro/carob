@@ -1,6 +1,5 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
 
 "Integrating more grain legumes as intercrops or rotational system can allow farmers to achieve high and stable yield under varying rainfall, with modest fertilizer investments. This is critical for resource poor farmers who have limited access to mineral fertilizers. In these experiments that were initiated in 2012, we investigate soil organic carbon (SOC) changes over time for treatments that range from an unfertilized control, maize fertilized with NP optimally every year and when legumes are integrated as intercrops or rotations with maize. Recently we have applied stability analysis to assess impacts of grain legume integration on maize grain yield, yield stability, nitrogen use efficiency (NUE) and ability to meet household protein requirements. More details on these experiments are outlined in the publications Smith et al. 2016 , Snapp et al. 2018 , and Chimonyo et al. 2019"
