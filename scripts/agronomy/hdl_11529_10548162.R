@@ -16,7 +16,7 @@ carob_script <- function(path) {
       project =NA, 
       data_type = "experiment",
       response_vars = "yield",
-      treatment_vars = "variety;irrigated;N_fertilizer;P_fertilizer; K_fertilizer;row_spacing;insecticide_used", 
+      treatment_vars = "variety;irrigated;N_fertilizer;P_fertilizer;K_fertilizer;row_spacing;insecticide_used", 
       carob_contributor = "Cedric Ngakou", 
       carob_date = "2024-10-19"
    )
@@ -24,7 +24,7 @@ carob_script <- function(path) {
    f <- ff[basename(ff)=="MilpaYieldGap-DataShared-2017.xlsx"]
    
    ## Processing maize yield data 
-   r1 <- carobiner::read.excel(f, sheet="YieldData", na=c("NA"))
+   r1 <- carobiner::read.excel(f, sheet="YieldData", na="NA")
    names(r1) <- r1[1,]
    r1 <- r1[-1,]
    d1 <- data.frame(
@@ -35,11 +35,11 @@ carob_script <- function(path) {
       pest= r1$`Pest and Disease Control`,
       fert=r1$Fertilization,
       plt_arr= r1$`Planting Arrangement`,
-      yield= as.numeric(r1$`Maize Yield`) *1000,
-      plant_height= as.numeric(r1$`Plant Height`) *100,
-      ear_height= as.numeric(r1$`Ear Height`) *100,
-      emergence_date= as.character(as.Date(as.numeric(r1$`Emergence Date`), origin="1899-12-30") ),
-      flowering_date=  as.character(as.Date(as.numeric(r1$`Flowering Date`), origin="1899-12-30") ),
+      yield= as.numeric(r1$`Maize Yield`) * 1000,
+      plant_height = as.numeric(r1$`Plant Height`) * 100,
+      ear_height = as.numeric(r1$`Ear Height`) * 100,
+      emergence_date = as.character(as.Date(as.numeric(r1$`Emergence Date`), origin="1899-12-30") ),
+      flowering_date =  as.character(as.Date(as.numeric(r1$`Flowering Date`), origin="1899-12-30") ),
       block= r1$Block
    )
    
@@ -173,14 +173,17 @@ carob_script <- function(path) {
       ## processing 
       data.frame(
          date= paste(r$Year, r$Month, r$Day, sep="-"),
-         station_name= i,
+         location= i,
          prec= as.numeric(r$Rainfall),
          tmin= as.numeric(r$Temp_Min),
          tmax= as.numeric(r$Temp_Max),
          temp= as.numeric(r$Temp_Avg)
-      )   })
+      )}
+	)
    wd <- do.call(rbind, W)
-   
+	wd <- merge(wd, geo, by="location")
+    wd$geo_from_source <- FALSE
+
    carobiner::write_files (path, meta, d, wth = wd)
 }
 
