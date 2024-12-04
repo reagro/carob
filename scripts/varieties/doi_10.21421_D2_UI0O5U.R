@@ -6,7 +6,7 @@ carob_script <- function(path) {
 "The experimental design adopted was an alpha lattice design with 2 replications and 6 entries in 6 blocks, with 4 rows of each entry in 0.2 ha. The field was fertilized with diammonium phosphate at 80 kg/ha and 40 kg KCl/ha."
    
    uri <- "doi:10.21421/D2/UI0O5U"
-   group <- "agronomy"
+   group <- "varieties"
    ff  <- carobiner::get_data(uri, path, group)
    
    meta <- data.frame(
@@ -29,9 +29,9 @@ carob_script <- function(path) {
    d1 <- data.frame(
       rep= as.integer(r1$`Replication number`),
       variety= r1$Genotype,
-      plant_height= r1$Plantht*100,
-      yield= r1$`Fresh weight`*1000,
-      fwy_total= r1$SY*1000,
+      plant_height= r1$Plantht * 100,
+      fwy_total= r1$`Fresh weight` * 1000,
+      fwy_stems= r1$SY * 1000,
       planting_date= "2014-07-15",
       harvest_days= 80,
       crop= "sorghum",
@@ -59,8 +59,8 @@ carob_script <- function(path) {
       rep= as.integer(r2$`Replication number`),
       variety= r2$Genotype,
       plant_height= r2$`Ratoon Plant height`*100,
-      yield= r2$`Fresh weight`*1000,
-      fwy_total= r2$`Ratoon SY`*1000,
+      fwy_total= r2$`Fresh weight`*1000,
+      fwy_stems= r2$`Ratoon SY`*1000,
       planting_date= as.character(as.Date("2014-07-15")+80),
       harvest_days= 80,
       crop= "sorghum",
@@ -87,7 +87,7 @@ carob_script <- function(path) {
    d$on_farm <- TRUE
    d$is_survey <- FALSE
    d$inoculated <- FALSE
-   d$yield_part <- "grain"
+   d$yield_part <- "aboveground biomass"
    d$geo_from_source <- FALSE
    
    carobiner::write_files(path, meta, d)
