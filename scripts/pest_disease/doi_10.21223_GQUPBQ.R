@@ -50,7 +50,7 @@ carob_script <- function(path) {
         planting_date=c( "2020-11-05", "2020-11-18", "2020-11-23", "2020-11-07", "2020-11-20", "2021-02-17"),
         harvest_date=c("2021-05-10", "2021-05-08", "2021-05-10", "2021-04-14","2021-05-12", "2021-06-17")
 	)  
-      
+   d$geo_from_source <- FALSE
 	d <- merge(d, dta, by="location", all.x = TRUE)
    
    ## From data description 
@@ -60,7 +60,7 @@ carob_script <- function(path) {
 
 	d$pathogen <- "Phytophthora infestans"
 	d$diseases <- "potato late blight"
-   	d$is_survey = FALSE
+   d$is_survey <- FALSE
 
    
 	carobiner::write_files(path, meta, d)   

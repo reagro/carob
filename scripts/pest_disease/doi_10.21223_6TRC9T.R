@@ -32,7 +32,8 @@ carob_script <- function(path) {
       irrigated= NA,
       inoculated= FALSE,
       yield_part= "tubers",
-      trial_id= "1"         
+      trial_id= "1",
+      record_id= 1:nrow(r1)
    )
    ## Add more variables
    m <- carobiner::read.excel(ff[basename(ff)=="PTLate blight092014_OXAPMP_exp8.xlsx"], sheet = "Minimal")
@@ -47,6 +48,7 @@ carob_script <- function(path) {
    d$latitude <- as.numeric(r2$Latitude)
    d$longitude <- as.numeric(r2$Longitude)
    d$elevation <- as.numeric(r2$Elevation)
+   d$geo_from_source <- TRUE
    d$planting_date <- as.character(as.Date(r2$Begin_date, "%d/%m/%Y"))
    d$harvest_date <- as.character(as.Date(r2$End_date, "%d/%m/%Y"))
    d$plant_spacing <- 30 
@@ -59,15 +61,16 @@ carob_script <- function(path) {
    dd <- r1[,lbvars]
    dd$record_id <- as.integer(1:nrow(dd))
    dates <- c("2014-10-31","2014-10-27", "2014-11-03", "2014-11-11", "2014-11-19",  "2014-11-25", "2014-12-02")
-   x <- reshape(dd, direction="long", varying =lbvars, v.names="severity", timevar="step")
+   x <- reshape(dd, direction="long", varying =lbvars, v.names="disease_severity", timevar="step")
    x$time <- dates[x$step]
-   x$step <- x$id <- NULL  
+   x$step <- x$id <- NULL 
+   x$disease_severity <- as.character(x$disease_severity)
    
    ### fertilizer
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	d$pathogen <- "Phytophthora infestans"
 	d$diseases <- "potato late blight"
-   	d$is_survey = FALSE
+   d$is_survey = FALSE
 
    carobiner::write_files(path, meta, d,timerecs=x) 
    

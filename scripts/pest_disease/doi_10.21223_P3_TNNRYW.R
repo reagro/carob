@@ -28,7 +28,11 @@ carob_script <- function(path) {
 	dates <- as.character(as.Date(c("2002-02-03", "2002-02-13", "2002-02-21", "2002-02-28", "2002-03-07")))
 	p <- proc_lb(f, dates)
 	d <- p$d
-
+	x <- p$tim
+	x$disease_severity <- x$severity
+	x$severity <- NULL
+	x$disease_severity <- as.character(x$disease_severity)
+	
 ##### Location #####
 	d$country <- "Peru"
 	d$adm1 <- "Junin"
@@ -39,16 +43,17 @@ carob_script <- function(path) {
 	d$elevation <- 2415
 	d$longitude <- -75.1314
 	d$latitude <- -11.5237
+	d$geo_from_source <- FALSE
 	d$trial_id <- "1"
-
+	d$record_id <- 1:nrow(d)
 	d$planting_date <- as.character(as.Date("2001-12-10"))
 	d$harvest_date  <- as.character(as.Date("2002-04-02"))
 	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 	d$pathogen <- "Phytophthora infestans"
 	d$diseases <- "potato late blight"
-   	d$is_survey = FALSE
+   d$is_survey = FALSE
+   
 
-
-	carobiner::write_files(path, meta, d, timerecs=p$tim)
+	carobiner::write_files(path, meta, d, timerecs=x)
 }
 

@@ -63,7 +63,7 @@ carob_script <- function(path) {
 	}
  
    d <- carobiner::bindr(d1, do.call(rbind, dlst))
-   
+   d$record_id <- 1:nrow(d)
    ### Add more variables 
    d$country <- "Kenya"
    d$adm1 <- "Nairobi"
@@ -72,6 +72,7 @@ carob_script <- function(path) {
    d$latitude <- -1.25438889
    d$longitude <- 36.729999
    d$elevation <- 1800
+   d$geo_from_source <- FALSE
    d$crop <- "potato"
 	d$pathogen <- "Phytophthora infestans"
    d$diseases <- "potato late blight"
@@ -81,7 +82,7 @@ carob_script <- function(path) {
    d$on_farm <- TRUE
    d$irrigated <- FALSE
    d$inoculated <- FALSE
-   	d$is_survey = FALSE
+   d$is_survey <- FALSE
    
    d$yield_part <- "tubers"
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
@@ -91,11 +92,12 @@ carob_script <- function(path) {
 	lb$record_id <- as.integer(1:nrow(lb))
 	lb$pdate <- as.Date(d$planting_date)
    
-	x <- reshape(lb, direction="long", varying =lbvars, v.names="severity", timevar="step")
-	x$time <- x$pdate + seq(30, 90, 10)[x$step]
+	x <- reshape(lb, direction="long", varying =lbvars, v.names="disease_severity", timevar="step")
+	x$time <- as.character(x$pdate + seq(30, 90, 10)[x$step])
 
    x$step <- x$id <- x$pdate <- NULL
-
+   x$disease_severity <- as.character(x$disease_severity)
+   
    carobiner::write_files(path, meta, d, timerecs=x)   
 }
 

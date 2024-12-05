@@ -79,7 +79,7 @@ carob_script <- function(path) {
 	d$longitude <- -75.39938
 	d$latitude <- -11.84895
 	d$elevation <- 3324
-	
+	d$geo_from_source <- FALSE
 	d$planting_date <- "2021-11-25"
 	d$maturity_date <- "2022-04-11" # Corte follaje
 	# see 03_Management_Field_Advanced Trial LBHTC2 Huancayo.xlsx
@@ -103,7 +103,7 @@ carob_script <- function(path) {
   x <- reshape(dd, direction="long", varying =lbvars, v.names="disease_severity", timevar="step")
   x$time <- dates[x$step]
   x$step <- x$id <- NULL 
-  
+  x$disease_severity <- as.character(x$disease_severity)
  
 	carobiner::write_files(path, meta, d, timerecs=x)
 }
