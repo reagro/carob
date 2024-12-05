@@ -35,7 +35,8 @@ carob_script <- function(path) {
       irrigated= NA,
       yield_part= "tubers",
       trial_id= "1",
-	  is_survey = FALSE
+	  is_survey = FALSE,
+	  record_id= 1:nrow(r)
    )
    
 
@@ -43,7 +44,7 @@ carob_script <- function(path) {
    d$adm1 <- "Oxapampa"
    d$longitude <- -75.0833
    d$latitude <- -10.3333
-   
+   d$geo_from_source <- FALSE
    d$planting_date <- "2021-09-30"
    d$harvest_date  <- "2022-01-31"
 	d$pathogen <- "Phytophthora infestans"
@@ -53,13 +54,13 @@ carob_script <- function(path) {
    dd <- r[,lbvars]
    dd$record_id <- as.integer(1:nrow(dd))
    dates <- as.character(as.Date(c("2021-11-08", "2021-11-15", "2021-11-22", "2021-11-29", "2021-12-06", "2021-12-13",  "2021-12-20", "2021-12-27")))
-   x <- reshape(dd, direction="long", varying =lbvars, v.names="severity", timevar="step")
+   x <- reshape(dd, direction="long", varying =lbvars, v.names="disease_severity", timevar="step")
    x$time <- dates[x$step]
    x$step <- x$id <- NULL  
-   
+   x$disease_severity <- as.character(x$disease_severity)
    ## fertilizer
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
-   	d$is_survey = FALSE
+   d$is_survey = FALSE
 
    carobiner::write_files(path, meta, d,timerecs=x)  
 }
