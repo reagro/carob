@@ -1,8 +1,8 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
+# NOTES 
+# rAUDPC needs to be fixed
+# https://github.com/reagro/carob/pull/609
 
 carob_script <- function(path) {
   
@@ -22,7 +22,7 @@ carob_script <- function(path) {
       response_vars = "yield;yield_marketable", 
       carob_contributor = "Henry Juarez",
       carob_date = "2024-09-24",
-      notes = NA
+      notes = "rAUDPC needs to be fixed"
   )
   
   process <- carobiner::get_function("process_cip_lbvars", path, group)
@@ -30,11 +30,11 @@ carob_script <- function(path) {
   f <- ff[grep("_PT", basename(ff))]
   d <- lapply(f, process, addvars=c("AUDPC","rAUDPC"))
   d <- do.call(rbind, d)
+
+### needs to be fixed
+	d$rAUDPC <- NULL
   
   carobiner::write_files(path = path, metadata = meta, records = d)
 
 }
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
