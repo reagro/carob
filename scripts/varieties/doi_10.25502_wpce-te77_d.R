@@ -2,8 +2,7 @@
 
 carob_script <- function(path) {
    
-"Soybean (Glycine max (L.) Merrill.) is one of the most important oil crops of the world which also has tremendous importance as a food legume. The work on soybean aims at providing farmers, both commercial and subsistence, varieties with their preferred attributes to increase yield and income. These include high yield, resistance to deadly diseases, such as soybean rust, and insect pests, early maturity, good seed quality, and resistance to other stresses such as drought and soil acidity. The International Institute of Tropical Agriculture (IITA) is a key player in tropical soybean research and a partner of the Soybean Innovation Lab.
-"
+"Soybean (Glycine max (L.) Merrill.) is one of the most important oil crops of the world which also has tremendous importance as a food legume. The work on soybean aims at providing farmers, both commercial and subsistence, varieties with their preferred attributes to increase yield and income. These include high yield, resistance to deadly diseases, such as soybean rust, and insect pests, early maturity, good seed quality, and resistance to other stresses such as drought and soil acidity. The International Institute of Tropical Agriculture (IITA) is a key player in tropical soybean research and a partner of the Soybean Innovation Lab."
    
 	uri <- "doi:10.25502/wpce-te77/d"
 	group <- "varieties"
@@ -35,7 +34,6 @@ carob_script <- function(path) {
 		plant_height = r$PLHT,
 		seed_weight = r$SWT100,
 		maturity_days = r$DM,
-		harvest_days = r$HARVEST,
 		flowering_days = r$DFFL
 	)
 

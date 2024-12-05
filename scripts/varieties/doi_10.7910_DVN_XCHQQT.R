@@ -1,6 +1,5 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
    
 "Traits related with drought resistance in recombinant inbred lines (RILs). A set of 121 bean genotypes (111 RILs, 2 parents, 8 checks) belonging to the Mesoamerican gene pool were evaluated under field conditions with two levels of water supply (irrigated and rainfed) over three seasons. To complement field studies, a greenhouse study was conducted using plastic cylinders with soil inserted into PVC pipes, to determine the relationship between grain yield obtained under field conditions with different root traits measured under greenhouse conditions. Resistance to drought stress was positively associated with a deeper and vigorous root system, better shoot growth, and superior mobilization of photosynthates to pod and seed production. Among the shoot traits measured, pod harvest index and seed number per area could serve as useful selection criteria for assessing sink strength and for genetic improvement of drought resistance in common bean (2017-03-03)"
@@ -12,7 +11,7 @@ carob_script <- function(path) {
    meta <- data.frame(
       carobiner::read_metadata(uri, path, group, major=3, minor=4), 
       data_institute ="CIAT", 
-      publication="doi: 10.3389/fpls.2017.00296", 
+      publication="doi:10.3389/fpls.2017.00296", 
       project=NA, 
       data_type= "experiment", 
       response_vars= "yield;fwy_total", 

@@ -47,9 +47,12 @@ carob_script <- function(path) {
     # Coordinates extracted using Geonames.org
 	# RH: Africa Rice (CdI) and Bordo from Google
 	# RH: Bordo = Bordo ENAE in Kankan, Guinea
-	xy <- data.frame(country=c("Burkina Faso", "Benin", "Côte d'Ivoire", "Mali", "Nigeria", "Guinea"), 
-		  longitude=c(-4.339967, 2.4239, -5.10362, -5.65644, 6.48478, -9.30609),
-		  latitude =c(11.082302, 10.3079, 7.88761, 11.38856, 9.48267, 10.38971))
+	xy <- data.frame(
+		country=c("Burkina Faso", "Benin", "Côte d'Ivoire", "Mali", "Nigeria", "Guinea"), 
+		longitude=c(-4.339967, 2.4239, -5.10362, -5.65644, 6.48478, -9.30609),
+		latitude =c(11.082302, 10.3079, 7.88761, 11.38856, 9.48267, 10.38971),
+		geo_from_source = FALSE
+	)
 
 	d <- merge(d, xy, by="country", all.x=TRUE)
 
@@ -62,6 +65,7 @@ carob_script <- function(path) {
 
 	d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
 
+	d <- d[!is.na(d$yield), ]
  
 	carobiner::write_files(meta, d, path=path)
 

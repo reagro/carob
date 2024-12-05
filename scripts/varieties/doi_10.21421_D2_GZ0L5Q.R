@@ -1,6 +1,5 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
    
 " This dataset includes the research work carried out in evaluating rust disease resistance in Groundnut mini core accessions. The experiment was laid out in field during rainy seasons of 2012 and 2013 at ICRISAT, Patancheru, India. A total of 190 accessions (184 mini core plus two standard checks and two other checks) were screened for rust experiment. The trial was laid out in a randomized complete block design (RCBD) on June during both years with three replications on broad bed furrows. The size of the beds was 4.0 m×1.5 m and the mean planting density was 26.7plants/m2. Altogether, there were 80 plants/ replication for each accession, spread in two rows, and there were four rows for each bed. Precaution was taken to ensure uniform and proper depth of planting (5 cm). Standard agronomic and cultural practices were followed during the cropping season. Infector row method was followed by sowing one bed (4 rows) of TMV 2 (susceptible to rust) for every four beds of test materials. The pathological data (disease severity- based on disease rating scale 1-9) on rust infection @ 75, 90 and 105 days after sowing (DAS) intervals respectively were presented here. The data on pod yield (kg/ha) in disease plot was also presented here. " 

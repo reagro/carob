@@ -1,7 +1,6 @@
 # R script for "carob"
 
 
-
 carob_script <- function(path) {
    
 " This database includes the research work carried out on regional groundnut varieties focusing on the identification of stable Valencia genotypes and stratification of environments in the region for targeted breeding. The experiments were conducted in Malawi in 2013 to 2016 cropping seasons. Groundnut is a very important food and cash crop in Eastern and Southern Africa with varying multiple uses. Groundnut (Arachis hypogaea L., AABB, 2n=4x=40) is a self-pollinated crop and is an annual crop distinguished from most other legume crop species by producing aerial flowers and fruiting below ground. The groundnut breeding program in Malawi is the regional hub that supplies Eastern and Southern Africa Region with improved resilient varieties. The program makes over 150 new crosses per year targeting different market niches which are then advanced culminating in adaptability trials across the region. Based on their agronomic performance in advanced and regional yield trials for yield and other traits such as disease resistance, the superior genotypes will be selected and advanced further in National performance trials and farmer participatory variety selection in preparation for release and commercialization and or wider use by farmers. The environmental stratification achieved from this study will help in reduction of phenotyping cost by conducting experiments in fewer representative environments.The agronomic data (grain yield) of the Valencia genotypes evaluated is hereby presented, that helped in dissecting the stability status of the genotypes across environments and at the same time stratification of environments into mega-environments. The most adapted and stable genotypes identified can be advanced for release in the respective country regions and or use in breeding programs for further genetic enhancement. The mega-environments identified can be used for early generation screening and at the same time to acquire data for release in the region as a measure to save resources "  
@@ -13,7 +12,7 @@ carob_script <- function(path) {
    meta <- data.frame(
       carobiner::read_metadata(uri, path, group, major=1, minor=0), 
       data_institute = "ICRISAT", 
-      publication ="doi: 10.21475/ajcs.19.13.12.p2039", 
+      publication ="doi:10.21475/ajcs.19.13.12.p2039", 
       project = NA, 
       data_type = "experiment",
       treatment_vars = "variety", 
