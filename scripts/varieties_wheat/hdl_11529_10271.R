@@ -23,6 +23,8 @@ carob_script <- function(path) {
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)
+	
+	d$soil_SOC[d$soil_SOC == 23.2] <- NA
 
 	carobiner::write_files(path, meta, d)
 }

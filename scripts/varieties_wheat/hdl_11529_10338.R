@@ -27,6 +27,8 @@ carob_script <- function(path) {
 	i <- d$location == "Gangapur Ryd Center"
 	d$longitude[i] <- 75.0822
 
+	d$planting_date[d$planting_date=="2011-11-16"] <- "2012-11-16"
+
 	carobiner::write_files(path, meta, d)
 }
 

@@ -27,7 +27,7 @@ carob_script <- function(path) {
 	d <- data.frame(
 		planting_date=as.character(r$year), 
 		plant_density=r$V1 * 10000, 
-		spike_density=r$V2,
+		spike_density=r$V2 * 10000,
 		heading_days=r$V4, 
 		plant_height =r$V6, 
 		dmy_total= r$V8*1000, 
@@ -49,7 +49,8 @@ carob_script <- function(path) {
 	
 	d$longitude <- 22.998
 	d$latitude <- 40.538
-
+	d$geo_from_source <- FALSE
+	
 	d$crop <- "durum wheat"
 	d$yield_part <- "grain"
 	d$trial_id <- "1"

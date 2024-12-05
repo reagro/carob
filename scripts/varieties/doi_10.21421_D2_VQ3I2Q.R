@@ -24,7 +24,6 @@ carob_script <- function(path) {
    f <- ff[basename(ff)=="Medium duration experimental Pigeonpea hybrid trial (MDEPHT-2).xlsx"]
    
    r <- carobiner::read.excel(f)
-   ### Process data
    
    d <- data.frame(
       variety= r$`ICPH No.`,

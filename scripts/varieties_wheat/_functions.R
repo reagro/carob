@@ -146,6 +146,7 @@ proc_wheat <- function(ff) {
 		d$row_spacing <- as.numeric(NA)	
 	} else {
 		d$row_spacing <- as.numeric(r$space_btn_rows_sown)
+		d$row_spacing[d$row_spacing == 0] <- NA
 	}
 
  

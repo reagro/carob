@@ -18,7 +18,7 @@ carob_script <- function(path) {
 		response_vars = "yield",
 		treatment_vars = "variety",
 		carob_contributor="Fredy Chimire",
-		carob_date="2024-3-10"
+		carob_date="2024-03-10"
 	)
   
 	f1 <- ff[basename(ff) == "001_data-wheat-yield-Ethiopia_Debrezeit_year1.csv"]
@@ -60,7 +60,8 @@ carob_script <- function(path) {
 	coord <- data.frame(
 		location = c("Debre Ziet", "Kulumsa", "Asasa", "Dawa Busa", "Bekoji"), 
 		longitude = c(38.9978, 39.1603, 39.2012, 38.0116, 39.2539), 
-		latitude = c(8.7657, 8.0199, 7.1076, 8.7771, 7.5267)
+		latitude = c(8.7657, 8.0199, 7.1076, 8.7771, 7.5267),
+		geo_from_source = FALSE
 	)
 	d <- merge(d, coord, by="location", all.x=TRUE)
 
