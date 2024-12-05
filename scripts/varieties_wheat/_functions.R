@@ -108,6 +108,7 @@ proc_wheat <- function(ff) {
 		if (is.null(irn1)) irn1 <- 0
 		if (is.null(irn2)) irn2 <- 0
 		d$irrigation_number <- as.integer(irn1) + as.integer(irn2)
+		d$irrigation_number[d$irrigation_number > 100] <- NA
 	}
 	
 	if (!is.null(r$emergence_date)) {
@@ -123,6 +124,7 @@ proc_wheat <- function(ff) {
 	d$heading_days <- r$days_to_heading
 	if (!is.null(d$harvest_date)) {
 		if (!is.null(d$heading_days)) {
+			d$heading_days[d$heading_days == 0] <- NA
 			season <- as.numeric(d$harvest_date - d$planting_date)	
 			h <- which((d$heading_days > 150) & (d$heading_days > (season + 15)))
 			d$heading_days[h] <- NA
