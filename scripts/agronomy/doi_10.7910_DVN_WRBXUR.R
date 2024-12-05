@@ -10,7 +10,7 @@ carob_script <- function(path) {
   
   meta <- data.frame(
     carobiner::read_metadata(uri, path, group, major=2, minor=0), 
-    data_institute = "AfricaRice", 
+    data_institute = "ICRAF;CIAT;LUANAR",
     #Mzumara, E. 2016. Phosphorus use effiiency and productivity of pigeonpea (Cajanus cajan (l.) millsp.) and soybean (glycine max (l.) merrill) on smallholder farms in different agro-ecological zones of central Malawi. MSc thesis in Agronomy. Lilongwe, Malawi. Lilongwe University of Agriculture and Natural Resources.
     publication="hdl:10568/125473", 
     project="AfricaRising", 
@@ -115,7 +115,7 @@ carob_script <- function(path) {
   )
   d <- merge(d, geo, by="location", all.x = TRUE)
   
-  d$N_fertilizer <-  d$K_fertilizer <- 0
+  d$N_fertilizer <- d$K_fertilizer <- 0
   
   ## Remove duplicate rows ( This is due to NA in the BNF variable )
   d <- unique(d)

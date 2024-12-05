@@ -14,7 +14,7 @@ carob_script <- function(path) {
 
 "
 
-	uri <- "https://doi.org/10.25502/1q0c-e476"
+	uri <- "doi:10.25502/1q0c-e476"
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
 

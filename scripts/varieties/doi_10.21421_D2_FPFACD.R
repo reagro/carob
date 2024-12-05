@@ -12,7 +12,7 @@ carob_script <- function(path) {
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2), 
 		data_institute = "ICRISAT", 
-		publication ="doi.org/10.1111/pbr.12358", 
+		publication ="doi:10.1111/pbr.12358", 
 		project = NA, 
 		data_type = "experiment", 
 		response_vars = "yield;disease_severity",

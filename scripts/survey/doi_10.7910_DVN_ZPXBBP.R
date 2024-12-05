@@ -13,9 +13,9 @@ Data was taken in 40 fields (replications), for the two years of research we too
 	ff  <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=1, minor=2),
+		carobiner::read_metadata(uri, path, group, major=1, minor=5),
 		data_institute = "IFPRI",
-		publication = "doi.org/10.5296/jas.v9i2.18513",
+		publication = "doi:10.5296/jas.v9i2.18513",
 		project = NA,
 		data_type = "survey",
 		treatment_vars = "land_prep_method",

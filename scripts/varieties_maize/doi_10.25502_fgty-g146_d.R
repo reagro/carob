@@ -14,7 +14,7 @@ carob_script <- function(path) {
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "IITA",
-		publication = "doi.org/10.1002/agj2.20746",
+		publication = "doi:10.1002/agj2.20746",
 		project = "Stress Tolerant Maize for Africa",
 		data_type = "experiment",
 		treatment_vars = "variety",
