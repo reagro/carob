@@ -1,8 +1,5 @@
 # R script for "carob"
 
-## ISSUES
-# ....
-
 
 carob_script  = function(path) {
  
@@ -37,16 +34,16 @@ carob_script  = function(path) {
    record_id  = as.integer(1:nrow(r)),
    planting_date = "2019-09-01",
    harvest_date = "2020-01-01",
-   on_farm = T,
-   is_survey = F,
+   on_farm = TRUE,
+   is_survey = FALSE,
    crop = "potato",
    pathogen  = "Phytophthora infestans",
-   yield_part = as.character(NA),
-   geo_from_source = F,
+   yield_part = "none",
+   geo_from_source = FALSE,
    trial_id = gsub(".xlsx", "", basename(f[1])),
    yield  = as.numeric(NA),
    AUDPC  =  r$AUDPC / 100,
-   irrigated=T
+   irrigated=TRUE
    )
   
   d$rep  = as.integer(r$Rep)
@@ -57,6 +54,3 @@ carob_script  = function(path) {
   
 }
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path  = _____
-# carob_script(path)
