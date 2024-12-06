@@ -108,7 +108,7 @@ proc_wheat <- function(ff) {
 		if (is.null(irn1)) irn1 <- 0
 		if (is.null(irn2)) irn2 <- 0
 		d$irrigation_number <- as.integer(irn1) + as.integer(irn2)
-		d$irrigation_number[d$irrigation_number > 100] <- NA
+		d$irrigation_number[d$irrigation_number > 50] <- NA
 	}
 	
 	if (!is.null(r$emergence_date)) {
@@ -155,6 +155,9 @@ proc_wheat <- function(ff) {
 	m <- matrix(byrow=TRUE, ncol=2, c(
 		"amaranthus caudatus", "foxtail amaranth",
 		"buck wheat", "buckwheat",
+		"bw", NA,
+		"brassica", NA, # perhaps add brassica to crops?
+		"cruciferas", NA,
 		"rough pro", NA, 
 		"zallon", NA,
 		"jumcean", NA,
@@ -194,6 +197,7 @@ proc_wheat <- function(ff) {
 		"pearl-mill", "pearl millet",
 		"beans&potatoes", "common bean;potato",
 		"potato and rapeseed", "potato;rapeseed",
+		"beet", "sugar beet",
 		"berseem (fodder)", "berseem clover",
 		"berseen", "berseem clover",
 		"egyption", "berseem clover",
@@ -707,6 +711,7 @@ proc_wheat <- function(ff) {
 	i <- grep("Karaj", d$location)
 	d$latitude[i] <- 35.802
 	d$geo_from_source[i] <- FALSE
+
 
 	tolow <- function(x) if (is.null(x)) NULL else tolower(x)
 

@@ -9,20 +9,20 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=2, minor=0),
-	   project="High Rainfall Wheat Yield Trial",
-	   publication = "doi:10.1016/j.fcr.2020.107742",
-	   data_institute = "CIMMYT",
-	   carob_contributor="Andrew Sila",
-	   carob_date="2023-05-03",
-	   
-	   data_type="on-station experiment",
+		project="High Rainfall Wheat Yield Trial",
+		publication = "doi:10.1016/j.fcr.2020.107742",
+		data_institute = "CIMMYT",
+		carob_contributor="Andrew Sila",
+		carob_date="2023-05-03",
+		data_type="on-station experiment",
 		response_vars = "yield",
-		treatment_vars = "variety_code"
-	    
-	    
+		treatment_vars = "variety_code"		 
 	)
 
 	proc_wheat <- carobiner::get_function("proc_wheat", path, group)
 	d <- proc_wheat(ff)
+	
+	d$planting_date[d$planting_date == "2015-04-21"] <- NA
+	 
 	carobiner::write_files(path, meta, d)
 }
