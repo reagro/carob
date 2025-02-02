@@ -28,12 +28,17 @@ carob_script <- function(path) {
 		f <- ff[grep(paste0("^", y), basename(ff))]
 		proc_wheat(f)
 	})
-	
 
 	d <- do.call(carobiner::bindr, d) 
+
+	i <- grep("^00-..$", d$planting_date)
+	d$planting_date[i] <- "2000"
+	i <- grep("^..-..$", d$planting_date)
+	d$planting_date[i] <- paste0("19", substr(d$planting_date[i],1, 2))
+
+	i <- which(d$soil_pH > 50)
+	d$soil_pH[i] <- d$soil_pH[i] / 10
 	
 	carobiner::write_files(path, meta, d)
 }
 
-	
-	

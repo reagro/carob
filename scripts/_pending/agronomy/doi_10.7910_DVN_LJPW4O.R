@@ -95,9 +95,9 @@ carob_script <- function(path) {
 	d$OM_used <- r$Treatment == 8
 	d$OM_type <- ifelse(r$Treatment == 8, "farmyard manure", NA)
 	d$OM_amount <- ifelse(r$Treatment == 8, 5000, 0) # From protocols shared by author.
-	d$OM_N <- d$OM_amount*(0.1796/100)*(0.755/100) # OM$K (%)
-	d$OM_P <- d$OM_amount*(0.1796/100)*(200.67532467532467/1e+06) # OM$P (ppm)
-	d$OM_K <- d$OM_amount*(0.1796/100)*(66.9072/1e+06) # OM$K (ppm)
+	d$N_organic <- d$OM_amount*(0.1796/100)*(0.755/100) # OM$K (%)
+	d$P_organic <- d$OM_amount*(0.1796/100)*(200.67532467532467/1e+06) # OM$P (ppm)
+	d$K_organic <- d$OM_amount*(0.1796/100)*(66.9072/1e+06) # OM$K (ppm)
 
 	# EGB:
 	# # Combine grains, leaves, residues and soil
@@ -173,7 +173,7 @@ carob_script <- function(path) {
 	d <- d[,c("country", "adm1", "adm2", "adm3", "latitude", "longitude", "geo_from_source", "trial_id", "planting_date", "harvest_date", "on_farm", "is_survey", "irrigated",
 	          "crop", "variety", "variety_code", "yield", "yield_part", "fwy_residue",
 	          "fertilizer_type", "N_fertilizer", "N_splits", "P_fertilizer", "K_fertilizer", "Zn_fertilizer", "B_fertilizer", "Ca_fertilizer", "Mg_fertilizer",
-	          "OM_used", "OM_type", "OM_amount", "OM_N", "OM_P", "OM_K",
+	          "OM_used", "OM_type", "OM_amount", "N_organic", "P_organic", "K_organic",
 	          "leaf_N", "leaf_P", "leaf_K", "leaf_Ca", "leaf_Mg",
 	          "grain_N", "grain_P", "grain_K", "grain_Ca", "grain_Mg",
 	          "residue_N", "residue_P", "residue_K", "residue_Ca", "residue_Mg",

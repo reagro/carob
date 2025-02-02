@@ -62,6 +62,7 @@ carob_script <- function(path) {
    d$geo_from_source <- FALSE
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
+   d$plant_height[d$plant_height > 500] <- NA
    
    carobiner::write_files(path, meta, d)
 }

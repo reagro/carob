@@ -151,6 +151,8 @@ proc_wheat <- function(ff) {
 		d$row_spacing[d$row_spacing == 0] <- NA
 	}
 
+
+#chile, gm, sesbania, jhanttar, melon
  
 	m <- matrix(byrow=TRUE, ncol=2, c(
 		"amaranthus caudatus", "foxtail amaranth",
@@ -165,6 +167,7 @@ proc_wheat <- function(ff) {
 		"feet ollowed by mu", NA,	
 		"feet followed by mu", NA,
 		"no crop", "none",
+		"beans, cow peas", "common bean;cowpea",
 		"ajos", "garlic",
 		"ajo", "garlic",
 		"alfa alfa", "lucerne",
@@ -228,6 +231,7 @@ proc_wheat <- function(ff) {
 		"chikpea", "chickpea",
 		"chickpean", "chickpea",
 		"chick-pea", "chickpea",
+		"chile", "chili pepper",
 		"chocho", "tarwi",		
 		"clasterbean", "guar", 
 		"clusterbean", "guar", 
@@ -472,6 +476,8 @@ proc_wheat <- function(ff) {
 		"dantcha", "sesbania",
 		"dencha", "sesbania",
 		"dhencha", "sesbania",
+		"gm, sesbania", "sesbania",
+		"jhanttar", "sesbania",		
 		"cesbania", "sesbania",
 		"sesbania i", "sesbania",
 		"sesbania indica", "sesbania",
@@ -655,6 +661,7 @@ proc_wheat <- function(ff) {
 	
 	if (!is.null(r$soil_percent_organic_matter)) {
 		d$soil_SOC <- as.numeric(r$soil_percent_organic_matter) * 0.58
+		d$soil_SOC[d$soil_SOC == 0] <- NA
 	}
 	if (!is.null(r$soil_ph_actual_value)) {
 		d$soil_pH <- as.numeric(r$soil_ph_actual_value)
