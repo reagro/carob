@@ -11,9 +11,9 @@ carob_script <- function(path) {
 
 	meta <- data.frame(
 	  carobiner::read_metadata(uri, path, group, major = 1, minor = 1),
-		project="Millennium Villages Project (MVP)",
+		project="Millennium Villages Project",
 		publication= "doi:10.1029/2022JG007128",
-		data_institute = "IITA",
+		data_institute = "UMD",
 		data_type="experiment",
 		response_vars= "yield",
 		treatment_vars="N_fertilizer;P_fertilizer",
@@ -35,11 +35,11 @@ carob_script <- function(path) {
 		longitude = 34.5167,
 		latitude = 0.1072,
 		geo_from_source = FALSE,
-		trial_id = 1,
+		trial_id = "1",
 		on_farm = FALSE,
 		is_survey = FALSE,
 		crop = "maize",
-		variety_type = "Hybrid",
+		variety_type = "hybrid",
 		variety_code = "WH403",
 		previous_crop = "maize",
 		plot_area = 10.82,
@@ -47,14 +47,14 @@ carob_script <- function(path) {
 		planting_date = ifelse(rk$trt == 0 & rk$Year > 2011, paste0(rk$Year-1,"-10-15"), paste0(rk$Year,"-03-15")), # From publication: "In Yala, fertilized maize was cultivated during the long rains and unfertilized maize during the short rains"
 		harvest_date = ifelse(rk$trt == 0 & rk$Year > 2011, NA, paste0(rk$Year,"-08-25")),
 		fertilizer_used = TRUE,
-		fertilizer_type = "DAP; Urea",
+		fertilizer_type = "DAP;urea",
 		fertilizer_dap = "0;35",
 		fertilizer_amount = ((rk$trt*0.66)/0.46) + ((rk$trt*0.33)/0.18),
 		N_fertilizer = rk$trt,
-		N_splits = 2,
+		N_splits = 2L,
 		P_fertilizer = ((rk$trt*0.33)/0.18)*0.201,
 		OM_used = FALSE,
-		OM_N = 0,
+		N_organic = 0,
 		inoculated = FALSE,
 		irrigated = FALSE,
 		row_spacing = 75,
@@ -62,8 +62,8 @@ carob_script <- function(path) {
 		fw_yield = rk$ke_grain*1000,
 		yield_part = "grain",
 		fwy_residue = rk$ke_stover*1000,
-		grain_N = (rk$ke_grainN*1000)/rk$ke_grain,
-		residue_N = (rk$ke_stoverN*1000)/rk$ke_stover,
+		grain_N = 10 * rk$ke_grainN / rk$ke_grain, # maybe... seems too low
+		residue_N = 10 * rk$ke_stoverN / rk$ke_stover, #maybe...
 		soil_pH = 5.97,
 		soil_sand = 52.2,
 		soil_clay = 35.2,
@@ -75,6 +75,10 @@ carob_script <- function(path) {
 		soil_sample_top = 15
 	)
 	
+	glir <- rt$trt == "GLIR"
+	rt$trt[glir] <- 0
+	rt$trt <- as.numeric(rt$trt)
+	
 	dt <- data.frame(
 	  country = "Tanzania",
 	  location = "Tumbi",
@@ -82,28 +86,28 @@ carob_script <- function(path) {
 	  longitude = 32.6887,
 	  latitude = -5.071,
 	  geo_from_source = FALSE,
-	  trial_id = 2,
+	  trial_id = "2",
 	  on_farm = FALSE,
 	  is_survey = FALSE,
 	  crop = "maize",
-	  variety_type = "Hybrid",
+	  variety_type = "hybrid",
 	  variety = "Dekalb",
 	  variety_code = "8053",
-	  previous_crop = "fallow",
+	  previous_crop = "none",
 	  plot_area = 10.82,
 	  season = "Long",
-	  planting_date = paste0(rt$Year,"-11-01"),
-	  harvest_date = paste0(rt$Year+1,"-05-01"),
+	  planting_date = paste0(rt$Year, "-11-01"),
+	  harvest_date = paste0(rt$Year+1, "-05-01"),
 	  fertilizer_used = TRUE,
-	  fertilizer_type = "DAP;Urea",
+	  fertilizer_type = "DAP;urea",
 	  fertilizer_dap = "0;35",
-	  fertilizer_amount = ((as.numeric(rt$trt)*0.66)/0.46) + ((as.numeric(rt$trt)*0.33)/0.18),
-	  N_fertilizer = as.numeric(rt$trt),
-	  N_splits = 2,
-	  P_fertilizer = ((as.numeric(rt$trt)*0.33)/0.18)*0.201,
-	  OM_used = TRUE,
-	  OM_type = "foliage",
-	  OM_N = ifelse(rt$trt == "GLIR", 75, 0),
+	  fertilizer_amount = rt$trt*0.66/0.46 + rt$trt*0.33/0.18,
+	  N_fertilizer = rt$trt,
+	  N_splits = 2L,
+	  P_fertilizer = 0.201 * rt$trt*0.33/0.18,
+	  OM_used = glir,
+	  OM_type = ifelse(glir, "Gliricidia sepium leaves", "none"),
+	  N_organic = ifelse(glir, 75, 0),
 	  inoculated = FALSE,
 	  irrigated = FALSE,
 	  row_spacing = 75,
@@ -111,8 +115,8 @@ carob_script <- function(path) {
 	  fw_yield = rt$tz_grain*1000,
 	  yield_part = "grain",
 	  fwy_residue = rt$tz_stover*1000,
-	  grain_N = (rt$tz_grainN*1000)/rt$tz_grain,
-	  residue_N = (rt$tz_stoverN*1000)/rt$tz_stover,
+	  grain_N = 10 * rt$tz_grainN / rt$tz_grain, # maybe... seems too low
+	  residue_N = 10 * rt$tz_stoverN / rt$tz_stover, # maybe...
 	  soil_pH = 5.47,
 	  soil_sand = 87.4,
 	  soil_clay = 8.9,
@@ -125,6 +129,7 @@ carob_script <- function(path) {
 	)
 	
 	d <- carobiner::bindr(dk, dt)
+	d$K_fertilizer <- as.numeric(NA)
 	
 	carobiner::write_files(meta, d, path=path)
 }
