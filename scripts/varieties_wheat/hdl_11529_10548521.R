@@ -3,8 +3,10 @@
 
 carob_script <- function(path) {
   
-  "International Durum Screening Nursery (IDSN) distributes diverse CIMMYT-bred spring durum wheat germplasm adapted to irrigated and variable moisture stressed environments. Disease resistance and high industrial pasta quality are essential traits possessed in this germplasm. It is distributed to 100 locations, and contains 150 entries. (2019)"
+"International Durum Screening Nursery (IDSN) distributes diverse CIMMYT-bred spring durum wheat germplasm adapted to irrigated and variable moisture stressed environments. Disease resistance and high industrial pasta quality are essential traits possessed in this germplasm. It is distributed to 100 locations, and contains 150 entries. (2019)"
+
   uri <- "hdl:11529/10548521"
+  
   group <- "varieties_wheat"
   ff <- carobiner::get_data(uri, path, group)
   
