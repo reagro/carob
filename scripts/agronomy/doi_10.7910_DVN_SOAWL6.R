@@ -66,8 +66,8 @@ carob_script <- function(path) {
 		grain_Fe = r$GrainFe.mgkg.1._Trt,
 		grain_N = r$GrainN_Trt,
 		grain_protein = r$Proteins_Trt,
-
-		yield_cnt = r$GrainYld_Cnt, 
+		
+		yield_cnt = r$GrainYld_Cnt*1000, 
 		N_fertilizer_cnt = r$N_Applied_Cnt,
 		P_fertilizer_cnt = r$P_Applied_Cnt, 
 		K_fertilizer_cnt = r$K_Applied_Cnt, 
