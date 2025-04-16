@@ -51,8 +51,8 @@ Data was taken in 40 fields (replications), for the two years of research we too
 	d4 <- process_data("008_sorghum.csv", "sorghum", "grain")
 	
 	d <- carobiner::bindr(d1, d2, d3, d4)
-	d$on_farm = TRUE #! 
-    d$is_survey = TRUE 
+	d$on_farm = TRUE 
+    d$is_survey = FALSE 
 	d$irrigated = FALSE
 
 	d$country <- "Mali"
