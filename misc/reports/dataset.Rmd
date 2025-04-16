@@ -26,8 +26,8 @@ ktab <- function(data, caption) {
 uri <- "doi:10.25502/3348-6831/D"
 group <- "agronomy"
 
-suri <- carobiner::simple_uri(uri)
-huri <- carobiner:::http_address(uri)
+suri <- yuri::simpleURI(uri)
+huri <- yuri:::http_address(uri)
 http <- paste0('<a href="', huri, '">original data</a>')
 github <- paste0("https://github.com/reagro/carob/blob/master/scripts/", group, "/", suri, ".R")
 script <- paste0('<a href="', github, '">R script</a>')
@@ -118,7 +118,7 @@ if (grepl("trials", group)) {
 }
    
    
-pub <- ifelse(is.na(m$publication), "", paste0('You can also consult the accompanying <a href="', carobiner:::http_address(m$publication), '">paper</a>.'))
+pub <- ifelse(is.na(m$publication), "", paste0('You can also consult the accompanying <a href="', yuri:::http_address(m$publication), '">paper</a>.'))
 ```
 
 
