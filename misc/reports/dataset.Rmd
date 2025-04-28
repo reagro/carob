@@ -118,7 +118,8 @@ if (grepl("trials", group)) {
 }
    
    
-pub <- ifelse(is.na(m$publication), "", paste0('You can also consult the accompanying <a href="', yuri:::http_address(m$publication), '">paper</a>.'))
+hta <- gsub("_", "/", yuri:::http_address(m$publication))
+pub <- ifelse(is.na(m$publication), "", paste0('You can also consult the accompanying <a href="', hta, '">paper</a>.'))
 ```
 
 
