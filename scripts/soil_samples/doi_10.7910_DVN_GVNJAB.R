@@ -34,7 +34,7 @@ carob_script <- function(path) {
 	# Extract latitude and longitude values
 	d$latitude <- v[,2]
 	d$longitude <- v[,1]
-	
+	d$geo_from_source <- TRUE
 	d$country <- "Kenya"
 	
 	d$soil_sample_top <- 0

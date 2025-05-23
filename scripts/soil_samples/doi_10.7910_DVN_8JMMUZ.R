@@ -48,11 +48,12 @@ carob_script <- function(path) {
 	
 	
 	d <- data.frame(
-		site = r$Site,
+		location = r$Site,
 		longitude = r$Longitude,
 		latitude = r$Latitude,
+		geo_from_source= TRUE,
 		country = r$Country,
-		trial_id = "1",
+		#trial_id = "1",
 		soil_pH = as.numeric(r$pH),
 		soil_EC = as.numeric(r$`EC(S)`)/1000, #uS/cm to mS/cm
 		soil_Al = as.numeric(r$Al),

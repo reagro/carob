@@ -34,7 +34,9 @@ carob_script <- function(path) {
 	r1b$bd1 <- NA
 	colnames(r1a) <- colnames(r1b)
 	r1a$soil_sample_top <- 0
+	r1a$soil_deph <- "0-30"
 	r1b$soil_sample_top <- 30
+	r1b$soil_deph <- "30-100"
 
 	r <- rbind(r1a, r1b)
 
@@ -43,7 +45,8 @@ carob_script <- function(path) {
 		location =  "Omusati",
 		longitude = r$lon,
 		latitude = r$lat,
-		trial_id = r$Waypoint_No,
+		geo_from_source= TRUE,
+		#trial_id = r$Waypoint_No,
 		soil_sample_top = r$soil_sample_top,
 		soil_SOC = r$soc2,
 		soil_bd = r$bd1
