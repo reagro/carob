@@ -64,6 +64,7 @@ carob_script <- function(path) {
 		soil_sample_bottom = as.numeric(r$soil_sample_bottom),
 		longitude = r$Longitude,
 		latitude = r$Latitude,
+		geo_from_source= TRUE,
 		country =  'Democratic Republic of the Congo'
 	)
 

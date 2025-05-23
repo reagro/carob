@@ -56,7 +56,7 @@ carob_script <- function(path) {
 	r$Na.ppm[r$Na.ppm == "< 0.60"] <- "0.3"
 
 	d <- data.frame(
-		trial_id = "1",
+		#trial_id = "1",
 		soil_pH = as.numeric(r$pH),
 		soil_EC = as.numeric(r$EC.S.uS.cm)/1000,
 		soil_Al = as.numeric(r$Al.ppm),
@@ -81,7 +81,8 @@ carob_script <- function(path) {
 		country = r$Country,
 		location = r$Site,
 		longitude = r$Longitude,
-		latitude = r$Latitude
+		latitude = r$Latitude,
+		geo_from_source= TRUE
 	)
 
     carobiner::write_files(path, meta, d)
