@@ -30,6 +30,7 @@ carob_script <- function(path) {
 	r2$soil_sample_top[r2$Depth.range=="20-50cm"] <- 20
 	r2$soil_sample_sub[r2$Depth.range=="0-20cm"] <- 20
 	r2$soil_sample_sub[r2$Depth.range=="20-50cm"] <- 50
+	r2$deph <- gsub("cm", "", r2$Depth.range)
 	r2$latitude <- r2$N_Degree + r2$N_Minute/60
 	r2$longitude <- r2$E_Degree + r2$E_Minute/60
 	
@@ -43,7 +44,8 @@ carob_script <- function(path) {
 		location = r$Site,
 		longitude = r$longitude,
 		latitude = r$latitude,
-		trial_id = r$SSN,
+		geo_from_source= TRUE,
+		#trial_id = r$SSN,
 		soil_sample_top = r$soil_sample_top,
 		soil_sample_bottom = r$soil_sample_sub,
 		soil_C = r$Total.Carbon,
@@ -53,6 +55,10 @@ carob_script <- function(path) {
 		soil_silt = r$Silt,
 		soil_sand = r$Sand
 	)
+	
+	# correcting country conflict error 
+	d <- d[!grepl("37.16563", d$longitude),] 
+	
 	carobiner::write_files(path, meta, d)
 }
 
