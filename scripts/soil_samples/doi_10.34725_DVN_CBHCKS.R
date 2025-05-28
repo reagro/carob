@@ -29,7 +29,7 @@ carob_script <- function(path) {
 	r <- merge(r1,r2[, c("Cluster", "Plot", "Latitude", "Longitude", "Site", "Date")], by = c("Site", "Cluster", "Plot"), all = TRUE)
 
 	d <- data.frame(
-		trial_id = r$SSN,
+		#trial_id = r$SSN,
 		soil_pH = as.numeric(r$predpH),
 		soil_SOC = as.numeric(r$predSOC),
 		soil_ex_bases = as.numeric(r$predExBas),
@@ -39,30 +39,24 @@ carob_script <- function(path) {
 		soil_sample_bottom = as.numeric(r$DepthBottom),
 		longitude = r$Longitude,
 		latitude = r$Latitude,
+		geo_from_source= TRUE,
 		country = "Kenya",
 		location = r$Site
 	)
+	
+	d$geo_from_source[is.na(d$latitude)] <- FALSE
 
-	#carobiner::geocode("Chasimba", "Kenya")
-	#r$Latitude[is.na(r$Longitude)][r$Site[is.na(r$Longitude)] == "Chasimba"] <- -3.7268
-	#r$Longitude[is.na(r$Longitude)][r$Site[is.na(r$Longitude)] == "Chasimba"] <- 39.735
+	geo <- data.frame(
+	   location= c("Chasimba", "Gatunga", "KuboSouth", "Muminji","Thange" ),
+	   lat=c(-3.7260,-0.101312,-4.20839, -0.6213,-2.49635),
+	   lon=c(39.6907, 38.00761, 39.3126, 37.7229, 37.9612)
+	)
 	
-	#carobiner::geocode("Gatunga", "Kenya")
-	#r$Latitude[is.na(r$Longitude)][r$Site[is.na(r$Longitude)] == "Gatunga"] <- 0.1
-	#r$Longitude[is.na(r$Longitude)][r$Site[is.na(r$Longitude)] == "Gatunga"] <- 38.0166
+	d <- merge(d, geo, by="location", all.x=TRUE)
 	
-	#carobiner::geocode("Kubo", "Kenya")
-	#r$Latitude[is.na(r$Longitude)][r$Site[is.na(r$Longitude)] == "KuboSouth"] <- -4.2806
-	#r$Longitude[is.na(r$Longitude)][r$Site[is.na(r$Longitude)] == "KuboSouth"] <- 39.3976
+	d$longitude[is.na(d$longitude)] <- d$lon[is.na(d$longitude)]
+	d$latitude[is.na(d$latitude)] <- d$lat[is.na(d$latitude)]
+	d$lat <- d$lon <- NULL
 	
-	#carobiner::geocode("Mbeere", "Kenya")
-	#r$Latitude[is.na(r$Longitude)][r$Site[is.na(r$Longitude)] == "Muminji"] <- -0.5065
-	#r$Longitude[is.na(r$Longitude)][r$Site[is.na(r$Longitude)] == "Muminji"] <- 37.791
-	
-	#carobiner::geocode("Thange", "Kenya")
-	#r$Latitude[is.na(r$Longitude)][r$Site[is.na(r$Longitude)] == "Thange"] <- -2.4268
-	#r$Longitude[is.na(r$Longitude)][r$Site[is.na(r$Longitude)] == "Thange"] <- 38.1205
-	
-
 	carobiner::write_files(path, meta, d)
 }

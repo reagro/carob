@@ -22,11 +22,11 @@ carob_script <- function(path) {
 		treatment_vars = "none"
     )
   
-  
-	
+
 	# read wetchem data and sample identifier tables
 	f0 <- ff[basename(ff) == "sample_identifier.csv"]
 	d0 <- read.csv(f0)
+	
 	# rename columns
 	colnames(d0) <- tolower(colnames(d0))
 
@@ -34,32 +34,33 @@ carob_script <- function(path) {
 	d1 <- read.csv(f1)
 	
 	# Properties
-	#hd <-  c('pH_water', 'EC', 'carbon_organic', "nitrogen_total", 'phosphorus_extractable', 'potassium_extractable', 'zinc_extractable', 'copper_extractable',  'iron_extractable','manganese_extractable', "sulphur_extractable", 'boron_extractable')
 		
 	hd <- c('soil_pH', 'soil_EC', 'soil_SOC', 'soil_N', 'soil_P_total', 'soil_K',  'soil_Zn', 'soil_Cu', 'soil_Fe', 'soil_Mn', 'soil_S', 'soil_B')
 	colnames(d1) <- c('id', hd)
 	
 	# No need to read table with MIR data now because we are not processing it
 	## why not?
-	
-	f2 <- ff[basename(ff) == "drychem.csv"]
-	#d2 <- data.frame(read.csv2(f2, sep = ","))
+	#f2 <- ff[basename(ff) == "drychem.csv"]
+	#d2 <- read.csv(f2)
 	
 	# merge d0 and d1 tables
 	d <- merge(d0, d1, by="id")
 	d$country <- 'India'
+	d$geo_from_source <- TRUE
+	d$location <- d$district
+	d$date <- as.character(d$year)
 	
 	# Remove negative B values
 	d$soil_B[d$soil_B < 0] <- NA
 	
-	
-	d$trial_id <- "1"
-	
 	# Drop id, original_id, year and district columns from d
-	k <- which(colnames(d) %in% c("id", "original_id", "year", "district"))
-	d <- d[,-k]
+	d$id <- d$original_id <- d$year <- d$district <- NULL
 	
-	carobiner::write_files(meta, d, path=path)
+	## fixing long and lat coordinate 
+	d$longitude[grepl("Sitamarhi", d$location)] <- 85.5027
+	d$latitude[grepl("Sitamarhi", d$location)] <- 26.590
+	
+	carobiner::write_files(path, meta, d)
 }
 
 

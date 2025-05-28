@@ -37,6 +37,7 @@ carob_script <- function(path) {
 		latitude=r$Latitude,
 		longitude=r$Longitude,
 		elevation=r$Altitude,
+		geo_from_source= TRUE,
 		trial_id=r$Fcode,
 		soil_C=r$C,
 		soil_pH=r$pH,
