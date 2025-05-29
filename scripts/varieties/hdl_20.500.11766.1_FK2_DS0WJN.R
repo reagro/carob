@@ -21,7 +21,7 @@ carob_script <- function(path) {
       carob_date="2024-10-31"
    )
    
-   f1 <- ff[basename(ff)=="FLRP_FBMPYT_2023.csv"]
+   f1 <- ff[basename(ff)=="FBMPYT_2023.csv"]
    f2 <- ff[basename(ff)=="Trial_Info_2023.csv"]
    
    ## processing yield data
