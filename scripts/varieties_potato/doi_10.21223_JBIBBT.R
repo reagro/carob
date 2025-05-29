@@ -1,6 +1,5 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
    
 "Experiments were installed in Huancavelica, with the objective of identifying clones with high potential for being varieties applying the Participatory Varietal Selection methodology. For the period 2016-2017, 18 clones with high resistance to late blight were planted, belonging to the B population and developed in the International Potato Center together with Two control varieties, Canchan and Yungay (susceptible). Finally, in the harvest 5 clones with high yield, low glycoalkaloid content and good organoleptic quality were selected as a result of the Participatory Variety Selection of the farmers and the analysis of mixed models and BLUPs for the yield data. The 5 selected clones were planted again in the period 2017-2018 and through the Participatory Varietal Selection, three promising clones were selected (CIP308488.92, CIP308495.227, and CIP308478.59)."
@@ -10,7 +9,7 @@ carob_script <- function(path) {
    ff  <- carobiner::get_data(uri, path, group)
    
    meta <- data.frame(
-      carobiner::read_metadata(uri, path, group, major=1, minor=2),
+      carobiner::read_metadata(uri, path, group, major=2, minor=0),
       data_institute = "CIP",
       publication="doi:10.1007/s11540-021-09495-z",
       project=NA,

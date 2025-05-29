@@ -10,7 +10,7 @@ carob_script <- function(path) {
    ff  <- carobiner::get_data(uri, path, group)
    
    meta <- data.frame(
-      carobiner::read_metadata(uri, path, group, major=3, minor=0), 
+      carobiner::read_metadata(uri, path, group, major=5, minor=0), 
       data_institute ="ICARDA", 
       publication= NA, 
       project= NA, 
@@ -21,7 +21,7 @@ carob_script <- function(path) {
       carob_date="2024-10-31"
    )
    
-   f1 <- ff[basename(ff)=="FLRP_FBMPYT_2023.csv"]
+   f1 <- ff[basename(ff)=="FBMPYT_2023.csv"]
    f2 <- ff[basename(ff)=="Trial_Info_2023.csv"]
    
    ## processing yield data
