@@ -1,5 +1,6 @@
 # R script for "carob"
 
+
 carob_script <- function(path) {
 
 "The intensification of agricultural systems in sub-Saharan Africa (SSA) is necessary to reduce poverty and improve food security but requires increased nutrient applications to smallholder systems. To avoid the negative consequences of intensification that result from many large-scale agricultural systems (e.g., eutrophication), we must better understand how diverse soil systems in SSA will respond to increased fertilizer applications. We tracked nitrogen (N) inputs and outputs in fertilizer trials at two maize (Zea mays)-agroecological regions of contrasting soil type. We measured maize biomass, grain yields, N leaching, and N gaseous losses from a clayey soil in Yala, Kenya, and a sandy soil in Tumbi, Tanzania, with application rates of 0, 50, 75, 100, 150, and 200 kg N ha-1 yr‑1 over multiple years. Using measurements of NO, N2O, NO3-, biomass N, and an 15N enrichment experiment, we show that N budgets in Yala were nearly always negative, meaning more N was exported in yields or lost from the system than was added in fertilizer. In Tumbi, however, N budgets were negative at lower fertilizer levels (0 and 50 kg N ha-1), but positive at higher fertilizer levels (75 and 200 kg N ha-1). At both sites, most of the N was lost through maize biomass/grain removal and N leaching (over 96% of total losses). Gas losses were a minor component of N budgets. These results highlight the importance of tailoring fertilizer recommendations to a farm’s specific soil and climatic conditions. However, on these two contrasting sites, fertilizer additions at or below 50 kg N ha-1 do not lead to major losses of N (via gaseous or leaching) and may be recommended at a range of sites across SSA soils in maize agroecosystems."
@@ -10,7 +11,7 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-	  carobiner::read_metadata(uri, path, group, major = 1, minor = 1),
+		carobiner::read_metadata(uri, path, group, major = 1, minor = 1),
 		project="Millennium Villages Project",
 		publication= "doi:10.1029/2022JG007128",
 		data_institute = "UMD",

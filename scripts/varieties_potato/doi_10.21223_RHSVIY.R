@@ -1,6 +1,5 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
     
 "Datasets from four experiments planted in Huancayo under normal conditions for potato crop and one experiment planted under high temperatures in order to determinate Parental value for yield in advanced clones of B3C3 population. In the field experiments, the randomized complete block design was used with 3 replications  and 40 plants."
@@ -10,7 +9,7 @@ carob_script <- function(path) {
     ff  <- carobiner::get_data(uri, path, group)
 
     meta <- data.frame(
-        carobiner::read_metadata(uri, path, group, major=4, minor=0),
+        carobiner::read_metadata(uri, path, group, major=4, minor=1),
         data_institute = "CIP",
         publication = NA,
         project = NA,

@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	ff  <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=1, minor=1),
+		carobiner::read_metadata(uri, path, group, major=3, minor=1),
 		data_institute = "CIMMYT",
 		project = NA,
 		publication=NA,
@@ -22,8 +22,8 @@ carob_script <- function(path) {
 	)
 	
 ## read data 
-
-	f <- ff[basename(ff) == "CSISA_IND_Irrigation_Trial_Data_2017-22.csv"]
+							 
+	f <- ff[basename(ff) == "CSISA_IND_Irrigation Trial_Data_2017-22_Final.csv"]
 	r <- suppressWarnings(read.csv(f, fileEncoding = "UTF-8"))
 	#rr <- read.csv("~/Downloads/CSISA_IND_Irrigation Trial_Data_2017-22v2.csv", fileEncoding = "UTF-8")
 	#x = unique(cbind(r$GradeNPK, rr$GradeNPK))
@@ -79,29 +79,18 @@ carob_script <- function(path) {
 # 0.847372685 20:20:13 
 
 	npk <- matrix(0, nrow=nrow(d), ncol=3)
-	if (is.numeric(r$GradeNPK)) {
-	  # current version. per email from AA to RH
-  	i <- which(r$GradeNPK == 0.522407407)
-	  npk[i,] <- rep(c(12, 32, 16), each=length(i))
-	  
-	  i <- which(r$GradeNPK == 0.781944444)
-	  npk[i, ] <- rep(c(18, 46, 0), each=length(i))
-	  
-	  i <- which(r$GradeNPK == 0.847372685)
-	  npk[i, ] <- rep(c(20, 20, 13), each=length(i))
-	} else { # for the next version of the dataset
-    i <- r$GradeNPK != ""
-    vnpk <- do.call(rbind, strsplit(r$GradeNPK[i])) 
-    vnpk[] <- as.numeric(vnpk) 
-    npk[i, ] <- vnpk
-	}  
+	i <- r$GradeNPK != ""
+	vnpk <- do.call(rbind, strsplit(r$GradeNPK[i], ":")) 
+	vnpk <- matrix(as.numeric(vnpk), nrow=nrow(vnpk))
+	npk[i, ] <- vnpk
+
 	npk <- npk / 100
 	
 	d$N_fertilizer <- rowSums(r[, c("Split1Urea", "Split2Urea", "Split3Urea")], na.rm = TRUE) * 0.46
 	d$N_fertilizer <- rowSums(cbind(d$N_fertilizer, r$BasalDAP * 0.18, npk[,1] * r$BasalNPK), na.rm = TRUE)
 	d$P_fertilizer <- rowSums(cbind(r$BasalDAP * 0.201,  r$BasalNPK * (npk[,2] / 2.29)), na.rm = TRUE)
 	d$K_fertilizer <- rowSums(cbind(r$BasalMOP * 0.498 , r$BasalNPK * (npk[,3] / 1.2051)), na.rm=TRUE)
-   d$Zn_fertilizer <- r$BasalZn
+	d$Zn_fertilizer <- r$BasalZn
    
    d$land_prep_method<- gsub("CT", "conventional", d$land_prep_method)
    d$land_prep_method<- gsub("ZT", "none", d$land_prep_method)
