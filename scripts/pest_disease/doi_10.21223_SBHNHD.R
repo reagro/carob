@@ -13,7 +13,7 @@ carob_script <- function(path) {
 
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=1, minor=1),
+		carobiner::read_metadata(uri, path, group, major=4, minor=0),
 		data_institute = "CIP",
 		publication = NA,
 		project = NA,
