@@ -3,11 +3,14 @@
 
 carob_script <- function(path) {
 
-"Nigeria: General Household Survey, Panel 2018-2019, Wave 4"
+"Mali: Enquête Agricole de Conjoncture Intégrée aux Conditions de Vie des Ménages 2017"
 
-	uri <- "doi:10.48529/1hgw-dq47"
+	uri <- "doi:10.48529/e39g-m952"
 	group <- "LSMS"
 	ff  <- carobiner::get_data(uri, path, group)
+	if (is.null(ff)) {
+		stop("these files need to be downloaded by hand")
+	}
 
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=0),
@@ -15,16 +18,6 @@ carob_script <- function(path) {
 		carob_contributor = "Robert Hijmans",
 		carob_date = "2025-05-14"
 	)
-	
-	
-	hg <- read.csv(ff[basename(ff) == "nga_householdgeovars_y4.csv"])
-
-	geo <- data.frame(
-		hhid = hg$hhid,
-		latitude = hg$lat_dd_mod,
-		longitude = hg$lon_dd_mod
-	)
-
 
 	return(TRUE)
 	carobiner::write_files(path, meta, d)
