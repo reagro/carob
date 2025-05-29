@@ -132,6 +132,29 @@ carob_script <- function(path) {
 	d <- carobiner::bindr(dk, dt)
 	d$K_fertilizer <- as.numeric(NA)
 	
-	carobiner::write_files(meta, d, path=path)
+	### processing weather data 
+	wh <- lapply(c("KE_weather","TZ_weather"), function(i){
+	   
+	   r <- carobiner::read.excel(f2,  sheet=i, na=c("NA"))
+	   
+	   data.frame(
+	      country= r$site,
+	      location= ifelse(grepl("Kenya", r$site), "yala", "Tumbi"),
+	      latitude= ifelse(grepl("KE", i),0.1072, -5.071 ),
+	      longitude=  ifelse(grepl("KE", i), 34.5167, 32.6887 ),
+	      geo_from_source= FALSE,
+	      date= as.character(r$date),
+	      prec= as.numeric(r$precip.mm),
+	      tmin= as.numeric(r$min.temp.C),
+	      tmax= as.numeric(r$max.temp.C),
+	      temp= as.numeric(r$avg.temp.C)
+	   )
+	   
+	})
+	
+	wth <- do.call(rbind, wh)
+	
+	
+	carobiner::write_files(meta, d, path=path, wth = wth)
 }
 
