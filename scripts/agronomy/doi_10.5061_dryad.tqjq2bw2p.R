@@ -94,6 +94,7 @@ Soil samples were collected before the trials and after the trials. Data collect
    
    ###  processing average yield for famer groups  
    ### RH: this does not seem to relate to the experiment
+   ##CN: I think this is the average yield collected from published agricultural statistics, as stated in the abstract.
    r3 <- read.csv(f3)   
    d3 <- data.frame(
       trial_id= "2",
@@ -107,9 +108,6 @@ Soil samples were collected before the trials and after the trials. Data collect
       irrigated= NA,
       yield_part= "grain",
       season= "s1"
-	  ### RH: where did that come from??
-      ###planting_date= "2017-09-06"
-      #harvest_date= "2017"
    )
    d3$crop <- gsub("pegeonpea", "pigeon pea", d3$crop)
   
@@ -125,7 +123,7 @@ Soil samples were collected before the trials and after the trials. Data collect
 	crop_rotation = ifelse(grepl("LeSor", r4$TRT), "legume;sorghum",
 						ifelse(grepl("SorLe", r4$TRT), "sorghum;legume",
 						ifelse(grepl("Sor", r4$TRT), "sorghum", NA))),
-
+   intercrops= ifelse(grepl("3CA_GlySor", r4$TRT), "maize", NA),
       herbicide_used= herb_used,
       herbicide_product= ifelse(herb_used, "glyphosate", NA),
       rep= as.integer(r4$REP),
@@ -133,8 +131,7 @@ Soil samples were collected before the trials and after the trials. Data collect
    )  
 
 ### RH rotation is not an intercrop
-#  d4$intercrops <- ifelse(grepl("5CA_GlyLeSor", d4$trt), "sorghum", NA)
-#  d4$intercrops <- ifelse(grepl("4CA_GlyHHSorLe", d4$trt), "legume", d4$intercrops)
+   ##CN: the intercrops is with maize 
   d4$trt <- NULL
  
   ## joint d3 and d4 from s1 and s2
@@ -194,12 +191,15 @@ Soil samples were collected before the trials and after the trials. Data collect
  
    d$country <- "Tanzania"
    d$adm1 <- "Lindi"
-   d$treatment <- c("farmers practice", "CvT-dibble stick ","CA-glyphosate intercrop", "CA-glyphosate sorghum-legume rotation", "CA-glyphosate legume-sorghum rotation")[d$treatment]
+   d$treatment <- c("farmers practice", "CvT-dibble stick ","CvT-dibble stick-glyphosate intercrop", "CA-dibble stick-glyphosate sorghum-legume rotation", "CA-glyphosate legume-sorghum rotation")[d$treatment]
 
-## RH please fix these
-	# d$residue_prevcrop_used <- 
-	# d$planting_method <- 
-	# d$land_prep_method <- 
+	d$residue_prevcrop_used <- ifelse(grepl("CvT", d$treatment), TRUE, FALSE)
+	    
+	d$planting_method <- ifelse(grepl("CA", d$treatment), "direct seeding", 
+	                            ifelse(grepl("CvT", d$treatment), "dibbling", "manual"))
+	d$land_prep_method <- ifelse(grepl("farmers practice", d$treatment), "conventional", 
+	                       ifelse(grepl("CvT", d$treatment), "minimum tillage", "reduced tillage"))
+	                        
 
    d$fertilizer_type= "NPS"
    d$N_fertilizer <- 23
