@@ -25,6 +25,10 @@ carob_script <- function(path) {
 		longitude = hg$lon_dd_mod
 	)
 
+	p1 <- read.csv(ff[basename(ff) == "sect1_plantingw4.csv"])
+
+
+
 
 	return(TRUE)
 	carobiner::write_files(path, meta, d)

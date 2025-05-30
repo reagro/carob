@@ -14,7 +14,7 @@ carob_script <- function(path) {
 	meta <- data.frame(
 		carobiner::read_metadata(uri, path, group, major=1, minor=2),
 		publication= NA,
-		data_institute = "Göttingen",
+		data_institute = "GAUG",
 		data_type="survey", 
 		response_vars = "none",
 		treatment_vars = "none",

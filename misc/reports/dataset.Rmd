@@ -120,10 +120,22 @@ if (grepl("trials", group)) {
    
 hta <- gsub("_", "/", yuri:::http_address(m$publication))
 pub <- ifelse(is.na(m$publication), "", paste0('You can also consult the accompanying <a href="', hta, '">paper</a>.'))
+
+
+zipf <- paste0("https://geodata.ucdavis.edu/carob/zip/", suri, ".zip")
+dwnl <- ""
+if (grepl("CC", license)) {
+	dwnl <- paste0(' Here you can <a href="', zipf, '">download</a>', " the standardized data.")
+} else if (grepl("unknown", license)) {
+	dwnl <- paste0(" Because of the license is not specified, you need to run the script yourself to get the standardized data.")
+} else {
+	dwnl <- paste0(" Because of the restrictions of this license, you need to run the script yourself to get the standardized data.")
+} 
+
 ```
 
 
-This report describes standardized data for "*`r m$title`*". These data were standardized on `r m$carob_date` by `r m$carob_contributor` with this `r script`. The `r http` have a `r license` [license](https://carob-data.org/licenses.html). 
+This report describes standardized data for "*`r m$title`*". These data were standardized on `r m$carob_date` by `r m$carob_contributor` with this `r script`. The `r http` have a `r license` [license](https://carob-data.org/licenses.html). `r dwnl`
 </br>
 </br>
 This is the full citation of the data set: 
@@ -140,6 +152,8 @@ The dataset has `r nrow(d)` records and `r ncol(d)` variables for `r crop` in `r
 These are the first `r min(nrow(d), 25)` records: 
 
 ```{r tab1}
+d$dataset_id <- d$record_id <- NULL
+
 scrolltab(head(d, 25), "records")
 ```
 
