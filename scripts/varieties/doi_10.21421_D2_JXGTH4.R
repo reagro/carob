@@ -6,7 +6,6 @@ carob_script <- function(path) {
 "High-Oil lines trial comprising of 36 entries [32 elite breeding lines from ICRISAT and 4 improved varieties (SAMNUT-22, SAMNUT 23, SAMNUT 24 and SAMNUT 26) as checks] was conducted at BUK locations."
 
    uri <- "doi:10.21421/D2/JXGTH4"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "varieties" 
    
    ff  <- carobiner::get_data(uri, path, group)

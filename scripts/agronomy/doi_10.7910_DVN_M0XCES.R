@@ -19,7 +19,6 @@ carob_script <- function(path) {
 
 
    uri <- "doi:10.7910/DVN/M0XCES"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "agronomy"
    ff <- carobiner::get_data(uri, path, group)
    

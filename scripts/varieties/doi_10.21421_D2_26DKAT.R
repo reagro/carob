@@ -7,7 +7,6 @@ carob_script <- function(path) {
 "Evaluation of elite lines for productivity diseases and drought resistance in the location Gumel"
    
    uri <- "doi:10.21421/D2/26DKAT"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "varieties" 
    ff  <- carobiner::get_data(uri, path, group)
    meta <- data.frame(

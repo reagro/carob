@@ -11,7 +11,6 @@ carob_script <- function(path) {
     [copy the abstract from the repo]"
   
   uri <- "doi:10.21223/HMMWZH"
-  dataset_id <- carobiner::simple_uri(uri)
   group <- "pest_disease"
   
   ## download and read data 

@@ -1,12 +1,12 @@
 @ECHO OFF
 
-IF %1.==. (GOTO cache) else (GOTO nocache)
+IF %1.==. (GOTO nocombine) else (GOTO combine)
 
-:cache
+:nocombine
 Rscript.exe --vanilla -e "x <- carobiner::make_carob(path='.', cache=TRUE, split_license=TRUE, report=TRUE, combine=FALSE)" 
 GOTO done
 
-:nocache
+:combine
 Rscript.exe --vanilla -e "x <- carobiner::make_carob(path='.', cache=FALSE, split_license=TRUE, report=TRUE, combine=FALSE)"
 GOTO done
 

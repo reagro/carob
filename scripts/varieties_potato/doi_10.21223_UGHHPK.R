@@ -7,7 +7,6 @@ carob_script <- function(path) {
 " Experiments were installed in Cajamarca, with the objective of identifying clones with high potential for being varieties applying the Participatory Varietal Selection methodology. For the period 2016-2017, 18 clones with high resistance to late blight were planted, belonging to the B population and developed in the International Potato Center together with Two control varieties, Amarilis and Yungay (susceptible). Finally, in the harvest 5 clones with high yield, low glycoalkaloid content and good organoleptic quality were selected as a result of the Participatory Variety Selection of the farmers and the analysis of mixed models and BLUPs for the yield data. The 5 selected clones were planted again in the period 2017-2018 and through the Participatory Varietal Selection, three promising clones were selected (CIP308488.92, CIP308495.227 and CIP308478.59). " 
    
    uri <- "doi:10.21223/UGHHPK"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "varieties_potato"
    ff  <- carobiner::get_data(uri, path, group)
    

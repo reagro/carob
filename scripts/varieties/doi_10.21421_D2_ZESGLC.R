@@ -5,7 +5,7 @@ carob_script <- function(path) {
 " Short Duration Multi-location Trial was carried out to confirm their yield ( pod and fodder) superiority and to also evaluate their resistance and tolerance to biotic stresses. Forty five (45) groundnut lines were used, trial conducted in location: Bayero University research Farm "
    
    uri <- "doi:10.21421/D2/ZESGLC"
-   dataset_id <- carobiner::simple_uri(uri)
+
    group <- "varieties" 
    ff  <- carobiner::get_data(uri, path, group)
    meta <- data.frame(

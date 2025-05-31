@@ -6,7 +6,7 @@ carob_script <- function(path) {
    " Medium-Duration Groundnut for Multi-location evaluation comprises 15 breeding lines of groundnut and 3 released Varieties. The trial was conducted under rainfed condition and it was aimed to test their adaptability, yield superiority, resistance and tolerance to biotic and abiotic stresses location which includes; Zango to confirm their " 
    
    uri <- "doi:10.21421/D2/P9GELX"
-   dataset_id <- carobiner::simple_uri(uri)
+
    group <- "varieties" 
    ff  <- carobiner::get_data(uri, path, group)
    meta <- data.frame(

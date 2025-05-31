@@ -1,5 +1,6 @@
 # R script for "carob"
 
+
 carob_script <- function(path) {
    
 "Small land holdings are among the main constraints for smallholders to produce enough food and feed to meet household demands. During the main cropping season, when all the land is covered by stable crops, feed is critically in short supply. Africa RISING’s diagnostic surveys showed that during such times weeds growing with faba bean crop are used as important feed resource by farmers in Ethiopia. Farmers leave the weed to grow with the faba bean until a certain stage, which is against the recommended agronomic practice through the extension system. A series of experiments were conducted to explore the rationale behind farmers preference, involving three faba bean production practices: 1) the traditional management practice (where weeds are used as forage), 2) improved practice (where weeds are frequently removed from faba bean plots) and 3) intercropping faba bean with fodder oat. The dataset contains the grain yield, straw yield, forage yield and gross income from the different practices and faba bean varieties in the Lemo district of Africa RISING site."
@@ -10,7 +11,7 @@ carob_script <- function(path) {
    
    meta <- data.frame(
       carobiner::read_metadata(uri, path, group, major=3, minor=1), 
-      data_institute = "CIAT", 
+      data_institute = "ILRI", 
       publication = NA,
       project ="Africa RISING", 
       data_type = "experiment",

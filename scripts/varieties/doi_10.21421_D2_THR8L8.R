@@ -5,7 +5,7 @@ carob_script <- function(path) {
 "Medium-Duration Multi-location trial conducted under Post-season .The trial was aimed to test their adaptability, yield superiority, resistance and tolerance to biotic and abiotic stresses across the location which includes, Fud(Federal University Dutse, Nigeria)"
    
    uri <- "doi:10.21421/D2/THR8L8"
-   dataset_id <- carobiner::simple_uri(uri)
+
    group <- "varieties" 
    ff  <- carobiner::get_data(uri, path, group)
    meta <- data.frame(

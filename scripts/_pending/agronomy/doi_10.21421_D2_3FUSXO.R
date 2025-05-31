@@ -7,7 +7,6 @@ carob_script <- function(path) {
 "The objective of this work conceived an idea of using Polythene mulch on broad bed furrows to improve groundnut production and productivity during the low temperature months in Sudan savanna of Nigeria. The experiments were conducted in 2 seasons (2014 and 2015 dry seasons). The treatments used in the experiment consisted of Polythene mulch (Mulch and Without mulch) and Groundnut varieties ( Samnut 23, Samnut 24, Samnut 26 and Ex-Dakar) laid out in Split plot design with 4 replications " 
    
    uri <- "doi:10.21421/D2/3FUSXO"
-   dataset_id <- carobiner::simple_uri(uri)
    group <- "varieties" 
    ff  <- carobiner::get_data(uri, path, group)
    meta <- data.frame(
