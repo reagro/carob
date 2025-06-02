@@ -23,7 +23,7 @@ carob_script <- function(path) {
    ff <- carobiner::get_data(uri, path, group)
    
    meta <- data.frame(
-      carobiner::read_metadata(uri, path, group, major=1, minor=2),
+      carobiner::get_metadata(uri, path, group, major=1, minor=2),
       project="Africa Rising", 
       publication= NA, 
       data_institute = "ABC", 
@@ -122,7 +122,7 @@ carob_script <- function(path) {
 		date = paste0(w$Measurement.Date, "-2019"),
 		location = w$Ecozone,
 		temp = w$Temperature.C,
-		tdew = w$Dew.Point.C,
+		dewp = w$Dew.Point.C,
 		prec = w$Rainfall.mm,
 		rhum = w$Relative.Humidity.pct, 
 		wspd = w$Wind.Speed.km.h / 3.6, #km/h -> m/s
@@ -131,6 +131,8 @@ carob_script <- function(path) {
 		srad = w$Solar.Rad.wat.m2
 	)
 	dw$date <- as.Date(carobiner::eng_months_to_nr(dw$date), format="%d-%m-%Y") |> as.character()
+	
+	## dw needs lon/lat as well
 	
 	carobiner::write_files(path, meta, d, wth=dw)   
 }

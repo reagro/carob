@@ -11,7 +11,7 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, major=2, minor=1, group),
+		carobiner::get_metadata(uri, path, major=2, minor=1, group),
  	    publication="doi:10.1186/s12870-019-1740-z",
 		carob_contributor = "Siyabusa Mkuhlani",
 		carob_date="2024-01-17",

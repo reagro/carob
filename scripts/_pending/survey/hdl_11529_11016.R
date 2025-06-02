@@ -18,7 +18,7 @@ carob_script <- function(path) {
 	ff <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=1, minor=1),
+		carobiner::get_metadata(uri, path, group, major=1, minor=1),
 		#data_citation="Balemi T. and Kebede M., Tufa T., and Gurumu G. 2017. TAMASA Ethiopia. Yield, soil and agronomy data from farmers’ maize fields collected by EIAR, 2015 season.  International Maize and Wheat Improvement Centre (CIMMYT), Ethiopia.",
 		data_institute = "CIMMYT",
 		publication= NA,

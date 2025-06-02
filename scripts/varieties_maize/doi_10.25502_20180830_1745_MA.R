@@ -13,7 +13,7 @@ The study was carried out by the International Institute of Tropical Agriculture
 		
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, major=2, minor=1, group),
+		carobiner::get_metadata(uri, path, major=2, minor=1, group),
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Camila Bonilla",
 		carob_date="2021-06-03",

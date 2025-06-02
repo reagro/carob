@@ -16,7 +16,7 @@ carob_script <- function(path) {
   ## download and read data 
   
   ff  <- carobiner::get_data(uri, path, group)
-  js <- carobiner::read_metadata(uri, path, group, major=2, minor=0)
+  js <- carobiner::get_metadata(uri, path, group, major=2, minor=0)
   
   # f <- ff[basename(ff) == "16470_PTYield082019_Parental_Value_B3C3_CIPSRM19_02.xlsx"]
   

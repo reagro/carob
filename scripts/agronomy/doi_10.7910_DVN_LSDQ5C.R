@@ -17,7 +17,7 @@ affect the variation in the yield of maize. The dataset was created through a co
 	ff  <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=1, minor=0),
+		carobiner::get_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIAT",
 		publication= "doi:10.1016/j.gfs.2019.08.004", 
 		project=NA,

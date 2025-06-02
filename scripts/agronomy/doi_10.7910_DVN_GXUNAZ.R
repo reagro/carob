@@ -12,7 +12,7 @@ Low productivity of agriculture observed in different parts of sub-Saharan Afric
 	ff <- carobiner::get_data(uri, path, group)
   
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=2, minor=2),
+		carobiner::get_metadata(uri, path, group, major=2, minor=2),
 		project=NA,
 		publication= NA,
 		data_institute = "CIAT",

@@ -14,7 +14,7 @@ Effectiveness of 14 herbicides were compared during 2016 in El Batán, México. 
 
 ## metadata 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=1, minor=2),
+		carobiner::get_metadata(uri, path, group, major=1, minor=2),
 		data_institute = "CIMMYT",
 		publication = NA,
 		project = NA,

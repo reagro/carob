@@ -10,7 +10,7 @@ carob_script <- function(path) {
 	group <- "varieties_wheat"
 	ff <- carobiner::get_data(uri, path, group)
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=3, minor=0),
+		carobiner::get_metadata(uri, path, group, major=3, minor=0),
 	   project="Semi-Arid Wheat Yield Trial",	   
 	   publication=NA,
 	   data_institute = "CIMMYT",

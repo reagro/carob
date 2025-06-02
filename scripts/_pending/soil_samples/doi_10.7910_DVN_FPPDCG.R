@@ -9,7 +9,7 @@ carob_script <- function(path) {
   group <- "soil_samples"
   ff <- carobiner::get_data(uri, path, group)
   meta <- data.frame(
-  	carobiner::read_metadata(uri, path, group, major=1, minor=0),
+  	carobiner::get_metadata(uri, path, group, major=1, minor=0),
     project= NA,
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)

@@ -27,7 +27,7 @@ The project is implemented in five core countries (Ghana, Nigeria, Tanzania, Uga
 	ff <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, major=1, minor=0, group),
+		carobiner::get_metadata(uri, path, major=1, minor=0, group),
 		publication=NA,
 		carob_contributor="Effie Ochieng'",
 		carob_date="2023-07-27",

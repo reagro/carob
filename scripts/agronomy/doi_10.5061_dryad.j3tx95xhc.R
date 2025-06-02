@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	ff	 <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group),
+		carobiner::get_metadata(uri, path, group, major=3, minor=0),
 		publication= "doi:10.1016/j.fcr.2022.108578",
 		data_institute = "WUR",
 		carob_contributor="Cedric Ngakou",

@@ -10,7 +10,7 @@ Maize grain and bio-mass yield were increased by application of different rates 
 	group <- "agronomy"
 	ff <- carobiner::get_data(uri, path, group)
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, major=1, minor=0, group),
+		carobiner::get_metadata(uri, path, major=1, minor=0, group),
 		publication=NA,
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2021-08-26",

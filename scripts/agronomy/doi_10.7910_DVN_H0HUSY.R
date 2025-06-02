@@ -13,7 +13,7 @@ Description: This dataset contains information of experiments carried out upland
   
  
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=1, minor=2),
+		carobiner::get_metadata(uri, path, group, major=1, minor=2),
 		publication= NA,
 		data_institute = "CIAT",
 		carob_contributor="Jean-Martial Johnson",

@@ -10,7 +10,7 @@ carob_script <- function(path) {
 	ff	 <- carobiner::get_data(uri, path, group)
 	meta <- data.frame(
 		data_institute = "IITA",
-		carobiner::read_metadata(uri, path, group, major=1, minor=0),
+		carobiner::get_metadata(uri, path, group, major=1, minor=0),
 		publication=NA,
 		carob_contributor="Henry Juarez",
 		carob_date="2022-03-24",

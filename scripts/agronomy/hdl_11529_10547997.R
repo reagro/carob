@@ -14,7 +14,7 @@ carob_script <- function(path) {
 
 	ff	<- carobiner::get_data(uri, path, group)
  	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=1, minor=3),
+		carobiner::get_metadata(uri, path, group, major=1, minor=3),
 		project="Rabi (winter) crops-all nodes-Alternative cropping systems trial-Sunsari-Nepal",
 		publication= NA,
 		data_institute = "CIMMYT",

@@ -12,7 +12,7 @@ and white/red grain color. (2021)"
   ff <- carobiner::get_data(uri, path, group)
 
   meta <- data.frame(
-    carobiner::read_metadata(uri, path, group, major=2, minor=0),
+    carobiner::get_metadata(uri, path, group, major=2, minor=0),
     project="Karnal Bunt Screening Nursery",
     publication = NA,
     data_institute = "CIMMYT",

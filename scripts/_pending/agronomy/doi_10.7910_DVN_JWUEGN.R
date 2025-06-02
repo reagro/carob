@@ -24,7 +24,7 @@ Abstract: Improved varieties, nitrogen fertilizer, and plant spacing have been i
   ff <- carobiner::get_data(uri, path, group)
   
   meta <- data.frame(
-  	carobiner::read_metadata(uri, path, major=1, minor=0, group),
+  	carobiner::get_metadata(uri, path, major=1, minor=0, group),
     publication=NA,
     carob_contributor="Siyabusa Mkuhlani",
     carob_date="2021-08-26",

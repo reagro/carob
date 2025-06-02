@@ -11,7 +11,7 @@ carob_script <- function(path){
 	
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major = 1, minor = 0),
+		carobiner::get_metadata(uri, path, group, major = 1, minor = 0),
 		project="N2Africa",  
 		publication = NA,
 		carob_contributor = "Effie Ochieng'",

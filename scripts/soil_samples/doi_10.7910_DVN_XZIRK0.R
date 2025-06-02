@@ -10,7 +10,7 @@ carob_script <- function(path) {
 	ff  <- carobiner::get_data(uri, path, group)
   
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=1, minor=4),
+		carobiner::get_metadata(uri, path, group, major=1, minor=4),
 		data_institute = "CIAT",
 		publication= "doi:10.3390/su10051610",
 		project="Baselines for land degradation neutrality indicators in the Omusati region, Namibia",

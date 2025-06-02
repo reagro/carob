@@ -12,7 +12,7 @@ Phosphorus was applied at rate of 0 or 20 kg P ha-1. P fertilizer application in
 	ff <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=1, minor=0),
+		carobiner::get_metadata(uri, path, group, major=1, minor=0),
 		publication = "doi:10.12692/ijb/9.1.291-302",
 		carob_contributor = "Effie Ochieng'",
 		carob_date = "2021-07-06",

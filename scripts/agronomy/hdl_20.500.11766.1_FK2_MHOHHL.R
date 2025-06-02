@@ -16,7 +16,7 @@ The trial includes 40 faba bean varieties and 2  wheat varieties that are grown 
 	ff <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=8, minor=0),
+		carobiner::get_metadata(uri, path, group, major=8, minor=0),
 		project="DIVERSify",
 		publication=NA,
 		data_institute = "ICARDA",

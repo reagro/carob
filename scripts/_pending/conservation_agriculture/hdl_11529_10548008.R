@@ -15,7 +15,7 @@ carob_script <- function(path) {
 	group <- "conservation_agriculture"
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=2, minor=1),
+		carobiner::get_metadata(uri, path, group, major=2, minor=1),
 		project="Rabi (winter) crops-all nodes- Validation trials -Rangpur-Bangladesh",
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)

@@ -12,7 +12,7 @@ carob_script <- function(path) {
   group <- "varieties_potato"
   ff  <- carobiner::get_data(uri, path, group)
   meta <- data.frame(
-      carobiner::read_metadata(uri, path, group, major=1, minor=1),
+      carobiner::get_metadata(uri, path, group, major=1, minor=1),
       data_institute = "CIP",
       publication = NA,
       project = NA,

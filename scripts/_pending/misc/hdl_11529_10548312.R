@@ -15,7 +15,7 @@ This dataset contains information from on-farm validation trials conducted acros
 	ff  <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=1, minor=0),
+		carobiner::get_metadata(uri, path, group, major=1, minor=0),
 		data_institute = "CIMMYT",
 		publication= NA,
 		project="TAMASA",

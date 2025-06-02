@@ -9,7 +9,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 	meta <- data.frame( 
-		carobiner::read_metadata(uri, path, group, major=3, minor=0),
+		carobiner::get_metadata(uri, path, group, major=3, minor=0),
 		project="CSISA",
 		#data_citation="Ajay, Anurag; Craufurd, Peter; Sharma, Sachin; Malik, RK; Singh, AK; Samaddar, Arindam; Singh, Balwinder; Paudel, Gokul; Panneerselvam, Peramaiyan; Rai, Ashok; McDonald, Andrew, 2022. Large-scale data of crop production practices applied by farmers on their largest rice plot during 2018 in eight Indian states. https://hdl.handle.net/11529/10548656, CIMMYT Research Data & Software Repository Network, V3",
 		publication= NA,

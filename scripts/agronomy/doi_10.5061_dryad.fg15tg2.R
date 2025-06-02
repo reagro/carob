@@ -15,7 +15,7 @@ Also see: doi:10.21955/gatesopenres.1115299.1"
 	ff <- carobiner::get_data(uri, path, group)
 
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, group, major=2, minor=1), 
+		carobiner::get_metadata(uri, path, group, major=1, minor=0), 
 		project = "Optimization of Fertilizer Recommendations in Africa", 
 		publication= "doi:10.2134/agronj2018.04.0268", 
 		data_institute = "UNL", 

@@ -11,7 +11,7 @@ Despite the recent release of several improved varieties of groundnut in Nigeria
 	ff <- carobiner::get_data(uri, path, group)
   
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, major=1, minor=1, group),
+		carobiner::get_metadata(uri, path, major=1, minor=1, group),
 		publication=NA,
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",

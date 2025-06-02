@@ -17,7 +17,7 @@ Soil samples were collected before the trials and after the trials. Data collect
    ff  <- carobiner::get_data(uri, path, group)
    
    meta <- data.frame(
-      carobiner::read_metadata(uri, path, group, major=1, minor=1), 
+      carobiner::get_metadata(uri, path, group, major=2, minor=0), 
       data_institute = "SUA", #"Sokoine University of Agriculture", 
       publication=NA, 
       project="InnovAfrica", 
@@ -93,25 +93,24 @@ Soil samples were collected before the trials and after the trials. Data collect
    
    
    ###  processing average yield for famer groups  
-   ### RH: this does not seem to relate to the experiment
+   ### RH: this does not seem to related to the experiment
    ##CN: I think this is the average yield collected from published agricultural statistics, as stated in the abstract.
-   r3 <- read.csv(f3)   
-   d3 <- data.frame(
-      trial_id= "2",
-      location= tolower(r3$site.farmer.group),
-      crop= tolower(gsub("G'NUT","groundnut", r3$TRT)),
-      rep= as.integer(r3$REP),
-      yield= r3$legugrain.t.ha * 1000,
-      fwy_residue= r3$residue.t.ha *1000,
-      on_farm= FALSE,
-      is_survey= FALSE,
-      irrigated= NA,
-      yield_part= "grain",
-      season= "s1"
-   )
-   d3$crop <- gsub("pegeonpea", "pigeon pea", d3$crop)
+#   r3 <- read.csv(f3)   
+#   d3 <- data.frame(
+#      trial_id= "2",
+#      location= tolower(r3$site.farmer.group),
+#      crop= tolower(gsub("G'NUT","groundnut", r3$TRT)),
+#      rep= as.integer(r3$REP),
+#      yield= r3$legugrain.t.ha * 1000,
+#      fwy_residue= r3$residue.t.ha *1000,
+#      on_farm= FALSE,
+#      is_survey= FALSE,
+#      irrigated= NA,
+#      yield_part= "grain",
+#      season= "s1"
+#   )
+#   d3$crop <- gsub("pegeonpea", "pigeon pea", d3$crop)
   
-	
 
    ### residues from prior crop 2017-2018
    r4 <- carobiner::read.excel(f4)

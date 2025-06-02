@@ -11,7 +11,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	ff <- carobiner::get_data(uri, path, group)
 	  
 	meta <- data.frame(
-		carobiner::read_metadata(uri, path, major=1, minor=0, group),
+		carobiner::get_metadata(uri, path, major=1, minor=0, group),
 		publication= "doi:10.12692/ijb/9.1.291-302",
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
