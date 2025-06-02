@@ -124,7 +124,7 @@ carob_script <- function(path) {
 ## if that is not correct, what would the proportions be? (and the function would need to be able 
 ## to address that.
 
-	ftab <- carobiner::accepted_values("fertilizer_type")
+	ftab <- vocal::accepted_values("fertilizer_type")
 ## NPK is undefined (there are many different mixtures) so you need to add that here.
 ## E.g. 
 	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(20, 20, 20, 0)	
