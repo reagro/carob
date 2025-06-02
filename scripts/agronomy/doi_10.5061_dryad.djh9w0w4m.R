@@ -10,11 +10,11 @@ carob_script <- function(path) {
    ff  <- carobiner::get_data(uri, path, group)
    
    meta <- data.frame(
-      carobiner::read_metadata(uri, path, group, major=1, minor=1), 
+      carobiner::get_metadata(uri, path, group, major=12, minor=0), 
       data_institute = "WUR",
       publication=NA, 
       project=NA, 
-      data_type= "experiment", 
+      data_type= "compilation", 
       response_vars= "fw_yield; dm_yield", 
       treatment_vars = "N_fertilizer; P_fertilizer; K_fertilizer", 
       carob_contributor= "Cedric Ngakou", 
@@ -24,7 +24,6 @@ carob_script <- function(path) {
    
    
    f <- ff[ basename(ff)=="Summary_statistics_data_from_articles.csv"]
-   
    
    ## Processing data 
    r <- read.csv(f)
@@ -40,34 +39,38 @@ carob_script <- function(path) {
       longitude= r$GPS_long_DD,
       #r$Annual_rainfall_mean_mm_year,
       rain= r$Actual_rainfall_during.trial_mm, 
-      irrigation_method= ifelse(grepl("Sprinkler|spinkler|sprinklers|sprinkler", r$Irrigation_method_Name), "sprinkler", 
-                                ifelse(grepl("Pre-watering humidity|Irrigated at booting|Irrigated at silking|Drought-stressed|flexible gated|soil|average", r$Irrigation_method_Name), "unknwon", 
-                                  ifelse(grepl("Furrow|furrow", r$Irrigation_method_Name), "furrow", 
-                                              ifelse(grepl("pivot|Pivot", r$Irrigation_method_Name), "center pivot sprinkler",
-                                                     ifelse(grepl("border", r$Irrigation_method_Name), "border",
-                                                            ifelse(grepl("surface", r$Irrigation_method_Name), "surface", r$Irrigation_method_Name)))))),
-      soil_moisture= r$Soil_moisture_._WHC,
+      irrigation_method= 
+	     ifelse(grepl("Sprinkler|spinkler|sprinklers|sprinkler", r$Irrigation_method_Name), "sprinkler", 
+         ifelse(grepl("Pre-watering humidity|Irrigated at booting|Irrigated at silking|Drought-stressed|flexible gated|soil|average", r$Irrigation_method_Name), "unknwon", 
+         ifelse(grepl("Furrow|furrow", r$Irrigation_method_Name), "furrow", 
+         ifelse(grepl("pivot|Pivot", r$Irrigation_method_Name), "center pivot sprinkler",
+         ifelse(grepl("border", r$Irrigation_method_Name), "border",
+         ifelse(grepl("surface", r$Irrigation_method_Name), "surface", r$Irrigation_method_Name)))))),
+
+      soil_WHC = r$Soil_moisture_._WHC,
       irrigation_amount= r$Actual_irrigation_mm,
    
    ### Process plot management data
    
       plot_area= r$Plot_area,
-      land_prep_method= ifelse(grepl("conventional tillage|Conventional|convential|cultural practices were|conventional", r$Cultivation_method_Name), "conventional",
-                               ifelse(grepl("Manual|hand|manual|Hand", r$Cultivation_method_Name), "manual", 
-                                      ifelse(grepl("Conservation", r$Cultivation_method_Name), "minimum tillage", 
-                                             ifelse(grepl("Ploughing|Ploughed|ploughing|plough", r$Cultivation_method_Name), "Ploughing",
-                                              ifelse(grepl("rotavator|rotation", r$Cultivation_method_Name),"rotovating",
-                                                ifelse(grepl("Continuous spring barley|Spring barley|Planted with interrow|Plots were seeded|low-input|Organic|plowed with cultivar|rain-proof shelter|vibrocultivator", r$Cultivation_method_Name), "unknown", 
-                                                ifelse(grepl("Reduced tillage", r$Cultivation_method_Name), "reduced tillage" ,
-                                                       ifelse(grepl("seedling transplanting|Transplantation|transplanted", r$Cultivation_method_Name), "transplanting" , 
-                                                              ifelse(grepl("Seeds dribbled ", r$Cultivation_method_Name), "dibbling", r$Cultivation_method_Name))))))))),
+      land_prep_method= 
+	       ifelse(grepl("conventional tillage|Conventional|convential|cultural practices were|conventional", r$Cultivation_method_Name), "conventional",
+           ifelse(grepl("Manual|hand|manual|Hand", r$Cultivation_method_Name), "manual", 
+           ifelse(grepl("Conservation", r$Cultivation_method_Name), "minimum tillage", 
+           ifelse(grepl("Ploughing|Ploughed|ploughing|plough", r$Cultivation_method_Name), "Ploughing",
+           ifelse(grepl("rotavator|rotation", r$Cultivation_method_Name),"rotovating",
+           ifelse(grepl("Continuous spring barley|Spring barley|Planted with interrow|Plots were seeded|low-input|Organic|plowed with cultivar|rain-proof shelter|vibrocultivator", r$Cultivation_method_Name), "unknown", 
+           ifelse(grepl("Reduced tillage", r$Cultivation_method_Name), "reduced tillage" ,
+           ifelse(grepl("seedling transplanting|Transplantation|transplanted", r$Cultivation_method_Name), "transplanting" , 
+           ifelse(grepl("Seeds dribbled ", r$Cultivation_method_Name), "dibbling", r$Cultivation_method_Name))))))))),
       
-      previous_crop= ifelse(grepl("barley", r$Previous_crop_Name ),"barley", 
-                            ifelse(grepl("lupins", r$Previous_crop_Name), "unknown", #not sure
-                                   ifelse(grepl("Wheat|wheat", r$Previous_crop_Name), "wheat", 
-                                          ifelse(grepl("soybean", r$Previous_crop_Name), "soybean",
-                                                 ifelse(grepl("Potato", r$Previous_crop_Name), "Potato", 
-                                                        ifelse(grepl("maize|Zea mays L.", r$Previous_crop_Name), "maize", r$Previous_crop_Name)))))),
+      previous_crop= 
+	       ifelse(grepl("barley", r$Previous_crop_Name ),"barley", 
+           ifelse(grepl("lupins", r$Previous_crop_Name), "unknown", #not sure
+           ifelse(grepl("Wheat|wheat", r$Previous_crop_Name), "wheat", 
+           ifelse(grepl("soybean", r$Previous_crop_Name), "soybean",
+           ifelse(grepl("Potato", r$Previous_crop_Name), "Potato", 
+           ifelse(grepl("maize|Zea mays L.", r$Previous_crop_Name), "maize", r$Previous_crop_Name)))))),
    
       planting_date= as.character(as.Date(as.numeric(gsub("0", NA, r$Sowing_date_DD_MM_YY)), origin="1899-12-31")),
       harvest_date= r$Date_harvest_YYYYMMDD, 
@@ -80,12 +83,13 @@ carob_script <- function(path) {
      # intercrops= r$Intercrop_name_Name,
       seed_rate= r$Sow_density_Seeds_m2*10000,
       plant_density= r$Harvest_density_Plants_m2*10000,
-      fertilizer_type= ifelse(grepl("zospirilum brasiliense|extra calcium added|Government |recommendations|mineral|planting time", r$Fertiliser_type_Name), "unknown", 
-                              ifelse(grepl("Combination| Conventional", r$Fertiliser_type_Name), "NPK",
-                                     ifelse(grepl("organic", r$Fertiliser_type_Name), "unknown", 
-                                    ifelse(grepl("N: Urea, P: Triple super phosphate, K:", r$Fertiliser_type_Name),"NPK;urea", 
-                                           ifelse(grepl("N: Urea; P: Di-ammonium phosphate ", r$Fertiliser_type_Name), "ura;DAP", 
-                                                  ifelse(grepl("N: Urea; P: Bio-activated", r$Fertiliser_type_Name), "ura;unknown;MOP", r$Fertiliser_type_Name)))))),
+      fertilizer_type= 
+	     ifelse(grepl("zospirilum brasiliense|extra calcium added|Government |recommendations|mineral|planting time", r$Fertiliser_type_Name), "unknown", 
+         ifelse(grepl("Combination| Conventional", r$Fertiliser_type_Name), "NPK",
+         ifelse(grepl("organic", r$Fertiliser_type_Name), "unknown", 
+         ifelse(grepl("N: Urea, P: Triple super phosphate, K:", r$Fertiliser_type_Name),"NPK;urea", 
+         ifelse(grepl("N: Urea; P: Di-ammonium phosphate ", r$Fertiliser_type_Name), "ura;DAP", 
+         ifelse(grepl("N: Urea; P: Bio-activated", r$Fertiliser_type_Name), "ura;unknown;MOP", r$Fertiliser_type_Name)))))),
       N_fertilizer= r$Fertiliser_N_kg_N_ha,
       P_fertilizer= r$Fertiliser_P_kg_P_ha,
       K_fertilizer= r$Fertiliser_K_kg_K_ha,
@@ -159,7 +163,7 @@ carob_script <- function(path) {
       soil_type= r$Soil_texture_Name,
       #soil_texture= r$Soil_class_Name,
       soil_pH= ifelse(is.na(r$Soil_pH_H2O_1.1_Number) & !is.na(r$Soil_pH_H2O_1.2.5_Number) , r$Soil_pH_H2O_1.2.5_Number ,
-                      ifelse(is.na(r$Soil_pH_H2O_1.1_Number) & !is.na(r$Soil_pH_H2O_1.5_Number), r$Soil_pH_H2O_1.5_Number , r$Soil_pH_H2O_1.1_Number)),
+               ifelse(is.na(r$Soil_pH_H2O_1.1_Number) & !is.na(r$Soil_pH_H2O_1.5_Number), r$Soil_pH_H2O_1.5_Number , r$Soil_pH_H2O_1.1_Number)),
      
       soil_pH_CaCl2= r$Soil_pH_CaCl2_Number,
       soil_Bulk= r$Soil_Bulk_density_mg_cm3,
@@ -342,11 +346,11 @@ carob_script <- function(path) {
    P <- gsub("simsim sesame", "sesame", P)
    P <- gsub("tomato and spinach", "tomato; spinach", P)
    P <- gsub("maize \\(zea mays)", "maize", P)
-   P <- gsub("no crop for previous 3 years.", NA, P)
+   P <- gsub("no crop for previous 3 years.", "none", P)
    P <- gsub("black-oats|oats|green oat|oat| oat ", "oats", P)
-   P <- gsub("0", NA, P)
+   P <- gsub("0", "unknown", P)
    P <- gsub("linon usitatissimum", "lemon", P)
-   P <- gsub("triticum aestivum l.", "unknown", P)
+   P <- gsub("^triticum aestivum l.", "wheat", P)
    P <- gsub("carrots", "carrot", P)
    P <- gsub("soybeans|soyeansoy beans\\?|soyean", "soybean", P)
    P <- gsub("soybeans|soy common beans\\?", "soybean", P)
