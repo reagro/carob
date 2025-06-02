@@ -19,7 +19,8 @@ carob_script <- function(path) {
 		response_vars = "none",
 		treatment_vars = "none",
 		carob_contributor="Robert Hijmans",
-		carob_date="2025-05-30"
+		carob_date="2025-05-30",
+		completion = 1  #1%, a lot more to be done
 	)
   
   

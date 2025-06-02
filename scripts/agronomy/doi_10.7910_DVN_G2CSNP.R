@@ -1,7 +1,6 @@
 # R script for "carob"
 
 
-
 carob_script <- function(path) {
    
 "This study contains data from twelve (12) sites/farmers on sustainable intensification through efficient application of different fertilizers. These 12 sites/farmers were selected from Hallu, Long, Seloto, and Sabilo villages. Farmer selection was participatory, but among farmers who were willing to provide land and were also committed to implementing the trials.The project tested intercropping of maize/pigeonpea varieties that are differentiated by maturity periods.The maize varieties include PAN 691, a long maturing maize variety, Mkombozi, an early to medium maturity high yielding maize variety, and SC 627, an early maturing variety. These will be intercropped with pigeonpea variety Mali from ICRISAT, a long maturing and high yielding variety that is considered new in the study sites." 
