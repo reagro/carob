@@ -127,7 +127,7 @@ carob_script <- function(path) {
 
    ## Process nutrient content  data
   
-      grain_protein= r$CPCon_Prot_mean_kg_kg_DM*1000,
+      grain_protein= r$CPCon_Prot_mean_kg_kg_DM*1000,  # to mg/g
       grain_N= r$CPCon_N_mean_kg_kg_DM*1000,
       grain_P= r$CPCon_P_mean_kg_kg_DM*1000,
       grain_K= r$CPCon_K_mean_kg_kg_DM*1000,
@@ -141,7 +141,10 @@ carob_script <- function(path) {
       grain_Mn= r$CPCon_Mn_mean_kg_kg_DM*1000,
       grain_Mo= r$CPCon_Mo_mean_kg_kg_DM*1000,
       grain_Zn= r$CPCon_Zn_mean_kg_kg_DM*1000,
-      residue_protein= r$CRCon_Prot_mean_kg_kg_DM*1000,
+	  
+	  # this should be a fraction between 0 and 1, but some are too low, some are too high. None seem good
+      #residue_protein= r$CRCon_Prot_mean_kg_kg_DM, 
+
       residue_N= r$CRCon_N_mean_kg_kg_DM*1000,
       residue_P= r$CRCon_P_mean_kg_kg_DM*1000,
       residue_K= r$CRCon_K_mean_kg_kg_DM*1000,
@@ -201,13 +204,13 @@ carob_script <- function(path) {
       #r$Soil_Mg_.ammonium_acetate._mg_kg,
       #r$Soil_K_.ammonium_acetate._mg_kg
    )
-	cits = paste0(r$First_author_name, " & ", r$Second_author_name, ", ", r$Year_published, ". ", r$Title_of_article, ". ",
+	refs = paste0(r$First_author_name, " & ", r$Second_author_name, ", ", r$Year_published, ". ", r$Title_of_article, ". ",
 			r$Journal_title, " ", r$Journal_vol, ": ", r$Page_numbers, ". ", r$DOI)
-	cits <- gsub("& et al", "et al.", cits)
-	cits <- gsub("\\.\\.", ".", cits)
-	cits <- gsub("\n| NA", "", cits)
-	cits <- gsub(" NA:", ":", cits)
-	d$citation <- gsub("‐", "-", cits)
+	refs <- gsub("& et al", "et al.", refs)
+	refs <- gsub("\\.\\.", ".", refs)
+	refs <- gsub("\n| NA", "", refs)
+	refs <- gsub(" NA:", ":", refs)
+	d$reference <- gsub("‐", "-", refs)
 
    ## Fixing country names Ethopia
    d$country[grepl("United States of America|USA", d$country)] <-"United States"
