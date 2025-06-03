@@ -34,6 +34,7 @@ carob_script <- function(path) {
       rep= r$Replicate_n,
       country= r$Country,
       adm1= r$State_province,
+	  location = r$Nearest_town_city,
       elevation= r$GPS_coordinates_altitude,
       latitude= r$GPS_lat_DD,
       longitude= r$GPS_long_DD,
@@ -66,7 +67,7 @@ carob_script <- function(path) {
       
       previous_crop= 
 	       ifelse(grepl("barley", r$Previous_crop_Name ),"barley", 
-           ifelse(grepl("lupins", r$Previous_crop_Name), "unknown", #not sure
+           ifelse(grepl("lupin", r$Previous_crop_Name), "white lupin",
            ifelse(grepl("Wheat|wheat", r$Previous_crop_Name), "wheat", 
            ifelse(grepl("soybean", r$Previous_crop_Name), "soybean",
            ifelse(grepl("Potato", r$Previous_crop_Name), "Potato", 
@@ -110,7 +111,7 @@ carob_script <- function(path) {
       fw_yield= r$CPY_mean_kg_fresh_ha,
       #fwy_cobs= r$CobY_mean_kg_fresh_ha,
       fwy_residue= r$CRY_mean_kg_fresh_ha,
-      fwy_total= r$AGY_LSD_kg_fresh_ha,
+      fwy_total= r$AGY_mean_kg_fresh_ha,
       dm_yield= r$CPY_mean_kg_DM_ha,
       #dmy_cobs= r$CobY_mean_kg_DM_ha,
       dmy_residue= r$CRY_mean_kg_DM_ha,
@@ -199,47 +200,91 @@ carob_script <- function(path) {
       #r$Soil_Ca_.ammonium_acetate._mg_kg,
       #r$Soil_Mg_.ammonium_acetate._mg_kg,
       #r$Soil_K_.ammonium_acetate._mg_kg
-      )
-   
+   )
+	cits = paste0(r$First_author_name, " & ", r$Second_author_name, ", ", r$Year_published, ". ", r$Title_of_article, ". ",
+			r$Journal_title, " ", r$Journal_vol, ": ", r$Page_numbers, ". ", r$DOI)
+	cits <- gsub("& et al", "et al.", cits)
+	cits <- gsub("\\.\\.", ".", cits)
+	cits <- gsub("\n| NA", "", cits)
+	cits <- gsub(" NA:", ":", cits)
+	d$citation <- gsub("‐", "-", cits)
+
    ## Fixing country names Ethopia
    d$country[grepl("United States of America|USA", d$country)] <-"United States"
    d$country[grepl("Republic of Côte d'Ivoire", d$country)] <-"Côte d'Ivoire"
    d$country[grepl("Ethopia", d$country)] <-"Ethiopia"
    d$country[grepl("Irak", d$country)] <-"Iraq"
-   d$country[grepl("0", d$country)] <- NA
-   d <- d[!grepl("06°13'N,16°24'E", d$elevation),] ## coord not in land
    
-   ### solving conflict Error 
-   d$longitude[grepl("Cordoba", d$adm1)] <- -d$longitude[grepl("Cordoba", d$adm1)]
-   d$latitude[grepl("Cordoba", d$adm1)] <- -d$latitude[grepl("Cordoba", d$adm1)]
-   d$longitude[grepl("Indiana", d$adm1)] <- ifelse(d$longitude[grepl("Indiana", d$adm1)]> 0, -d$longitude[grepl("Indiana", d$adm1)], d$longitude[grepl("Indiana", d$adm1)])
+   i <- grepl("0", d$country)
+	# from paper ETH Eschikon
+	# Eschikon 33, 8315 Lindau, Schweiz
+	d$country[i] <- "Switzerland"
+	d$latitude[i] <- 47.45065
+	d$longitude[i] <- 8.68200
+   d$geo_from_source[i]= FALSE
+	   
+   ## RH do not remove records! You can remove set bad lon/lat to NA if you must
+   ## d <- d[!grepl("06°13'N,16°24'E", d$elevation),] ## coord not in land
+   ## RH article says: experiments were conducted at Agroscope-Changins (16° 24′ E, 06° 13′ N; altitude: 445 m)
+   ## 16 shoudl be 46; but the station is even better identified on Gmaps.
+   i <- grepl("06°13'N,16°24'E", d$elevation)
+   d$longitude[i] <- 6.2334
+   d$latitude[i] <- 46.3979 
+   d$geo_from_source[i]= FALSE
+
+## RH  d$elevation <- NULL
+	elv <- strsplit(d$elevation, "altitude")
+	elv <- gsub("of|above sea level|above sealevel|metres|m", "", sapply(elv, \(i) ifelse(length(i) == 2, i[2], NA)))
+	d$elevation <- as.numeric(elv)
+
+	d$elevation[i] <- 445 
    
-   d$elevation <- NULL
+### solving conflict Error 
+#RH   d$longitude[grepl("Cordoba", d$adm1)] <- -d$longitude[grepl("Cordoba", d$adm1)]
+#RH   d$latitude[grepl("Cordoba", d$adm1)] <- -d$latitude[grepl("Cordoba", d$adm1)]
+   i <- grepl("Cordoba", d$adm1) & grepl("Argentina", d$country)
+   d$longitude[i] <- -d$longitude[i]
+   d$latitude[i] <- -d$latitude[i]
+   i <- grepl("Cordoba", d$adm1) & grepl("Spain", d$country)
+   d$longitude[i] <- -4.8
+   d$geo_from_source[i]= FALSE
+
+# RH     d$longitude[grepl("Indiana", d$adm1)] <- ifelse(d$longitude[grepl("Indiana", d$adm1)]> 0, -d$longitude[grepl("Indiana", d$adm1)], d$longitude[grepl("Indiana", d$adm1)])
+   i <- grepl("Indiana", d$adm1)
+   d$longitude[i] <- -abs(d$longitude[i])
+   d$geo_from_source[i]= FALSE
+
+   
    geo <- data.frame(
       adm1= c("Punjab","Vysočina", "Khuzestan", "Mymensingh", "Baghdad", "Macedonia", "Central Java", "South Sulawesi Province","Sao Paulo", "Apulia", "New South Wales"),
       country= c("India", "Croatia", "Iran", "Bangladesh","Iraq", "Greece", "Indonesia", "Indonesia", "Brazil", "Italy", "Australia"),
       lon= c(75.05825, 15.63795, 48.206189,  90.4148, 44.3593, 22.98505, 110.1360, 119.88941, -50.15194, 15.9650, 146.6184),
       lat= c(30.30610, 49.49499, 30.597726, 24.747, 33.3247, 40.53592, -7.1466, -3.667005, -25.01333, 41.193183, -32.41697 )
-      
+ 
    ) 
    d <- merge(d, geo, by= c("country", "adm1"), all.x = TRUE)
    d$longitude[!is.na(d$lon)] <- d$lon[!is.na(d$lon)]
    d$latitude[!is.na(d$lat)] <- d$lat[!is.na(d$lat)]
+   d$geo_from_source[!is.na(d$lat)]= FALSE
    d$lat <- d$lon <- NULL
    d$country[grepl("Vysočina", d$adm1)] <-"Czech Republic"
    #d <- d[!(is.na(d$longitude) & is.na(d$latitude)),]
    
-   ##Filter with data after "1660"
+   ##Filter with data after "1960"
+## RH NO! do NOT remove data 
    d$harvest_date <- as.Date(d$harvest_date)
    d$planting_date <- as.Date(d$planting_date)
-   d <- d[(d$harvest_date > as.Date("1960-01-01") & d$harvest_date<= as.Date("2025-06-02")),]
-   d$teck <- ifelse(!is.na(d$planting_date) & !is.na(d$harvest_date) & d$harvest_date> d$planting_date, 1, 0)
-   d <- d[!(d$harvest_date < d$planting_date & d$teck==1),]
-   d$teck <- NULL
-   d$harvest_date <- as.character(d$harvest_date)
-   d$planting_date <- as.character(d$planting_date)
-   
+##   d <- d[(d$harvest_date > as.Date("1960-01-01") & d$harvest_date<= as.Date("2025-06-02")),]
+##   teck <- ifelse(!is.na(d$planting_date) & !is.na(d$harvest_date) & d$harvest_date> d$planting_date, 1, 0)
+##   d <- d[!(d$harvest_date < d$planting_date & teck==1),]
 
+	d$harvest_date <- as.character(d$harvest_date)
+	d$planting_date <- as.character(d$planting_date)
+
+	# match planting date
+	d$harvest_date[d$harvest_date == "2029-09-25"] <- "2020-09-25"
+	d$harvest_date[d$harvest_date == "1899-12-31"] <- NA
+  
    ## Fixing method
    P <- carobiner::fix_name(tolower(d$land_prep_method))
    P <- gsub("inoculation|0", "none",  P)
@@ -382,11 +427,7 @@ carob_script <- function(path) {
    P <- gsub("tritordeum", "unknown", P)
    d$crop <- P
    
-  ### remove rows without country
-   d <- d[!is.na(d$country),]
-   ### remove duplicate rows 
-   d <- d[!duplicated(d), ]
-   
+    
    carobiner::write_files(path, meta, d)
 }
 
