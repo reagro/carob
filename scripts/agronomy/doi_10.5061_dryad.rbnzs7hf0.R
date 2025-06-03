@@ -15,7 +15,7 @@ carob_script <- function(path) {
       publication="doi:10.1111/gcbb.12995", 
       project=NA, 
       data_type= "experiment", 
-      treatment_vars= "N_fertilizer; N_organic; P_organic; C_organic", 
+      treatment_vars= "N_fertilizer; biochar", 
       response_vars = "yield", 
       carob_contributor= "Cedric Ngakou", 
       carob_date="2025-06-03",
@@ -41,12 +41,9 @@ carob_script <- function(path) {
       N_fertilizer= ifelse(grepl("B0N0|BN0", r$Treatment), 0, 300),
       P_fertilizer= ifelse(grepl("BN|BN0", r$Treatment), 39.3*0.2/2.29, 0), #DSP 20% P205
       K_fertilizer= ifelse(grepl("BN|BN0", r$Treatment), 74.5*0.5/1.2051, 0),#KCl 50% K20
-      N_organic= ifelse(grepl("B0N0|B0N", r$Treatment), 0, 13.5*1000*0.005) , # biochar: N,P,C: 0.5%,0.1%, 65.7%
-      P_organic= ifelse(grepl("B0N0|B0N", r$Treatment), 0, 13.5*1000*0.001) ,
-      C_organic= ifelse(grepl("B0N0|B0N", r$Treatment), 0, 13.5*1000*0.657)  ,
+      biochar= ifelse(grepl("B0N0|B0N", r$Treatment), 0, 13.5*1000),
       fertilizer_type= "urea;DSP;KCl", #DSP: Double Superphosphate
       OM_type= "biochar",
-      OM_amount=13.5*1000,  
       plot_area= 13*5/10000, # ha
       crop= "rice",
       variety= "Ningjing43", #From paper
