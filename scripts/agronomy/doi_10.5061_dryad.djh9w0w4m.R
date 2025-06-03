@@ -212,9 +212,6 @@ carob_script <- function(path) {
 	refs <- gsub(" NA:", ":", refs)
 	d$reference <- gsub("‐", "-", refs)
 	
-	i <- is.na(d$planting_date) & (!is.na(r$Year_experiment)) & (nchar(r$Year_experiment) == 4)
-##	d$planting_date[i] <- r$Year_experiment[i]
-##	d$harvest_date[i] <- r$Year_experiment[i]
 
    ## Fixing country names Ethopia
    d$country[grepl("United States of America|USA", d$country)] <-"United States"
@@ -247,8 +244,6 @@ carob_script <- function(path) {
 	d$elevation[i] <- 445 
    
 ### solving conflict Error 
-#RH   d$longitude[grepl("Cordoba", d$adm1)] <- -d$longitude[grepl("Cordoba", d$adm1)]
-#RH   d$latitude[grepl("Cordoba", d$adm1)] <- -d$latitude[grepl("Cordoba", d$adm1)]
    i <- grepl("Cordoba", d$adm1) & grepl("Argentina", d$country)
    d$longitude[i] <- -d$longitude[i]
    d$latitude[i] <- -d$latitude[i]
@@ -263,8 +258,6 @@ carob_script <- function(path) {
    d$latitude[i] <- 37.4004
    d$geo_from_source[i]= FALSE
    
-   
-# RH 
    i <- grepl("Indiana", d$adm1)
    d$longitude[i] <- -abs(d$longitude[i])
    d$geo_from_source[i]= FALSE
@@ -284,13 +277,6 @@ carob_script <- function(path) {
    d$lat <- d$lon <- NULL
    d$country[grepl("Vysočina", d$adm1)] <-"Czech Republic"
    
-   ##Filter with data after "1960"
-## RH NO! do NOT remove data 
-##   d$harvest_date <- as.Date(d$harvest_date)
-##   d$planting_date <- as.Date(d$planting_date)
-##   d <- d[(d$harvest_date > as.Date("1960-01-01") & d$harvest_date<= as.Date("2025-06-02")),]
-##   teck <- ifelse(!is.na(d$planting_date) & !is.na(d$harvest_date) & d$harvest_date> d$planting_date, 1, 0)
-##   d <- d[!(d$harvest_date < d$planting_date & teck==1),]
 
 	# match planting date
 	d$harvest_date[d$harvest_date == "2029-09-25"] <- "2020-09-25"
@@ -309,7 +295,11 @@ carob_script <- function(path) {
 	i <- d$planting_date == "2008-06-16" & d$harvest_date == "2009-09-13"
 	d$planting_date[i] <- "2009-06-15" ## Sharma et al 
 	d$harvest_date[i] <- "2009-09-13" 
-	
+
+	i <- is.na(d$planting_date) & (!is.na(r$Year_experiment)) & (nchar(r$Year_experiment) == 4)
+	d$planting_date[i] <- r$Year_experiment[i]
+	d$harvest_date[i] <- r$Year_experiment[i]
+
 	d$irrigated <- FALSE
    d$irrigated[!is.na(d$irrigation_amount)] <- TRUE
   
@@ -454,10 +444,9 @@ carob_script <- function(path) {
    P <- gsub("tritordeum", "unknown", P)
    d$crop <- P
    
-	# three duplicates that are unique in "r" need to investigate 
-	# d <- unique(d)
-	
-   carobiner::write_files(path, meta, d)
+# removing one duplicate
+	d <- unique(d)
+	carobiner::write_files(path, meta, d)
 }
 
 
