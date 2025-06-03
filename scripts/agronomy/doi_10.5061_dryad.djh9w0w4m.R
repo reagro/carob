@@ -438,10 +438,9 @@ carob_script <- function(path) {
    ### Fixing crop names
    P <- carobiner::fix_name(d$crop)
    P <- gsub("alfalfa", "lucerne", P)
-   P <- gsub("indian mustard", "mustard", P)
+   P <- gsub("indian mustard", "brown mustard", P)
    P <- gsub("soybeans", "soybean", P)
    P <- gsub("linseed flax", "flax", P)
-   P <- gsub("tritordeum", "unknown", P)
    d$crop <- P
    
 # removing one duplicate
