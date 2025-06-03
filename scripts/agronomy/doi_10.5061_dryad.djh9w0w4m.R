@@ -122,7 +122,7 @@ carob_script <- function(path) {
       on_farm= NA, 
       is_survey= FALSE,
       yield_part= "none", 
-      irrigated= NA,
+      
    
 
    ## Process nutrient content  data
@@ -211,7 +211,7 @@ carob_script <- function(path) {
 	refs <- gsub("\n| NA", "", refs)
 	refs <- gsub(" NA:", ":", refs)
 	d$reference <- gsub("‐", "-", refs)
-
+	
 	i <- is.na(d$planting_date) & (!is.na(r$Year_experiment)) & (nchar(r$Year_experiment) == 4)
 ##	d$planting_date[i] <- r$Year_experiment[i]
 ##	d$harvest_date[i] <- r$Year_experiment[i]
@@ -255,8 +255,16 @@ carob_script <- function(path) {
    i <- grepl("Cordoba", d$adm1) & grepl("Spain", d$country)
    d$longitude[i] <- -4.8
    d$geo_from_source[i]= FALSE
-
-# RH     d$longitude[grepl("Indiana", d$adm1)] <- ifelse(d$longitude[grepl("Indiana", d$adm1)]> 0, -d$longitude[grepl("Indiana", d$adm1)], d$longitude[grepl("Indiana", d$adm1)])
+   i <- grepl("Normandy", d$adm1) & grepl("France", d$country)
+   d$longitude[i] <- -0.87750000 ## took it from original data
+   d$latitude[i] <- 49.03167
+   i <- grepl("Sicily", d$location) & grepl("Italy", d$country)
+   d$longitude[i] <- 14.6561
+   d$latitude[i] <- 37.4004
+   d$geo_from_source[i]= FALSE
+   
+   
+# RH 
    i <- grepl("Indiana", d$adm1)
    d$longitude[i] <- -abs(d$longitude[i])
    d$geo_from_source[i]= FALSE
@@ -275,7 +283,6 @@ carob_script <- function(path) {
    d$geo_from_source[!is.na(d$lat)]= FALSE
    d$lat <- d$lon <- NULL
    d$country[grepl("Vysočina", d$adm1)] <-"Czech Republic"
-   #d <- d[!(is.na(d$longitude) & is.na(d$latitude)),]
    
    ##Filter with data after "1960"
 ## RH NO! do NOT remove data 
@@ -302,7 +309,9 @@ carob_script <- function(path) {
 	i <- d$planting_date == "2008-06-16" & d$harvest_date == "2009-09-13"
 	d$planting_date[i] <- "2009-06-15" ## Sharma et al 
 	d$harvest_date[i] <- "2009-09-13" 
-
+	
+	d$irrigated <- FALSE
+   d$irrigated[!is.na(d$irrigation_amount)] <- TRUE
   
    ## Fixing method
    P <- carobiner::fix_name(tolower(d$land_prep_method))
@@ -322,7 +331,6 @@ carob_script <- function(path) {
    P <- gsub("direct seeding rice" , "direct seeding", P)
    P <- gsub("strip tillageage" , "strip tillage", P) 
    P <- gsub("direct sowing" , "direct seeding", P)
-   P <- gsub("\\(nt)" , "", P)
    P <- gsub("\\(nt)" , "", P)
    d$land_prep_method <- P
    d$land_prep_method[grepl("plowing", d$land_prep_method)] <- "reduced tillage"
