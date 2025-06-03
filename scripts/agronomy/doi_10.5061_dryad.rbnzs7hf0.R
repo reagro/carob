@@ -45,6 +45,8 @@ carob_script <- function(path) {
       P_organic= ifelse(grepl("B0N0|B0N", r$Treatment), 0, 13.5*1000*0.001) ,
       C_organic= ifelse(grepl("B0N0|B0N", r$Treatment), 0, 13.5*1000*0.657)  ,
       fertilizer_type= "urea;DSP;KCl", #DSP: Double Superphosphate
+      OM_type= "biochar",
+      OM_amount=13.5*1000,  
       plot_area= 13*5/10000, # ha
       crop= "rice",
       variety= "Ningjing43", #From paper
