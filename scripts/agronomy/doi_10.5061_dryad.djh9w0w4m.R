@@ -48,7 +48,7 @@ carob_script <- function(path) {
          ifelse(grepl("border", r$Irrigation_method_Name), "border",
          ifelse(grepl("surface", r$Irrigation_method_Name), "surface", r$Irrigation_method_Name)))))),
 
-      soil_WHC = r$Soil_moisture_._WHC,
+      soil_WHC_sat = r$Soil_moisture_._WHC,
       irrigation_amount= r$Actual_irrigation_mm,
    
    ### Process plot management data
@@ -170,7 +170,7 @@ carob_script <- function(path) {
                ifelse(is.na(r$Soil_pH_H2O_1.1_Number) & !is.na(r$Soil_pH_H2O_1.5_Number), r$Soil_pH_H2O_1.5_Number , r$Soil_pH_H2O_1.1_Number)),
      
       soil_pH_CaCl2= r$Soil_pH_CaCl2_Number,
-      soil_Bulk= r$Soil_Bulk_density_mg_cm3,
+      soil_bd= r$Soil_Bulk_density_mg_cm3,
       soil_SOC= r$Soil_SOC_K2Cr2O7_g_C_kg*10, # in %
       soil_N= r$Soil_NC_Kjeldahl_g_N_kg*1000,
       soil_C= r$Soil_Carbon_Wakley_Black_g_C_kg*10,
@@ -184,7 +184,7 @@ carob_script <- function(path) {
       soil_P_available= r$Soil_P_Olsen_mg_kg,
       soil_P_total= r$Soil_P_Bray_2_mg_P_kg,
       #r$Soil_P_Bray_1_mg_P_kg,
-      Soil_P_Mehlich= r$Soil_P_Mehlich.3_mg_P_kg,
+      soil_P_Mehlich= r$Soil_P_Mehlich.3_mg_P_kg,
       #r$Soil_K_dry_mg_K_kg,
       #r$Soil_K_wet_mg_K_kg,
       soil_ex_K= r$Soil_K_exchangeable_mg_K_kg,
