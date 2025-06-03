@@ -26,11 +26,11 @@ carob_script <- function(path) {
    f <- ff[ basename(ff)=="Summary_statistics_data_from_articles.csv"]
    
    ## Processing data 
-   r <- read.csv(f)
+   r <- unique(read.csv(f))
    
    d <- data.frame(
-      trial_id= paste0(r$First_author_name,"-", 1:nrow(r)),
-      treatment= r$Treatment_Name,
+      trial_id = paste0(r$Article_ID, "-", r$Experiment_Number),
+	  treatment= r$Treatment_Name,
       rep= r$Replicate_n,
       country= r$Country,
       adm1= r$State_province,
@@ -212,6 +212,10 @@ carob_script <- function(path) {
 	refs <- gsub(" NA:", ":", refs)
 	d$reference <- gsub("‐", "-", refs)
 
+	i <- is.na(d$planting_date) & (!is.na(r$Year_experiment)) & (nchar(r$Year_experiment) == 4)
+##	d$planting_date[i] <- r$Year_experiment[i]
+##	d$harvest_date[i] <- r$Year_experiment[i]
+
    ## Fixing country names Ethopia
    d$country[grepl("United States of America|USA", d$country)] <-"United States"
    d$country[grepl("Republic of Côte d'Ivoire", d$country)] <-"Côte d'Ivoire"
@@ -275,18 +279,30 @@ carob_script <- function(path) {
    
    ##Filter with data after "1960"
 ## RH NO! do NOT remove data 
-   d$harvest_date <- as.Date(d$harvest_date)
-   d$planting_date <- as.Date(d$planting_date)
+##   d$harvest_date <- as.Date(d$harvest_date)
+##   d$planting_date <- as.Date(d$planting_date)
 ##   d <- d[(d$harvest_date > as.Date("1960-01-01") & d$harvest_date<= as.Date("2025-06-02")),]
 ##   teck <- ifelse(!is.na(d$planting_date) & !is.na(d$harvest_date) & d$harvest_date> d$planting_date, 1, 0)
 ##   d <- d[!(d$harvest_date < d$planting_date & teck==1),]
 
-	d$harvest_date <- as.character(d$harvest_date)
-	d$planting_date <- as.character(d$planting_date)
-
 	# match planting date
 	d$harvest_date[d$harvest_date == "2029-09-25"] <- "2020-09-25"
 	d$harvest_date[d$harvest_date == "1899-12-31"] <- NA
+  
+	i <- d$planting_date == "2017-05-01" & d$harvest_date == "2018-09-25"
+	d$harvest_date[i] <- "2017-09-25" ## Liu et al has same dates in both years. Here taking first year.
+
+	i <- d$planting_date == "2017-05-11" & d$harvest_date == "2018-10-02"
+	d$planting_date[i] <- "2017-05-07" ## Zhang et al have two years
+	d$harvest_date[i] <- "2017-08-28" ## These are for 2017
+
+	i <- d$planting_date == "2007-06-13" & d$harvest_date == "2008-09-10"
+	d$planting_date[i] <- "2008-06-12" ## Sharma et al 
+	d$harvest_date[i] <- "2008-09-15"
+	i <- d$planting_date == "2008-06-16" & d$harvest_date == "2009-09-13"
+	d$planting_date[i] <- "2009-06-15" ## Sharma et al 
+	d$harvest_date[i] <- "2009-09-13" 
+
   
    ## Fixing method
    P <- carobiner::fix_name(tolower(d$land_prep_method))
@@ -430,7 +446,9 @@ carob_script <- function(path) {
    P <- gsub("tritordeum", "unknown", P)
    d$crop <- P
    
-    
+	# three duplicates that are unique in "r" need to investigate 
+	# d <- unique(d)
+	
    carobiner::write_files(path, meta, d)
 }
 
