@@ -19,17 +19,18 @@ carob_script <- function(path) {
       response_vars = "yield", 
       carob_contributor= "Cedric Ngakou", 
       carob_date="2025-06-03",
+	  completeness=50, # files f2-f5
       notes=NA
    )
    
-   f <- ff[basename(ff)=="SUN_a_2022_properties.xlsx"]
+   f1 <- ff[basename(ff)=="SUN_a_2022_properties.xlsx"]
    
-   #f <- ff[basename(ff)=="SUN_b_2022_enzyme_activities.xlsx"]
-   #f <- ff[basename(ff)=="SUN_c_2022_PLFAs.xlsx"]
-   #f <- ff[basename(ff)=="SUN_d_2022_bacterial_.xlsx"]
-   #f <- ff[basename(ff)=="SUN_e_2022_fungal.xlsx"]
+   #f2 <- ff[basename(ff)=="SUN_b_2022_enzyme_activities.xlsx"]
+   #f3 <- ff[basename(ff)=="SUN_c_2022_PLFAs.xlsx"]
+   #f4 <- ff[basename(ff)=="SUN_d_2022_bacterial_.xlsx"]
+   #f5 <- ff[basename(ff)=="SUN_e_2022_fungal.xlsx"]
    
-   r <- carobiner::read.excel(f) 
+   r <- carobiner::read.excel(f1) 
    
    d <- data.frame(
       country= "China",
@@ -69,10 +70,12 @@ carob_script <- function(path) {
       #microbial_biomass_C= r$MBC,
       #microbial_biomass_N= r$MBN
    )
-   
+  
+  
    ##  From the paper 90 kg/ha and 60 kg/ha of N was added later
-   i<- d$N_fertilizer!=0
-   d$N_fertilizer[i] <- d$N_fertilizer[i] + 150
+## RH no. They apply 150 + 90 + 60 = 300
+##   i <- d$N_fertilizer != 0
+##   d$N_fertilizer[i] <- d$N_fertilizer[i] + 150
   
    carobiner::write_files(path, meta, d)
 }
