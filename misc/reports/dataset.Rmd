@@ -163,7 +163,7 @@ scrolltab(head(d, 25), "records")
 The observations are for `r nrow(locs)` locations, `r xytxt`
 
 ```{r map, include=haveXY}
-locs <- locs[!is.na(locs$latitude), ,drop=FALSE]
+locs <- locs[!(is.na(locs$latitude) | is.na(locs$longitude)), ,drop=FALSE]
 if (nrow(locs) > 0) {
   suppressMessages(library(terra))
   v <- terra::vect(locs, c("longitude", "latitude"), crs="+proj=longlat")

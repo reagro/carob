@@ -19,7 +19,7 @@ carob_script <- function(path) {
       response_vars = "yield", 
       carob_contributor= "Cedric Ngakou", 
       carob_date="2025-06-03",
-	  completeness=50, # files f2-f5
+	  completion=50, # % files f2-f5 were not porcessed
       notes=NA
    )
    
@@ -70,8 +70,7 @@ carob_script <- function(path) {
       #microbial_biomass_C= r$MBC,
       #microbial_biomass_N= r$MBN
    )
-  
-  
+   
    ##  From the paper 90 kg/ha and 60 kg/ha of N was added later
 ## RH no. They apply 150 + 90 + 60 = 300
 ##   i <- d$N_fertilizer != 0

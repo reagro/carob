@@ -7,7 +7,7 @@ Rscript.exe --vanilla -e "x <- carobiner::make_carob(path='.', cache=TRUE, split
 GOTO done
 
 :combine
-Rscript.exe --vanilla -e "x <- carobiner::make_carob(path='.', cache=FALSE, split_license=TRUE, report=TRUE, combine=FALSE)"
+Rscript.exe --vanilla -e "x <- carobiner::make_carob(path='.', cache=TRUE, split_license=TRUE, report=TRUE, combine=TRUE)"
 GOTO done
 
 :done
