@@ -13,7 +13,7 @@ of El Batán Texcoco, the State of Mexico, Mexico. The experiment was a randomiz
 
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=1, minor=1),
-		data_institute = "CIMMYT",
+		data_organization = "CIMMYT",
 		publication = NA, 
 		#Jaramillo-López, P.F., Blas Romero, J., Sarabia, M., Fonteyne, S., Saldivia-Tejeda, A., Verhulst, N., Vestergård, M., Larsen, J., 2023. Non-target effects of pesticide and microbial seed treatments on rhizosphere microbiota in maize and barley under conservation agriculture. In preparation 
 		project = NA,

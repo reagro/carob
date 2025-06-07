@@ -18,7 +18,7 @@ Increasing organic matter/carbon contents of soils is one option from a basket o
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication=NA,
-		data_institute = "IITA",
+		data_organization = "IITA",
    		data_type= "compilation",
 		carob_contributor="Shumirai Manzvera"  
 	)

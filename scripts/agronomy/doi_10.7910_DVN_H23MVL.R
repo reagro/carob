@@ -13,7 +13,7 @@ carob_script <- function(path) {
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=1, minor=0),
 		publication=NA,
-		data_institute = "IRRI",
+		data_organization = "IRRI",
 		carob_contributor="Cedric Ngakou",
 		carob_date="2023-06-02",
 		data_type="compilation",

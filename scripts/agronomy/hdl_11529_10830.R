@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
 		publication= "doi:10.1017/S1742170515000332",
-		data_institute = "IITA",
+		data_organization = "IITA",
 		data_type="experiment", 
 		carob_contributor="Effie Ochieng'",
 		carob_date="2023-11-21",

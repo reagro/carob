@@ -12,7 +12,7 @@ carob_script <- function(path) {
   meta <- data.frame(
   	carobiner::get_metadata(uri, path, group, major=2, minor=1),
     publication= NA, 
-    data_institute = "IITA",
+    data_organization = "IITA",
     carob_contributor="Cedric Ngakou",
     carob_date="2023-09-18",
     data_type="survey",

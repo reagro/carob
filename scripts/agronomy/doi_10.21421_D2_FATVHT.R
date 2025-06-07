@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2021-06-29",
 		data_type="experiment",
-		data_institute="ICRISAT",
+		data_organization="ICRISAT",
 		project=NA,
 		response_vars= "yield",
 		treatment_vars="N_fertilizer"

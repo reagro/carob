@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=2, minor=1),
 		project="TAMASA",
 		publication="doi:10.5897/AJAR2019.14338",
-		data_institute = "EIAR; CIMMYT",
+		data_organization = "EIAR; CIMMYT",
 		data_type="crop-cuts",
 		response_vars = "none",
 		treatment_vars = "none", 

@@ -19,7 +19,7 @@ carob_script <- function(path){
 		carob_contributor = "Andrew Sila",
 		carob_date="2023-07-17",
 		data_type = "on-farm experiment",
-		data_institute="IITA",
+		data_organization="IITA",
 		modified_by = "Eduardo Garcia Bendito",
 		last_modified = "2024-03-07",
 		response_vars = "yield",

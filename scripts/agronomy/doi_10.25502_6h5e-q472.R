@@ -12,7 +12,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri,path,group,major=1,minor = 0),
 		project="N2Africa",
 		publication=NA,
-		data_institute = "IITA",
+		data_organization = "IITA",
 		carob_contributor="Samar Attaher",
 		carob_date="2023-08-06",
 		data_type="experiment",

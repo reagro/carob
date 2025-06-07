@@ -17,7 +17,7 @@ Maize grain and bio-mass yield were increased by application of different rates 
 		data_type="experiment",
 		response_vars = "yield",
 		treatment_vars = "N_fertilizer; P_fertilizer; K_fertilizer",
-		data_institute=NA,
+		data_organization=NA,
 		project=NA
 	)
 

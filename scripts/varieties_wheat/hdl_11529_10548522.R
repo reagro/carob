@@ -13,7 +13,7 @@ International Durum Yield Nurseries (IDYN) are replicated yield trials designed 
 
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=4, minor=0),
-		data_institute = "CIMMYT",
+		data_organization = "CIMMYT",
 		publication=NA,
 		project="International Durum Yield Nursery",
 		data_type= "experiment",

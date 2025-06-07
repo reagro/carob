@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=2, minor=1),
 		project=NA,
 		publication="doi:10.1016/j.fcr.2017.11.011",
-		data_institute = "CIMMYT",
+		data_organization = "CIMMYT",
 		data_type="experiment", 
 		carob_contributor="Mitchelle Njukuya",
 		carob_date="2023-02-06",

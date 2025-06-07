@@ -22,7 +22,7 @@ The study was carried out by the International Institute of Tropical Agriculture
 		response_vars = "yield",
 		treatment_vars = "variety",
 		project="International Maize Trials",
-		data_institute="IITA"
+		data_organization="IITA"
 	)
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)

@@ -20,7 +20,7 @@ carob_script <- function(path) {
 		response_vars = "yield",
 		treatment_vars = "variety",
 		project="International Maize Trials",
-		data_institute="IITA"
+		data_organization="IITA"
 	)
 
 

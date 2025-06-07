@@ -17,7 +17,7 @@ carob_script <- function(path) {
 		data_type="experiment", 
 		response_vars = "yield",
 		treatment_vars = "variety;longitude;latitude",
-		data_institute="IITA"
+		data_organization="IITA"
  	)
 	
 	f1 <- ff[basename(ff) == "20181029aao_Combd_BA15150_Final_WW_data.csv"]

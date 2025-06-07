@@ -20,7 +20,7 @@ Bean (Phaseolus vulgaris L.), maize and rice (Oryza sativa L.) grain concentrati
    
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=1, minor=0), 
-		data_institute = "UNL", 
+		data_organization = "UNL", 
 		publication ="doi:10.2134/agronj2018.04.0274", 
 		project = NA, 
 		data_type = "experiment", 

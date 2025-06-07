@@ -25,7 +25,7 @@ AFSIS has data for five countries, each with one or two sites. Sites have subsit
 		carob_date="2021-05-31",
 		data_type="compilation",
 		project=NA,
-		data_institute="CIAT",
+		data_organization="CIAT",
 		response_vars = "yield",
 		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer"
 	)

@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=1, minor=7), 
 		publication="doi:10.1017/S002185961600099X", 
 		project=NA, 
-		data_institute="CIP", 
+		data_organization="CIP", 
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-11-29", 
 		response_vars = "yield",

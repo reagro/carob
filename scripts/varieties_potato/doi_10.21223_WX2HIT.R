@@ -12,7 +12,7 @@ We use the randomized complete blocks (RCB) statistical design, with three repet
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=1, minor=2),
 		publication= NA,
-		data_institute = "CIP",
+		data_organization = "CIP",
 		carob_contributor="Cedric Ngakou",
 		data_type="experiment",
 		response_vars = "yield",

@@ -10,7 +10,7 @@ carob_script <- function(path) {
    
    meta <- data.frame(
       carobiner::get_metadata(uri, path, group, major=3, minor=4), 
-      data_institute ="CIAT", 
+      data_organization ="CIAT", 
       publication="doi:10.3389/fpls.2017.00296", 
       project=NA, 
       data_type= "experiment", 

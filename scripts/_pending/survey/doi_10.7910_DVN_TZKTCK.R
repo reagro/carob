@@ -19,7 +19,7 @@ This dataset is a result of a household survey of farmers who engaged with the A
 		carobiner::get_metadata(uri, path, group, major=2, minor=3),
 		project="AfricaRising",
 		publication= NA,
-		data_institute = "ILRI",
+		data_organization = "ILRI",
 		data_type="survey", 
 		response_vars = "none",
 		treatment_vars = "none",

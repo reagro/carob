@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=2, minor=0),
 		project="High Rainfall Wheat Yield Trial",
 		publication = "doi:10.1016/j.fcr.2020.107742",
-		data_institute = "CIMMYT",
+		data_organization = "CIMMYT",
 		carob_contributor="Andrew Sila",
 		carob_date="2023-05-03",
 		data_type="on-station experiment",

@@ -10,7 +10,7 @@ carob_script <- function(path) {
    ff  <- carobiner::get_data(uri, path, group)
    meta <- data.frame(
       carobiner::get_metadata(uri, path, group, major=1, minor=0), 
-      data_institute = "ICRISAT", 
+      data_organization = "ICRISAT", 
       publication ="doi:10.21475/ajcs.19.13.12.p2039", 
       project = NA, 
       data_type = "experiment",

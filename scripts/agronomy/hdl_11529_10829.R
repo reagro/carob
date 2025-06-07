@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
 		publication=NA,
-		data_institute = "CIMMYT",
+		data_organization = "CIMMYT",
 		data_type="on-farm experiment",
 		carob_contributor="Mitchelle Njukuya",
 		carob_date="2023-06-21",

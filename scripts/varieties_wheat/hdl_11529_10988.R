@@ -12,7 +12,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=5, minor=1),
 		project="Elite Selection Wheat Yield Trial",
 		publication = NA,
-		data_institute = "CIMMYT",
+		data_organization = "CIMMYT",
 		carob_contributor="Andrew Sila",
 		carob_date="2023-05-03",
 		data_type="on-station experiment",

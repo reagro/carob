@@ -19,7 +19,7 @@ carob_script <- function(path) {
 		response_vars = "yield",
 		treatment_vars = "variety;longitude;latitude",
 		project=NA,
-		data_institute="IITA"
+		data_organization="IITA"
 	)
 
 	read_data <- function(f) {

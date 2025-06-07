@@ -12,7 +12,7 @@ carob_script <- function(path) {
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=2, minor=1),
 		publication= "doi:10.1016/j.fcr.2020.108052",
-		data_institute = "CIRAD",
+		data_organization = "CIRAD",
 		data_type="experiment", 
 		carob_contributor="Effie Ochieng'",
 		carob_date="2023-10-23",

@@ -12,7 +12,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=1, minor=0),
 		project=NA,
 		publication= NA,
-		data_institute = "CIP",
+		data_organization = "CIP",
 		data_type="experiment", 
 		carob_contributor="Mary Njogu; Stephen Gichuhi",
 		carob_date="2023-01-22",

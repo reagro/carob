@@ -11,7 +11,7 @@ carob_script <- function(path) {
 
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=2, minor=0),
-		data_institute = "IRRI",
+		data_organization = "IRRI",
 		publication = NA,
 		project = "IRRI LTE",
 		data_type = "experiment",

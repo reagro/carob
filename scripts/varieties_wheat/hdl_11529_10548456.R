@@ -13,7 +13,7 @@ carob_script <- function(path) {
     carobiner::get_metadata(uri, path, group, major=3, minor=0),
     project="Fusarium Head Blight Screening Nursery",
     publication = NA,
-    data_institute = "CIMMYT",
+    data_organization = "CIMMYT",
     carob_contributor="Mitchelle Njukuya",
     carob_date="2024-05-09",   
     data_type="on-station experiment",

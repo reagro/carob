@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=2, minor=0),
 		project="CSISA",
 		publication= NA,
-		data_institute = "CIMMYT",
+		data_organization = "CIMMYT",
 		data_type="survey", 
 		response_vars = "none",
 		treatment_vars = "none",

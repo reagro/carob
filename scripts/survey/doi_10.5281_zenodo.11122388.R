@@ -8,7 +8,7 @@ carob_script <- function(path) {
 
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=4, minor=0),
-		data_institute = "UNL;OAF",
+		data_organization = "UNL;OAF",
 		publication="doi:10.1038/s41467-024-48859-0",
 		project=NA,
 		data_type= "survey",

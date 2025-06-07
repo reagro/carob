@@ -14,7 +14,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
 		publication= NA,
-		data_institute = "IITA",
+		data_organization = "IITA",
 		carob_contributor="Robert Hijmans",
 		carob_date="2023-07-07",
 		data_type="on-farm experiment",

@@ -9,7 +9,7 @@ carob_script <- function(path) {
   
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=4, minor=0),
-		data_institute = "ICRAF",
+		data_organization = "ICRAF",
 		publication = NA,
 		project="Kenya Cereal Enhancement Programme-Climate Resilient Agricultural Livelihoods (KCEP-CRAL) Window",
 		data_type= "survey",

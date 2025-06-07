@@ -14,7 +14,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=1, minor=0),
 		project=NA,
 		publication=NA,
-		data_institute="AfricaRice",
+		data_organization="AfricaRice",
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2022-01-21",
 		data_type="experiment",

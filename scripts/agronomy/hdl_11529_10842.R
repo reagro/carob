@@ -23,7 +23,7 @@ T10: Crop rotation B2 (B2S): direct seeding with animal drawn seeder, maize-sunf
 
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=1, minor=2),
-		data_institute = "CIMMYT",
+		data_organization = "CIMMYT",
 		publication= NA,
 		project=NA,
 		data_type= "experiment",

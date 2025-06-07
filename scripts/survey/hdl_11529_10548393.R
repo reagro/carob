@@ -11,7 +11,7 @@ Replicated crop-cuts from farmers' fields at harvest at multiple locations in Ta
 
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=2, minor=0),
-		data_institute = "CIMMYT",
+		data_organization = "CIMMYT",
 		publication = NA,
 		project = "TAMASA",
 		data_type = "survey",

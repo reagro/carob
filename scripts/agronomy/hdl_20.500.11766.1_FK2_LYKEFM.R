@@ -12,7 +12,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=3, minor=0),
       project=NA, 
 		publication="hdl:20.500.11766/5084",
-      data_institute = "ICARDA", 
+      data_organization = "ICARDA", 
       data_type="on-farm experiment", 
       carob_contributor="Cedric Ngakou", 
       carob_date="2023-11-10",

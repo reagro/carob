@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=1, minor=4),
 		project= NA,
 		publication= NA,
-		data_institute = "CIAT",
+		data_organization = "CIAT",
 		data_type = "soil properties", 
 		response_vars = "none",
 		treatment_vars = "none",

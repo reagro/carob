@@ -17,7 +17,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=2, minor=1),
 		project=NA,
 		publication= "",
-		data_institute = "USDA-ARS",
+		data_organization = "USDA-ARS",
    		data_type="experiment", 
 		carob_contributor="Shumirai Manzvera",
 		carob_date="2023-10-06" 

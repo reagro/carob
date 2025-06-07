@@ -18,7 +18,7 @@ Soil samples were collected before the trials and after the trials. Data collect
    
    meta <- data.frame(
       carobiner::get_metadata(uri, path, group, major=2, minor=0), 
-      data_institute = "SUA", #"Sokoine University of Agriculture", 
+      data_organization = "SUA", #"Sokoine University of Agriculture", 
       publication=NA, 
       project="InnovAfrica", 
       data_type= "experiment", 

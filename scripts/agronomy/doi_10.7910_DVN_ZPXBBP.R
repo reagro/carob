@@ -15,7 +15,7 @@ Data was taken in 40 fields (replications), for the two years of research we too
 
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=1, minor=2),
-		data_institute = "IFPRI",
+		data_organization = "IFPRI",
 		publication = "doi:10.5296/jas.v9i2.18513",
 		project = NA,
 		data_type = "on-farm experiment",

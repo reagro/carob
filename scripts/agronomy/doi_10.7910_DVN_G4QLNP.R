@@ -16,7 +16,7 @@ cropping system (sole maize, sole pigeonpea, maize-pigeonpea, maize-gliricidia, 
 	ff  <- carobiner::get_data(uri, path, group)
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=2, minor=3),
-		data_institute = "ICRAF;UCD",
+		data_organization = "ICRAF;UCD",
 		publication= "doi:10.3389/fsufs.2020.562663",
 		project="Africa Rising",
 		data_type= "experiment",

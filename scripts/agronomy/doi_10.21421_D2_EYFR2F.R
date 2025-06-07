@@ -16,7 +16,7 @@ Abstract: Assess the effects of P-fertilization on sorghum growth and productivi
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
 		data_type="experiment",
-		data_institute="ICRISAT",
+		data_organization="ICRISAT",
 		project=NA,
 		response_vars = "yield",
 		treatment_vars = "P_fertilizer"

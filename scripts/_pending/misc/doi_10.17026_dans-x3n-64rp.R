@@ -13,7 +13,7 @@ Het biologisch systeem heeft opbrengsten die gemiddeld 6% onder het streven ligg
 
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=3, minor=0),
-		data_institute = "WUR",
+		data_organization = "WUR",
 		publication=NA,
 		project=NA,
 		data_type= "experiment",

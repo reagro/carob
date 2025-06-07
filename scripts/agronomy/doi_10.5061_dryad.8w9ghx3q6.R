@@ -11,7 +11,7 @@ carob_script <- function(path) {
    
    meta <- data.frame(
       carobiner::get_metadata(uri, path, group, major=2, minor=0), 
-      data_institute = "ARC", #Agricultural Research Council of South Africa 
+      data_organization = "ARC", #Agricultural Research Council of South Africa 
       publication=NA, 
       project=NA, 
       data_type= "experiment", 

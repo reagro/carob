@@ -13,7 +13,7 @@ carob_script <- function(path) {
     carobiner::get_metadata(uri, path, group, major=1, minor=0),
     project="International Bread Wheat Screening Nursery",
     publication=NA,
-    data_institute = "CIMMYT",
+    data_organization = "CIMMYT",
     data_type="experiment", 
     response_vars = "yield",
     treatment_vars = "variety_code",

@@ -18,7 +18,7 @@ N2Africa is to contribute to increasing biological nitrogen fixation and product
 		data_type = "survey",
 		response_vars = "none",
 		treatment_vars = "none",
-		data_institute="IITA"
+		data_organization="IITA"
 	)
 	
 	n2afun <- carobiner::get_function("N2A_monitoring_1", path, group)

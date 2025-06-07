@@ -20,7 +20,7 @@ carob_script <- function(path){
 		data_type = "on-farm experiment",
 		response_vars = "yield",
 		treatment_vars = "inoculated; N_fertilizer; P_fertilizer; K_fertilizer; lime; gypsum",
-		data_institute="IITA",
+		data_organization="IITA",
 		carob_contributor = "Effie Ochieng'",
 		carob_date="2022-09-09"
 	)

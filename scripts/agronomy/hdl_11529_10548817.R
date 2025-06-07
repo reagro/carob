@@ -14,7 +14,7 @@ carob_script <- function(path) {
   	carobiner::get_metadata(uri, path, group, major=2, minor=0),
     project=NA,
     publication=NA,
-    data_institute = "CIMMYT",
+    data_organization = "CIMMYT",
     data_type="experiment",
     carob_contributor ="Effie Ochieng'",
     carob_date="2023-09-18",

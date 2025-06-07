@@ -26,7 +26,7 @@ carob_script <- function(path) {
       carobiner::get_metadata(uri, path, group, major=1, minor=2),
       project="Africa Rising", 
       publication= NA, 
-      data_institute = "ABC", 
+      data_organization = "ABC", 
       carob_contributor="Cedric Ngakou", 
       treatment_vars="variety;intercrops",
       response_vars= "yield;fwy_residue",

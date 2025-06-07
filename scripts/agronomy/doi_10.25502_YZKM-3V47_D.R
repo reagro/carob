@@ -26,7 +26,7 @@ carob_script <- function(path) {
 		project=NA,
 	   # this DOI is currently not active
 		publication = NA, #"doi:10.37722/AAHAE.2022403",
-		data_institute = "IITA",
+		data_organization = "IITA",
 		carob_contributor="Robert Hijmans",
 		carob_date="2023-07-07",
 		data_type="experiment",

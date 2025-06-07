@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=2, minor=0),
 		project="Helminthium Leaf Blight Screening Nursery",
 		publication = NA,
-		data_institute = "CIMMYT",
+		data_organization = "CIMMYT",
 		carob_contributor="Robert Hijmans",
 		carob_date="2024-06-26",   
 		data_type="on-station experiment",

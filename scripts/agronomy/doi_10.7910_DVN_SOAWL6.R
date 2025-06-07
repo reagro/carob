@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=1, minor=1),
 		project=NA,
 		publication= NA,
-		data_institute = "CIAT",
+		data_organization = "CIAT",
 		data_type="compilation",
 		response_vars= "yield",
 		treatment_vars="none",

@@ -16,7 +16,7 @@ Despite the recent release of several improved varieties of groundnut in Nigeria
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",
 		data_type="experiment",
-		data_institute="ICRISAT",
+		data_organization="ICRISAT",
 		project=NA,
 		response_vars = "yield",
 		treatment_vars = "variety;plant_density;P_fertilizer"

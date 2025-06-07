@@ -24,7 +24,7 @@ Initial soil N pools were larger in Yala than Tumbi (240 vs. 79 kg/ha). Inorgani
    
    meta <- data.frame(
       carobiner::get_metadata(uri, path, group, major=2, minor=1), 
-      data_institute = "UM",
+      data_organization = "UM",
       publication = "doi:10.1890/15-1518.1", 
       project = NA, 
       data_type = "experiment", 

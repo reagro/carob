@@ -26,7 +26,7 @@ This dataset contains output of the research for Sierra Leone.
 		response_vars = "yield",
 		treatment_vars = "variety",
 		project="International Maize Trials",
-		data_institute="IITA"
+		data_organization="IITA"
 	)
 
 	mzfun <- carobiner::get_function("intmztrial_striga", path, group)

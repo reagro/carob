@@ -19,7 +19,7 @@ carob_script <- function(path) {
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2021-06-18",
 		data_type = "experiment",
-		data_institute="CIAT",
+		data_organization="CIAT",
 		project="AgMIP",
 		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer;Zn_fertilizer;Ca_fertilizer;Mg_fertilizer;OM_used",
 		response_vars = "yield;fwy_residue;leaf_N;leaf_P;leaf_K;leaf_Ca;leaf_Mg;grain_N;grain_P;grain_K;grain_Ca;grain_Mg;residue_N;residue_P;residue_K;residue_Ca;residue_Mg",

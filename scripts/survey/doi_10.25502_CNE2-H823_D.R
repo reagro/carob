@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=2, minor=0),
 		project=NA, 
 		publication= NA, 
-		data_institute = "IITA", 
+		data_organization = "IITA", 
 		carob_contributor="Cedric Ngakou", 
 		carob_date="2023-11-14", 
 		data_type="crop-cuts", 

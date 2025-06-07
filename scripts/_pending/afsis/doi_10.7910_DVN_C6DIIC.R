@@ -27,7 +27,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=2, minor=5),
 		project= "AfSIS", 
 		publication = "doi:10.1016/j.agee.2016.05.012",
-		data_institute = "CIAT",
+		data_organization = "CIAT",
 		data_type="Multi-location trials",
 		carob_contributor = "Robert Hijmans",
 		carob_date="2024-03-02"

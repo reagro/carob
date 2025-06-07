@@ -11,7 +11,7 @@ carob_script <- function(path) {
    
    meta <- data.frame(
       carobiner::get_metadata(uri, path, group, major=3, minor=0), 
-      data_institute = "CAAS", #Chinese Academy of Agricultural Sciences
+      data_organization = "CAAS", #Chinese Academy of Agricultural Sciences
       publication="doi:10.1111/gcbb.12995", 
       project=NA, 
       data_type= "experiment", 

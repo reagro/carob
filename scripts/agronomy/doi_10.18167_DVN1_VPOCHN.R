@@ -17,7 +17,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=2, minor=2),
 		project = NA,
         publication = "doi:10.1016/j.agee.2022.108207",
-		data_institute = "CIRAD; UZIM; CIMMYT; ETHZ",
+		data_organization = "CIRAD; UZIM; CIMMYT; ETHZ",
 		data_type = "experiment", 
 		carob_contributor = "Hope Mazungunye",
 		carob_date = "2024-02-15",

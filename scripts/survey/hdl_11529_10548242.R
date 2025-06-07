@@ -12,7 +12,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=2, minor=1),
 		project="TAMASA",
 		publication=NA,
-		data_institute = "CIMMYT",
+		data_organization = "CIMMYT",
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2021-09-17",
 		data_type="crop-cuts",

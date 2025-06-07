@@ -14,7 +14,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=1, minor=2),
 		project=NA,
 		publication= NA,
-		data_institute = "ILRI",
+		data_organization = "ILRI",
 		data_type="experiment",
 		response_vars = "yield",
 		treatment_vars = "variety",

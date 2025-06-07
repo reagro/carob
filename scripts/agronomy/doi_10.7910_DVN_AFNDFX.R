@@ -12,7 +12,7 @@ carob_script <- function(path) {
    
    meta <- data.frame(
       carobiner::get_metadata(uri, path, group, major=2, minor=4), 
-      data_institute = "CIAT", 
+      data_organization = "CIAT", 
       publication = "doi:10.15517/ma.v29i1.27618",
       project =NA, 
       data_type = "experiment",

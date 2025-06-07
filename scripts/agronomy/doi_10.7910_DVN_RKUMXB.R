@@ -32,7 +32,7 @@ K. Habtegebrial & B. R. Singh (2009) Response of Wheat Cultivars to Nitrogen and
 	   carob_contributor="Camila Bonilla",
 	   carob_date="2021-06-01",
 	   data_type="compilation",
-	   data_institute="CIAT",
+	   data_organization="CIAT",
 	   project=NA,
 		treatment_vars = "N_fertilizer;P_fertilizer;K_fertilizer;Zn_fertilizer;S_fertilizer",
 		response_vars = "yield"

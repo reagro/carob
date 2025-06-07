@@ -14,7 +14,7 @@ carob_script <- function(path) {
     carobiner::get_metadata(uri, path, group, major=2, minor=0),
     project="Semi-Arid Wheat Screening Nursery",
     publication = NA,
-    data_institute = "CIMMYT",
+    data_organization = "CIMMYT",
     carob_contributor="Hope Mazungunye",
     carob_date="2024-06-10",   
     data_type="on-station experiment",

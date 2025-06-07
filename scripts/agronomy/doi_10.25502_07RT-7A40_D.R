@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	group <- "agronomy"
 	ff	 <- carobiner::get_data(uri, path, group)
 	meta <- data.frame(
-		data_institute = "IITA",
+		data_organization = "IITA",
 		carobiner::get_metadata(uri, path, group, major=1, minor=0),
 		publication=NA,
 		carob_contributor="Henry Juarez",

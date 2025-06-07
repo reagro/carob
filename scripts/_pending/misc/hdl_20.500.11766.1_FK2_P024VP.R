@@ -19,7 +19,7 @@ carob_script <- function(path) {
 		## if there is a paper, include the paper's doi here
 		## also add a RIS file in references folder (with matching doi)
 		publication= "",
-		data_institute = "ICARDA",
+		data_organization = "ICARDA",
    		data_type="on-farm experiment", 
 		carob_contributor="Shumirfai Manzvera",
 		# date of first submission to carob

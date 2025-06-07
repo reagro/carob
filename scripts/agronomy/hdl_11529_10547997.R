@@ -17,7 +17,7 @@ carob_script <- function(path) {
 		carobiner::get_metadata(uri, path, group, major=1, minor=3),
 		project="Rabi (winter) crops-all nodes-Alternative cropping systems trial-Sunsari-Nepal",
 		publication= NA,
-		data_institute = "CIMMYT",
+		data_organization = "CIMMYT",
 		data_type="on-farm experiment",
 		carob_contributor="Fredy Chimire",
 		carob_date="2023-10-31",

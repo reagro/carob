@@ -19,7 +19,7 @@ carob_script <- function(path) {
 	meta <- data.frame(
 		carobiner::get_metadata(uri, path, group, major=1, minor=0),
 		#data_citation="Global Maize Program, 2018, International Late White Hybrid Trial - ILWH0607, https://hdl.handle.net/11529/10554, CIMMYT Research Data & Software Repository Network, V1",
-		data_institute = "CIMMYT",
+		data_organization = "CIMMYT",
 		publication= NA,
 		project="Global Maize Program",
 		data_type= "experiment",

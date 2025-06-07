@@ -21,7 +21,7 @@ carob_script <- function(path) {
 		# change the major and minor versions if you see a warning
 		carobiner::get_metadata(uri, path, group, major=1, minor=0),
 		# include the data provider and/or all institutes listed as authors (if any)
-		data_institute = "",
+		data_organization = "",
 		# if there is a paper, include the paper's doi here
 		# also add a RIS file in references folder (with matching doi)
 		publication = "",

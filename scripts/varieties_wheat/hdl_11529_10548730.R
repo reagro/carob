@@ -13,7 +13,7 @@ carob_script <- function(path) {
     carobiner::get_metadata(uri, path, group, major=2, minor=0),
     project="High Rainfall Wheat Screening Nursery",
     publication = NA,
-    data_institute = "CIMMYT",
+    data_organization = "CIMMYT",
     carob_contributor="Mitchelle Njukuya",
     carob_date="2024-06-04",   
     data_type="on-station experiment",
