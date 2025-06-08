@@ -12,8 +12,7 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
   ff <- carobiner::get_data(uri, path, group)
   
   # The metadata at the dataset level
-	meta <- data.frame(
-  	carobiner::get_metadata(uri, path, group, major=2, minor=1),
+	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=1,
 		project="N2Africa",
 		publication="doi:10.21955/gatesopenres.1115299.1",
 		data_organization = "IITA",

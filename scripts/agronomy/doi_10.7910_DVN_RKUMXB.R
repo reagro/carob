@@ -26,8 +26,7 @@ K. Habtegebrial & B. R. Singh (2009) Response of Wheat Cultivars to Nitrogen and
 	ff <- carobiner::get_data(uri, path, group)
 	
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=2, minor=2),
+	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=2,
 	   publication=NA,
 	   carob_contributor="Camila Bonilla",
 	   carob_date="2021-06-01",

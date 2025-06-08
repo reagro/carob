@@ -7,11 +7,9 @@ carob_script <- function(path) {
 
 	uri <- "doi:10.25502/20180814/1135/HJ"
 	group <- "agronomy"
-	
 	ff <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0,
 		publication=NA,
 		data_organization = "IITA",
 		carob_contributor="Eduardo Garcia Bendito",

@@ -8,8 +8,7 @@ carob_script <- function(path) {
 	group <- "agronomy"
 	ff  <- carobiner::get_data(uri, path, group)
 
-	dset <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=2, minor=1),
+	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=1,
 		data_organization = "CIMMYT",
 		# Seems also doi_10.1017_S1742170521000028 refers to this dataset?
 		publication = "doi:10.1016/j.agee.2021.107812", 
@@ -135,6 +134,6 @@ carob_script <- function(path) {
 
 	d <- d[!is.na(d$yield), ]
 		
-	carobiner::write_files(path, dset, d)
+	carobiner::write_files(path, meta, d)
 }
 

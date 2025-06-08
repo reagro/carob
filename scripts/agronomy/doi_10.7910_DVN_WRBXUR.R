@@ -8,8 +8,7 @@ carob_script <- function(path) {
   group <- "agronomy"
   ff  <- carobiner::get_data(uri, path, group)
   
-  meta <- data.frame(
-    carobiner::get_metadata(uri, path, group, major=2, minor=0), 
+  meta <- carobiner::get_metadata(uri, path, group, major=2, minor=0, 
     data_organization = "ICRAF;CIAT;LUANAR",
     #Mzumara, E. 2016. Phosphorus use effiiency and productivity of pigeonpea (Cajanus cajan (l.) millsp.) and soybean (glycine max (l.) merrill) on smallholder farms in different agro-ecological zones of central Malawi. MSc thesis in Agronomy. Lilongwe, Malawi. Lilongwe University of Agriculture and Natural Resources.
     publication="hdl:10568/125473", 

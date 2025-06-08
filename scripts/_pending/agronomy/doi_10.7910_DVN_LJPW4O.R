@@ -13,8 +13,7 @@ carob_script <- function(path) {
 	group <- "agronomy"
 	ff <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=1, minor=5) ,
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=5) ,
 		publication=NA,
 		carob_contributor="Eduardo Garcia Bendito",
 		carob_date="2021-06-18",

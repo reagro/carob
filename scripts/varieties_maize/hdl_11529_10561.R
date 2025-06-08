@@ -5,12 +5,9 @@ carob_script <- function(path) {
 
 	uri <- "hdl:11529/10561"
 	group <- "varieties_maize"
- 
 	ff  <- carobiner::get_data(uri, path, group)
  
-	meta <- data.frame(
-	  
-		carobiner::get_metadata(uri, path, group, major=1, minor=0),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0,
 		data_organization = "CIMMYT",
 		publication = NA,
 		project = "International Late White Hybrid Trial - ILWH0609",

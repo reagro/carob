@@ -9,8 +9,7 @@ carob_script <- function(path) {
   
   ff <- carobiner::get_data(uri, path, group)
   
-  meta <- data.frame(
-    carobiner::get_metadata(uri, path, group, major=3, minor=1),
+  meta <- carobiner::get_metadata(uri, path, group, major=3, minor=1,
     data_organization = "IITA",
     publication= NA,
     project="N2Africa",

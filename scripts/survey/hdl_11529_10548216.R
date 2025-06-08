@@ -12,8 +12,7 @@ carob_script <- function(path) {
    
    ff  <- carobiner::get_data(uri, path, group)
    
-   meta <- data.frame(
-      carobiner::get_metadata(uri, path, group, major=2, minor=1), 
+   meta <- carobiner::get_metadata(uri, path, group, major=2, minor=1, 
       data_organization = "CIMMYT", 
       publication ="doi:10.5897/AJAR2019.14338", 
       project = "TAMASA", 

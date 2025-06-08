@@ -13,8 +13,7 @@ The data is on biofortification (delivery of micronutrients via micronutrient-de
 	uri <- "doi:10.21421/D2/NCNXL8"
 	group <- "agronomy"
 	ff  <- carobiner::get_data(uri, path, group)
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=1, minor=1),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=1,
 		data_organization = "ICRISAT",
 		publication = "doi:10.1017/S0021859614000525",
 		project = NA,

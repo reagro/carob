@@ -9,8 +9,7 @@ Replicated crop-cuts from farmers' fields at harvest at multiple locations in Ta
 	group <- "survey"
 	ff  <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=2, minor=0),
+	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=0,
 		data_organization = "CIMMYT",
 		publication = NA,
 		project = "TAMASA",

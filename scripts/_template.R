@@ -136,6 +136,5 @@ carob_script <- function(path) {
 }
 
 ## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)
+# carob_script(path=_____)
 

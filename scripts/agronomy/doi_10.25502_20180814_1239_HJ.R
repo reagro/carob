@@ -13,8 +13,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=2, minor=1),
+	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=1,
 		project="AFSIS",
 		publication= NA,
 		data_organization = "IITA",
@@ -32,8 +31,7 @@ carob_script <- function(path) {
   # uri <- "doi:10.25502/20180814/1239/HJ"
   # group <- "agronomy"
   ### dataset level data 
-  # meta <- data.frame(
-    # publication= NA,
+  # meta <- # publication= NA,
     # data_organization = "IITA",
     # carob_contributor="Cedric Ngakou",
     # carob_date="2023-02-15",

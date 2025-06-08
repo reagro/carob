@@ -10,8 +10,7 @@ carob_script <- function(path) {
 	group <- "agronomy"
 	ff <- carobiner::get_data(uri, path, group, files=urls)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=1, minor=1),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=1,
 		data_organization = "UCD",
 		publication=NA,
 		project=NA,

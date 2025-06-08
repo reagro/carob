@@ -10,8 +10,7 @@ carob_script <- function(path) {
    group <- "survey" 
    ff  <- carobiner::get_data(uri, path, group)
    
-   meta <- data.frame(
-      carobiner::get_metadata(uri, path, group, major=3, minor=1), 
+   meta <- carobiner::get_metadata(uri, path, group, major=3, minor=1, 
       data_organization ="IRRI", 
       publication =NA,
       project =NA, 

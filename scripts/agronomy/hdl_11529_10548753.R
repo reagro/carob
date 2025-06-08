@@ -10,8 +10,7 @@ Lower GWP under CSAPs resulted in 36–44% lower emission intensity (383 kg CO2 
 	uri <- "hdl:11529/10548753"
 	group <- "agronomy"
 	ff <- carobiner::get_data(uri, path, group)
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=1, minor=1),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=1,
 		project=NA,
 		publication= NA,
 		data_organization = "CIMMYT",

@@ -11,8 +11,7 @@ and white/red grain color. (2021)"
   group <- "varieties_wheat"
   ff <- carobiner::get_data(uri, path, group)
 
-  meta <- data.frame(
-    carobiner::get_metadata(uri, path, group, major=2, minor=0),
+  meta <- carobiner::get_metadata(uri, path, group, major=2, minor=0,
     project="Karnal Bunt Screening Nursery",
     publication = NA,
     data_organization = "CIMMYT",

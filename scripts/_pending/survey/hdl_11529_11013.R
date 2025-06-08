@@ -13,8 +13,7 @@ carob_script <- function(path) {
   group <- "crop_cuts"
   ff <- carobiner::get_data(uri, path, group)
  
-  meta <- data.frame(
-  	carobiner::get_metadata(uri, path, group, major=2, minor=3),
+  meta <- carobiner::get_metadata(uri, path, group, major=2, minor=3,
     project="TAMASA",
     ## if there is a paper, include the paper's doi here
     ## also add a RIS file in references folder (with matching doi)

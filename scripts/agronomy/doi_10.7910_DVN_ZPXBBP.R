@@ -13,8 +13,7 @@ Data was taken in 40 fields (replications), for the two years of research we too
 
 	ff  <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=1, minor=2),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=2,
 		data_organization = "IFPRI",
 		publication = "doi:10.5296/jas.v9i2.18513",
 		project = NA,

@@ -8,8 +8,7 @@ carob_script <- function(path) {
     uri <- "doi:10.21421/D2/BGPZH5"
     group <- "varieties" 
     ff  <- carobiner::get_data(uri, path, group)
-    meta <- data.frame(
-       carobiner::get_metadata(uri, path, group, major=1, minor=3), 
+    meta <- carobiner::get_metadata(uri, path, group, major=1, minor=3, 
        data_organization = "ICRISAT", 
        publication =NA, 
        project = NA, 

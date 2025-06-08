@@ -12,8 +12,7 @@ carob_script <- function(path) {
 		stop("these files need to be downloaded by hand")
 	}
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=1, minor=0),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0,
 		publication = NA,
 		carob_contributor = "Robert Hijmans",
 		completion = 0,

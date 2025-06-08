@@ -24,8 +24,7 @@ Conventional ridge and furrow with continuous sole maize (CRF);
   group <- "agronomy"
   ff <- carobiner::get_data(uri, path, group)
  
-  meta <- data.frame(
-  	carobiner::get_metadata(uri, path, group, major=1, minor=2),
+  meta <- carobiner::get_metadata(uri, path, group, major=1, minor=2,
     project=NA,
     publication= "doi:10.1017/S1742170517000606",
     data_organization = "CIMMYT;ZARI",

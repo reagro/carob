@@ -7,8 +7,7 @@ carob_script <- function(path) {
 	group <- "soil_samples"
 	ff  <- carobiner::get_data(uri, path, group)
   
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=4, minor=0),
+	meta <- carobiner::get_metadata(uri, path, group, major=4, minor=0,
 		data_organization = "ICRAF",
 		publication = NA,
 		project="Kenya Cereal Enhancement Programme-Climate Resilient Agricultural Livelihoods (KCEP-CRAL) Window",

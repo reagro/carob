@@ -8,8 +8,7 @@ carob_script <- function(path) {
    group <- "pest_disease" 
    ff <- carobiner::get_data(uri, path, group)
   
-   meta <- data.frame(
-   	carobiner::get_metadata(uri, path, group, major=1, minor=0),
+   meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0,
 		publication= NA,
 		data_organization = "CIMMYT",
 		carob_contributor="Cedric Ngakou",

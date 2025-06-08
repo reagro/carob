@@ -8,8 +8,7 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10831"
 	group <- "wheat_trials"
 	ff <- carobiner::get_data(uri, path, group)
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=1, minor=2),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=2,
 		publication= "doi:10.2135/cropsci2016.06.0558",
 		data_organization = "CIMMYT", 
 		carob_contributor="Cedric Ngakou", 

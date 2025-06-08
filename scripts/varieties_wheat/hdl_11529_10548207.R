@@ -8,8 +8,7 @@ carob_script <- function(path) {
 	uri <- "hdl:11529/10548207"
 	group <- "varieties_wheat"
 	ff <- carobiner::get_data(uri, path, group)
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=2, minor=0),
+	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=0,
 	   project="High Rainfall Wheat Yield Trial",
 	   publication = NA,
 	   data_organization = "CIMMYT",

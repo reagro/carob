@@ -6,12 +6,9 @@ carob_script <- function(path) {
 
 	uri <- "doi:10.25502/20180814/0923/HJ"
 	group <- "agronomy"
-
 	ff <- carobiner::get_data(uri, path, group)
 
-
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=2, minor=1),
+	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=1,
 		project="AfSIS", 
 		publication= "doi:10.1016/j.agee.2016.05.012",
 		data_organization = "IITA", 

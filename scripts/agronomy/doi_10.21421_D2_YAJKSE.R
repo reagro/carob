@@ -10,8 +10,7 @@ Abstract: Despite the recent release of several improved varieties of groundnut 
 	group <- "agronomy"
 	ff <- carobiner::get_data(uri, path, group)
   
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, major=1, minor=0, group),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0,
 		publication="doi:10.12692_ijb_9.1.291-302",
 		carob_contributor="Siyabusa Mkuhlani",
 		carob_date="2022-09-12",

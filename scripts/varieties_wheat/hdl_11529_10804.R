@@ -10,8 +10,7 @@ years, the crop must respond appropriately (water responsive) with higher yields
 
 	ff  <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=2, minor=3),
+	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=3,
 		data_organization = "CIMMYT",
 		publication= NA,
 		project="Semi-Arid Wheat Screening Nursery",

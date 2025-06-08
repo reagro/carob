@@ -20,8 +20,7 @@ Considering all cultivars and environments, ECa at sowing, flowering and grain f
 	ff <- carobiner::get_data(uri, path, group)
 
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=1, minor=2),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=2,
 		project = "CSISA",
 		publication = "doi:10.1016/j.fcr.2014.09.019",
 		data_organization = "CIMMYT; IRRI; IFPRI",

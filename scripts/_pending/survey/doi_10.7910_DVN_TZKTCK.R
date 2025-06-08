@@ -15,8 +15,7 @@ This dataset is a result of a household survey of farmers who engaged with the A
 	group <- "survey"
 	ff <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=2, minor=3),
+	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=3,
 		project="AfricaRising",
 		publication= NA,
 		data_organization = "ILRI",

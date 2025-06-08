@@ -23,8 +23,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=2, minor=5),
+	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=5,
 		project= "AfSIS", 
 		publication = "doi:10.1016/j.agee.2016.05.012",
 		data_organization = "CIAT",

@@ -18,8 +18,7 @@ AFSIS has data for five countries, each with one or two sites. Sites have subsit
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=1, minor=3),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=3,
 		publication="doi:10.1007/s10705-015-9717-2",
 		carob_contributor="Camila Bonilla",
 		carob_date="2021-05-31",

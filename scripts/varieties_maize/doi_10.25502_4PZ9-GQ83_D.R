@@ -13,8 +13,7 @@ Cluster analysis separated the maize germplasm into five major groups, different
 
    ff <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=1, minor=3),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=3,
 		publication= "doi:10.1080/15427528.2019.1674760",
 		data_organization = "IITA",
 		carob_contributor="Cedric Ngakou",

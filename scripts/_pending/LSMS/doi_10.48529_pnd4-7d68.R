@@ -9,8 +9,7 @@ carob_script <- function(path) {
 	group <- "LSMS"
 	ff  <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=1, minor=0),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0,
 		publication = NA,
 		carob_contributor = "Robert Hijmans",
 		completion = 0,

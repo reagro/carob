@@ -11,8 +11,7 @@ carob_script <- function(path) {
 
 	ff  <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=1, minor=0),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0,
 		data_organization = "IITA",
 		publication = "doi:10.1002/agj2.20746",
 		project = "Stress Tolerant Maize for Africa",

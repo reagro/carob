@@ -9,8 +9,7 @@ CIMMYT annually distributes improved germplasm developed by its researchers and 
 	uri <- "hdl:11529/10548194"
 	group <- "varieties_wheat"
 	ff <- carobiner::get_data(uri, path, group)
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=3, minor=1),
+	meta <- carobiner::get_metadata(uri, path, group, major=3, minor=1,
 	   project="High Temperature Wheat Yield Trial",
 	   publication = NA,
 	   data_organization = "CIMMYT",

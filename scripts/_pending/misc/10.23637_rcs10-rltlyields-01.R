@@ -20,8 +20,7 @@ Period 1 (1962-1980): four lime levels with and without fertilizer P and K. Magn
 	group <- "fertilizer"
 	ff <- carobiner::get_data(uri, path, group)
   
-	meta <- data.frame(
-		carobiner::get_metadata(uri,path,group,major=1,minor = 0),
+	meta <- carobiner::get_metadata(uri,path,group,major=1,minor = 0,
 		project="NA",
 		publication=NA,
 		data_organization = "Rothamsted",

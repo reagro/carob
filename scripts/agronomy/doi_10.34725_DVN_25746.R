@@ -17,8 +17,7 @@ Growing maize (Zea mays) in association with legume tree in agroforestry arrange
 	group <- "agronomy"
 	ff <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, major=1, minor=0, group),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0,
 		publication = "doi:10.2134/agronj2012.0063",
 		carob_contributor = "Camila Bonilla",
 		carob_date="2021-06-01",

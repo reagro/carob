@@ -11,8 +11,7 @@ Herein we assessed the productivity and usage of biomass waste from: maize, sorg
 	group <- "survey"
 	ff <- carobiner::get_data(uri, path, group)
   
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=2, minor=0),
+	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=0,
 		project=NA, 
 		publication= NA, 
 		data_organization = "IITA", 

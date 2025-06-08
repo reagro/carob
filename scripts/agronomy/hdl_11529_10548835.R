@@ -9,8 +9,7 @@ carob_script <- function(path) {
 	group <- "agronomy"
 	ff  <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=1, minor=1),
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=1,
 		data_organization = "CIMMYT",
 		publication = "doi:10.1017/S1742170521000442",
 		project = NA,

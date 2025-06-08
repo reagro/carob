@@ -8,8 +8,7 @@ carob_script <- function(path) {
    group <- "varieties"
    ff  <- carobiner::get_data(uri, path, group)
    
-   meta <- data.frame(
-      carobiner::get_metadata(uri, path, group, major=3, minor=4), 
+   meta <- carobiner::get_metadata(uri, path, group, major=3, minor=4, 
       data_organization ="CIAT", 
       publication="doi:10.3389/fpls.2017.00296", 
       project=NA, 

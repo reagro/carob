@@ -11,8 +11,7 @@ carob_script <- function(path) {
 
 	ff <- carobiner::get_data(uri, path, group)
 
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, major=2, minor=1, group),
+	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=1,
  	    publication="doi:10.1016/j.jenvman.2017.06.058",
 		carob_contributor = "Robert Hijmans",
 		carob_date="2023-07-03",

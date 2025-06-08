@@ -10,8 +10,7 @@ carob_script <- function(path) {
 	group <- "soil_samples"
 	ff  <- carobiner::get_data(uri, path, group)
   
-	meta <- data.frame(
-		carobiner::get_metadata(uri, path, group, major=2, minor=5),
+	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=5,
 		data_organization = "CIAT",
 		publication= "doi:10.1007/s1070",
 		project="AfSIS",
