@@ -6,6 +6,10 @@
 
 carob_script <- function(path) {
 
+## when done, remove all the default comments, such as this one, from the script
+## only keep the comments you added that are specific to this dataset
+
+
 "copy and paste the title and abstract from the repository"
 
 
@@ -17,9 +21,8 @@ carob_script <- function(path) {
 	ff  <- carobiner::get_data(uri, path, group)
 
 ## metadata 
-	meta <- data.frame(
-		# change the major and minor versions if you see a warning
-		carobiner::get_metadata(uri, path, group, major=1, minor=0),
+# change the major and minor versions if you see a warning
+	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0,
 		# include the data provider and/or all institutes listed as authors (if any)
 		data_organization = "",
 		# if there is a paper, include the paper's doi here
@@ -36,7 +39,8 @@ carob_script <- function(path) {
 		# The percentage of relevant variables that have been standardized (between 0 and 100%) 
 		completion = 0,
 		carob_contributor = "Your Name",
-		carob_date = "2024-01-01",
+		# The day the script was first written
+		carob_date = "2025-06-08",
 		notes = "", # notes for the end-user
 		# if available report the experimental or survey design
 		design = NA
