@@ -4,10 +4,9 @@ carob_script <- function(path) {
   
    uri <- "doi:10.5061/dryad.bk3j9kddh"
    group <- "agronomy"
-   ff	 <- carobiner::get_data(uri, path, group)
+   ff <- carobiner::get_data(uri, path, group)
    
-   meta <- data.frame(
-      carobiner::get_metadata(uri, path, group, major=3, minor=0), 
+   meta <- carobiner::get_metadata(uri, path, group, major=3, minor=0,
       data_organization = "GU", 
       publication="doi:10.21203/rs.3.rs-461485/v1", 
       project=NA, 
@@ -16,7 +15,7 @@ carob_script <- function(path) {
       response_vars = "yield", 
       carob_contributor= "Cedric Ngakou", 
       carob_date="2025-06-08",
-      #completeness=75, # files f3
+      completeness=75, # files f3
       notes=NA
    )
    
