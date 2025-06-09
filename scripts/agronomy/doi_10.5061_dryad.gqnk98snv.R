@@ -9,24 +9,21 @@ carob_script <- function(path) {
    group <- "agronomy"
    ff  <- carobiner::get_data(uri, path, group)
    
-   meta <- carobiner::get_metadata(uri, path, group, major=2, minor=0, 
-                                   data_organization = "IAU", #Islamic Azad University, Tehran
-                                   publication="doi:10.1002/agg2.20213", 
-                                   project=NA, 
-                                   data_type= "experiment", 
-                                   response_vars= "yield; fwy_total", 
-                                   treatment_vars = "plant_density", 
-                                   carob_contributor= "Cedric Ngakou", 
-                                   carob_date="2025-06-09",
-                                   notes=NA
+   meta <- carobiner::get_metadata(uri, path, group, major=2, minor=NA, 
+		data_organization = "CIAT", #Islamic Azad University, Tehran
+		publication="doi:10.1002/agg2.20213", 
+		project=NA, 
+		data_type= "experiment", 
+		response_vars= "yield; fwy_total", 
+		treatment_vars = "plant_density", 
+		carob_contributor= "Cedric Ngakou", 
+		carob_date="2025-06-09",
+		notes=NA
    )
    
-   
    ff <- ff[grepl("csv", basename(ff))] 
-   #### Process 
    
-   procs <- function(f){
-      
+   procs <- function(f){   
       r1 <- read.csv(f) 
       data.frame(
          planting_date= as.character(r1$Year),
@@ -91,10 +88,8 @@ carob_script <- function(path) {
    d <- merge(d, pd, by= c("trial_id", "planting_date", "treatment"), all.x = TRUE) 
    
    d$planting_date <- d$plantD   
-   d$plantD <- NULL   
-      
+   d$plantD <- NULL       
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
-   
    
    carobiner::write_files(path, meta, d)
 }
