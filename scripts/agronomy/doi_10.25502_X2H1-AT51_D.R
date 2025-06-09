@@ -10,7 +10,7 @@ Description: N2Africa is to contribute to increasing biological nitrogen fixatio
 	group <- "agronomy"
 	ff <- carobiner::get_data(uri, path, group)
   
-	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0,
+	meta <- carobiner::get_metadata(uri, path, group, major=NA, minor=NA,
 		project="N2Africa",
 		publication= "doi:10.1080/23311932.2020.1722353",
 		data_organization = "IITA",

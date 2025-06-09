@@ -16,7 +16,7 @@ carob_script <- function(path) {
 	ff	<- carobiner::get_data(uri, path, group)
   
   ## data set level data
-	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0,
+	meta <- carobiner::get_metadata(uri, path, group, major=NA, minor=NA,
 		publication=NA,
 		project="N2Africa",
 		data_organization = "IITA",

@@ -12,7 +12,7 @@ carob_script <- function(path) {
 	group <- "varieties_maize"
 	ff  <- carobiner::get_data(uri, path, group)
  
-	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0,
+	meta <- carobiner::get_metadata(uri, path, group, major=NA, minor=NA,
 		data_organization = "IITA",
 		publication = "doi:10.1556/0806.47.2019.25",
 		project = NA,

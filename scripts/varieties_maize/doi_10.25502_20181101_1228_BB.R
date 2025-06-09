@@ -8,7 +8,7 @@ carob_script <- function(path) {
 	group <- "varieties_maize"
 
 	ff	 <- carobiner::get_data(uri, path, group)
-	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=1,
+	meta <- carobiner::get_metadata(uri, path, group, major=NA, minor=NA,
 		project=NA, 
 		publication= NA, 
 		carob_contributor="Cedric Ngakou", 

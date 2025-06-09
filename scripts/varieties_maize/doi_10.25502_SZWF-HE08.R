@@ -10,7 +10,7 @@ carob_script <- function(path) {
 	group <- "varieties_maize"	
 	ff <- carobiner::get_data(uri, path, group)
 
-	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=1,
+	meta <- carobiner::get_metadata(uri, path, group, major=NA, minor=NA,
  	    publication="doi:10.1186/s12870-019-1740-z",
 		carob_contributor = "Siyabusa Mkuhlani",
 		carob_date="2024-01-17",

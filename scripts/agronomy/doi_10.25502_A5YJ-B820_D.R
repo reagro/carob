@@ -9,7 +9,7 @@ The data support a research article which is under review “Increased cassava g
    group <- "agronomy" 
 	ff <- carobiner::get_data(uri, path, group)
   
-	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=3,
+	meta <- carobiner::get_metadata(uri, path, group, major=NA, minor=NA,
 		publication= "doi:10.1016/j.fcr.2023.109056",
 		data_organization = "IITA",
 		carob_contributor="Cedric Ngakou",

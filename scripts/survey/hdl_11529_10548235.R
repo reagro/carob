@@ -11,7 +11,7 @@ carob_script <- function(path) {
 	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=0,
 		project="TAMASA",
 		publication=NA,
-		data_organization = "CIMMYT",
+		data_organization = "CIMMYT;IITA",
 		carob_contributor="Effie Ochieng'",
 		carob_date="2021-09-17",
 		data_type="crop-cuts",

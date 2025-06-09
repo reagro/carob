@@ -9,7 +9,7 @@ carob_script <- function(path) {
 	group <- "agronomy"
 	ff <- carobiner::get_data(uri, path, group)
 
-	meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0,
+	meta <- carobiner::get_metadata(uri, path, group, major=NA, minor=NA,
 		publication=NA,
 		data_organization = "IITA",
 		carob_contributor="Eduardo Garcia Bendito",
