@@ -28,7 +28,7 @@ carob_script <- function(path) {
       data.frame(
          planting_date= as.character(r1$Year),
          rep= r1$Replicate,
-         treatment= r1$Cultivar,
+         variety= r1$Cultivar,
          plant_density= r1$Density*10000, # plants/ha or hills/ha
          plant_height= r1$Plant.height,
          #leaf_length= r1$Flag.leaf.length,
@@ -80,12 +80,12 @@ carob_script <- function(path) {
    pd <- data.frame(
       trial_id= c(rep("first_cultivation", 4), rep("re-cultivation", 4)),
       planting_date= c(rep("2013",2), rep("2014", 2), rep("2013",2), rep("2014", 2)),
-      treatment= c(rep(c("Koohsar","Tarom Hashemi"),  times= 2), rep(c("Koohsar","Tarom Hashemi"),  times = 2) ),
+      variety= c(rep(c("Koohsar","Tarom Hashemi"),  times= 2), rep(c("Koohsar","Tarom Hashemi"),  times = 2) ),
       plantD= c(rep("2013-05-25", 2), rep("2014-05-02", 2), "2013-08-25", "2013-08-13", "2014-08-17", "2014-08-01" ),
       harvest_date= c("2013-07-28", "2013-08-06", "2014-07-16", "2014-07-27", "2013-12-08", "2013-11-26", "2014-12-06","2014-11-02")
    )
    
-   d <- merge(d, pd, by= c("trial_id", "planting_date", "treatment"), all.x = TRUE) 
+   d <- merge(d, pd, by= c("trial_id", "planting_date", "variety"), all.x = TRUE) 
    
    d$planting_date <- d$plantD   
    d$plantD <- NULL       
