@@ -10,7 +10,7 @@ Contributions are welcome from anyone, and they can be made via pull-requests. F
 
 ### Get the data
 
-Compiled versions of the dataset can be downloaded from [carob-data.org](http://carob-data.org) (data with a [CC license](https://carob-data.org/data/licenses.html) only) and some will eventually be made available on the [carob dataverse](https://dataverse.harvard.edu/dataverse/carob/).
+Standardized data can be downloaded from [carob-data.org](http://carob-data.org) (data with a [CC license](https://carob-data.org/data/licenses.html) only), owr with *R* package [caramba](https://github.com/carob-data/caramba). 
 
 You can also compile your own version by cloning this repo and running 
 
