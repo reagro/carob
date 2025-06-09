@@ -1,6 +1,6 @@
 # Carob
 
-<img align="right" width="350" height="350" src="https://github.com/carob-data/carob/tree/main/misc/img/carob.png">
+<img align="right" width="350" height="350" src="https://github.com/carob-data/carob/blob/main/misc/img/carob.png">
 
 *Carob* creates reproducible workflows that standardize primary agricultural research data from experiments and surveys. Standardization includes the use of a common file format, variable names, units and accepted values according to the [terminag](https://github.com/carob-data/terminag) standard. Standardized data sets are aggregated into larger collections that can be used in further research. We do this by writing an *R* script for each individual dataset. See the [website](https://carob-data.org) for more information.
 
