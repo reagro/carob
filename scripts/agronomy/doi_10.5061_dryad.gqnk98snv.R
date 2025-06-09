@@ -15,7 +15,7 @@ carob_script <- function(path) {
 		project=NA, 
 		data_type= "experiment", 
 		response_vars= "yield; fwy_total", 
-		treatment_vars = "plant_density", 
+		treatment_vars = "plant_density; variety", 
 		carob_contributor= "Cedric Ngakou", 
 		carob_date="2025-06-09",
 		notes=NA
