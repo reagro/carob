@@ -15,7 +15,7 @@ carob_script <- function(path) {
       response_vars = "yield", 
       carob_contributor= "Cedric Ngakou", 
       carob_date="2025-06-08",
-      completeness=75, # files f3
+      completion=75, # files f3
       notes=NA
    )
    
