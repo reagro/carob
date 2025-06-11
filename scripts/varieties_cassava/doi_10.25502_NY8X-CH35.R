@@ -23,6 +23,13 @@ carob_script <- function(path) {
 
 	process_cassava <- carobiner::get_function("process_cassava", path, group)
 	d <- process_cassava(ff)
+	
+	# data source has this in Malawi.
+    country <- "Zambia"
+	longitude <- 29.87
+    latitude <- -14.27
+    geo_from_source <- FALSE
+	
 	carobiner::write_files(path = path, metadata = meta, records = d$records, timerecs=d$timerecs)
 }
 
