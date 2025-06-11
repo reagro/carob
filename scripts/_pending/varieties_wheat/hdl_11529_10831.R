@@ -85,7 +85,7 @@ carob_script <- function(path) {
 	d$country[d$location=="Gemmeiza"] <- "Sudan" #
 	d$location[d$location=="Pirsabak"] <- "Pir Sabak" 
 	
-	d$trial_id <- paste0(d$dataset_id, "-", d$code)
+	d$trial_id <- d$code
 	
 	d$crop <- "wheat"
 	d$on_farm <- FALSE

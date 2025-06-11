@@ -62,20 +62,17 @@ carob_script <- function(path) {
   d$irrigated <- r1$Irrigation=="I1"
   
    # For second dataset
-  d1$dataset_id <- dataset_id
   d1$on_farm <- FALSE
   d1$is_survey <- FALSE
   d1$irrigated <- r1$Irrigation!="I1" # I1 corresponds to T5 which has 0 irrigations
   ## the treatment code	
 
   # For Third dataset
-  d2$dataset_id <- dataset_id
   d2$on_farm <- FALSE
   d2$is_survey <- FALSE
   d2$irrigated <- r2$Irrigation!="T5" #  T5 has 0 irrigations
   
   # For 4th  dataset
-  d3$dataset_id <- dataset_id
   d3$on_farm <- FALSE
   d3$is_survey <- FALSE
   d3$irrigated <- r3$Irrigation!="I1" #  I1 has 0 irrigations

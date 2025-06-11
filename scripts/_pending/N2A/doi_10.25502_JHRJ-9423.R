@@ -127,8 +127,6 @@ carob_script <- function(path){
   z$on_farm <- TRUE
   z$is_survey <- FALSE
 
-  z$dataset_id <- dataset_id
-
 ## RH ???? 
 ## you are overwriting the lon/lat data
 ## and this could never be good, since we have multiple locations.

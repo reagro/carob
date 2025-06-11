@@ -195,7 +195,6 @@ carob_script <- function(path) {
   d$trial_id <- "1"
   d$crop <- "potato"
   d$pathogen <- "Phytophthora infestans"
-  d$dataset_id <- dataset_id
   d$yield_part <- "tubers"
   # d$is_experiment <- 'yes'
   # d$sciname <- 'Solanum tuberosum'
