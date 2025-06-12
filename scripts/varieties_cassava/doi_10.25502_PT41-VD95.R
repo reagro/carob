@@ -23,6 +23,6 @@ carob_script <- function(path) {
 
 	process_cassava <- carobiner::get_function("process_cassava", path, group)
 	d <- process_cassava(ff, "Okurekpo", "Delta")
-	carobiner::write_files(path = path, metadata = meta, records = d$records, timerecs=d$timerecs)
+	carobiner::write_files(path, meta, d$records, d$timerecs)
 }
 

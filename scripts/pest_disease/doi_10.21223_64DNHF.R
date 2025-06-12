@@ -61,6 +61,6 @@ carob_script <- function(path) {
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    d$is_survey = FALSE
 
-   carobiner::write_files(path, meta, d,timerecs=x)  
+   carobiner::write_files(path, meta, d, long=x)  
 }
 

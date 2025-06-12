@@ -30,6 +30,6 @@ carob_script <- function(path) {
     latitude <- -14.27
     geo_from_source <- FALSE
 	
-	carobiner::write_files(path = path, metadata = meta, records = d$records, timerecs=d$timerecs)
+	carobiner::write_files(path, meta, d$records, d$timerecs)
 }
 

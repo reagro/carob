@@ -88,6 +88,6 @@ carob_script <- function(path) {
 	d$date <- d$weed_biomass <- NULL
 	d <- unique(d)
 	
-	carobiner::write_files(path, meta, d, timerecs=x)
+	carobiner::write_files(path, meta, d, long=x)
 }
 

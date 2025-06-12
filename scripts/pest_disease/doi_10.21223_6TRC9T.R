@@ -71,7 +71,7 @@ carob_script <- function(path) {
 	d$diseases <- "potato late blight"
    d$is_survey = FALSE
 
-   carobiner::write_files(path, meta, d,timerecs=x) 
+   carobiner::write_files(path, meta, d, long=x) 
    
 }
 

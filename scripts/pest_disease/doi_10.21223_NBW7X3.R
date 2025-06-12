@@ -97,6 +97,6 @@ carob_script <- function(path) {
    x$step <- x$id <- x$pdate <- NULL
    x$disease_severity <- as.character(x$disease_severity)
    
-   carobiner::write_files(path, meta, d, timerecs=x)   
+   carobiner::write_files(path, meta, d, long=x)   
 }
 

@@ -84,5 +84,5 @@ carob_script <- function(path) {
 
 	d[dvars] <-  NULL
 
-	carobiner::write_files (path, meta, d, timerecs=x)
+	carobiner::write_files (path, meta, d, long=x)
 }

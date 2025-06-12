@@ -120,6 +120,6 @@ Replicated crop-cuts from farmers' fields at harvest at multiple locations in Ta
     soil$soil_sample_bottom[soil$depth == "20 – 50"] <- 50
     soil$depth <- NULL
       	
-  		 carobiner::write_files(path, meta, d, timerecs=soil)
+  		 carobiner::write_files(path, meta, d, long=soil)
 }
 
