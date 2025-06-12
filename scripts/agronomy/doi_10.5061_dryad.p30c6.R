@@ -7,16 +7,16 @@ carob_script <- function(path) {
    ff <- carobiner::get_data(uri, path, group)
    
    meta <- carobiner::get_metadata(uri, path, group, major=2, minor=NA,
-                                   data_organization = "UNL", 
-                                   publication="doi:10.2134/agronj2008.0103x", 
-                                   project=NA, 
-                                   data_type= "experiment", 
-                                   treatment_vars= "N_fertilizer; P_fertilizer; K_fertilizer; S_fertilizer; land_prep_method", 
-                                   response_vars = "fw_yield; dm_yield; dmy_total; dmy_residue", 
-                                   carob_contributor= "Cedric Ngakou", 
-                                   carob_date="2025-06-12",
-                                   #completion=75, # files f3
-                                   notes=NA
+		data_organization = "UNL", 
+		publication="doi:10.2134/agronj2008.0103x", 
+		project=NA, 
+		data_type= "experiment", 
+		treatment_vars= "N_fertilizer; P_fertilizer; K_fertilizer; S_fertilizer; land_prep_method", 
+		response_vars = "fw_yield; dm_yield; dmy_total; dmy_residue", 
+		carob_contributor= "Cedric Ngakou", 
+		carob_date="2025-06-12",
+		completion=75,
+		notes=NA
    )
    
    f <- ff[basename(ff) == "Nebr_HiYieldCornNPKS_Feb_2021.xls"]
@@ -45,7 +45,7 @@ carob_script <- function(path) {
    ) 
    
    ### Process yield data 
-   r2 <- carobiner::read.excel(f, sheet = "Data", fix_names = TRUE)
+   r2 <- suppressWarnings(carobiner::read.excel(f, sheet = "Data", fix_names = TRUE))
    
    d2 <- data.frame(
       date= r2$Year,
