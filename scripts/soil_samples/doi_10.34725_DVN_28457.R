@@ -1,6 +1,5 @@
 # R script for "carob"
 
-
 carob_script <- function(path) {
   
 "Improving Measurements of Agricultural Productivity through Methodological validation and Research (LSMS-ISA)"
@@ -25,10 +24,10 @@ carob_script <- function(path) {
 	f2 <- ff[basename(ff) == "ET_SoilLabels_wGPS_AEZ.csv"]
 	r2 <- read.csv(f2)
 
-	r2$soil_sample_top[r2$Depth.range=="0-20cm"] <- 0
-	r2$soil_sample_top[r2$Depth.range=="20-50cm"] <- 20
-	r2$soil_sample_sub[r2$Depth.range=="0-20cm"] <- 20
-	r2$soil_sample_sub[r2$Depth.range=="20-50cm"] <- 50
+	r2$soil_depth_top[r2$Depth.range=="0-20cm"] <- 0
+	r2$soil_depth_top[r2$Depth.range=="20-50cm"] <- 20
+	r2$soil_depth_sub[r2$Depth.range=="0-20cm"] <- 20
+	r2$soil_depth_sub[r2$Depth.range=="20-50cm"] <- 50
 	r2$deph <- gsub("cm", "", r2$Depth.range)
 	r2$latitude <- r2$N_Degree + r2$N_Minute/60
 	r2$longitude <- r2$E_Degree + r2$E_Minute/60
@@ -45,8 +44,8 @@ carob_script <- function(path) {
 		latitude = r$latitude,
 		geo_from_source= TRUE,
 		#trial_id = r$SSN,
-		soil_sample_top = r$soil_sample_top,
-		soil_sample_bottom = r$soil_sample_sub,
+		soil_depth_top = r$soil_depth_top,
+		soil_depth_bottom = r$soil_depth_sub,
 		soil_C = r$Total.Carbon,
 		soil_SOC = r$AcidCarbon,
 		soil_N = r$Total.Nitrogen,

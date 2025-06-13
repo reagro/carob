@@ -36,8 +36,8 @@ carob_script <- function(path) {
 	d$geo_from_source <- TRUE
 	d$country <- "Kenya"
 	
-	d$soil_sample_top <- 0
-	d$soil_sample_bottom <- 20
+	d$soil_depth_top <- 0
+	d$soil_depth_bottom <- 20
 	
 	
 	carobiner::write_files(meta, d, path=path)

@@ -28,10 +28,10 @@ carob_script <- function(path) {
 	d <- merge(r1,r2[, c('Cluster', "Plot", "Latitude", "Longitude")], by = c("Cluster", "Plot"), all.x = TRUE)
 	d$Depthcode[d$Depthcode=="Topsoil"] <- "0"
 	d$Depthcode[d$Depthcode=="Subsoil"] <- "20"
-	d$soil_sample_top <- d$Depthcode
+	d$soil_depth_top <- d$Depthcode
 	d$Depthcode[d$Depthcode=="20"] <- "50"
 	d$Depthcode[d$Depthcode=="0"] <- "20"	
-	d$soil_sample_bottom <- d$Depthcode
+	d$soil_depth_bottom <- d$Depthcode
 	d$Cu.ppm.[d$Cu.ppm.=="< 0.2"] <- 0.001
 	d$B.ppm.[d$B.ppm.=="< 0.02"] <- 0.001
 	
@@ -59,8 +59,8 @@ carob_script <- function(path) {
 		soil_clay = as.numeric(r$Clay...),
 		soil_silt = as.numeric(r$Silt...),
 		soil_sand = as.numeric(r$Sand...),
-		soil_sample_top = as.numeric(r$soil_sample_top),
-		soil_sample_bottom = as.numeric(r$soil_sample_bottom),
+		soil_depth_top = as.numeric(r$soil_depth_top),
+		soil_depth_bottom = as.numeric(r$soil_depth_bottom),
 		longitude = r$Longitude,
 		latitude = r$Latitude,
 		geo_from_source= TRUE,

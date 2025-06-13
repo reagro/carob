@@ -55,8 +55,8 @@ carob_script <- function(path) {
 		soil_N=r$N
 	)
 
-	r$soil_sample_top <- 0
-	r$soil_sample_bottom <- 20
+	r$soil_depth_top <- 0
+	r$soil_depth_bottom <- 20
 
 ##### Time #####
 	#start and end dates were obtained from the metadata sheet in the data set file

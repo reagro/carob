@@ -32,9 +32,9 @@ carob_script <- function(path) {
 	r1b <- r1[,-4]
 	r1b$bd1 <- NA
 	colnames(r1a) <- colnames(r1b)
-	r1a$soil_sample_top <- 0
+	r1a$soil_depth_top <- 0
 	r1a$soil_deph <- "0-30"
-	r1b$soil_sample_top <- 30
+	r1b$soil_depth_top <- 30
 	r1b$soil_deph <- "30-100"
 
 	r <- rbind(r1a, r1b)
@@ -46,13 +46,13 @@ carob_script <- function(path) {
 		latitude = r$lat,
 		geo_from_source= TRUE,
 		#trial_id = r$Waypoint_No,
-		soil_sample_top = r$soil_sample_top,
+		soil_depth_top = r$soil_depth_top,
 		soil_SOC = r$soc2,
 		soil_bd = r$bd1
 	)
 
-	d$soil_sample_bottom <- 30
-	d$soil_sample_bottom[d$soil_sample_top==30] <- 100
+	d$soil_depth_bottom <- 30
+	d$soil_depth_bottom[d$soil_depth_top==30] <- 100
 
 	carobiner::write_files(path, meta, d)
 }
