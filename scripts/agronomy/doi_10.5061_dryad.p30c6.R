@@ -92,13 +92,42 @@ carob_script <- function(path) {
       trial_id= paste0(r2$Year, "_", r2$Site) , 
       on_farm= TRUE, 
       is_survey= FALSE, 
-      yield_part= "grain"
+      yield_part= "grain",
+      record_id= 1:nrow(r2)
    )
    
    ### merge d1 and d2
    d <- merge(d2, d1, by= c("date","location","soil","soil_type","previous_crop"), all.x = TRUE) 
    d$date <- d$soil <- NULL
    
-   carobiner::write_files(meta, d, path=path)
+   ###  process soil data at different dephs
+   r2$Mn.8.16 <- r2$Zn.8.16 <- r2$Fe.8.16 <- r2$Cu.8.16 <- NA
+   r2$S.8.16 <- NA
+   r2$BD.0.4 <-  r2$BD.4.8 <-  r2$BD.8.16 <- NA
+   si <- names(r2)[grepl("SOM|pH|Bray|^K.0.4$|^K.4.8$|^K.0.8$|^K.8.16$|Zn|Fe|Mn|Cu|^S.0.4$|^S.4.8$|^S.0.8$|^S.8.16$|BD", names(r2))]
+   SI <- r2[, si] 
+   cols <- c(paste0("Fe", c(".0.4", ".4.8", ".0.8", ".8.16")),
+             paste0("Zn", c(".0.4", ".4.8", ".0.8", ".8.16")),
+             paste0("Mn", c(".0.4", ".4.8", ".0.8", ".8.16")),
+             paste0("Cu", c(".0.4", ".4.8", ".0.8", ".8.16")),
+             paste0("S", c(".0.4", ".4.8", ".0.8", ".8.16")),
+             paste0("BD", c(".0.4", ".4.8", ".0.8", ".8.16")),
+             paste0("SOM", c(".0.4", ".4.8", ".0.8", ".8.16")),
+             paste0("pH", c(".0.4", ".4.8", ".0.8", ".8.16")),
+             paste0("Bray.P", c(".0.4", ".4.8", ".0.8", ".8.16")),
+             paste0("K", c(".0.4", ".4.8", ".0.8", ".8.16")))
+   
+   ds <- SI[, cols]
+
+   ds$record_id <- as.integer(1:nrow(ds))
+   
+   x <- reshape(ds, direction="long", varying =cols , v.names="value", timevar="step")
+   
+   x$depth <- c(rep(c("0-4", "4-8", "0-8", "8-16"), times = 10))[x$step]
+   x$soil_variable <- c(rep(c("soil_Fe", "soil_Zn", "soil_Mn", "soil_Cu", "soil_S", "soil_B", "soil_SOM", "soil_pH", "soil_P_available", "soil_K"), each= 4))[x$step]
+   x$step <- x$id <- NULL 
+   
+
+   carobiner::write_files(path, meta, d, long = x)
    
 }
