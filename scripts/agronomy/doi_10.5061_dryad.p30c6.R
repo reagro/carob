@@ -1,6 +1,10 @@
+# R script for "carob"
+# license: GPL (>=3)
+
 carob_script <- function(path) {
    
 "Nutrient management recommendations may change as yield levels and efficiency of crop production increase. Recommendations for P, K, and S were evaluated using results from 34 irrigated corn (Zea mays L.) trials conducted in diverse situations across Nebraska. The mean yield was 14.7 Mg ha−1 with adequate fertilizer applied. The median harvest index values were 0.52, 0.89, 0.15, and 0.56 for biomass, P, K, and S, respectively. Median grain yields were 372, 49, and 613 kg kg−1 of aboveground plant uptake of P, K, and S, respectively. The estimated critical Bray-1 P level for corn response to 20 kg P ha−1 was 20 mg kg−1 when the previous crop was corn compared with 10 mg kg−1 when corn followed soybean [Glycine max (L.) Merr.]. Soil test K was generally high with only three site-years <125 mg kg−1 Over all trials, application of 40 kg K ha−1 resulted in a 0.2 Mg ha−1 mean grain yield decrease. Application of 22 kg S ha−1 did not result in significant yield increase in any trial. Soil test results accounted for twice as much variation in nutrient uptake when soil organic matter (SOM) and pH were considered in addition to the soil test nutrient values. The results indicate a need to revise the current recommendation for P, to maintain the current K and S recommendations, and to use SOM and pH in addition to soil test nutrient values in estimating applied nutrient requirements for irrigated high yield corn production."
+
    
    uri <- "doi:10.5061/dryad.p30c6"
    group <- "agronomy"
@@ -105,29 +109,24 @@ carob_script <- function(path) {
    r2$S.8.16 <- NA
    r2$BD.0.4 <-  r2$BD.4.8 <-  r2$BD.8.16 <- NA
    si <- names(r2)[grepl("SOM|pH|Bray|^K.0.4$|^K.4.8$|^K.0.8$|^K.8.16$|Zn|Fe|Mn|Cu|^S.0.4$|^S.4.8$|^S.0.8$|^S.8.16$|BD", names(r2))]
-   SI <- r2[, si] 
-   cols <- c(paste0("Fe", c(".0.4", ".4.8", ".0.8", ".8.16")),
-             paste0("Zn", c(".0.4", ".4.8", ".0.8", ".8.16")),
-             paste0("Mn", c(".0.4", ".4.8", ".0.8", ".8.16")),
-             paste0("Cu", c(".0.4", ".4.8", ".0.8", ".8.16")),
-             paste0("S", c(".0.4", ".4.8", ".0.8", ".8.16")),
-             paste0("BD", c(".0.4", ".4.8", ".0.8", ".8.16")),
-             paste0("SOM", c(".0.4", ".4.8", ".0.8", ".8.16")),
-             paste0("pH", c(".0.4", ".4.8", ".0.8", ".8.16")),
-             paste0("Bray.P", c(".0.4", ".4.8", ".0.8", ".8.16")),
-             paste0("K", c(".0.4", ".4.8", ".0.8", ".8.16")))
-   
+   SI <- r2[, si]
+   cols <- paste0(rep(c("Fe", "Zn", "Mn", "Cu", "S", "BD", "SOM", "pH", "Bray.P", "K"), each=4), 
+				   c(".0.4", ".4.8", ".0.8", ".8.16"))
+ 
    ds <- SI[, cols]
 
    ds$record_id <- as.integer(1:nrow(ds))
    
    x <- reshape(ds, direction="long", varying =cols , v.names="value", timevar="step")
    
-   x$depth <- c(rep(c("0-4", "4-8", "0-8", "8-16"), times = 10))[x$step]
+#   x$depth <- c(rep(c("0-4", "4-8", "0-8", "8-16"), times = 10))[x$step]
+   x$soil_depth_top <- c(rep(c(0, 4, 0, 8), times = 10))[x$step]
+   x$soil_depth_bottom <- c(rep(c(4, 8, 8, 16), times = 10))[x$step]
+
    x$soil_variable <- c(rep(c("soil_Fe", "soil_Zn", "soil_Mn", "soil_Cu", "soil_S", "soil_bd", "soil_SOM", "soil_pH", "soil_P_available", "soil_K"), each= 4))[x$step]
    x$step <- x$id <- NULL 
    
 
    carobiner::write_files(path, meta, d, long = x)
-   
+
 }
