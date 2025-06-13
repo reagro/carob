@@ -70,10 +70,8 @@ carob_script <- function(path) {
 		soil_Cd = as.numeric(r$Cd.114)
 	)
 
-	d$soil_depth_top[r$Depth=="Topsoil"] <- 0
-	d$soil_depth_bottom[r$Depth=="Topsoil"] <- 20
-	d$soil_depth_top[r$Depth=="Subsoil"] <- 20
-	d$soil_depth_bottom[r$Depth=="Subsoil"] <- 50
+	d$soil_depth[r$Depth=="Topsoil"] <- "0-20"
+	d$soil_depth[r$Depth=="Subsoil"] <- "20-50"
 
 	d$country[d$country == "SAfrica"] <- "South Africa"
 	d$country[d$country == "Zimbambwe"] <- "Zimbabwe"

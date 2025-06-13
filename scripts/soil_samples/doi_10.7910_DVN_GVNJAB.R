@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		project= NA,
 		publication= NA,
 		data_organization = "CIAT",
-		data_type = "soil properties", 
+		data_type = "survey", 
 		response_vars = "none",
 		treatment_vars = "none",
 		carob_contributor="Andrew Sila", 
@@ -36,9 +36,7 @@ carob_script <- function(path) {
 	d$geo_from_source <- TRUE
 	d$country <- "Kenya"
 	
-	d$soil_depth_top <- 0
-	d$soil_depth_bottom <- 20
-	
+	d$soil_depth <- "0-20"
 	
 	carobiner::write_files(meta, d, path=path)
 }

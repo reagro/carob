@@ -4,6 +4,7 @@
 carob_script <- function(path) {
   
 "During the Phase II of the SOIL project in the Maringa-Lopori-Wamba Landscape, a wide range of activities were implemented during the 2011- 2013 in order to develop and expand sustainable agriculture activities within the landscape. This report highlights the land and soil health assessment that was carried out to inform these and future activities using the Land Degradation Surveillance Framework (LDSF). (2015)"
+
 	uri <- "doi:10.7910/DVN/28944"
 	group <- "soil_samples"
 	ff  <- carobiner::get_data(uri, path, group)
@@ -26,12 +27,9 @@ carob_script <- function(path) {
 
 	# Merge r1 and r2 to get lat and lon columns to be appended into the soils data
 	d <- merge(r1,r2[, c('Cluster', "Plot", "Latitude", "Longitude")], by = c("Cluster", "Plot"), all.x = TRUE)
-	d$Depthcode[d$Depthcode=="Topsoil"] <- "0"
-	d$Depthcode[d$Depthcode=="Subsoil"] <- "20"
-	d$soil_depth_top <- d$Depthcode
-	d$Depthcode[d$Depthcode=="20"] <- "50"
-	d$Depthcode[d$Depthcode=="0"] <- "20"	
-	d$soil_depth_bottom <- d$Depthcode
+	d$soil_depth <- "0-20"
+	d$soil_depth[d$Depthcode=="Subsoil"] <- "20-50"
+
 	d$Cu.ppm.[d$Cu.ppm.=="< 0.2"] <- 0.001
 	d$B.ppm.[d$B.ppm.=="< 0.02"] <- 0.001
 	
@@ -59,8 +57,7 @@ carob_script <- function(path) {
 		soil_clay = as.numeric(r$Clay...),
 		soil_silt = as.numeric(r$Silt...),
 		soil_sand = as.numeric(r$Sand...),
-		soil_depth_top = as.numeric(r$soil_depth_top),
-		soil_depth_bottom = as.numeric(r$soil_depth_bottom),
+		soil_depth = r$soil_depth,
 		longitude = r$Longitude,
 		latitude = r$Latitude,
 		geo_from_source= TRUE,

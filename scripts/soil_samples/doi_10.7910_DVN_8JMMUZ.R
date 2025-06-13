@@ -13,7 +13,7 @@ carob_script <- function(path) {
 		project=NA,
 		publication= NA,
 		data_organization = "CIAT",
-		data_type = "soil properties", 
+		data_type = "survey", 
 		response_vars = "none",
 		treatment_vars = "none",
 		carob_contributor="Andrew Sila", 
@@ -73,9 +73,9 @@ carob_script <- function(path) {
 		soil_N = as.numeric(r$Tota.N)
 	)
 	
-	d$soil_depth_top <- as.numeric(ifelse(r$`Soil Depth` == 'Top Soil', 0, 20 ))
-	d$soil_depth_bottom <- as.numeric(ifelse(r$`Soil Depth` == 'Sub Soil', 20, 50))
-	
+	d$soil_depth <- "0-20"
+	d$soil_depth[r$`Soil Depth` == 'Sub Soil'] <- "20-50"
+
 	carobiner::write_files(path, meta, d)
 }
 
