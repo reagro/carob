@@ -124,7 +124,7 @@ carob_script <- function(path) {
    x <- reshape(ds, direction="long", varying =cols , v.names="value", timevar="step")
    
    x$depth <- c(rep(c("0-4", "4-8", "0-8", "8-16"), times = 10))[x$step]
-   x$soil_variable <- c(rep(c("soil_Fe", "soil_Zn", "soil_Mn", "soil_Cu", "soil_S", "soil_B", "soil_SOM", "soil_pH", "soil_P_available", "soil_K"), each= 4))[x$step]
+   x$soil_variable <- c(rep(c("soil_Fe", "soil_Zn", "soil_Mn", "soil_Cu", "soil_S", "soil_bd", "soil_SOM", "soil_pH", "soil_P_available", "soil_K"), each= 4))[x$step]
    x$step <- x$id <- NULL 
    
 
