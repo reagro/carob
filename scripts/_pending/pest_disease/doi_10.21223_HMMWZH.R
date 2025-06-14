@@ -245,10 +245,7 @@ carob_script <- function(path) {
   }
   
   
-  carobiner::write_files(path = path,
-                         metadata = js,
-                         records = d,
-                         wth = weather)
+  carobiner::write_files(path = path, metadata = js,wide=d, wth = weather)
   
   
 }

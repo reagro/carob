@@ -80,5 +80,5 @@ carob_script <- function(path) {
 
 	d <- d[!is.na(d$yield_marketable), ]
  
-    carobiner::write_files(path = path, metadata = meta, records = d)
+    carobiner::write_files(path = path, metadata = meta, wide=d)
 }

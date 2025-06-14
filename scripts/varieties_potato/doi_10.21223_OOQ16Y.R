@@ -71,7 +71,7 @@ carob_script <- function(path) {
   df$K_fertilizer = 160 
   
   
-  carobiner::write_files(path = path, metadata = meta, records = df)
+  carobiner::write_files(path = path, metadata = meta, wide=df)
 
 }
 

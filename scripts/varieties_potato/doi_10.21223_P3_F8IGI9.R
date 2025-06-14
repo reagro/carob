@@ -28,7 +28,7 @@ carob_script <- function(path) {
   f <- ff[basename(ff) == "PTPV200907_CHAQUI_Exp2.xls"]
   d <- process(f)
 
-  carobiner::write_files(path = path, metadata = meta, records = d)
+  carobiner::write_files(path = path, metadata = meta, wide=d)
   
 }
 

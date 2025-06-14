@@ -46,5 +46,5 @@ carob_script <- function(path) {
   d$on_farm <- TRUE
   d$crop <- "potato"  
 
-  carobiner::write_files(path = path, metadata = meta, records = d)
+  carobiner::write_files(path = path, metadata = meta, wide=d)
 }

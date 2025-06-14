@@ -26,7 +26,7 @@ carob_script <- function(path) {
     d <- lapply(f, process, addvars=c("AUDPC", "rAUDPC"))
     d <- do.call(rbind, d)
  
-    carobiner::write_files(path = path, metad = meta, records = d)
+    carobiner::write_files(path = path, metad = meta, wide=d)
     
 }
 

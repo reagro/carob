@@ -69,6 +69,6 @@ carob_script <- function(path) {
   df$N_fertilizer <- df$P_fertilizer <- df$K_fertilizer <- as.numeric(NA)
   
   
-  carobiner::write_files(path = path, metadata = meta, records = df)
+  carobiner::write_files(path = path, metadata = meta, wide=df)
   
 }

@@ -38,6 +38,6 @@ carob_script <- function(path) {
   d$geo_from_source <- TRUE
   d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
   
-  carobiner::write_files(path = path, metadata = meta, records = d)
+  carobiner::write_files(path = path, metadata = meta, wide=d)
 }
 

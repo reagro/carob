@@ -65,7 +65,7 @@ carob_script <- function(path) {
   
   d <- merge(d, geo, by = 'location', all.x=T)
   
-  carobiner::write_files(path = path,metadata = meta,records = d)
+  carobiner::write_files(path = path,metadata = meta,wide=d)
   
 }
 

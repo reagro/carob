@@ -33,7 +33,7 @@ carob_script <- function(path) {
 ### needs to be fixed
 	d$rAUDPC <- NULL
   
-  carobiner::write_files(path = path, metadata = meta, records = d)
+  carobiner::write_files(path = path, metadata = meta, wide=d)
 
 }
 

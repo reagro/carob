@@ -26,6 +26,6 @@ carob_script <- function(path) {
   d <- lapply(f, process, addvars="TTWP")
   d <- do.call(rbind, d)
   
-  carobiner::write_files(path = path, metadata = meta, records = d)
+  carobiner::write_files(path = path, metadata = meta, wide=d)
 }
 

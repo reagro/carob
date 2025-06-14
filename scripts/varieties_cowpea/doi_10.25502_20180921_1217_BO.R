@@ -24,6 +24,6 @@ carob_script <- function(path) {
 	process_cowpea <- carobiner::get_function("process_cowpea", path, group)
 	d <- process_cowpea(ff)
 	d$location <- "Turipana"
-	carobiner::write_files(path = path, metadata = meta, records = d)
+	carobiner::write_files(path = path, metadata = meta, wide=d)
 }
 

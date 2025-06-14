@@ -30,12 +30,7 @@ carob_script <- function(path) {
   d <- lapply(f, process, addvars=c("AUDPC","rAUDPC","TTWP"))
   d <- do.call(rbind, d)
   
-  carobiner::write_files(path = path,
-                         metadata = meta,
-                         records = d)
+  carobiner::write_files(path = path, metadata = meta, wide=d)
   
 }
 
-## now test your function in a _clean_ R environment (no packages loaded, no other objects available)
-# path <- _____
-# carob_script(path)

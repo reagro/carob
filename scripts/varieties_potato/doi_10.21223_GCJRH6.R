@@ -64,7 +64,7 @@ carob_script <- function(path) {
   
   d <- d[,-c(1:6,8:12)]
   
-  carobiner::write_files(path = path, metadata = meta,records = d)
+  carobiner::write_files(path = path, metadata = meta,wide=d)
   
   
 }
