@@ -138,8 +138,20 @@ do_LCAS <- function(r) {
 	) / plot_ha
 	
     # to get the fertilizer/ha
-	ftab <- vocal::accepted_values("fertilizer_type")
-	ftab <- ftab[match(colnames(fert), ftab$name), c("name", "N", "P", "K", "S", "B", "Mg", "Ca", "Zn")]
+	ftab <- data.frame(
+		name = c("AN", "ATS", "basic slag", "CAN", "C-compound", "CMP", "DAP", "DAS", "D-compound", "DSP", "ERP", "GRP", "gypsum", "KCl", "KNO", "lime", "none", "MAP", "NPK", "NPKS", "NPS", "PKS", "SCU", "SOP", "SSP", "sympal", "TSP", "unknown", "urea", "ZnSO4", "S-compound", "MgSO4", "H3BO3", "CaCO3", "borax"), 
+		N = c(34L, 12L, NA, 26L, 7L, 0L, 18L, 21L, 10L, 18L, 0L, 0L, 0L, 0L, 13L, 0L, 0L, 11L, NA, 8L, 23L, 0L, 39L, 0L, 0L, 0L, 0L, NA, 46L, 0L, 8L, 0L, 0L, 0L, 0L), 
+		P = c(0, 0, NA, 0, 9.156, 7, 20.1, 0, 20, 20, NA, NA, 0, 0, 0, 0, 0, 52, NA, 21, 21, NA, 0, 0, 8.74, 23, 19.23, NA, 0, 0, 21, 0, 0, 0, 0), 
+		K = c(0, 0, NA, 0, 5.785, 0, 0, 0, 10, 0, 0, 0, 0, 49.8, 44, 0, 0, 0, NA, 7, 0, NA, 0, 41.5, 0, 15, 0, NA, 0, 0, 7, 0, 0, 0, 0), 
+		S = c(0, 26, NA, 0, 6, 0, 0, 24, 9, 0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 4, 4, NA, 13, 18, 0, 4, 0, NA, 0, 19.9, 4, 13.19, 0, 0, 0), 
+		B = c(0, 0, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NA, 0, 0, 0, 0, 17.48, 0, 11.3), 
+		Mg = c(0, 0, NA, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NA, 0, 0, 0, 20.19, 0, 0, 0), 
+		Ca = c(0, 0, NA, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NA, 0, 0, 0, 0, 0, 0.4, 0), 
+		Zn = c(0, 0, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NA, 0, 40.5, 0, 0, 0, 0, 0)
+	)
+		
+	
+	ftab <- ftab[match(colnames(fert), ftab$name), ]
 ## define NPK according to R script that comes with the data
 	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(12, 20, 13, 0)	
 ### none applied anyway
@@ -313,7 +325,20 @@ N2A_monitoring_2 <- function(ff, path) {
 
 ## it is not clear what the quantities refer to if there are multiple products 
 ## that much of each?	
-	ftab <- vocal::accepted_values("fertilizer_type")
+	    # to get the fertilizer/ha
+	ftab <- data.frame(
+		name = c("AN", "ATS", "basic slag", "CAN", "C-compound", "CMP", "DAP", "DAS", "D-compound", "DSP", "ERP", "GRP", "gypsum", "KCl", "KNO", "lime", "none", "MAP", "NPK", "NPKS", "NPS", "PKS", "SCU", "SOP", "SSP", "sympal", "TSP", "unknown", "urea", "ZnSO4", "S-compound", "MgSO4", "H3BO3", "CaCO3", "borax"), 
+		N = c(34L, 12L, NA, 26L, 7L, 0L, 18L, 21L, 10L, 18L, 0L, 0L, 0L, 0L, 13L, 0L, 0L, 11L, NA, 8L, 23L, 0L, 39L, 0L, 0L, 0L, 0L, NA, 46L, 0L, 8L, 0L, 0L, 0L, 0L), 
+		P = c(0, 0, NA, 0, 9.156, 7, 20.1, 0, 20, 20, NA, NA, 0, 0, 0, 0, 0, 52, NA, 21, 21, NA, 0, 0, 8.74, 23, 19.23, NA, 0, 0, 21, 0, 0, 0, 0), 
+		K = c(0, 0, NA, 0, 5.785, 0, 0, 0, 10, 0, 0, 0, 0, 49.8, 44, 0, 0, 0, NA, 7, 0, NA, 0, 41.5, 0, 15, 0, NA, 0, 0, 7, 0, 0, 0, 0), 
+		S = c(0, 26, NA, 0, 6, 0, 0, 24, 9, 0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 4, 4, NA, 13, 18, 0, 4, 0, NA, 0, 19.9, 4, 13.19, 0, 0, 0), 
+		B = c(0, 0, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NA, 0, 0, 0, 0, 17.48, 0, 11.3), 
+		Mg = c(0, 0, NA, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NA, 0, 0, 0, 20.19, 0, 0, 0), 
+		Ca = c(0, 0, NA, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NA, 0, 0, 0, 0, 0, 0.4, 0), 
+		Zn = c(0, 0, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NA, 0, 40.5, 0, 0, 0, 0, 0)
+	)
+
+	
 ## NPK is undefined need to check of 20-20-20 is a good guess
 	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(20, 20, 20, 0)	
 	get_elements <- carobiner::get_function("get_elements_from_product", path, group)
