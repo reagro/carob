@@ -12,10 +12,10 @@ carob_script <- function(path) {
 	meta <- carobiner::get_metadata(uri, path, group, major=2, minor=0,
 		data_organization = "IRRI",
 		publication = NA,
-		project = "IRRI LTE",
+		project = "IRRI LTCCE",
 		data_type = "experiment",
 		response_vars = "yield",
-		treatment_vars = "season;variety_code;N_fert_level",
+		treatment_vars = "season;variety_code;N_fertilizer",
 		carob_contributor = "Robert Hijmans",
 		carob_date = "2024-07-13"
 	)

@@ -36,6 +36,7 @@ IRRI_LTE <- function(f) {
 		is_survey = FALSE,
 		site = r$Site,
 		planting_date = as.character(r$Year),
+		harvest_date = as.character(r$Year),
 		season = r$Season,
 		crop = tolower(r$Crop),
 		yield_part = "grain",
@@ -45,11 +46,31 @@ IRRI_LTE <- function(f) {
 		variety_code = paste0(r$Year, "_", r$Bfactor),
 		trial_id = as.character(r$Crop_no)
 	)
-	x$N_fert_level <- c("zero", "low", "moderate", "high")[x$N_fert_level]
+	# from https://lte.irri.org/ltcce 2025/06/13
+
+	i <- x$season == "DS"
+	x$N_fertilizer[i] <- c(0,65,130,195)[x$N_fert_level[i]]
+	x$N_fertilizer[!i] <- c(0,45,90,135)[x$N_fert_level[!i]]
+	x$N_fert_level <- NULL
+
+	x$P_fertilizer <- 26
+	x$K_fertilizer <- 40
+	x$Zn_fertilizer <- 5
+	x$fertilizer_type <- "ZnSO4"
+	
+	x$plant_density <- 250000 # 20x20 cm hills, each with three plants
+	x$transplanting_days <- 14
+	x$herbicide_used <- TRUE
+	
+	pmnt <- c("01", "05", "09")
+	hmnt <- c("04", "08", "12")
+	
 	i <- match(x$season, c("DS", "EWS", "LWS"))
+	x$planting_date = paste0(x$planting_date, "-", pmnt[i])
+	x$harvest_date = paste0(x$harvest_date, "-", hmnt[i])
+
 	x$season <- c("dry", "early wet", "late wet")[i]
-	x$N_fertilizer <- x$P_fertilizer <- x$K_fertilizer <- as.numeric(NA)
-	x$N_fertilizer[x$N_fert_level == "zero"] <- 0
+
 	x <- x[!is.na(x$yield), ]
 	x
 }

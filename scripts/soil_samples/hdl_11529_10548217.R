@@ -48,7 +48,7 @@ carob_script <- function(path) {
 		soil_P_Mehlich=r$P,
 		soil_Zn_Mehlich=r$Zn,
 		soil_K_Mehlich=r$K,
-		soil_Mg=r$Mg,
+		soil_M_exch=r$Mg,
 		soil_Na_Mehlich=r$Na,
 		soil_Fe_Mehlich=r$Fe,
 		soil_B_Mehlich=r$B,
