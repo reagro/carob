@@ -138,7 +138,7 @@ do_LCAS <- function(r) {
 	) / plot_ha
 	
     # to get the fertilizer/ha
-	ftab <- vocal::accepted_values("fertilizer_type", "reagro/terminag")
+	ftab <- vocal::accepted_values("fertilizer_type")
 	ftab <- ftab[match(colnames(fert), ftab$name), c("name", "N", "P", "K", "S", "B", "Mg", "Ca", "Zn")]
 ## define NPK according to R script that comes with the data
 	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(12, 20, 13, 0)	
@@ -313,7 +313,7 @@ N2A_monitoring_2 <- function(ff, path) {
 
 ## it is not clear what the quantities refer to if there are multiple products 
 ## that much of each?	
-	ftab <- vocal::accepted_values("fertilizer_type", "reagro/terminag")
+	ftab <- vocal::accepted_values("fertilizer_type")
 ## NPK is undefined need to check of 20-20-20 is a good guess
 	ftab[ftab$name=="NPK", c("N", "P", "K", "S")] <- c(20, 20, 20, 0)	
 	get_elements <- carobiner::get_function("get_elements_from_product", path, group)
