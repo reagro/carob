@@ -9,7 +9,7 @@ carob_script <- function(path) {
    group <- "varieties_cassava" 
    ff  <- carobiner::get_data(uri, path, group)
    
-   meta <- carobiner::get_metadata(uri, path, group, major=1, minor=0, 
+   meta <- carobiner::get_metadata(uri, path, group, major=NA, minor=NA, 
       data_organization ="IITA", 
       publication = NA, 
       project = NA, 
@@ -70,7 +70,7 @@ carob_script <- function(path) {
    
    d[dmb] <-  NULL
    
-   carobiner::write_files (path, meta, d, timerecs = x)
+   carobiner::write_files (path, meta, d, long=x)
    
 }
    
