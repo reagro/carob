@@ -48,6 +48,7 @@ carob_script <- function(path) {
       adm1= r2$State,
       location= r2$location,
       year= r2$year,
+      plot= r2$plot,
       rep= as.integer(r2$rep),
       variety= r2$variety,
       #rm= r2$RM,
@@ -72,7 +73,7 @@ carob_script <- function(path) {
    lonlat <- do.call(rbind, strsplit(d$lonlat, ","))
    d$longitude  <- as.numeric(gsub("  | ", "", lonlat[,2]))
    d$latitude <- as.numeric(lonlat[,1])
-   d$lonlat <- d$year <-  NULL
+   d$lonlat <- NULL
    d$adm1 <- ifelse(grepl("AR", d$adm1), "Arkansas" , 
        ifelse(grepl("MN", d$adm1),"Minnesota" , 
        ifelse(grepl("OH", d$adm1),"Ohio" ,
@@ -93,9 +94,70 @@ carob_script <- function(path) {
    
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA)
    
+   
+   ###  Phenology data 
+   r3 <- carobiner::read.excel(f, sheet = "PhenologyData",  na= ("*"))
+   names(r3) <- r3[2,]
+   r3 <- r3[-c(1:2), ]
+   grow_st <- names(r3)[grepl("Fehr|Be|End", names(r3))]
+   d3 <- data.frame(
+      adm1= r3$State,
+      location= r3$location,
+      plot=r3$plot,
+      year= r3$year,
+      rep= r3$rep,
+      variety= r3$variety,
+      transplanting_days= as.numeric(r3$`Plant date`)## in day of the year
+   )
+   d3 <- cbind(d3, r3[, grow_st])
+   
+   #### Process Node data 
+   r4 <- carobiner::read.excel(f, sheet = "NodeData",  na= ("*"))
+   names(r4) <- r4[1,]
+   r4 <- r4[-c(1:2), ]
+   Node <- names(r4)[grepl("Date", names(r4))]
+   d4 <- data.frame(
+      adm1= r4$State,
+      location= gsub("South Charleston, OH", "South Charleston", r4$location),
+      year= r4$year,
+      plot= r4$plot,
+      rep= r4$rep,
+      variety= r4$variety
+   )
+   d4 <- cbind(d4, r4[, Node])
+   d4 <- d4[!is.na(d4$adm1),]
+   dd <- merge(d3, d4, bx= c("adm1", "location", "plot","rep","variety", "year"), by= c("adm1", "location", "plot","rep","variety", "year"))
+   dd$adm1 <- ifelse(grepl("AR", dd$adm1), "Arkansas" , 
+               ifelse(grepl("MN", dd$adm1),"Minnesota" , 
+               ifelse(grepl("OH", dd$adm1),"Ohio" ,
+                ifelse(grepl("VA", dd$adm1),"Virginia", "Wisconsin"))))
+   ### merge Node and phenology data with yield
+   df <- merge(d, dd, by=c("adm1", "location", "plot","rep","variety", "year"), all.x = TRUE)
+   df$record_id <- as.integer(1:nrow(df))
+   names(df) <- gsub(" ", "", names(df))
+   gowth_Node <- names(df)[grepl("Fehr|Be|End|Date", names(df))]
+   d <- df[, !names(df) %in% gowth_Node]
+   
+   d_growth_Node <- df[, gowth_Node]
+   d_growth_Node$record_id <- as.integer(1:nrow(d_growth_Node))
+   d_growth_Node$year <- df$year
+   #d_growth_Node$transplanting_days <- df$transplanting_days
+   
+   dGN <- reshape(d_growth_Node, direction="long", varying = gowth_Node , v.names="value", timevar="step")
+   
+   dGN$variable <- c(names(d_growth_Node)[-c(21:62)], rep("Node_Nbr", 40))[dGN$step]
+  
+   dGN$date <- c(rep(NA, 20), seq(from = 163, by = 7, length.out = 40))[dGN$step]
+  ### convert day of year in date format (observation date)
+    i <- !is.na(dGN$date)
+   dGN$date[i] <- as.character(as.Date(paste0(dGN$year[i], "-01-01"))+ dGN$date[i]-1) 
+   
    ### grain composition 
    #db <- r2[, grepl("db", names(r2))]
+   d$transplanting_date <- as.character(as.Date(paste0(d$year, "-01-01"))+ d$transplanting_days-1) 
+  
+    d$plot <- d$year <- dGN$year <- d$transplanting_days <- dGN$step <- dGN$id <-  NULL
    
-   carobiner::write_files(path, meta, d)
+   carobiner::write_files(path, meta, d, long = dGN)
    
 }
