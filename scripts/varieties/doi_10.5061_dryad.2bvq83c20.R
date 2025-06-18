@@ -6,7 +6,7 @@ carob_script <- function(path) {
 "This database compiles soybean phenology data to address significant variations in soybean adaptation and development caused by genetic improvements and regional climatic differences. The dataset includes growth staging information collected from field experiments conducted across 11 location-years in Arkansas, Minnesota, Ohio, Virginia, and Wisconsin (USA) during 2017 and 2018. It incorporates data from commercial soybean varieties spanning maturity groups 0 to 7.5. Growth stages were determined using Fehr and Caviness (1977) approach. This dataset is intended as a resource for the scientific community, students, and stakeholders, providing soybean phenological data to improve predictions and decision-making in areas such as input timing, yield estimation, irrigation management, cultivar selection, and phenotyping"
    
    uri <- "doi:10.5061/dryad.2bvq83c20"
-   group <- "variety_trials"
+   group <- "varieties"
    ff <- carobiner::get_data(uri, path, group)
    
    meta <- carobiner::get_metadata(uri, path, group, major=3, minor=NA,
