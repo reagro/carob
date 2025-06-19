@@ -41,7 +41,7 @@ carob_script <- function(path) {
       variety= r1$Variety,
       fw_yield= r1$wheat.grain.yield.kg.ha,
       fwy_total= r1$wheat.biomass.yield.kg.ha,
-      seed_weight= r1$X100.grain.wt.g,
+      seed_weight= r1$X100.grain.wt.g*10,
       harvest_index= r1$harvest.index,
       grain_N= as.numeric(r1$grain.perc.N)*10, # mg/g
       residue_N= as.numeric(r1$straw.perc.N)*10, # mg/g
@@ -54,7 +54,7 @@ carob_script <- function(path) {
       geo_from_source= TRUE,
       on_farm= FALSE,
       is_survey= FALSE,
-      trial_id= "1", 
+      trial_id= ifelse(grepl("5x", r1$Soil.trt), "1", "2") , 
       irrigated= NA,
       yield_part= "grain"
       
@@ -62,35 +62,45 @@ carob_script <- function(path) {
    
    ### Process soil activity data 
    
-   ## CN: I comment this out as carob is not yet record soil enzyme activity 
+   r2 <- read.csv(f2, na="na")
+
+   d2 <- data.frame(
+      planting_date= as.character(r2$Year),
+      date=  as.character(as.Date(r2$Sample.date, format ="%m/%d/%y")),
+      rep= as.integer(gsub("b-", "", r2$Block)),
+      #growth_stage= r2$Sampling.Period,
+      treatment= ifelse(grepl("5x", r2$Soil.trt), "compost", "control"),
+      variety= r2$Variety,
+      tap_enzyme= r2$TAP.activity,
+      NAG_enzyme= r2$NAG.activity,
+      bg_enzyme= r2$BG.activity,
+      cb_enzyme= r2$CB.activity,
+      lap_enzyme= r2$LAP.activity,
+      phos_enzyme= r2$PHOS.activity,
+      #r2$tot.enz,
+      soil_NO3= r2$no3.N.mg.kg,
+      soil_NH4= r2$nh4.N.mg.kg,
+      #r2$tot.inorg.n.mg.kg,
+      DNA= r2$dna.con.ng.ul,
+      soil_GWC= r2$GWC # gravimetric water content
+
+   )
    
-   # r2 <- read.csv(f2, na="na")
-   # 
-   # d2 <- data.frame(
-   #    date=  as.character(as.Date(r2$Sample.date, format ="%m/%d/%y")),
-   #    rep= as.integer(gsub("b-", "", r2$Block)),
-   #    growth_stage= r2$Sampling.Period,
-   #    treatment= ifelse(grepl("5x", r2$Soil.trt), "compost", "control"),
-   #    variety= r2$Variety,
-   #    tap_enz= r2$TAP.activity,
-   #    NAG_enzyme= r2$NAG.activity,
-   #    bg_enzyme= r2$BG.activity,
-   #    cb_enzyme= r2$CB.activity,
-   #    lap_enzyme= r2$LAP.activity,
-   #    phos_enzyme= r2$PHOS.activity,
-   #    #r2$tot.enz,
-   #    soil_NO3= r2$no3.N.mg.kg,
-   #    soil_NH4= r2$nh4.N.mg.kg,
-   #    #r2$tot.inorg.n.mg.kg,
-   #    DNA= r2$dna.con.ng.ul,
-   #    soil_GWC_sat= r2$GWC # gravimetric water content
-   #    
-   # )
-   # 
+   dd <- merge(d2, d1, by= c("rep", "treatment", "variety", "planting_date"), all.x = TRUE)
+   dd$record_id <- as.integer(1: nrow(dd))
+   i <- grep("enzyme|soil|DNA|^date", names(dd))
+   nms <- names(dd)[i]
+   d <- dd[, -i] 
+   ds <- dd[, c("record_id", names(dd)[i])]
+   nms <- names(ds)[grep("enzyme|soil|DNA", names(ds))]
+   ds <- reshape(ds, direction="long", varying=nms, v.names="microbial_activity_value", timevar="microbial_activity_category")
+   ds$microbial_activity_category <- nms[ds$microbial_activity_category]
    
- d1$N_fertilizer <- d1$P_fertilizer <- d1$K_fertilizer <- as.numeric(NA) 
+   ds$id  <-  NULL
    
- carobiner::write_files(path, meta, d1)
+   d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA) 
+   
+  carobiner::write_files(path, meta, d, long = ds)
    
 }
 
