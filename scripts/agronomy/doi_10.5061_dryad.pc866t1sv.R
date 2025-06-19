@@ -93,11 +93,12 @@ carob_script <- function(path) {
    d <- dd[, -i] 
    ds <- dd[, c("record_id", names(dd)[i])]
    nms <- names(ds)[grep("enzyme|soil|DNA", names(ds))]
-   ds <- reshape(ds, direction="long", varying=nms, v.names="microbial_activity_value", timevar="microbial_activity_category")
-   ds$microbial_activity_category <- nms[ds$microbial_activity_category]
+   ds <- reshape(ds, direction="long", varying=nms, v.names="soil_microbial_activity_value", timevar="soil_microbial_activity_category")
+   ds$soil_microbial_activity_category <- nms[ds$soil_microbial_activity_category]
    
    ds$id  <-  NULL
-   
+   ds <- na.omit(ds)
+	
    d$N_fertilizer <- d$P_fertilizer <- d$K_fertilizer <- as.numeric(NA) 
    
   carobiner::write_files(path, meta, d, long = ds)
