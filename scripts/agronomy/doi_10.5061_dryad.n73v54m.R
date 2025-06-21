@@ -72,7 +72,7 @@ carob_script <- function(path) {
   P <- gsub("42°53' – 42°52'", "-42°53", P)
   P <- gsub("42°51'–42°53'", "-42°52", P)
   P <- gsub("27º52'50º18'", "38°35", P)
-  P <- gsub("28°48'S and 52°77'", "40°63", P)
+  P <- gsub("28°48'S and 52°77'", "-28°48", P)
   d$lat <- P
   
   lat <- do.call(rbind, strsplit(d$lat, "°"))
@@ -81,11 +81,11 @@ carob_script <- function(path) {
   ### longitude
   #d$lon <- gsub(" 76°36'–76°40'|28°48'S and 52°77'| 76°49'–76°46'|27º52'50º18'", NA, d$lon)
   P <- carobiner::fix_name(d$lon)
-  P <- gsub(" 76°36'–76°40'", "-76°38" , P)
-  P <- gsub(" 76°49'–76°46'", "-76°48", P)
+  P <- gsub("76°36'–76°40'", "-76°38" , P)
+  P <- gsub("76°49'–76°46'", "-76°48", P)
   P <- gsub("42°51'–42°53'", "-42°52", P)
   P <- gsub("27º52'50º18'", "38°35", P)
-  P <- gsub("28°48'S and 52°77'", "40°63", P)
+  P <- gsub("28°48'S and 52°77'", "-52°77", P)
   d$lon <- P
   
   lon <- do.call(rbind, strsplit(d$lon, "°"))
@@ -192,7 +192,7 @@ carob_script <- function(path) {
    ### removing extreme value. appear probably during the data entries process   
    d <- d[!grepl("12560439560439500", d$yield), ]
    
-   ### Duplicate rows (possibly due to errors occurring during data extraction)
+   ### Duplicate rows; original data also has duplicates
    d <- unique(d)
    
    carobiner::write_files(path, meta, d)
