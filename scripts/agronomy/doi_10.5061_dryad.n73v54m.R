@@ -13,7 +13,7 @@ carob_script <- function(path) {
       data_organization = "SU", # Stellenbosch University
       publication="doi:10.2135/cropsci2018.01.0003", 
       project=NA, 
-      data_type= "experiment", 
+      data_type= "compilation", 
       treatment_vars= "land_prep_method; row_spacing", 
       response_vars = "yield", 
       carob_contributor= "Cedric Ngakou", 
