@@ -14,7 +14,7 @@ carob_script <- function(path) {
       publication="doi:10.2135/cropsci2018.01.0003", 
       project=NA, 
       data_type= "compilation", 
-      treatment_vars= "land_prep_method; row_spacing", 
+      treatment_vars= "land_prep_method; row_spacing; plant_density", 
       response_vars = "yield", 
       carob_contributor= "Cedric Ngakou", 
       carob_date="2025-06-19",
@@ -47,7 +47,7 @@ carob_script <- function(path) {
       is_survey= FALSE,
       yield_part= "grain",
       geo_from_source= TRUE,
-      irrigated= NA
+      irrigated= FALSE ## From paper
       
    )
    
